@@ -25,7 +25,7 @@ import {
 import { addPhraseParts, buildEntries, finishEntry, readKaikki, refoldOrphans } from './kaikki'
 import { CUTOFFS, assignLevels, readCore, resolveCore } from './levels'
 import { CACHE, SRC, fetchAll, linguaLibre, untarGz } from './sources'
-import { readSupplement } from './supplement'
+import { applyAdditions, readSupplement } from './supplement'
 import { Wordnet } from './wordnet'
 import { T2S, applyZhWiktionary } from './zh'
 
@@ -110,9 +110,13 @@ log(
 
 // 手写的补充词条（维基词典与词网都没收、语料里又常见的词）
 const sup = readSupplement(join(ROOT, 'data', 'gd', 'supplement.tsv'))
-for (const e of sup) finishEntry(e)
-entries.push(...sup)
-log(`补充词条：${sup.length} 个`)
+for (const e of sup.entries) finishEntry(e)
+entries.push(...sup.entries)
+const supMissing = applyAdditions(entries, sup.additions)
+log(
+  `补充词条：${sup.entries.length} 个；给已有词条补拼法 ${sup.additions.length} 处` +
+    (supMissing.length ? `（找不到词头：${supMissing.join('、')}）` : '')
+)
 const refolded = refoldOrphans(entries)
 log(`原来找不到原形的词形，这回并进原形：${refolded} 个`)
 const parts = addPhraseParts(entries)

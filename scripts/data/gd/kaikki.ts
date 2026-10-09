@@ -649,7 +649,9 @@ const PHRASAL_POS = new Set([
   'pron',
   'conj',
   'intj',
-  'particle'
+  'particle',
+  // 多词地名、人名：Dùn Èideann 的 Èideann、Obar Dheathain 的 Dheathain
+  'name'
 ])
 
 /**
@@ -701,4 +703,11 @@ export function finishEntry(e: GdEntry): void {
   if (vn && d.p[0] === 'verb') x.vn = vn
   if (d.au?.length && !d.src?.includes('commons')) d.src = [...(d.src ?? []), 'commons']
   if (!Object.keys(x).length) delete d.x
+  // 词首音变（弱化、加 t- / h- / n-）排在变形表前头：阅读器一个词形对上几行时取第一行的标签，
+  // bhàta 先说「弱化」（看得见的变化），比「定指属格单数」（要看上下文）对学的人有用
+  if (d.f) {
+    const MUT = new Set(['lenition', 'h-prothesis', 't-prothesis', 'eclipsis'])
+    const isMut = (tags: string[]): boolean => tags.length > 0 && tags.every((t) => MUT.has(t))
+    d.f = [...d.f.filter(([, ...t]) => isMut(t)), ...d.f.filter(([, ...t]) => !isMut(t))]
+  }
 }
