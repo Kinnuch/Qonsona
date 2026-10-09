@@ -215,12 +215,10 @@ function attach(st: Stem, e: Ending): string[] {
   if (special) return special
   // -(으)시- 后面的 -어요 是 -세요（-셔요 也对，单列一个词尾）；계시다 这类敬语动词也一样
   if (e.id === 'haeyo' && st.after === 'hon') return [st.j.slice(0, -1) + 'ㅔㅇㅛ']
-  // 本身以「시」结尾的动词：계시다、주무시다 是 -세요，모시다、가시다 是 -셔요（另一种也收，查得到）
-  if (e.id === 'haeyo' && !st.after && st.cls === 'reg' && st.j.endsWith('ㅅㅣ')) {
-    const se = st.j.slice(0, -1) + 'ㅔㅇㅛ'
-    const syeo = st.j.slice(0, -1) + 'ㅕㅇㅛ'
-    return HON_VERB.test(st.j) ? [se, syeo] : [syeo, st.j + 'ㅇㅓㅇㅛ', se]
-  }
+  // 词里本来就带着「시」的敬语动词：계시다、주무시다、드시다 是 -세요（-셔요 也对）；
+  // 마시다、모시다 这些「시」不是敬语，照规则是 -셔요
+  if (e.id === 'haeyo' && !st.after && st.cls === 'reg' && HON_VERB.test(st.j))
+    return [st.j.slice(0, -1) + 'ㅔㅇㅛ', st.j.slice(0, -1) + 'ㅕㅇㅛ']
   // 가다、오다 的命令形另有 가거라、오너라
   if (e.id === 'ara' && !st.after && st.cls === 'reg') {
     if (st.j.endsWith('ㄱㅏ')) return [...infinitive(st).map((x) => x + e.j), st.j + 'ㄱㅓㄹㅏ']

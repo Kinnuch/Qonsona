@@ -63,7 +63,7 @@ export function tokenize(text: string): RawToken[] {
       while (i < cps.length) {
         const c = cps[i]
         if (isWordChar(c)) i++
-        else if (/['’\-]/.test(c) && isLatin(cps[i - 1]) && isLatin(cps[i + 1])) i++
+        else if (/['’-]/.test(c) && isLatin(cps[i - 1]) && isLatin(cps[i + 1])) i++
         else break
       }
       take(start, i, 'word')

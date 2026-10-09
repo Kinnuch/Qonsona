@@ -399,3 +399,32 @@ function nounAspirationUndo(word: string, pron: string): string {
 export function romanize(text: string, opts: PronounceOptions = {}): string {
   return text.normalize('NFC').replace(/[가-힣]+/g, (w) => romanizeWord(w, opts))
 }
+
+const LAX: Record<string, string> = { ㄲ: 'ㄱ', ㄸ: 'ㄷ', ㅃ: 'ㅂ', ㅆ: 'ㅅ', ㅉ: 'ㅈ' }
+
+/**
+ * 按词典给的发音转罗马字（솜이불 [솜니불] → somnibul，规则推不出的 ㄴ 添加也对）：
+ * 紧音化不标（写法是平音、读成紧音的按平音写），元音按写法；音节数对不上时按写法自己推。
+ */
+export function romanizeFromPronunciation(
+  spelled: string,
+  pron: string,
+  opts: PronounceOptions = {}
+): string {
+  const w = [...spelled.normalize('NFC')]
+  const p = [...pron.normalize('NFC')]
+  if (w.length !== p.length || !w.every((c) => decompose(c)) || !p.every((c) => decompose(c)))
+    return romanize(spelled, opts)
+  let out = ''
+  for (let i = 0; i < p.length; i++) {
+    const s = decompose(w[i])!
+    const q = decompose(p[i])!
+    const prev = i ? decompose(p[i - 1]) : null
+    let l = q.l
+    if (LAX[l] && LAX[l] === s.l) l = s.l // 학꾜 → hakgyo
+    let onset = RR_ONSET[l] ?? ''
+    if (l === 'ㄹ' && prev?.t === 'ㄹ') onset = 'l'
+    out += onset + (RR_VOWEL[s.v] ?? '') + (RR_CODA[q.t] ?? '')
+  }
+  return out
+}

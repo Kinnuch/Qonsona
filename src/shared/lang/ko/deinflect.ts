@@ -122,6 +122,7 @@ function revInf(R: string): Cand[] {
       break
     case 'ㅔ':
       out.push({ j: R, cls: 'reg', pen: 0 }) // 세 → 세
+      if (R.endsWith('ㅅㅔ')) out.push({ j: pre + 'ㅣ', cls: 'reg', pen: 0.2 }) // 계세(요) → 계시
       break
     case 'ㅘ':
       out.push({ j: pre + 'ㅗ', cls: 'reg', pen: 0 }) // 봐 → 보
@@ -177,7 +178,11 @@ function stemsBefore(J: string, e: Ending): Cand[] {
   switch (e.type) {
     case 'A': {
       if (!J.endsWith(e.j)) return []
-      return revInf(J.slice(0, J.length - e.j.length))
+      const out = revInf(J.slice(0, J.length - e.j.length))
+      // 가거라、오너라
+      if (e.id === 'ara' && (J.endsWith('ㄱㅏㄱㅓㄹㅏ') || J.endsWith('ㅇㅗㄴㅓㄹㅏ')))
+        out.push({ j: J.slice(0, -4), cls: 'reg', pen: 0.2 })
+      return out
     }
     case 'C':
       return J.endsWith(e.j) ? revC(J.slice(0, -e.j.length), e.j) : []
