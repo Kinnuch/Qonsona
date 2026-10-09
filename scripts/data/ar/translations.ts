@@ -38,10 +38,13 @@ interface RawTr {
   tags?: string[]
 }
 
-/** 「書 /书」→ 书；「電腦 /电脑, 計算機 /计算机」这种一项里只有一组 */
+/** 「書 /书」→ 书；「為甚麼 /為什麼 /为什么」→ 为什么（简体在最后） */
 export function simplifiedOf(word: string): string {
-  const parts = word.split('/').map((s) => s.trim())
-  return parts.length === 2 && parts[1] ? parts[1] : word.trim()
+  const parts = word
+    .split('/')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  return parts[parts.length - 1] ?? word.trim()
 }
 
 /** 方言、古典等标签：这类阿拉伯语译词不要 */

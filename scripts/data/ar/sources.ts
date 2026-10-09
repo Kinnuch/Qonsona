@@ -48,7 +48,8 @@ export const FILES = {
 export type FileKey = keyof typeof FILES
 
 /** 下载一份（已经有了就跳过），返回本地路径 */
-export const fetchFile = (key: FileKey): Promise<string> => fetchCached(...FILES[key])
+export const fetchFile = (key: FileKey): Promise<string> =>
+  fetchCached(FILES[key][0], FILES[key][1])
 
 /** 写进 dict.sqlite 的来源（词条的 src、义项的 zs、例句的 src 都用这些 id） */
 export const SOURCES = {

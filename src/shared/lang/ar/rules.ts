@@ -268,15 +268,121 @@ function prefixSplits(cs: Cluster[]): PrefixSplit[] {
   return out
 }
 
+// ───────────────────────── 词形变化的猜法（词典的变形表里没有时） ─────────────────────────
+
+/** 未完成体（现在式）的前缀 + 后缀 → 人称、数、性 */
+const NONPAST: Record<string, Record<string, string[]>> = {
+  ي: {
+    '': ['third-person', 'masculine', 'singular'],
+    ون: ['third-person', 'masculine', 'plural'],
+    وا: ['third-person', 'masculine', 'plural'],
+    ان: ['third-person', 'dual'],
+    ا: ['third-person', 'dual'],
+    ن: ['third-person', 'feminine', 'plural']
+  },
+  ت: {
+    '': [],
+    ين: ['second-person', 'feminine', 'singular'],
+    ي: ['second-person', 'feminine', 'singular'],
+    ون: ['second-person', 'masculine', 'plural'],
+    وا: ['second-person', 'masculine', 'plural'],
+    ان: ['dual'],
+    ا: ['dual'],
+    ن: ['second-person', 'feminine', 'plural']
+  },
+  أ: { '': ['first-person', 'singular'] },
+  ن: { '': ['first-person', 'plural'] }
+}
+/** 过去式的后缀 → 人称、数、性（长的在前） */
+const PAST: [string, string[]][] = [
+  ['تما', ['second-person', 'dual']],
+  ['تم', ['second-person', 'masculine', 'plural']],
+  ['تن', ['second-person', 'feminine', 'plural']],
+  ['نا', ['first-person', 'plural']],
+  ['وا', ['third-person', 'masculine', 'plural']],
+  ['تا', ['third-person', 'feminine', 'dual']],
+  ['ت', []],
+  ['ا', ['third-person', 'masculine', 'dual']],
+  ['ن', ['third-person', 'feminine', 'plural']]
+]
+
+/** 去掉人称词缀后的词干 → 可能的过去式第三人称阳性单数（不带元音）：各派生式、空心、尾弱、首弱、叠音 */
+function pastStems(s: string, nonPast: boolean): string[] {
+  const out = [s]
+  if (nonPast) {
+    if (s.length === 3) out.push('أ' + s) // 第四式：يرسل → أرسل
+    if (/^(ن|ست|.ت)/.test(s) && s.length >= 4) out.push('ا' + s) // 第七、八、十式：ينكسر → انكسر
+    if (s.length === 3 && 'وي'.includes(s[1])) out.push(s[0] + 'ا' + s[2]) // 空心：يقول → قال
+    if (s.length === 2) out.push('و' + s) // 首弱：يصل → وصل
+  } else {
+    if (s.length === 2) out.push(s[0] + 'ا' + s[1]) // 空心：قلت → قال
+    if (s.length === 3 && s[1] === s[2]) out.push(s.slice(0, 2)) // 叠音：مددت → مد
+  }
+  // 尾弱：يرمي → رمى、يدعو → دعا、رميت → رمى、دعوت → دعا（几种派生式一样）
+  for (const x of [...out]) {
+    if (x.endsWith('ي')) out.push(x.slice(0, -1) + 'ى')
+    if (x.endsWith('و')) out.push(x.slice(0, -1) + 'ا')
+  }
+  return out.filter((x) => x.length >= 2)
+}
+
+/**
+ * 词典的变形表里没有的词形（冷僻词只收了主要的形式），按词缀猜原形：动词猜过去式第三人称阳性单数，
+ * 名词、形容词猜单数阳性。只用字母，不带元音；tags 用 Wiktextract 的标签词。
+ */
+export function affixGuesses(b: string): LemmaGuess[] {
+  const out: LemmaGuess[] = []
+  // 未完成体
+  const P = NONPAST[b[0]]
+  if (P && b.length >= 3)
+    for (const [suf, tags] of Object.entries(P)) {
+      if (!b.endsWith(suf)) continue
+      const s = b.slice(1, b.length - suf.length)
+      if (s.length < 2) continue
+      for (const lemma of pastStems(s, true)) out.push({ lemma, tags: ['non-past', ...tags] })
+    }
+  // 过去式
+  for (const [suf, tags] of PAST) {
+    if (!b.endsWith(suf) || b.length - suf.length < 2) continue
+    for (const lemma of pastStems(b.slice(0, -suf.length), false))
+      out.push({ lemma, tags: ['past', ...tags] })
+  }
+  // 命令式：اكتب、اكتبوا → كتب
+  if (b[0] === 'ا' && b.length >= 4)
+    for (const suf of ['وا', 'ي', 'ا', 'ن', '']) {
+      if (!b.endsWith(suf)) continue
+      const s = b.slice(1, b.length - suf.length)
+      if (s.length >= 3) out.push({ lemma: s, tags: ['imperative'] })
+    }
+  // 名词、形容词：阴性复数、阳性复数、双数、阴性
+  const noun = (stem: string, tags: string[]): void => {
+    if (stem.length < 2) return
+    out.push({ lemma: stem, tags })
+    if (stem.endsWith('ت')) out.push({ lemma: stem.slice(0, -1) + 'ة', tags })
+  }
+  if (b.length >= 4) {
+    if (b.endsWith('ات')) {
+      out.push({ lemma: b.slice(0, -2) + 'ة', tags: ['feminine', 'plural'] })
+      noun(b.slice(0, -2), ['plural'])
+    }
+    if (b.endsWith('ون') || b.endsWith('ين')) noun(b.slice(0, -2), ['plural'])
+    if (b.endsWith('ان') || b.endsWith('ين')) noun(b.slice(0, -2), ['dual'])
+    if (b.endsWith('ة')) out.push({ lemma: b.slice(0, -1), tags: ['feminine'] })
+  }
+  return out
+}
+
 /**
  * 猜原形：剥掉附着词，还原词干的写法；返回的候选拿去查 form 表（变位、变格、复数在表里）。
- * 候选按剥掉的东西从少到多排；词干至少两个字母。保留原文的元音符号（查词键会去掉，界面可以拿来比对）。
+ * 候选按剥掉的东西从少到多排：先只剥附着词，再按词缀猜变位、变格（affixGuesses）。词干至少两个字母。
+ * 只剥附着词的候选保留原文的元音符号（查词键会去掉，界面可以拿来比对）。
  */
 export function arLemmaCandidates(surface: string): LemmaGuess[] {
   const cs = clusters(surface).filter((c) => ARABIC_LETTER.test(c.b))
   if (cs.length < 3) return []
   const seen = new Set<string>([arKey(join(cs))])
   const found: (LemmaGuess & { cost: number })[] = []
+  const stems: { b: string; tags: string[] }[] = [{ b: bases(cs), tags: [] }]
   const add = (stem: Cluster[], tags: string[]): void => {
     if (stem.length < 2) return
     const lemma = join(stem)
@@ -284,6 +390,7 @@ export function arLemmaCandidates(surface: string): LemmaGuess[] {
     if (seen.has(k)) return
     seen.add(k)
     found.push({ lemma, tags, cost: tags.length })
+    stems.push({ b: bases(stem), tags })
   }
   for (const p of prefixSplits(cs)) {
     let rest = cs.slice(p.n)
@@ -310,6 +417,14 @@ export function arLemmaCandidates(surface: string): LemmaGuess[] {
         add(stem.slice(0, -1), [...tags, 'accusative'])
     }
   }
+  // 再按词缀猜变位、变格：排在只剥附着词的后面
+  for (const s of [...stems])
+    for (const g of affixGuesses(s.b)) {
+      const k = arKey(g.lemma)
+      if (seen.has(k)) continue
+      seen.add(k)
+      found.push({ lemma: g.lemma, tags: [...s.tags, ...g.tags], cost: s.tags.length + 3 })
+    }
   return found.sort((a, b) => a.cost - b.cost).map(({ lemma, tags }) => ({ lemma, tags }))
 }
 
@@ -409,24 +524,30 @@ const PROCLITIC: Record<string, string> = { و: 'wa', ف: 'fa', ب: 'bi', ك: 'k
 
 /** 转写一个词（一串阿拉伯字母与符号） */
 function romanizeWord(word: string): string {
-  const fixed = ALLAH[arKey(word)]
-  if (fixed) return fixed
   const cs = clusters(word)
   const n = cs.length
+  const fixed = ALLAH[arKey(word)]
+  if (fixed) {
+    // اللّٰهُ → allāhu：带格尾元音的照读
+    const v = vowelOf(cs[n - 1])
+    return fixed + (v === 'u' || v === 'a' || v === 'i' ? v : '')
+  }
   let out = ''
   let i = 0
-  // 冠词 ال：alif 不带元音，lam 带静符或不带符号；带元音的文本里后面的太阳字母带叠音符
+  // 冠词的 alif：不带符号，或者只带开口符（اَلْ）
+  const articleAlif = (c: Cluster): boolean =>
+    c.b === 'ا' && (bare(c) || (vowelOf(c) === 'a' && !hasMark(c, SHADDA_CH)))
+  // 冠词 ال：lam 带静符或不带符号；带元音的文本里后面的太阳字母带叠音符
   const lamOk = (j: number): boolean =>
     j + 2 < n &&
-    cs[j].b === 'ا' &&
-    bare(cs[j]) &&
+    articleAlif(cs[j]) &&
     cs[j + 1].b === 'ل' &&
     (hasMark(cs[j + 1], SUKUN) || (bare(cs[j + 1]) && hasMark(cs[j + 2], SHADDA_CH)))
   const article = (next: Cluster): void => {
     const assimilated = SUN_LETTERS.has(next.b) && (next.b !== 'ل' || hasMark(next, SHADDA_CH))
     out += (out ? '' : 'a') + (assimilated ? CONSONANTS[next.b] : 'l') + '-'
   }
-  if (n > 2 && cs[0].b === 'ا' && cs[1].b === 'ل' && bare(cs[0]) && !vowelOf(cs[1])) {
+  if (n > 2 && articleAlif(cs[0]) && cs[1].b === 'ل' && !vowelOf(cs[1])) {
     // 词首的冠词（不带元音的文本也算）
     article(cs[2])
     i = 2
@@ -517,16 +638,38 @@ function romanizeWord(word: string): string {
   return out
 }
 
-/** 转写一段文字：阿拉伯字母逐词转写，标点、数字换成拉丁的，别的原样留着 */
+const WORD_RE =
+  /[\u{621}-\u{63a}\u{641}-\u{64a}\u{66e}-\u{6d3}\u{6fa}-\u{6ff}][\u{610}-\u{61a}\u{670}\u{6d6}-\u{6ed}\u{621}-\u{63a}\u{641}-\u{65f}\u{66e}-\u{6d3}\u{6fa}-\u{6ff}]*/gu
+
+/**
+ * 转写一段文字：阿拉伯字母逐词转写，标点、数字换成拉丁的，别的原样留着。
+ * 正偏组合（iḍāfa）里前一个词的 ة 读出来：مُنَظَّمَة التَّحْرِير → munaẓẓamat at-taḥrīr
+ * （前一个词不带冠词、后一个词带冠词才算；السُّلْطَة الْوَطَنِيَّة 是名词加形容词，不变）。
+ */
 export function arRomanize(text: string): string {
-  return normalizeArabic(text)
-    .replace(/،/g, ',')
-    .replace(/؛/g, ';')
-    .replace(/؟/g, '?')
-    .replace(
-      /[\u{621}-\u{63a}\u{641}-\u{64a}\u{66e}-\u{6d3}\u{6fa}-\u{6ff}][\u{610}-\u{61a}\u{670}\u{6d6}-\u{6ed}\u{621}-\u{63a}\u{641}-\u{65f}\u{66e}-\u{6d3}\u{6fa}-\u{6ff}]*/gu,
-      (w) => romanizeWord(w)
+  const s = normalizeArabic(text).replace(/،/g, ',').replace(/؛/g, ';').replace(/؟/g, '?')
+  let out = ''
+  let last = 0
+  /** 上一个词：转写在 out 里的结尾位置；是不是不带冠词、以 ة 结尾 */
+  let prev: { outEnd: number; taMarbuta: boolean } | null = null
+  for (const m of s.matchAll(WORD_RE)) {
+    const start = m.index!
+    const between = s.slice(last, start)
+    const rom = romanizeWord(m[0])
+    out += between
+    if (
+      prev?.taMarbuta &&
+      /^\s+$/.test(between) &&
+      /^a[a-zʿʾḥṣḍṭẓ]{1,2}-/.test(rom) &&
+      out.slice(0, prev.outEnd).endsWith('a')
     )
+      out = out.slice(0, prev.outEnd) + 't' + out.slice(prev.outEnd)
+    const k = arKey(m[0])
+    out += rom
+    prev = { outEnd: out.length, taMarbuta: k.endsWith('ة') && !k.startsWith('ال') }
+    last = start + m[0].length
+  }
+  return out + s.slice(last)
 }
 
 export const rules: LangRules = {

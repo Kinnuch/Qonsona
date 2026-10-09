@@ -114,20 +114,88 @@ describe('猜原形（剥附着词）', () => {
   })
   it('不定宾格的 alif', () => {
     expect(tagsOf('كتابا', 'كتاب')).toEqual(['accusative'])
-    expect(guess('سماءا')).not.toContain('سماء')
+    expect(tagsOf('سماءا', 'سماء') ?? []).not.toContain('accusative')
   })
   it('剥得少的在前；保留原文的元音符号；太阳字母的同化叠音去掉', () => {
     const g = arLemmaCandidates('وَالْكِتَابُ')
     expect(g[0]).toEqual({ lemma: 'الْكِتَابُ', tags: ['conj-wa'] })
     expect(g).toContainEqual({ lemma: 'كِتَابُ', tags: ['conj-wa', 'definite'] })
     expect(arLemmaCandidates('الشَّمْسُ')).toContainEqual({ lemma: 'شَمْسُ', tags: ['definite'] })
-    const costs = arLemmaCandidates('وبكتابهم').map((x) => x.tags.length)
+    // 只剥附着词的（标签全是附着词代号）都排在按词缀猜的前面，自己按剥掉几个排
+    const g2 = arLemmaCandidates('وسيكتبونها')
+    const clitic = g2.map((x) => x.tags.every((t) => CLITICS[t]))
+    expect(clitic.indexOf(false)).toBeGreaterThan(0)
+    expect(clitic.slice(clitic.indexOf(false)).every((c) => !c)).toBe(true)
+    const costs = g2.filter((_, k) => clitic[k]).map((x) => x.tags.length)
     expect([...costs].sort((a, b) => a - b)).toEqual(costs)
   })
   it('太短的词不猜；每个代号都有说明', () => {
     expect(arLemmaCandidates('من')).toEqual([])
-    for (const w of ['وبكتابهم', 'فللمدرسة', 'سيقولونها', 'كتابا', 'لله'])
-      for (const g of arLemmaCandidates(w)) for (const t of g.tags) expect(CLITICS[t]).toBeTruthy()
+    const WIKT = new Set([
+      'past',
+      'non-past',
+      'imperative',
+      'first-person',
+      'second-person',
+      'third-person',
+      'masculine',
+      'feminine',
+      'singular',
+      'dual',
+      'plural'
+    ])
+    for (const w of ['وبكتابهم', 'فللمدرسة', 'سيقولونها', 'كتابا', 'لله', 'يتباحثون'])
+      for (const g of arLemmaCandidates(w))
+        for (const t of g.tags) expect(CLITICS[t] || WIKT.has(t)).toBeTruthy()
+  })
+})
+
+describe('按词缀猜变位、变格（冷僻词的变形表只收了主要形式）', () => {
+  const find = (w: string, lemma: string) =>
+    arLemmaCandidates(w).find((g) => arKey(g.lemma) === lemma)
+  it('未完成体：各派生式、空心、尾弱、首弱', () => {
+    expect(find('يتباحثون', 'تباحث')?.tags).toEqual([
+      'non-past',
+      'third-person',
+      'masculine',
+      'plural'
+    ])
+    expect(find('يستخدمون', 'استخدم')).toBeTruthy()
+    expect(find('ينكسر', 'انكسر')).toBeTruthy()
+    expect(find('يرسل', 'أرسل')).toBeTruthy()
+    expect(find('يقولون', 'قال')).toBeTruthy()
+    expect(find('يرمي', 'رمى')).toBeTruthy()
+    expect(find('يدعو', 'دعا')).toBeTruthy()
+    expect(find('يصل', 'وصل')).toBeTruthy()
+    expect(find('تكتبين', 'كتب')?.tags).toEqual([
+      'non-past',
+      'second-person',
+      'feminine',
+      'singular'
+    ])
+  })
+  it('过去式、命令式', () => {
+    expect(find('قلت', 'قال')?.tags).toEqual(['past'])
+    expect(find('دعوت', 'دعا')).toBeTruthy()
+    expect(find('مددت', 'مد')).toBeTruthy()
+    expect(find('كتبتم', 'كتب')?.tags).toEqual(['past', 'second-person', 'masculine', 'plural'])
+    expect(find('اكتبوا', 'كتب')?.tags).toEqual(['imperative'])
+  })
+  it('跟附着词一起：先剥附着词再猜', () => {
+    expect(find('سيكتبونها', 'كتب')?.tags).toEqual([
+      'fut-sa',
+      'pron-3fs',
+      'non-past',
+      'third-person',
+      'masculine',
+      'plural'
+    ])
+  })
+  it('名词、形容词的复数、双数、阴性', () => {
+    expect(find('مهندسات', 'مهندسة')?.tags).toEqual(['feminine', 'plural'])
+    expect(find('مهندسون', 'مهندس')?.tags).toEqual(['plural'])
+    expect(find('مدرستين', 'مدرسة')).toBeTruthy()
+    expect(find('كبيرة', 'كبير')?.tags).toEqual(['feminine'])
   })
 })
 
@@ -193,7 +261,14 @@ describe('转写', () => {
     ['صَدِيق', 'ṣadīq'],
     ['ظُهْر', 'ẓuhr'],
     ['اللّٰه', 'allāh'],
-    ['مُوسَىٰ', 'mūsā']
+    ['مُوسَىٰ', 'mūsā'],
+    ['اَلْحَرَارَة', 'al-ḥarāra'],
+    ['اَلتَّشْغِيل', 'at-tashghīl'],
+    ['اَللّٰهُ', 'allāhu'],
+    ['مُنَظَّمَة التَّحْرِير', 'munaẓẓamat at-taḥrīr'],
+    ['دَرَجَة اَلْحَرَارَة', 'darajat al-ḥarāra'],
+    ['السُّلْطَة الْوَطَنِيَّة', 'as-sulṭa al-waṭaniyya'],
+    ['مَدْرَسَة جَدِيدَة', 'madrasa jadīda']
   ]
   it.each(cases)('%s → %s', (ar, rom) => expect(arRomanize(ar)).toBe(rom))
   it('标点、数字、不带元音的词', () => {

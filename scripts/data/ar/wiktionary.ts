@@ -40,6 +40,8 @@ export interface WiktEntry {
   d: string
   /** 别的带元音写法（同一个词头模板里的第二、第三种念法） */
   dAlt: string[]
+  /** 维基词典自己的转写（kitāb、ʔinglīziyy；ʔ ʕ ṯ ḵ ḏ š ḡ 的写法跟本软件的转写不同） */
+  romWikt?: string
   pos: PosTag
   /** kaikki 的词性（noun、verb、name、character……） */
   kpos: string
@@ -77,7 +79,8 @@ export interface WiktRedirect {
   tags: string[]
 }
 
-const POS: Record<string, PosTag> = {
+/** kaikki 的词性（英文版、中文版一样用英文代码）→ UPOS */
+export const POS_OF: Record<string, PosTag> = {
   noun: 'noun',
   verb: 'verb',
   adj: 'adj',
@@ -295,7 +298,7 @@ function verbInfo(args: Record<string, string> | undefined): { form?: string; vo
 export function parseRecord(
   o: RawRecord
 ): { entry: WiktEntry } | { redirect: WiktRedirect } | null {
-  const pos = POS[o.pos]
+  const pos = POS_OF[o.pos]
   if (!pos || o.pos === 'root') return null
   const senses = o.senses ?? []
   const glossed = senses.filter(
@@ -318,7 +321,11 @@ export function parseRecord(
     }
   }
   const forms = o.forms ?? []
-  const canon = forms.filter((f) => f.tags?.includes('canonical')).map((f) => f.form)
+  // 带元音的写法：词头模板偶尔带进拉丁字母的说明（سَلِم m and plural of variety），截掉
+  const canon = forms
+    .filter((f) => f.tags?.includes('canonical'))
+    .map((f) => f.form.replace(/\s*[A-Za-z(].*$/s, '').trim())
+    .filter((f) => ARABIC.test(f))
   const d = canon[0] ?? o.word
   // 词头模板里的主要形式（没有 source 的）；变形表（declension / conjugation / inflection）
   const head: Cell[] = []
@@ -329,7 +336,9 @@ export function parseRecord(
     if (!f.form || /^[-—–?]+$/.test(f.form) || !ARABIC.test(f.form)) continue
     if (tags.includes('canonical') || tags.includes('romanization')) continue
     if (tags.includes('table-tags') || tags.includes('inflection-template')) continue
-    for (const t of DECL_TAGS) if (tags.includes(t)) decl.add(t)
+    // 变格类型看单数（复数的类型另记：破碎式 / 规则复数）
+    if (tags.includes('singular') && !tags.includes('dual') && !tags.includes('plural'))
+      for (const t of DECL_TAGS) if (tags.includes(t)) decl.add(t)
     if (tags.includes('broken-form')) decl.add('broken-plural')
     if (tags.includes('sound-form') && tags.includes('plural')) decl.add('sound-plural')
     const clean = cleanTags(tags)
@@ -425,6 +434,7 @@ export function parseRecord(
       w: o.word,
       d,
       dAlt: canon.slice(1).filter((x) => x !== d),
+      romWikt: forms.find((f) => f.tags?.includes('romanization'))?.form,
       pos: p,
       kpos: o.pos,
       g,

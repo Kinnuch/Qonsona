@@ -65,6 +65,7 @@ const FORM_OF =
 
 export function cleanZhGloss(s: string): string | null {
   let g = s
+    .replace(/:?Template:[^\s，。；、]*/g, '') // 没展开的模板（:Template:不可数）
     .replace(/\s+/g, ' ')
     .replace(/[（(][^（()）]{14,}[)）]/g, '') // 长的括号说明（百科式的产地、年代……）
     .replace(/[。.]$/, '')

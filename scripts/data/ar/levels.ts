@@ -1,40 +1,44 @@
 /**
- * 词条分级：阿拉伯语没有开放许可的 CEFR 词表（Kelly 项目的阿语表是 CC BY-NC-SA，SAMER 只许内部研究），
+ * 词条分级：阿拉伯语没有开放许可的 CEFR 词表（Kelly 项目的阿语表是 CC BY-NC-SA 2.0，SAMER 只许内部研究），
  * 所以按「归到原形上的词频」排名切分（依据与各级词数见 docs/lang/ar.md「分级」）：
  *   - 参加分级的：标准语里常用的词条——专名、字母与符号、词缀、只在方言或古典里用的不参加；
  *   - 排名用 wordfreq 的频率（维基百科、字幕、新闻、网页、推特），再给 Tatoeba 例句里出现的词加一点权重
  *     （日常会话的词在新闻语料里偏少：苹果、厨房、牙刷……）；
- *   - 按名次切成 CEFR 六级；ACTFL 的十一个小级在 CEFR 各级里再按名次细分（对应关系见 spec.ts）。
+ *   - 各级的词数参照 Kelly 项目阿语表（Kilgarriff et al. 2014，专家逐词定级）的规模：
+ *     A1 775、A2 1246、B1 1553、B2 1703、C1 1440、C2 2176（累计 775 / 2021 / 3574 / 5277 / 6717 / 8893），
+ *     取整成下面的累计名次；只用它的规模，不用它的词。
  */
 import type { CefrLevel } from '../../../src/shared/lang/types'
 
-/** CEFR 各级的上限（累计名次）：A1 前 700 个，A2 到 1700…… */
+/** CEFR 各级的上限（累计名次） */
 export const CEFR_CUTS: [CefrLevel, number][] = [
-  ['A1', 700],
-  ['A2', 1700],
-  ['B1', 3300],
-  ['B2', 5500],
-  ['C1', 8500],
-  ['C2', 13000]
+  ['A1', 750],
+  ['A2', 2000],
+  ['B1', 3500],
+  ['B2', 5300],
+  ['C1', 7000],
+  ['C2', 9000]
 ]
 
 /**
- * ACTFL 小级的上限（累计名次）。跟 CEFR 的对应按 ACTFL 官方的对照（见 spec.ts 的 cefr 字段）：
- * Novice 三级在 A1 里，Intermediate Low / Mid 在 A2，Intermediate High 在 B1 前半，Advanced Low 在 B1 后半，
- * Advanced Mid / High 在 B2，Superior 在 C1，Distinguished 在 C2。
+ * ACTFL 小级的上限（累计名次）。按 ACTFL 官方的对照（Assigning CEFR Ratings to ACTFL Assessments，2016，
+ * 听、读那一张表——词汇量看的是认读）：Novice Low / Mid 在 A1 以下，Novice High = A1.1，
+ * Intermediate Low = A1.2，Intermediate Mid = A2，Intermediate High = B1.1，Advanced Low = B1.2，
+ * Advanced Mid = B2，Advanced High = C1.1，Superior = C1.2，Distinguished = C2。
+ * 所以 A1 的 750 个词再分成四个小级，B1、C1 各分前后两半。
  */
 export const ACTFL_CUTS: [string, number][] = [
-  ['NL', 150],
-  ['NM', 400],
-  ['NH', 700],
-  ['IL', 1150],
-  ['IM', 1700],
-  ['IH', 2500],
-  ['AL', 3300],
-  ['AM', 4300],
-  ['AH', 5500],
-  ['S', 8500],
-  ['D', 13000]
+  ['NL', 100],
+  ['NM', 300],
+  ['NH', 500],
+  ['IL', 750],
+  ['IM', 2000],
+  ['IH', 2750],
+  ['AL', 3500],
+  ['AM', 5300],
+  ['AH', 6150],
+  ['S', 7000],
+  ['D', 9000]
 ]
 
 const levelAt = <T extends string>(cuts: [T, number][], rank: number): T | undefined =>
