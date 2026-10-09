@@ -87,6 +87,15 @@ export const RAW = {
   freqWiki: {
     url: gh('IlyaSemenov/wikipedia-word-frequency', 'master/results/ruwiki-2022-08-29.txt'),
     file: 'freq-ruwiki-2022-08-29.txt'
+  },
+  /** 繁体转简体：OpenCC 的字表与词表（中文维基词典的释义、Tatoeba 的中文翻译有一部分是繁体） */
+  openccChars: {
+    url: gh('BYVoid/OpenCC', 'master/data/dictionary/TSCharacters.txt'),
+    file: 'opencc-TSCharacters.txt'
+  },
+  openccPhrases: {
+    url: gh('BYVoid/OpenCC', 'master/data/dictionary/TSPhrases.txt'),
+    file: 'opencc-TSPhrases.txt'
   }
 } satisfies Record<string, RawFile>
 
