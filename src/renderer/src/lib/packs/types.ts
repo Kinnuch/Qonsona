@@ -17,14 +17,14 @@ export type PackKind = 'builtin' | 'qonlang'
 
 export type TextDirection = 'ltr' | 'rtl' | 'ttb'
 
-/** 字母课学什么：假名表 / 自造文字的字形表 / 音位与拼写 */
-export type AlphabetKind = 'kana' | 'glyphs' | 'phonemes'
+/** 字母课学什么：假名表 / 自造文字的字形表 / 音位与拼写 / 字母逐个学（韩文、西里尔、阿拉伯字母）/ 拼读规则（英、法、盖尔） */
+export type AlphabetKind = 'kana' | 'glyphs' | 'phonemes' | 'letters' | 'phonics'
 
-/** 词典里「字」那一栏：汉字 / 自造文字字形 / 语素（词根词缀） */
-export type CharacterKind = 'kanji' | 'glyphs' | 'morphemes'
+/** 词典里「字」那一栏：汉字 / 自造文字字形 / 语素（词根词缀）/ 韩语汉字词的汉字 / 阿拉伯语词根 */
+export type CharacterKind = 'kanji' | 'glyphs' | 'morphemes' | 'hanja' | 'roots'
 
-/** 正文上方的注音：振假名 / 国际音标 / 另一套正字法 */
-export type RubyKind = 'furigana' | 'ipa' | 'orthography'
+/** 正文上方的注音：振假名 / 国际音标 / 另一套正字法 / 罗马字转写（韩、阿、俄） */
+export type RubyKind = 'furigana' | 'ipa' | 'orthography' | 'romanization'
 
 export interface PackFeatures {
   /** 有文章、例句可读（自己导入的文本也要能切词） */
