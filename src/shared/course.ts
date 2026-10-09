@@ -38,6 +38,8 @@ export interface SymbolItem {
   alike?: string[]
   /** 对应的另一套写法（平假名对应的片假名），显示用 */
   pair?: string
+  /** pair 是什么（大写、小写、独立形……）；不写时按平假名 / 片假名标 */
+  pairLabel?: Text
   /** 国际音标 */
   ipa?: string
   say?: Sound | null

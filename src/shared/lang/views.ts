@@ -64,7 +64,8 @@ export interface LexEntryView {
   au: AudioRef[]
   senses: LexSenseView[]
   /** 变形表：[形式, 标签] */
-  forms: { form: string; tags: string[] }[]
+  /** 变形；ipa 是这个形的读音（词条的 fi 里有的才有） */
+  forms: { form: string; tags: string[]; ipa?: string }[]
   cls: string[]
   levels: LexLevelView[]
   /** 词频名次 */

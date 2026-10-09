@@ -3,18 +3,32 @@
   import { FolderOpen, Volume2, Download, Upload } from '@lucide/svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { audio } from '$lib/state/audio.svelte'
-  import { t, LOCALES, i18n, type LocaleCode } from '$lib/i18n/index.svelte'
+  import { t, pick, LOCALES, i18n, type LocaleCode } from '$lib/i18n/index.svelte'
   import { platform, type AppInfo, type Prefs } from '$lib/platform'
   import ENGINE from '$qon/VERSION.json'
   import type { DictSource } from '$shared/dict'
+  import { LANG_CODES, type LocalizedText, type SourceRef } from '$shared/lang/types'
+  import { LANGS } from '$shared/lang/registry'
   import { updates } from '$lib/state/updates.svelte'
   import { flushAll } from '$lib/state/persist'
 
   let info = $state<AppInfo | null>(null)
   let sources = $state<DictSource[]>([])
+  /** 框架里各语言的词典来源（装了数据的才列） */
+  let langSources = $state<{ code: string; name: LocalizedText; sources: SourceRef[] }[]>([])
   onMount(async () => {
     info = await platform.info()
     sources = await platform.ja.sources()
+    const have = (await platform.lang.status(LANG_CODES).catch(() => [])).filter((s) => s.available)
+    langSources = (
+      await Promise.all(
+        have.map(async (s) => ({
+          code: s.code,
+          name: LANGS[s.code as keyof typeof LANGS].spec.name,
+          sources: await platform.lang.sources(s.code).catch(() => [] as SourceRef[])
+        }))
+      )
+    ).filter((x) => x.sources.length)
   })
 
   const THEMES: Prefs['theme'][] = ['system', 'light', 'dark']
@@ -301,19 +315,35 @@
     </p>
   </section>
 
-  {#if sources.length}
+  {#if sources.length || langSources.length}
     <section class="card group" data-sources>
       <h3>{t('settings.sources')}</h3>
       <p class="faint">{t('settings.sourcesNote')}</p>
-      <ul class="sources">
-        {#each sources as s (s.name)}
-          <li>
-            <a href={s.home} target="_blank" rel="noreferrer">{s.name}</a>
-            <span class="chip">{s.license}</span>
-            <span class="faint">{s.credit}</span>
-          </li>
-        {/each}
-      </ul>
+      {#if sources.length}
+        {#if langSources.length}<h4>{t('settings.sourcesJa')}</h4>{/if}
+        <ul class="sources">
+          {#each sources as s (s.name)}
+            <li>
+              <a href={s.home} target="_blank" rel="noreferrer">{s.name}</a>
+              <span class="chip">{s.license}</span>
+              <span class="faint">{s.credit}</span>
+            </li>
+          {/each}
+        </ul>
+      {/if}
+      {#each langSources as g (g.code)}
+        <h4>{pick(g.name)}</h4>
+        <ul class="sources" data-lang-sources={g.code}>
+          {#each g.sources as s (s.id)}
+            <li>
+              <a href={s.home} target="_blank" rel="noreferrer">{s.name}</a>
+              <span class="chip">{s.license}</span>
+              <span class="faint">{s.credit}</span>
+              {#if s.note}<span class="faint note">{s.note}</span>{/if}
+            </li>
+          {/each}
+        </ul>
+      {/each}
     </section>
   {/if}
 </div>
@@ -370,6 +400,15 @@
   .sources a {
     color: var(--accent-text);
     margin-inline-end: 6px;
+  }
+  .group h4 {
+    font-size: 13px;
+    color: var(--text-2);
+    margin: 4px 0 -4px;
+  }
+  .sources .note {
+    display: block;
+    font-size: 12px;
   }
   .seg button.on {
     background: var(--accent);

@@ -4,6 +4,7 @@
   import { Volume2 } from '@lucide/svelte'
   import type { ExamQuestion } from '$shared/exam'
   import JaSentence from '$lib/courses/JaSentence.svelte'
+  import PlainSentence from '$lib/courses/PlainSentence.svelte'
   import { scriptCss, txt } from '$lib/courses/view'
   import { t } from '$lib/i18n/index.svelte'
   import { isData, playPrompt } from './view'
@@ -35,6 +36,17 @@
         mode={p.blank && !reveal ? 'blank' : 'mark'}
         ruby={!!p.ruby}
         markRuby={reveal}
+      />
+    </p>
+  {:else if range}
+    <!-- 别的语言的句子：标出的一段加下划线，挖掉的一段答完之前是空，答完填回去 -->
+    <p class="sentence" data-prompt>
+      <PlainSentence
+        text={p.text}
+        start={range[0]}
+        end={range[1]}
+        mode={p.blank ? (reveal ? 'filled' : 'blank') : 'mark'}
+        lang={p.lang}
       />
     </p>
   {:else}
@@ -80,6 +92,9 @@
     background: none;
     text-decoration: underline 2px var(--accent);
     text-underline-offset: 6px;
+  }
+  .sentence :global(mark.filled) {
+    text-decoration-color: var(--ok, #2f9e63);
   }
   .data {
     font-family: var(--font-data);

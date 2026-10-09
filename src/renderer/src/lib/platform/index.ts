@@ -226,6 +226,21 @@ export const platform = {
       setTranslation: (code: string, id: string, text: string) =>
         invoke<void>('langArticles:setTranslation', code, id, text)
     },
+    /** 这门语言的数据够出哪些通用题型 */
+    practiceKinds: (code: string) => invoke<PracticeKind[]>('lang:practiceKinds', code),
+    /** 出一组题：custom 题型时 kind 写 'custom'，custom 写题型 id */
+    practice: (
+      code: string,
+      kind: string,
+      level: string | null,
+      n: number,
+      seed: number,
+      locale: string,
+      custom?: string
+    ) => invoke<ExamQuestion[]>('lang:practice', code, kind, level, n, seed, locale, custom),
+    /** 模拟卷（LangModule.exams 里的一张） */
+    paper: (code: string, examId: string, seed: number, locale: string) =>
+      invoke<ExamPaper | null>('lang:paper', code, examId, seed, locale),
     /** 取新闻（一小时最多一次，force 除外） */
     news: (code: string, force?: boolean) =>
       invoke<LangNewsStatus | null>('langNews:refresh', code, force)
@@ -238,9 +253,10 @@ export const platform = {
   /** 视听：媒体库（视频、音频只记路径）与字幕 */
   media: {
     list: () => invoke<MediaItem[]>('media:list'),
-    /** 挑视频、音频文件加进库；返回加进去的 */
-    pick: () => invoke<MediaItem[]>('media:pick'),
-    addPaths: (paths: string[]) => invoke<MediaItem[]>('media:addPaths', paths),
+    /** 挑视频、音频文件加进库（归到 lang 这门语言）；返回加进去的 */
+    pick: (lang?: string) => invoke<MediaItem[]>('media:pick', lang),
+    addPaths: (paths: string[], lang?: string) =>
+      invoke<MediaItem[]>('media:addPaths', paths, lang),
     /** 挑字幕文件加到这一条上；failed 是没能解析的文件名 */
     pickSubtitle: (id: string) =>
       invoke<{ item: MediaItem | null; failed: string[] }>('media:pickSubtitle', id),

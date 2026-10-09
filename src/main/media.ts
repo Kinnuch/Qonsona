@@ -91,13 +91,22 @@ export class MediaLibrary {
     return it
   }
 
-  /** 加进库里（同一个文件再加一次就是原来那一条）；不认识的格式返回 null */
-  async add(path: string): Promise<MediaItem | null> {
+  /**
+   * 加进库里（同一个文件再加一次就是原来那一条，归到这次的语言）；不认识的格式返回 null。
+   * lang 是它归哪门语言（学习包 id），不给时算日语
+   */
+  async add(path: string, lang?: string): Promise<MediaItem | null> {
     const kind = mediaKind(path)
     if (!kind || !existsSync(path)) return null
     const items = await this.#load()
     const hit = items.find((x) => x.path === path)
-    if (hit) return { ...hit, exists: true }
+    if (hit) {
+      if (lang && (hit.lang ?? 'ja') !== lang) {
+        hit.lang = lang
+        await this.#save()
+      }
+      return { ...hit, exists: true }
+    }
     const item: MediaItem = {
       id: randomUUID(),
       title: basename(path).replace(/\.[^.]+$/, ''),
@@ -110,7 +119,8 @@ export class MediaLibrary {
       offset: 0,
       position: 0,
       duration: 0,
-      playedAt: null
+      playedAt: null,
+      ...(lang ? { lang } : {})
     }
     items.push(item)
     await this.#save()

@@ -15,7 +15,7 @@ const ids: Record<string, number> = {}
 
 beforeAll(() => {
   const file = join(dir, 'fr.sqlite')
-  const w = new LexDbWriter('fr', { file })
+  const w = new LexDbWriter('fr', { file, mt: false })
   w.source({ id: 't', name: 'Test', license: 'CC0', credit: 'me', home: 'https://example.org' })
   w.source({ id: 'mt-en', name: 'MT', license: 'CC0', credit: 'me', home: 'https://example.org' })
   ids.chat = w.entry({
@@ -50,6 +50,18 @@ beforeAll(() => {
     lv: { cefr: 'A1' },
     fr: 50
   })
+  // 变形的读音与同一词形的两种标签
+  ids.bateau = w.entry({
+    w: 'bateau',
+    p: ['noun'],
+    ipa: ['ba.to'],
+    s: [{ en: ['boat'] }],
+    f: [
+      ['bateaux', 'plural'],
+      ['bateaux', 'plural', 'vocative']
+    ],
+    fi: { bateaux: 'ba.to (pl.)' }
+  })
   const ex = w.example(
     { text: 'Le chat dort.', en: 'The cat sleeps.', zh: '猫在睡觉。', zs: 't', src: 't' },
     [ids.chat]
@@ -63,6 +75,21 @@ beforeAll(() => {
 afterAll(() => {
   db?.close()
   rmSync(dir, { recursive: true, force: true })
+})
+
+describe('查一个词形：读音与别的可能', () => {
+  it('原形用词条的 IPA，变形用 fi 里这个形的，没有就空着；同一词形的别的标签放进 alt', () => {
+    expect(db.lookup('chat')?.ipa).toBe('ʃa')
+    expect(db.lookup('chats')).toMatchObject({ lemma: 'chat', tags: ['plural'] })
+    expect(db.lookup('chats')?.ipa).toBeUndefined()
+    const h = db.lookup('bateaux')!
+    expect(h).toMatchObject({ lemma: 'bateau', ipa: 'ba.to (pl.)' })
+    expect([h.tags, ...(h.alt ?? [])].map((t) => t.join(' ')).sort()).toEqual([
+      'plural',
+      'plural vocative'
+    ])
+    expect(db.entry(ids.bateau)!.forms.map((f) => f.ipa)).toEqual(['ba.to (pl.)', 'ba.to (pl.)'])
+  })
 })
 
 describe('查词', () => {
@@ -112,6 +139,6 @@ describe('查词', () => {
     })
     expect(db.levelCounts()).toMatchObject({ A1: 2, A2: 1, B1: 1, B2: 0 })
     expect(db.items([ids.ete, ids.chat]).map((w) => w.w)).toEqual(['été', 'chat'])
-    expect(db.status()).toMatchObject({ available: true, entries: 4, examples: 2 })
+    expect(db.status()).toMatchObject({ available: true, entries: 5, examples: 2 })
   })
 })

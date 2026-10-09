@@ -247,7 +247,8 @@ export default {
         guess: '「{form}」可能是「{base}」的{tags}',
         variant: '变形',
         loose: '按不带变音符号的写法对上',
-        gloss: '按释义对上'
+        gloss: '按释义对上',
+        alt: '也可能是{tags}'
       },
       variant: '其他写法',
       audio: '真人录音',
@@ -268,7 +269,12 @@ export default {
         aspect: '体的配对',
         len: '弱化形',
         plural: '复数',
-        stress: '重音'
+        stress: '重音',
+        ety: '词源',
+        vn: '动名词',
+        vnOf: '是这个动词的动名词',
+        ipaDialects: '方言读音',
+        formIpa: '变形的读音'
       }
     },
     empty: '请输入要查的词。',
@@ -650,17 +656,22 @@ export default {
       'sound-change': {
         name: '音变',
         desc: '看原始语的形式，按音变规律选出它在这门语言里变成的样子。'
-      }
+      },
+      gender: { name: '名词的性', desc: '看名词，选出它是阳性、阴性还是中性。' },
+      spelling: { name: '拼写', desc: '看意思与读音，选出拼写正确的那个。' },
+      custom: { name: '特有题型', desc: '这门语言特有的练习。' }
     },
     exam: {
       title: '模拟考',
       intro:
         '按 JLPT 的卷面结构出一张模拟卷，分文字·词汇、语法、读解、听解四节，每节限时，时间到了自动进入下一节。交卷后按 JLPT 的办法换算分数（N5、N4 分两部分计分，N3 起分言语知识、读解、听解三部分），并可查看每道题的解析。',
+      introLang:
+        '照这门语言的考试结构出一张模拟卷，分节限时，时间到了自动进入下一节。交卷后按答对的比例换算分数（仅供参考），并可查看每道题的解析。悬停在卷子上可以看照着哪个考试设计、简化了什么。',
       paper: '{level} 模拟卷',
       structure: '{sections} 节 · {n} 题 · 限时 {m} 分钟',
       noVoice:
-        '没有找到日语的系统语音，听解题将无法播放。请在 Windows 的「语音」设置里添加日语语音。',
-      unavailable: '无法生成模拟卷：没有找到日语词典数据。',
+        '没有找到{lang}的系统语音，听力题将无法播放。请在 Windows 的「语音」设置里添加{lang}语音。',
+      unavailable: '无法生成模拟卷：没有找到{lang}的词典数据。',
       history: '做过的卷子',
       sectionOf: '第 {i} / {n} 节',
       minutes: '{n} 分钟',
@@ -865,6 +876,7 @@ export default {
     },
     sources: '数据来源与许可',
     sourcesNote:
-      '内置的日语数据来自下面这些开放数据，按各自的许可使用；修改后的数据仍按相同许可提供。'
+      '内置的各语言数据来自下面这些开放数据，按各自的许可使用；修改后的数据仍按相同许可提供。',
+    sourcesJa: '日语'
   }
 }

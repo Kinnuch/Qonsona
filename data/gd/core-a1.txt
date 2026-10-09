@@ -1,0 +1,507 @@
+# 苏格兰盖尔语 A1 基础词表（Qonsona 手挑，CC0）
+#
+# 依据：CLAG（盖尔语口语能力等级描述）A1 自评清单里要会说的事——问候、个人信息、家人、住处、喜好、
+# 「有什么」（tha … agam）、进行体（tha mi a' dol）、时间与数字；再加入门课普遍先教的主题词（天气、吃喝、
+# 颜色、地点、交通、身体）。只收 2009 年《盖尔语正字法》的写法。
+# 格式：[主题 id] 中文名 | English，下面一行一个词头（可以是短语）；「词头<TAB>词性」指定词性（kaikki 的词性名）。
+# 词典库里 A1 = 这张表 + 最常用的虚词；主题在生词本里各成一本（theme:<id>）。
+
+[greetings] 问候与礼貌 | Greetings and courtesy
+halò
+fàilte
+madainn mhath
+feasgar math
+oidhche mhath
+ciamar a tha thu
+ciamar a tha sibh
+tapadh leat
+tapadh leibh
+mòran taing
+taing
+mar sin leat
+mar sin leibh
+tìoraidh
+slàn leat
+slàinte
+gabh mo leisgeul
+duilich
+mas e do thoil e
+mas e ur toil e
+seadh
+gu math
+
+[people] 人与家庭 | People and family
+duine
+fear
+bean
+boireannach
+balach
+nighean
+caileag
+leanabh
+pàiste
+clann
+teaghlach
+màthair
+athair
+bràthair
+piuthar
+mac
+seanair
+seanmhair
+pàrant
+caraid
+nàbaidh
+ainm
+bodach
+cailleach
+
+[pointing] 代词与疑问 | Pronouns and questions
+mi
+thu
+e
+i
+sinn
+sibh
+iad
+mise
+thusa
+esan
+ise
+sinne
+sibhse
+iadsan
+mo
+do	det
+a	det
+ar
+ur
+seo
+sin
+siud
+fhèin
+cò
+dè
+ciamar
+càite
+cuin
+carson
+cia mheud
+uile
+gach
+cuid
+mòran
+beagan
+rud
+rudeigin
+càil
+sam bith
+cuideigin
+
+[little-words] 介词、连词与小品词 | Prepositions, conjunctions and particles
+aig
+air
+an	prep
+do	prep
+de
+le
+ri
+bho
+o
+à
+gu	prep
+gun	prep
+mu
+fo
+às dèidh
+airson
+eadar
+tro
+mar
+còmhla ri
+agus
+is	conj
+ach
+no
+nuair
+ma
+gum
+nach
+cha
+an	particle
+a	particle
+ag
+glè
+cho
+ro
+nas
+as
+gu leòr
+dìreach
+cuideachd
+fhathast
+a-rithist
+a-nis
+an-dràsta
+an-diugh
+an-dè
+a-màireach
+a-nochd
+a-raoir
+an-uiridh
+am-bliadhna
+a-riamh
+an-còmhnaidh
+gu tric
+tràth
+anmoch
+dhachaigh
+a-staigh
+a-muigh
+a-steach
+a-mach
+shìos
+shuas
+an seo
+an sin
+ceart gu leòr
+
+[numbers] 数字 | Numbers
+neoni
+aon
+dà
+dhà
+trì
+ceithir
+còig
+sia
+seachd
+ochd
+naoi
+deich
+deug
+fichead
+ceud
+mìle	num
+ciad
+
+[time] 时间与日期 | Time and days
+àm
+uair
+latha
+oidhche
+madainn
+feasgar
+seachdain
+mìos
+bliadhna
+mionaid
+leth
+cairteal
+meadhan-là
+meadhan-oidhche
+deireadh-seachdain
+Diluain
+Dimàirt
+Diciadain
+Diardaoin
+Dihaoine
+Disathairne
+Didòmhnaich
+earrach
+samhradh
+foghar
+geamhradh
+
+[food] 吃与喝 | Food and drink
+biadh
+deoch
+uisge
+bainne
+tì
+cofaidh
+sùgh
+aran
+ìm
+càise
+ugh
+feòil
+iasg
+buntàta
+ubhal
+orains
+glasraich
+brot
+lite
+cèic
+briosgaid
+siùcar
+salann
+fìon
+leann
+uisge-beatha
+bracaist
+lòn
+dìnnear
+suipear
+cupa
+glainne
+truinnsear
+sgian
+forc
+spàin
+blasta
+acrach
+pathadh
+
+[home] 家与地方 | Home and places
+taigh
+dachaigh
+seòmar
+rùm
+cidsin
+taigh-beag
+doras
+uinneag
+leabaidh
+cathair
+bòrd
+sgoil
+oilthigh
+oifis
+bùth
+eaglais
+baile
+baile mòr
+dùthaich
+àite
+eilean
+beinn
+loch
+muir
+tràigh
+rathad
+sràid
+gàrradh
+pàirc
+taigh-òsta
+taigh-bìdh
+banca
+ospadal
+stèisean
+Alba
+Èirinn
+Sasainn
+Glaschu
+Dùn Èideann
+Inbhir Nis
+Albannach
+
+[travel] 交通 | Getting around
+càr
+bus
+trèana
+bàta
+plèana
+baidhsagal
+aiseag
+tagsaidh
+tiogaid
+clì
+deas
+
+[weather] 天气与自然 | Weather and nature
+sìde
+aimsir
+grian
+gaoth
+sneachda
+ceò
+fras
+stoirm
+fuar
+blàth
+teth
+fliuch
+tioram
+garbh
+adhar
+craobh
+flùr
+cù
+cat
+each
+bò
+caora
+eun
+muc
+cearc
+
+[describing] 描述与颜色 | Describing things and colours
+mòr
+beag
+math
+dona
+òg
+sean
+ùr
+fada
+goirid
+àrd
+ìosal
+brèagha
+bòidheach
+snog
+grànda
+toilichte
+brònach
+sgìth
+trang
+tinn
+luath
+slaodach
+furasta
+doirbh
+daor
+saor
+glan
+salach
+làn
+falamh
+ceart
+ceàrr
+deiseil
+cinnteach
+laghach
+gasta
+sgoinneil
+èibhinn
+dorcha
+trom
+làidir
+dath
+dearg
+gorm
+uaine
+buidhe
+dubh
+geal
+donn
+glas
+liath
+pinc
+purpaidh
+
+[body] 身体 | Body
+ceann
+aghaidh
+sùil
+cluas
+sròn
+beul
+fiacail
+falt
+làmh
+cas
+corp
+
+[learning] 语言、学习与工作 | Language, learning and work
+Gàidhlig
+Beurla
+Fraingis
+Spàinntis
+Gearmailtis
+cànan
+facal
+leabhar
+peann
+peansail
+pàipear
+coimpiutair
+fòn
+ceist
+freagairt
+leasan
+clas
+oileanach
+tidsear
+litir
+ceòl
+òran
+dannsa
+film
+telebhisean
+rèidio
+prògram
+geama
+ball-coise
+spòrs
+obair
+airgead
+not
+sgillinn
+prìs
+dotair
+
+[verbs] 常用动词 | Everyday verbs
+bi
+is	verb
+rach
+thig
+dèan
+faic
+faigh
+thoir
+cluinn
+can
+abair
+ruig
+ith
+òl
+coisich
+ruith
+seinn
+leugh
+sgrìobh
+bruidhinn
+ionnsaich
+tuig
+fuirich
+obraich
+cluich
+coimhead
+èist
+fosgail
+dùin
+ceannaich
+pàigh
+reic
+cuir
+gabh
+fàg
+tòisich
+crìochnaich
+falbh
+till
+suidh
+seas
+caidil
+dùisg
+nigh
+fàs
+iarr
+feuch
+smaoinich
+cuidich
+coinnich
+lorg
+faighnich
+freagair
+innis
+còrd
+feum
+faod
+urrainn
+fios
+toil
+snàmh
