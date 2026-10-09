@@ -919,6 +919,7 @@ export default {
     },
     sources: 'Data sources and licenses',
     sourcesNote:
-      'The built-in Japanese data comes from the open data sets below and is used under their licenses; modified data is offered under the same licenses.'
+      'The built-in language data comes from the open data sets below and is used under their licenses; modified data is offered under the same licenses.',
+    sourcesJa: 'Japanese'
   }
 }
