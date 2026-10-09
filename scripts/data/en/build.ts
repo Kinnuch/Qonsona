@@ -65,7 +65,7 @@ import {
 } from './levels'
 import { POSSESSIVES, PhraseCounter, REFLEXIVES, phrasePattern } from './phrases'
 import { loadSentences, qualityOrder, sentenceTokens, type Sentence } from './tatoeba'
-import { loadKaikki, type KaikkiWord } from './kaikki'
+import { WIKT_POS, loadKaikki, type KaikkiWord } from './kaikki'
 
 const t0 = Date.now()
 const log = (m: string): void => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${m}`)
@@ -449,9 +449,17 @@ for (const r of rows) {
     blockedWords.add(r.word.toLowerCase())
 }
 
-// 维基词典（可选）：补读音与录音；主要意思带粗俗、冒犯标签的词，不在分级与考试词表里的也挡掉
+// 维基词典（可选）：补读音、录音与英文释义（单词与词组候选都要）；
+// 主要意思带粗俗、冒犯标签的词，不在分级与考试词表里的也挡掉
 const kaikki: Map<string, KaikkiWord> = existsSync(kaikkiFile)
-  ? await loadKaikki(kaikkiFile, new Set(entries.map((b) => b.w.toLowerCase())), log)
+  ? await loadKaikki(
+      kaikkiFile,
+      new Set([
+        ...entries.map((b) => b.w.toLowerCase()),
+        ...rows.filter((r) => isMulti(r.word) && r.translation).map((r) => r.word.toLowerCase())
+      ]),
+      log
+    )
   : new Map()
 {
   let n = 0
@@ -540,6 +548,8 @@ function pronunciation(
   }
   let usStrong = us?.strong.length ? us.strong : (us?.weak ?? [])
   if (!usStrong.length && kk?.us.length) usStrong = kk.us
+  // cmudict 给 the 的重读式是 AH1（/ðʌ/），实际重读时是 /ðiː/
+  if (k === 'the') usStrong = ['/ðiː/']
   const x: Record<string, unknown> = {}
   if (ukStrong.length) x.ipaUk = ukStrong.slice(0, 2)
   if (usStrong.length) x.ipaUs = usStrong.slice(0, 2)
@@ -768,6 +778,8 @@ for (const [pkey, r] of phraseRows) {
     chunks++
     continue
   }
+  // 维基词典说主要意思是粗俗、冒犯的词组也不收
+  if (!listed && kaikki.get(r.word.toLowerCase())?.flagged) continue
   const b = buildSenses(r, { phrase: true, proper: false, common: true })
   if (b.blocked || !b.s.length) continue
   if (r.word.split(/\s+/).some((w) => blockedWords.has(w.toLowerCase()))) continue
@@ -886,6 +898,29 @@ const all: Built[] = [
   ...generated,
   ...phrases
 ]
+
+/**
+ * 没有英文释义的义项（功能词、词组：WordNet 只有实词）补维基词典的英文释义：
+ * 按义项的词性找维基词典同词性的前几条，一个词性只用一次
+ */
+const wiktUsed = new Set<Built>()
+let wiktFilled = 0
+for (const b of all) {
+  const kk = kaikki.get(b.w.toLowerCase())
+  if (!kk || !Object.keys(kk.glosses).length) continue
+  const used = new Set<string>()
+  for (const s of b.s) {
+    if (s.en?.length || !s.zh?.length || s.dom) continue
+    const pos = s.p?.[0] ?? b.p[0]
+    const wp = (WIKT_POS[pos] ?? WIKT_POS.other).find((x) => kk.glosses[x]?.length && !used.has(x))
+    if (!wp) continue
+    used.add(wp)
+    s.en = kk.glosses[wp]
+    wiktUsed.add(b)
+    wiktFilled++
+  }
+}
+log(`维基词典补英文释义：${wiktFilled} 个义项（${wiktUsed.size} 条）`)
 const idOf = new Map<Built, number>()
 const themeLists = new Map<string, { title: { zh: string; en: string }; ids: [number, number][] }>()
 const irregular: [number, number][] = []
@@ -914,6 +949,7 @@ for (const b of all) {
   const forms = isMulti(b.w) ? phraseForms(b) : (formsOf.get(b) ?? [])
   const src = new Set<string>([b.row.translation ? 'ecdict' : 'qonsona'])
   if (b.usedWordnet) src.add('wordnet')
+  if (wiktUsed.has(b)) src.add('wiktionary')
   if (posLv?.size) for (const it of profileOf(b.w)) src.add(it.src)
   if (ng?.length) src.add('ngsl')
   if (x.ipaUk && ukIpa.has(b.w.toLowerCase())) src.add('britfone')
