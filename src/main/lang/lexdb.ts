@@ -475,6 +475,22 @@ export class LexDb {
     return { id: Number(r.id), w: d.w, d: d.d, p: d.p, g: d.g, lv: r.lv, zh: g.zh, en: g.en }
   }
 
+  /**
+   * 字母课的拼读词：按词头查（常用的那条），给读法（转写、IPA）与一句释义；查不到的跳过
+   */
+  spell(
+    words: string[]
+  ): { text: string; reading: string; zh: string; en: string; entry: number }[] {
+    const out: { text: string; reading: string; zh: string; en: string; entry: number }[] = []
+    for (const w of words) {
+      const hit = this.lookup(w)
+      if (!hit) continue
+      const reading = this.lang.rules.romanize?.(w) ?? hit.ipa ?? ''
+      out.push({ text: w, reading, zh: hit.zh, en: hit.en, entry: hit.entry })
+    }
+    return out
+  }
+
   /** 主分级每一级有多少词 */
   levelCounts(): Record<string, number> {
     const primary = primarySystem(this.lang.spec.levelSystems)

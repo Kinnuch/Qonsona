@@ -149,6 +149,11 @@ export function registerLangIpc(): void {
   )
   ipcMain.handle('lang:listCounts', (_e, code: string) => lexDb(code)?.listCounts() ?? {})
   ipcMain.handle('lang:lists', (_e, code: string) => lexDb(code)?.lists() ?? [])
+  ipcMain.handle(
+    'lang:spell',
+    (_e, code: string, words: string[]) =>
+      lexDb(code)?.spell((Array.isArray(words) ? words : []).map(String).slice(0, 200)) ?? []
+  )
   ipcMain.handle('lang:levelCounts', (_e, code: string) => lexDb(code)?.levelCounts() ?? {})
   ipcMain.handle(
     'lang:items',

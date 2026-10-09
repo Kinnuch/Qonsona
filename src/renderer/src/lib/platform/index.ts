@@ -200,6 +200,13 @@ export const platform = {
     listCounts: (code: string) => invoke<Record<string, number>>('lang:listCounts', code),
     /** 全部词表（分级的各级、主题词本……）与词数 */
     lists: (code: string) => invoke<LexListInfo[]>('lang:lists', code),
+    /** 字母课的拼读词：读法与一句释义（查不到的跳过） */
+    spell: (code: string, words: string[]) =>
+      invoke<{ text: string; reading: string; zh: string; en: string; entry: number }[]>(
+        'lang:spell',
+        code,
+        words
+      ),
     /** 主分级每一级多少词 */
     levelCounts: (code: string) => invoke<Record<string, number>>('lang:levelCounts', code),
     items: (code: string, ids: number[]) => invoke<LexWordItem[]>('lang:items', code, ids),

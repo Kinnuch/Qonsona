@@ -284,6 +284,14 @@ export interface LangModule {
   grammar?: LexGrammarPoint[]
   /** 阶段二：新闻来源 */
   news?: NewsSource[]
+  /**
+   * 阶段四：课程。用 src/shared/course.ts 的 Course（字母 symbols、语法 grammar、变形 forms、
+   * 会话 / 惯用语 phrases、故事 texts）；course.id 用 alphabet / grammar / inflection / phrasebook / idioms / stories，
+   * 跟 features 的开关对应。故事课的 TextItem.articleId 写内置课文的 'b-<texts.json 里的 id>'
+   */
+  courses?: () => import('../course').Course[]
+  /** 字母课：一个字出现在不在这个词里（韩文要先拆音节；不写时看包不包含） */
+  hasSymbol?: (word: string, symbol: string) => boolean
 }
 
 // ───────────────────────── 阅读（阶段二） ─────────────────────────
