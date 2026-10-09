@@ -43,6 +43,8 @@ export interface MediaItem {
   playedAt: string | null
   /** 原文件还在不在（列表时查） */
   exists?: boolean
+  /** 哪门语言的（学习包 id）；没有的是日语（分语言之前只有日语有视听） */
+  lang?: string
 }
 
 /** 界面能改的几项 */

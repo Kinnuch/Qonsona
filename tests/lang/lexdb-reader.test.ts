@@ -15,7 +15,7 @@ const ids: Record<string, number> = {}
 
 beforeAll(() => {
   const file = join(dir, 'fr.sqlite')
-  const w = new LexDbWriter('fr', { file })
+  const w = new LexDbWriter('fr', { file, mt: false })
   w.source({ id: 't', name: 'Test', license: 'CC0', credit: 'me', home: 'https://example.org' })
   w.source({ id: 'mt-en', name: 'MT', license: 'CC0', credit: 'me', home: 'https://example.org' })
   ids.chat = w.entry({

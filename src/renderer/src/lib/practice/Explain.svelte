@@ -1,10 +1,18 @@
 <script lang="ts">
-  // 一道题的解析：几行说明、朗读、加进生词本（日语按词条号取词条，千语集语言按词条 id）
+  // 一道题的解析：几行说明、朗读、加进生词本（日语与框架里的语言按词条号取词条，千语集语言按词条 id）
   import type { ExamQuestion } from '$shared/exam'
   import type { CardInput } from '$shared/notebook'
+  import { langModule } from '$shared/lang/registry'
   import Pronounce from '$lib/ui/Pronounce.svelte'
   import AddToNotebook from '$lib/notebook/AddToNotebook.svelte'
-  import { jaEntryId, jaFromEntry, qonFromLexeme, qonItem } from '$lib/notebook/cards'
+  import {
+    jaEntryId,
+    jaFromEntry,
+    lexEntryId,
+    lexFromEntry,
+    qonFromLexeme,
+    qonItem
+  } from '$lib/notebook/cards'
   import { platform } from '$lib/platform'
   import { packs } from '$lib/state/packs.svelte'
   import { t } from '$lib/i18n/index.svelte'
@@ -22,6 +30,14 @@
       const e = await platform.ja.entry(id)
       if (!e) throw new Error(t('practice.noEntry'))
       return jaFromEntry(e)
+    }
+    // 框架里的语言：按这门语言词典的词条号取
+    const lexId = lexEntryId(key)
+    const code = packs.active?.id
+    if (lexId !== null && code && langModule(code)) {
+      const e = await platform.lang.entry(code, lexId)
+      if (!e) throw new Error(t('practice.noEntry'))
+      return lexFromEntry(e)
     }
     const project = packs.project
     const lang = project?.languages.find((l) => l.id === packs.active?.source?.languageId)

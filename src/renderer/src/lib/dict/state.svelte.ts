@@ -18,22 +18,33 @@ export interface DictMemo {
   grammarLevel: number | null
 }
 
+function newMemo(): DictMemo {
+  const memo = $state<DictMemo>({
+    query: '',
+    tab: 'words',
+    selected: null,
+    char: null,
+    history: [],
+    grammar: null,
+    grammarLevel: null
+  })
+  return memo
+}
+
 class DictState {
-  #byPack = $state<Record<string, DictMemo>>({})
+  /**
+   * 每门语言一份记录：记录本身是响应式的，表不是（一门语言的记录建好就不换）。
+   * 这样第一次取的时候新建不算「改状态」，在 $derived 里取也行（框架语言的词典按 code 取）
+   */
+  #byPack = new Map<string, DictMemo>()
 
   of(packId: string): DictMemo {
-    // 先放进状态再读出来：读出来的才是响应式代理（a[k] ??= v 返回的是原始对象，改它界面不会更新）
-    if (!this.#byPack[packId])
-      this.#byPack[packId] = {
-        query: '',
-        tab: 'words',
-        selected: null,
-        char: null,
-        history: [],
-        grammar: null,
-        grammarLevel: null
-      }
-    return this.#byPack[packId]
+    let memo = this.#byPack.get(packId)
+    if (!memo) {
+      memo = newMemo()
+      this.#byPack.set(packId, memo)
+    }
+    return memo
   }
 
   remember(packId: string, query: string): void {
