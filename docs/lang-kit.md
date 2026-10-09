@@ -181,7 +181,7 @@ db.finish()
 
 - **字母 / 拼读**（kind `symbols`）：`SymbolItem` 的 `symbol`（大字显示）、`reading`（转写或读法，输入题按它判）、
   `ipa`、`say`（`{ text, lang: 语音代码 }`；这台电脑没有的语音也照写）、`alike`（长得像的）、`pair`（大小写、
-  另一种形体）、`note`。每课 `words` 给几个用学过的字能拼的**常用词**（框架按词头从词典取读法与释义）。
+  另一种形体）配 `pairLabel`（`{ zh: '大写', en: 'Uppercase' }`）、`note`。每课 `words` 给几个用学过的字能拼的**常用词**（框架按词头从词典取读法与释义）。
   韩文要写 `LangModule.hasSymbol`（拆音节再判断）。
 - **语法**（kind `grammar`）：用 `lexGrammarCourse(mod, locale, { units? , perLesson? })`
   （`src/shared/lang/course.ts`）把阶段二的语法点直接变成课：不给 `units` 时按主分级每级一个单元，
