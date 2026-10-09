@@ -25,6 +25,9 @@
   import type { ArticleMeta, ArticleSource } from '$shared/articles'
   import NewsFeed, { type FeedItem } from '$lib/home/NewsFeed.svelte'
   import LanguageAbout from '$lib/home/LanguageAbout.svelte'
+  import { langReading } from '$lib/state/langReading.svelte'
+  import { langModule } from '$shared/lang/registry'
+  import { primarySystem } from '$shared/lang/levels'
 
   const pack = $derived(packs.active)
   const project = $derived(packs.project)
@@ -37,6 +40,12 @@
   // 日语：首页一打开就读文章列表（隔了一阵也顺便取一次 NHK 的新闻）
   onMount(() => {
     if (packs.active?.id === 'ja' && packs.active.features.texts) reading.ensure()
+  })
+
+  /** 框架里的语言（英、法、韩……）：首页一打开就读文章列表，顺便取一次新闻 */
+  const lang = $derived(pack ? langModule(pack.id) : null)
+  $effect(() => {
+    if (lang && pack?.features.texts) void langReading.ensure(lang.spec.code)
   })
 
   // ── 新闻 ──
@@ -107,8 +116,31 @@
       .map(qonItem)
   })
 
-  const items = $derived(pack?.kind === 'qonlang' ? qonItems : jaItems)
-  const hasNews = $derived(reading.articles.some((a) => a.source === 'nhk'))
+  /** 框架语言：新闻在前（新的在前），再是自己导入的、内置课文 */
+  const langItems = $derived.by<FeedItem[]>(() => {
+    if (!lang || langReading.code !== lang.spec.code || !langReading.loaded) return []
+    const levels = primarySystem(lang.spec.levelSystems).levels
+    return langReading.articles.slice(0, FEED_MAX).map((a) => ({
+      key: a.id,
+      kicker: [a.origin ?? t(`langReading.sources.${a.source}`), a.author]
+        .filter(Boolean)
+        .join(' · '),
+      title: a.title,
+      titleLang: lang.spec.bcp47,
+      lead: a.preview ?? '',
+      leadLang: lang.spec.bcp47,
+      date: a.publishedAt ? when(a.publishedAt) : '',
+      level: a.level ? (levels.find((l) => l.id === a.level)?.short ?? a.level) : '',
+      read: !!a.readAt
+    }))
+  })
+
+  const items = $derived(pack?.kind === 'qonlang' ? qonItems : lang ? langItems : jaItems)
+  const hasNews = $derived(
+    lang
+      ? langReading.articles.some((a) => a.source === 'news')
+      : reading.articles.some((a) => a.source === 'nhk')
+  )
   const heading = $derived(
     pack?.kind === 'qonlang'
       ? t('home.news.texts')
@@ -119,7 +151,10 @@
   const subheading = $derived(
     new Date().toLocaleDateString(loc, { month: 'long', day: 'numeric', weekday: 'long' })
   )
-  const loading = $derived(pack?.id === 'ja' && modules.includes('reading') && !reading.loaded)
+  const loading = $derived(
+    modules.includes('reading') &&
+      ((pack?.id === 'ja' && !reading.loaded) || (!!lang && !langReading.loaded))
+  )
 
   /** 点了一篇：打开那篇文章 / 课文；阅读器里点「返回」回到首页的这一篇 */
   function open(key: string): void {
@@ -135,7 +170,8 @@
       })
       memo.text = key
       reading.backTo = 'home'
-    } else void reading.open(key, 'home')
+    } else if (lang) void langReading.open(key, 'home')
+    else void reading.open(key, 'home')
     ui.go('reading')
   }
 
