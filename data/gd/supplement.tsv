@@ -1,0 +1,15 @@
+# 苏格兰盖尔语补充词条（Qonsona 手写，CC0）：维基词典与词网都没收、语料里又常见的词。
+# 格式见 scripts/data/gd/supplement.ts：词头、词性、性、英文释义（义项 | 分开）、词形（形式:标签+标签）、说明。
+# 性、复数只写有把握的；没写的不等于没有。
+mus	conj	-	before (conjunction)	mun:alternative	mus tig e「他来之前」
+den	prep	-	of the; from the; off the	-	de + an 的缩约；dhen 是同一个词
+iomadach	adj	-	many; numerous; various	-	放在单数名词前：iomadach rud
+buidheann	noun	f	group; company; band; organisation	buidhne:genitive+singular, buidhnean:plural	a' bhuidheann
+feachd	noun	-	force; host; army	feachdan:plural	na feachdan armaichte「武装部队」
+oifigeil	adj	-	official	-
+dùthchasail	adj	-	native; traditional; hereditary	-
+dòcha	adj	-	likely; probable	-	's dòcha「也许」另有词条
+bith	noun	-	being; existence; life	-	sam bith「任何」另有词条
+aidh	intj	-	aye; yes	-	口语
+ò	intj	-	oh	-
+neach-labhairt	noun	m	spokesperson; speaker	luchd-labhairt:plural	neach- 的复数是 luchd-

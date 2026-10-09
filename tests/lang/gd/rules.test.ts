@@ -120,8 +120,8 @@ describe('猜原形', () => {
     expect(lemmaCandidatesGd('òran').some((g) => g.tags.includes('lenition'))).toBe(false)
   })
   it('去掉 t- h- n- 前缀', () => {
-    expect(lemmaCandidatesGd('t-uisge')[0]).toEqual({ lemma: 'uisge', tags: ['prothesis-t'] })
-    expect(lemmaCandidatesGd('h-uile')[0]).toEqual({ lemma: 'uile', tags: ['prothesis-h'] })
+    expect(lemmaCandidatesGd('t-uisge')[0]).toEqual({ lemma: 'uisge', tags: ['t-prothesis'] })
+    expect(lemmaCandidatesGd('h-uile')[0]).toEqual({ lemma: 'uile', tags: ['h-prothesis'] })
     expect(lemmas('n-athair')).toContain('athair')
     // t- 加在 s 前面（an t-sràid）
     expect(lemmas('t-sràid')).toContain('sràid')

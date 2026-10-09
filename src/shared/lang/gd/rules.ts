@@ -254,6 +254,13 @@ interface Base {
   tags: string[]
 }
 
+/** 词首加的字母用维基词典（与界面）的标签词：t- / h- 是 prothesis，n- 在元音前是鼻化（eclipsis）留下的 */
+export const PROTHESIS_TAG: Record<'t' | 'h' | 'n', string> = {
+  t: 't-prothesis',
+  h: 'h-prothesis',
+  n: 'eclipsis'
+}
+
 /**
  * form 表查不到时，猜原形。按把握从大到小排：整词省音形 → 去词首加的 t- h- n- 与省音 →
  * 去带连字符的强调后缀 → 去弱化 → 去词尾（动词、名词）→ 去窄化。同一个原形只留第一种猜法。
@@ -280,7 +287,7 @@ export function lemmaCandidatesGd(surface: string): LemmaGuess[] {
   }
   for (const b of [...bases]) {
     const pro = stripProthesis(b.word)
-    if (pro) bases.push({ word: pro.rest, tags: [...b.tags, `prothesis-${pro.prefix}`] })
+    if (pro) bases.push({ word: pro.rest, tags: [...b.tags, PROTHESIS_TAG[pro.prefix]] })
     const eli = stripElision(b.word)
     if (eli) bases.push({ word: eli.rest, tags: [...b.tags, 'elision'] })
   }

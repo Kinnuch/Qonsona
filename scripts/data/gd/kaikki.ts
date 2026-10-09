@@ -1,0 +1,704 @@
+/**
+ * 读英文维基词典的盖尔语词条（kaikki.org / wiktextract 的 JSONL），整理成词典库的词条。
+ *
+ * - 词性对到 UPOS；名词的性来自义项标签；IPA 分通用与方言（方言的放进 x.ipaDialects）。
+ * - 变形表：去掉维基模板的残留（表头、模板名、「tha e / i」被拆开留下的单个代词、^(N 1)) 这类脚注），
+ *   短语形（an cat、chan eil mi、nas fheàrr）拆出里面的那个词；标签换成界面认得的标签词。
+ * - 「某词的某形式」页（chunnaic = faic 的过去式、bhàta = bàta 的弱化形、dé = dè 的旧写法）不单独成条，
+ *   并进原形的变形表——阅读器、查词靠变形表找回原形；找不到原形的才单独留下。
+ * - 动名词（dol、dèanamh）只有「某动词的动名词」一个意思的，并进动词；另有意思的照样成条，x.vnOf 记着动词。
+ */
+import { readFileSync } from 'node:fs'
+import type { AudioRef, LexEntryData, LexSense, PosTag } from '../../../src/shared/lang/types'
+import { canLenite, lenite } from '../../../src/shared/lang/gd/mutation'
+import { gdKey } from '../../../src/shared/lang/gd/rules'
+
+// ───────────────────────── kaikki 的形状（只列用到的） ─────────────────────────
+
+interface KForm {
+  form: string
+  tags?: string[]
+  source?: string
+}
+interface KExample {
+  text?: string
+  translation?: string
+  english?: string
+  type?: string
+  ref?: string
+}
+interface KSense {
+  glosses?: string[]
+  raw_glosses?: string[]
+  tags?: string[]
+  topics?: string[]
+  qualifier?: string
+  form_of?: { word: string; extra?: string }[]
+  alt_of?: { word: string; extra?: string }[]
+  examples?: KExample[]
+  synonyms?: { word: string }[]
+  antonyms?: { word: string }[]
+}
+interface KSound {
+  ipa?: string
+  note?: string
+  tags?: string[]
+  audio?: string
+  ogg_url?: string
+  mp3_url?: string
+}
+export interface KEntry {
+  word: string
+  pos: string
+  senses: KSense[]
+  forms?: KForm[]
+  sounds?: KSound[]
+  etymology_text?: string
+  synonyms?: { word: string }[]
+  antonyms?: { word: string }[]
+}
+
+// ───────────────────────── 整理后的词条 ─────────────────────────
+
+/** 一条还没写进库的维基词典例句（写库时换成例句 id） */
+export interface PendingExample {
+  text: string
+  en: string
+}
+
+export interface GdEntry {
+  /** 词典库的词条（fr、lv 由 build.ts 算好再填） */
+  data: LexEntryData
+  /** kaikki 的词性名（noun、verb、prep……），对语料词性、核心词表用 */
+  kpos: string
+  /** 每个义项挂的维基词典例句 */
+  examples: PendingExample[][]
+  /** 找不到原形、暂时单独成条的「某词的某形式」：原形的词头与这个词形的标签 */
+  orphan?: { targets: string[]; tags: string[] }
+}
+
+// ───────────────────────── 词性 ─────────────────────────
+
+/** 从属连词（其余的连词算并列连词） */
+const SUBORDINATORS = new Set([
+  'gun',
+  'gum',
+  'gu',
+  'nach',
+  'nuair',
+  'ma',
+  'mas',
+  'mura',
+  'mur',
+  'ged',
+  'mus',
+  'gus',
+  'nan',
+  'nam',
+  'on',
+  'bhon',
+  'o',
+  'seach',
+  'mar',
+  'oir',
+  'a chionn',
+  'air sgàth',
+  'an àite',
+  'cho luath',
+  'fhad',
+  'fhad is',
+  'dar'
+])
+
+export function mapPos(kpos: string, word: string): PosTag {
+  switch (kpos) {
+    case 'noun':
+      return 'noun'
+    case 'name':
+      return 'propn'
+    case 'verb':
+      return 'verb'
+    case 'adj':
+      return 'adj'
+    case 'adv':
+      return 'adv'
+    case 'pron':
+      return 'pron'
+    case 'prep':
+    case 'prep_phrase':
+      return 'adp'
+    case 'conj':
+      return SUBORDINATORS.has(word.toLowerCase()) ? 'sconj' : 'cconj'
+    case 'det':
+    case 'article':
+      return 'det'
+    case 'particle':
+      return 'part'
+    case 'num':
+      return 'num'
+    case 'intj':
+      return 'intj'
+    case 'phrase':
+      return 'phrase'
+    case 'proverb':
+      return 'proverb'
+    case 'prefix':
+    case 'suffix':
+    case 'combining_form':
+      return 'affix'
+    case 'character':
+      return 'symbol'
+    default:
+      return 'other'
+  }
+}
+
+// ───────────────────────── 标签 ─────────────────────────
+
+/** kaikki 的标签 → 界面的标签词（见 src/shared/lang/tags.ts）；null 表示丢掉 */
+const TAG_MAP: Record<string, string | null> = {
+  'prothesis-h': 'h-prothesis',
+  'prothesis-t': 't-prothesis',
+  'noun-from-verb': 'verbal-noun',
+  autonomous: 'impersonal',
+  mutation: null,
+  'mutation-radical': null,
+  personal: null,
+  'error-unrecognized-form': null,
+  'error-unknown-tag': null,
+  'table-tags': null,
+  'inflection-template': null,
+  canonical: null,
+  uppercase: null,
+  lowercase: null,
+  'form-of': null,
+  'alt-of': null,
+  morpheme: null,
+  also: null,
+  'in-compounds': null
+}
+
+export function normTags(tags: string[] | undefined): string[] {
+  const out: string[] = []
+  for (const t of tags ?? []) {
+    const m = t in TAG_MAP ? TAG_MAP[t] : t
+    if (m && !out.includes(m)) out.push(m)
+  }
+  return out
+}
+
+/** 义项上保留的用法标签（语法性的 masculine、genitive 这类不放义项上） */
+const SENSE_TAGS = new Set([
+  'dated',
+  'archaic',
+  'obsolete',
+  'rare',
+  'colloquial',
+  'informal',
+  'formal',
+  'literary',
+  'poetic',
+  'dialectal',
+  'slang',
+  'vulgar',
+  'derogatory',
+  'offensive',
+  'euphemistic',
+  'humorous',
+  'figuratively',
+  'idiomatic',
+  'historical',
+  'transitive',
+  'intransitive',
+  'with-dative',
+  'with-genitive',
+  'with-nominative',
+  'triggers-lenition',
+  'triggers-eclipsis',
+  'no-plural',
+  'uncountable',
+  'collective',
+  'in-plural',
+  'indeclinable',
+  'copulative',
+  'auxiliary',
+  'impersonal',
+  'abbreviation',
+  'contraction',
+  'diminutive',
+  'Lewis',
+  'Canada',
+  'Ireland',
+  'Internet'
+])
+
+// ───────────────────────── 释义 ─────────────────────────
+
+/** 按顶层（括号外）的分隔符拆开 */
+function splitTop(text: string, sep: string): string[] {
+  const out: string[] = []
+  let depth = 0
+  let cur = ''
+  for (const ch of text) {
+    if (ch === '(' || ch === '[') depth++
+    else if (ch === ')' || ch === ']') depth = Math.max(0, depth - 1)
+    if (ch === sep && depth === 0) {
+      out.push(cur)
+      cur = ''
+    } else cur += ch
+  }
+  out.push(cur)
+  return out.map((s) => s.trim()).filter(Boolean)
+}
+
+const wordCount = (s: string): number =>
+  s
+    .replace(/\([^)]*\)/g, ' ')
+    .trim()
+    .split(/\s+/).length
+
+/**
+ * 一条英文释义拆成几条：分号一律拆；逗号只在每段都很短（≤ 3 个词）时拆（dog, hound → dog | hound），
+ * 句子式的释义（Used to indicate …, feelings and …）不拆
+ */
+export function splitGloss(gloss: string): string[] {
+  const out: string[] = []
+  for (const part of splitTop(gloss, ';')) {
+    const sub = splitTop(part, ',')
+    if (sub.length > 1 && sub.every((s) => wordCount(s) <= 3)) out.push(...sub)
+    else out.push(part)
+  }
+  return [...new Set(out)]
+}
+
+// ───────────────────────── 变形表 ─────────────────────────
+
+const PRONOUNS = new Set(['mi', 'thu', 'tu', 'e', 'i', 'sinn', 'sibh', 'iad'])
+/** 短语形前头的虚词：冠词、否定与疑问小品词、比较级的 nas / as、过去时的 do */
+const LEADING = new Set([
+  'an',
+  'am',
+  'na',
+  'nan',
+  'nam',
+  "a'",
+  'cha',
+  'chan',
+  'nach',
+  'a',
+  'gun',
+  'gum',
+  'mura',
+  'mur',
+  'do',
+  "dh'",
+  'nas',
+  'as',
+  'bu',
+  'na bu',
+  'ro'
+])
+/** 表里注在词后的用法：(archaic) 等 */
+const NOTE_RE = /\s*\((archaic|dated|obsolete|rare|dialectal|poetic|literary)\)\s*/g
+
+/**
+ * 变形表里的一格 → 一个词形（拆不出来时给 null）：
+ * (a') chait → chait；an t-uisge → t-uisge；chan eil mi → eil；nas fheàrr → fheàrr；bithidh e → bithidh
+ */
+export function cleanForm(raw: string, tags: string[]): { form: string; tags: string[] } | null {
+  let text = raw.replace(/\^\(.*$/, '').trim()
+  const extra: string[] = []
+  text = text.replace(NOTE_RE, (_, note: string) => {
+    extra.push(note)
+    return ' '
+  })
+  text = text
+    .replace(/[?!]+$/, '')
+    .replace(/^\(a'\)\s*/, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+  if (!text || text === '-' || /[()[\]{}<>=|/\\0-9]/.test(text)) return null
+  let words = text.split(' ')
+  if (words.length > 1) {
+    // 前头的冠词、小品词，后头的人称代词都去掉
+    while (words.length > 1 && LEADING.has(words[0].toLowerCase())) words = words.slice(1)
+    while (words.length > 1 && PRONOUNS.has(words[words.length - 1].toLowerCase()))
+      words = words.slice(0, -1)
+  }
+  // 还剩几个词的：最多三个词的短语留着（ceart gu leòr），长的是表头说明
+  if (words.length > 3) return null
+  // 只剩一个人称代词：是「tha e / i」被拆开留下的
+  if (words.length === 1 && PRONOUNS.has(words[0].toLowerCase()) && !tags.includes('emphatic'))
+    return null
+  return { form: words.join(' '), tags: [...tags, ...extra] }
+}
+
+/** 名词变格类别（III masculine noun → III） */
+function cleanClass(raw: string): string | null {
+  const m = /^([IVX]+)\b/.exec(raw.trim())
+  return m ? `declension ${m[1]}` : null
+}
+
+// ───────────────────────── 读、整理 ─────────────────────────
+
+export function readKaikki(file: string): KEntry[] {
+  return readFileSync(file, 'utf8')
+    .split('\n')
+    .filter(Boolean)
+    .map((l) => JSON.parse(l) as KEntry)
+}
+
+const isFormSense = (s: KSense): boolean => !!(s.form_of?.length || s.alt_of?.length)
+
+/** 去掉音标两边的斜线 / 方括号以外的杂质，空的给 null */
+function cleanIpa(ipa: string | undefined): string | null {
+  const t = ipa?.trim()
+  return t && /[/[]/.test(t) ? t : null
+}
+
+/** 维基共享资源的录音：mp3 优先（体积小、到处能放） */
+function audioOf(s: KSound): AudioRef | null {
+  const url = s.mp3_url ?? s.ogg_url
+  if (!url) return null
+  const ll = /^LL-Q\d+ \(gla\)-([^-]+)-/.exec(s.audio ?? '')
+  const label = [s.note, ...(s.tags ?? []).filter((t) => t !== 'Scotland')]
+    .filter(Boolean)
+    .join(' ')
+  return {
+    url,
+    ...(label ? { label } : {}),
+    license: 'CC BY-SA',
+    credit: ll ? `${ll[1]}（Lingua Libre / Wikimedia Commons）` : 'Wikimedia Commons'
+  }
+}
+
+/** 词条整理时数下来的情况，build.ts 写进汇报 */
+export interface KaikkiStats {
+  read: number
+  entries: number
+  folded: number
+  orphanForms: number
+  formsDropped: number
+}
+
+/**
+ * 整理全部词条：返回词条（每个「词头 + 词性 + 词源」一条，「某词的某形式」并进原形）和统计
+ */
+export function buildEntries(raw: KEntry[]): { entries: GdEntry[]; stats: KaikkiStats } {
+  const stats: KaikkiStats = {
+    read: raw.length,
+    entries: 0,
+    folded: 0,
+    orphanForms: 0,
+    formsDropped: 0
+  }
+  // 先把每个页面拆成「自己的义项」与「某词的某形式」两部分
+  const own: { k: KEntry; senses: KSense[] }[] = []
+  const formSenses: { k: KEntry; s: KSense }[] = []
+  for (const k of raw) {
+    const mine = k.senses.filter((s) => !isFormSense(s) && s.glosses?.length)
+    for (const s of k.senses) if (isFormSense(s)) formSenses.push({ k, s })
+    if (mine.length) own.push({ k, senses: mine })
+  }
+
+  const entries: GdEntry[] = []
+  const byWord = new Map<string, GdEntry[]>()
+  const byPage = new Map<KEntry, GdEntry>()
+  for (const { k, senses } of own) {
+    const e = makeEntry(k, senses, stats)
+    entries.push(e)
+    byPage.set(k, e)
+    const key = gdKey(k.word)
+    if (!byWord.has(key)) byWord.set(key, [])
+    byWord.get(key)!.push(e)
+  }
+
+  // 「某词的某形式」并进原形：按词性挑目标（动名词、分词 → 动词；比较级 → 形容词；介词代词 → 介词）
+  const formOnly = new Map<string, KEntry>()
+  for (const k of raw) if (k.senses.every((s) => isFormSense(s))) formOnly.set(gdKey(k.word), k)
+  const resolve = (word: string, depth = 0): GdEntry[] => {
+    const hit = byWord.get(gdKey(word))
+    if (hit?.length) return hit
+    if (depth >= 3) return []
+    const k = formOnly.get(gdKey(word))
+    const next = k?.senses.flatMap((s) => [...(s.form_of ?? []), ...(s.alt_of ?? [])]) ?? []
+    return next.flatMap((t) => resolve(t.word, depth + 1))
+  }
+  const orphans = new Map<string, { k: KEntry; senses: KSense[] }>()
+  for (const { k, s } of formSenses) {
+    const targets = [...(s.form_of ?? []), ...(s.alt_of ?? [])].map((t) => t.word.trim())
+    const tags = normTags(s.tags).filter((t) => !['masculine', 'feminine'].includes(t))
+    if (s.alt_of?.length && !tags.includes('alternative')) tags.unshift('alternative')
+    const want = wantPos(k.pos, s.tags ?? [])
+    let placed = false
+    for (const t of targets) {
+      const cands = resolve(t)
+      const same = cands.filter((c) => want.includes(c.kpos))
+      for (const c of same.length ? same : cands) {
+        addForm(c, k.word, tags)
+        // 这一页的 IPA 是这个词形的读音（chunnaic、bhàta），阅读器注音要用
+        const ipa = k.sounds?.map((x) => cleanIpa(x.ipa)).find(Boolean)
+        if (ipa && gdKey(k.word) !== gdKey(c.data.w)) {
+          const x = (c.data.x ??= {})
+          const fi = ((x.formIpa as Record<string, string>) ??= {})
+          fi[gdKey(k.word)] ??= ipa
+        }
+        for (const snd of k.sounds ?? []) {
+          const au = audioOf(snd)
+          if (au) {
+            au.label = k.word + (au.label ? ` · ${au.label}` : '')
+            ;(c.data.au ??= []).push(au)
+          }
+        }
+        placed = true
+        // 自己另有意思的动名词（dèanamh 还是「做法」）：记着它是哪个动词的动名词
+        const mine = byPage.get(k)
+        if (mine && tags.includes('verbal-noun') && c.kpos === 'verb')
+          (mine.data.x ??= {}).vnOf = c.data.w
+      }
+    }
+    if (placed) stats.folded++
+    else {
+      // 找不到原形：这个义项留在它自己的词条里（释义就是「X 的某形式」）
+      const key = `${k.word}|${k.pos}`
+      if (!orphans.has(key)) orphans.set(key, { k, senses: [] })
+      orphans.get(key)!.senses.push(s)
+      stats.orphanForms++
+    }
+  }
+  for (const { k, senses } of orphans.values()) {
+    const e = makeEntry(k, senses, stats)
+    e.orphan = {
+      targets: senses.flatMap((s) =>
+        [...(s.form_of ?? []), ...(s.alt_of ?? [])].map((t) => t.word)
+      ),
+      tags: normTags(senses[0].tags).filter((t) => !['masculine', 'feminine'].includes(t))
+    }
+    entries.push(e)
+    const key = gdKey(k.word)
+    if (!byWord.has(key)) byWord.set(key, [])
+    byWord.get(key)!.push(e)
+  }
+
+  // 收尾：变形表去重、弱化形（x.len）、动名词（x.vn）
+  for (const e of entries) finishEntry(e)
+  stats.entries = entries.length
+  return { entries, stats }
+}
+
+/** 「某词的某形式」要并进哪种词性的原形 */
+function wantPos(kpos: string, tags: string[]): string[] {
+  if (tags.includes('noun-from-verb') || tags.includes('participle')) return ['verb']
+  if (tags.includes('comparative') || tags.includes('superlative')) return ['adj']
+  if (kpos === 'pron') return ['prep', 'pron']
+  if (kpos === 'article') return ['article', 'det']
+  return [kpos]
+}
+
+/** 并进来的词形：原形的变形表里已经有这个词形（标签更全）就不再加 */
+function addForm(e: GdEntry, form: string, tags: string[]): void {
+  const f = (e.data.f ??= [])
+  const k = gdKey(form)
+  if (k === gdKey(e.data.w) && !tags.length) return
+  if (f.some(([x]) => gdKey(x) === k)) return
+  f.push([form, ...tags] as [string, ...string[]])
+}
+
+function makeEntry(k: KEntry, senses: KSense[], stats: KaikkiStats): GdEntry {
+  const p = mapPos(k.pos, k.word)
+  // 性：义项都标阳性 → m，都标阴性 → f，两种都有 → mf
+  let g: string | undefined
+  if (k.pos === 'noun' || k.pos === 'name') {
+    const m = senses.some((s) => s.tags?.includes('masculine'))
+    const fem = senses.some((s) => s.tags?.includes('feminine'))
+    g = m && fem ? 'mf' : m ? 'm' : fem ? 'f' : undefined
+  }
+  // IPA：没有方言注的是通用读音；有注的另记
+  const ipa: string[] = []
+  const dialects: [string, string][] = []
+  for (const s of k.sounds ?? []) {
+    const v = cleanIpa(s.ipa)
+    if (!v) continue
+    const note = [s.note, ...(s.tags ?? [])].filter(Boolean).join(', ')
+    if (note) dialects.push([v, note])
+    else if (!ipa.includes(v)) ipa.push(v)
+  }
+  if (!ipa.length && dialects.length) ipa.push(dialects[0][0])
+  const au = (k.sounds ?? []).map(audioOf).filter((a): a is AudioRef => !!a)
+
+  const examples: PendingExample[][] = []
+  const s: LexSense[] = senses.map((ks) => {
+    const glosses = ks.glosses ?? []
+    // 嵌套义项：kaikki 把上级义项放在前面，最后一条才是这个义项本身
+    const gloss = glosses[glosses.length - 1] ?? ''
+    let en = splitGloss(gloss)
+    if (ks.qualifier && en.length) en = [`(${ks.qualifier}) ${en[0]}`, ...en.slice(1)]
+    const sense: LexSense = { en }
+    const t = (ks.tags ?? []).filter((x) => SENSE_TAGS.has(x))
+    if (t.length) sense.t = t
+    if (ks.topics?.length) sense.dom = ks.topics
+    const notSelf = (w: string): boolean => !!w && gdKey(w) !== gdKey(k.word)
+    const syn = (ks.synonyms ?? []).map((x) => x.word).filter(notSelf)
+    if (syn.length) sense.syn = [...new Set(syn)]
+    const ant = (ks.antonyms ?? []).map((x) => x.word).filter(notSelf)
+    if (ant.length) sense.ant = [...new Set(ant)]
+    // 例句：要有英文翻译；文学引文太长的不要
+    const ex: PendingExample[] = []
+    for (const x of ks.examples ?? []) {
+      const text = x.text?.trim()
+      const tr = (x.translation ?? x.english)?.trim()
+      if (!text || !tr) continue
+      if (text.length > (x.type === 'quotation' ? 120 : 160)) continue
+      ex.push({ text, en: tr })
+    }
+    examples.push(ex)
+    return sense
+  })
+  // 页面级的近义、反义词挂到第一个义项上
+  const pageSyn = (k.synonyms ?? []).map((x) => x.word).filter((w) => w && w !== k.word)
+  if (pageSyn.length) s[0].syn = [...new Set([...(s[0].syn ?? []), ...pageSyn])]
+  const pageAnt = (k.antonyms ?? []).map((x) => x.word).filter((w) => w && w !== k.word)
+  if (pageAnt.length) s[0].ant = [...new Set([...(s[0].ant ?? []), ...pageAnt])]
+
+  // 变形表
+  const f: [string, ...string[]][] = []
+  const cls: string[] = []
+  let irregular = false
+  for (const kf of k.forms ?? []) {
+    const raw = kf.tags ?? []
+    if (raw.includes('table-tags')) {
+      if (kf.form === 'irregular') irregular = true
+      continue
+    }
+    if (raw.includes('inflection-template')) continue
+    if (raw.includes('class')) {
+      const c = cleanClass(kf.form)
+      if (c && !cls.includes(c)) cls.push(c)
+      continue
+    }
+    // 词头模板里的说明文字（of consonants and Dh-prothesis of vowels）
+    if (raw.some((t) => t.startsWith('triggers-') || t.startsWith('with-'))) {
+      stats.formsDropped++
+      continue
+    }
+    if (raw.includes('canonical') || raw.includes('error-unknown-tag')) continue
+    const cleaned = cleanForm(kf.form, normTags(raw))
+    if (!cleaned) {
+      stats.formsDropped++
+      continue
+    }
+    if (!f.some(([x, ...t]) => x === cleaned.form && t.join(' ') === cleaned.tags.join(' ')))
+      f.push([cleaned.form, ...cleaned.tags])
+  }
+  if (irregular) cls.push('irregular')
+
+  const data: LexEntryData = { w: k.word, p: [p], s, src: ['wiktionary'] }
+  if (g) data.g = g
+  if (ipa.length) data.ipa = ipa.slice(0, 3)
+  if (au.length) data.au = au
+  if (f.length) data.f = f
+  if (cls.length) data.cls = cls
+  const x: Record<string, unknown> = {}
+  if (dialects.length) x.ipaDialects = dialects.slice(0, 6)
+  const ety = k.etymology_text?.trim()
+  if (ety) x.ety = ety.length > 400 ? ety.slice(0, 397).replace(/\s+\S*$/, '') + '…' : ety
+  if (Object.keys(x).length) data.x = x
+  return { data, kpos: k.pos, examples }
+}
+
+/**
+ * 词网、补充词条加进来以后，原来找不到原形的「某词的某形式」再试一次（bhith「bith 的弱化形」→ bith）。
+ * 并进去的从词条表里拿掉；返回并进去的个数
+ */
+export function refoldOrphans(entries: GdEntry[]): number {
+  const byKey = new Map<string, GdEntry[]>()
+  for (const e of entries) {
+    if (e.orphan) continue
+    const k = gdKey(e.data.w)
+    if (!byKey.has(k)) byKey.set(k, [])
+    byKey.get(k)!.push(e)
+  }
+  let n = 0
+  for (let i = entries.length - 1; i >= 0; i--) {
+    const o = entries[i]
+    if (!o.orphan) continue
+    const targets = o.orphan.targets.flatMap((t) => byKey.get(gdKey(t)) ?? [])
+    if (!targets.length) continue
+    for (const t of targets) {
+      addForm(t, o.data.w, o.orphan.tags)
+      const ipa = o.data.ipa?.[0]
+      if (ipa) {
+        const x = (t.data.x ??= {})
+        const fi = (x.formIpa ??= {}) as Record<string, string>
+        fi[gdKey(o.data.w)] ??= ipa
+      }
+    }
+    entries.splice(i, 1)
+    n++
+  }
+  return n
+}
+
+/** 虚词性的多词条目（sam bith、mu dheidhinn、's dòcha、an-diugh） */
+const PHRASAL_POS = new Set([
+  'phrase',
+  'prep',
+  'prep_phrase',
+  'adv',
+  'det',
+  'pron',
+  'conj',
+  'intj',
+  'particle'
+])
+
+/**
+ * 多词条目里自己不成词的那一段，挂成这个条目的词形：阅读器一个词一个词地查，
+ * mu dheidhinn 的 dheidhinn、sam bith 的 sam、旧写法 an diugh 的 diugh 才能找回整个说法。
+ * 那一段本身是词（或者别的词的变形）的不挂。要在所有词条都齐了以后做
+ */
+export function addPhraseParts(entries: GdEntry[]): number {
+  const known = new Set<string>()
+  for (const e of entries) {
+    known.add(gdKey(e.data.w))
+    for (const [f] of e.data.f ?? []) known.add(gdKey(f))
+  }
+  let added = 0
+  for (const e of entries) {
+    if (!PHRASAL_POS.has(e.kpos)) continue
+    const parts = gdKey(e.data.w)
+      .split(/[\s-]+/)
+      .map((p) => p.replace(/^'+|'+$/g, ''))
+    if (parts.length < 2 || parts.length > 3) continue
+    for (const p of parts) {
+      if (p.length < 3 || known.has(p)) continue
+      ;(e.data.f ??= []).push([p])
+      known.add(p)
+      added++
+    }
+  }
+  return added
+}
+
+/** 收尾：变形表去掉跟词头一样又没有标签的项；弱化形、动名词、录音来源 */
+export function finishEntry(e: GdEntry): void {
+  const d = e.data
+  const head = gdKey(d.w)
+  if (d.f) {
+    d.f = d.f.filter(([form, ...tags]) => !(gdKey(form) === head && tags.length === 0))
+    if (!d.f.length) delete d.f
+  }
+  // 弱化形：变形表里有的用表里的，没有的按规则算（名词、形容词、动词、专名、数词）
+  const len = d.f?.find(([, ...t]) => t.length === 1 && t[0] === 'lenition')?.[0]
+  const x = (d.x ??= {})
+  if (len) x.len = len
+  else if (['noun', 'adj', 'verb', 'propn', 'num'].includes(d.p[0]) && canLenite(d.w)) {
+    x.len = lenite(d.w)
+    ;(d.f ??= []).push([lenite(d.w), 'lenition'])
+  }
+  // 动名词
+  const vn = d.f?.find(([, ...t]) => t.includes('verbal-noun'))?.[0]
+  if (vn && d.p[0] === 'verb') x.vn = vn
+  if (d.au?.length && !d.src?.includes('commons')) d.src = [...(d.src ?? []), 'commons']
+  if (!Object.keys(x).length) delete d.x
+}
