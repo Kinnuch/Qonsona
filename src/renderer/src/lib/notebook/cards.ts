@@ -1,9 +1,11 @@
 /**
- * 加进生词本的卡面：日语按 JMdict 词条，千语集的语言按词条 / 短语。
- * 卡的键跟录音键同一套（lexeme-<id>、phrase-<id>），日语是 ja-<词条号>。
+ * 加进生词本的卡面：日语按 JMdict 词条，框架里的各语言按词典的词条，千语集的语言按词条 / 短语。
+ * 卡的键跟录音键同一套（lexeme-<id>、phrase-<id>），日语是 ja-<词条号>，框架里的语言是 lex-<词条号>
+ * （生词本按语言分开存，各语言的词条号不会混）。
  */
 import type { CardInput, Texts } from '$shared/notebook'
 import type { EntryView, WordListItem } from '$shared/dict'
+import type { LexEntryView, LexWordItem } from '$shared/lang/views'
 import type { Language, Lexeme, Phrase, Project } from '$qon/core/model'
 import { spellingIpa, storedIpa } from '$lib/packs/qonlang/pronounce'
 
@@ -25,6 +27,40 @@ export const jaFromListItem = (w: WordListItem): CardInput => ({
   key: jaKey(w.id),
   front: w.head,
   reading: w.reading,
+  meaning: { zh: w.zh, en: w.en }
+})
+
+export const lexKey = (id: number): string => `lex-${id}`
+
+/** 框架里语言的卡的键里的词条号；不是这种卡时是 null */
+export function lexEntryId(key: string): number | null {
+  const m = /^lex-(\d+)$/.exec(key)
+  return m ? Number(m[1]) : null
+}
+
+/** 读音：IPA 优先，没有时用转写、带记号的写法 */
+const lexReading = (e: { d?: string; w: string }, ipa?: string, rom?: string): string =>
+  ipa || rom || (e.d && e.d !== e.w ? e.d : '')
+
+export function lexFromEntry(e: LexEntryView): CardInput {
+  const zh = e.senses.find((s) => s.zh.length)?.zh[0] ?? ''
+  const en =
+    e.senses
+      .find((s) => s.en.length)
+      ?.en.slice(0, 3)
+      .join('; ') ?? ''
+  return {
+    key: lexKey(e.id),
+    front: e.w,
+    reading: lexReading(e, e.ipa[0], e.rom),
+    meaning: { zh, en }
+  }
+}
+
+export const lexFromItem = (w: LexWordItem): CardInput => ({
+  key: lexKey(w.id),
+  front: w.w,
+  reading: lexReading(w),
   meaning: { zh: w.zh, en: w.en }
 })
 
