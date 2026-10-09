@@ -16,7 +16,7 @@ const lemmas = (w: string): string[] => lemmaCandidates(w).map((g) => g.lemma)
 describe('查词键', () => {
   it('小写、NFC、撇号与连字符统一', () => {
     expect(frKey('L’Été')).toBe("l'été")
-    expect(frKey('Café')).toBe('café')
+    expect(frKey('Cafe\u0301')).toBe('café')
     expect(frKey('porte\u2011monnaie')).toBe('porte-monnaie')
     expect(frKey('  ŒUVRE ')).toBe('œuvre')
     expect(frKey('quatre\u00a0cents')).toBe('quatre cents')

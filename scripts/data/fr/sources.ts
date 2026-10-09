@@ -101,14 +101,54 @@ export const DOWNLOADS = {
 
 export type DownloadId = keyof typeof DOWNLOADS
 
-/** 词条、例句里登记的来源（db.source） */
+/** 词条、例句里登记的来源（db.source；分级的来源 lexique、fr-core 在 spec.ts） */
 export const SOURCES = {
   wiktionary: {
     id: 'wiktionary',
     name: '英文维基词典的法语词条（kaikki.org 用 wiktextract 抽取）',
     license: 'CC BY-SA 4.0 / GFDL',
     credit: 'Wiktionary 贡献者（en.wiktionary.org）；kaikki.org / wiktextract（Tatu Ylonen）',
-    home: 'https://kaikki.org/dictionary/French/',
-    note: '词性、性、英文释义、IPA、变位与变格表、录音地址、例句'
+    home: 'https://en.wiktionary.org/',
+    note: '词性、性、英文释义、IPA、变位与变格表、录音地址、义项下的例句'
+  },
+  frwiktionary: {
+    id: 'frwiktionary',
+    name: '法语维基词典（Wiktionnaire）的法语词条（kaikki.org 用 wiktextract 抽取）',
+    license: 'CC BY-SA 4.0 / 3.0',
+    credit: 'Wiktionnaire 贡献者（fr.wiktionary.org）；kaikki.org / wiktextract（Tatu Ylonen）',
+    home: 'https://fr.wiktionary.org/',
+    note: '法语释义（单语）、h aspiré、动词的组、录音；英文维基词典没有的常用词整条取自这里'
+  },
+  'wikt-zh': {
+    id: 'wikt-zh',
+    name: '维基词典的中文释义：中文维基词典的法语词条，法语维基词典、英文维基词典的译词表',
+    license: 'CC BY-SA 4.0 / 3.0',
+    credit:
+      'Wiktionary 贡献者（zh / fr / en.wiktionary.org）；kaikki.org / wiktextract（Tatu Ylonen）',
+    home: 'https://zh.wiktionary.org/',
+    note: '人写的中文释义与译词，经 CC-CEDICT 的英文意思对到各个义项上；繁体逐字转成简体'
+  },
+  cfdict: {
+    id: 'cfdict',
+    name: 'CFDICT 汉法词典（反查）',
+    license: 'CC BY-SA 3.0',
+    credit: 'David Houstin 与 CFDICT 贡献者，Chine Informations（https://chine.in）',
+    home: 'https://chine.in/mandarin/dictionnaire/CFDICT/',
+    note: '维基词典没有中文释义的义项，用 CFDICT 里法语释义正好是这个词的中文词'
+  },
+  tatoeba: {
+    id: 'tatoeba',
+    name: 'Tatoeba 例句（法中、法英对照）',
+    license: 'CC BY 2.0 FR',
+    credit: 'Tatoeba 贡献者',
+    home: 'https://tatoeba.org/'
+  },
+  commons: {
+    id: 'commons',
+    name: '真人录音：维基共享资源（Wikimedia Commons），多数来自 Lingua Libre',
+    license: 'Lingua Libre 的录音 CC BY-SA 4.0；其余各文件见其页面',
+    credit: 'Lingua Libre 与 Wikimedia Commons 的录音者',
+    home: 'https://lingualibre.org/',
+    note: '联网时点击播放；地址取自维基词典'
   }
 } satisfies Record<string, SourceRef>
