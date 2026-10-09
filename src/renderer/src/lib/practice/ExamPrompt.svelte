@@ -37,6 +37,14 @@
         markRuby={reveal}
       />
     </p>
+  {:else if range}
+    <!-- 别的语言的句子：标出的一段加下划线，挖掉的一段答完之前换成空格 -->
+    <p class="sentence plain" lang={p.lang} dir="auto" data-prompt>
+      {p.text.slice(0, range[0])}{#if p.blank && !reveal}<span class="blank"
+          >{'　'.repeat(Math.max(2, Math.min(8, range[1] - range[0])))}</span
+        >{:else}<mark class:filled={!!p.blank}>{p.text.slice(range[0], range[1])}</mark
+        >{/if}{p.text.slice(range[1])}
+    </p>
   {:else}
     <p
       class="word"
@@ -80,6 +88,17 @@
     background: none;
     text-decoration: underline 2px var(--accent);
     text-underline-offset: 6px;
+  }
+  .sentence.plain {
+    line-height: 1.7;
+  }
+  .blank {
+    display: inline-block;
+    border-bottom: 2px solid var(--text-2);
+    margin: 0 4px;
+  }
+  .sentence :global(mark.filled) {
+    text-decoration-color: var(--ok, #2f9e63);
   }
   .data {
     font-family: var(--font-data);

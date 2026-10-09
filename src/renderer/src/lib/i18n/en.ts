@@ -688,12 +688,20 @@ export default {
       'sound-change': {
         name: 'Sound changes',
         desc: 'See an ancestral form and choose what the sound changes made of it in this language.'
-      }
+      },
+      gender: { name: 'Noun gender', desc: 'See a noun and choose its gender.' },
+      spelling: {
+        name: 'Spelling',
+        desc: 'See the meaning and pronunciation and choose the correct spelling.'
+      },
+      custom: { name: 'Language-specific', desc: 'Practice specific to this language.' }
     },
     exam: {
       title: 'Mock exams',
       intro:
         'A mock paper laid out like the JLPT: vocabulary, grammar, reading and listening, each with its own time limit. When time runs out you move on to the next section automatically. After you submit, your score is converted the JLPT way (two scored parts for N5 and N4; from N3 on, language knowledge, reading and listening are scored separately) and every question comes with an explanation.',
+      introLang:
+        'A mock test laid out like this language’s exam, in timed sections that move on automatically when time is up. When you hand it in, the score is converted from the share of correct answers (for reference only), and every question has an explanation. Hover over a test to see which exam it follows and what was simplified.',
       paper: '{level} mock exam',
       structure: '{sections} sections · {n} questions · {m} minutes',
       noVoice:

@@ -276,6 +276,84 @@ export interface LangSpec {
   intro: LocalizedText
 }
 
+// ───────────────────────── 练习与模拟卷（阶段五） ─────────────────────────
+
+/** 出题用的一个词（主进程从词典里取） */
+export interface PracticeWord {
+  id: number
+  w: string
+  d?: string
+  p: PosTag[]
+  g?: string
+  lv: string | null
+  zh: string
+  en: string
+  /** 变形表 */
+  forms: [string, ...string[]][]
+  ipa?: string
+  rom?: string
+  x?: Record<string, unknown>
+}
+
+/** 出题时能用的词典（主进程实现；各语言自己的题型拿它取词、例句、分析句子） */
+export interface PracticeDb {
+  /** 主分级某一级（null 是全部）的词，常用的在前；pos 只要这几种词性；need 要有中文 / 英文释义、变形、性、例句 */
+  words(o: {
+    level?: string | null
+    pos?: PosTag[]
+    limit: number
+    need?: ('gloss' | 'forms' | 'gender' | 'examples')[]
+  }): PracticeWord[]
+  /** 挂在这个词条上的例句（短的在前） */
+  examples(entry: number, limit?: number): LexExample[]
+  /** 主分级某一级的例句（有中文或英文翻译的），短的在前 */
+  sentences(level: string | null, limit: number): LexExample[]
+  /** 正文里的一个词形对上哪个词条 */
+  lookup(surface: string): {
+    entry: number
+    lemma: string
+    pos: PosTag
+    tags: string[]
+    lv: string | null
+    zh: string
+    en: string
+  } | null
+  /** 分析一句话（切词、对词条、认语法点） */
+  analyze(text: string): LexAnalysis
+  /** 这一组题共用的随机数（同一个种子出同样的题） */
+  rand: () => number
+}
+
+/** 这门语言特有的题型（韩语助词、俄语的格、阿拉伯语的词根……） */
+export interface LangPracticeKind {
+  id: string
+  name: LocalizedText
+  /** 题型说明（练习页上悬停看） */
+  desc?: LocalizedText
+  section: 'vocab' | 'grammar' | 'reading' | 'listening'
+  /** 出 n 道题；数据不够时少出或不出。题目的 kind 写 'custom'、custom 写这个 id */
+  make(db: PracticeDb, level: string | null, n: number): import('../exam').ExamQuestion[]
+}
+
+/** 一张模拟卷：照这门语言的考试（DELF、TOPIK、ТРКИ……）分节、限时，题型从通用题型与特有题型里挑 */
+export interface LangExamDef {
+  id: string
+  /** 主分级的等级 */
+  level: string
+  title: LocalizedText
+  /** 照着哪个考试设计的、跟真题哪里不一样（简化了什么） */
+  basis: LocalizedText
+  sections: {
+    id: 'vocab' | 'grammar' | 'reading' | 'listening'
+    title: LocalizedText
+    minutes: number
+    /** kind 是通用题型（word-meaning……），或者 custom:<特有题型 id> */
+    parts: { kind: string; n: number }[]
+  }[]
+  /** 计分办法（按答对的比例换算，仅供参考）；没有时只算答对几题 */
+  rule?: import('../exam').ScoringRule
+}
+
 /** 一门语言的全部：说明 + 规则，以及各阶段加上的部分（没做的省略） */
 export interface LangModule {
   spec: LangSpec
@@ -292,6 +370,12 @@ export interface LangModule {
   courses?: () => import('../course').Course[]
   /** 字母课：一个字出现在不在这个词里（韩文要先拆音节；不写时看包不包含） */
   hasSymbol?: (word: string, symbol: string) => boolean
+  /** 阶段五：这门语言特有的题型 */
+  practice?: LangPracticeKind[]
+  /** 阶段五：模拟卷（每级一张或几张） */
+  exams?: LangExamDef[]
+  /** 阶段五：拼写题的错拼法（不写时按通用办法：去掉、换掉重音符号，双写、漏写字母） */
+  misspell?: (word: string, rand: () => number) => string[]
 }
 
 // ───────────────────────── 阅读（阶段二） ─────────────────────────

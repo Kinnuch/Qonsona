@@ -226,6 +226,21 @@ export const platform = {
       setTranslation: (code: string, id: string, text: string) =>
         invoke<void>('langArticles:setTranslation', code, id, text)
     },
+    /** 这门语言的数据够出哪些通用题型 */
+    practiceKinds: (code: string) => invoke<PracticeKind[]>('lang:practiceKinds', code),
+    /** 出一组题：custom 题型时 kind 写 'custom'，custom 写题型 id */
+    practice: (
+      code: string,
+      kind: string,
+      level: string | null,
+      n: number,
+      seed: number,
+      locale: string,
+      custom?: string
+    ) => invoke<ExamQuestion[]>('lang:practice', code, kind, level, n, seed, locale, custom),
+    /** 模拟卷（LangModule.exams 里的一张） */
+    paper: (code: string, examId: string, seed: number, locale: string) =>
+      invoke<ExamPaper | null>('lang:paper', code, examId, seed, locale),
     /** 取新闻（一小时最多一次，force 除外） */
     news: (code: string, force?: boolean) =>
       invoke<LangNewsStatus | null>('langNews:refresh', code, force)

@@ -34,6 +34,12 @@ export type PracticeKind =
   | 'listen-word'
   /** 音变：看原始语的形式，按音变规律选出它在这门语言里变成的样子（千语集语言，有词源与音变规则时） */
   | 'sound-change'
+  /** 名词的性（法、西、俄、阿、盖尔……） */
+  | 'gender'
+  /** 拼写：看意思与读音，选出拼对的那个（重音符号、双写字母……） */
+  | 'spelling'
+  /** 这门语言特有的题型（韩语助词、俄语的格……）：题目的 custom 是它的 id */
+  | 'custom'
 
 export const PRACTICE_SECTION: Record<PracticeKind, ExamSection> = {
   'kanji-reading': 'vocab',
@@ -47,7 +53,10 @@ export const PRACTICE_SECTION: Record<PracticeKind, ExamSection> = {
   sentence: 'reading',
   'listen-sentence': 'listening',
   'listen-word': 'listening',
-  'sound-change': 'vocab'
+  'sound-change': 'vocab',
+  gender: 'grammar',
+  spelling: 'vocab',
+  custom: 'vocab'
 }
 
 export interface Choice {
@@ -79,6 +88,8 @@ export interface ExamQuestion {
   }
   choices: Choice[]
   answer: number
+  /** kind 是 custom 时：这门语言的题型 id（LangPracticeKind.id） */
+  custom?: string
   /**
    * 解析：几行说明，可以朗读；card 是生词本里卡片的键（日语 ja-<词条号>，千语集 lexeme-<id>），
    * 有它的可以加进生词本
@@ -100,6 +111,8 @@ export interface ExamPaper {
   title: Text
   /** 按哪种计分办法换算（jlpt-n5 …）；null 只算答对几题 */
   scoring: string | null
+  /** 卷子自带的计分办法（框架里各语言的模拟卷）；有它时不看 scoring */
+  rule?: ScoringRule
   sections: PaperSection[]
 }
 
@@ -133,10 +146,12 @@ export interface ExamOutcome {
   passed: boolean | null
 }
 
-interface Scoring {
+/** 计分办法：几个部分各占多少分、基准分，合格线（按答对的比例换算，仅供参考） */
+export interface ScoringRule {
   parts: { name: Text; sections: ExamSection[]; max: number; min: number }[]
   pass: number
 }
+type Scoring = ScoringRule
 
 const KNOWLEDGE_READING: Text = {
   zh: '言语知识（文字·词汇·语法）·读解',
@@ -192,7 +207,7 @@ export function scorePaper(paper: ExamPaper, answers: PaperAnswers): ExamOutcome
   }))
   const right = sections.reduce((n, s) => n + s.right, 0)
   const total = sections.reduce((n, s) => n + s.total, 0)
-  const rule = paper.scoring ? SCORING[paper.scoring] : null
+  const rule = paper.rule ?? (paper.scoring ? SCORING[paper.scoring] : null)
   if (!rule) return { sections, right, total, parts: null, scaled: null, pass: null, passed: null }
   const parts: ScaledPart[] = rule.parts.map((p) => {
     const mine = sections.filter((s) => p.sections.includes(s.id))

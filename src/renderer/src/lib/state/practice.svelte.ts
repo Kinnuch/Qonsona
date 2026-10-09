@@ -31,14 +31,16 @@ import { packs } from './packs.svelte'
 import { audio } from './audio.svelte'
 import { ui } from './ui.svelte'
 import { courses } from './courses.svelte'
+import { langModule } from '$shared/lang/registry'
+import { i18n } from '$lib/i18n/index.svelte'
 
 const SAVE_DELAY = 400
 
 /** 一组练习有几道题 */
 export const COUNTS = [10, 20, 30]
 
-/** 综合练习：每种题都出一些，打乱；本文练习：用一篇文章出题 */
-export type RunKind = PracticeKind | 'mixed' | 'article'
+/** 综合练习：每种题都出一些，打乱；本文练习：用一篇文章出题；custom:<id> 是框架语言特有的题型 */
+export type RunKind = PracticeKind | 'mixed' | 'article' | `custom:${string}`
 
 export type PracticeView =
   | { page: 'home' }
@@ -108,22 +110,35 @@ class PracticeState {
   /** 日语：按 JLPT 等级出（必须选一级）；千语集语言可以选「全部」 */
   isJa = $derived(packs.active?.kind === 'builtin' && packs.active.id === 'ja')
 
+  /** 框架里的语言（英、法、韩……）：模块与数据够出的通用题型（读练习记录时问一次） */
+  fw = $derived(packs.active ? langModule(packs.active.id) : null)
+  langKinds = $state.raw<PracticeKind[]>([])
+
   /** 这一级能出的题 */
-  kinds = $derived.by<PracticeKind[]>(() => {
+  kinds = $derived.by<Exclude<RunKind, 'mixed' | 'article'>[]>(() => {
     if (this.isJa) return jaPracticeKinds(this.#jaLevel(this.level))
+    if (this.fw)
+      return [...this.langKinds, ...(this.fw.practice ?? []).map((k) => `custom:${k.id}` as const)]
     const x = this.#qonInput()
     return x ? qonPracticeKinds(x) : []
   })
 
   /** 能不能放听力题（有这门语言的语音或者 IPA 能读） */
   canListen = $derived(
-    this.isJa ? audio.canSay({ text: 'あ', lang: 'ja-JP' }) : audio.canSay({ ipa: 'a' })
+    this.isJa
+      ? audio.canSay({ text: 'あ', lang: 'ja-JP' })
+      : this.fw
+        ? !!this.fw.spec.features.speech &&
+          audio.canSay({ text: 'a', lang: this.fw.spec.features.speech })
+        : audio.canSay({ ipa: 'a' })
   )
 
-  /** 能做模拟卷的等级（日语的 N5、N4） */
+  /** 能做模拟卷的等级（日语的 N5–N1） */
   paperLevels = $derived(
     this.isJa && packs.active?.features.exam ? PAPER_LEVELS.map((n) => `N${n}`) : []
   )
+  /** 框架语言的模拟卷（LangModule.exams） */
+  langPapers = $derived(this.fw && packs.active?.features.exam ? (this.fw.exams ?? []) : [])
 
   #jaLevel(id: string | null): number {
     const n = Number(id?.replace(/^N/, ''))
@@ -156,10 +171,18 @@ class PracticeState {
     this.log = null
     this.run = null
     this.view = { page: 'home' }
-    // 日语默认 N5；千语集语言默认「全部」
+    // 日语默认 N5；千语集与框架语言默认「全部」
     this.level = packId === 'ja' ? 'N5' : null
+    this.langKinds = []
     if (!packId) return Promise.resolve()
     this.#loading = (async () => {
+      if (langModule(packId))
+        platform.lang
+          .practiceKinds(packId)
+          .then((k) => {
+            if (this.packId === packId) this.langKinds = k
+          })
+          .catch(() => {})
       const text = await platform.practice.load(packId).catch(() => null)
       let raw: unknown = null
       try {
@@ -190,11 +213,24 @@ class PracticeState {
 
   // ── 出题 ──
 
-  async #questions(kind: PracticeKind, n: number, seed: number): Promise<ExamQuestion[]> {
+  async #questions(
+    kind: Exclude<RunKind, 'mixed' | 'article'>,
+    n: number,
+    seed: number
+  ): Promise<ExamQuestion[]> {
+    if (this.fw && this.packId) {
+      const custom = kind.startsWith('custom:') ? kind.slice(7) : undefined
+      return platform.lang
+        .practice(this.packId, custom ? 'custom' : kind, this.level, n, seed, i18n.locale, custom)
+        .catch(() => [])
+    }
+    if (kind.startsWith('custom:')) return []
     if (this.isJa)
-      return platform.ja.practice(kind, this.#jaLevel(this.level), n, seed).catch(() => [])
+      return platform.ja
+        .practice(kind as PracticeKind, this.#jaLevel(this.level), n, seed)
+        .catch(() => [])
     const x = this.#qonInput()
-    return x ? qonPractice(x, kind, n, seed) : []
+    return x ? qonPractice(x, kind as PracticeKind, n, seed) : []
   }
 
   /** 开始一组练习（本文练习另走 startArticle） */
@@ -207,7 +243,9 @@ class PracticeState {
       let questions: ExamQuestion[]
       if (kind === 'mixed') {
         // 每种题都出一些（放不了声音时不出听力题），打乱后取 n 道
-        const kinds = this.kinds.filter((k) => this.canListen || !LISTEN_KINDS.includes(k))
+        const kinds = this.kinds.filter(
+          (k) => this.canListen || !LISTEN_KINDS.includes(k as PracticeKind)
+        )
         const each = Math.ceil(n / Math.max(kinds.length, 1))
         const parts = await Promise.all(kinds.map((k, i) => this.#questions(k, each, seed + i)))
         questions = shuffled(parts.flat(), rng(seed)).slice(0, n)
@@ -308,12 +346,16 @@ class PracticeState {
   // ── 模拟卷 ──
 
   async startExam(level: string): Promise<void> {
-    if (this.busy || !this.isJa) return
+    if (this.busy || !(this.isJa || this.fw)) return
     this.busy = true
     try {
-      const paper = await platform.ja
-        .paper(this.#jaLevel(level), Date.now() >>> 0)
-        .catch(() => null)
+      // 框架语言：level 是模拟卷的 id
+      const paper =
+        this.fw && this.packId
+          ? await platform.lang
+              .paper(this.packId, level, Date.now() >>> 0, i18n.locale)
+              .catch(() => null)
+          : await platform.ja.paper(this.#jaLevel(level), Date.now() >>> 0).catch(() => null)
       if (!paper) {
         ui.toast(t('practice.exam.unavailable'), 'error', 6000)
         return
