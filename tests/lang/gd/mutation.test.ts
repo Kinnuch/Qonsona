@@ -43,6 +43,9 @@ describe('弱化', () => {
     expect(canLenite('ròd')).toBe(false)
     expect(lenite('òran')).toBe('òran')
     expect(lenite('bhàta')).toBe('bhàta')
+    // 带前缀、省音的不是一个词首
+    expect(lenite('t-uisge')).toBe('t-uisge')
+    expect(canLenite("b'e")).toBe(false)
   })
   it('去弱化', () => {
     expect(delenite('bhàta')).toBe('bàta')

@@ -299,7 +299,7 @@ export function lemmaCandidatesGd(surface: string): LemmaGuess[] {
   for (const b of [...bases]) {
     const parts = b.word.split('-')
     if (parts.length === 2 && parts[0].length <= 4 && parts[1].length >= 2)
-      bases.push({ word: parts[1], tags: [...b.tags, 'prefixed'] })
+      bases.push({ word: parts[1], tags: b.tags })
   }
   for (const b of bases) add(b.word, b.tags)
 
@@ -328,8 +328,7 @@ export function lemmaCandidatesGd(surface: string): LemmaGuess[] {
   for (const s of suffixed) add(s.word, s.tags)
 
   // 第四步：去窄化（balaich → balach、cait → cat、eilein → eilean；属格、复数）
-  for (const b of [...withLen, ...suffixed])
-    for (const w of broadenings(b.word)) add(w, [...b.tags, 'slender'])
+  for (const b of [...withLen, ...suffixed]) for (const w of broadenings(b.word)) add(w, b.tags)
   return out.slice(0, 40)
 }
 

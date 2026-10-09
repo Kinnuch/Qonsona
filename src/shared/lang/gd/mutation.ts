@@ -24,6 +24,8 @@ export function canLenite(word: string): boolean {
   if (word.length < 2) return false
   const c0 = word[0].toLowerCase()
   const c1 = word[1].toLowerCase()
+  // 第二个字不是字母（t-uisge、b'e）的不弱化
+  if (!/\p{L}/u.test(c1)) return false
   if (!LENITABLE.has(c0) || c1 === 'h') return false
   if (c0 === 's' && !VOWEL_RE.test(c1) && !'lnr'.includes(c1)) return false
   return true

@@ -6,12 +6,11 @@ is	verb	am; is; are
 do	adp	to | for
 ag	part	Used before the verbal noun to form the present participle.
 de	adp	of | off
-gu	part	Makes an adverb when placed in front of an adjective
-sin	pron	that
 a	part	Used to mark a vocative; O
 a	part	Used before cardinal numbers not succeeded by a noun
 a	part	Used to mark the infinitive of a verb; to
-a	part	Form of an used before bheil
+gu	part	Makes an adverb when placed in front of an adjective
+sin	pron	that
 mi	pron	first-person singular pronoun; I; me
 ri	adp	to; against; with | up | as | Used with a noun or verbal noun to express up to or involved in
 is	cconj	and
@@ -20,10 +19,10 @@ a	det	his; its | her; its
 gu	adp	till; until | to
 cha	part	negative verb particle: not
 nach	verb	Used together with the dependent form of a verb to form negative questions. | Used together with the dependent form of a verb to form negative subordinate clauses; that ... not
-airson	adp	for, for the sake of | because | desirous of; wanting to
-seo	pron	this
-I	symbol	The ninth letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by H and followed by L; traditionally named iodh (“yew”).
 a	pron	relative particle; who; which; that
+seo	pron	this
+airson	adp	for, for the sake of | because | desirous of; wanting to
+I	symbol	The ninth letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by H and followed by L; traditionally named iodh (“yew”).
 thu	pron	second-person singular informal pronoun; thou; you
 anns	adp	the form of (ann) an, am (“in”) used before definite article: in
 dèan	verb	do | make
@@ -41,7 +40,6 @@ mar	adp	as | like
 taobh	noun	side | way; direction
 math	adj	good
 Alba	propn	Scotland (a constituent country of the United Kingdom)
-toir	verb	Sutherland form of thoir
 rud	noun	thing
 a-mach	adv	out; outwards (implies motion) | out; outside (implies location)
 dè	pron	what
@@ -85,13 +83,13 @@ ciad	num	the first
 deireadh	noun	end (of a period of time)
 faod	verb	may; can (be allowed to)
 Dòmhnall	propn	a male given name, equivalent to English Donald
+uile	adv	all
 còmhla	adv	together
 dòcha	adj	likely; probable
 faisg	adj	near; close
 barrachd	noun	surplus | superiority
 feadh	noun	extent; length | fathom
 trì	num	three
-beir	verb	to give birth to | to carry; catch; catch up with; overtake; catch hold of
 as	part	Creates the superlative when preceding the comparative form of an adjective or an adverb.
 as	verb	Combination of the relative particle a with the copula is.
 Beurla	propn	the English language | (obsolete outside of set phrases) any language, particularly one spoken rather than written
@@ -102,10 +100,9 @@ mus	sconj	before (conjunction)
 seòrsa	noun	sort; type; kind; category | breed; genus; species; tribe | gender; sex
 far	adp	(down) from; off
 fichead	num	twenty
-bu	verb	past/conditional of is
+beir	verb	to give birth to | to carry; catch; catch up with; overtake; catch hold of
 sgrìobh	verb	write; compose
 seachad	adv	past; by; over
-uile	adv	all
 clann	noun	children; offspring; progeny | clan; tribe | race | lock; ringlet; curl (of hair)
 cò	pron	who | where ... from | what | with what
 leth	num	half
@@ -122,6 +119,7 @@ cleachd	verb	use | accustom; get used to | use to; used to
 roinn	noun	group; sect; section; class | category; allotment | municipality | distribution; division; lot (portion) | province; region | share | some
 riaghaltas	noun	government
 òg	adj	young
+a	intj	ah
 dachaigh	noun	home
 sgoil	noun	school; seminary | education; learning; knowledge | science; literature
 bith	noun	being; existence; life
@@ -129,7 +127,6 @@ ruith	noun	run | pursuit; chase; rout | rate (of speed, progress, etc.) | sequen
 urrainn	noun	power; ability
 tòrr	noun	A heap; mound. | A hill; mountain. | Many; much; a lot; loads.
 riar	noun	will; desire; pleasure; inclination
-a	intj	ah
 bruidhinn	noun	conversation; talk
 till	verb	to return; come back | to relapse
 gun	sconj	that
@@ -146,11 +143,11 @@ Gàidheal	noun	Gael; Highlander
 Màiri	propn	a female given name, equivalent to English Mary
 do	det	thy; your (singular)
 an dèidh	adp	after
-toirt	noun	importance; value
 abair	adv	Used as a modifier suggesting excitement, much in the way that "how" or "what a" are used
 leig	verb	allow; let; permit
 coltach	adj	With the preposition ri: similar, like | apparent; likely | reasonable | healthy looking
 tro	adp	through
+toirt	noun	importance; value
 den	adp	of the; from the; off the
 oilthigh	noun	university
 às dèidh	adp	after
@@ -169,16 +166,16 @@ fad	det	all; whole
 cum	verb	shape; form
 clach	noun	stone | rock | (unit of measure) stone | testicle
 co-dhiù	adv	anyway; in any case; at any rate | at least | whatever
-thar	adp	(higher register) over; across | beyond
 Èirinn	propn	Ireland (a country in northwestern Europe)
 feadhainn	pron	some
+thar	adp	(higher register) over; across | beyond
 ainmeil	adj	famous; distinguished; illustrious; renowned
 ge-tà	adv	though; however | even so; notwithstanding
 Uibhist	propn	Uist (an archipelago of the Western Isles council area, Outer Hebrides, Scotland)
 làidir	adj	strong; potent; robust; brawny
 Glaschu	propn	Glasgow (a major city and council area of Scotland, largest city in Scotland)
-na	pron	all that; that which; whatever; what
 mu dheidhinn	adp	about; concerning
+na	pron	all that; that which; whatever; what
 cluich	noun	play; game; pastime; sport | pun; play on words | funeral games; funeral rites; solemnities | battle | (school) vacation | flirting | gaming | performance
 oir	sconj	since; for; because
 tric	adv	often; frequently
@@ -186,6 +183,7 @@ cudromach	adj	important; weighty | heavy
 Gàidhealtachd	propn	the Highlands | Scottish Gaelic-speaking area
 cogadh	noun	war; fighting; warfare
 stàit	noun	state (in politics)
+ball	noun	ball
 sgeulachd	noun	story; tale; romance | legend; fable; saga
 teaghlach	noun	family; household | house (genealogy) | clan; tribe; race; progeny | house; dwelling
 coimhearsnachd	noun	community; neighbourhood
@@ -197,7 +195,6 @@ bogsa	noun	box | television
 a-muigh	adv	out (implies location)
 gum	sconj	that
 aidh	intj	aye; yes
-ball	noun	ball
 faic	noun	hiding place; den; hole | sparkle | pigsty | badly-kept house
 not	noun	note | pound (sterling)
 togail	noun	structure; construction; erection | upbringing | excitement; tonic | heave; lift | lift (in a car, etc.) | acquisition | withdrawal (of money)
@@ -228,21 +225,19 @@ prìomh-bhaile	noun	capital city
 ath	adj	next
 Ùisdean	propn	a male given name from Old Norse, equivalent to English Hugh though etymologically unrelated
 Anna	propn	a female given name from Ancient Greek, equivalent to English Ann
-gu ruige	adp	until; up to; as far as
 Calum	propn	a male given name from Latin, equivalent to English Colm
+gu ruige	adp	until; up to; as far as
 gus	sconj	in order to
 Inns nam Gall	propn	Hebrides (an archipelago of Scotland)
 fada	adv	long | far; much
 deas	adj	ready; prepared; accomplished | right; right-hand | adroit; dexterous; skillful; expert | trim; spruce | erect
 deas	adj	southern; south
 ciamar	adv	how
-cèile	noun	spouse; husband; wife | counterpart; fellow; equal; match | other | servant
 Cuimrigh	propn	Wales (a constituent country of the United Kingdom)
 ceud	num	hundred
 ceud	num	alternative form of a' chiad
 eòlach	adj	acquainted with; familiar with; knowledgeable about
 Obar Dheathain	propn	Aberdeen (a city in Scotland)
-cèile	adv	alternative form of a chèile
 seirbheis	noun	service
 siar	adj	western; west
 gur	adp	you (plural or formal singular, direct object)
@@ -254,10 +249,12 @@ diofar	noun	difference | variety
 buail	verb	to strike; hit | to bang (against something) | to thrash; thresh (corn) | to coin; mint coins
 sàs	verb	seize; grasp | adhere to
 fearann	noun	land | estate
+A	symbol	The first letter of the Scottish Gaelic alphabet, written in the Latin script; followed by B; traditionally named ailm (“elm”).
+a	symbol	The first letter of the Scottish Gaelic alphabet, written in the Latin script; followed by b; traditionally named ailm (“elm”).
 dad	noun	anything; ought; (in the negative) nothing | whit; jot; tittle
 pàirtidh	noun	party
-cuideigin	pron	somebody; someone
 goirid	adj	short
+cuideigin	pron	somebody; someone
 o	adp	from | since
 chun	adp	to; towards | as far as
 Leòdhas	propn	Lewis (an island of Na h-Eileanan Siar council area, Scotland)
@@ -271,8 +268,6 @@ a-nuas	adv	down and towards the speaker | either up or down towards the speaker
 bòrd	noun	table (furniture) | plank; board | board (of directors, etc.) | deck (of a ship)
 greim	noun	bit; bite; morsel; piece of food | grip; hold; clutch; grasp | catch | stitch; pang | seizure | pneumonia; pleurisy
 uabhasach	adv	very; terribly; awfully
-A	symbol	The first letter of the Scottish Gaelic alphabet, written in the Latin script; followed by B; traditionally named ailm (“elm”).
-a	symbol	The first letter of the Scottish Gaelic alphabet, written in the Latin script; followed by b; traditionally named ailm (“elm”).
 sgàth	noun	shade or shadow | dread; fear | shelter; covering or protection | sake
 sònraichte	adj	specific; special; notable; particular; novel; certain; remarkable | idiosyncratic | appointed; specified; particularized; determined; ordained; foreordained; marked out bespoken | remarked; noted
 mu deidhinn	pron	about her | about it
@@ -284,6 +279,7 @@ mun	adp	about the; about their; about my; about whom; about which | around the; 
 eadar-dhealaichte	adj	separated; parted; divided | distinguished; different | various; varied | divorced
 Tormod	propn	a male given name from Old Norse, equivalent to English Norman though they are etymologically unrelated
 cruthaich	verb	create; make; form
+nam	adp	in my
 lagh	noun	law
 nàiseanta	adj	national
 còrd	verb	agree
@@ -297,8 +293,8 @@ furasta	adj	easy
 Astràilia	propn	Australia (a country consisting of a main island, the island of Tasmania and other smaller islands, located in Oceania; historically, a collection of former colonies of the British Empire) | Australia (a continent consisting of the land on the Australian tectonic plate, i.e. Australia, New Guinea and intervening islands)
 toilichte	adj	pleased | satisfied; contented; gratified; content | cheery; happy | smug
 cill	noun	cell | chapel | churchyard | burial ground
-b'	verb	Form of bu used before vowels and fh-
 timcheall	adv	round; around; about
+b'	verb	Form of bu used before vowels and fh-
 Murchadh	propn	a male given name from Old Irish, equivalent to English Murdo or Murdoch
 m	symbol	The eleventh letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by l and followed by n; traditionally named muin (“vine”).
 M	symbol	The eleventh letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by L and followed by N; traditionally named muin (“vine”).
@@ -306,6 +302,7 @@ iomadach	adj	many; numerous; various
 àraid	adj	special | particular
 guth	noun	voice
 càite	adv	where
+cèile	noun	spouse; husband; wife | counterpart; fellow; equal; match | other | servant
 tìde	noun	time
 buannaich	verb	to win (a contest); be victorious | to succeed
 caill	noun	testicle
@@ -315,7 +312,6 @@ uaireigin	adv	sometime | once
 litir	noun	letter (epistle; character)
 timcheall	adp	round; around; about
 ceangal	noun	connection; link; bond | slur
-uileag	adv	Uist and Barra form of uile (“all”)
 Ruairidh	propn	a male given name from Old Irish, equivalent to English Rory or Roderick
 àraidh	adj	special | particular
 cus	noun	excess; too much
@@ -344,6 +340,7 @@ aontaich	verb	agree; assent
 ùidh	noun	interest; inclination
 foghlam	noun	learning; instruction; education | acquired knowledge | (act of) training; teaching | learning | discipline | edification | intelligence
 guir	verb	hatch; brood; incubate
+thairis	adv	over; across | abroad | beyond
 coisich	verb	walk (move on feet)
 Mòr	propn	a female given name of Scots Gaelic origin, sometimes used as equivalent to Marion or Sarah
 tarraing	noun	drawing; pulling; dragging | draught; gulp | attraction | traction | halyard
@@ -354,6 +351,7 @@ Eòrpa	propn	Europe
 a-nall	adv	hither; over here (implies movement)
 obraich	verb	work; labor | operate | tease
 Steòrnabhagh	propn	Stornoway (a town on the Isle of Lewis in Western Isles council area, Scotland)
+Uilleam	propn	a male given name, equivalent to English William
 Albannach	adj	Scottish
 Eilidh	propn	a female given name, equivalent to English Helen or Ellen
 prìomh	adj	main; chief; principal | prime
@@ -367,12 +365,10 @@ innis	noun	A small island; an islet; an inch. | A meadow, pasture, field, or hau
 àbhaist	noun	custom | habit | practice | usage
 son	noun	sake; account
 rudeigin	pron	something
-Uilleam	propn	a male given name, equivalent to English William
 annasach	adj	strange; rare; unusual
 fèis	noun	festival | Gaelic music and cultural festival
 triùir	noun	three
 meadhanach	adj	middle | middling; tolerable; average; so-so
-thairis	adv	over; across | abroad | beyond
 ar	adj	slow; sluggish
 plana	noun	plan
 uaireannan	adv	sometimes; occasionally
@@ -430,16 +426,16 @@ cumanta	adj	common | usual | ordinary
 ceangail	verb	tie; fasten; bind; join; connect
 brèagha	adj	fine; handsome; beautiful
 Barraigh	propn	Barra (an island of the Western Isles council area, Outer Hebrides, Scotland)
-Nis	propn	Ness (a short river in Highland council area, Scotland, which flows from Loch Ness through Inverness to the Beauly Firth; in full, River Ness)
-Nis	propn	Ness (the northernmost area on the Isle of Lewis, Western Isles council area, Scotland)
 tarsainn	adv	across; over
 oifigear	noun	officer
 tuath	noun	country people; folk | countryside | laity | peasantry | tenantry
 ciall	noun	significance; implication | understanding; meaning; drift; connotation | mind; sanity | sense; reason
 toil	noun	will; desire; volition; inclination | delight; pleasure
-so	cconj	(highly colloquial) so; therefore
+Nis	propn	Ness (a short river in Highland council area, Scotland, which flows from Loch Ness through Inverness to the Beauly Firth; in full, River Ness)
+Nis	propn	Ness (the northernmost area on the Isle of Lewis, Western Isles council area, Scotland)
 co-cheangail	verb	connect; tie together | combine
 treas	num	third
+so	cconj	(highly colloquial) so; therefore
 brosnaich	verb	encourage; excite; incite | instigate; provoke | cheer; rally | prod; stir | exhort
 comhairliche	noun	councillor
 ceannach	noun	purchase
@@ -448,9 +444,9 @@ làrach	noun	site | trace; vestige | ruin (of a building) | scar
 teich	verb	flee; run away; escape; get out; abscond; fly | elope | desert (one's duty, e.g. the army)
 coille	noun	forest
 oifigeil	adj	official
+millean	num	million
 leth-cheud	num	fifty
 litreachas	noun	literature
-millean	num	million
 Earra-Ghàidheal	propn	Argyll
 grunn	noun	several | crowd; group
 labhairt	noun	speaking; speech; oration | utterance | conversation; discourse | expression
@@ -458,10 +454,10 @@ Faoilleach	propn	January (first month of the Gregorian calendar)
 feith	verb	wait | stay; remain
 Teàrlach	propn	a male given name from Old Irish, equivalent to English Charles or Terence but etymologically unrelated to either name.
 tuilleadh	adv	more | again; any more
+tidsear	noun	teacher
 tric	adj	frequent
 ceann-suidhe	noun	president
 neònach	adj	strange; odd; queer | droll
-tidsear	noun	teacher
 siostam	noun	system
 car	adv	somewhat; quite; rather
 sònraichte	adv	especially; exceptionally
@@ -471,6 +467,7 @@ cunntas-sluaigh	noun	census
 's fheudar	phrase	(it) must be; (it) behoves | have to; must
 bun-sgoil	noun	elementary school; primary school
 riochdaich	verb	personate | represent; portray
+os	adp	over; above
 ceart	noun	right
 oisean	noun	corner
 druim	noun	back | keel | camber | ridge
@@ -478,7 +475,6 @@ sù	noun	zoo
 cuideachd	noun	group; company; society
 ur	det	your (formal and/or plural)
 mòinteach	noun	peat moss; sphagnum | moor; moorland
-os	adp	over; above
 rabhadh	noun	warning; alarm | advice; instruction | advertisement; notice | example; precedent | hint; caution | memento | proclamation
 Laideann	propn	Latin (language)
 clàradh	noun	listing; itemization; itemisation
@@ -512,6 +508,7 @@ tràth	adv	early
 cruth	noun	shape; form
 aonaich	verb	unite | combine; merge
 luath	noun	ash (from fire)
+-cèile	affix	-in-law
 bràigh	noun	top; upper part | (North Uist) neck
 Albannach	noun	Scot; Scotsman
 suidh	verb	sit | incubate
@@ -577,11 +574,11 @@ dìreach	adj	straight | upright; just | vertical
 ceàrr	adj	wrong; incorrect; immoral; astray | left
 seanair	noun	grandfather
 cunntas	noun	counting; calculating; arithmetic | account; record; statement | account; bill; invoice
-thathar	verb	it is being
 Ceilteach	adj	Celtic
 snog	adj	nice; pretty
 colaiste	noun	college
 buntàta	noun	potato; potatoes
+thathar	verb	it is being
 bruach	noun	bank (of lake or river) | brink; border; edge; brim
 rùm	noun	room; space; place | room; chamber | floor
 tìr-mòr	noun	mainland
@@ -623,18 +620,16 @@ leasaich	verb	develop | amend; improve; rectify; correct | manure
 sgiobalta	adj	agile; active; quick | neat; tidy
 snàmh	noun	swimming, act of swimming or floating | soaking; deluging | slimy track of a snail
 poblach	adj	public
-nam	adp	in my
-nam	adp	Form of nan used before the consonants b-, f-, m- or p-.
 deoch	noun	drink | drunkenness
 co-dhùnadh	noun	decision; determination; conclusion | conclusion; ratiocination | conclusion | decision | decision
 bad	noun	place; spot | tuft; bunch | flock; group | thicket; clump (of trees)
 comharra	noun	mark; sign | earmark on sheep
-às	adp	Form of à used before the definite article. | Form of à used in all contexts before a vowel or fh-.
 àiteach	noun	cultivation; agriculture
 Samhain	propn	November | All Saints' Day | All Souls' Day
 mòine	noun	moss; morass; bog | peat; turf
 cèilidh	noun	gossiping; visiting; visit | sojourning | pilgrimage | ceilidh
 grunnd	noun	bottom; bed | ground
+gearradh	noun	sarcasm
 clas	noun	class
 measail	adj	fond; liked | popular; esteemed; held in esteem; respected; valued | respectable
 Seumasach	noun	A Jacobite.
@@ -655,7 +650,6 @@ Nic	noun	A prefix used with a woman's maiden surname
 talla	noun	hall | rock
 fuadach	noun	ejection; exclusion; expulsion; riddance | eviction; dispossession; legal ouster | ouster | actual eviction
 slàn	adj	healthy | whole; complete
-gearradh	noun	sarcasm
 gearan	noun	complaint; grumble | complaint
 Friseal	propn	a surname, equivalent to English Fraser | a male given name, equivalent to English Fraser
 margadh	noun	market
@@ -683,6 +677,7 @@ Pòl	propn	a male given name, equivalent to English Paul | Paul
 Roinn-Eòrpa	propn	Europe (a continent located west of Asia and north of Africa)
 srath	noun	wide; flat river valley; strath | low-lying or flat part of a valley district, farm or country, in contrast to its hilly ground | meadow | dell | marshy ground | plain beside a river
 beartach	adj	rich; wealthy | of; or belonging to; a machine | sheathed | like a sheath or scabbard | too much
+Eòghann	propn	a male given name from Old Irish, equivalent to English John or Johannes
 seanchaidh	noun	storyteller
 Fionn	propn	a male given name from Old Irish
 nan	adp	in their
@@ -714,6 +709,7 @@ cruinn	adj	round; circular; globular | succinct; neat | gathered; assembled; col
 ros	noun	linseed; flax seed
 ros	noun	promontory; headland; peninsula; isthmus | (obsolete except in place names and some compounds) wood; forest; wooded promontory
 èirigh	noun	erection | uprising; rebellion; revolt | outbreak
+Mìcheal	propn	Michael; the archangel | a male given name from Hebrew
 clì	adj	left
 Eòrpach	adj	European
 tom	noun	round hillock or knoll, rising ground, swell, green eminence | any round heap | tuft of anything | bush; thicket | anthill | stool | volume of a book | bank | grave | the plague | conical knoll
@@ -744,12 +740,12 @@ cuain	noun	litter of puppies or piglets
 an-àirde	adv	up; upwards
 sìn	verb	stretch
 clò	noun	cloth | tweed
+Raibeart	propn	a male given name from the Germanic languages, equivalent to English Robert
 tuathanas	noun	farm; farmstead
 MacAonghais	propn	a surname
 tarraingeach	adj	attractive
 gu tur	adv	completely; wholly; absolutely; entirely; totally; altogether
 càrn	noun	cairn | cart; sled
-nam	sconj	Form of nan used before the consonants b-, f-, m- or p-.
 nì	noun	thing
 pìob	noun	pipe; tube | bagpipes | pipe (for smoking)
 stoc	noun	(trees) stock; trunk (of a tree); stump (of a tree); stump | post; pillar | sounding horn; trumpet | family; race; progenitors | wealth; store; cattle; livestock; capital | pack of cards | cravat | cravat stiffener | stock of a rudder | principal part of any wooden structure | base of a spinning-wheel | stock of a bagpipe | scarf; shawl
@@ -757,11 +753,9 @@ iarla	noun	earl
 naomh	noun	saint
 Naomh	noun	Saint
 cabhag	noun	haste; hurry | gaggle of seagulls feeding on a shoal of mackerel | discarded offal offshore
-Raibeart	propn	a male given name from the Germanic languages, equivalent to English Robert
 Eadailt	propn	Italy (a country in Southern Europe)
 eachdraidheil	adj	historic; historical
 taigh-òsta	noun	hotel; inn; hostelry
-BPA	noun	initialism of Ball Pàrlamaid na h-Alba (“Member of the Scottish Parliament”)
 uiread	noun	certain amount; measure; so much; as much
 riochdair	noun	pronoun
 Aimeireaga	propn	America, United States of America (a country in North America; in full, United States of America) | America; the Americas (a supercontinent consisting of North America, Central America and South America regarded as a whole; in full, the Americas)
@@ -771,6 +765,7 @@ còrd	noun	cord; line
 ciad	adj	primary
 dìochuimhnich	verb	forget
 a-bhos	adv	hereabouts; over here
+geàrr	noun	cruive; weir
 sgìth	adj	tired; weary
 ar	verb	think
 an-ceartuair	adv	just now; right now | presently; in a minute
@@ -783,7 +778,6 @@ dùthchasail	adj	native; traditional; hereditary
 Gaeilge	propn	the Irish Gaelic language
 crith	noun	shiver; tremble; shudder; tremor
 Ìle	propn	Islay (southernmost island of the Inner Hebrides in Scotland)
-seothach	pron	Uist form of seo
 nàdarra	adj	natural
 ionnsachadh	noun	learning; education; training | learning; knowledge; scholarship
 dìomhair	adj	secret | private | mysterious | dormant; latent
@@ -792,10 +786,8 @@ comas	noun	ability; capability; faculty
 falt	noun	hair, specifically that on the head.
 èigh	verb	cry; shout | announce | declare; proclaim
 neo-eisimeileach	adj	independent
-Mìcheal	propn	Michael; the archangel | a male given name from Hebrew
-geàrr	noun	cruive; weir
 sàmhach	adj	silent; quiet
-a-nist	adv	Uist and Barra form of a-nis (“now”)
+tòir	noun	manhunt
 cuan	noun	pack of hounds or wolves
 Ceilteach	propn	A Celt
 bùrn	noun	(Sutherland; Easter Ross; Sutherland; Easter Ross) water
@@ -806,6 +798,7 @@ tàmh	noun	rest; peace; leisure; stillness; repose
 tagairt	noun	claim | petition
 còrdadh	noun	agreement; understanding | contract
 dealan	noun	electricity
+nan	sconj	if (subjunctive) | whether (subjunctive)
 faiceallach	adj	careful; cautious; circumspect; wary; watchful | particular; fastidious
 maor	noun	officer (not military - see Usage notes) | bailiff | factor (person) | foreman | baron | gravedigger
 a dh'ionnsaigh	adp	towards
@@ -816,7 +809,6 @@ eathar	noun	boat (a small one) | rowing boat
 earrach	noun	spring (season)
 ullaich	verb	prepare
 ceathrad	num	forty
-nan	sconj	if (subjunctive) | whether (subjunctive)
 tiugh	adj	thick; dense
 ceàrr	adv	wrong
 Catrìona	propn	a female given name, equivalent to English Catherine
@@ -824,7 +816,6 @@ gam	adp	me (direct object)
 gam	adp	them (direct object)
 sreap	verb	climb
 mothachail	adj	conscious; aware; observant | sensitive; sympathetic
-cuideam	noun	Lewis, Skye, and Wester Ross form of cudrom (“weight”)
 cianail	adv	awfully; terribly; exceedingly
 mol	noun	shingly beach
 mol	noun	mole (structure)
@@ -836,7 +827,6 @@ cruthach	noun	placenta | pollen tube
 beulaibh	noun	front (side)
 Ruaraidh	propn	a male given name, variant of Ruairidh, equivalent to English Rory
 tobar	noun	A cistern; a fountain | A well; a spring | A source; origin
-Eòghann	propn	a male given name from Old Irish, equivalent to English John or Johannes
 sàbhail	verb	save; rescue | save; economise
 cam	adj	crooked; askew | one-eyed | wry; deceitful; tricky
 sàbhailte	adj	safe; secure
@@ -845,6 +835,7 @@ aonan	noun	one
 slige	noun	shell | hull (of a ship) | bomb
 Gearmailteach	adj	German
 còir	adj	kind; kindly; decent; virtuous; civil | honest | proper; fitting | Used in a vocative phrase for formal address in letter writing, succeeds the name or word used for the addressee
+caol	noun	strait; narrows; firth; kyle | the narrow part of anything
 sìmplidh	adj	simple; uncomplicated; elementary | plain; unadorned; unaffected
 sìorraidh	adj	eternal; endless; everlasting
 Maighstir	noun	Mr; Mister; Master
@@ -863,6 +854,7 @@ dara	num	second
 crùn	noun	crown | five-shilling piece | garland (of flowers) | boss (of a shield)
 suain	noun	slumber; sleep; narcosis
 tùsanach	noun	aborigine; native inhabitant; indigenous person
+cinneadh	noun	clan; kin; kindred; surname; tribe; nation
 tòraidh	noun	a Tory | a conservative (in general)
 seanfhacal	noun	proverb; adage; byword; old saying
 fliuch	adj	wet; rainy; moist; damp; oozy
@@ -922,7 +914,6 @@ fosgladh	noun	opening; orifice
 ceimigear	noun	chemist
 iris	noun	magazine; periodical
 an-ath-sheachdain	adv	next week
-caol	noun	strait; narrows; firth; kyle | the narrow part of anything
 Sruighlea	propn	Stirling (a city in Scotland) | Stirling (a council area of Scotland)
 dùnadh	noun	closure | cadence (in music)
 rèidh	adj	smooth; even; flat; level; plain | on good terms | ready; prepared; finished
@@ -950,12 +941,15 @@ aithghearr	noun	shortcut
 aonach	noun	hairball; hair ball; trichobezoar
 àlainn	adj	beautiful; fair; lovely.
 Lodainn	propn	Lothian, an area and former region including Edinburgh and the surrounding area
+gràdh	noun	love
 an-ath-bhliadhna	adv	next year
 ucràinis	noun	Ukrainian
 adhbharaich	verb	cause; occasion
 nàdarrach	adj	natural | inborn; inherent | instinctive
 fuin	verb	bake bread | knead
 Ì Chaluim Chille	propn	Iona (a small island in the Inner Hebrides, Argyll and Bute council area, Scotland).
+dàmhair	noun	rut (rutting time or season of deer)
+Dàmhair	propn	October
 cia mheud	adv	how many (for countable nouns)
 samh	noun	sorrel (plant)
 ciad	noun	opinion; impression
@@ -983,13 +977,13 @@ cunnartach	adj	dangerous
 tòraidheach	adj	conservative; Tory
 crith-thalmhainn	noun	earthquake
 sgap	verb	scatter; spread; disperse | squander | afflict | hack; hash | distribute profusely
-geàrr	verb	cut | castrate
 àth	noun	ford
 amharc	noun	seeing; viewing | sight; view | vizzy or sight on a gun | view; sight; observation | beholding | inspecting | look; appearance | fault
 Somhairle	propn	a male given name from Old Norse, equivalent to English Sorley
 tàlaidh	verb	allure; entice | soothe; hush; caress; pet
 shìos	adv	down (implies location)
 glac	verb	apprehend; restrain | capture; catch; clutch; grapple; grasp | gulp | secure; seize; snatch; trap
+geàrr	verb	cut | castrate
 bòidheach	adj	beautiful; pretty; fair; cute
 feamainn	noun	seaweed
 thoradh	cconj	since; for; because
@@ -1155,7 +1149,6 @@ Sasannach	adj	English
 cèic	noun	cake
 Donaidh	propn	a diminutive of the male given name Dòmhnall, equivalent to English Donnie or Donny
 ochdad	noun	octave (music)
-cinnidh	noun	vocative/genitive singular of cinneadh
 cumhang	noun	narrow passage | ravine; defile
 cultarach	adj	cultural
 neoichiontach	adj	faultless; harmless; spotless; innocent; unblameable
@@ -1186,9 +1179,6 @@ caith	verb	spend; pass (time) | waste; squander | wear (clothes)
 gaoir	noun	frisson; shiver; chill; quiver | willies | bang; boot; charge; rush
 furachail	adj	alert; attentive; careful; vigilant
 trobhad	verb	come here! come hither! (second person singular) | come along! (second person singular)
-Dàmhar	propn	alternative form of an Dàmhair
-dàmhair	noun	rut (rutting time or season of deer)
-Dàmhair	propn	October
 falamh	adj	empty; void | hollow | poor | wanting | unoccupied
 bòid	noun	vow; solemn promise | oath; swearing
 saill	noun	fat; grease; suet
@@ -1244,7 +1234,6 @@ aosta	adj	old; aged; elderly
 poll	noun	hole; pit | mud; mire | bog | pond; pool | a peat bank
 nàisean	noun	nation
 Geàrrloch	propn	Gairloch (a coastal village on Loch Gairloch in Wester Ross, Highland council area, Scotland)
-cinneadh	noun	clan; kin; kindred; surname; tribe; nation
 Brìde	propn	the goddess Brigit | Brigid of Kildare (c. 451–521), an Irish saint adapted from the goddess. | a female given name from Old Irish, equivalent to English Bridget
 cnap	noun	knob; lump; protrusion | block | button | boss; stud; node | small lumpy hill | swelling | thump; thud; blow | potato | gust of wind; squall | bunch; fair amount
 muime	noun	nurse | stepmother; foster-mother | godmother | midwife
@@ -1318,7 +1307,6 @@ breac	adj	speckled; spotted; piebald | embossed | chequered
 boireann	adj	female; feminine | feminine
 coitcheann	adj	common; shared; public | general
 Tabh	propn	the Atlantic Ocean
-Oll.	noun	alternative form of an t-Oll
 draibh	verb	to drive
 sgailc	noun	whack
 dorsair	noun	doorkeeper; porter
@@ -1340,7 +1328,6 @@ fraoch	noun	heath; heather; ling | bristles
 fraoch	noun	anger; fury | girning expression of countenance
 tobhta	noun	thwart (seat on a boat)
 tuiseal	noun	case
-gràidh	noun	vocative/genitive singular of gràdh
 sealgair	noun	hunter
 dè	intj	huh? pardon? what? | Used to form tag questions in informal speech.
 anabarrach	adj	exceeding; excessive | redundant; superfluous | desperate; indispensable | shocking; terrible | tip-top; ripping; stupendous
@@ -1421,7 +1408,6 @@ bile	noun	lip (of mouth) | rim (of container) | brim (of hat)
 bile	noun	bill (for law)
 tilgeil	noun	throw
 Bhatarsaigh	propn	Vatersay (an island of the Western Isles council area, Outer Hebrides, Scotland)
-gràdh	noun	love
 grunnan	noun	handful; bunch; small number | little heap | synonym of grunn
 dìreach	intj	exactly!
 seachdnar	noun	seven
@@ -1429,6 +1415,7 @@ Frangach	noun	Frenchman
 dìcheall	noun	diligence | attempt; endeavour | utmost endeavour | perseverance | forlorn effort
 a-rèist	adv	then; so (in that case, therefore) | (Wester Ross) then (at that time; after that)
 glan	adv	completely; wholly; thoroughly | very much; really; a lot; thoroughly
+Fionnlagh	propn	a male given name
 sgar	verb	separate; break up; split up; sever
 Gobhar	propn	Capricornus | Capricorn
 draoidh	noun	druid | sorcerer; wizard; magician; conjurer | philosopher | morose person | wizard (computing program) | a priest, magician, or soothsayer in the ancient Celtic religion.
@@ -1446,12 +1433,10 @@ deichnear	noun	ten
 anmoch	noun	evening
 Eideard	propn	a male given name, equivalent to English Edward
 pìobaireachd	noun	piping (playing bagpipes) | A type of music native to the Scottish Highlands and performed on the Great Highland bagpipes.
-ràdh	noun	statement | remark | saying; adage
 gort	noun	field | enclosure | (standing) crop
 Camshron	propn	a surname meaning “crooked-nosed”, equivalent to English Cameron
 Dùn Dèagh	propn	Dundee (a city in Scotland)
 malairteach	adj	commercial; mercantile | reciprocal
-Eòghainn	propn	vocative/genitive singular of Eòghann
 glacadh	noun	capture; seizure | grasp
 ìochdar	noun	underpart
 spaideil	adj	well-dressed | dressy; fancy
@@ -1460,14 +1445,12 @@ fèar	adv	just; right; exactly; simply
 blasta	adj	delicious; savoury; tasty | tasteful | agreeable | eloquent | seasoned
 naoi-deug	num	nineteen
 teicneolas	noun	technology
-Fionnlagh	propn	a male given name
 treabhadh	noun	ploughing; tillage
 righinn	adj	tough; tenacious; durable
 brùideil	adj	barbarous; beastly; bestial; brutal; brutish; violent; cruel
 MacNèill	propn	a surname, McNeil, meaning “son/daughter of Neil”
 cùbhraidh	adj	fragrant; perfumed; scented; balmy
 Oll	noun	Dr (not medical)
-leis	adp	Form of le used before a definite article.
 òirleach	noun	inch (unit of measure)
 Eòrpach	noun	European
 strì	verb	strive; struggle | contend; emulate
@@ -1527,6 +1510,7 @@ càraid	noun	couple; pair; brace | twins | married couple | defence
 obrachadh	noun	(act of) working | labor | (state of) fermenting; fermentation | mixing up, act of mixing together | agitation
 Tarbh	noun	Taurus
 a-chaoidh	adv	forever | always | (when used negatively) never
+ràdh	noun	statement | remark | saying; adage
 seilbh	noun	property; possession
 leannan	noun	lover; sweetheart
 Eadailteach	noun	Italian
@@ -1536,9 +1520,9 @@ daingeann	adj	strong | firm | fortified | staunch (e.g. in religious conviction)
 teachdaire	noun	messenger; courier | missionary
 bhòt	verb	vote
 deiseil	adv	southward; sunward | clockwise
-geàrr	adj	short
 fortan	noun	fortune; luck
 poileasman	noun	policeman
+geàrr	adj	short
 Sandaidh	propn	a diminutive of the male given name Alasdair, equivalent to English Sandy
 leathad	noun	hillside; hillslope
 luchd-turais	noun	tourists
@@ -1553,6 +1537,7 @@ seanail	noun	channel; transmission channel
 uilebheist	noun	monster | wild beast | lamprey | hideous wild beast
 Ròs Bhàn	propn	Snow White
 clàr-ama	noun	timetable
+rèiteach	noun	(act of) reconciling; settling; conciliating; resolving; agreeing upon | reconciliation; settlement; conciliation; resolution; agreement | (act of) betrothing | betrothal; engagement; wedding arrangement (ceremony of asking for a bride's hand in marriage); the gathering at which an engagement to marry is announced | (act of) disentangling | disentanglement | level place
 cliath	verb	harrow | copulate (about birds)
 obann	adj	sudden
 gidheadh	adv	nevertheless; nonetheless; however
@@ -1596,7 +1581,6 @@ Ball Pàrlamaid	noun	Member of Parliament
 sòlasach	adj	cheerful; joyful; glad; ecstatic; content | comfortable; comforting; consolatory | delectable; delightful; gratifying | rejoicing | luminous; shining
 co-dhiù	cconj	whether
 sgor	noun	ridge
-samhraidh	noun	vocative/genitive singular of samhradh (“summer”)
 breithneachadh	noun	adjudication; decision-making; diagnosis; explanation | criticism | foresight | good sense; perception; reasoning
 bloigh	noun	bit; piece | fraction (mathematics) | blog
 buain	verb	reap; harvest; cut down; crop; mow | shear | pluck, pull, tear by the root | engage
@@ -1656,8 +1640,8 @@ tuigseach	adj	intelligent; expert; discerning | prudent; sensible; perceptive | 
 gòrach	adj	stupid; foolish; idiotic; ridiculous; witless; absurd
 caoidh	verb	bewail; lament; bemoan; deplore; grieve; mourn
 snàth	noun	thread | wool yarn (knitting) | piece of thread
-sìoladh	noun	subsiding; subsidence | straining; filtering; filtration
 millean	noun	million
+sìoladh	noun	subsiding; subsidence | straining; filtering; filtration
 fadalach	adj	late (in acting or happening) | tedious; boring; lengthy
 leac	noun	cheek
 broilleach	noun	breast; bosom; chest; thorax
@@ -1713,8 +1697,8 @@ beann	noun	degree | step | beam | corner | skirt | attention | regard | horn | t
 feansa	noun	fence
 deicheamh	num	tenth
 punnd	noun	pound (weight) | pen; fold; enclosure for cattle
-aiste	noun	composition; essay | poem | ingenuity
 badeigin	pron	some place
+aiste	noun	composition; essay | poem | ingenuity
 blàr	adj	hew; white-faced
 eala	noun	swan
 Ròmanach	adj	Roman | Catholic
@@ -1807,7 +1791,6 @@ fallas	noun	sweat; perspiration
 stuama	adj	moderate; modest; temperate; reserved | sober (not drunk)
 cipean	noun	stump; stake; peg; tether-stake | stick or dibble for planting | pin of a watch-chain | block of wood tied to the neck of a cow or horse to keep them from running too fast
 deifir	noun	haste; hastiness | (South Argyll) hurry
-fairis	adv	Uist, Skye, and Eigg form of thairis
 ablach	noun	carrion
 mìneag	noun	smoothie
 seicean	noun	pellicle | peritoneum
@@ -1831,7 +1814,6 @@ eireachdail	adj	handsome; comely; seemly
 Seacais	propn	the language Czech
 deasaiche	noun	editor
 dìcheallach	adj	diligent; industrious; hardworking
-thairis	pron	over him | over it | beyond him | beyond it
 balt	noun	welt (of a shoe) | border; belt | selvage (of cloth) | moustache | man's collar
 roghnaich	verb	choose; select; pick out | prefer; like
 fànas	noun	space; void | (chiefly Islay) horizon; skyline
@@ -1844,6 +1826,7 @@ soirbheachas	noun	prosperity; success (especially material)
 fasanta	adj	fashionable; modish; stylish
 steall	noun	spout; jet; squirt | splash | gush | poured-out quantity; dash | heavy rainshower; torrent | small waterfall
 steall	verb	spout; squirt; gush
+muinichill	noun	(East Inverness-shire) sleeve (of garment)
 umha	noun	bronze | copper | brass
 ailtire	noun	architect
 g	symbol	The seventh letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by f and followed by h; traditionally named gort (“ivy”).
@@ -1855,6 +1838,7 @@ cosgail	adj	costly; expensive
 Hearach	noun	a person from Harris, in the Outer Hebrides
 cupan	noun	cup | small cup
 taigeis	noun	haggis
+thairis	pron	over him | over it | beyond him | beyond it
 sinc	noun	zinc
 peatral	noun	petrol (UK); gasoline; gas (US)
 stiall	noun	streak | string; cosmic string
@@ -1918,7 +1902,6 @@ Dùghlas	propn	a male given name, equivalent to English Douglas | a surname, equ
 bruthadh	noun	suppression; crushing; quelling; stifling
 tèile	pron	another one; (with definite article) the other one | herself; her indoors
 minig	adv	often; frequently
--cèile	affix	-in-law
 fill	verb	fold; plait; twill | imply | contain; include
 Co-fhlaitheas	noun	Commonwealth of Nations; British Commonwealth
 coirce	noun	oats
@@ -1952,6 +1935,7 @@ fàilte	intj	welcome | hail
 pongail	adj	concise; to the point | articulate; coherent | punctual; precise; exact | meticulous; painstaking; thorough; punctilious
 pinnt	noun	pint (unit of volume)
 reothart	noun	spring tide
+cinn	verb	grow | increase; multiply | prosper
 ràth	noun	swath; belt | sea room
 sàl	noun	salt water; brine | seawater | sea
 suirbhidh	noun	survey
@@ -1964,7 +1948,6 @@ faing	noun	fank; sheepfold
 bàidheil	adj	merciful; kind; humane | friendly; affectionate; loving; attached | favourable | binding; obligatory
 truaill	verb	pollute; contaminate
 easgann	noun	eel
-rèiteach	noun	(act of) reconciling; settling; conciliating; resolving; agreeing upon | reconciliation; settlement; conciliation; resolution; agreement | (act of) betrothing | betrothal; engagement; wedding arrangement (ceremony of asking for a bride's hand in marriage); the gathering at which an engagement to marry is announced | (act of) disentangling | disentanglement | level place
 fuaimneachadh	noun	pronunciation
 foirmle	noun	formula
 tapaidh	adj	handy | clever; smart | burly; hardy; sturdy | courageous; manly
@@ -1975,7 +1958,6 @@ barrachd	adv	more
 MacIain	propn	a surname, equivalent to English Johnson
 peinnsean	noun	pension
 mu thimcheall	adp	round; around; about | about; concerning
-Mìcheil	propn	vocative/genitive singular of Mìcheal
 Art	propn	a male given name from Old Irish, equivalent to English Arthur
 fuadachadh	noun	alienation
 riaghail	verb	rule; govern; reign | administer; moderate; regulate; direct
@@ -1989,7 +1971,6 @@ tiùrr	noun	The high-water mark. | The portion of a beach above the high-water m
 singilte	adj	singular
 Laidinn	adj	Latin
 urrainn	adj	able | author
-Uilleim	propn	vocative/genitive singular of Uilleam
 lite	noun	porridge | pottage | posset
 pinc	adj	pink
 searbh	adj	sharp; keen | pungent; acute; acrid; acrimonious | sarcastic; bitter; harsh; severe; embittering | poignant | shrill; dissonant | intolerable; disagreeable; distressful; disgusted | distasteful; sour; tart
@@ -2076,6 +2057,7 @@ reachdail	adj	legal
 màthaireil	adj	maternal; motherlike
 anam	noun	soul; spirit | mind | life; breath | term of affection; love | courage
 éisg	noun	alternative form of èisg
+cha	verb	Negative forms of the copula: is not
 Ruiseanach	adj	Russian
 dùinte	adj	closed; shut | reserved; withdrawn; introvert; taciturn
 gàirnealaireachd	noun	gardening
@@ -2138,6 +2120,7 @@ dubh-chàineadh	noun	slating | smear; vilification; malignment
 Ulbha	propn	Ulva
 deatamach	adj	crucial; essential; necessary
 boc	noun	buck; roebuck | billygoat; he-goat; male goat
+muillean	noun	truss (of hay or straw)
 dealt	noun	dew; drizzle
 galan	noun	gallon (unit of volume)
 thalla	verb	get away; get lost (second person singular) | (South Argyll) come along; come here (second person singular)
@@ -2150,7 +2133,6 @@ piotsa	noun	pizza
 roilig	verb	to roll
 tìoraidh	intj	cheerio; goodbye
 corra-mhonaidh	noun	crane (bird)
-muillean	noun	truss (of hay or straw)
 mèinn	verb	mine; excavate
 Eilean an Fhraoich	propn	Lewis
 feàrna	noun	alder tree | the letter F in the Gaelic alphabet | shield | mast
@@ -2164,7 +2146,6 @@ ligh	verb	lick
 foghlaimte	adj	learned; educated
 beithe	noun	birch
 buan	adj	durable; lasting; long-lasting; long-lived
-turais	noun	vocative/genitive singular of turas
 saor-thoileach	adj	voluntary | spontaneous
 caibideil	noun	chapter (of a book)
 fuath	noun	antipathy; hate; hatred | abhorrence; loathing | enmity; odium
@@ -2185,7 +2166,6 @@ eadar-theangair	noun	translator
 measgaich	verb	mix; mingle | combine
 Ìosa	propn	Jesus
 Ìosa	intj	Used to express excitement, frustration or exasperation.
-muille	noun	Arran form of muinichill (“sleeve”)
 ceannaiche	noun	merchant; salesman | buyer
 taobh	verb	side; side with; favour; be partial to | approach | espouse
 dealaichte	adj	separate | detached; separated | insulated
@@ -2195,7 +2175,6 @@ triath	noun	lord; noble | chief (of a clan)
 corrach	adj	steep; precipitous | uneven | shaky; precarious; unstable; unsteady
 feabhas	noun	qualitative noun of math (“good”) | goodness | improvement | excellence; superiority
 ceannsaich	verb	overcome; conquer | quell; master; control; repress (people, emotions etc) | tame
-Gearran	propn	February (second month of the Gregorian calendar)
 sgeilp	noun	shelf or cliff of a rock | shelf in a keeping place
 branndaidh	noun	brandy
 lèirsinn	noun	sight; eyesight; vision
@@ -2207,11 +2186,11 @@ iomadachadh	noun	verbal noun of iomadaich
 machlag	noun	womb; uterus
 Duitseach	adj	Dutch, relating to the Netherlands
 lèirsinneach	adj	visual
+Gearran	propn	February (second month of the Gregorian calendar)
 sèid	noun	blowing; puff
 carbon	noun	carbon (element)
 aon-deug	num	eleven
 mag	verb	mock; deride
-rèitich	noun	vocative/genitive singular of rèiteach (“reconciliation, settlement, conciliation, resolution, agreement; betrothal, engagement; disentanglement; level place”)
 dealbhadh	noun	planning
 Aifreann	noun	Mass (liturgical service or the music for it)
 ro chìsean	adv	pre-tax
@@ -2232,7 +2211,6 @@ gràn	noun	grain (collective)
 caile	noun	vulgar girl; quean; hussy | strumpet | girl | maidservant who does more or less other work than housework
 gnog	verb	knock (on a door, etc.)
 fliuch	verb	wet; moisten | water | make drunk
-uileag	adj	Uist and Barra form of uile (“all”)
 iubhar	noun	yew
 sgòrnan	noun	throat; gullet; oesophagus | trachea; windpipe
 tomadach	adj	large; bulky; sizeable | brawny; burly
@@ -2314,7 +2292,6 @@ ro-eachdraidheil	adj	prehistoric
 air corra-biod	adv	on tiptoe
 toll	verb	bore; piece; drill; perforate
 tuineachadh	noun	settlement (habitation)
-caoil	noun	vocative/genitive singular of caol
 baile-beag	noun	village
 easbaigeach	adj	episcopal
 Easbaigeach	adj	Episcopal; Episcopalian
@@ -2366,7 +2343,6 @@ sàsar	noun	saucer
 leamh	adj	importunate; annoying; galling; vexing | boring; jejune; insipid | impertinent; shameless; saucy | greedy; busy; officious | raw | glib; mealy-mouthed; flattering
 mogan	noun	boothose; sock; moggan | slipper | heavy ankle sock sold with a rubberized sole, previously sold in Cape Breton | pull-on leg-warmer for use when wearing the kilt in cold climates
 feall	noun	treachery; conspiracy; trickery; deceit; falsehood; guile | treason
-a-rìs	adv	higher register form of a-rithist
 hò-rò	intj	hooray!; hurray!; hurrah!
 naosg	noun	snipe (bird of the genius Gallinago)
 dòrnag	noun	glove; mitten | gauntlet
@@ -2464,7 +2440,6 @@ Eadailteach	adj	Italian
 crùnadh	noun	crowning; coronation
 gobhal	noun	fork | crotch | prop; post; pillar | bifurcation | descendant; branch | prong
 dubhach	adj	sad; gloomy; moody
-Ruise	propn	genitive of an Ruis (“Russia”)
 criostal	noun	crust; incrustation; encrustation
 iar-leasachan	noun	suffix
 gon	verb	hurt; prick; wound
@@ -2522,9 +2497,7 @@ Còrn	propn	Cornwall (a peninsula, cultural area, maritime ceremonial county, an
 còrn	noun	drinking-horn; flagon | fold | horn (musical instrument)
 bean-uasal	noun	lady; noblewoman; gentlewoman
 Bean-uasal	noun	Lady; Madame
-chan	verb	Form of cha used before vowels and fh-
 rothar	noun	cycle | bagpipe chanter
-salainn	noun	vocative/genitive singular of salann (“salt”)
 fear	pron	somebody; something; one
 u	symbol	The eighteenth letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by t; traditionally named ur (“heather”).
 U	symbol	The eighteenth letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by T; traditionally named ur (“heather”).
@@ -2563,7 +2536,6 @@ mealladh	noun	guile; deceit; deception | enticement; allurement | disappointment
 cunnt	verb	count; calculate
 teòclaid	adj	chocolate
 tropaigeach	adj	tropical
-os	verb	alternative form of arsa used before vowels
 oide	noun	guardian; foster father | stepfather | godfather | teacher; tutor | grandfather
 pàganach	adj	pagan
 stoirmeil	adj	stormy; blowy; keen; tempestuous | manly
@@ -2609,7 +2581,6 @@ feis	noun	sex; intercourse
 àrdanach	adj	haughty; lofty; proud; supercilious | passionate; irritable; irascible
 smùid	verb	smoke (of a chimney, etc.) | smash
 luaithre	noun	ash (from fire)
-muinichill	noun	(East Inverness-shire) sleeve (of garment)
 buidseach	noun	male wizard; sorcerer; witch; sorceress
 gruth	noun	crowdie; curds
 ro-shealladh	noun	preview | foresight
@@ -2676,6 +2647,7 @@ didseatach	adj	digital
 com-pàirteachas	noun	partnership
 tìde-mhara	noun	tide
 maitheanas	noun	forgiveness
+rèitich	verb	accommodate; adjust; agree; arrange; assort; appease | accord | affiance; betroth | articulate | clear; clear away | conciliate | contract; ratify | decide; determine | deobstruct | disentangle | mediate; reconcile; regulate; settle; resolve; sort | pour oil on troubled waters | prepare; put in order | unravel
 taigh-beag	noun	toilet; water closet
 comhartaich	verb	bark (dog)
 iolair-mhara	noun	sea eagle; white-tailed eagle
@@ -2702,7 +2674,6 @@ siuthadaibh	verb	go on! go ahead! let's go! (second person plural)
 crochte	adj	hung; suspended
 coinneal	noun	candle
 sligeach	adj	crustaceous; shelly
-rèitich	verb	accommodate; adjust; agree; arrange; assort; appease | accord | affiance; betroth | articulate | clear; clear away | conciliate | contract; ratify | decide; determine | deobstruct | disentangle | mediate; reconcile; regulate; settle; resolve; sort | pour oil on troubled waters | prepare; put in order | unravel
 frith-ainm	noun	nickname; byname
 Sgrìob Chlann Uisnich	propn	Milky Way
 meas	verb	think; reckon; consider | respect; esteem | evaluate; assess
@@ -2759,16 +2730,11 @@ eucoireach	adj	criminal
 Clèireach	adj	Presbyterian
 maiseach	adj	beautiful; lovely; handsome; fair; graceful | modest | of engaging manners | ornamental | having an imposing appearance
 MacDhonnchaidh	propn	a surname meaning “son/daughter of Duncan”, equivalent to English Robertson
-dorast	noun	Barra, Islay, and Canada form of doras (“door”)
-cinn	verb	grow | increase; multiply | prosper
 Pòlainneach	noun	Pole
 cainb	noun	hemp | canvas | cannabis
 sàr	verb	apprehend
-Caluim	propn	vocative/genitive singular of Calum
 leam-leat	adj	fickle; capricious; non-committal | two-faced
 àraich	verb	breed; train | bring up; foster; raise | brood | cherish; nurture; nourish; tend to
-gearraidh	noun	genitive/vocative singular of gearradh
-gearraidh	noun	Islay form of geàrr (“hare”)
 aithnichte	adj	known; recognised | plain; manifest
 baintighearna	noun	lady; dame
 clach	verb	stone
@@ -2798,8 +2764,6 @@ coireachadh	noun	disapproval | finger-pointing; fingerpointing | disapproval
 leth-bhràthair	noun	half brother
 partan-tuathal	noun	hermit crab
 toinn	verb	twist; twine; wreathe; spin; plait; wind | writhe | wrench
-cha	verb	Negative forms of the copula: is not
-aige	pron	third-person singular masculine of aig at him; at it
 lann	noun	enclosure | house; dwelling | church | repository | stud; boss (as on a shield) | gridiron | scale (balance) | land | veil | corn-yard
 dàta	noun	data
 Sult	propn	Sep (September)
@@ -2907,7 +2871,6 @@ stèidh	verb	establish; found; set up | build
 adharc	noun	horn (growth on an animal's head)
 treabh	verb	to plough; to plough through
 tartan	noun	tartan (woollen cloth with a distinctive pattern)
-madaidh	noun	genitive/vocative singular of madadh
 gràineil	adj	disgusting; detested; vile | foul; loathsome | hateful
 seabhag	noun	hawk; falcon
 caomhnadh	noun	hoard | saving
@@ -3104,7 +3067,6 @@ Ghrannd	propn	a surname, equivalent to English Grant, feminine of Grannd
 Aimeireaganach	adj	American
 nur	adp	in your (formal and/or plural)
 nad	adp	in thy; in your (singular)
-geala	adj	all cases plural of geal
 f	symbol	The sixth letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by e and followed by g; traditionally named feàrna (“alder”).
 F	symbol	The sixth letter of the Scottish Gaelic alphabet, written in the Latin script; preceded by E and followed by G; traditionally named feàrna (“alder”).
 caoin	noun	exterior; outer side (of garment)
@@ -3173,13 +3135,13 @@ mì-thlachdmhor	adj	contemptible; disagreeable; galling; vexing
 saobh-chràbhach	adj	superstitious
 hòro-gheallaidh	noun	celebration; shindig; fling; party
 àrd mo chlaiginn	adv	at the top of my voice
-rèiteach	adj	conciliatory | reconciling
 Breatannaich	propn	the British
 Breatannaich	adj	British
 tachd	verb	choke; smother; strangle; throttle
 tachdadh	noun	suffocation
 ris	adp	the form of ri used before the definite article
 Dorcha	propn	a female given name
+sìthean	noun	hillock inhabited by fairies
 slàinte	intj	cheers
 bagair	verb	threaten (with air) | bluster
 gil	noun	gulch; flume
@@ -3218,6 +3180,7 @@ strùan	noun	A cake prepared on Michaelmas, composed of an inner scone layer and
 Ungaireach	noun	Hungarian (person)
 Baintighearna	propn	Lady; Dame | Used to refer to the Goddess
 glaodh	noun	call; shout
+rèiteach	adj	conciliatory | reconciling
 Suaineach	noun	Swede
 triall	verb	travel; journey | traverse | die
 td	noun	p (page)
@@ -3308,7 +3271,6 @@ barganachadh	noun	negotiation
 triantanachadh	noun	triangulation
 alltan	noun	burn; brook; stream
 masg	verb	brew; infuse; steep (of tea or malt) | mash (of malt)
-Raibeirt	propn	vocative/genitive singular of Raibeart
 gealagan	noun	egg white; albumen
 inghean	noun	girl; maiden | daughter
 cnag	verb	crunch (making sound) | knock; click
@@ -3359,7 +3321,6 @@ Chaimbeul	propn	a surname, equivalent to English Campbell, feminine of Caimbeul
 Arabach	adj	Arab; Arabic; Arabian
 buidheag	noun	Used in compounds denoting various birds and flowers, especially (but not exclusively) yellow ones. | any small yellow item | yolk | leather bag (for transporting liquids)
 coisrigeadh	noun	consecration; dedication
-giorra	adj	comparative degree of geàrr and goirid
 òs	noun	(Harris) river mouth | sandbar; sandbank
 òs	noun	noust
 cagainn	verb	chew; gnaw; champ; masticate; munch
@@ -3418,8 +3379,8 @@ streapadair	noun	climber
 suaineach	adj	sleepy; drowsy
 Suaineach	adj	Swedish
 cleachdte	adj	used to; accustomed
--sa	affix	-self (emphatic)
 òige	noun	youth (abstract)
+-sa	affix	-self (emphatic)
 AE	propn	EU (European Union)
 coll	noun	destruction
 flin	noun	sleet
@@ -3464,7 +3425,6 @@ ainneartach	adj	violent (involving physical conflict) | oppressive | overbearing
 domhan-fhad	noun	longitude
 magnaiteach	adj	magnetic
 faclairiche	noun	lexicographer
-Fhionnlaigh	propn	vocative/genitive singular of Fionnlagh
 ro-leasachan	noun	prefix
 dà-mhiannach	adj	bisexual
 dà-sheallach	adj	two-dimensional
@@ -3487,7 +3447,6 @@ ceithir-cheàrnach	adj	quadrilateral; quadrangular
 ionad-fiosrachaidh	noun	information centre
 ruigsinn	noun	attainment
 boc	noun	deceit; fraud | blow; box; stroke
-sìthean	noun	hillock inhabited by fairies
 diù	noun	long time | care | sense of shame; modesty; worth
 diù	adj	worth | due
 mamaidh	noun	mum; mummy
@@ -3499,11 +3458,9 @@ leisgeadair	noun	lazy person; idler; lazybones; layabout; sluggard; slugabed
 cràin	noun	sow (animal) | litter of pigs
 cràin	noun	female of any animal
 crainn	noun	the queen of the hive | ugly old woman
-t-uisge	noun	t-prothesized form of uisge
 cuip	verb	whip; flog; lash
 cuip	noun	whip | stratagem; deceit
 teàrn	verb	descend | decline | evade; escape | deliver; rescue; save
-sìthein	noun	genitive/vocative singular of sìthean
 toinnte	adj	twisted; twined; spun; entwined; wreathed; plaited | intricate | complicated | sensible
 lagachadh	noun	dilution
 deàrrsach	adj	shiny; bright; glittering; resplendent
@@ -3515,8 +3472,6 @@ fuaigheal	noun	verbal noun of fuaigh
 fodha	adv	down; underneath; sunken
 fh	symbol	A digraph in Gaelic orthography
 pic	noun	pike; spear | pickaxe
-dul	noun	loop; noose; link
-dul	noun	Ross-shire, Sutherland, East Inverness-shire, and Deeside form of dol
 abab	intj	fie!; pshaw!; oh for shame!
 abab	noun	filth; dirt
 roid	noun	bog-myrtle; sweet gale (Myrica gale) | rush
@@ -3587,7 +3542,6 @@ facal-suaicheantais	noun	motto
 Là Bealltainn	propn	Beltane; May Day
 fang	noun	fank; sheepfold
 Eòs	propn	a diminutive of the male given name Eòsaph, equivalent to English Joe
-lacha	noun	Uist and Tiree form of lach
 smocte	adj	smoked
 Eòsaph	propn	a male given name from Hebrew, equivalent to English Joseph
 acrach	adj	hungry
@@ -3965,7 +3919,6 @@ co-mhaoineach	adj	communist
 co-mhaoineach	noun	communist
 eadar-sgaoileadh	noun	solution
 mura h-eil	verb	if ... are not, unless ... are
-treasa	adj	comparative degree of treun and làidir
 deasach	adj	southern; southerly | right-handed
 Deasach	adj	relating to South Uist | relating to Uist and Barra | relating to the Argyll islands | (generally) relating to the southern part of the Highlands or Gàidhealtachd
 lon	noun	moose | elk
@@ -4011,16 +3964,14 @@ Ultach	adj	related to Ulster
 Ultach	noun	native of Ulster; Ulsterman
 ultach	noun	armful (burden carried within the fold or grasp of the arms) | lapful | load | burden on the back | bosom | lap | bundle, faggot, or truss, fit to be carried on the back
 eiridnich	verb	nurse
+truime	noun	heaviness; weight; weightiness | dullness; melancholy | indulgence (excessive gratification)
+meallta	adj	deceitful; false
+sibhse	pron	you; ye (polite and/or plural)
 thugam	pron	to me
 thugad	pron	to you (informal singular)
 thugaibh	pron	to you (plural or formal singular)
 thugainn	pron	to us
-truime	noun	heaviness; weight; weightiness | dullness; melancholy | indulgence (excessive gratification)
-meallta	adj	deceitful; false
-sibhse	pron	you; ye (polite and/or plural)
-tidseir	noun	vocative/genitive singular of tidsear
 Ceanag	propn	a female given name, masculine equivalent Coinneach, equivalent to English Kenna
-t-eun	noun	t-prothesized form of eun
 leanmhainn	adj	adherent; adhesive; sticking
 fang	noun	vulture | raven
 cathan	noun	barnacle goose
@@ -4048,7 +3999,6 @@ dearrsaich	verb	watch; observe; be vigilant
 oifig	noun	synonym of oifis
 ollamhan	noun	doctor (of medicine) | doctorate (degree) | bard of the first order
 Seasaidh	propn	a female given name, equivalent to English Jessie
-t-athair	noun	t-prothesized form of athair
 bronn	verb	to bestow; grant | to concede | to divide; distribute
 esan	pron	he; him; it
 basan	noun	bass; perch
@@ -4057,7 +4007,6 @@ taghta	adj	chosen; selected; picked | elected; polled | choice; select | elect |
 taghta	adv	really; truly (intensifier)
 iadsan	pron	they; them
 sìthean	noun	synonym of dìthean (“flower”)
-t-airgead	noun	t-prothesized form of airgead
 Alastair	propn	a male given name, variant of Alasdair
 socrach	adj	balanced; dispassionate; equal; moderate; steady; static | comfortable; easeful; easy; easygoing | established; fixed | plain | quiet; tame; sedate | smooth | slow
 leamsa	pron	with me; by me (emphatic)
@@ -4065,7 +4014,6 @@ Annag	propn	a diminutive of the female given name Anna, from Ancient Greek, equi
 Seonachan	propn	a diminutive of the male given name Iain, equivalent to English Johnny
 stèidheadh	noun	(act of) establishing; founding; setting up | stabilising peat wall (on a cart/trailer or stack etc)
 gabhann	noun	flattery; adulation; sycophancy | gall | prating; tattling; gossip | gaol; prison
-sè	num	South Argyll form of sia (“six”)
 bhuamsa	pron	from me (emphatic)
 leatsa	pron	with you; by you (singular informal, emphatic)
 leis-san	pron	with him; with it (emphatic) | by him; by it (emphatic)

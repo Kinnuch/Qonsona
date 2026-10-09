@@ -317,7 +317,8 @@ export function cleanForm(raw: string, tags: string[]): { form: string; tags: st
     .replace(/^\(a'\)\s*/, '')
     .replace(/\s+/g, ' ')
     .trim()
-  if (!text || text === '-' || /[()[\]{}<>=|/\\0-9]/.test(text)) return null
+  // 表里的说明（after "an"）、脚注、数字都不是词形
+  if (!text || text === '-' || /[()[\]{}<>=|/\\0-9"“”]/.test(text)) return null
   let words = text.split(' ')
   if (words.length > 1) {
     // 前头的冠词、小品词，后头的人称代词都去掉
@@ -350,6 +351,73 @@ export function readKaikki(file: string): KEntry[] {
 
 const isFormSense = (s: KSense): boolean => !!(s.form_of?.length || s.alt_of?.length)
 
+/** 释义里只用文字写着「某词的某形式」的（维基词典没用模板）：认出来补成 form_of */
+const TEXT_FORM_RE =
+  /^(.*?\b(?:form|plural|singular|genitive|dative|vocative|nominative|lenited|prothesized|eclipsed|inflection|past|future|conditional|participle|person|emphatic|comparative|superlative|tense|degree))\b[^.;]*?\bof ([\p{L}'’-]+)(?:\s*[(:“"].*)?$/u
+/** 释义里的语法词 → kaikki 的标签词（normTags 再换成界面的） */
+const TEXT_TAGS: Record<string, string> = {
+  genitive: 'genitive',
+  vocative: 'vocative',
+  dative: 'dative',
+  nominative: 'nominative',
+  singular: 'singular',
+  plural: 'plural',
+  comparative: 'comparative',
+  superlative: 'superlative',
+  past: 'past',
+  future: 'future',
+  present: 'present',
+  conditional: 'conditional',
+  imperative: 'imperative',
+  participle: 'participle',
+  emphatic: 'emphatic',
+  dependent: 'dependent',
+  independent: 'independent',
+  relative: 'relative',
+  question: 'interrogative',
+  interrogative: 'interrogative',
+  negative: 'negative',
+  masculine: 'masculine',
+  feminine: 'feminine',
+  'first-person': 'first-person',
+  'second-person': 'second-person',
+  'third-person': 'third-person',
+  lenited: 'lenition',
+  't-prothesized': 'prothesis-t',
+  'h-prothesized': 'prothesis-h',
+  eclipsed: 'eclipsis'
+}
+
+/**
+ * 维基词典有一百来页只用文字写「某词的某形式」（vocative/genitive singular of salann、
+ * t-prothesized form of uisge、Sutherland form of thoir）：补成 form_of 与标签，后面一并并进原形
+ */
+export function structureTextualForms(raw: KEntry[]): number {
+  const words = new Set(raw.map((k) => k.word))
+  let n = 0
+  for (const k of raw)
+    for (const s of k.senses) {
+      if (isFormSense(s)) continue
+      const g = s.glosses?.[s.glosses.length - 1] ?? ''
+      const m = TEXT_FORM_RE.exec(g)
+      if (!m || !words.has(m[2]) || m[2] === k.word) continue
+      const tags = m[1]
+        .toLowerCase()
+        .split(/[\s/,]+/)
+        .map((w) => TEXT_TAGS[w])
+        .filter((t): t is string => !!t)
+      if (!tags.length) {
+        tags.push('alternative')
+        // Sutherland form of、Lewis form of：方言形
+        if (/^\p{Lu}/u.test(m[1])) tags.push('dialectal')
+      }
+      s.form_of = [{ word: m[2] }]
+      s.tags = [...new Set([...(s.tags ?? []), ...tags])]
+      n++
+    }
+  return n
+}
+
 /** 去掉音标两边的斜线 / 方括号以外的杂质，空的给 null */
 function cleanIpa(ipa: string | undefined): string | null {
   const t = ipa?.trim()
@@ -379,6 +447,8 @@ export interface KaikkiStats {
   folded: number
   orphanForms: number
   formsDropped: number
+  /** 只用文字写着「某词的某形式」、补成 form_of 的义项 */
+  textualForms: number
 }
 
 /**
@@ -390,7 +460,8 @@ export function buildEntries(raw: KEntry[]): { entries: GdEntry[]; stats: Kaikki
     entries: 0,
     folded: 0,
     orphanForms: 0,
-    formsDropped: 0
+    formsDropped: 0,
+    textualForms: structureTextualForms(raw)
   }
   // 先把每个页面拆成「自己的义项」与「某词的某形式」两部分
   const own: { k: KEntry; senses: KSense[] }[] = []
@@ -419,6 +490,9 @@ export function buildEntries(raw: KEntry[]): { entries: GdEntry[]; stats: Kaikki
   const resolve = (word: string, depth = 0): GdEntry[] => {
     const hit = byWord.get(gdKey(word))
     if (hit?.length) return hit
+    // wiktextract 偶尔把释义的后半截粘进目标词（aige 的目标成了「aig at him」）：取第一个词再试
+    const first = word.trim().split(/\s+/)[0]
+    if (first !== word.trim() && byWord.get(gdKey(first))?.length) return byWord.get(gdKey(first))!
     if (depth >= 3) return []
     const k = formOnly.get(gdKey(word))
     const next = k?.senses.flatMap((s) => [...(s.form_of ?? []), ...(s.alt_of ?? [])]) ?? []
@@ -704,10 +778,27 @@ export function finishEntry(e: GdEntry): void {
   if (d.au?.length && !d.src?.includes('commons')) d.src = [...(d.src ?? []), 'commons']
   if (!Object.keys(x).length) delete d.x
   // 词首音变（弱化、加 t- / h- / n-）排在变形表前头：阅读器一个词形对上几行时取第一行的标签，
-  // bhàta 先说「弱化」（看得见的变化），比「定指属格单数」（要看上下文）对学的人有用
-  if (d.f) {
+  // bhàta 先说「弱化」（看得见的变化），比「定指属格单数」（要看上下文）对学的人有用；
+  // 动词不动：动词的弱化形就是过去式（sheall），表里过去式本来就在前头
+  if (d.f && d.p[0] !== 'verb') {
     const MUT = new Set(['lenition', 'h-prothesis', 't-prothesis', 'eclipsis'])
     const isMut = (tags: string[]): boolean => tags.length > 0 && tags.every((t) => MUT.has(t))
     d.f = [...d.f.filter(([, ...t]) => isMut(t)), ...d.f.filter(([, ...t]) => !isMut(t))]
   }
+}
+
+/**
+ * 写库前把 x 里给程序用的结构换成界面直接能显示的文字（界面对不认得的键原样显示，对象会显示成 JSON）：
+ * formIpa { chunnaic: '/…/' } → ['chunnaic /…/']；ipaDialects [[ipa, 注]] → ['ipa（注）']。
+ * 阅读器要按词形取读音时，按第一个空格拆开即可
+ */
+export function presentX(data: LexEntryData): void {
+  const x = data.x
+  if (!x) return
+  if (x.formIpa && !Array.isArray(x.formIpa))
+    x.formIpa = Object.entries(x.formIpa as Record<string, string>).map(([f, ipa]) => `${f} ${ipa}`)
+  if (Array.isArray(x.ipaDialects))
+    x.ipaDialects = (x.ipaDialects as unknown[]).map((d) =>
+      Array.isArray(d) ? `${d[0]}（${d[1]}）` : String(d)
+    )
 }

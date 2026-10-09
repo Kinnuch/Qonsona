@@ -22,7 +22,14 @@ import {
   countWikiForms,
   readLearnGaelic
 } from './freq'
-import { addPhraseParts, buildEntries, finishEntry, readKaikki, refoldOrphans } from './kaikki'
+import {
+  addPhraseParts,
+  buildEntries,
+  finishEntry,
+  presentX,
+  readKaikki,
+  refoldOrphans
+} from './kaikki'
 import { CUTOFFS, assignLevels, readCore, resolveCore } from './levels'
 import { CACHE, SRC, fetchAll, linguaLibre, untarGz } from './sources'
 import { applyAdditions, readSupplement } from './supplement'
@@ -206,6 +213,7 @@ for (const e of entries)
 const dbId: number[] = []
 entries.forEach((e, i) => {
   const data: LexEntryData = { ...e.data }
+  presentX(data)
   if (rank[i] !== null) data.fr = rank[i]!
   if (lv.level[i]) data.lv = { cefr: lv.level[i]! }
   // 义项里一条释义都没有的去掉（kaikki 偶尔有空的）
