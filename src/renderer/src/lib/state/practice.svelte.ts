@@ -357,7 +357,11 @@ class PracticeState {
               .catch(() => null)
           : await platform.ja.paper(this.#jaLevel(level), Date.now() >>> 0).catch(() => null)
       if (!paper) {
-        ui.toast(t('practice.exam.unavailable'), 'error', 6000)
+        ui.toast(
+          t('practice.exam.unavailable', { lang: packs.active ? pick(packs.active.name) : '' }),
+          'error',
+          6000
+        )
         return
       }
       const now = Date.now()

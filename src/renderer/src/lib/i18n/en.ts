@@ -705,8 +705,8 @@ export default {
       paper: '{level} mock exam',
       structure: '{sections} sections · {n} questions · {m} minutes',
       noVoice:
-        'No Japanese system voice was found, so the listening questions cannot be played. Please add a Japanese voice in the Windows Speech settings.',
-      unavailable: 'Could not create a mock exam: the Japanese dictionary data was not found.',
+        'No {lang} system voice was found, so the listening questions cannot be played. Please add a {lang} voice in the Windows Speech settings.',
+      unavailable: 'Could not create a mock exam: the {lang} dictionary data was not found.',
       history: 'Past exams',
       sectionOf: 'Section {i} of {n}',
       minutes: '{n} min',

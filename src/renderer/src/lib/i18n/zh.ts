@@ -664,8 +664,8 @@ export default {
       paper: '{level} 模拟卷',
       structure: '{sections} 节 · {n} 题 · 限时 {m} 分钟',
       noVoice:
-        '没有找到日语的系统语音，听解题将无法播放。请在 Windows 的「语音」设置里添加日语语音。',
-      unavailable: '无法生成模拟卷：没有找到日语词典数据。',
+        '没有找到{lang}的系统语音，听力题将无法播放。请在 Windows 的「语音」设置里添加{lang}语音。',
+      unavailable: '无法生成模拟卷：没有找到{lang}的词典数据。',
       history: '做过的卷子',
       sectionOf: '第 {i} / {n} 节',
       minutes: '{n} 分钟',

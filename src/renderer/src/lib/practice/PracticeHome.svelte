@@ -3,6 +3,7 @@
   // 放不了声音（没有这门语言的系统语音）时听力题不能选
   import { ListChecks, Timer, ChevronRight } from '@lucide/svelte'
   import { practice, COUNTS, type RunKind } from '$lib/state/practice.svelte'
+  import { packs } from '$lib/state/packs.svelte'
   import { t, pick, i18n } from '$lib/i18n/index.svelte'
   import { txt } from '$lib/courses/view'
   import { dayKey } from '$shared/srs'
@@ -152,7 +153,9 @@
           </button>
         {/each}
       </div>
-      {#if !practice.canListen}<p class="faint">{t('practice.exam.noVoice')}</p>{/if}
+      {#if !practice.canListen}<p class="faint">
+          {t('practice.exam.noVoice', { lang: packs.active ? pick(packs.active.name) : '' })}
+        </p>{/if}
 
       {#if history.length}
         <h3>{t('practice.exam.history')}</h3>
