@@ -216,8 +216,11 @@
 
   function goNext(): void {
     if (!following) return
+    // 先记下要去哪一课再清掉这一轮：清掉之后 run、course 这些派生值就没有了，再读会报错
+    const courseId = course.id
+    const lessonId = following.lesson.id
+    courses.openLesson(courseId, lessonId)
     courses.quiz = null
-    courses.openLesson(course.id, following.lesson.id)
   }
 </script>
 

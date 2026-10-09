@@ -555,7 +555,16 @@ try {
   await s.shot('15-kana-quiz')
   const kanaQuiz = await s.evaluate(answerQuiz)
   check('五十音：あ 行的练习全答对，过关', kanaQuiz?.passed === true, JSON.stringify(kanaQuiz))
-  await s.evaluate(click('[data-back-course]'))
+  // 过关后点「下一课」直接进 か 行（原来会报 Cannot read properties of null），再从课里回到课程页
+  await s.evaluate(click('[data-next-lesson]'))
+  check(
+    '五十音：过关后点「下一课」进到 か 行，没有报错',
+    await s.waitFor(
+      `document.querySelector('[data-lesson-page]')?.dataset.lessonPage === 'h1-ka' && !document.querySelector('[data-quiz]')`,
+      10000
+    )
+  )
+  await s.evaluate(click('[data-lesson-page] [data-back]'))
   check(
     '五十音：课程页上 あ 行已过关，下一课是 か 行',
     await s.waitFor(
