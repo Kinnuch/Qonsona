@@ -16,10 +16,13 @@ export function key(text: string): string {
 
 /**
  * 宽松的键：再去掉附加符号（café → cafe）、连字符、撇号、点和空格（e-mail → email、o'clock → oclock、
- * U.S. → us、a lot → alot）。严格的键查不到时再用它。
+ * don't → dont、U.S. → us、a lot → alot）。严格的键查不到时再用它。
+ * 词尾的所有格 's、s' 留着：John's 不能变成 Johns（另一个词），交给 lemmaCandidates 去掉。
  */
 export function looseKey(text: string): string {
-  return stripMarks(key(text)).replace(/[-'.\s]/g, '')
+  const s = stripMarks(key(text))
+  const tail = s.match(/(?:'s|s')$/)?.[0] ?? ''
+  return s.slice(0, s.length - tail.length).replace(/[-'.\s]/g, '') + tail
 }
 
 // ───────────────────────── 切词 ─────────────────────────
@@ -95,9 +98,11 @@ const NEG_HOSTS: Record<string, string> = { ca: 'can', wo: 'will', sha: 'shall',
 const BE_FORMS = new Set(['am', 'is', 'are', 'was', 'were', 'be'])
 const HAVE_FORMS = new Set(['have', 'has', 'had'])
 const DO_FORMS = new Set(['do', 'does', 'did'])
-/** 's 在这些词后面多半是 is / has，不是所有格 */
-const PRONOUN_HOSTS = new Set(
-  'he she it that what who where when how there here this everyone everybody someone somebody nobody everything something nothing'.split(
+/**
+ * 's 在这些词后面多半是 is / has，不是所有格（someone's、everyone's 多半是所有格，不在里面）
+ */
+export const PRONOUN_HOSTS = new Set(
+  'he she it that what who where when how why there here this everything something nothing'.split(
     ' '
   )
 )
@@ -247,7 +252,9 @@ export function lemmaCandidates(surface: string): LemmaGuess[] {
   if (c) {
     if (c.possessive) {
       add(c.hostLemma, ['possessive'])
-      for (const g of lemmaCandidates(c.hostLemma)) add(g.lemma, [...g.tags, 'possessive'])
+      // 所有格前面只可能是名词：只要复数的猜法（students' → student）
+      for (const g of lemmaCandidates(c.hostLemma))
+        if (g.tags.includes('plural')) add(g.lemma, [...g.tags, 'possessive'])
     } else {
       const neg = c.clitic === "n't" || c.clitic === 'not'
       add(c.hostLemma, neg ? ['negative', 'contraction'] : ['contraction'])
@@ -255,9 +262,11 @@ export function lemmaCandidates(surface: string): LemmaGuess[] {
     }
     return out
   }
-  // 连字符：去掉连字符、换成空格，最后是复合词的中心词（最后一段）
+  // 连字符：去掉连字符（也可能变过形：e-mails → emails → email）、换成空格，最后是复合词的中心词
   if (w.includes('-')) {
-    add(w.replace(/-/g, ''), ['alternative'])
+    const joined = w.replace(/-/g, '')
+    add(joined, ['alternative'])
+    for (const g of lemmaCandidates(joined)) add(g.lemma, [...g.tags, 'alternative'])
     add(w.replace(/-/g, ' '), ['alternative'])
     const parts = w.split('-').filter(Boolean)
     if (parts.length > 1) add(parts[parts.length - 1], ['compound'])
