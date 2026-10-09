@@ -8,10 +8,14 @@
   import Pronounce from '$lib/ui/Pronounce.svelte'
   import { mdToHtml } from '$qon/core/markdown'
   import type { PackFeatures, PackManifest, PackStats } from '$lib/packs/types'
+  import { langModule } from '$shared/lang/registry'
+  import LangAbout from '$lib/lang/LangAbout.svelte'
 
   let { pack, onclose }: { pack: PackManifest; onclose: () => void } = $props()
 
   const project = $derived(packs.project)
+  /** 框架里的语言（英、法、韩……）：介绍、分级、来源另有一块 */
+  const isLang = $derived(!!langModule(pack.id))
   const langId = $derived(pack.source?.languageId ?? '')
 
   const STAT_KEYS: (keyof PackStats)[] = [
@@ -100,6 +104,8 @@
     <section class="card intro md" data-intro>{@html intro}</section>
   {/if}
 
+  {#if isLang}<LangAbout code={pack.id} />{/if}
+
   {#if sample}
     <section class="card sample" data-sample>
       <h3>{t('home.sample')}</h3>
@@ -115,7 +121,7 @@
     </section>
   {/if}
 
-  {#if pack.stats || pack.levels || pack.scripts.length}
+  {#if !isLang && (pack.stats || pack.levels || pack.scripts.length)}
     <section class="stack">
       <h3>{t('home.contents')}</h3>
       {#if pack.stats}

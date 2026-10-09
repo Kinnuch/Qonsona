@@ -18,6 +18,20 @@ import type { GrammarExampleData } from '$shared/ja/grammar-course'
 import type { ExamPaper, ExamQuestion, PracticeKind } from '$shared/exam'
 import type { MediaItem, MediaPatch } from '$shared/media'
 import type { Article, ArticleInput, ArticleMeta, NhkStatus } from '$shared/articles'
+import type { LexAnalysis, LexExample, SourceRef } from '$shared/lang/types'
+import type {
+  LangArticle,
+  LangArticleInput,
+  LangArticleMeta,
+  LangNewsStatus
+} from '$shared/lang/articles'
+import type {
+  LexEntryView,
+  LexListInfo,
+  LexSearchResult,
+  LexStatus,
+  LexWordItem
+} from '$shared/lang/views'
 
 /** 维基词典的一条释义：来源（日语版 / 中文版）、词性、释义、例句、出自哪一页 */
 export interface WiktDefinition {
@@ -172,6 +186,49 @@ export const platform = {
     /** 本文练习：用这篇文章的词、语法、句子出一组题（listen：出不出听力题） */
     articlePractice: (id: string, seed: number, listen: boolean) =>
       invoke<ExamQuestion[]>('ja:articlePractice', id, seed, listen)
+  },
+  /** 框架里各语言（英、法、韩、西、阿、俄、苏格兰盖尔）的词典：主进程查 SQLite */
+  lang: {
+    status: (codes: string[]) => invoke<LexStatus[]>('lang:status', codes),
+    search: (code: string, q: string) => invoke<LexSearchResult | null>('lang:search', code, q),
+    entry: (code: string, id: number) => invoke<LexEntryView | null>('lang:entry', code, id),
+    examples: (code: string, q: string) => invoke<LexExample[]>('lang:examples', code, q),
+    sources: (code: string) => invoke<SourceRef[]>('lang:sources', code),
+    /** 词表（cefr:A1、cn-exam:cet4、theme:food……），常用的在前 */
+    list: (code: string, name: string, limit?: number) =>
+      invoke<LexWordItem[]>('lang:list', code, name, limit),
+    listCounts: (code: string) => invoke<Record<string, number>>('lang:listCounts', code),
+    /** 全部词表（分级的各级、主题词本……）与词数 */
+    lists: (code: string) => invoke<LexListInfo[]>('lang:lists', code),
+    /** 字母课的拼读词：读法与一句释义（查不到的跳过） */
+    spell: (code: string, words: string[]) =>
+      invoke<{ text: string; reading: string; zh: string; en: string; entry: number }[]>(
+        'lang:spell',
+        code,
+        words
+      ),
+    /** 主分级每一级多少词 */
+    levelCounts: (code: string) => invoke<Record<string, number>>('lang:levelCounts', code),
+    items: (code: string, ids: number[]) => invoke<LexWordItem[]>('lang:items', code, ids),
+    /** 真人录音（维基共享资源等）：主进程下载并缓存；没联网、地址不在白名单里时是 null */
+    audio: (url: string) => invoke<{ bytes: Uint8Array; mime: string } | null>('lang:audio', url),
+    /** 阅读器：分句、切词、对词条、注音、认语法点、估难度；没有词典数据时是 null */
+    analyze: (code: string, text: string) => invoke<LexAnalysis | null>('lang:analyze', code, text),
+    /** 文章库：内置课文、自己导入的、新闻 */
+    articles: {
+      list: (code: string) => invoke<LangArticleMeta[]>('langArticles:list', code),
+      get: (code: string, id: string) => invoke<LangArticle | null>('langArticles:get', code, id),
+      save: (code: string, input: LangArticleInput) =>
+        invoke<LangArticleMeta | null>('langArticles:save', code, input),
+      remove: (code: string, id: string) => invoke<void>('langArticles:remove', code, id),
+      markRead: (code: string, id: string, read: boolean) =>
+        invoke<void>('langArticles:markRead', code, id, read),
+      setTranslation: (code: string, id: string, text: string) =>
+        invoke<void>('langArticles:setTranslation', code, id, text)
+    },
+    /** 取新闻（一小时最多一次，force 除外） */
+    news: (code: string, force?: boolean) =>
+      invoke<LangNewsStatus | null>('langNews:refresh', code, force)
   },
   /** 课程进度：每门语言一个文件 */
   course: {
