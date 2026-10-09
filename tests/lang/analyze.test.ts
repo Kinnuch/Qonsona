@@ -19,7 +19,7 @@ const key = LANGS.fr.rules.key
 
 beforeAll(() => {
   const file = join(dir, 'fr.sqlite')
-  const w = new LexDbWriter('fr', { file })
+  const w = new LexDbWriter('fr', { file, mt: false })
   w.source({ id: 't', name: 'Test', license: 'CC0', credit: 'me', home: 'https://example.org' })
   w.entry({
     w: 'avoir',

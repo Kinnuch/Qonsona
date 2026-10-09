@@ -32,6 +32,7 @@ import {
   packEntry,
   zhGlossKeys
 } from '../../src/main/lang/lexdb-schema'
+import { MT_SOURCE, loadMt, mtKey } from './mt-zh'
 
 /** 仓库根目录（脚本要在根目录跑） */
 export const ROOT = resolve('.')
@@ -90,11 +91,16 @@ export class LexDbWriter {
     StatementSync
   >
 
+  /** data/<代码>/zh-mt.jsonl 的译文：没有中文的义项按它补（opts.mt 为 false 时不补；测试可以直接给一份） */
+  #mt: Map<string, string>
+  #mtUsed = 0
+
   constructor(
     readonly code: LangCode,
-    opts: { file?: string } = {}
+    opts: { file?: string; mt?: false | Map<string, string> } = {}
   ) {
     this.lang = LANGS[code]
+    this.#mt = opts.mt === false ? new Map() : (opts.mt ?? loadMt(ROOT, code))
     this.file = opts.file ?? join(dataDir(code), 'dict.sqlite')
     this.#tmp = this.file + '.building'
     mkdirSync(join(this.file, '..'), { recursive: true })
@@ -146,6 +152,7 @@ export class LexDbWriter {
     if (!data.p?.length || data.p.some((p) => !POS_TAGS.includes(p)))
       throw new Error(`词性不对（${data.p}）：${data.w}`)
     if (!data.s?.length) throw new Error(`词条没有义项：${data.w}`)
+    if (this.#mt.size) data = this.#withMt(data)
     const id = this.#nextEntry++
     const lv = this.#levelOf(data)
     this.#ins.entry.run(id, data.w, data.p[0], data.fr ?? null, lv, packEntry(data))
@@ -217,6 +224,20 @@ export class LexDbWriter {
     return id
   }
 
+  /** 没有中文的义项按 zh-mt.jsonl 补上（词头 + 这个义项的词性 + 英文释义对得上才补） */
+  #withMt(data: LexEntryData): LexEntryData {
+    let changed = false
+    const s = data.s.map((sense) => {
+      if (sense.zh?.length || !sense.en?.length) return sense
+      const zh = this.#mt.get(mtKey(data.w, (sense.p ?? data.p)[0], sense.en))
+      if (!zh) return sense
+      changed = true
+      this.#mtUsed++
+      return { ...sense, zh: [zh], zs: MT_SOURCE.id }
+    })
+    return changed ? { ...data, s } : data
+  }
+
   /** 把例句挂到词条上 */
   link(example: number, entry: number): void {
     this.#ins.exEntry.run(example, entry)
@@ -234,6 +255,7 @@ export class LexDbWriter {
 
   /** 建索引、写 meta、整理，换上正式文件 */
   finish(): WriterStats {
+    if (this.#mtUsed && !this.#sources.has(MT_SOURCE.id)) this.source(MT_SOURCE)
     const db = this.db
     db.exec('COMMIT')
     db.exec(INDEX_SQL)

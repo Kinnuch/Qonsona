@@ -362,7 +362,7 @@ const byWord = new Map<string, (typeof WORDS)[number]>()
 beforeAll(() => {
   langs[CODE] = FAKE
   const file = join(dir, 'zz.sqlite')
-  const w = new LexDbWriter(CODE, { file })
+  const w = new LexDbWriter(CODE, { file, mt: false })
   w.source({ id: 't', name: 'Test', license: 'CC0', credit: 'me', home: 'https://example.org' })
   const ids = new Map<string, number>()
   WORDS.forEach((x, i) => {
