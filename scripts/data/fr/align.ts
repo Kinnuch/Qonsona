@@ -101,6 +101,8 @@ export function cleanItem(zh: string): string {
       ''
     )
     .replace(/^〈[^〉]*〉\s*/, '')
+    // 汉法词典导进来的条目末尾常挂着法语的用法提示（「使得到位置se ~」）
+    .replace(/(?<=\p{Script=Han})\s*[A-Za-zÀ-ÿ~'’ .]+$/u, '')
     .replace(/[。：:；;，,、\s]+$/u, '')
     .trim()
   const m = /^[（(]([^（()）]*)[）)]$/.exec(s)
@@ -135,10 +137,14 @@ interface Cand {
   raw: Set<string>
   /** pivot：英文词头（得出现在义项的英文释义里） */
   head?: Set<string>
+  /** pivot：翻译表的义项说明里词头以外的词 */
+  desc?: Set<string>
   /** 中文维基词典的第几个义项（序号回退用） */
   ord?: number
   /** 来自没写词性的中文维基词典词条（几个词性的意思混在一起，不能按序号对） */
   mixed?: boolean
+  /** 法语维基词典没标义项的译词（整个词条一张表）：只有中文词自己的意思对得上才收 */
+  loose?: boolean
   w: number
 }
 
@@ -207,11 +213,16 @@ export function align(
   const sBags = input.senses.map((s) => bag(s.en.join(' '), fn))
   const sRaw = input.senses.map((s) => bag(s.en.join(' '), true))
   /** 跟哪个义项最像（实词重合；义项的英文全是虚词时比原词）；都不像返回 -1 */
-  const best = (c: Pick<Cand, 'bridge' | 'raw' | 'head'>): number => {
+  const best = (c: Pick<Cand, 'bridge' | 'raw' | 'head' | 'desc'>): number => {
     let bi = -1
     let bs = 0
+    const sense = (i: number): Set<string> => (sBags[i].size ? sBags[i] : sRaw[i])
+    const fits = c.head ? sBags.map((_, i) => headFits(c.head!, sense(i))) : null
+    // 词头在几个义项里都出现（moment「时刻」「片刻」）：还得翻译表的义项说明对得上（「物理的力矩」就对不上）
+    const several = !!fits && fits.filter(Boolean).length > 1
     for (let i = 0; i < n; i++) {
-      if (c.head && !headFits(c.head, sBags[i].size ? sBags[i] : sRaw[i])) continue
+      if (fits && !fits[i]) continue
+      if (several && c.desc && !overlap(c.desc, sense(i))) continue
       const o = sBags[i].size ? overlap(c.bridge, sBags[i]) : overlap(c.raw, sRaw[i])
       if (o > bs) {
         bs = o
@@ -242,7 +253,7 @@ export function align(
       const en = (s.en ?? []).join(' ')
       for (const w of bag(en, fn)) m.bridge.add(w)
       for (const w of bag(en, true)) m.raw.add(w)
-      cands.push({ zh, src: 'frwikt', ...m, w: WEIGHT.frwikt })
+      cands.push({ zh, src: 'frwikt', ...m, loose: !s.m, w: WEIGHT.frwikt })
     }
   for (const p of input.pivot ?? [])
     for (const z of p.zh) {
@@ -254,6 +265,7 @@ export function align(
         bridge: bag(`${p.e} ${p.s}`, fn),
         raw: bag(`${p.e} ${p.s}`, true),
         head: bag(p.e, fn).size ? bag(p.e, fn) : bag(p.e, true),
+        desc: new Set([...bag(p.s, fn)].filter((w) => !bag(p.e, true).has(w))),
         w: WEIGHT.pivot
       })
     }
@@ -267,46 +279,67 @@ export function align(
   // 分给义项
   const perSense = Array.from(
     { length: n },
-    () => new Map<string, { score: number; srcs: Set<Src> }>()
+    () => new Map<string, { score: number; srcs: Set<Src>; direct: boolean; orphan: boolean }>()
   )
-  const put = (i: number, c: Cand): void => {
+  /** 这个中文词自己的意思（CC-CEDICT）就对得上这个义项：比只靠同一行译词带进来的可靠 */
+  const direct = (zh: string, i: number): boolean => {
+    const m = zhMeaning(zh, cedict)
+    return sBags[i].size ? overlap(bag(m, fn), sBags[i]) > 0 : overlap(bag(m, true), sRaw[i]) > 0
+  }
+  const put = (i: number, c: Cand, orphan = false): void => {
     const zh = c.zh
     if (!zh || zh.length > 24 || !/\p{Script=Han}/u.test(zh)) return
-    const cur = perSense[i].get(zh) ?? { score: 0, srcs: new Set<Src>() }
+    const d = direct(zh, i)
+    if (c.loose && !d) return
+    const cur = perSense[i].get(zh) ?? { score: 0, srcs: new Set<Src>(), direct: d, orphan }
     cur.score += c.w
     cur.srcs.add(c.src)
+    if (!orphan) cur.orphan = false
     perSense[i].set(zh, cur)
   }
   const orphans: Cand[] = []
+  /** 中文维基词典里有词被判定为别的意思的那些义项（同一条释义里的其他说法也不可靠） */
+  const rejected = new Set<number>()
   for (const c of cands) {
     const i = best(c)
     if (i >= 0) put(i, c)
     else if (!c.bridge.size && (c.src === 'zhwikt' || c.src === 'frwikt')) orphans.push(c)
     // 桥不空却对不上的：别的意思，不要
+    else if (c.src === 'zhwikt' && c.ord !== undefined) rejected.add(c.ord)
   }
-  // 桥是空的人写释义：只有一个义项给它；义项数一样按序号；否则只把中文维基词典的第一个给第一个义项
+  // 桥是空的人写释义：只有一个义项给它；义项数一样按序号；否则只把中文维基词典的第一个给第一个义项。
+  // 同一条释义里有别的说法对不上（cent「分」的释义「百；百来个」里的「百」），这一条整条不要
   for (const c of orphans) {
+    if (c.ord !== undefined && rejected.has(c.ord)) continue
     if (c.mixed) {
-      if (c.ord === 0 && (n === 1 || perSense[0].size === 0)) put(0, c)
-    } else if (n === 1) put(0, c)
+      if (c.ord === 0 && (n === 1 || perSense[0].size === 0)) put(0, c, true)
+    } else if (n === 1) put(0, c, true)
     else if (c.src === 'zhwikt' && c.ord !== undefined) {
-      if (zwSenses.length === n) put(c.ord, c)
-      else if (c.ord === 0 && perSense[0].size === 0) put(0, c)
-    } else if (c.src === 'frwikt' && perSense[0].size === 0) put(0, c)
+      if (zwSenses.length === n) put(c.ord, c, true)
+      else if (c.ord === 0 && perSense[0].size === 0) put(0, c, true)
+    } else if (c.src === 'frwikt' && perSense[0].size === 0) put(0, c, true)
   }
 
   const zh = perSense.map((m) => {
-    const human = [...m].filter(([, v]) => v.srcs.has('zhwikt') || v.srcs.has('frwikt'))
-    const wikt = [...m].filter(([, v]) => [...v.srcs].some((s) => s !== 'cfdict'))
+    // 中文维基词典是给这个法语词写的释义，直接用；译词表（法语、英文维基词典）和 CFDICT 带进来的，
+    // 有自己意思对得上的就只留对得上的
+    const sure = ([, v]: [string, { srcs: Set<Src>; direct: boolean }]): boolean =>
+      v.srcs.has('zhwikt') || v.srcs.has('pivot') || v.direct
+    const all = [...m]
+    const pool = all.some(sure) ? all.filter(sure) : all
+    const human = pool.filter(([, v]) => v.srcs.has('zhwikt') || v.srcs.has('frwikt'))
+    const wikt = pool.filter(([, v]) => [...v.srcs].some((s) => s !== 'cfdict'))
     // 人写的已经有两个以上时，只在翻译表里出现过一次的不再往上加
     const use = (
       human.length >= 2
         ? wikt.filter(([, v]) => v.srcs.has('zhwikt') || v.srcs.has('frwikt') || v.score >= 4)
         : wikt.length
           ? wikt
-          : [...m]
+          : pool
     ).sort(
       (a, b) =>
+        Number(sure(b)) - Number(sure(a)) ||
+        Number(a[1].orphan) - Number(b[1].orphan) ||
         b[1].score - a[1].score ||
         (jieba[b[0].replace(/的$/, '')] ?? 0) - (jieba[a[0].replace(/的$/, '')] ?? 0) ||
         a[0].length - b[0].length
@@ -326,7 +359,7 @@ export function align(
 
   // 法语释义：法语维基词典的义项按英文译词对；只有一个英文义项时给第一个法语释义
   const mono: string[][] = Array.from({ length: n }, () => [])
-  const fs = input.fr?.s ?? []
+  const fs = (input.fr?.s ?? []).filter((s) => s.m)
   if (n === 1 && fs.length) mono[0].push(fs[0].m)
   else
     fs.forEach((s, j) => {

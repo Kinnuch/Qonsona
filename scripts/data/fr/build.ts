@@ -280,19 +280,22 @@ for (const e of frwikt) {
   // 同一个词另有常用得多的词性的（avant 介词 / 形容词「Avant-lès-Marcilly 的」）：多半是 Lexique 标错的词性
   if (score < FR_ONLY_MIN || (bestScore.get(e.k) ?? 0) > 5 * score) continue
   const zw = zhByKey.get(`${e.k}|${e.p}`) ?? []
-  const senses: Sense[] = e.s.slice(0, 4).map((s, i) => {
-    const zh = [...new Set([...(s.zh ?? []), ...(zw[0]?.s[i] ? [zw[0].s[i]] : [])])].slice(0, 4)
-    return {
-      en: (s.en ?? []).slice(0, 4),
-      ...(zh.length ? { zh, zs: 'wikt-zh' } : {}),
-      mono: [s.m],
-      t: s.t ?? [],
-      dom: [],
-      ex: [],
-      syn: [],
-      ant: []
-    }
-  })
+  const senses: Sense[] = e.s
+    .filter((s) => s.m)
+    .slice(0, 4)
+    .map((s, i) => {
+      const zh = [...new Set([...(s.zh ?? []), ...(zw[0]?.s[i] ? [zw[0].s[i]] : [])])].slice(0, 4)
+      return {
+        en: (s.en ?? []).slice(0, 4),
+        ...(zh.length ? { zh, zs: 'wikt-zh' } : {}),
+        mono: [s.m],
+        t: s.t ?? [],
+        dom: [],
+        ex: [],
+        syn: [],
+        ant: []
+      }
+    })
   items.push({
     w: e.w,
     k: e.k,

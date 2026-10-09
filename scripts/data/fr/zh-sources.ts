@@ -144,10 +144,53 @@ function cleanZh(g: string): string {
     .trim()
 }
 
+/**
+ * 从汉法词典导进来的条目把几个词性的意思写在一行里：「num.card. 百；第一百n.m. 百；百来个n.m. 分」。
+ * 按这些词性标记切开，各段归到对应的词性（没有标记的整行原样返回，词性 undefined）
+ */
+const MARKS: [RegExp, PosTag][] = [
+  [/^n\.\s*[mf]\.?(?:\s*pl\.)?/i, 'noun'],
+  [/^n\./i, 'noun'],
+  [/^num\.\s*(?:card|ord)\.?/i, 'num'],
+  [/^adj\./i, 'adj'],
+  [/^adv\./i, 'adv'],
+  [/^v\.\s*(?:t|i|pr|tr|intr)\.?(?:\s*ind\.)?/i, 'verb'],
+  [/^v\./i, 'verb'],
+  [/^prép\./i, 'adp'],
+  [/^pron\./i, 'pron'],
+  [/^conj\./i, 'sconj'],
+  [/^interj\./i, 'intj'],
+  [/^art\./i, 'det']
+]
+const MARK_AT =
+  /(?:n\.\s*[mf]\.?(?:\s*pl\.)?|num\.\s*(?:card|ord)\.?|adj\.|adv\.|v\.\s*(?:t|i|pr|tr|intr)\.(?:\s*ind\.)?|prép\.|pron\.|conj\.|interj\.|art\.)/gi
+
+function splitByPos(text: string): { p?: PosTag; text: string }[] {
+  const starts: number[] = []
+  for (const m of text.matchAll(MARK_AT)) if (m.index !== undefined) starts.push(m.index)
+  if (!starts.length) return [{ text }]
+  const out: { p?: PosTag; text: string }[] = []
+  if (starts[0] > 0 && text.slice(0, starts[0]).trim()) out.push({ text: text.slice(0, starts[0]) })
+  starts.forEach((at, i) => {
+    const seg = text.slice(at, starts[i + 1] ?? text.length)
+    const hit = MARKS.find(([re]) => re.test(seg))
+    out.push({ p: hit?.[1], text: hit ? seg.replace(hit[0], '') : seg })
+  })
+  return out
+}
+
 export async function loadZhWikt(t2s: Record<string, string>): Promise<ZhWiktEntry[]> {
   const files = [DOWNLOADS.zhwiktHans.file, DOWNLOADS.zhwiktHant.file].map((f) => join(CACHE, f))
-  return cached('zhwikt', 2, files, async () => {
+  return cached('zhwikt', 3, files, async () => {
     const byKey = new Map<string, ZhWiktEntry>()
+    const add = (k: string, w: string, p: PosTag | null, s: string[]): void => {
+      if (!s.length) return
+      const key = `${k}|${p ?? ''}`
+      const cur = byKey.get(key)
+      if (cur) {
+        for (const x of s) if (!cur.s.includes(x)) cur.s.push(x)
+      } else byKey.set(key, { k, w, p, s })
+    }
     for (const file of files) {
       for await (const o of readJsonl<{
         word: string
@@ -161,16 +204,16 @@ export async function loadZhWikt(t2s: Record<string, string>): Promise<ZhWiktEnt
         if (!senses.length) continue
         const p = o.pos === 'unknown' ? null : mapPos(o.pos, o.word)
         if (o.pos !== 'unknown' && !p) continue
-        const s = senses
-          .map((x) => cleanZh(toSimplified(x.glosses!.join('：'), t2s)))
-          .filter((x) => /\p{Script=Han}/u.test(x) && x.length <= 60)
-        if (!s.length) continue
         const k = frKey(o.word)
-        const key = `${k}|${p ?? ''}`
-        const cur = byKey.get(key)
-        if (cur) {
-          for (const x of s) if (!cur.s.includes(x)) cur.s.push(x)
-        } else byKey.set(key, { k, w: o.word, p, s })
+        for (const x of senses) {
+          const text = toSimplified(x.glosses!.join('：'), t2s)
+          for (const seg of splitByPos(text)) {
+            const g = cleanZh(seg.text)
+            if (!/\p{Script=Han}/u.test(g) || g.length > 60) continue
+            // 段上标着词性的按标记归；词条本身写了词性、跟标记不一样的，以标记为准
+            add(k, o.word, seg.p ?? p, [g])
+          }
+        }
       }
     }
     log(`中文维基词典：${byKey.size} 个法语词条有中文释义`)

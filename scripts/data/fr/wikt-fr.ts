@@ -123,7 +123,7 @@ export async function loadFrWikt(want: Set<string>): Promise<FrEntry[]> {
   // 词集来自英文维基词典与 Lexique，那两份变了这里也要重算：用词集的大小与一个简单的校验和当版本的一部分
   let sum = 0
   for (const k of want) for (let i = 0; i < k.length; i++) sum = (sum * 31 + k.charCodeAt(i)) >>> 0
-  return cached(`frwikt-${want.size}-${sum}`, 3, [file], async () => {
+  return cached(`frwikt-${want.size}-${sum}`, 4, [file], async () => {
     log('读法语维基词典的法语词条（3 GB，一两分钟）…')
     const out: FrEntry[] = []
     let n = 0
@@ -163,15 +163,14 @@ export async function loadFrWikt(want: Set<string>): Promise<FrEntry[]> {
           ...(zh.length ? { zh: zh.slice(0, 6) } : {})
         }
       })
-      // 没写 sense_index 的译词（整个词条一张表）：挂到第一个义项上
-      const loose = tr.filter((t) => !t.sense_index && t.word)
-      if (s.length && loose.length) {
-        const en = loose.filter((t) => t.lang_code === 'en').map((t) => t.word!)
-        const zh = loose.filter((t) => t.lang_code === 'zh').map((t) => t.word!)
-        if (en.length) s[0].en = [...new Set([...(s[0].en ?? []), ...en])].slice(0, 6)
-        if (zh.length) s[0].zh = [...new Set([...(s[0].zh ?? []), ...zh])].slice(0, 6)
-      }
       if (!s.length) continue
+      // 没写 sense_index 的译词（「待整理的翻译」或整个词条一张表）：单独当一个没有释义的义项，
+      // 英文的桥只用它们自己的英文，不借第一个义项的（tableau 的「数组」不能挂到「画」上）
+      const loose = tr.filter((t) => !t.sense_index && t.word)
+      const looseEn = [...new Set(loose.filter((t) => t.lang_code === 'en').map((t) => t.word!))]
+      const looseZh = [...new Set(loose.filter((t) => t.lang_code === 'zh').map((t) => t.word!))]
+      if (looseZh.length && looseEn.length)
+        s.push({ m: '', en: looseEn.slice(0, 6), zh: looseZh.slice(0, 6) })
       const cats = catNames(e)
       const grp = cats.some((c) => c.startsWith('Verbes du premier groupe'))
         ? 1
