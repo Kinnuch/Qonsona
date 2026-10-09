@@ -1,0 +1,7 @@
+# 检出时一律用 LF：Windows 上的 CI 要直接跑 bash 脚本（scripts/pack-win.sh），prettier 也按 LF 查
+* text=auto eol=lf
+*.png binary
+*.ico binary
+*.icns binary
+*.sqlite binary
+*.zip binary

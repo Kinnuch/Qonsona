@@ -1,0 +1,122 @@
+# Qonsona
+
+学语言的桌面软件。先做日语（JLPT N5–N1）：词典、阅读、课程、生词本与间隔复习、练习与模拟卷、视听；
+在[千语集（Qonlang）](https://github.com/Kinnuch/Qonlang)里造的语言，导出学习包后也能导进来学。
+没有 AI 功能，题目、例句、分级都由词典和项目数据生成。原名 Qonlang Study。
+
+_A desktop app for learning languages — Japanese first (JLPT N5–N1), plus the conlangs you build in
+[Qonlang](https://github.com/Kinnuch/Qonlang). Chinese and English interface. Formerly Qonlang Study._
+
+名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
+道本语的 _sona_ 是「知道」（_kama sona_，学）。
+
+## 下载与安装
+
+到 [Releases](https://github.com/Kinnuch/Qonsona/releases/latest) 下载最新版本：
+
+- **Windows**：`Qonsona-<版本>-setup.exe`，双击安装。之后有新版本时软件右下角会提示，点击「下载并安装」即可
+  （只下载变了的部分，装好自动重新打开）。
+- **macOS**：Apple 芯片下载 `Qonsona-<版本>-mac-arm64.dmg`，Intel 芯片下载 `Qonsona-<版本>-mac-x64.dmg`，
+  打开后把 Qonsona 拖进「应用程序」。安装包没有签名，第一次打开时：
+  - macOS 14 及更早：请右键点击 Qonsona，选「打开」，在弹窗里再点击「打开」即可。
+  - macOS 15 起：请先双击打开一次（提示无法打开时点「完成」），然后打开「系统设置 → 隐私与安全性」，
+    在下方找到 Qonsona 被阻止的提示，点击「仍要打开」并输入密码即可。
+  - 提示「已损坏，无法打开」时，请在终端执行 `xattr -cr /Applications/Qonsona.app`，之后照常双击打开。
+
+  朗读用的系统语音暂时只有 Windows 版有；macOS 上自己的录音、作者录音照常能放。
+
+数据目录：Windows 在 `%APPDATA%\qonsona`，macOS 在 `~/Library/Application Support/qonsona`
+（「设置 → 数据」里可以打开、导出备份、从备份恢复）。装过 Qonlang Study 的，第一次打开 Qonsona 会把
+`%APPDATA%\qonlang-study` 里的学习数据拷过来，原来的目录不动，确认没问题后可以自己删掉；
+旧的 Qonlang Study 可以在「设置 → 应用」里卸载。
+
+## 千语集的语言
+
+在千语集里点击「设置 → 数据 → 导出学习包」，设置好课程、不给学习者看的内容、个别词的级别、作者录音，
+导出 `.qstudy.json`；在 Qonsona 的「语言」页导入（也可以直接导入 `.laim.json` 项目文件）。项目里每门语言
+各成一门可以学的语言。读项目用的是千语集自己的引擎快照，两边看到的词形、读音、文字写法一样。
+对齐方案见 [docs/qonlang-alignment.md](docs/qonlang-alignment.md)。
+
+## 数据来源与许可
+
+程序代码按 [MIT](LICENSE) 许可。日语数据来自下面这些开放资源（软件里「设置 → 数据来源与许可」也列着）：
+
+| 数据 | 许可 | 作者 |
+|---|---|---|
+| [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html)（经 jmdict-simplified）、[KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) | CC BY-SA 4.0 | Electronic Dictionary Research and Development Group |
+| [KanjiVG](https://kanjivg.tagaini.net/)（笔顺、手写查字） | CC BY-SA 3.0 | Ulrich Apel |
+| [JLPT 词汇分级](https://www.tanos.co.uk/jlpt/) | CC BY（原表）/ CC BY-SA 4.0（对到 JMdict） | Jonathan Waller；stephenmk |
+| [kanji-data](https://github.com/davidluzgouveia/kanji-data)（汉字的新 JLPT 等级） | MIT | David Gouveia |
+| [Tatoeba](https://tatoeba.org/) 例句 | CC BY 2.0 FR | Tatoeba contributors |
+| [Tomoshi 开放数据](https://github.com/tomoshi-app/tomoshi-dict-data)（中文释义、例句翻译、中日同形词、自他动词） | CC BY-SA 4.0 | Y1Z |
+| 日语、中文[维基词典](https://kaikki.org/)的释义（kaikki.org / wiktextract 抽取） | CC BY-SA 4.0 / 3.0 | Wiktionary 贡献者；Tatu Ylonen |
+| [kuromoji.js](https://github.com/takuyaa/kuromoji.js) 与 IPADIC（分词、读音） | Apache 2.0；IPADIC 许可 | Takuya Asano；NAIST |
+| [青空文库](https://www.aozora.gr.jp/)的公有领域作品（内置文章、民间故事） | 公有领域 | 青空文库及各篇的输入、校对者 |
+
+常用词与 JLPT 词的中文释义由 JMdict 的英文释义翻译而来（未经人工逐条校对，随 JMdict 按 CC BY-SA 4.0）。
+NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文要登录 NHK ONE，软件不绕过。
+
+## 开发
+
+- 大纲与已定的事：[docs/outline.md](docs/outline.md)
+- 与千语集怎么对齐：[docs/qonlang-alignment.md](docs/qonlang-alignment.md)
+- 第一个公开版本之前的开发记录：[docs/milestones.md](docs/milestones.md)
+
+程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
+
+```sh
+npm install --registry=https://registry.npmmirror.com   # Electron 二进制另设 ELECTRON_MIRROR
+npm run data:ja      # 下载日语原始数据、生成词典数据库 resources/data/ja/dict.sqlite（约 95 MB，不入库）
+node scripts/data/articles-ja.mjs   # 重新下载内置的青空文库文章（结果 data/ja/articles.json 入库，平时不用跑）
+node scripts/data/folktales-ja.mjs  # 重新下载故事课的民间故事（data/ja/folktales.json 入库，平时不用跑）
+npm run data:levels    # 内置文章与民间故事的难度先算好写进 articles.json、folktales.json（重新下载之后要跑一次）
+node scripts/data/themes-ja.mjs     # 主题词本：词表写在脚本里，对到词典的词条号，写出 data/ja/themes.json（入库）
+node scripts/data/wiktionary-ja.mjs # 维基词典的日语释义（日日词典）与中文释义：下载 kaikki.org 的抽取数据，
+                                    # 生成 resources/data/ja/wikt.sqlite（不入库；没有它词典里不显示这两栏）
+npm run data:examples  # 例句：语法课按语法点挑、练习与模拟卷按 JLPT 等级挑，都从词典的 Tatoeba 例句里挑
+                       # （结果 data/ja/grammar-examples.json、data/ja/level-sentences.json 入库；第一次要分词、查词
+                       # 两万多句，二三十秒，之后用 .cache 里的结果；改了语法点、例句、挑例句的规则都要重跑）
+npm run grammar:probe -- --say "雨が降るにちがいない。"   # 写语法点用：看一句话怎么切、认出了哪些语法点；
+                       # 也能看某个语法点在 Tatoeba 例句里认出了哪些、规则放过了哪些（用法见脚本开头）
+npm run dev          # 或者双击 dev.cmd（不经过 PowerShell）
+npm run typecheck
+npm run lint
+npx vitest run
+npx electron-vite build && npm run smoke   # 起真的 Electron 把界面走一遍（视听会先录一段测试视频），截图在 dist/smoke/
+                                          # 调试端口默认 9361，被别的程序占着时 SMOKE_PORT=9381 npm run smoke
+```
+
+Claude Code 的终端里带着 `ELECTRON_RUN_AS_NODE`，直接起 Electron 会报错，要先清掉这个环境变量。
+
+开发版用的数据目录跟安装版一样（`%APPDATA%\qonsona`）；验收时用 `--user-data-dir` 另起一份。
+
+### 千语集引擎快照
+
+`src/renderer/src/vendor/qonlang/` 是千语集 `core`、`engine`、`script`、`ipa` 的快照，
+别手改。跟进千语集：`npm run sync:qonlang`，然后跑上面的检查。
+
+### 打包（Windows）
+
+```sh
+npm run pack:win                # dist/win-unpacked/Qonsona.exe
+npm run installer:win           # dist/Qonsona-<版本>-setup.exe
+SMOKE_EXE=dist/win-unpacked/Qonsona.exe npm run smoke   # 对着打包好的程序再测一遍
+```
+
+macOS 的 dmg 只能在 macOS 上打（`npm run build:mac`），平时交给 GitHub Actions。
+
+## 发布与软件内更新
+
+推送 `v<版本号>` 标签后，[.github/workflows/release.yml](.github/workflows/release.yml) 在 Windows 与 macOS 上
+各打一遍，产物挂到同名 Release：`Qonsona-<版本>-setup.exe`、同名的 `.blockmap`、`latest.yml`、
+`Qonsona-<版本>-mac-x64.dmg`、`Qonsona-<版本>-mac-arm64.dmg`。Release 的说明由 `node scripts/release-notes.mjs <版本>`
+从 `CHANGELOG.md` 与 `CHANGELOG.en.md` 里摘中英两段。
+
+- 词典数据库（`resources/data/ja/`）不入库：CI 从草稿 Release「build-data」里的 `ja-data.zip` 取。
+  重新生成了词典数据就把这个 zip 换掉（`scripts/release/upload-data.mjs`）。
+- 软件内更新问的是 GitHub 上 `Kinnuch/Qonsona` 的 Release（仓库名写在 `src/main/update.ts`、
+  `electron-builder.yml` 的 publish、`scripts/pack-win.sh` 写的 app-update.yml 三处，改名时一起改）。
+- 装过的 Windows 版先试增量：拿上次安装时存下的安装包（`%LOCALAPPDATA%\qonsona-updater\installer.exe`）
+  跟新旧两版的 .blockmap 比对，只下载变了的块；拼好的安装包按 latest.yml 的 sha512 校验，对不上或者走不了就整包下载。
+  旧版本 Release 上的 .blockmap 别删。
+- 改了更新相关的代码，按 [scripts/update-e2e/README.md](scripts/update-e2e/README.md) 做一遍端到端验收。

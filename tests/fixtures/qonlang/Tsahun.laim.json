@@ -1,0 +1,4666 @@
+{
+  "schemaVersion": 1,
+  "meta": {
+    "id": "a5663671-4f2f-4241-8700-b4b12ad53cac",
+    "name": "Tsahun",
+    "description": "孤立声调语示例（虚构）：单音节、五声调、双正字法、音节文字的拼合与竖排、重叠构形、手填表、已 gloss 的语料。",
+    "author": "千语集示例",
+    "createdAt": "2026-09-23T08:19:11.365Z",
+    "updatedAt": "2026-09-23T08:19:11.365Z",
+    "template": "blank",
+    "appVersion": "0.9.0"
+  },
+  "languages": [
+    {
+      "id": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "abbr": "ts",
+      "color": "#d97706",
+      "parentId": null,
+      "notes": "孤立声调语：单音节词，五个声调，无屈折，语法靠语序与小品词。罗马化用数字标调，另有西里尔正字法；音节文字不写声调。",
+      "phonemes": [
+        {
+          "id": "a7e9c2f1-f1bf-4c2e-8dd7-99765998ba9d",
+          "symbol": "p",
+          "features": {
+            "type": "consonant",
+            "voice": "voiceless",
+            "place": "bilabial",
+            "manner": "plosive",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "p"
+          },
+          "notes": ""
+        },
+        {
+          "id": "0b957f41-1a2f-408d-9cba-16e82c5c7246",
+          "symbol": "t",
+          "features": {
+            "type": "consonant",
+            "voice": "voiceless",
+            "place": "alveolar",
+            "manner": "plosive",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "t"
+          },
+          "notes": ""
+        },
+        {
+          "id": "8abd2833-a87a-4101-8484-54faa4795ac0",
+          "symbol": "k",
+          "features": {
+            "type": "consonant",
+            "voice": "voiceless",
+            "place": "velar",
+            "manner": "plosive",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "k"
+          },
+          "notes": ""
+        },
+        {
+          "id": "c8eedadf-afd1-4e64-92c3-4a1b98559579",
+          "symbol": "t͡s",
+          "features": {
+            "type": "consonant",
+            "voice": "voiceless",
+            "place": "alveolar",
+            "manner": "affricate",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "ts"
+          },
+          "notes": ""
+        },
+        {
+          "id": "2be51f9c-8757-4dd6-8ae0-49a591e73899",
+          "symbol": "m",
+          "features": {
+            "type": "consonant",
+            "voice": "voiced",
+            "place": "bilabial",
+            "manner": "nasal",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "m"
+          },
+          "notes": ""
+        },
+        {
+          "id": "074a102f-c634-4312-b15b-06560fab397c",
+          "symbol": "n",
+          "features": {
+            "type": "consonant",
+            "voice": "voiced",
+            "place": "alveolar",
+            "manner": "nasal",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "n"
+          },
+          "notes": ""
+        },
+        {
+          "id": "e4b3d267-f297-490f-a607-502af1ab3129",
+          "symbol": "ŋ",
+          "features": {
+            "type": "consonant",
+            "voice": "voiced",
+            "place": "velar",
+            "manner": "nasal",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "ng"
+          },
+          "notes": ""
+        },
+        {
+          "id": "3e704a07-29c2-45a5-812e-9d6b8f98ef03",
+          "symbol": "s",
+          "features": {
+            "type": "consonant",
+            "voice": "voiceless",
+            "place": "alveolar",
+            "manner": "fricative",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "s"
+          },
+          "notes": ""
+        },
+        {
+          "id": "06380789-d180-4ffe-b6ad-baf7336775dc",
+          "symbol": "h",
+          "features": {
+            "type": "consonant",
+            "voice": "voiceless",
+            "place": "glottal",
+            "manner": "fricative",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "h"
+          },
+          "notes": ""
+        },
+        {
+          "id": "2b33925f-5a56-42bb-9820-4c67c9f9b456",
+          "symbol": "l",
+          "features": {
+            "type": "consonant",
+            "voice": "voiced",
+            "place": "alveolar",
+            "manner": "lateral approximant",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "l"
+          },
+          "notes": ""
+        },
+        {
+          "id": "ffcd5f71-c9d8-4665-b2f1-1ef2a72ef36d",
+          "symbol": "w",
+          "features": {
+            "type": "consonant",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "w"
+          },
+          "notes": ""
+        },
+        {
+          "id": "6ae1ce3a-c78d-4f5e-901c-f36ca5452652",
+          "symbol": "j",
+          "features": {
+            "type": "consonant",
+            "voice": "voiced",
+            "place": "palatal",
+            "manner": "approximant",
+            "syllabic": "no"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "j"
+          },
+          "notes": ""
+        },
+        {
+          "id": "d8760848-bfc7-43d2-9eb5-a3ddecd5bba2",
+          "symbol": "a",
+          "features": {
+            "type": "vowel",
+            "height": "open",
+            "backness": "front",
+            "round": "no",
+            "syllabic": "yes"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "a"
+          },
+          "notes": ""
+        },
+        {
+          "id": "f3a036e5-4eaa-49a4-b70f-f0f8afc469d8",
+          "symbol": "i",
+          "features": {
+            "type": "vowel",
+            "height": "close",
+            "backness": "front",
+            "round": "no",
+            "syllabic": "yes"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "i"
+          },
+          "notes": ""
+        },
+        {
+          "id": "ccf8d0b2-fcb1-4669-9e1f-ef998fb61e0a",
+          "symbol": "u",
+          "features": {
+            "type": "vowel",
+            "height": "close",
+            "backness": "back",
+            "round": "yes",
+            "syllabic": "yes"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "u"
+          },
+          "notes": ""
+        },
+        {
+          "id": "c35a4a39-6a0a-4e07-b87c-a35bc99b1195",
+          "symbol": "e",
+          "features": {
+            "type": "vowel",
+            "height": "close-mid",
+            "backness": "front",
+            "round": "no",
+            "syllabic": "yes"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "e"
+          },
+          "notes": ""
+        },
+        {
+          "id": "3e6f03ca-48bb-4074-a34b-131bf820ebba",
+          "symbol": "o",
+          "features": {
+            "type": "vowel",
+            "height": "close-mid",
+            "backness": "back",
+            "round": "yes",
+            "syllabic": "yes"
+          },
+          "graphemes": {
+            "5234c0fe-caea-4c65-b0ce-1dce39d589e8": "o"
+          },
+          "notes": ""
+        }
+      ],
+      "classes": [
+        {
+          "id": "796439c3-9e8a-41a3-a7e2-e65ef456ac5c",
+          "name": "C",
+          "members": [
+            "p",
+            "t",
+            "k",
+            "ts",
+            "m",
+            "n",
+            "ng",
+            "s",
+            "h",
+            "l",
+            "w",
+            "j"
+          ],
+          "featureQuery": null
+        },
+        {
+          "id": "f5afef0c-1a83-42db-9ad8-2c2551b029bd",
+          "name": "V",
+          "members": [
+            "a",
+            "i",
+            "u",
+            "e",
+            "o"
+          ],
+          "featureQuery": null
+        },
+        {
+          "id": "8d34f82a-d2be-41c9-8c75-4f536cb0bd31",
+          "name": "T",
+          "members": [
+            "55",
+            "35",
+            "21",
+            "51",
+            "33"
+          ],
+          "featureQuery": null
+        }
+      ],
+      "digraphs": [
+        {
+          "from": "ng",
+          "to": "ŋ"
+        }
+      ],
+      "orthographies": [
+        {
+          "id": "5234c0fe-caea-4c65-b0ce-1dce39d589e8",
+          "name": "罗马化",
+          "font": "",
+          "direction": "ltr",
+          "rulesToIpa": "; 连读变调：35 调后面还接着音节时读 33（叠词前一个音节），否则仍是 35——满足 / 不满足环境两路写成一条\n35 > ˧?˧˥ / _C , _V\n; 数字调 → 五度标调字母\nts > t͡s\nng > ŋ\n55 > ˥\n35 > ˧˥\n21 > ˨˩\n51 > ˥˩\n33 > ˧",
+          "rulesFromIpa": "t͡s > ts\nŋ > ng\n˧˥ > 35\n˨˩ > 21\n˥˩ > 51\n˥ > 55\n˧ > 33",
+          "isPrimary": true
+        },
+        {
+          "id": "9e7d3774-e04b-47a2-b436-131131154029",
+          "name": "西里尔正字",
+          "font": "",
+          "direction": "ltr",
+          "rulesToIpa": "",
+          "rulesFromIpa": "t͡s > ц\nŋ > ң\nw > в\nj > й\nh > х\nk > к\np > п\nt > т\nm > м\nn > н\ns > с\nl > л\na > а\ni > и\nu > у\ne > е\no > о\n˥ > ⁵⁵\n˧˥ > ³⁵\n˨˩ > ²¹\n˥˩ > ⁵¹\n˧ > ³³",
+          "isPrimary": false
+        }
+      ],
+      "syllable": {
+        "enabled": true,
+        "template": "(C)V(C)",
+        "strategy": "template"
+      },
+      "prosody": {
+        "type": "tone",
+        "stressPosition": "initial",
+        "rules": "连读变调：21 在 55 前读 35。",
+        "tones": [
+          {
+            "id": "56994463-8be5-48d6-9992-150cf24bd0ab",
+            "name": "高平",
+            "letter": "˥",
+            "digits": "55"
+          },
+          {
+            "id": "fcf872a5-8ccd-48f0-bbf7-2b7b6d45faed",
+            "name": "升",
+            "letter": "˧˥",
+            "digits": "35"
+          },
+          {
+            "id": "2c242f15-81c2-44f8-bce2-980fb8a4af8d",
+            "name": "低降",
+            "letter": "˨˩",
+            "digits": "21"
+          },
+          {
+            "id": "36289bf7-62b2-4429-8712-419f4b9a7d2c",
+            "name": "降",
+            "letter": "˥˩",
+            "digits": "51"
+          },
+          {
+            "id": "dc7e6818-e3f1-4a4d-8ceb-7efc2438ae75",
+            "name": "中平",
+            "letter": "˧",
+            "digits": "33"
+          }
+        ]
+      },
+      "phonotactics": {
+        "onsets": [
+          "p",
+          "t",
+          "k",
+          "t͡s",
+          "m",
+          "n",
+          "ŋ",
+          "s",
+          "h",
+          "l",
+          "w",
+          "j",
+          "kw"
+        ],
+        "nuclei": [
+          "a",
+          "i",
+          "u",
+          "e",
+          "o",
+          "ai"
+        ],
+        "codas": [
+          "n",
+          "ŋ",
+          "m",
+          "k",
+          "p",
+          "t"
+        ],
+        "illegal": [
+          "ŋi"
+        ],
+        "weights": {
+          "k": 2,
+          "t": 2,
+          "a": 3,
+          "kw": 0.5
+        },
+        "minSyllables": 1,
+        "maxSyllables": 1
+      },
+      "alphabet": [
+        "a",
+        "e",
+        "i",
+        "o",
+        "u",
+        "p",
+        "t",
+        "k",
+        "ts",
+        "m",
+        "n",
+        "ng",
+        "s",
+        "h",
+        "l",
+        "w",
+        "j"
+      ],
+      "dialects": [
+        {
+          "id": "6c07740a-e85b-407c-a3fb-4ad6e4eec3e5",
+          "name": "河谷话",
+          "abbr": "R"
+        }
+      ],
+      "scripts": [
+        {
+          "id": "22ddaaa3-eef9-4b35-8145-4b6b0401b763",
+          "name": "Tsahun 音节文字",
+          "type": "syllabary",
+          "direction": "ltr",
+          "font": {
+            "family": "Segoe UI Historic",
+            "dataUrl": null,
+            "fileName": ""
+          },
+          "glyphs": [
+            {
+              "id": "5215d388-1a95-461f-b422-6aa371f1f012",
+              "char": "Ꭰ",
+              "name": "a",
+              "value": "a",
+              "category": "vowel",
+              "notes": ""
+            },
+            {
+              "id": "2e9903b7-2a29-4eb2-87cf-241831f49ea8",
+              "char": "Ꭱ",
+              "name": "i",
+              "value": "i",
+              "category": "vowel",
+              "notes": ""
+            },
+            {
+              "id": "c329f730-a1b0-4ff4-9cf6-a9e8a4f97788",
+              "char": "Ꭲ",
+              "name": "u",
+              "value": "u",
+              "category": "vowel",
+              "notes": ""
+            },
+            {
+              "id": "ebeafb65-2112-44f6-8e18-b3723295db32",
+              "char": "Ꭳ",
+              "name": "e",
+              "value": "e",
+              "category": "vowel",
+              "notes": ""
+            },
+            {
+              "id": "67627cae-d627-4269-8e0c-0d0dd9c0f978",
+              "char": "Ꭴ",
+              "name": "o",
+              "value": "o",
+              "category": "vowel",
+              "notes": ""
+            },
+            {
+              "id": "2ddd4ecf-1f0a-4700-a4eb-e416c4bd5ccc",
+              "char": "Ꭵ",
+              "name": "pa",
+              "value": "pa",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "131b188d-134c-48e4-82bb-d7c14d6e180e",
+              "char": "Ꭶ",
+              "name": "pi",
+              "value": "pi",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "0220a7e3-765a-455b-ab8f-00c93d333bcf",
+              "char": "Ꭷ",
+              "name": "pu",
+              "value": "pu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "85977e9a-5768-4d0c-9962-832635c0c6a0",
+              "char": "Ꭸ",
+              "name": "pe",
+              "value": "pe",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "ab5bf7f6-13d6-4d0d-9c95-21dbb07abb3c",
+              "char": "Ꭹ",
+              "name": "po",
+              "value": "po",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "9485e0ba-5309-48f0-9f9f-d9475c699379",
+              "char": "Ꭺ",
+              "name": "ta",
+              "value": "ta",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "bb5f6b71-46a2-4181-b335-d91c19e82878",
+              "char": "Ꭻ",
+              "name": "ti",
+              "value": "ti",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "67271695-9911-4e46-97e9-8c7aa8654474",
+              "char": "Ꭼ",
+              "name": "tu",
+              "value": "tu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "e9f6f3ae-843a-4b56-b5ad-4b051f95c0cd",
+              "char": "Ꭽ",
+              "name": "te",
+              "value": "te",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "4576101f-5ab3-405f-9156-f3e84c4cd436",
+              "char": "Ꭾ",
+              "name": "to",
+              "value": "to",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "35ecf0c5-1cd0-444a-9163-a58207516137",
+              "char": "Ꭿ",
+              "name": "ka",
+              "value": "ka",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "4c6a554c-dbd6-4d02-bfd7-631cad57305e",
+              "char": "Ꮀ",
+              "name": "ki",
+              "value": "ki",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "4c217562-39cb-43f1-88ab-43832e121ba6",
+              "char": "Ꮁ",
+              "name": "ku",
+              "value": "ku",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "a2868300-a454-4451-94de-90ab58b16a11",
+              "char": "Ꮂ",
+              "name": "ke",
+              "value": "ke",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "1b78da5b-f255-4ff3-a89d-91daa37cf2b2",
+              "char": "Ꮃ",
+              "name": "ko",
+              "value": "ko",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "19ab3acf-27fb-4dc5-84e4-9961208c5da9",
+              "char": "Ꮄ",
+              "name": "tsa",
+              "value": "tsa",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "184b909d-4861-44cd-8d31-880a61ccfebb",
+              "char": "Ꮅ",
+              "name": "tsi",
+              "value": "tsi",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "7e38b335-45bc-4ec6-883c-461e8fb329a0",
+              "char": "Ꮆ",
+              "name": "tsu",
+              "value": "tsu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "294b19fd-b09f-4a01-88fa-b4193cd24431",
+              "char": "Ꮇ",
+              "name": "tse",
+              "value": "tse",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "45afe522-c7aa-4266-bf74-e4861c87f656",
+              "char": "Ꮈ",
+              "name": "tso",
+              "value": "tso",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "bb434af2-66c9-4e32-b6dd-645e17ff4bd4",
+              "char": "Ꮉ",
+              "name": "ma",
+              "value": "ma",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "df7bac2b-84aa-4a7a-9cf9-792c57bf7f85",
+              "char": "Ꮊ",
+              "name": "mi",
+              "value": "mi",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "fa4dc996-c4fb-4a19-8e33-d7464d16faec",
+              "char": "Ꮋ",
+              "name": "mu",
+              "value": "mu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "45545392-7493-4909-816c-c05c630eb256",
+              "char": "Ꮌ",
+              "name": "me",
+              "value": "me",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "b9fb7dfe-e954-4aac-a349-f01c3105108a",
+              "char": "Ꮍ",
+              "name": "mo",
+              "value": "mo",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "dd10b355-ea8b-4f89-bcce-4f03200aa902",
+              "char": "Ꮎ",
+              "name": "na",
+              "value": "na",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "a03f26e8-e0ba-42aa-b01e-66a0a80a567b",
+              "char": "Ꮏ",
+              "name": "ni",
+              "value": "ni",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "82726d62-8191-4e04-938e-e5200f0c9841",
+              "char": "Ꮐ",
+              "name": "nu",
+              "value": "nu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "2255af48-92b6-4697-923b-6907593091bb",
+              "char": "Ꮑ",
+              "name": "ne",
+              "value": "ne",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "b99d0ea3-cb07-49bb-92e8-708ed6e27fea",
+              "char": "Ꮒ",
+              "name": "no",
+              "value": "no",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "7ddc0b2f-df06-4b9b-9e74-d9fa491f4445",
+              "char": "Ꮓ",
+              "name": "nga",
+              "value": "nga",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "0f844da1-352e-47f5-bb65-6b35fb50499b",
+              "char": "Ꮔ",
+              "name": "ngi",
+              "value": "ngi",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "223b1b72-7812-4046-ae33-e8389fadc9c9",
+              "char": "Ꮕ",
+              "name": "ngu",
+              "value": "ngu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "b8e90223-a361-4e75-a1c2-a60fded53722",
+              "char": "Ꮖ",
+              "name": "nge",
+              "value": "nge",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "7549600c-0bf3-406f-8ebc-f187ad47229e",
+              "char": "Ꮗ",
+              "name": "ngo",
+              "value": "ngo",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "2d22881a-2fa0-433e-ad12-2dd26b065b3f",
+              "char": "Ꮘ",
+              "name": "sa",
+              "value": "sa",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "c7965dbd-94ac-45ef-8291-8d45b4eceef7",
+              "char": "Ꮙ",
+              "name": "si",
+              "value": "si",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "33888672-1f4c-4cbb-995f-b30d555564e1",
+              "char": "Ꮚ",
+              "name": "su",
+              "value": "su",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "fb9d9782-7ce4-433c-91ab-c03d6119ecfc",
+              "char": "Ꮛ",
+              "name": "se",
+              "value": "se",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "00fd8fe7-09a8-47c8-8d26-573d4cdc520e",
+              "char": "Ꮜ",
+              "name": "so",
+              "value": "so",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "272d42ac-af50-46ca-80c7-24ae05d18e0f",
+              "char": "Ꮝ",
+              "name": "ha",
+              "value": "ha",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "987d729f-4b76-4502-8fa3-7178de529699",
+              "char": "Ꮞ",
+              "name": "hi",
+              "value": "hi",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "ed8eaa19-8683-419a-b972-cf4417026d24",
+              "char": "Ꮟ",
+              "name": "hu",
+              "value": "hu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "9a4570b0-eeb8-4ad1-8453-bd3caf4f68bc",
+              "char": "Ꮠ",
+              "name": "he",
+              "value": "he",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "a087c43a-ae82-424a-ad6e-b4ac609c137b",
+              "char": "Ꮡ",
+              "name": "ho",
+              "value": "ho",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "4f30ede9-34a3-473b-8e16-fcb77f256ef6",
+              "char": "Ꮢ",
+              "name": "la",
+              "value": "la",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "b7b25b44-89ed-47bf-bddf-aef6fe43cf76",
+              "char": "Ꮣ",
+              "name": "li",
+              "value": "li",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "e9ae6a58-d168-4255-a6df-7728e30a5fe0",
+              "char": "Ꮤ",
+              "name": "lu",
+              "value": "lu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "5e1db9d7-0ae0-4a76-af26-abd4687a0467",
+              "char": "Ꮥ",
+              "name": "le",
+              "value": "le",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "51ba374f-905e-4d8d-a0ed-f4ca95093a0f",
+              "char": "Ꮦ",
+              "name": "lo",
+              "value": "lo",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "635c871f-5895-4c2b-923a-858582a39b56",
+              "char": "Ꮧ",
+              "name": "wa",
+              "value": "wa",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "0e21787a-ad3c-4da8-b275-d8ceddd80da7",
+              "char": "Ꮨ",
+              "name": "wi",
+              "value": "wi",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "414ade37-0dcb-4eb3-8296-f90a1687d08e",
+              "char": "Ꮩ",
+              "name": "wu",
+              "value": "wu",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "2060ee3a-815e-4369-a421-cc01029dd68b",
+              "char": "Ꮪ",
+              "name": "we",
+              "value": "we",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "a6e1c3fa-b1ec-4318-bda8-3edbdcde1c60",
+              "char": "Ꮫ",
+              "name": "wo",
+              "value": "wo",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "7edc886d-ccda-492e-b8ce-a1207182104f",
+              "char": "Ꮬ",
+              "name": "ja",
+              "value": "ja",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "b4725d8f-3ee4-45f3-a874-385f7df929f6",
+              "char": "Ꮭ",
+              "name": "ji",
+              "value": "ji",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "035bea04-4783-45af-b240-c5f1c02c2936",
+              "char": "Ꮮ",
+              "name": "ju",
+              "value": "ju",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "52d85ece-d7d5-48e2-805f-f3cbf79134b6",
+              "char": "Ꮯ",
+              "name": "je",
+              "value": "je",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "0c52967d-658a-4ebd-a462-c59679923efa",
+              "char": "Ꮰ",
+              "name": "jo",
+              "value": "jo",
+              "category": "syllable",
+              "notes": ""
+            },
+            {
+              "id": "2884db71-761f-4bd3-9e84-fed52ea2d843",
+              "char": "Ᏹ",
+              "name": "killer",
+              "value": "°",
+              "category": "sign",
+              "notes": "消音符：前一个音节的元音不读，用来写尾辅音"
+            }
+          ],
+          "rules": "@glyphs",
+          "notes": "拼合模式：mek → me + ka + 消音符。数字声调不写进文字。勾了「竖排显示」，语料与词库里都竖着排。",
+          "vertical": true,
+          "packing": {
+            "enabled": true,
+            "killer": "°",
+            "letterMap": "",
+            "marked": "",
+            "lengths": "",
+            "baseVowels": "",
+            "dummyVowel": "a",
+            "letters": "ts ng p t k m n s h l w j a i u e o",
+            "vowels": "a i u e o"
+          },
+          "parens": "omit"
+        },
+        {
+          "id": "aef2c66c-5658-4f72-8b39-543ae4a83818",
+          "name": "Tsahun 刻符",
+          "type": "logographic",
+          "direction": "ltr",
+          "font": {
+            "family": "",
+            "dataUrl": null,
+            "fileName": ""
+          },
+          "glyphs": [
+            {
+              "id": "a31e426f-2c09-4b45-9dc0-244885e8e844",
+              "char": "⽔",
+              "name": "水",
+              "value": "k01",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "ee551ed6-1087-4fb9-9b5d-29d8476f5d17",
+              "char": "⽕",
+              "name": "火",
+              "value": "k02",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "23e92c1b-7ca0-444a-8fb0-78dcd1b64679",
+              "char": "⼈",
+              "name": "人",
+              "value": "k03",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "72f62205-36f0-4658-8bff-bbb939ea8572",
+              "char": "⼧",
+              "name": "屋顶",
+              "value": "k04",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "abfb79be-4b24-440f-901d-a088a8ad145d",
+              "char": "⼭",
+              "name": "山",
+              "value": "k05",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "42334ca5-3859-4e91-bd6a-13591bb2e857",
+              "char": "⿂",
+              "name": "鱼",
+              "value": "k06",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "06ce24db-ef29-4cd5-9499-5fbd97bde2e8",
+              "char": "⿃",
+              "name": "鸟",
+              "value": "k07",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "547adee5-196a-43cf-a669-1a369e435027",
+              "char": "⽬",
+              "name": "眼",
+              "value": "k08",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "15ef8bdf-4deb-423c-aa63-43d2567a9c1f",
+              "char": "⼝",
+              "name": "口",
+              "value": "k09",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "eea90114-7cd1-4bb2-978a-fe9faa6ba6fd",
+              "char": "⼤",
+              "name": "大",
+              "value": "k10",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "efdbb08c-3291-482c-8962-babc64699c43",
+              "char": "⼩",
+              "name": "小",
+              "value": "k11",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "4d85ee5a-a05f-4d24-b727-890734b5ddd7",
+              "char": "⼰",
+              "name": "自己",
+              "value": "k12",
+              "category": "glyph",
+              "notes": ""
+            },
+            {
+              "id": "90d39c59-33a2-45d3-a74b-67565adbfd9b",
+              "char": "⾛",
+              "name": "走",
+              "value": "k13",
+              "category": "glyph",
+              "notes": ""
+            }
+          ],
+          "rules": "@glyphs",
+          "notes": "意音文字：每个字的转写是字号，不是读音。词条「字号」里写这个词用哪几个字（空格隔开），虚词没有字号，照原文写。",
+          "from": "custom:60f958e5-ab85-439d-bb5e-c188645137ca"
+        }
+      ],
+      "name": "Tsahun"
+    }
+  ],
+  "ruleSets": [],
+  "categories": [
+    {
+      "id": "c3b95a70-2387-412f-aeea-f66a67485299",
+      "name": {
+        "zh": "数",
+        "en": "number"
+      },
+      "values": [
+        {
+          "id": "7dd6706e-d9c7-4dbf-859b-b491aa26f145",
+          "name": {
+            "zh": "单数",
+            "en": "singular"
+          },
+          "abbr": "SG"
+        },
+        {
+          "id": "25df5e50-842c-41b0-92d4-36800aabf3a8",
+          "name": {
+            "zh": "复数",
+            "en": "plural"
+          },
+          "abbr": "PL"
+        }
+      ],
+      "posIds": [
+        "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+        "01c3a599-e5c5-4051-8cf0-6fb273afd318"
+      ]
+    },
+    {
+      "id": "4def8e80-be79-4a58-b7ce-5e6a933d4f47",
+      "name": {
+        "zh": "级",
+        "en": "degree"
+      },
+      "values": [
+        {
+          "id": "6cd38ffd-344f-4567-bad5-01c84a6848a6",
+          "name": {
+            "zh": "原级",
+            "en": "positive"
+          },
+          "abbr": "POS"
+        },
+        {
+          "id": "82321609-449c-4cd4-9ffa-32fbeb781d97",
+          "name": {
+            "zh": "强调",
+            "en": "intensive"
+          },
+          "abbr": "INT"
+        }
+      ],
+      "posIds": [
+        "f19d13dc-5f1e-410f-9a4c-55f9ae044919"
+      ]
+    }
+  ],
+  "posList": [
+    {
+      "id": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "name": {
+        "zh": "名词",
+        "en": "noun"
+      },
+      "abbr": "n.",
+      "paradigmId": "67d72218-cdac-4b3c-8ac1-d85ce2021bc1",
+      "stemSlots": [
+        {
+          "name": "词干",
+          "notes": "单音节词本身；重叠复数从这里起"
+        }
+      ]
+    },
+    {
+      "id": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "name": {
+        "zh": "动词",
+        "en": "verb"
+      },
+      "abbr": "v.",
+      "paradigmId": null
+    },
+    {
+      "id": "f19d13dc-5f1e-410f-9a4c-55f9ae044919",
+      "name": {
+        "zh": "形容词",
+        "en": "adjective"
+      },
+      "abbr": "adj.",
+      "paradigmId": "41a2ad3e-f4f4-4dcd-9c56-655ca25afe58"
+    },
+    {
+      "id": "01c3a599-e5c5-4051-8cf0-6fb273afd318",
+      "name": {
+        "zh": "代词",
+        "en": "pronoun"
+      },
+      "abbr": "pron.",
+      "paradigmId": "6c130088-bcb9-4084-b75b-bb5425e27fa7"
+    },
+    {
+      "id": "da9325c7-7354-44d7-b9fe-3fcc2b86e2e1",
+      "name": {
+        "zh": "小品词",
+        "en": "particle"
+      },
+      "abbr": "part.",
+      "paradigmId": null
+    },
+    {
+      "id": "4d2d447a-e8e4-418f-ad55-bb28f430cb2b",
+      "name": {
+        "zh": "数词",
+        "en": "numeral"
+      },
+      "abbr": "num.",
+      "paradigmId": null
+    }
+  ],
+  "morphemes": [
+    {
+      "id": "4f45e93c-9c16-4de5-9cee-587078b1644c",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "type": "particle",
+      "form": "ta33",
+      "form2": "",
+      "allomorphs": [],
+      "gloss": "PFV",
+      "meaning": {
+        "zh": "完成体",
+        "en": "perfective"
+      },
+      "features": {},
+      "tags": [
+        "小品词"
+      ],
+      "notes": "",
+      "etymology": {
+        "type": "derivation",
+        "sources": [
+          {
+            "kind": "lexeme",
+            "id": "da480126-6663-4f59-bf8b-3fbac52a03ad"
+          }
+        ],
+        "stages": [
+          {
+            "id": "fb20d10a-9cc2-46c0-ac7e-e9dfe189d663",
+            "form": "ta51",
+            "type": "",
+            "notes": "第三人称代词虚化，变调"
+          }
+        ],
+        "notes": ""
+      }
+    },
+    {
+      "id": "fdaff992-3a98-4407-a2a4-7e2c24c95f13",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "type": "particle",
+      "form": "lo21",
+      "form2": "",
+      "allomorphs": [],
+      "gloss": "Q",
+      "meaning": {
+        "zh": "疑问",
+        "en": "question"
+      },
+      "features": {},
+      "tags": [
+        "小品词"
+      ],
+      "notes": "",
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "935aa03c-6bdf-4cd7-83d6-d5f0f1124f91",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "type": "particle",
+      "form": "ka55",
+      "form2": "",
+      "allomorphs": [],
+      "gloss": "POSS",
+      "meaning": {
+        "zh": "领属",
+        "en": "possessive"
+      },
+      "features": {},
+      "tags": [
+        "小品词"
+      ],
+      "notes": "",
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "3689277e-3d9b-43c6-93a9-1615fc67eeb6",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "type": "particle",
+      "form": "mo35",
+      "form2": "",
+      "allomorphs": [],
+      "gloss": "NEG",
+      "meaning": {
+        "zh": "否定",
+        "en": "negation"
+      },
+      "features": {},
+      "tags": [
+        "小品词"
+      ],
+      "notes": "",
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      }
+    },
+    {
+      "id": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "type": "root",
+      "form": "lun35",
+      "form2": "",
+      "allomorphs": [],
+      "gloss": "CLF",
+      "meaning": {
+        "zh": "量词（人）",
+        "en": "classifier (people)"
+      },
+      "features": {},
+      "tags": [
+        "量词"
+      ],
+      "notes": "与名词 lun35「人」同形，用在数词之后。",
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      }
+    }
+  ],
+  "lexemes": [
+    {
+      "id": "d9c7a4ab-7005-48f5-aa08-481ae0c460ca",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "tsa55",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "自然"
+      ],
+      "dialectIds": [
+        "6c07740a-e85b-407c-a3fb-4ad6e4eec3e5"
+      ],
+      "senses": [
+        {
+          "id": "eb9c4209-d8fa-49a8-b1b2-87f074de66f6",
+          "definition": {
+            "zh": "水",
+            "en": "water"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "tsa55"
+      },
+      "forms": {
+        "单数": {
+          "surface": "tsa55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsa55"
+          ]
+        },
+        "复数": {
+          "surface": "tsa55tsa55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsa55",
+            "重叠 full: tsa55tsa55"
+          ]
+        }
+      },
+      "pronunciations": {
+        "5234c0fe-caea-4c65-b0ce-1dce39d589e8": {
+          "ipa": "t͡saː˥",
+          "irregular": true
+        }
+      },
+      "relations": [
+        {
+          "kind": "related",
+          "lexemeId": "15af0468-8658-4788-938e-ece358e37526"
+        }
+      ],
+      "scriptForms": {},
+      "images": [
+        {
+          "id": "88c22be1-7ef9-4624-99fa-cad8de08929c",
+          "dataUrl": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22320%22%20height%3D%22240%22%3E%3Crect%20width%3D%22320%22%20height%3D%22240%22%20fill%3D%22%232563eb%22%2F%3E%3Ctext%20x%3D%22160%22%20y%3D%22134%22%20font-size%3D%2240%22%20text-anchor%3D%22middle%22%20fill%3D%22%23fff%22%20font-family%3D%22sans-serif%22%3Etsa55%3C%2Ftext%3E%3C%2Fsvg%3E",
+          "caption": "水"
+        }
+      ],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k01"
+      }
+    },
+    {
+      "id": "15af0468-8658-4788-938e-ece358e37526",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "tsa21",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "自然"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "03a5918c-eb4d-4844-a2cf-b17c60d1d41d",
+          "definition": {
+            "zh": "火",
+            "en": "fire"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "tsa21"
+      },
+      "forms": {
+        "单数": {
+          "surface": "tsa21",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsa21"
+          ]
+        },
+        "复数": {
+          "surface": "tsa21tsa21",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsa21",
+            "重叠 full: tsa21tsa21"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [
+        {
+          "kind": "related",
+          "lexemeId": "d9c7a4ab-7005-48f5-aa08-481ae0c460ca"
+        }
+      ],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k02"
+      }
+    },
+    {
+      "id": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "lun35",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "人"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "2e177e2f-d048-4d46-a41b-a07ead17ad9a",
+          "definition": {
+            "zh": "人",
+            "en": "person"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [
+            "b87e2eba-2ebf-4f3f-84e1-4109c4d85b29",
+            "3cb5ab54-891c-4ed1-9641-c19aeca6898b"
+          ],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "lun35"
+      },
+      "forms": {
+        "单数": {
+          "surface": "lun35",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: lun35"
+          ]
+        },
+        "复数": {
+          "surface": "lun35lun35",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: lun35",
+            "重叠 full: lun35lun35"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k03"
+      }
+    },
+    {
+      "id": "5699636e-25a2-4cba-bf52-891e4b296589",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "wa55",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "建筑"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "4ecafbdd-09a4-4e3d-8dbb-c3444bb009f2",
+          "definition": {
+            "zh": "房子",
+            "en": "house"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "wa55"
+      },
+      "forms": {
+        "单数": {
+          "surface": "wa55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: wa55"
+          ]
+        },
+        "复数": {
+          "surface": "wa55wa55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: wa55",
+            "重叠 full: wa55wa55"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "a3e5e771-fedd-4814-abaf-59447569f6f1": "Ꮧ、Ꮫ",
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k04 k03"
+      }
+    },
+    {
+      "id": "1fe84ac7-2761-4251-afdd-76cc951e86f5",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "mek33",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "自然"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "4195231f-f6c0-459b-a86e-4c31dc639f74",
+          "definition": {
+            "zh": "山",
+            "en": "mountain"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "mek33"
+      },
+      "forms": {
+        "单数": {
+          "surface": "mek33",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: mek33"
+          ]
+        },
+        "复数": {
+          "surface": "mek33mek33",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: mek33",
+            "重叠 full: mek33mek33"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k05"
+      }
+    },
+    {
+      "id": "ce9a858c-7683-4e97-b5cf-da8534058804",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "sip51",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "动物",
+        "食物"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "bca6ddba-de3c-432a-8f8e-148d05a74a44",
+          "definition": {
+            "zh": "鱼",
+            "en": "fish"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "sip51"
+      },
+      "forms": {
+        "单数": {
+          "surface": "sip51",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: sip51"
+          ]
+        },
+        "复数": {
+          "surface": "sip51sip51",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: sip51",
+            "重叠 full: sip51sip51"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k06"
+      }
+    },
+    {
+      "id": "5874e0d1-b729-46bf-972d-9aa15fcb4c22",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "nok21",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "动物"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "8113fa75-dbe8-45f0-818d-b086684f65e1",
+          "definition": {
+            "zh": "鸟",
+            "en": "bird"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "nok21"
+      },
+      "forms": {
+        "单数": {
+          "surface": "nok21",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: nok21"
+          ]
+        },
+        "复数": {
+          "surface": "nok21nok21",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: nok21",
+            "重叠 full: nok21nok21"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k07"
+      }
+    },
+    {
+      "id": "0150293f-16eb-4f15-b3ee-406a04557eff",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "hu35",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "9d7682d5-c000-464c-be4d-f237aa84284f",
+          "definition": {
+            "zh": "路",
+            "en": "road"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        },
+        {
+          "id": "6f7c8f68-7bb3-4599-aecb-f63ecc50a55a",
+          "definition": {
+            "zh": "方法；办法",
+            "en": "way; method"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [
+            "书面",
+            "正式"
+          ],
+          "examples": [],
+          "register": "书面、正式"
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "hu35"
+      },
+      "forms": {
+        "单数": {
+          "surface": "hu35",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: hu35"
+          ]
+        },
+        "复数": {
+          "surface": "hu35hu35",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: hu35",
+            "重叠 full: hu35hu35"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "「路」引申为「方法」。",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "08301507-4160-4875-bc60-69da46c75fd5",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "kwe51",
+      "posId": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "features": {},
+      "tags": [
+        "食物"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "b9d35139-c230-451e-b86c-67de9a173df8",
+          "definition": {
+            "zh": "吃",
+            "en": "eat"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [
+            "b4509eee-e415-4a06-9a57-624fa2cbb698"
+          ],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "kwe51"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k09"
+      }
+    },
+    {
+      "id": "ca17fd41-5b3a-4b7f-a61e-14b8ff8af017",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "hem55",
+      "posId": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "features": {},
+      "tags": [
+        "感知"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "5ca99628-e07e-4d6f-a374-5bb4559d09f3",
+          "definition": {
+            "zh": "看",
+            "en": "see"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "hem55"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k08"
+      }
+    },
+    {
+      "id": "d5a050af-deb6-4884-bba3-fa70138f155a",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "lai33",
+      "posId": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "features": {},
+      "tags": [
+        "运动"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "87652d78-172a-4af4-959f-21ab7fc3a8d2",
+          "definition": {
+            "zh": "来",
+            "en": "come"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "lai33"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k13"
+      }
+    },
+    {
+      "id": "3f330f91-1f5e-45f2-81d7-50b741faf10d",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "pun21",
+      "posId": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "features": {},
+      "tags": [
+        "运动"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "486e2a4a-7b55-433f-ab3e-c37908b05d35",
+          "definition": {
+            "zh": "去",
+            "en": "go"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "pun21"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k13 k05"
+      }
+    },
+    {
+      "id": "39b1a99f-2ebe-410a-8b53-1b37513ae131",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "tsun35",
+      "posId": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "74df8d2a-0f2e-41f3-b42b-9cd771b50eef",
+          "definition": {
+            "zh": "住",
+            "en": "live"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "tsun35"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "16550694-79c4-43f2-a2de-e6c43c82fe65",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "jam55",
+      "posId": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "24c4af05-7764-4c83-bd55-1284c8bfd2b2",
+          "definition": {
+            "zh": "给",
+            "en": "give"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "jam55"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "01f285c6-e2fe-43ae-bce0-c9a1f45599ef",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "pak51",
+      "posId": "f19d13dc-5f1e-410f-9a4c-55f9ae044919",
+      "features": {},
+      "tags": [
+        "尺寸"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "87d6cf7d-1dda-480b-b095-829fc3104555",
+          "definition": {
+            "zh": "大",
+            "en": "big"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "pak51"
+      },
+      "forms": {
+        "原级": {
+          "surface": "pak51",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: pak51"
+          ]
+        },
+        "强调": {
+          "surface": "papak51",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: pak51",
+            "重叠 initial: papak51"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [
+        {
+          "kind": "antonym",
+          "lexemeId": "75944a32-f3e5-4d4a-b179-b415db6eced4"
+        }
+      ],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k10"
+      }
+    },
+    {
+      "id": "75944a32-f3e5-4d4a-b179-b415db6eced4",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "sin35",
+      "posId": "f19d13dc-5f1e-410f-9a4c-55f9ae044919",
+      "features": {},
+      "tags": [
+        "尺寸"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "83dcf6e4-83ea-49f7-bda8-441d43323d3a",
+          "definition": {
+            "zh": "小",
+            "en": "small"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "sin35"
+      },
+      "forms": {
+        "原级": {
+          "surface": "sin35",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: sin35"
+          ]
+        },
+        "强调": {
+          "surface": "sisin35",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: sin35",
+            "重叠 initial: sisin35"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [
+        {
+          "kind": "antonym",
+          "lexemeId": "01f285c6-e2fe-43ae-bce0-c9a1f45599ef"
+        }
+      ],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k11"
+      }
+    },
+    {
+      "id": "f408b69c-abc3-474b-93b1-09561a192e2b",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "hok33",
+      "posId": "f19d13dc-5f1e-410f-9a4c-55f9ae044919",
+      "features": {},
+      "tags": [
+        "颜色"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "efcb7fb2-63bc-4be7-9e80-551517943671",
+          "definition": {
+            "zh": "红",
+            "en": "red"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "hok33"
+      },
+      "forms": {
+        "原级": {
+          "surface": "hok33",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: hok33"
+          ]
+        },
+        "强调": {
+          "surface": "hohok33",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: hok33",
+            "重叠 initial: hohok33"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "aa6d25cf-6894-440c-90a0-e196493d58a7",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "tsing55",
+      "posId": "f19d13dc-5f1e-410f-9a4c-55f9ae044919",
+      "features": {},
+      "tags": [
+        "形状"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "6c830653-4deb-43e0-9ecc-d9156fbad680",
+          "definition": {
+            "zh": "尖",
+            "en": "sharp"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "tsing55"
+      },
+      "forms": {
+        "原级": {
+          "surface": "tsing55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsing55"
+          ]
+        },
+        "强调": {
+          "surface": "tsitsing55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsing55",
+            "重叠 initial: tsitsing55"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "0a186818-411b-46fa-b081-dee3341a81cc",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "hok33",
+      "posId": "2bbd3cd5-cb58-4bf8-8378-d749d2808c94",
+      "features": {},
+      "tags": [
+        "认知"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "9c0ebbd8-17df-4e1e-a5fb-9f1524591123",
+          "definition": {
+            "zh": "学；学习",
+            "en": "learn; study"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "hok33"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "87b89923-3673-43c0-997f-9cb2218b6c34",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "ngo21",
+      "posId": "01c3a599-e5c5-4051-8cf0-6fb273afd318",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "350db0c7-7359-40c3-b1ae-f33a948d0221",
+          "definition": {
+            "zh": "我",
+            "en": "I"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "ngo21"
+      },
+      "forms": {
+        "单数": {
+          "surface": "ngo21",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: ngo21"
+          ]
+        },
+        "复数": {
+          "surface": "ngo21 tui55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: ngo21",
+            "引用词条 tui55",
+            "后缀  @tui55: ngo21 tui55"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "60f958e5-ab85-439d-bb5e-c188645137ca": "k12"
+      }
+    },
+    {
+      "id": "5710a885-6cf7-4673-9f8f-5fecb6d9e8b4",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "ni33",
+      "posId": "01c3a599-e5c5-4051-8cf0-6fb273afd318",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "b268177c-524b-4a92-a9ba-893754f9264f",
+          "definition": {
+            "zh": "你",
+            "en": "you"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "ni33"
+      },
+      "forms": {
+        "单数": {
+          "surface": "ni33",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: ni33"
+          ]
+        },
+        "复数": {
+          "surface": "ni33 tui55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: ni33",
+            "引用词条 tui55",
+            "后缀  @tui55: ni33 tui55"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "da480126-6663-4f59-bf8b-3fbac52a03ad",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "ta51",
+      "posId": "01c3a599-e5c5-4051-8cf0-6fb273afd318",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "1a7598c3-33e7-4eb7-a867-ae6014a764d1",
+          "definition": {
+            "zh": "他 / 她",
+            "en": "he / she"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "ta51"
+      },
+      "forms": {
+        "单数": {
+          "surface": "ta51",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: ta51"
+          ]
+        },
+        "复数": {
+          "surface": "ta51 tui55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: ta51",
+            "引用词条 tui55",
+            "后缀  @tui55: ta51 tui55"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "63c9a8d6-29d5-4f69-a417-99ba14c5ccff",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "ta33",
+      "posId": "da9325c7-7354-44d7-b9fe-3fcc2b86e2e1",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "db292fa2-f108-44ea-b14e-90e81e47376f",
+          "definition": {
+            "zh": "完成体标记",
+            "en": "perfective marker"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "ta33"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "e3958eab-8d1d-4e63-b811-c96c57d89d2d": "紧跟在动词后面，中间不插别的词。"
+      }
+    },
+    {
+      "id": "aedec6ed-9ef9-494d-9748-0d14d3fb1e2f",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "lo21",
+      "posId": "da9325c7-7354-44d7-b9fe-3fcc2b86e2e1",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "87d4059f-ed01-43ee-8c02-4667ccd66307",
+          "definition": {
+            "zh": "疑问语气",
+            "en": "question particle"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "lo21"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z",
+      "custom": {
+        "e3958eab-8d1d-4e63-b811-c96c57d89d2d": "只放在句末；熟人之间常省掉，短语簿里写成 (lo21)。"
+      }
+    },
+    {
+      "id": "e9a9ee1b-937d-4f5f-9d9c-9892d6002859",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "ka55",
+      "posId": "da9325c7-7354-44d7-b9fe-3fcc2b86e2e1",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "5ca8c66b-c7ad-4ec6-ab11-5151d167b223",
+          "definition": {
+            "zh": "领属连接",
+            "en": "possessive linker"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "ka55"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "9a998f24-157e-4516-b1f2-2bfd4d7b488c",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "mo35",
+      "posId": "da9325c7-7354-44d7-b9fe-3fcc2b86e2e1",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "2b279360-e436-4c0c-b872-b40f4d4a21d5",
+          "definition": {
+            "zh": "否定",
+            "en": "negation"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "mo35"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "693c4737-affb-4470-8310-418fbae93fc1",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "tui55",
+      "posId": "da9325c7-7354-44d7-b9fe-3fcc2b86e2e1",
+      "features": {},
+      "tags": [],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "f9375f5b-7dce-42fe-a5c5-c6cd3895f827",
+          "definition": {
+            "zh": "们（复数）",
+            "en": "plural marker"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "unknown",
+        "sources": [],
+        "stages": [],
+        "notes": ""
+      },
+      "stems": {
+        "词干": "tui55"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "99adbbeb-4926-4746-9e05-417b40063219",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "it55",
+      "posId": "4d2d447a-e8e4-418f-ad55-bb28f430cb2b",
+      "features": {},
+      "tags": [
+        "数"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "186d8de6-a80c-4c27-8234-584566f837ec",
+          "definition": {
+            "zh": "一",
+            "en": "one"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "borrowing",
+        "sources": [
+          {
+            "kind": "external",
+            "language": "邻语",
+            "form": "it",
+            "meaning": "一"
+          }
+        ],
+        "stages": [],
+        "notes": "数词整套借入，声调按本语音系重配。"
+      },
+      "stems": {
+        "词干": "it55"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "3881ecf1-66dc-4e82-bcfd-52a6b6ec799f",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "ni51",
+      "posId": "4d2d447a-e8e4-418f-ad55-bb28f430cb2b",
+      "features": {},
+      "tags": [
+        "数"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "34c7c781-a190-49c5-ad85-1e72d1e3ae67",
+          "definition": {
+            "zh": "二",
+            "en": "two"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "borrowing",
+        "sources": [
+          {
+            "kind": "external",
+            "language": "邻语",
+            "form": "ni",
+            "meaning": "二"
+          }
+        ],
+        "stages": [],
+        "notes": "数词整套借入，声调按本语音系重配。"
+      },
+      "stems": {
+        "词干": "ni51"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "d4d449b6-1539-44be-a218-fd66b43e3692",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "sam33",
+      "posId": "4d2d447a-e8e4-418f-ad55-bb28f430cb2b",
+      "features": {},
+      "tags": [
+        "数"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "e1686cbb-be1b-47d3-b9dc-6a963cf6a9f3",
+          "definition": {
+            "zh": "三",
+            "en": "three"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "borrowing",
+        "sources": [
+          {
+            "kind": "external",
+            "language": "邻语",
+            "form": "sam",
+            "meaning": "三"
+          }
+        ],
+        "stages": [],
+        "notes": "数词整套借入，声调按本语音系重配。"
+      },
+      "stems": {
+        "词干": "sam33"
+      },
+      "forms": {},
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    },
+    {
+      "id": "e867e98f-5133-4354-93fa-cfe33fd398f0",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "lemma": "tsa55wa55",
+      "posId": "2f15bea2-18ee-45d1-b108-ccee1d76e90c",
+      "features": {},
+      "tags": [
+        "复合",
+        "建筑"
+      ],
+      "dialectIds": [],
+      "senses": [
+        {
+          "id": "967138bf-3f32-42af-b8a1-5f3c22ec229d",
+          "definition": {
+            "zh": "井（字面：水屋）",
+            "en": "well (lit. water-house)"
+          },
+          "tags": [],
+          "dialectIds": [],
+          "registers": [],
+          "examples": [],
+          "register": ""
+        }
+      ],
+      "etymology": {
+        "type": "compound",
+        "sources": [
+          {
+            "kind": "lexeme",
+            "id": "d9c7a4ab-7005-48f5-aa08-481ae0c460ca"
+          },
+          {
+            "kind": "lexeme",
+            "id": "5699636e-25a2-4cba-bf52-891e4b296589"
+          }
+        ],
+        "stages": [],
+        "notes": "复合词修饰语在前。"
+      },
+      "stems": {
+        "词干": "tsa55wa55"
+      },
+      "forms": {
+        "单数": {
+          "surface": "tsa55wa55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsa55wa55"
+          ]
+        },
+        "复数": {
+          "surface": "tsa55wa55tsa55wa55",
+          "derived": true,
+          "override": false,
+          "trace": [
+            "词干 词干: tsa55wa55",
+            "重叠 full: tsa55wa55tsa55wa55"
+          ]
+        }
+      },
+      "pronunciations": {},
+      "relations": [],
+      "scriptForms": {},
+      "images": [],
+      "notes": "",
+      "createdAt": "2026-09-23T08:19:11.365Z",
+      "updatedAt": "2026-09-23T08:19:11.365Z"
+    }
+  ],
+  "paradigms": [
+    {
+      "id": "67d72218-cdac-4b3c-8ac1-d85ce2021bc1",
+      "name": {
+        "zh": "名词（重叠复数）",
+        "en": "noun (reduplicated plural)"
+      },
+      "variants": [],
+      "dimensionIds": [
+        "c3b95a70-2387-412f-aeea-f66a67485299"
+      ],
+      "disabledSlots": [],
+      "generators": {
+        "7dd6706e-d9c7-4dbf-859b-b491aa26f145": {
+          "kind": "pipeline",
+          "stem": "词干",
+          "steps": []
+        },
+        "25df5e50-842c-41b0-92d4-36800aabf3a8": {
+          "kind": "pipeline",
+          "stem": "词干",
+          "steps": [
+            {
+              "id": "64b62a83-fbec-4fe4-950d-ed0aea3935c2",
+              "kind": "reduplication",
+              "scope": "full",
+              "length": 1
+            }
+          ]
+        }
+      },
+      "inheritsFrom": null
+    },
+    {
+      "id": "41a2ad3e-f4f4-4dcd-9c56-655ca25afe58",
+      "name": {
+        "zh": "形容词（强调）",
+        "en": "adjective (intensive)"
+      },
+      "variants": [],
+      "dimensionIds": [
+        "4def8e80-be79-4a58-b7ce-5e6a933d4f47"
+      ],
+      "disabledSlots": [],
+      "generators": {
+        "6cd38ffd-344f-4567-bad5-01c84a6848a6": {
+          "kind": "pipeline",
+          "stem": "词干",
+          "steps": []
+        },
+        "82321609-449c-4cd4-9ffa-32fbeb781d97": {
+          "kind": "pipeline",
+          "stem": "词干",
+          "steps": [
+            {
+              "id": "bc7bc13b-b0cd-4712-acc3-34e4b65c4ef9",
+              "kind": "reduplication",
+              "scope": "initial",
+              "length": 2
+            }
+          ]
+        }
+      },
+      "inheritsFrom": null
+    },
+    {
+      "id": "6c130088-bcb9-4084-b75b-bb5425e27fa7",
+      "name": {
+        "zh": "代词（后接 tui55）",
+        "en": "pronoun (+ tui55)"
+      },
+      "variants": [],
+      "dimensionIds": [
+        "c3b95a70-2387-412f-aeea-f66a67485299"
+      ],
+      "disabledSlots": [],
+      "generators": {
+        "7dd6706e-d9c7-4dbf-859b-b491aa26f145": {
+          "kind": "pipeline",
+          "stem": "词干",
+          "steps": []
+        },
+        "25df5e50-842c-41b0-92d4-36800aabf3a8": {
+          "kind": "pipeline",
+          "stem": "词干",
+          "steps": [
+            {
+              "id": "ccb1e21e-0b10-41dd-aba6-76f44ef6b33b",
+              "kind": "suffix",
+              "text": " @tui55"
+            }
+          ]
+        }
+      },
+      "inheritsFrom": null
+    }
+  ],
+  "sentences": [
+    {
+      "id": "b4509eee-e415-4a06-9a57-624fa2cbb698",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "ngo21 kwe51 ta33 sip51",
+      "orthoTexts": {
+        "9e7d3774-e04b-47a2-b436-131131154029": "ңо²¹ кве⁵¹ та³³ сип⁵¹"
+      },
+      "scriptForms": {},
+      "translation": {
+        "zh": "我吃了鱼。",
+        "en": "I ate fish."
+      },
+      "source": "语法书 · 体",
+      "tags": [
+        "完成体"
+      ],
+      "tokens": [
+        {
+          "surface": "ngo21",
+          "analyses": [
+            {
+              "lexemeId": "87b89923-3673-43c0-997f-9cb2218b6c34",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ngo21",
+                  "gloss": "我",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "87b89923-3673-43c0-997f-9cb2218b6c34",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "ngo21",
+                  "gloss": "我.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "kwe51",
+          "analyses": [
+            {
+              "lexemeId": "08301507-4160-4875-bc60-69da46c75fd5",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "kwe51",
+                  "gloss": "吃",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "ta33",
+          "analyses": [
+            {
+              "lexemeId": "63c9a8d6-29d5-4f69-a417-99ba14c5ccff",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ta33",
+                  "gloss": "完成体标记",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ta33",
+                  "gloss": "PFV",
+                  "morphemeId": "4f45e93c-9c16-4de5-9cee-587078b1644c"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "sip51",
+          "analyses": [
+            {
+              "lexemeId": "ce9a858c-7683-4e97-b5cf-da8534058804",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "sip51",
+                  "gloss": "鱼",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "ce9a858c-7683-4e97-b5cf-da8534058804",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "sip51",
+                  "gloss": "鱼.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [
+        {
+          "label": "声调",
+          "text": "21 51 33 51"
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "b87e2eba-2ebf-4f3f-84e1-4109c4d85b29",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "ni33 hem55 lun35 lo21",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "你看见人了吗？",
+        "en": "Did you see the person?"
+      },
+      "source": "语法书 · 疑问",
+      "tags": [
+        "疑问"
+      ],
+      "tokens": [
+        {
+          "surface": "ni33",
+          "analyses": [
+            {
+              "lexemeId": "5710a885-6cf7-4673-9f8f-5fecb6d9e8b4",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ni33",
+                  "gloss": "你",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "5710a885-6cf7-4673-9f8f-5fecb6d9e8b4",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "ni33",
+                  "gloss": "你.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "hem55",
+          "analyses": [
+            {
+              "lexemeId": "ca17fd41-5b3a-4b7f-a61e-14b8ff8af017",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hem55",
+                  "gloss": "看",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "lun35",
+          "analyses": [
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "lo21",
+          "analyses": [
+            {
+              "lexemeId": "aedec6ed-9ef9-494d-9748-0d14d3fb1e2f",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lo21",
+                  "gloss": "疑问语气",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lo21",
+                  "gloss": "Q",
+                  "morphemeId": "fdaff992-3a98-4407-a2a4-7e2c24c95f13"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": "疑问语气词放句末。"
+    },
+    {
+      "id": "634840d1-2c15-4f66-85b0-0fca12903eb5",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "ta51 ka55 wa55 pak51",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "他的房子大。",
+        "en": "His house is big."
+      },
+      "source": "语法书 · 领属",
+      "tags": [
+        "领属"
+      ],
+      "tokens": [
+        {
+          "surface": "ta51",
+          "analyses": [
+            {
+              "lexemeId": "da480126-6663-4f59-bf8b-3fbac52a03ad",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ta51",
+                  "gloss": "他 / 她",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "da480126-6663-4f59-bf8b-3fbac52a03ad",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "ta51",
+                  "gloss": "他 / 她.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "ka55",
+          "analyses": [
+            {
+              "lexemeId": "e9a9ee1b-937d-4f5f-9d9c-9892d6002859",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ka55",
+                  "gloss": "领属连接",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ka55",
+                  "gloss": "POSS",
+                  "morphemeId": "935aa03c-6bdf-4cd7-83d6-d5f0f1124f91"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "wa55",
+          "analyses": [
+            {
+              "lexemeId": "5699636e-25a2-4cba-bf52-891e4b296589",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "wa55",
+                  "gloss": "房子",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "5699636e-25a2-4cba-bf52-891e4b296589",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "wa55",
+                  "gloss": "房子.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "pak51",
+          "analyses": [
+            {
+              "lexemeId": "01f285c6-e2fe-43ae-bce0-c9a1f45599ef",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "pak51",
+                  "gloss": "大",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "01f285c6-e2fe-43ae-bce0-c9a1f45599ef",
+              "slot": "原级",
+              "morphs": [
+                {
+                  "form": "pak51",
+                  "gloss": "大.POS",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": ""
+    },
+    {
+      "id": "06b3ce86-1a91-481b-a4c3-7e7ba3722763",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "nok21 mo35 lai33",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "鸟不来。",
+        "en": "The bird does not come."
+      },
+      "source": "语法书 · 否定",
+      "tags": [
+        "否定"
+      ],
+      "tokens": [
+        {
+          "surface": "nok21",
+          "analyses": [
+            {
+              "lexemeId": "5874e0d1-b729-46bf-972d-9aa15fcb4c22",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "nok21",
+                  "gloss": "鸟",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "5874e0d1-b729-46bf-972d-9aa15fcb4c22",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "nok21",
+                  "gloss": "鸟.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "mo35",
+          "analyses": [
+            {
+              "lexemeId": "9a998f24-157e-4516-b1f2-2bfd4d7b488c",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "mo35",
+                  "gloss": "否定",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "mo35",
+                  "gloss": "NEG",
+                  "morphemeId": "3689277e-3d9b-43c6-93a9-1615fc67eeb6"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "lai33",
+          "analyses": [
+            {
+              "lexemeId": "d5a050af-deb6-4884-bba3-fa70138f155a",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lai33",
+                  "gloss": "来",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": ""
+    },
+    {
+      "id": "8901cb67-bf0a-4479-89d6-cebe2b05100b",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "sam33 lun35 tsun35 mek33",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "三个人住在山上。",
+        "en": "Three people live on the mountain."
+      },
+      "source": "民间故事",
+      "tags": [
+        "数词",
+        "量词"
+      ],
+      "tokens": [
+        {
+          "surface": "sam33",
+          "analyses": [
+            {
+              "lexemeId": "d4d449b6-1539-44be-a218-fd66b43e3692",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "sam33",
+                  "gloss": "三",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "lun35",
+          "analyses": [
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "tsun35",
+          "analyses": [
+            {
+              "lexemeId": "39b1a99f-2ebe-410a-8b53-1b37513ae131",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "tsun35",
+                  "gloss": "住",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "mek33",
+          "analyses": [
+            {
+              "lexemeId": "1fe84ac7-2761-4251-afdd-76cc951e86f5",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "mek33",
+                  "gloss": "山",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "1fe84ac7-2761-4251-afdd-76cc951e86f5",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "mek33",
+                  "gloss": "山.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": ""
+    },
+    {
+      "id": "3cb5ab54-891c-4ed1-9641-c19aeca6898b",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "lun35lun35 pun21 hu35",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "人们上路了。",
+        "en": "The people took the road."
+      },
+      "source": "民间故事",
+      "tags": [
+        "复数",
+        "重叠"
+      ],
+      "tokens": [
+        {
+          "surface": "lun35lun35",
+          "analyses": [
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": "复数",
+              "morphs": [
+                {
+                  "form": "lun35lun35",
+                  "gloss": "人.PL",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "人",
+                  "morphemeId": null
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": "b9925e90-0f1f-4756-b43d-bc9b1553a9aa",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "人.SG",
+                  "morphemeId": null
+                }
+              ],
+              "guess": "split"
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                },
+                {
+                  "form": "lun35",
+                  "gloss": "CLF",
+                  "morphemeId": "5521da9a-a569-42ce-aeb6-5b2ea4dc569c"
+                }
+              ],
+              "guess": "split"
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "pun21",
+          "analyses": [
+            {
+              "lexemeId": "3f330f91-1f5e-45f2-81d7-50b741faf10d",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "pun21",
+                  "gloss": "去",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "hu35",
+          "analyses": [
+            {
+              "lexemeId": "0150293f-16eb-4f15-b3ee-406a04557eff",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hu35",
+                  "gloss": "路",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "0150293f-16eb-4f15-b3ee-406a04557eff",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hu35",
+                  "gloss": "方法",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "0150293f-16eb-4f15-b3ee-406a04557eff",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "hu35",
+                  "gloss": "路.SG",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "0150293f-16eb-4f15-b3ee-406a04557eff",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "hu35",
+                  "gloss": "路",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "0150293f-16eb-4f15-b3ee-406a04557eff",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "hu35",
+                  "gloss": "方法",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": ""
+    },
+    {
+      "id": "a3f373fd-fa76-47a8-91bd-728a5fded662",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "ngo21 tui55 lai33",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "我们来了。",
+        "en": "We came."
+      },
+      "source": "语法书 · 代词复数",
+      "tags": [
+        "复数"
+      ],
+      "tokens": [
+        {
+          "surface": "ngo21 tui55",
+          "analyses": [
+            {
+              "lexemeId": "87b89923-3673-43c0-997f-9cb2218b6c34",
+              "slot": "复数",
+              "morphs": [
+                {
+                  "form": "ngo21 tui55",
+                  "gloss": "我.PL",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "lai33",
+          "analyses": [
+            {
+              "lexemeId": "d5a050af-deb6-4884-bba3-fa70138f155a",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lai33",
+                  "gloss": "来",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": ""
+    },
+    {
+      "id": "73817001-18f0-414b-9c31-a2c845551f8b",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "ngo21 hok33 ta33",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "我学了。",
+        "en": "I studied."
+      },
+      "source": "语法书 · 同形词",
+      "tags": [
+        "同形词"
+      ],
+      "tokens": [
+        {
+          "surface": "ngo21",
+          "analyses": [
+            {
+              "lexemeId": "87b89923-3673-43c0-997f-9cb2218b6c34",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ngo21",
+                  "gloss": "我",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "87b89923-3673-43c0-997f-9cb2218b6c34",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "ngo21",
+                  "gloss": "我.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "hok33",
+          "analyses": [
+            {
+              "lexemeId": "0a186818-411b-46fa-b081-dee3341a81cc",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "学",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "f408b69c-abc3-474b-93b1-09561a192e2b",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "红",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "f408b69c-abc3-474b-93b1-09561a192e2b",
+              "slot": "原级",
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "红.POS",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "ta33",
+          "analyses": [
+            {
+              "lexemeId": "63c9a8d6-29d5-4f69-a417-99ba14c5ccff",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ta33",
+                  "gloss": "完成体标记",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "ta33",
+                  "gloss": "PFV",
+                  "morphemeId": "4f45e93c-9c16-4de5-9cee-587078b1644c"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": ""
+    },
+    {
+      "id": "630f83d2-ef82-4c49-ae6a-72b02d20fd27",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "wa55 hok33",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "房子是红的。",
+        "en": "The house is red."
+      },
+      "source": "语法书 · 同形词",
+      "tags": [
+        "同形词"
+      ],
+      "tokens": [
+        {
+          "surface": "wa55",
+          "analyses": [
+            {
+              "lexemeId": "5699636e-25a2-4cba-bf52-891e4b296589",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "wa55",
+                  "gloss": "房子",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "5699636e-25a2-4cba-bf52-891e4b296589",
+              "slot": "单数",
+              "morphs": [
+                {
+                  "form": "wa55",
+                  "gloss": "房子.SG",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        },
+        {
+          "surface": "hok33",
+          "analyses": [
+            {
+              "lexemeId": "f408b69c-abc3-474b-93b1-09561a192e2b",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "红",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "f408b69c-abc3-474b-93b1-09561a192e2b",
+              "slot": "原级",
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "红.POS",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "0a186818-411b-46fa-b081-dee3341a81cc",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "学",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": ""
+    },
+    {
+      "id": "b88cd10a-0ba4-4bf3-9922-3564e21496e7",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "text": "hok33 lo21",
+      "orthoTexts": {},
+      "scriptForms": {},
+      "translation": {
+        "zh": "是这个吗？",
+        "en": "Is it this one?"
+      },
+      "source": "语法书 · 同形词",
+      "tags": [
+        "同形词"
+      ],
+      "tokens": [
+        {
+          "surface": "hok33",
+          "analyses": [
+            {
+              "lexemeId": "f408b69c-abc3-474b-93b1-09561a192e2b",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "红",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "0a186818-411b-46fa-b081-dee3341a81cc",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "学",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": "f408b69c-abc3-474b-93b1-09561a192e2b",
+              "slot": "原级",
+              "morphs": [
+                {
+                  "form": "hok33",
+                  "gloss": "红.POS",
+                  "morphemeId": null
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": false
+        },
+        {
+          "surface": "lo21",
+          "analyses": [
+            {
+              "lexemeId": "aedec6ed-9ef9-494d-9748-0d14d3fb1e2f",
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lo21",
+                  "gloss": "疑问语气",
+                  "morphemeId": null
+                }
+              ]
+            },
+            {
+              "lexemeId": null,
+              "slot": null,
+              "morphs": [
+                {
+                  "form": "lo21",
+                  "gloss": "Q",
+                  "morphemeId": "fdaff992-3a98-4407-a2a4-7e2c24c95f13"
+                }
+              ]
+            }
+          ],
+          "chosen": 0,
+          "confirmed": true
+        }
+      ],
+      "extraLines": [],
+      "notes": "hok33 有「红」「学」两个同形词，这句的译文分不出来：悬浮时并排给候选，点「就是这个」固定下来。"
+    }
+  ],
+  "phrasebook": [
+    {
+      "id": "8f6e08b6-df6e-4a4e-ae55-227d690b5b70",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "category": "问候",
+      "text": "ni33 lai33 lo21",
+      "translation": {
+        "zh": "你来了？",
+        "en": "You’ve come?"
+      },
+      "pronunciations": {},
+      "variants": [
+        {
+          "text": "lai33 lo21",
+          "note": "熟人之间"
+        }
+      ],
+      "tags": [
+        "问候"
+      ]
+    },
+    {
+      "id": "0525625b-7002-43d0-b6f6-8f3b389cde76",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "category": "问候",
+      "text": "hem55 ni33",
+      "translation": {
+        "zh": "再见（字面：看你）",
+        "en": "goodbye (lit. see you)"
+      },
+      "pronunciations": {},
+      "variants": [],
+      "tags": [
+        "问候"
+      ]
+    },
+    {
+      "id": "cc3f5483-219e-4006-ab08-003eda28ea0f",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "category": "句式",
+      "text": "ngo21 jam55 [数词] tsa55",
+      "translation": {
+        "zh": "我给[数词]份水",
+        "en": "I give [numeral] water"
+      },
+      "pronunciations": {},
+      "variants": [],
+      "tags": [
+        "句式"
+      ]
+    },
+    {
+      "id": "67672d50-8416-4ae1-861e-9fde6758d4fd",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "category": "市集",
+      "text": "sip51 pak51 lo21",
+      "translation": {
+        "zh": "鱼大吗？",
+        "en": "Is the fish big?"
+      },
+      "pronunciations": {},
+      "variants": [],
+      "tags": [
+        "市集"
+      ]
+    },
+    {
+      "id": "1df886b4-a78f-4d3a-8ef5-c381c033cc93",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "category": "句式",
+      "text": "ni33 hem55 (lo21)",
+      "translation": {
+        "zh": "你看见了（吗）",
+        "en": "You saw it (?)"
+      },
+      "pronunciations": {},
+      "variants": [],
+      "tags": [
+        "句式"
+      ]
+    }
+  ],
+  "abbreviations": [
+    {
+      "abbr": "PFV",
+      "name": {
+        "zh": "完成体",
+        "en": "perfective"
+      }
+    },
+    {
+      "abbr": "Q",
+      "name": {
+        "zh": "疑问",
+        "en": "question"
+      }
+    },
+    {
+      "abbr": "POSS",
+      "name": {
+        "zh": "领属",
+        "en": "possessive"
+      }
+    },
+    {
+      "abbr": "NEG",
+      "name": {
+        "zh": "否定",
+        "en": "negation"
+      }
+    },
+    {
+      "abbr": "CLF",
+      "name": {
+        "zh": "量词",
+        "en": "classifier"
+      }
+    },
+    {
+      "abbr": "SG",
+      "name": {
+        "zh": "单数",
+        "en": "singular"
+      }
+    },
+    {
+      "abbr": "PL",
+      "name": {
+        "zh": "复数",
+        "en": "plural"
+      }
+    }
+  ],
+  "docs": [
+    {
+      "id": "b8e3faf5-50b4-49b6-9d18-133625d3f159",
+      "languageId": null,
+      "title": "关于这个示例",
+      "markdown": "# 关于这个示例\n\nTsahun 是虚构的孤立声调语，与另一个示例 **Aelith** 互补，专门展示这些功能：\n\n- **声调**：韵律类型选「声调」，五个调各有调符与数字；罗马化转 IPA 的第一条是连读变调 `35 > ˧?˧˥ / _C , _V`（满足 / 不满足环境两路），叠词 lun35lun35 读 lun˧lun˧˥\n- **双正字法**：罗马化（数字标调）与西里尔正字，例句可以并列两种写法；音位表里填了每个音位在罗马化里的写法，「音节与韵律」的测试按拼写输入 tsang55 时 ts、ng 各算一个音，形容词强调重叠 tsing55 得 tsitsing55（按字母数会是 tstsing55）\n- **文字**：音节文字的**拼合**（辅音+元音自动拼格，尾辅音用消音符）与**竖排显示**\n- **构形**：孤立语也有构形——重叠出复数与强调；代词复数后面空一格接 `@tui55`（语素表里没有就引用同名词条），推出带空格的 `ngo21 tui55`\n- **语料**：重叠形也能被自动 gloss 认出来（`lun35lun35`），带空格的 `ngo21 tui55` 并成一个词认；`hok33 lo21` 里的同形词故意没确认，悬浮时并排给候选；工作台里点一个动词，附着台列出语料里跟动词用过的小品词：完成体 ta33 放在后面、否定 mo35 放在前面（按语料里惯常挨着的那一边）\n- **词库**：同音异调的最小对、同形词 hok33（红 / 学）、复合词、整套借入的数词、一个义项几个语域（hu35）\n- **检视器模块**：「异体字」用音节文字的字体显示在释义上方（wa55），「语用说明」放在最下面（lo21、ta33）\n- **文字的括号设置**：音节文字设成「括号连内容都不写」，短语 `ni33 hem55 (lo21)` 的文字行里没有括号那段\n- **按字号写的意音文字**：「Tsahun 刻符」每个字的转写是字号（k01、k02……），不是读音；词条的检视器模块「字号」写这个词用哪几个字（wa55 是 `k04 k03`），文字页的「转写来源」选了这个模块。词库的文字列、语料与短语的文字行都逐词查词库写出来：`ngo21 kwe51 ta33 sip51` 写成 ⼰ ⼝ ta33 ⿂，没有字号的虚词照原文",
+      "updatedAt": "2026-09-23T08:19:11.369Z"
+    },
+    {
+      "id": "70e7b66b-8baa-4027-8ef1-18a5c6a2a2a4",
+      "languageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+      "title": "Tsahun 语法概要",
+      "markdown": "# Tsahun 语法概要\n\n## 声调\n五个声调：55 高平、35 升、21 低降、51 降、33 中平。同音节异调是不同的词：[[tsa55]]「水」/ [[tsa21]]「火」。\n\n连读变调：35 调后面还接着音节时读 33，所以叠词 `lun35lun35` 读 lun˧lun˧˥。\n\n## 语序\nSVO；领属用 ka55 连接：`ta51 ka55 wa55` 他的房子。\n\n## 体与否定\n完成体 ta33 在动词后；否定 mo35 在动词前。\n\n## 复数\n名词整词重叠：`lun35lun35` 人们。代词后面接 [[tui55]]：`ngo21 tui55` 我们。",
+      "updatedAt": "2026-09-23T08:19:11.369Z"
+    }
+  ],
+  "customFields": [
+    {
+      "id": "a3e5e771-fedd-4814-abaf-59447569f6f1",
+      "name": {
+        "zh": "异体字",
+        "en": "Variant characters"
+      },
+      "kind": "list",
+      "position": "beforeSenses",
+      "languageIds": [],
+      "scriptId": "22ddaaa3-eef9-4b35-8145-4b6b0401b763",
+      "aliases": [
+        "variants",
+        "异体"
+      ]
+    },
+    {
+      "id": "e3958eab-8d1d-4e63-b811-c96c57d89d2d",
+      "name": {
+        "zh": "语用说明",
+        "en": "Usage note"
+      },
+      "kind": "text",
+      "position": "end",
+      "languageIds": [],
+      "scriptId": null,
+      "aliases": []
+    },
+    {
+      "id": "60f958e5-ab85-439d-bb5e-c188645137ca",
+      "name": {
+        "zh": "字号",
+        "en": "Glyph codes"
+      },
+      "kind": "text",
+      "position": "end",
+      "languageIds": [],
+      "scriptId": null,
+      "aliases": [
+        "codes"
+      ]
+    }
+  ],
+  "settings": {
+    "defaultLanguageId": "df066b2e-99b7-48b7-8cd2-318293b40861",
+    "glossLanguages": [
+      "zh",
+      "en"
+    ],
+    "morphemeBoundaries": [
+      "-",
+      "="
+    ],
+    "tokenizer": "whitespace",
+    "tokenizerPattern": "",
+    "abbreviationStyle": "leipzig",
+    "exportTemplates": [
+      {
+        "id": "1798d79b-7429-49b1-9d80-c3a7db615c16",
+        "name": "三行 gloss",
+        "kind": "gloss",
+        "template": "{{text}}\n{{gloss}}\n‘{{translation}}’"
+      }
+    ],
+    "dataFont": "",
+    "lexiconColumns": [
+      "pos",
+      "def:zh",
+      "tags",
+      "script:22ddaaa3-eef9-4b35-8145-4b6b0401b763",
+      "script:aef2c66c-5658-4f72-8b39-543ae4a83818"
+    ],
+    "imageSize": {
+      "width": 320,
+      "height": 240
+    }
+  }
+}

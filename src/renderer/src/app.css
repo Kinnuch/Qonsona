@@ -1,0 +1,225 @@
+/*
+ * 配色沿用千语集的中性底色；强调色跟着正在学的语言走（App.svelte 把学习包的颜色写进 --accent），
+ * 其余几档强调色都从它混出来，换语言时整套一起变。
+ */
+:root {
+  --bg: #fafaf7;
+  --bg-elev: #ffffff;
+  --bg-sunken: #f1f1ed;
+  --bg-hover: #f3f3ef;
+  --border: #e4e4df;
+  --border-strong: #cfcfc8;
+  --text: #1f1f1f;
+  --text-2: #5c5c57;
+  --text-3: #8a8a84;
+  --accent: #0e9f8a;
+  /* 强调色底上的文字：浅色的语言颜色（黄、浅绿）配深字 */
+  --accent-contrast: #ffffff;
+  --accent-hover: color-mix(in srgb, var(--accent) 86%, #000);
+  --accent-soft: color-mix(in srgb, var(--accent) 12%, var(--bg-elev));
+  --accent-text: color-mix(in srgb, var(--accent) 78%, #000);
+  --danger: #d64545;
+  --danger-soft: #fbe9e9;
+  --radius: 8px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 2px rgba(20, 20, 10, 0.04), 0 2px 8px rgba(20, 20, 10, 0.05);
+  --shadow-lg: 0 4px 16px rgba(20, 20, 10, 0.1), 0 1px 3px rgba(20, 20, 10, 0.06);
+  --font-ui:
+    'Inter', system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Noto Sans CJK SC', 'Noto Sans SC', sans-serif;
+  --font-data: 'Gentium Plus', 'Charis SIL', 'Doulos SIL', 'Times New Roman', serif;
+  /* 日文的衬线体（首页新闻的大标题、导语） */
+  --font-serif-ja:
+    'Yu Mincho', 'YuMincho', 'Hiragino Mincho ProN', 'Noto Serif JP', 'Noto Serif CJK JP', serif;
+  --font-mono: ui-monospace, 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+  /* 千语集文字引擎里「自定义文字」的兜底字体 */
+  --font-script: var(--font-data);
+  --nav-w: 208px;
+  --ring: 0 0 0 3px var(--accent-soft);
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg: #161715;
+  --bg-elev: #1e1f1c;
+  --bg-sunken: #111210;
+  --bg-hover: #262723;
+  --border: #2e2f2b;
+  --border-strong: #3e3f3a;
+  --text: #ecece7;
+  --text-2: #a9a9a2;
+  --text-3: #8a8a83;
+  /* 近黑的底上强调色太扎眼：按钮压暗，文字提亮 */
+  --accent-hover: color-mix(in srgb, var(--accent) 85%, #fff);
+  --accent-soft: color-mix(in srgb, var(--accent) 20%, var(--bg-elev));
+  --accent-text: color-mix(in srgb, var(--accent) 55%, #fff);
+  --danger: #e06060;
+  --danger-soft: #3a1f1f;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  height: 100%;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.3;
+}
+h1 {
+  font-size: 22px;
+}
+h2 {
+  font-size: 16px;
+}
+h3 {
+  font-size: 13px;
+  color: var(--text-2);
+  letter-spacing: 0.02em;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: var(--bg-hover);
+}
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-contrast);
+}
+.btn.primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.btn.danger {
+  color: var(--danger);
+}
+.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+}
+.btn.ghost:hover {
+  background: var(--bg-hover);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.muted {
+  color: var(--text-2);
+}
+.faint {
+  color: var(--text-3);
+  font-size: 12px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--bg-sunken);
+  color: var(--text-2);
+  font-size: 12px;
+}
+.chip.on {
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+/* 只给读屏软件看的（页面标题这类） */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 页面主体：居中、限宽 */
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 28px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.page-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+select,
+input {
+  font: inherit;
+  color: inherit;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+}

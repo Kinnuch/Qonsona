@@ -1,0 +1,6203 @@
+{
+ "generated": "2026-10-08",
+ "levels": {
+  "1": [
+   {
+    "id": 96843,
+    "ja": "彼らは勝利のために祈りを捧げた。",
+    "zh": "他們為了勝利而祈禱。",
+    "en": "They said their prayers for victory.",
+    "zhMachine": false
+   },
+   {
+    "id": 113360,
+    "ja": "彼はすばらしい個性を持っている。",
+    "zh": "他有一個很好的性格。",
+    "en": "He has a wonderful personality.",
+    "zhMachine": false
+   },
+   {
+    "id": 117509,
+    "ja": "彼の言葉は何を暗示しているのか。",
+    "zh": "他的话暗示着什么？",
+    "en": "What do his words imply?",
+    "zhMachine": false
+   },
+   {
+    "id": 126939,
+    "ja": "地球以外の天体に生物はいますか。",
+    "zh": "地球以外的天體上有生命嗎？",
+    "en": "Is there life on other worlds?",
+    "zhMachine": false
+   },
+   {
+    "id": 167442,
+    "ja": "私が不在の時は彼が私の代理です。",
+    "zh": "我不在的时候，他将是我的代理人。",
+    "en": "He will be my deputy while I am away.",
+    "zhMachine": false
+   },
+   {
+    "id": 167691,
+    "ja": "私が手にしてるのは貝の化石です。",
+    "zh": "在我手裡的是一個貝殼化石。",
+    "en": "What I have in my hand is a fossil seashell.",
+    "zhMachine": false
+   },
+   {
+    "id": 185733,
+    "ja": "我々は政府の経済政策を検討した。",
+    "zh": "我们研究了政府的经济政策。",
+    "en": "We studied the government's economic policy.",
+    "zhMachine": false
+   },
+   {
+    "id": 338236,
+    "ja": "誤って洗剤を飲んでしまいました。",
+    "zh": "他误吞了洗衣粉。",
+    "en": "He swallowed detergent by mistake.",
+    "zhMachine": false
+   },
+   {
+    "id": 80761,
+    "ja": "名簿に私の名前も追加してください。",
+    "zh": "請在名單上加上我的名字。",
+    "en": "Please add my name to the list.",
+    "zhMachine": false
+   },
+   {
+    "id": 88647,
+    "ja": "彼女は上着を引っかけると外へ出た。",
+    "zh": "她穿上大衣出門。",
+    "en": "She threw on a coat and went outside.",
+    "zhMachine": false
+   },
+   {
+    "id": 97530,
+    "ja": "彼らは一連の音楽会を開催した。",
+    "zh": "他們辦了一系列的音樂會。",
+    "en": "They gave a series of concerts.",
+    "zhMachine": false
+   },
+   {
+    "id": 102966,
+    "ja": "彼は善と悪の区別がわからない。",
+    "zh": "他好坏不分。",
+    "en": "He doesn't know the difference between right and wrong.",
+    "zhMachine": false
+   },
+   {
+    "id": 103784,
+    "ja": "彼は新しい政策を決定していた。",
+    "zh": "他已經決定了新的政策。",
+    "en": "He had decided on a new policy.",
+    "zhMachine": false
+   },
+   {
+    "id": 107950,
+    "ja": "彼は警官を見るとすぐ、逃げた。",
+    "zh": "他一看见警察就逃走了。",
+    "en": "As soon as he saw a policeman, he ran away.",
+    "zhMachine": false
+   },
+   {
+    "id": 125227,
+    "ja": "鉄道線路と道路は平行している。",
+    "zh": "铁路与公路平行。",
+    "en": "The railroad is parallel to the road.",
+    "zhMachine": false
+   },
+   {
+    "id": 149110,
+    "ja": "車が猛スピードで通り過ぎていった。",
+    "zh": "車子極速飆過。",
+    "en": "A car went by at terrific speed.",
+    "zhMachine": false
+   },
+   {
+    "id": 154752,
+    "ja": "私は肉体労働には向いていない。",
+    "zh": "我不能做體力勞動。",
+    "en": "I'm not fit for physical labor.",
+    "zhMachine": false
+   },
+   {
+    "id": 169125,
+    "ja": "仕事の量と賃金が釣り合っていない。",
+    "zh": "工作量和报酬相比并不合理。",
+    "en": "The amount of work and the pay are not balanced.",
+    "zhMachine": false
+   },
+   {
+    "id": 176899,
+    "ja": "君は保健室に行った方がいいぞ。",
+    "zh": "你最好去一下医务室。",
+    "en": "You had better go to the infirmary.",
+    "zhMachine": false
+   },
+   {
+    "id": 177960,
+    "ja": "君はあくまで意地を張るのだね。",
+    "zh": "你会为己意坚持到底吧，对吗？",
+    "en": "You're never going to give in, are you?",
+    "zhMachine": false
+   },
+   {
+    "id": 202654,
+    "ja": "彼はついに自分の誤りを悟った。",
+    "zh": "他終於醒覺到自己做錯了。",
+    "en": "At last, he realized his error.",
+    "zhMachine": false
+   },
+   {
+    "id": 204072,
+    "ja": "そんな大金を払う余裕はありません。",
+    "zh": "我付不起這麼多錢。",
+    "en": "I cannot afford to pay so much.",
+    "zhMachine": false
+   },
+   {
+    "id": 228715,
+    "ja": "いつも手近に辞書を持っていなさい。",
+    "zh": "你的字典一直要放在手边。",
+    "en": "Always have your dictionary near at hand.",
+    "zhMachine": false
+   },
+   {
+    "id": 236096,
+    "ja": "１０から２を差し引くと８です。",
+    "zh": "十减二等于八。",
+    "en": "Subtract two from ten and you have eight.",
+    "zhMachine": false
+   },
+   {
+    "id": 102932,
+    "ja": "彼は全財産を失うような危険を犯した。",
+    "zh": "他冒着失去所有财产的危险。",
+    "en": "He risked losing all his fortune.",
+    "zhMachine": false
+   },
+   {
+    "id": 104869,
+    "ja": "彼は自分の非を認めましたか。",
+    "zh": "他承认他错了吗？",
+    "en": "Did he admit that he was wrong?",
+    "zhMachine": false
+   },
+   {
+    "id": 104990,
+    "ja": "彼は自分の研究室で実験を行っている。",
+    "zh": "他在自己的實驗室進行實驗。",
+    "en": "He is carrying out experiments in his laboratory.",
+    "zhMachine": false
+   },
+   {
+    "id": 116071,
+    "ja": "彼の無礼には我慢しかねます。",
+    "zh": "我受不了他的无礼。",
+    "en": "I have trouble putting up with his rude manner.",
+    "zhMachine": false
+   },
+   {
+    "id": 122476,
+    "ja": "日本は厳しい経済問題に直面している。",
+    "zh": "日本正面臨著嚴重的經濟問題。",
+    "en": "Japan is confronted with severe economic problems.",
+    "zhMachine": false
+   },
+   {
+    "id": 124151,
+    "ja": "東洋の陶器に興味があります。",
+    "zh": "我对東方陶瓷有兴趣。",
+    "en": "I have an interest in oriental ceramics.",
+    "zhMachine": false
+   },
+   {
+    "id": 174973,
+    "ja": "厳密に言うと、あなたは間違ってるね。",
+    "zh": "嚴格地說你錯了。",
+    "en": "Strictly speaking, you are wrong.",
+    "zhMachine": false
+   },
+   {
+    "id": 179970,
+    "ja": "勤務時間中に煙草を吸ってはいけない。",
+    "zh": "值班時間不准吸煙。",
+    "en": "Don't smoke while you are on duty.",
+    "zhMachine": false
+   },
+   {
+    "id": 186782,
+    "ja": "歌を歌って生計を立てている。",
+    "zh": "他以唱歌為生。",
+    "en": "He makes his living by singing.",
+    "zhMachine": false
+   },
+   {
+    "id": 189859,
+    "ja": "宇宙旅行はもはや夢ではない。",
+    "zh": "太空旅行已不再是幻想。",
+    "en": "Space travel is no longer a dream.",
+    "zhMachine": false
+   },
+   {
+    "id": 208996,
+    "ja": "その証拠は彼に有利であった。",
+    "zh": "證據對他有利。",
+    "en": "The evidence was in his favor.",
+    "zhMachine": false
+   },
+   {
+    "id": 211237,
+    "ja": "その計画は世論の圧力で中止になった。",
+    "zh": "計劃受到輿論的壓力而被取消了。",
+    "en": "The plan was given up under the pressure of public opinion.",
+    "zhMachine": false
+   },
+   {
+    "id": 223920,
+    "ja": "このカーペットはあれよりも質がいい。",
+    "zh": "這地毯在質量上比那箇好得多。",
+    "en": "This carpet is superior to that one in quality.",
+    "zhMachine": false
+   },
+   {
+    "id": 230822,
+    "ja": "あの紳士は医師にちがいない。",
+    "zh": "那个绅士一定是个医生。",
+    "en": "That gentleman must be a doctor.",
+    "zhMachine": false
+   },
+   {
+    "id": 143744,
+    "ja": "水は生命に必要不可欠です。",
+    "zh": "水是生命所不可缺少的。",
+    "en": "Water is indispensable to life.",
+    "zhMachine": false
+   },
+   {
+    "id": 156122,
+    "ja": "私は車庫付きの家を借りた。",
+    "zh": "我租了一間有車庫的房子。",
+    "en": "I rented a house with a garage.",
+    "zhMachine": false
+   },
+   {
+    "id": 168300,
+    "ja": "市民プールの監視の仕事に応募しました。",
+    "zh": "我去了公共游泳池應徵當救生員。",
+    "en": "I applied for a job as a lifeguard at the community pool.",
+    "zhMachine": false
+   },
+   {
+    "id": 178919,
+    "ja": "君が同意しようとしまいと、ぼくはやる。",
+    "zh": "不管你同意还是不同意，我还是要做。",
+    "en": "I am going to do it whether you agree or not.",
+    "zhMachine": false
+   },
+   {
+    "id": 183948,
+    "ja": "干物は私の好みに合わない。",
+    "zh": "魚乾和我的喜好不合。",
+    "en": "Dried fish is not to my taste.",
+    "zhMachine": false
+   },
+   {
+    "id": 189854,
+    "ja": "羽に深い傷を負った小鳥を見つけました。",
+    "zh": "我發現了一隻翅膀受了重傷的鳥兒。",
+    "en": "I found a bird whose wing was severely damaged.",
+    "zhMachine": false
+   },
+   {
+    "id": 201447,
+    "ja": "どうして試験で最初の問題を抜かしたの？",
+    "zh": "為什麼漏了測驗的第一個問題呢?",
+    "en": "Why did you leave out the first question in the exam?",
+    "zhMachine": false
+   },
+   {
+    "id": 207638,
+    "ja": "その店はちょうど駅の真ん前にあります。",
+    "zh": "那家店就在车站前面。",
+    "en": "The shop is just in front of the station.",
+    "zhMachine": false
+   },
+   {
+    "id": 98417,
+    "ja": "彼らの年齢差は六歳です。",
+    "zh": "他们差六岁。",
+    "en": "The difference in their ages is six years.",
+    "zhMachine": false
+   },
+   {
+    "id": 145122,
+    "ja": "新聞をまとめておくファイルを持っている。",
+    "zh": "我有一本剪报夹。",
+    "en": "I have a newspaper clipping file.",
+    "zhMachine": false
+   },
+   {
+    "id": 153108,
+    "ja": "私は美しい蝶を捕まえた。",
+    "zh": "我抓到一隻漂亮的蝴蝶。",
+    "en": "I caught a beautiful butterfly.",
+    "zhMachine": false
+   },
+   {
+    "id": 211885,
+    "ja": "会議室は現在使用中です。",
+    "zh": "会议室正在使用中。",
+    "en": "The meeting room is in use now.",
+    "zhMachine": false
+   },
+   {
+    "id": 74174,
+    "ja": "心情的には賛成、けれど現実的に反対します。",
+    "zh": "我感情上支持，但是理性上反对。",
+    "en": "I agree on an emotional level, but on the pragmatic level I disagree.",
+    "zhMachine": false
+   },
+   {
+    "id": 87141,
+    "ja": "彼女は秘密をもらした。",
+    "zh": "她将秘密泄露出去了。",
+    "en": "She let the secret out.",
+    "zhMachine": false
+   },
+   {
+    "id": 87819,
+    "ja": "彼女は定期的に私をたずねてきたものだった。",
+    "zh": "她以前定期來看我。",
+    "en": "She used to visit me regularly.",
+    "zhMachine": false
+   },
+   {
+    "id": 92779,
+    "ja": "彼女はショック死した。",
+    "zh": "她是休克死亡。",
+    "en": "She died of shock.",
+    "zhMachine": false
+   },
+   {
+    "id": 100151,
+    "ja": "彼は壁にもたれていた。",
+    "zh": "他靠著牆。",
+    "en": "He was leaning against the wall.",
+    "zhMachine": false
+   },
+   {
+    "id": 113352,
+    "ja": "彼はスピードを上げた。",
+    "zh": "他提速了。",
+    "en": "He accelerated.",
+    "zhMachine": false
+   },
+   {
+    "id": 118490,
+    "ja": "彼に不利な判決がでた。",
+    "zh": "判决对他不利。",
+    "en": "The judgement went against him.",
+    "zhMachine": false
+   },
+   {
+    "id": 121370,
+    "ja": "箱の形は普通四角です。",
+    "zh": "箱子的形状一般是方形。",
+    "en": "The shape of a box is usually square.",
+    "zhMachine": false
+   },
+   {
+    "id": 126956,
+    "ja": "地球は水があるという点でほかの惑星と違う。",
+    "zh": "地球有水這一點與其他行星不同。",
+    "en": "The earth is different from the other planets in that it has water.",
+    "zhMachine": false
+   },
+   {
+    "id": 145066,
+    "ja": "森林火災の防止はすべての人が負う義務です。",
+    "zh": "防止山火，人人有責。",
+    "en": "The prevention of forest fires is everyone's responsibility.",
+    "zhMachine": false
+   },
+   {
+    "id": 207774,
+    "ja": "その調査は進行中です。",
+    "zh": "調查正在進行中。",
+    "en": "The investigation is under way.",
+    "zhMachine": false
+   },
+   {
+    "id": 217155,
+    "ja": "ご子息のご結婚を心よりお祝い申し上げます。",
+    "zh": "谨为另公子婚事献上由衷祝福。",
+    "en": "Please accept our heartiest congratulations on the marriage of your son.",
+    "zhMachine": false
+   },
+   {
+    "id": 221978,
+    "ja": "この港は封鎖されうる。",
+    "zh": "這個港口可能會遭到封鎖。",
+    "en": "The harbor can be blocked.",
+    "zhMachine": false
+   },
+   {
+    "id": 225958,
+    "ja": "きのう魚を３匹捕った。",
+    "zh": "昨天我釣了三條魚。",
+    "en": "I caught three fish yesterday.",
+    "zhMachine": false
+   },
+   {
+    "id": 109189,
+    "ja": "彼は花にきれいなカードを添えて彼女に送った。",
+    "zh": "他送了她一束附带精美贺卡的花。",
+    "en": "He sent her some flowers, along with a pretty card.",
+    "zhMachine": false
+   },
+   {
+    "id": 137968,
+    "ja": "体中がいたんでいた。",
+    "zh": "她浑身酸痛。",
+    "en": "She was aching from head to foot.",
+    "zhMachine": false
+   },
+   {
+    "id": 188497,
+    "ja": "王は権力を奪われた。",
+    "zh": "國王失去了權力。",
+    "en": "The king was shorn of his power.",
+    "zhMachine": false
+   },
+   {
+    "id": 204096,
+    "ja": "そんな手で私の目をごまかそうとしても無駄だ。",
+    "zh": "就算想用這種手段遮住我的眼睛也沒用。",
+    "en": "You can't fool me with a trick like that.",
+    "zhMachine": false
+   },
+   {
+    "id": 106700,
+    "ja": "彼は三等賞を得た。",
+    "zh": "他贏了三等奬。",
+    "en": "He won the third prize.",
+    "zhMachine": false
+   },
+   {
+    "id": 122036,
+    "ja": "妊娠何か月ですか。",
+    "zh": "你怀孕几个月了？",
+    "en": "How far along are you?",
+    "zhMachine": false
+   },
+   {
+    "id": 150111,
+    "ja": "自信過剰にならないよう注意しなくてはいけない。",
+    "zh": "你要注意不要太自信。",
+    "en": "You should beware of overconfidence.",
+    "zhMachine": false
+   },
+   {
+    "id": 92952,
+    "ja": "彼女はクラスの中で、断然歌がいちばんうまかった。",
+    "zh": "她曾是班上唱歌絕對的第一名。",
+    "en": "She was by far the best singer in the class.",
+    "zhMachine": false
+   },
+   {
+    "id": 150176,
+    "ja": "治療よりも予防。",
+    "zh": "防胜于治。",
+    "en": "Prevention is better than cure.",
+    "zhMachine": false
+   },
+   {
+    "id": 200700,
+    "ja": "どちら様ですか。",
+    "zh": "请问您是哪位？",
+    "en": "Who is this, please?",
+    "zhMachine": false
+   },
+   {
+    "id": 230624,
+    "ja": "あの男がもう１つでも間違いを犯したらクビにする。",
+    "zh": "如果那个男人再犯一个错误，我就开除他。",
+    "en": "If that man makes one more mistake, I'll fire him.",
+    "zhMachine": false
+   },
+   {
+    "id": 235399,
+    "ja": "２匹犬を飼っているが、１匹は白でもう１匹は黒だ。",
+    "zh": "我有两条狗。一条是白色的，另一条是黑色的。",
+    "en": "I have two dogs. One is white and the other black.",
+    "zhMachine": false
+   },
+   {
+    "id": 81042,
+    "ja": "脈が遅いです。",
+    "zh": "我的心跳很慢。",
+    "en": "My pulse is slow.",
+    "zhMachine": false
+   },
+   {
+    "id": 156244,
+    "ja": "私は自分の辞書をすぐ手の届くところに置いておきたい。",
+    "zh": "我把自己的字典放在了能立即够到的地方。",
+    "en": "I like to have my dictionary within easy reach.",
+    "zhMachine": false
+   },
+   {
+    "id": 221330,
+    "ja": "この手紙は紛失するといけないから、書留にするがよい。",
+    "zh": "為免丟失，你應該把信件掛號。",
+    "en": "You had better get this letter registered for fear it should be lost.",
+    "zhMachine": false
+   },
+   {
+    "id": 185254,
+    "ja": "会社は合併によってすべてがかわり、混乱状態が続いています。",
+    "zh": "自從公司合併了以後，一切都變得十分混亂。",
+    "en": "The office has been topsy-turvy since the merger upset everything.",
+    "zhMachine": false
+   },
+   {
+    "id": 76988,
+    "ja": "「車」は「自動車」の同意語です。",
+    "zh": "“车”是“汽车”的同义词。",
+    "en": "\"Car\" is a synonym of \"automobile\".",
+    "zhMachine": true
+   },
+   {
+    "id": 78698,
+    "ja": "来る日も来る日も雪が降っている。",
+    "zh": "雪整日整日地下着。",
+    "en": "It has been snowing day after day.",
+    "zhMachine": true
+   },
+   {
+    "id": 81213,
+    "ja": "又しても死を免れることができた。",
+    "zh": "他再次幸免于难。",
+    "en": "Again I was able to escape death.",
+    "zhMachine": true
+   },
+   {
+    "id": 81255,
+    "ja": "毎年、日本には台風が上陸します。",
+    "zh": "每年都会有台风登陆日本。",
+    "en": "Typhoons strike Japan every year.",
+    "zhMachine": true
+   },
+   {
+    "id": 83978,
+    "ja": "風邪で彼の味覚は鈍くなっていた。",
+    "zh": "因为感冒，他的味觉变得迟钝了。",
+    "en": "A cold dulled his taste.",
+    "zhMachine": true
+   },
+   {
+    "id": 89172,
+    "ja": "彼女は時計の針を１０分進ませた。",
+    "zh": "她把钟的指针拨快了十分钟。",
+    "en": "She advanced the hand ten minutes.",
+    "zhMachine": true
+   },
+   {
+    "id": 94149,
+    "ja": "彼女の態度は少々腹にすえかねる。",
+    "zh": "她的态度实在有些令人无法容忍。",
+    "en": "I find her manner a little hard to take.",
+    "zhMachine": true
+   },
+   {
+    "id": 96612,
+    "ja": "彼らは大きな川に前進を阻まれた。",
+    "zh": "他们被一条大河阻挡了前进的道路。",
+    "en": "Their progress was stopped by a wide river.",
+    "zhMachine": true
+   },
+   {
+    "id": 97238,
+    "ja": "彼らは元々あった文明を破壊した。",
+    "zh": "他们摧毁了原本存在的文明。",
+    "en": "They destroyed the native civilization.",
+    "zhMachine": true
+   },
+   {
+    "id": 97909,
+    "ja": "彼らはその少女は小柄だと言った。",
+    "zh": "他们说那个少女身材娇小。",
+    "en": "They described the girl as being small.",
+    "zhMachine": true
+   },
+   {
+    "id": 98455,
+    "ja": "彼らの争いは誤解に基づくものだ。",
+    "zh": "他们的争执源于误解。",
+    "en": "The dispute between them is due to a misunderstanding.",
+    "zhMachine": true
+   },
+   {
+    "id": 98534,
+    "ja": "彼らの間に調和の精神が広がった。",
+    "zh": "和谐的精神在他们之间蔓延开来。",
+    "en": "A harmony prevailed among them.",
+    "zhMachine": true
+   },
+   {
+    "id": 100657,
+    "ja": "彼は美術工芸を学校で教えている。",
+    "zh": "他在学校教美术工艺。",
+    "en": "He teaches arts and crafts in a school.",
+    "zhMachine": true
+   },
+   {
+    "id": 101834,
+    "ja": "彼は怒った顔つきで外へでてきた。",
+    "zh": "他一脸怒气地走了出来。",
+    "en": "He came out with an angry face.",
+    "zhMachine": true
+   },
+   {
+    "id": 103183,
+    "ja": "彼は生命の起源にまで説き及んだ。",
+    "zh": "他甚至讲到了生命的起源。",
+    "en": "He even referred to the origin of life.",
+    "zhMachine": true
+   },
+   {
+    "id": 104687,
+    "ja": "彼は社会福祉のために働いている。",
+    "zh": "他为社会福利工作。",
+    "en": "He is working for social welfare.",
+    "zhMachine": true
+   },
+   {
+    "id": 104693,
+    "ja": "彼は社会人としての自覚に欠ける。",
+    "zh": "你必须认清自己的责任。",
+    "en": "He lacks consciousness that he is a member of society.",
+    "zhMachine": true
+   },
+   {
+    "id": 105107,
+    "ja": "彼は自分なりの理論を発展させた。",
+    "zh": "他发展出了属于自己的一套理论。",
+    "en": "He developed his own theory.",
+    "zhMachine": true
+   },
+   {
+    "id": 105557,
+    "ja": "彼は私を好きになったと告白した。",
+    "zh": "他向我坦白说喜欢上了我。",
+    "en": "He confessed that he had fallen in love with me.",
+    "zhMachine": true
+   },
+   {
+    "id": 107024,
+    "ja": "彼は昆虫採集に興味を持っている。",
+    "zh": "他对采集昆虫很感兴趣。",
+    "en": "He has an interest in collecting insects.",
+    "zhMachine": true
+   },
+   {
+    "id": 107417,
+    "ja": "彼は口を謹んで何も語らなかった。",
+    "zh": "他缄口不言，什么也没说。",
+    "en": "He kept his tongue under a bridle.",
+    "zhMachine": true
+   },
+   {
+    "id": 109816,
+    "ja": "彼は雨を避ける避難場所を捜した。",
+    "zh": "他寻找躲避雨水的避难所。",
+    "en": "He sought shelter from the rain.",
+    "zhMachine": true
+   },
+   {
+    "id": 110180,
+    "ja": "彼は暗算をするほど頭が良くない。",
+    "zh": "他脑子没灵光到能心算的程度。",
+    "en": "He doesn't have enough brains to do sums in his head.",
+    "zhMachine": true
+   },
+   {
+    "id": 111106,
+    "ja": "彼はブーツの泥をこすり落とした。",
+    "zh": "他擦掉了靴子上的泥。",
+    "en": "He scraped the mud off his boots.",
+    "zhMachine": true
+   },
+   {
+    "id": 112458,
+    "ja": "彼はその破片をくっつけ合わした。",
+    "zh": "他把那些碎片拼合在一起。",
+    "en": "He stuck the broken pieces together.",
+    "zhMachine": true
+   },
+   {
+    "id": 112734,
+    "ja": "彼はその時代の代表的人物だった。",
+    "zh": "他是那个时代的代表人物。",
+    "en": "He typified the times in which he lived.",
+    "zhMachine": true
+   },
+   {
+    "id": 113183,
+    "ja": "彼はそのことを笑ってごまかした。",
+    "zh": "他笑着把那件事搪塞过去了。",
+    "en": "He laughed the matter away.",
+    "zhMachine": true
+   },
+   {
+    "id": 115422,
+    "ja": "彼は、通常バスで学校へ行きます。",
+    "zh": "他通常坐公交车去学校。",
+    "en": "He usually goes to school by bus.",
+    "zhMachine": true
+   },
+   {
+    "id": 115983,
+    "ja": "彼の目は年のせいでかすんでいる。",
+    "zh": "他的眼睛因为年龄而变得模糊。",
+    "en": "His eyes are dim with age.",
+    "zhMachine": true
+   },
+   {
+    "id": 116391,
+    "ja": "彼の突然の死は悲劇的事件だった。",
+    "zh": "他的突然死亡是一场悲剧性事件。",
+    "en": "His sudden death was a tragedy.",
+    "zhMachine": true
+   },
+   {
+    "id": 116787,
+    "ja": "彼の人気は下降線をたどっている。",
+    "zh": "他的人气正在走下坡路。",
+    "en": "His popularity is falling.",
+    "zhMachine": true
+   },
+   {
+    "id": 117863,
+    "ja": "彼の感情を害しないかと心配した。",
+    "zh": "担心是否会伤害他的感情。",
+    "en": "We were afraid that we might hurt him.",
+    "zhMachine": true
+   },
+   {
+    "id": 118398,
+    "ja": "彼のえりのサイズはいくつですか。",
+    "zh": "他的领口尺寸是多少？",
+    "en": "What size of collar does he take?",
+    "zhMachine": true
+   },
+   {
+    "id": 118614,
+    "ja": "彼に計画の概略を述べてもらおう。",
+    "zh": "让他来概述一下计划的概要吧。",
+    "en": "Ask him to sketch out his plan.",
+    "zhMachine": true
+   },
+   {
+    "id": 121260,
+    "ja": "半端な時間に自転車に乗るだけだ。",
+    "zh": "只是在零碎时间骑自行车。",
+    "en": "I only ride a bicycle at odd times.",
+    "zhMachine": true
+   },
+   {
+    "id": 122692,
+    "ja": "日本に販売代理店をお持ちですか。",
+    "zh": "您在日本有销售代理商吗？",
+    "en": "Do you have any sales distributors in Japan?",
+    "zhMachine": true
+   },
+   {
+    "id": 123232,
+    "ja": "内出血している気がするのですが。",
+    "zh": "我感觉好像在内出血。",
+    "en": "I'm afraid I have internal bleeding.",
+    "zhMachine": true
+   },
+   {
+    "id": 123238,
+    "ja": "内閣は倒れるだろうということだ。",
+    "zh": "据说内阁即将垮台。",
+    "en": "They say that the cabinet will fall.",
+    "zhMachine": true
+   },
+   {
+    "id": 124386,
+    "ja": "冬が近づくにつれて日が短くなる。",
+    "zh": "随着冬天临近，白天变短了。",
+    "en": "The days grow shorter as winter approaches.",
+    "zhMachine": true
+   },
+   {
+    "id": 124898,
+    "ja": "田舎の生活にすぐ慣れるでしょう。",
+    "zh": "你会很快习惯农村生活的。",
+    "en": "You'll soon get used to living in the country.",
+    "zhMachine": true
+   },
+   {
+    "id": 124975,
+    "ja": "店員はその荷物にラベルをつけた。",
+    "zh": "店员在那个行李上贴了标签。",
+    "en": "The clerk labeled the baggage.",
+    "zhMachine": true
+   },
+   {
+    "id": 125002,
+    "ja": "展示品に手を触れないでください。",
+    "zh": "请不要触摸展品。",
+    "en": "Please don't touch the exhibits.",
+    "zhMachine": true
+   },
+   {
+    "id": 126789,
+    "ja": "池に落ち葉が点々と浮かんでいた。",
+    "zh": "池塘里零星漂浮着落叶。",
+    "en": "The pond was dotted with fallen leaves.",
+    "zhMachine": true
+   },
+   {
+    "id": 127021,
+    "ja": "地下室は汚くて、暗くて、臭いの。",
+    "zh": "地下室又脏又暗又臭。",
+    "en": "The cellar is ugly, dark, and stinky.",
+    "zhMachine": true
+   },
+   {
+    "id": 137033,
+    "ja": "誰がこの事件を裁くのでしょうか。",
+    "zh": "谁来审理这个案件呢？",
+    "en": "Who is going to try this case?",
+    "zhMachine": true
+   },
+   {
+    "id": 137403,
+    "ja": "大体君と同じ年頃の若い娘だった。",
+    "zh": "她是一个和你年纪相仿的年轻女孩。",
+    "en": "She was a young girl about your age.",
+    "zhMachine": true
+   },
+   {
+    "id": 137760,
+    "ja": "大きくて、のろくて、無口でした。",
+    "zh": "个子高大，行动迟缓，而且沉默寡言。",
+    "en": "He was big and slow and silent.",
+    "zhMachine": true
+   },
+   {
+    "id": 137772,
+    "ja": "台本に目を通しておいてください。",
+    "zh": "请事先过一下剧本。",
+    "en": "Please go over the script.",
+    "zhMachine": true
+   },
+   {
+    "id": 137838,
+    "ja": "台所からその猫を追い出してくれ。",
+    "zh": "把那只猫从厨房赶出去。",
+    "en": "Chase the cat out of the kitchen.",
+    "zhMachine": true
+   },
+   {
+    "id": 138554,
+    "ja": "他人には辛抱するようにしなさい。",
+    "zh": "对别人要忍耐一点。",
+    "en": "Try to be patient with others.",
+    "zhMachine": true
+   },
+   {
+    "id": 141036,
+    "ja": "選挙の結果は夕刊に載るでしょう。",
+    "zh": "选举结果应该会刊登在晚报上。",
+    "en": "The results of the election will appear in the evening paper.",
+    "zhMachine": true
+   },
+   {
+    "id": 143101,
+    "ja": "政府は工業の振興計画を開始した。",
+    "zh": "政府启动了工业振兴计划。",
+    "en": "The government started a program to promote industry.",
+    "zhMachine": true
+   },
+   {
+    "id": 144707,
+    "ja": "進路のことで先生に助言を求めた。",
+    "zh": "为了前进道路的事情向老师寻求了建议。",
+    "en": "I asked my teacher for advice on my future course.",
+    "zhMachine": true
+   },
+   {
+    "id": 146033,
+    "ja": "杖は彼に何の役にも立たなかった。",
+    "zh": "手杖对他一点用也没有。",
+    "en": "The stick didn't help him any.",
+    "zhMachine": true
+   },
+   {
+    "id": 146435,
+    "ja": "昇進がより一層働く刺激となった。",
+    "zh": "晋升更加激发了工作的热情。",
+    "en": "Promotion was an incentive to harder work.",
+    "zhMachine": true
+   },
+   {
+    "id": 148368,
+    "ja": "受験地獄での戦いが終わりました。",
+    "zh": "考试地狱的争战结束了。",
+    "en": "My fight in our examination hell is over!",
+    "zhMachine": true
+   },
+   {
+    "id": 150687,
+    "ja": "時が時だからことばを慎みなさい。",
+    "zh": "考虑到当前的情况，说话要谨慎。",
+    "en": "As the situation is delicate, you should be careful of what you say.",
+    "zhMachine": true
+   },
+   {
+    "id": 152176,
+    "ja": "私をあざむこうとしてもむだです。",
+    "zh": "想要欺骗我是徒劳的。",
+    "en": "It is no use trying to deceive me.",
+    "zhMachine": true
+   },
+   {
+    "id": 153660,
+    "ja": "私は彼をいじめたことを後悔した。",
+    "zh": "我后悔欺负过他。",
+    "en": "I felt bad about picking on him.",
+    "zhMachine": true
+   },
+   {
+    "id": 157146,
+    "ja": "私は幸福を次のように定義しよう。",
+    "zh": "我将幸福定义如下。",
+    "en": "I will define happiness as this.",
+    "zhMachine": true
+   },
+   {
+    "id": 162539,
+    "ja": "私の名前が名簿から落ちています。",
+    "zh": "我的名字从名单上漏掉了。",
+    "en": "My name is omitted from the list.",
+    "zhMachine": true
+   },
+   {
+    "id": 168909,
+    "ja": "姉は会社福祉事業に従事している。",
+    "zh": "姐姐从事公司福利事业。",
+    "en": "My sister is engaged in social work.",
+    "zhMachine": true
+   },
+   {
+    "id": 169900,
+    "ja": "昨日見たニュースに衝撃を受けた。",
+    "zh": "昨天的新闻让我很震惊。",
+    "en": "I was shocked by yesterday's news.",
+    "zhMachine": true
+   },
+   {
+    "id": 170216,
+    "ja": "財政状態は週ごとに悪化している。",
+    "zh": "财政状况正在逐周恶化。",
+    "en": "The financial situation is getting worse week by week.",
+    "zhMachine": true
+   },
+   {
+    "id": 171373,
+    "ja": "今年の暑い夏には耐えられません。",
+    "zh": "今年这个炎热的夏天真是让人受不了。",
+    "en": "I can't stand this hot summer.",
+    "zhMachine": true
+   },
+   {
+    "id": 171778,
+    "ja": "今日はすがすがしいお天気ですね。",
+    "zh": "今天天气真清爽啊。",
+    "en": "It's a nice day, isn't it?",
+    "zhMachine": true
+   },
+   {
+    "id": 172203,
+    "ja": "今登録されれば、１年間無料です。",
+    "zh": "现在注册的话，可以免费使用一年。",
+    "en": "Join now and pay nothing for a whole year.",
+    "zhMachine": true
+   },
+   {
+    "id": 173045,
+    "ja": "国際連盟は平和に寄与しなかった。",
+    "zh": "国际联盟没有对和平做出贡献。",
+    "en": "The League of Nations did not make for peace.",
+    "zhMachine": true
+   },
+   {
+    "id": 174156,
+    "ja": "交通規制には従わないといけない。",
+    "zh": "必须遵守交通管制。",
+    "en": "We should obey the traffic rules.",
+    "zhMachine": true
+   },
+   {
+    "id": 178179,
+    "ja": "君の人生観は僕のと違っているね。",
+    "zh": "你的人生观和我的不一样呢。",
+    "en": "Your philosophy of life varies from mine.",
+    "zhMachine": true
+   },
+   {
+    "id": 183385,
+    "ja": "期末レポートははかどってますか。",
+    "zh": "期末报告进展顺利吗？",
+    "en": "How is your term paper coming along?",
+    "zhMachine": true
+   },
+   {
+    "id": 183655,
+    "ja": "頑固になればなるほど独立するよ。",
+    "zh": "越固执就越会变得独立。",
+    "en": "The more stubborn you are, the more isolated you become.",
+    "zhMachine": true
+   },
+   {
+    "id": 185741,
+    "ja": "我々は世界の人口問題を討議した。",
+    "zh": "我们讨论了世界人口问题。",
+    "en": "We debated on the question of world population.",
+    "zhMachine": true
+   },
+   {
+    "id": 186471,
+    "ja": "過保護でその子供はだめになった。",
+    "zh": "过度保护，那个孩子被宠坏了。",
+    "en": "Excessive indulgence spoiled the child.",
+    "zhMachine": true
+   },
+   {
+    "id": 188535,
+    "ja": "応急処置のできる人はいませんか。",
+    "zh": "有人会急救吗？",
+    "en": "Is there anybody who knows first aid?",
+    "zhMachine": true
+   },
+   {
+    "id": 188653,
+    "ja": "遠方にほの白い灯台が立っていた。",
+    "zh": "远处矗立着一座微微发白的灯塔。",
+    "en": "In the distance, there stood a dimly white lighthouse.",
+    "zhMachine": true
+   },
+   {
+    "id": 189231,
+    "ja": "英語でこの昆虫を何といいますか。",
+    "zh": "这个昆虫用英语怎么说？",
+    "en": "What do you call this insect in English?",
+    "zhMachine": true
+   },
+   {
+    "id": 194982,
+    "ja": "みんなソックスを引っ張り上げて。",
+    "zh": "大家都把袜子拉上来。",
+    "en": "Everybody pulled their socks up, yeah.",
+    "zhMachine": true
+   },
+   {
+    "id": 197360,
+    "ja": "ビルはその罪を犯していなかった。",
+    "zh": "比尔没有犯那个罪。",
+    "en": "Bill did not commit the crime.",
+    "zhMachine": true
+   },
+   {
+    "id": 198656,
+    "ja": "濡れたタオルから滴が垂れている。",
+    "zh": "水珠从湿毛巾上滴落下来。",
+    "en": "Water is dripping from the wet towel.",
+    "zhMachine": true
+   },
+   {
+    "id": 199704,
+    "ja": "とりあえずこれをやってしまおう。",
+    "zh": "暂且先把这件事做完吧。",
+    "en": "Let's do this first of all.",
+    "zhMachine": true
+   },
+   {
+    "id": 202245,
+    "ja": "テストで一問も答えられなかった。",
+    "zh": "考试一道题都没答上来。",
+    "en": "I couldn't answer any questions on the test.",
+    "zhMachine": true
+   },
+   {
+    "id": 205011,
+    "ja": "それは他のいっさいに勝っている。",
+    "zh": "它胜过其他一切。",
+    "en": "It is paramount to all the others.",
+    "zhMachine": true
+   },
+   {
+    "id": 205489,
+    "ja": "それはすべて天候に依存している。",
+    "zh": "一切都取决于天气。",
+    "en": "It all depends on the weather.",
+    "zhMachine": true
+   },
+   {
+    "id": 206112,
+    "ja": "その老人は生きる意欲をなくした。",
+    "zh": "那位老人失去了生活的欲望。",
+    "en": "The old man lost the will to live.",
+    "zhMachine": true
+   },
+   {
+    "id": 206411,
+    "ja": "その問題は主任をひどく苦しめた。",
+    "zh": "那个问题把主任折磨得够呛。",
+    "en": "The problem tortured the chief.",
+    "zhMachine": true
+   },
+   {
+    "id": 206835,
+    "ja": "その別荘は清潔で整然としていた。",
+    "zh": "那栋别墅干净整洁，井然有序。",
+    "en": "The cottage was clean and tidy.",
+    "zhMachine": true
+   },
+   {
+    "id": 207234,
+    "ja": "その爆発で真空管は粉々になった。",
+    "zh": "那场爆炸把真空管炸得粉碎。",
+    "en": "The tube was shattered by the explosion.",
+    "zhMachine": true
+   },
+   {
+    "id": 208331,
+    "ja": "その像は型に入れられて作られた。",
+    "zh": "那座雕像用模具制作而成。",
+    "en": "The statue was cast in a mold.",
+    "zhMachine": true
+   },
+   {
+    "id": 209780,
+    "ja": "その事務員は過労がもとで死んだ。",
+    "zh": "那位职员因过劳而死。",
+    "en": "The clerk died from overwork.",
+    "zhMachine": true
+   },
+   {
+    "id": 209865,
+    "ja": "その事故はある十字路で起こった。",
+    "zh": "那起事故发生在某个十字路口。",
+    "en": "The accident happened at a crossroads.",
+    "zhMachine": true
+   },
+   {
+    "id": 210588,
+    "ja": "その国は戦争で荒廃してしまった。",
+    "zh": "那个国家因战争而满目疮痍。",
+    "en": "The country was wasted by war.",
+    "zhMachine": true
+   },
+   {
+    "id": 210595,
+    "ja": "その国は財政危機に直面している。",
+    "zh": "那个国家正面临财政危机。",
+    "en": "The country is confronted with a financial crisis.",
+    "zhMachine": true
+   },
+   {
+    "id": 211286,
+    "ja": "その計画には資金が不足していた。",
+    "zh": "那个计划资金不足。",
+    "en": "Money for the plan was lacking.",
+    "zhMachine": true
+   },
+   {
+    "id": 211291,
+    "ja": "その計画では彼に同調できました。",
+    "zh": "那个计划我能赞同。",
+    "en": "We went with him on that plan.",
+    "zhMachine": true
+   },
+   {
+    "id": 212059,
+    "ja": "その家は灯火で赤々と輝いていた。",
+    "zh": "那房子被灯火照得通红。",
+    "en": "The house was ablaze with lights.",
+    "zhMachine": true
+   },
+   {
+    "id": 212376,
+    "ja": "その委員会はその提案を採択した。",
+    "zh": "该委员会采纳了该提案。",
+    "en": "The committee adopted the plan.",
+    "zhMachine": true
+   },
+   {
+    "id": 212812,
+    "ja": "そのニュースは彼の不意をついた。",
+    "zh": "那条消息让他措手不及。",
+    "en": "The news took him by surprise.",
+    "zhMachine": true
+   },
+   {
+    "id": 212815,
+    "ja": "そのニュースは日本中に広まった。",
+    "zh": "那个消息传遍了整个日本。",
+    "en": "The news spread all over Japan.",
+    "zhMachine": true
+   },
+   {
+    "id": 213007,
+    "ja": "そのスピーチの要点は把握できた。",
+    "zh": "那个演讲的要领我算是抓住了。",
+    "en": "I was able to grasp the main points of the speech.",
+    "zhMachine": true
+   },
+   {
+    "id": 213204,
+    "ja": "そのコップにはひびが入っている。",
+    "zh": "那个杯子上有裂缝。",
+    "en": "There is a crack in the glass.",
+    "zhMachine": true
+   },
+   {
+    "id": 213478,
+    "ja": "そちらの条件を受け入れましょう。",
+    "zh": "我们就接受你的条件吧。",
+    "en": "We will accept your conditions.",
+    "zhMachine": true
+   },
+   {
+    "id": 214583,
+    "ja": "ストレスを避けることが必要です。",
+    "zh": "有必要避免压力。",
+    "en": "It's necessary to avoid stress.",
+    "zhMachine": true
+   },
+   {
+    "id": 214708,
+    "ja": "すこし嫉妬深く感じたように思う。",
+    "zh": "我觉得自己当时有点嫉妒得厉害。",
+    "en": "I suppose I felt a little jealous.",
+    "zhMachine": true
+   },
+   {
+    "id": 214793,
+    "ja": "すぐ決心するようにしてください。",
+    "zh": "请尽快下定决心。",
+    "en": "Try to make up your mind soon.",
+    "zhMachine": true
+   },
+   {
+    "id": 219291,
+    "ja": "この薬は活力を補給してくれます。",
+    "zh": "这种药能补充活力。",
+    "en": "This medicine renews your strength.",
+    "zhMachine": true
+   },
+   {
+    "id": 219591,
+    "ja": "この本は心理学を取り扱っている。",
+    "zh": "这本书是关于心理学的。",
+    "en": "This book deals with psychology.",
+    "zhMachine": true
+   },
+   {
+    "id": 220603,
+    "ja": "この地域はきわめて孤立している。",
+    "zh": "这个地区非常孤立。",
+    "en": "This area is extremely isolated.",
+    "zhMachine": true
+   },
+   {
+    "id": 220910,
+    "ja": "この生地は引っ張るとすぐ伸びる。",
+    "zh": "这个布料一拉就伸长。",
+    "en": "This material stretches easily.",
+    "zhMachine": true
+   },
+   {
+    "id": 221114,
+    "ja": "この証拠は彼にとって不利だった。",
+    "zh": "这个证据对他不利。",
+    "en": "This evidence was against him.",
+    "zhMachine": true
+   },
+   {
+    "id": 221745,
+    "ja": "この指に刺がささって取れません。",
+    "zh": "这根手指上扎了根刺，弄不出来。",
+    "en": "I can't get this splinter out of my finger.",
+    "zhMachine": true
+   },
+   {
+    "id": 223117,
+    "ja": "このメッセージは意味をなさない。",
+    "zh": "这条消息没有意义。",
+    "en": "This message doesn't make sense.",
+    "zhMachine": true
+   },
+   {
+    "id": 223720,
+    "ja": "このサイズは私には大きすぎます。",
+    "zh": "这个尺寸对我来说太大了。",
+    "en": "This size is too large for me.",
+    "zhMachine": true
+   },
+   {
+    "id": 223901,
+    "ja": "このカップに尿をとってください。",
+    "zh": "请将尿液收集在这个杯子里。",
+    "en": "Please leave a urine sample in this cup.",
+    "zhMachine": true
+   },
+   {
+    "id": 224867,
+    "ja": "コーヒーを一杯飲むと頭が冴える。",
+    "zh": "喝一杯咖啡头脑就清醒了。",
+    "en": "I feel more alert after drinking a cup of coffee.",
+    "zhMachine": true
+   },
+   {
+    "id": 226932,
+    "ja": "お前は教員になる決心をしたのか。",
+    "zh": "你下定决心要当老师了吗？",
+    "en": "Have you made up your mind to become a teacher?",
+    "zhMachine": true
+   },
+   {
+    "id": 228051,
+    "ja": "運よく彼らは逃れることができた。",
+    "zh": "幸运的是，他们成功逃脱了。",
+    "en": "By good fortune, they escaped.",
+    "zhMachine": true
+   },
+   {
+    "id": 229133,
+    "ja": "いざ投票という時、彼は棄権した。",
+    "zh": "到了投票的时候，他弃权了。",
+    "en": "When it was time to vote, he abstained.",
+    "zhMachine": true
+   },
+   {
+    "id": 230753,
+    "ja": "あの人の動機が信用できなかった。",
+    "zh": "那个人的动机不可信。",
+    "en": "I was distrustful of his motives.",
+    "zhMachine": true
+   },
+   {
+    "id": 230966,
+    "ja": "あの子はなんてうるさい子だろう。",
+    "zh": "那孩子怎么这么闹啊。",
+    "en": "What a nuisance that child is!",
+    "zhMachine": true
+   }
+  ],
+  "2": [
+   {
+    "id": 149116,
+    "ja": "車が正門のところへきて止まった。",
+    "zh": "一輛車在正門口的地方停了下來。",
+    "en": "A car drew up at the main gate.",
+    "zhMachine": false
+   },
+   {
+    "id": 222440,
+    "ja": "この規則には例外は認められない。",
+    "zh": "这条规定不许例外。",
+    "en": "This rule allows no exception.",
+    "zhMachine": false
+   },
+   {
+    "id": 85996,
+    "ja": "彼等は彼に逃げるきっかけを与えた。",
+    "zh": "他们给了他逃脱的机会。",
+    "en": "They gave him a chance to escape.",
+    "zhMachine": false
+   },
+   {
+    "id": 95691,
+    "ja": "彼女がここにいると仮定してみよう。",
+    "zh": "让我们假设她在这里。",
+    "en": "Let's suppose that she is here.",
+    "zhMachine": false
+   },
+   {
+    "id": 104645,
+    "ja": "彼は車をバックさせて車庫に入れた。",
+    "zh": "他倒車入車庫。",
+    "en": "He backed his car into the garage.",
+    "zhMachine": false
+   },
+   {
+    "id": 147888,
+    "ja": "宿題の提出期限は来週の月曜日です。",
+    "zh": "交作业的截止日期是下周一。",
+    "en": "The homework is due next Monday.",
+    "zhMachine": false
+   },
+   {
+    "id": 204499,
+    "ja": "それ以降彼は辛い一生を送った。",
+    "zh": "自那以后他便过起了艰难的生活。",
+    "en": "He led a hard life after that.",
+    "zhMachine": false
+   },
+   {
+    "id": 209271,
+    "ja": "その小説の作者は誰でしょうか。",
+    "zh": "那本小說的作者是誰呢？",
+    "en": "Who is the author of the novel?",
+    "zhMachine": false
+   },
+   {
+    "id": 163268,
+    "ja": "私の心臓はどきどきし始めた。",
+    "zh": "我的心開始快速跳動。",
+    "en": "My heart began to beat fast.",
+    "zhMachine": false
+   },
+   {
+    "id": 170037,
+    "ja": "昨日の重役会は大成功だった。",
+    "zh": "昨天的董事會會議非常成功。",
+    "en": "Yesterday's board meeting was a ten-strike!",
+    "zhMachine": false
+   },
+   {
+    "id": 234417,
+    "ja": "あそこなら花火が見やすいよ。",
+    "zh": "从那儿很容易就能看到焰火。",
+    "en": "It's easy to see the fireworks from over there.",
+    "zhMachine": false
+   },
+   {
+    "id": 108474,
+    "ja": "彼は急いで受話器を置いた。",
+    "zh": "他急着把电话放下了。",
+    "en": "He put the phone down in haste.",
+    "zhMachine": false
+   },
+   {
+    "id": 143553,
+    "ja": "数学は私の好きな学科です。",
+    "zh": "數學是我最喜歡的科目。",
+    "en": "Mathematics is my favorite subject.",
+    "zhMachine": false
+   },
+   {
+    "id": 153095,
+    "ja": "私は標準英語を勉強したい。",
+    "zh": "我想学标准的英语。",
+    "en": "I want to learn standard English.",
+    "zhMachine": false
+   },
+   {
+    "id": 182330,
+    "ja": "牛が牧場で草を食べている。",
+    "zh": "牛在牧地上吃草。",
+    "en": "Cows are eating grass in the meadow.",
+    "zhMachine": false
+   },
+   {
+    "id": 209213,
+    "ja": "その少女はその布を裂いた。",
+    "zh": "那个女孩把布撕了。",
+    "en": "The girl tore the cloth.",
+    "zhMachine": false
+   },
+   {
+    "id": 222959,
+    "ja": "この椅子はプラスチックからできている。",
+    "zh": "这把椅子是塑料做的。",
+    "en": "This chair is made of plastic.",
+    "zhMachine": false
+   },
+   {
+    "id": 233360,
+    "ja": "あなたの血液型は何ですか。",
+    "zh": "你的血型是什么？",
+    "en": "What's your blood group?",
+    "zhMachine": false
+   },
+   {
+    "id": 104666,
+    "ja": "彼は車にカバーを被せた。",
+    "zh": "他给车罩上一层车罩。",
+    "en": "He put a cover over his car.",
+    "zhMachine": false
+   },
+   {
+    "id": 171413,
+    "ja": "今日隣の子が真っ逆様に木から落ちたのよ。",
+    "zh": "今天隔壁家的小孩脚朝上地从树上掉下来。",
+    "en": "The boy next door fell head first from a tree.",
+    "zhMachine": false
+   },
+   {
+    "id": 211919,
+    "ja": "その過程を彼に説明した。",
+    "zh": "我向他解釋了這個過程。",
+    "en": "I explained the process to him.",
+    "zhMachine": false
+   },
+   {
+    "id": 236245,
+    "ja": "「性差別」という言葉が今、流行っている。",
+    "zh": "“性别歧视”这个词目前很流行。",
+    "en": "Terms like \"sexism\" are now in vogue.",
+    "zhMachine": false
+   },
+   {
+    "id": 100804,
+    "ja": "彼は彼女を恨んでいる。",
+    "zh": "他恨她。",
+    "en": "He hates her.",
+    "zhMachine": false
+   },
+   {
+    "id": 143393,
+    "ja": "世界地図を見てごらん。",
+    "zh": "来看看世界地图。",
+    "en": "Have a look at the world map.",
+    "zhMachine": false
+   },
+   {
+    "id": 148104,
+    "ja": "集合場所はどこですか？",
+    "zh": "我们在哪里集合？",
+    "en": "Where will we meet?",
+    "zhMachine": false
+   },
+   {
+    "id": 226127,
+    "ja": "カロリーの高い食物は私の健康にはよくない。",
+    "zh": "高卡路里的食物對我的身體不好。",
+    "en": "Rich foods don't agree with my health.",
+    "zhMachine": false
+   },
+   {
+    "id": 94682,
+    "ja": "彼女のドレスはきめの粗いウールでできていた。",
+    "zh": "她的裙子是用粗糙的羊毛造的。",
+    "en": "Her dress was made of coarse wool.",
+    "zhMachine": false
+   },
+   {
+    "id": 196535,
+    "ja": "ボーナス全部を買い物と旅行に使ってしまった。",
+    "zh": "奖金全部都花光在购物和旅行上了。",
+    "en": "I blew my whole bonus on shopping and travel.",
+    "zhMachine": false
+   },
+   {
+    "id": 137970,
+    "ja": "体積が大きいからといって常に重量も重いとは限らない。",
+    "zh": "体积大不代表重量大。",
+    "en": "Great bulk does not always mean great weight.",
+    "zhMachine": false
+   },
+   {
+    "id": 174918,
+    "ja": "現在では我々が作った人工衛星が地球の周辺を回転している。",
+    "zh": "今天我们的人造卫星正在环绕地球运转。",
+    "en": "Today our artificial satellites are revolving around the earth.",
+    "zhMachine": false
+   },
+   {
+    "id": 76137,
+    "ja": "今日は暖房器具を使っていません。",
+    "zh": "今天没使用取暖设备。",
+    "en": "I'm not using my home heater today.",
+    "zhMachine": true
+   },
+   {
+    "id": 80166,
+    "ja": "猛吹雪に遭うまでは順調に進んだ。",
+    "zh": "在遭遇暴风雪之前一路进展顺利。",
+    "en": "We made good time until we ran into a blizzard.",
+    "zhMachine": true
+   },
+   {
+    "id": 83942,
+    "ja": "風邪を引いて声がかれてしまった。",
+    "zh": "感冒了，声音都沙哑了。",
+    "en": "My voice is hoarse from a cold.",
+    "zhMachine": true
+   },
+   {
+    "id": 88648,
+    "ja": "彼女は上着にボタンを縫い付けた。",
+    "zh": "她在外套上缝了纽扣。",
+    "en": "She sewed a button on her coat.",
+    "zhMachine": true
+   },
+   {
+    "id": 89505,
+    "ja": "彼女は私に至急電報を打ってきた。",
+    "zh": "她给我发来了加急电报。",
+    "en": "She sent me an urgent telegram.",
+    "zhMachine": true
+   },
+   {
+    "id": 101167,
+    "ja": "彼は彼らと家具の売買契約をした。",
+    "zh": "他和他们签订了家具买卖合同。",
+    "en": "He made a bargain with them about the furniture.",
+    "zhMachine": true
+   },
+   {
+    "id": 104147,
+    "ja": "彼は小さな船を水に浮かべている。",
+    "zh": "他正把小船放到水里漂浮。",
+    "en": "He is sailing a little boat on the water.",
+    "zhMachine": true
+   },
+   {
+    "id": 104927,
+    "ja": "彼は自分の車をよく整備している。",
+    "zh": "他把自己的车保养得很好。",
+    "en": "He maintains his car well.",
+    "zhMachine": true
+   },
+   {
+    "id": 105961,
+    "ja": "彼は私に木の人形を彫ってくれた。",
+    "zh": "他给我刻了一个木偶。",
+    "en": "He carved me a wooden doll.",
+    "zhMachine": true
+   },
+   {
+    "id": 106241,
+    "ja": "彼は私に、再三電話をかけてきた。",
+    "zh": "他再三给我打电话。",
+    "en": "He telephoned me again and again.",
+    "zhMachine": true
+   },
+   {
+    "id": 110037,
+    "ja": "彼は井戸へ行って水をくんできた。",
+    "zh": "他去井里打了水来。",
+    "en": "He fetched some water from the well.",
+    "zhMachine": true
+   },
+   {
+    "id": 110793,
+    "ja": "彼はまっすぐな姿勢で立っていた。",
+    "zh": "他笔直地站着，姿势端正。",
+    "en": "He stood in an upright position.",
+    "zhMachine": true
+   },
+   {
+    "id": 113174,
+    "ja": "彼はそのスライドを顕微鏡で見た。",
+    "zh": "他在显微镜下观察了那个载玻片。",
+    "en": "He looked at the slide under the microscope.",
+    "zhMachine": true
+   },
+   {
+    "id": 123579,
+    "ja": "道は上り坂になってその村に出る。",
+    "zh": "道路变成上坡，通向那个村庄。",
+    "en": "The road ascends to the village.",
+    "zhMachine": true
+   },
+   {
+    "id": 137233,
+    "ja": "第１学年には５つクラスがあった。",
+    "zh": "一年级有五个班。",
+    "en": "There were five classes in the first year.",
+    "zhMachine": true
+   },
+   {
+    "id": 141263,
+    "ja": "戦争は最終段階にはいっていった。",
+    "zh": "战争进入了最后阶段。",
+    "en": "The war had entered its final stage.",
+    "zhMachine": true
+   },
+   {
+    "id": 141363,
+    "ja": "川は山から下って湾に注いでいる。",
+    "zh": "河流从山上流下，注入海湾。",
+    "en": "The river descends from the mountains to the bay below.",
+    "zhMachine": true
+   },
+   {
+    "id": 142017,
+    "ja": "雪が塀に吹き寄せて積み上がった。",
+    "zh": "雪被风吹到墙边堆积起来。",
+    "en": "The snow banked up against the wall.",
+    "zhMachine": true
+   },
+   {
+    "id": 146987,
+    "ja": "小さな裸電球が唯一の明りだった。",
+    "zh": "一个小小的裸灯泡是唯一的光源。",
+    "en": "A small, naked bulb gave the only illumination.",
+    "zhMachine": true
+   },
+   {
+    "id": 147980,
+    "ja": "重い金庫の重量で床がぬけ落ちた。",
+    "zh": "沉重的保险箱重量把地板压塌了。",
+    "en": "The floor gave in under the weight of the heavy safe.",
+    "zhMachine": true
+   },
+   {
+    "id": 152099,
+    "ja": "私を睨み返した少女は怒っていた。",
+    "zh": "那个瞪回我的少女正在生气。",
+    "en": "The girl staring back at me was angry.",
+    "zhMachine": true
+   },
+   {
+    "id": 156155,
+    "ja": "私は写真撮影に興味を持っている。",
+    "zh": "我对摄影有兴趣。",
+    "en": "I have an interest in photography.",
+    "zhMachine": true
+   },
+   {
+    "id": 159194,
+    "ja": "私はなんとなく彼の家を見つけた。",
+    "zh": "我莫名其妙地就找到了他家。",
+    "en": "Somehow or other I found his house.",
+    "zhMachine": true
+   },
+   {
+    "id": 159984,
+    "ja": "私はその他の計画を思い付かない。",
+    "zh": "我想不出其他计划。",
+    "en": "I can't think of any other plan.",
+    "zhMachine": true
+   },
+   {
+    "id": 160118,
+    "ja": "私はその事件ではもう匙を投げた。",
+    "zh": "在那件事上我已经放弃了。",
+    "en": "I have given up on that case.",
+    "zhMachine": true
+   },
+   {
+    "id": 160559,
+    "ja": "私はスキー中に２箇所も骨折した。",
+    "zh": "我滑雪时竟然骨折了两处。",
+    "en": "I broke my leg in two places during a skiing mishap.",
+    "zhMachine": true
+   },
+   {
+    "id": 164568,
+    "ja": "私には青少年の心理がわからない。",
+    "zh": "我不太了解青少年的心理。",
+    "en": "I can not understand the psychology of adolescents.",
+    "zhMachine": true
+   },
+   {
+    "id": 172166,
+    "ja": "今度の祭日は日曜日と重なります。",
+    "zh": "这次的节日与星期日重叠。",
+    "en": "The next holiday falls on a Sunday.",
+    "zhMachine": true
+   },
+   {
+    "id": 172302,
+    "ja": "今朝の新聞の社説を読みましたか。",
+    "zh": "你读了今天早上的报纸社论吗？",
+    "en": "Have you read the leading article in today's paper?",
+    "zhMachine": true
+   },
+   {
+    "id": 172472,
+    "ja": "今月５日から時間表が改正される。",
+    "zh": "从本月5号开始，时间表将进行修订。",
+    "en": "The revised timetable will go into effect on the 5th of this month.",
+    "zhMachine": true
+   },
+   {
+    "id": 173293,
+    "ja": "講師は公害問題について講演した。",
+    "zh": "讲师就公害问题发表了演讲。",
+    "en": "The lecturer spoke on pollution problems.",
+    "zhMachine": true
+   },
+   {
+    "id": 173600,
+    "ja": "慌てて事を運ぶとミスをしますよ。",
+    "zh": "急急忙忙行事会出差错的。",
+    "en": "You make mistakes if you do things in a hurry.",
+    "zhMachine": true
+   },
+   {
+    "id": 174005,
+    "ja": "公共の場所をきれいにしておこう。",
+    "zh": "让我们保持公共场所清洁吧。",
+    "en": "Let's keep public places clean.",
+    "zhMachine": true
+   },
+   {
+    "id": 174610,
+    "ja": "古い木箱がテーブルの役目をした。",
+    "zh": "旧木箱起到了桌子的作用。",
+    "en": "An old wooden box served as table.",
+    "zhMachine": true
+   },
+   {
+    "id": 177085,
+    "ja": "君は相変わらず健康そうに見える。",
+    "zh": "你看上去还是那么健康。",
+    "en": "You look as healthy as ever.",
+    "zhMachine": true
+   },
+   {
+    "id": 180301,
+    "ja": "教会には普通オルガンがあります。",
+    "zh": "教堂里通常都有管风琴。",
+    "en": "There is usually an organ in a church.",
+    "zhMachine": true
+   },
+   {
+    "id": 183451,
+    "ja": "机の上には漫画本が重ねてあった。",
+    "zh": "桌上摞着漫画书。",
+    "en": "The comic books were piled on the desk.",
+    "zhMachine": true
+   },
+   {
+    "id": 183584,
+    "ja": "危険が過ぎると神様は忘れられる。",
+    "zh": "过了危险期就忘了神仙。（谚语，喻：好了伤疤忘了疼）",
+    "en": "The danger past and God forgotten.",
+    "zhMachine": true
+   },
+   {
+    "id": 184731,
+    "ja": "外出する前に髪を櫛でときなさい。",
+    "zh": "出门前用梳子梳理头发。",
+    "en": "Comb your hair before you go out.",
+    "zhMachine": true
+   },
+   {
+    "id": 185315,
+    "ja": "会合の日にちと場所が決定された。",
+    "zh": "聚会的日期和地点已经定下来了。",
+    "en": "The date and place of the meeting have been fixed.",
+    "zhMachine": true
+   },
+   {
+    "id": 186019,
+    "ja": "我々はたくさんの敵をやっつけた。",
+    "zh": "我们打败了很多敌人。",
+    "en": "We defeated various enemies.",
+    "zhMachine": true
+   },
+   {
+    "id": 186319,
+    "ja": "我々のところの気候は温帯性です。",
+    "zh": "我们这里的气候属于温带性气候。",
+    "en": "Our country's climate is temperate.",
+    "zhMachine": true
+   },
+   {
+    "id": 186741,
+    "ja": "火ばさみで人差し指をやけどした。",
+    "zh": "用火钳烫伤了食指。",
+    "en": "I burned my forefinger on fire tongs.",
+    "zhMachine": true
+   },
+   {
+    "id": 190098,
+    "ja": "一番近い薬局はどこにありますか。",
+    "zh": "最近的药房在哪儿？",
+    "en": "Where's the nearest drugstore?",
+    "zhMachine": true
+   },
+   {
+    "id": 190682,
+    "ja": "一家そろって散歩に出かけている。",
+    "zh": "全家一起出去散步了。",
+    "en": "The whole family is out for a walk.",
+    "zhMachine": true
+   },
+   {
+    "id": 190910,
+    "ja": "医者なら６桁の収入は珍しくない。",
+    "zh": "如果是医生，六位数的收入并不罕见。",
+    "en": "A six-figure income is not uncommon for physicians.",
+    "zhMachine": true
+   },
+   {
+    "id": 194375,
+    "ja": "もうパスポートを申請しましたか。",
+    "zh": "已经申请护照了吗？",
+    "en": "Have you applied for a passport yet?",
+    "zhMachine": true
+   },
+   {
+    "id": 194674,
+    "ja": "メーターの数字を読んでください。",
+    "zh": "请读取仪表的数字。",
+    "en": "Read the meter.",
+    "zhMachine": true
+   },
+   {
+    "id": 196440,
+    "ja": "ほかに何か追加注文がありますか。",
+    "zh": "还有其他追加订单吗？",
+    "en": "Do you have anything else to order?",
+    "zhMachine": true
+   },
+   {
+    "id": 197622,
+    "ja": "ピクニックは案外つまらなかった。",
+    "zh": "野餐意外地没意思。",
+    "en": "The picnic was a disappointment.",
+    "zhMachine": true
+   },
+   {
+    "id": 199752,
+    "ja": "トラックが我々の車にぶつかった。",
+    "zh": "卡车撞上了我们的车。",
+    "en": "The truck bumped into our car.",
+    "zhMachine": true
+   },
+   {
+    "id": 202054,
+    "ja": "テレビがラジオに取って代わった。",
+    "zh": "电视取代了收音机。",
+    "en": "TV has taken the place of radio.",
+    "zhMachine": true
+   },
+   {
+    "id": 202860,
+    "ja": "ちょっと椅子をずらしてくれない？",
+    "zh": "能稍微挪一下椅子吗？",
+    "en": "Could you move the chair a bit?",
+    "zhMachine": true
+   },
+   {
+    "id": 203208,
+    "ja": "だれがその猫に鈴をつけられるか。",
+    "zh": "谁能给那只猫系上铃铛？",
+    "en": "Who can put a bell on the cat?",
+    "zhMachine": true
+   },
+   {
+    "id": 206705,
+    "ja": "その本には索引がついていますか。",
+    "zh": "那本书有索引吗？",
+    "en": "Is there an index to the book?",
+    "zhMachine": true
+   },
+   {
+    "id": 209474,
+    "ja": "その手袋は親指に穴があいている。",
+    "zh": "那只手套的拇指处有个洞。",
+    "en": "The glove has a hole in the thumb.",
+    "zhMachine": true
+   },
+   {
+    "id": 209559,
+    "ja": "その車は制限速度を超過している。",
+    "zh": "那辆车超过了限速。",
+    "en": "The car is exceeding the speed limit.",
+    "zhMachine": true
+   },
+   {
+    "id": 219408,
+    "ja": "この問題の解決法を思いつかない。",
+    "zh": "我想不出这个问题的解决方法。",
+    "en": "I can't think of any solution to this problem.",
+    "zhMachine": true
+   },
+   {
+    "id": 220579,
+    "ja": "この地方の名物料理がありますか。",
+    "zh": "这地区有什么特色名菜吗？",
+    "en": "Do you have any regional dishes?",
+    "zhMachine": true
+   },
+   {
+    "id": 221135,
+    "ja": "この小包を船便で送ってください。",
+    "zh": "请用海运寄这个包裹。",
+    "en": "Please send this parcel by surface mail.",
+    "zhMachine": true
+   },
+   {
+    "id": 221299,
+    "ja": "この手袋は両方がそろっていない。",
+    "zh": "这副手套不配套。",
+    "en": "Their gloves are not in pairs.",
+    "zhMachine": true
+   },
+   {
+    "id": 223876,
+    "ja": "このからしは舌が痺れるほど辛い。",
+    "zh": "这个芥末辣得让舌头都麻了。",
+    "en": "This mustard really bites the tongue.",
+    "zhMachine": true
+   },
+   {
+    "id": 224138,
+    "ja": "コックさんは少しもかけていない。",
+    "zh": "厨师一点也没放。",
+    "en": "The cook hasn't put any on it.",
+    "zhMachine": true
+   },
+   {
+    "id": 226757,
+    "ja": "お父さんからことづけがあります。",
+    "zh": "爸爸有口信带给你。",
+    "en": "I have a message for you from your father.",
+    "zhMachine": true
+   },
+   {
+    "id": 230486,
+    "ja": "あの悲劇は私の心に刻みこまれた。",
+    "zh": "那场悲剧深深地刻在我的心里。",
+    "en": "That tragedy was etched in my mind.",
+    "zhMachine": true
+   },
+   {
+    "id": 231903,
+    "ja": "作文を清書する必要はありません。",
+    "zh": "作文不需要誊写清楚。",
+    "en": "You don't have to write out a clean copy of your composition.",
+    "zhMachine": true
+   },
+   {
+    "id": 236092,
+    "ja": "１０チームが賞を得ようと争った。",
+    "zh": "十个队伍为了争夺奖项展开了角逐。",
+    "en": "Ten teams competed for the prize.",
+    "zhMachine": true
+   },
+   {
+    "id": 2217324,
+    "ja": "下駄を突っかけて表に飛び出した。",
+    "zh": "趿拉着木屐就冲出了门。",
+    "en": "I slipped on my geta and dashed outside.",
+    "zhMachine": true
+   },
+   {
+    "id": 10739012,
+    "ja": "裸で滝に打たれている男性を見た。",
+    "zh": "我看到一个男人赤身裸体地站在瀑布下接受冲打。",
+    "en": "I saw a man standing naked under the waterfall.",
+    "zhMachine": true
+   },
+   {
+    "id": 74805,
+    "ja": "非通知は恐いから出ない方がいいよ。",
+    "zh": "未知号码很吓人，所以最好别接。",
+    "en": "'Number-withheld' calls are scary, it's best not to answer them.",
+    "zhMachine": true
+   },
+   {
+    "id": 76619,
+    "ja": "その女の子は木登りが大好きだった。",
+    "zh": "那个女孩非常喜欢爬树。",
+    "en": "That girl loved climbing trees.",
+    "zhMachine": true
+   },
+   {
+    "id": 78017,
+    "ja": "両親は空港まで私を見送ってくれた。",
+    "zh": "父母到机场来送我。",
+    "en": "My parents came to the airport to see me off.",
+    "zhMachine": true
+   },
+   {
+    "id": 81446,
+    "ja": "摩擦でマッチに火がつくようになる。",
+    "zh": "通过摩擦，火柴开始能够点燃。",
+    "en": "Friction causes a match to light.",
+    "zhMachine": true
+   },
+   {
+    "id": 83740,
+    "ja": "物置に鍵をかけるのを忘れちゃった。",
+    "zh": "我忘记给储物间上锁了。",
+    "en": "I forgot to lock the storeroom.",
+    "zhMachine": true
+   },
+   {
+    "id": 89329,
+    "ja": "彼女は私の肘をちょっと押した。",
+    "zh": "她轻轻推了一下我的胳膊肘。",
+    "en": "She gave my elbow a little jog.",
+    "zhMachine": true
+   },
+   {
+    "id": 91355,
+    "ja": "彼女はモデルになる努力をしている。",
+    "zh": "她正在为成为模特而努力。",
+    "en": "She is making an effort at becoming a model.",
+    "zhMachine": true
+   },
+   {
+    "id": 93283,
+    "ja": "彼女はいつも高級品に囲まれていた。",
+    "zh": "她总是被高级品包围着",
+    "en": "She was always surrounded by high-quality goods.",
+    "zhMachine": true
+   },
+   {
+    "id": 100361,
+    "ja": "彼は父親に生意気な事を言った。",
+    "zh": "他对父亲说了些狂妄的话。",
+    "en": "He was impertinent to his father.",
+    "zhMachine": true
+   },
+   {
+    "id": 101007,
+    "ja": "彼は彼女に近寄って握手をした。",
+    "zh": "他走近她，握了握手。",
+    "en": "He went up to her and they shook hands.",
+    "zhMachine": true
+   },
+   {
+    "id": 101413,
+    "ja": "彼は入院中の病気の友人を見舞った。",
+    "zh": "他去探望了住院的朋友。",
+    "en": "He visited a sick friend who was in the hospital.",
+    "zhMachine": true
+   },
+   {
+    "id": 101434,
+    "ja": "彼は日曜大工で犬小屋を作った。",
+    "zh": "他作为业余木匠做了狗屋。",
+    "en": "As a do-it-yourselfer, he made a doghouse.",
+    "zhMachine": true
+   },
+   {
+    "id": 102433,
+    "ja": "彼は大学院に進学しないだろう。",
+    "zh": "他可能不会上研究生院。",
+    "en": "He won't go on to graduate school.",
+    "zhMachine": true
+   },
+   {
+    "id": 103621,
+    "ja": "彼は親類の者と意見が合わない。",
+    "zh": "他和亲戚们意见不合。",
+    "en": "He disagrees with his relatives.",
+    "zhMachine": true
+   },
+   {
+    "id": 104558,
+    "ja": "彼は若い頃惨めな生活を送った。",
+    "zh": "他年轻时过着悲惨的生活。",
+    "en": "He lived a wretched life when young.",
+    "zhMachine": true
+   },
+   {
+    "id": 104792,
+    "ja": "彼は自分自身の考えを反省した。",
+    "zh": "他反思了自己的想法。",
+    "en": "He reflected on his own thoughts.",
+    "zhMachine": true
+   },
+   {
+    "id": 106979,
+    "ja": "彼は再三再四それをやってみた。",
+    "zh": "他一而再，再而三地尝试做那件事。",
+    "en": "He tried it over and over again.",
+    "zhMachine": true
+   },
+   {
+    "id": 107279,
+    "ja": "彼は高等学校の生徒ではありません。",
+    "zh": "他不是高中学生。",
+    "en": "He is not a high school student.",
+    "zhMachine": true
+   },
+   {
+    "id": 110349,
+    "ja": "彼はラジオをコンセントにつないだ。",
+    "zh": "他把收音机插到了插座上。",
+    "en": "He plugged in the radio.",
+    "zhMachine": true
+   },
+   {
+    "id": 112174,
+    "ja": "彼はそれを小説の形式で表した。",
+    "zh": "他以小说的形式表达了它。",
+    "en": "He expressed it in the form of fiction.",
+    "zhMachine": true
+   },
+   {
+    "id": 112664,
+    "ja": "彼はその商売を都心に集中した。",
+    "zh": "他把生意集中到了市中心。",
+    "en": "He centered his business on the metropolitan area.",
+    "zhMachine": true
+   },
+   {
+    "id": 113860,
+    "ja": "彼はコーヒーに砂糖を溶かした。",
+    "zh": "他把糖溶进了咖啡里。",
+    "en": "He dissolved some sugar in his coffee.",
+    "zhMachine": true
+   },
+   {
+    "id": 114785,
+    "ja": "彼はあらゆる反対をはねのけた。",
+    "zh": "他排除了所有反对意见。",
+    "en": "He rejected all the objections.",
+    "zhMachine": true
+   },
+   {
+    "id": 116657,
+    "ja": "彼の説明は要点を外れています。",
+    "zh": "他的说明偏离了要点。",
+    "en": "His explanation is beside the point.",
+    "zhMachine": true
+   },
+   {
+    "id": 121474,
+    "ja": "売れ行きは目標に達しなかった。",
+    "zh": "销售额未能达到目标。",
+    "en": "Sales fell short of their goal.",
+    "zhMachine": true
+   },
+   {
+    "id": 123512,
+    "ja": "道路は倒れた木で塞がっていた。",
+    "zh": "道路被倒下的树堵住了。",
+    "en": "The road is blocked by fallen trees.",
+    "zhMachine": true
+   },
+   {
+    "id": 123700,
+    "ja": "同じ事が国家についても当てはまる。",
+    "zh": "同样的事情也适用于国家。",
+    "en": "The same is true of the nation.",
+    "zhMachine": true
+   },
+   {
+    "id": 124836,
+    "ja": "電気自動車の性能はよくなっている。",
+    "zh": "电动汽车的性能越来越好。",
+    "en": "The performance of electric cars has improved.",
+    "zhMachine": true
+   },
+   {
+    "id": 126363,
+    "ja": "注はページの下欄についている。",
+    "zh": "注释附在页面的下栏。",
+    "en": "The notes are at the bottom of the page.",
+    "zhMachine": true
+   },
+   {
+    "id": 126596,
+    "ja": "着替えをするために家に帰った。",
+    "zh": "我回家换了身衣服。",
+    "en": "I went home to change my clothes.",
+    "zhMachine": true
+   },
+   {
+    "id": 138071,
+    "ja": "太陽電池で動く自動車を望んでいる。",
+    "zh": "期望有太阳能电池驱动的汽车。",
+    "en": "I hope for a solar battery car.",
+    "zhMachine": true
+   },
+   {
+    "id": 142433,
+    "ja": "昔そこにはスギの大木があった。",
+    "zh": "过去那里曾有一棵巨大的杉树。",
+    "en": "There used to be a large cedar tree there.",
+    "zhMachine": true
+   },
+   {
+    "id": 142728,
+    "ja": "生徒はこの便所を使ってはならない。",
+    "zh": "学生不得使用这个厕所。",
+    "en": "Students must not use this toilet.",
+    "zhMachine": true
+   },
+   {
+    "id": 142964,
+    "ja": "正確に言うと私は大学講師です。",
+    "zh": "准确地说，我是大学讲师。",
+    "en": "Specifically, I'm a university lecturer.",
+    "zhMachine": true
+   },
+   {
+    "id": 143632,
+    "ja": "水分をたくさん取ってください。",
+    "zh": "请多摄取水分。",
+    "en": "You should drink a lot of liquid.",
+    "zhMachine": true
+   },
+   {
+    "id": 143653,
+    "ja": "水筒にはほとんど水が残っていない。",
+    "zh": "水壶里几乎没剩什么水了。",
+    "en": "There is little water left in the canteen.",
+    "zhMachine": true
+   },
+   {
+    "id": 144932,
+    "ja": "神に誓って私はそれを知らなかった。",
+    "zh": "我对着天发誓，我真不知道。",
+    "en": "By God, I never knew that.",
+    "zhMachine": true
+   },
+   {
+    "id": 146274,
+    "ja": "上りのエスカレーターはどこですか？",
+    "zh": "上行的自动扶梯在哪儿？",
+    "en": "Where's the up-escalator?",
+    "zhMachine": true
+   },
+   {
+    "id": 146513,
+    "ja": "少年は木に自分の名前を刻んだ。",
+    "zh": "少年在树上刻下了自己的名字。",
+    "en": "The boy carved his name on the tree.",
+    "zhMachine": true
+   },
+   {
+    "id": 147647,
+    "ja": "春と秋とを比較対照してみよう。",
+    "zh": "让我们来比较一下春天和秋天。",
+    "en": "Let's contrast spring with fall.",
+    "zhMachine": true
+   },
+   {
+    "id": 147835,
+    "ja": "宿泊をもう一晩延長できますか。",
+    "zh": "住宿可以再延长一晚吗？",
+    "en": "Can I extend my stay one more night?",
+    "zhMachine": true
+   },
+   {
+    "id": 150980,
+    "ja": "飼い猫の毛のつやが悪くなった。",
+    "zh": "家养的猫毛色变得暗淡了。",
+    "en": "Our cat's fur has lost its luster.",
+    "zhMachine": true
+   },
+   {
+    "id": 152520,
+    "ja": "私は優れた彼の妻になる素質がある。",
+    "zh": "我有成为他优秀妻子的资质。",
+    "en": "I make an excellent wife for him.",
+    "zhMachine": true
+   },
+   {
+    "id": 157808,
+    "ja": "私は甘やかされた子供は嫌いだ。",
+    "zh": "我不喜欢被宠坏的孩子。",
+    "en": "I don't like spoiled children.",
+    "zhMachine": true
+   },
+   {
+    "id": 158251,
+    "ja": "私は駅を間違えて下車しました。",
+    "zh": "我下错了车站。",
+    "en": "I got off at the wrong station.",
+    "zhMachine": true
+   },
+   {
+    "id": 160921,
+    "ja": "私はこの国に骨を埋めるつもりです。",
+    "zh": "我打算在这个国家终老。",
+    "en": "I wish to be buried in this country.",
+    "zhMachine": true
+   },
+   {
+    "id": 168102,
+    "ja": "私、先週貰った割引券があるの。",
+    "zh": "我有一张上周收到的优惠券。",
+    "en": "I have some coupons I got last week.",
+    "zhMachine": true
+   },
+   {
+    "id": 169403,
+    "ja": "山を掘り抜いてトンネルが造られた。",
+    "zh": "开凿山体建成了隧道。",
+    "en": "A tunnel has been bored through the mountain.",
+    "zhMachine": true
+   },
+   {
+    "id": 169405,
+    "ja": "山を下ったところに学校がある。",
+    "zh": "山的下面有学校。",
+    "en": "There is a school down the mountain.",
+    "zhMachine": true
+   },
+   {
+    "id": 170586,
+    "ja": "最近変わった海洋生物が発見された。",
+    "zh": "最近发现了一种奇特的海洋生物。",
+    "en": "A strange marine creature was found recently.",
+    "zhMachine": true
+   },
+   {
+    "id": 172969,
+    "ja": "腰を下ろし、手帳を開きました。",
+    "zh": "坐下后，打开了记事本。",
+    "en": "I sat down and opened my notebook.",
+    "zhMachine": true
+   },
+   {
+    "id": 173075,
+    "ja": "国会は閉会して夏休みに入った。",
+    "zh": "国会闭会，开始放暑假了。",
+    "en": "The Diet rose for summer recess.",
+    "zhMachine": true
+   },
+   {
+    "id": 173278,
+    "ja": "降っても照っても明日は出発します。",
+    "zh": "无论刮风下雨，明天都出发。",
+    "en": "Rain or shine, I will start tomorrow.",
+    "zhMachine": true
+   },
+   {
+    "id": 173558,
+    "ja": "校庭はたいへん小さかったです。",
+    "zh": "校园非常小。",
+    "en": "The schoolyard was very small.",
+    "zhMachine": true
+   },
+   {
+    "id": 173771,
+    "ja": "好き嫌い言わないで全部食べなさい。",
+    "zh": "别挑食，全部吃掉。",
+    "en": "You shouldn't be so picky about food.",
+    "zhMachine": true
+   },
+   {
+    "id": 175404,
+    "ja": "建設工事の第一段階は終わった。",
+    "zh": "建设工程的第一阶段已结束。",
+    "en": "The first phase of construction has been completed.",
+    "zhMachine": true
+   },
+   {
+    "id": 176248,
+    "ja": "警察はその強盗の首を押さえた。",
+    "zh": "警方逮住了那个强盗的头目。",
+    "en": "The police seized the robber by the neck.",
+    "zhMachine": true
+   },
+   {
+    "id": 178105,
+    "ja": "君の努力はもうじき実るだろう。",
+    "zh": "你的努力很快就会有成果了。",
+    "en": "Your efforts will soon pay off.",
+    "zhMachine": true
+   },
+   {
+    "id": 178341,
+    "ja": "君の厚かましいのには呆れたよ。",
+    "zh": "你的厚脸皮让我吃惊。",
+    "en": "I am amazed at your audacity.",
+    "zhMachine": true
+   },
+   {
+    "id": 182753,
+    "ja": "丘の上にかしの木がはえていますか。",
+    "zh": "山丘上长着栎树吗？",
+    "en": "Are there oak trees on the hill?",
+    "zhMachine": true
+   },
+   {
+    "id": 182763,
+    "ja": "丘には低い木がたくさん茂っている。",
+    "zh": "山丘上长满了矮树。",
+    "en": "Lots of low trees grow on the hill.",
+    "zhMachine": true
+   },
+   {
+    "id": 185537,
+    "ja": "我々は別れて別々の道を行った。",
+    "zh": "我们分道扬镳了。",
+    "en": "We broke up and went our own ways.",
+    "zhMachine": true
+   },
+   {
+    "id": 185709,
+    "ja": "我々は組織を強化しなくてはならん。",
+    "zh": "我们必须加强组织建设。",
+    "en": "We must beef up our organization.",
+    "zhMachine": true
+   },
+   {
+    "id": 186107,
+    "ja": "我々はこの事で彼をからかった。",
+    "zh": "我们拿这件事跟他开了个玩笑。",
+    "en": "We made fun of him about this.",
+    "zhMachine": true
+   },
+   {
+    "id": 186288,
+    "ja": "我々の計画はまだ固まってない。",
+    "zh": "我们的计划还没敲定。",
+    "en": "Our plans are not yet concrete.",
+    "zhMachine": true
+   },
+   {
+    "id": 190778,
+    "ja": "医者は彼に休養するように命令した。",
+    "zh": "医生命令他休息。",
+    "en": "His doctor ordered him to rest.",
+    "zhMachine": true
+   },
+   {
+    "id": 191217,
+    "ja": "以後こんなことはいたしません。",
+    "zh": "以后不会再做这样的事了。",
+    "en": "I'll never do this again.",
+    "zhMachine": true
+   },
+   {
+    "id": 192293,
+    "ja": "ろうそくは風に吹き消されれた。",
+    "zh": "蜡烛被风吹灭了。",
+    "en": "The candle was blown out by the wind.",
+    "zhMachine": true
+   },
+   {
+    "id": 192577,
+    "ja": "ラッシュアワーの交通渋滞にあった。",
+    "zh": "遇到了高峰期的交通拥堵。",
+    "en": "I was caught in the rush hour.",
+    "zhMachine": true
+   },
+   {
+    "id": 195291,
+    "ja": "まもなく音楽コンクールがあります。",
+    "zh": "不久将有一场音乐比赛。",
+    "en": "We will have a music contest soon.",
+    "zhMachine": true
+   },
+   {
+    "id": 197617,
+    "ja": "ひげをそる前に石けんをつける。",
+    "zh": "剃须前要先涂肥皂。",
+    "en": "I lather my face before shaving.",
+    "zhMachine": true
+   },
+   {
+    "id": 200866,
+    "ja": "ところで、お住まいはどちらですか。",
+    "zh": "对了，请问您住在哪里？",
+    "en": "By the way, where do you live?",
+    "zhMachine": true
+   },
+   {
+    "id": 201465,
+    "ja": "どうして考えを改めたのですか。",
+    "zh": "您为什么改变了想法？",
+    "en": "What made you change your mind?",
+    "zhMachine": true
+   },
+   {
+    "id": 203536,
+    "ja": "たとえば、標本はいくつですか。",
+    "zh": "比方说，样本有多少个？",
+    "en": "How many samples, for example?",
+    "zhMachine": true
+   },
+   {
+    "id": 204500,
+    "ja": "それ以後彼女に会っていません。",
+    "zh": "从那以后我就没见过她。",
+    "en": "I haven't seen her since then.",
+    "zhMachine": true
+   },
+   {
+    "id": 205385,
+    "ja": "それはまだ実験段階にあります。",
+    "zh": "那还处于实验阶段。",
+    "en": "It is still in the testing stage.",
+    "zhMachine": true
+   },
+   {
+    "id": 205719,
+    "ja": "それで余計に彼は不幸になった。",
+    "zh": "因此，他变得更加不幸了。",
+    "en": "That added to his unhappiness.",
+    "zhMachine": true
+   },
+   {
+    "id": 205929,
+    "ja": "それからすっきりきれいにしてくれ。",
+    "zh": "然后把它收拾得干干净净。",
+    "en": "Then clean it really well.",
+    "zhMachine": true
+   },
+   {
+    "id": 206207,
+    "ja": "その冷凍魚をここに持ってきてくれ。",
+    "zh": "把那条冷冻鱼拿过来。",
+    "en": "Bring the frozen fish here.",
+    "zhMachine": true
+   },
+   {
+    "id": 206696,
+    "ja": "その本の最終章は省略してよい。",
+    "zh": "那本书的最终章可以省略。",
+    "en": "You can omit the last chapter of the book.",
+    "zhMachine": true
+   },
+   {
+    "id": 208081,
+    "ja": "その男は一定の速度で車を運転した。",
+    "zh": "那个男人以恒定的速度驾驶着汽车。",
+    "en": "The man drove his car at a uniform speed.",
+    "zhMachine": true
+   },
+   {
+    "id": 208891,
+    "ja": "その色はピンクというより紫だ。",
+    "zh": "那个颜色与其说是粉色，不如说是紫色。",
+    "en": "The color is purple rather than pink.",
+    "zhMachine": true
+   },
+   {
+    "id": 209301,
+    "ja": "その商品はテレビで宣伝されている。",
+    "zh": "那款商品在电视上做广告。",
+    "en": "The goods are advertised on TV.",
+    "zhMachine": true
+   },
+   {
+    "id": 209313,
+    "ja": "その女優は舞台に３度登場した。",
+    "zh": "那位女演员在舞台上出场了三次。",
+    "en": "That actress made three entrances onto the stage.",
+    "zhMachine": true
+   },
+   {
+    "id": 209629,
+    "ja": "その実施見学は非常にためになった。",
+    "zh": "那次实地参观非常有收获。",
+    "en": "I found the field trip very educational.",
+    "zhMachine": true
+   },
+   {
+    "id": 210590,
+    "ja": "その国は森林でおおわれている。",
+    "zh": "那个国家被森林覆盖着。",
+    "en": "The land is clothed with woods.",
+    "zhMachine": true
+   },
+   {
+    "id": 211339,
+    "ja": "その靴の値段の高さには驚かされた。",
+    "zh": "那双鞋的价格之高让我惊讶。",
+    "en": "I was surprised at how expensive the shoes were.",
+    "zhMachine": true
+   },
+   {
+    "id": 211437,
+    "ja": "その魚と肉を冷凍してください。",
+    "zh": "请把那些鱼和肉冷冻起来。",
+    "en": "Please freeze the fish and meat.",
+    "zhMachine": true
+   },
+   {
+    "id": 211889,
+    "ja": "その会議は森首相が司会をした。",
+    "zh": "那次会议由森首相主持。",
+    "en": "The conference was presided over by Mr Mori.",
+    "zhMachine": true
+   },
+   {
+    "id": 212887,
+    "ja": "そのとき彼らは夕日を見ていました。",
+    "zh": "那时他们正在看夕阳。",
+    "en": "They were watching the sunset then.",
+    "zhMachine": true
+   },
+   {
+    "id": 213859,
+    "ja": "そうすれば能率が上がりますよ。",
+    "zh": "这样效率就会提高哦。",
+    "en": "That makes for efficiency.",
+    "zhMachine": true
+   },
+   {
+    "id": 214040,
+    "ja": "せっかくの苦労もあだになった。",
+    "zh": "好不容易的辛苦全都白费了。",
+    "en": "All my pains went for nothing.",
+    "zhMachine": true
+   },
+   {
+    "id": 215065,
+    "ja": "スーツを着て彼は目立っていた。",
+    "zh": "他穿着西装非常显眼。",
+    "en": "He was conspicuous in his suit.",
+    "zhMachine": true
+   },
+   {
+    "id": 215785,
+    "ja": "シャッターを押してくれますか。",
+    "zh": "能帮我按下快门吗？",
+    "en": "Could you press this button?",
+    "zhMachine": true
+   },
+   {
+    "id": 217205,
+    "ja": "ご援助できないのが残念に存じます。",
+    "zh": "无法提供帮助，深感遗憾。",
+    "en": "I regret that I can't help you.",
+    "zhMachine": true
+   },
+   {
+    "id": 219466,
+    "ja": "この霧では道路標識は見えない。",
+    "zh": "这种雾气下看不见路标。",
+    "en": "I can't see the road signs in this fog.",
+    "zhMachine": true
+   },
+   {
+    "id": 219666,
+    "ja": "この本は何の項目に入りますか。",
+    "zh": "这本书归入哪个项目？",
+    "en": "What heading does this book come under?",
+    "zhMachine": true
+   },
+   {
+    "id": 221393,
+    "ja": "この車は時速６０キロで走っている。",
+    "zh": "这辆车以时速60公里行驶。",
+    "en": "This car is going 60km an hour.",
+    "zhMachine": true
+   },
+   {
+    "id": 221415,
+    "ja": "この車はあの車より性能がよい。",
+    "zh": "这辆车比那辆车性能好。",
+    "en": "This car has a better performance than that one.",
+    "zhMachine": true
+   },
+   {
+    "id": 222056,
+    "ja": "この古い家は木材でできている。",
+    "zh": "这座旧房子是用木材建造的。",
+    "en": "This old house is made of wood.",
+    "zhMachine": true
+   },
+   {
+    "id": 222186,
+    "ja": "この鶏肉はよく揚げられている。",
+    "zh": "这鸡肉炸得很透。",
+    "en": "This chicken is fried well.",
+    "zhMachine": true
+   }
+  ],
+  "3": [
+   {
+    "id": 114236,
+    "ja": "彼はおぼれている少年を救助した。",
+    "zh": "他救了一个溺水的男孩。",
+    "en": "He rescued a boy from drowning.",
+    "zhMachine": false
+   },
+   {
+    "id": 168994,
+    "ja": "使用する前に瓶を振ってください。",
+    "zh": "使用前搖動一下瓶子。",
+    "en": "Shake the bottle before using.",
+    "zhMachine": false
+   },
+   {
+    "id": 201640,
+    "ja": "どうか私にかまわないでください。",
+    "zh": "请不要太在意我。",
+    "en": "Please don't mind me.",
+    "zhMachine": false
+   },
+   {
+    "id": 207165,
+    "ja": "その犯人はまだつかまっていない。",
+    "zh": "那個犯人還沒被抓到。",
+    "en": "The criminal is still at large.",
+    "zhMachine": false
+   },
+   {
+    "id": 210011,
+    "ja": "その事が彼のすべての夢を壊した。",
+    "zh": "那打破了他所有的梦想。",
+    "en": "That destroyed all his dreams.",
+    "zhMachine": false
+   },
+   {
+    "id": 74108,
+    "ja": "あなたはどこの国の出身ですか。",
+    "zh": "你是从哪个国家来的？",
+    "en": "Which country are you from?",
+    "zhMachine": false
+   },
+   {
+    "id": 74880,
+    "ja": "風邪を人に移すと治るって本当？",
+    "zh": "感冒傳染給別人就會痊癒是真的嗎？",
+    "en": "Is it true that you recover from colds when you give them to someone else?",
+    "zhMachine": false
+   },
+   {
+    "id": 116802,
+    "ja": "彼の身に何かあったのだろうか。",
+    "zh": "我怀疑有什么事在他身上发生了。",
+    "en": "I wonder if anything happened to him.",
+    "zhMachine": false
+   },
+   {
+    "id": 121839,
+    "ja": "年をとった馬鹿ほど大馬鹿はいない。",
+    "zh": "再傻傻不过老傻瓜。",
+    "en": "There's no fool like an old fool.",
+    "zhMachine": false
+   },
+   {
+    "id": 122407,
+    "ja": "日本は非常に地震の害を受けやすい。",
+    "zh": "日本非常容易遭受到地震。",
+    "en": "Japan is very subject to earthquakes.",
+    "zhMachine": false
+   },
+   {
+    "id": 153047,
+    "ja": "私は普段バスで通学しています。",
+    "zh": "我一般坐公交上学。",
+    "en": "I usually go to school by bus.",
+    "zhMachine": false
+   },
+   {
+    "id": 153891,
+    "ja": "私は彼の手にしっかりとつかまった。",
+    "zh": "我紧紧握住了他的手。",
+    "en": "I held fast to his hand.",
+    "zhMachine": false
+   },
+   {
+    "id": 159022,
+    "ja": "私はプールで泳ぐのは好きではない。",
+    "zh": "我不喜歡在泳池裡游泳。",
+    "en": "I don't like to swim in the pool.",
+    "zhMachine": false
+   },
+   {
+    "id": 161919,
+    "ja": "私は５千円だけしか持っていません。",
+    "zh": "我只有5000日元。",
+    "en": "I have only five thousand yen.",
+    "zhMachine": false
+   },
+   {
+    "id": 162584,
+    "ja": "私の夢はパイロットになることです。",
+    "zh": "我的梦想是成为一名飞行员。",
+    "en": "My dream is to become a pilot.",
+    "zhMachine": false
+   },
+   {
+    "id": 175320,
+    "ja": "犬に毎日えさをあげてください。",
+    "zh": "请每天喂一下狗。",
+    "en": "Please feed the dog every day.",
+    "zhMachine": false
+   },
+   {
+    "id": 187702,
+    "ja": "何の目的で彼はここに来たのか。",
+    "zh": "他來這裡的目的是什麼?",
+    "en": "For what purpose did he come here?",
+    "zhMachine": false
+   },
+   {
+    "id": 191872,
+    "ja": "わたしはいつもより遅く床に就いた。",
+    "zh": "我比平常睡得晚。",
+    "en": "I went to bed later than usual.",
+    "zhMachine": false
+   },
+   {
+    "id": 203850,
+    "ja": "タオルは全く役に立たなかった。",
+    "zh": "毛巾完全没起作用。",
+    "en": "The towel wasn't useful at all.",
+    "zhMachine": false
+   },
+   {
+    "id": 210733,
+    "ja": "その工場は玩具を製造している。",
+    "zh": "那家工廠生產玩具。",
+    "en": "The factory manufactures toys.",
+    "zhMachine": false
+   },
+   {
+    "id": 217626,
+    "ja": "これを青いのと取り替えてください。",
+    "zh": "請把這個換成藍色的。",
+    "en": "Please change this for a blue one.",
+    "zhMachine": false
+   },
+   {
+    "id": 220877,
+    "ja": "この石は重すぎて持ち上げられない。",
+    "zh": "這塊石頭太重了無法抬起來。",
+    "en": "This stone is too heavy to lift.",
+    "zhMachine": false
+   },
+   {
+    "id": 226648,
+    "ja": "お母さん、泳ぎに行ってもいい？",
+    "zh": "媽，我可以去游泳嗎?",
+    "en": "Can I go swimming, Mother?",
+    "zhMachine": false
+   },
+   {
+    "id": 77485,
+    "ja": "列車は乗客でいっぱいだった。",
+    "zh": "火車裏擠滿了乘客。",
+    "en": "The train was full of passengers.",
+    "zhMachine": false
+   },
+   {
+    "id": 88723,
+    "ja": "彼女は女子高校に通っている。",
+    "zh": "她上女子高中。",
+    "en": "She goes to a girls' high school.",
+    "zhMachine": false
+   },
+   {
+    "id": 99021,
+    "ja": "彼は流しのタクシーを止めた。",
+    "zh": "他攔到了路上行駛的計程車。",
+    "en": "He hailed a cruising taxi.",
+    "zhMachine": false
+   },
+   {
+    "id": 103439,
+    "ja": "彼は数秒待ち、それからドアを開けた。",
+    "zh": "他等了几秒，然后打开了门。",
+    "en": "He waited for several seconds and opened the door.",
+    "zhMachine": false
+   },
+   {
+    "id": 108250,
+    "ja": "彼は近代文学を専攻している。",
+    "zh": "他拿到了现代文学的文凭。",
+    "en": "He majors in modern literature.",
+    "zhMachine": false
+   },
+   {
+    "id": 108333,
+    "ja": "彼は教師としての経験が浅い。",
+    "zh": "他沒有甚麼教學經驗。",
+    "en": "He has little experience in teaching.",
+    "zhMachine": false
+   },
+   {
+    "id": 127350,
+    "ja": "誕生日おめでとうございます。",
+    "zh": "生日快乐！",
+    "en": "Many happy returns of the day!",
+    "zhMachine": false
+   },
+   {
+    "id": 158002,
+    "ja": "私は暇な時間に詩を書きます。",
+    "zh": "我在闲暇时候写诗。",
+    "en": "I write poems in my free time.",
+    "zhMachine": false
+   },
+   {
+    "id": 162448,
+    "ja": "私の留守中に誰か来ましたか。",
+    "zh": "我不在的时候有没有人来？",
+    "en": "Did anyone come in my absence?",
+    "zhMachine": false
+   },
+   {
+    "id": 170831,
+    "ja": "座席をとっておいてください。",
+    "zh": "请保留我的位置",
+    "en": "Please save my place.",
+    "zhMachine": false
+   },
+   {
+    "id": 178912,
+    "ja": "君が背の高い男の子といるのを見たよ。",
+    "zh": "我看見你和一個個子高的男孩在一起。",
+    "en": "I saw you with a tall boy.",
+    "zhMachine": false
+   },
+   {
+    "id": 188428,
+    "ja": "屋根は嵐の被害を受けました。",
+    "zh": "屋頂被暴風雨損壞了。",
+    "en": "The roof was damaged by the storm.",
+    "zhMachine": false
+   },
+   {
+    "id": 201483,
+    "ja": "どうして帰りがこんなに遅くなったの。",
+    "zh": "你為什麼這麼晚回家？",
+    "en": "Why did you come home so late?",
+    "zhMachine": false
+   },
+   {
+    "id": 214396,
+    "ja": "すべての文明国は戦争に反対している。",
+    "zh": "所有文明國家都反對戰爭。",
+    "en": "All civilized countries are against war.",
+    "zhMachine": false
+   },
+   {
+    "id": 107366,
+    "ja": "彼は広告会社に勤めている。",
+    "zh": "他為一家廣告公司工作。",
+    "en": "He works for an advertising agency.",
+    "zhMachine": false
+   },
+   {
+    "id": 127108,
+    "ja": "知っていることと行動に移すことは別だ。",
+    "zh": "知道和行动是两回事。",
+    "en": "To know is one thing, and to do is another.",
+    "zhMachine": false
+   },
+   {
+    "id": 163580,
+    "ja": "私の仕事はまだ未完成です。",
+    "zh": "我的工作還沒做完。",
+    "en": "My work is not complete yet.",
+    "zhMachine": false
+   },
+   {
+    "id": 179685,
+    "ja": "金庫の中の書類が消えてなくなっている。",
+    "zh": "放在保險箱裏面的文件不見了。",
+    "en": "The papers that were in the safe are gone.",
+    "zhMachine": false
+   },
+   {
+    "id": 200339,
+    "ja": "どの科目が一番好きですか。",
+    "zh": "你最喜歡什麼科目?",
+    "en": "Which subject do you like best?",
+    "zhMachine": false
+   },
+   {
+    "id": 214381,
+    "ja": "すべては燃えて灰となった。",
+    "zh": "一切都被燒成灰燼了。",
+    "en": "Everything was burnt to ashes.",
+    "zhMachine": false
+   },
+   {
+    "id": 225653,
+    "ja": "くつは革でつくられている。",
+    "zh": "這靴是用皮革做的。",
+    "en": "The shoes are made of leather.",
+    "zhMachine": false
+   },
+   {
+    "id": 105375,
+    "ja": "彼は事件を最初から再調査しようと思った。",
+    "zh": "他打算從頭開始重新審查這個案件。",
+    "en": "He intended to reexamine the case from the beginning.",
+    "zhMachine": false
+   },
+   {
+    "id": 113559,
+    "ja": "彼はしばらくの間休んだ。",
+    "zh": "他休息了一会儿。",
+    "en": "He rested for a while.",
+    "zhMachine": false
+   },
+   {
+    "id": 115269,
+    "ja": "彼は１９世紀に生まれた。",
+    "zh": "他生于19世纪。",
+    "en": "He was born in the 19th century.",
+    "zhMachine": false
+   },
+   {
+    "id": 121361,
+    "ja": "箱の中に空瓶があります。",
+    "zh": "盒子里有些空瓶。",
+    "en": "There are some empty bottles in the box.",
+    "zhMachine": false
+   },
+   {
+    "id": 162716,
+    "ja": "私の服は油で汚れていた。",
+    "zh": "我的衣服被油弄髒了。",
+    "en": "My clothes were dirty with oil.",
+    "zhMachine": false
+   },
+   {
+    "id": 187331,
+    "ja": "何日滞在する予定ですか。",
+    "zh": "你要待多久？",
+    "en": "How long are you going to stay?",
+    "zhMachine": false
+   },
+   {
+    "id": 202096,
+    "ja": "デモに参加しようと思う。",
+    "zh": "我要参加一个示威游行。",
+    "en": "I'm going to join a demonstration.",
+    "zhMachine": false
+   },
+   {
+    "id": 221711,
+    "ja": "この詩を暗記しましょう。",
+    "zh": "我們把這首詩背下來吧。",
+    "en": "Let's learn this poem by heart.",
+    "zhMachine": false
+   },
+   {
+    "id": 82072,
+    "ja": "僕はそのゲームを最初から最後まで見ていた。",
+    "zh": "那场比赛，我从头看到尾。",
+    "en": "I watched the game from beginning to end.",
+    "zhMachine": false
+   },
+   {
+    "id": 87117,
+    "ja": "彼女は非常の場合に備えていくらか貯金した。",
+    "zh": "她存了一些钱，以备不时之需。",
+    "en": "She put by some money for a rainy day.",
+    "zhMachine": false
+   },
+   {
+    "id": 95753,
+    "ja": "彼自身がそこへ行った。",
+    "zh": "他一個人來到那裡去了。",
+    "en": "He himself went there.",
+    "zhMachine": false
+   },
+   {
+    "id": 109917,
+    "ja": "彼は一生独身で通した。",
+    "zh": "他一輩子都是單身。",
+    "en": "He remained single all his life.",
+    "zhMachine": false
+   },
+   {
+    "id": 118595,
+    "ja": "彼に財産管理を任せた。",
+    "zh": "我把我的财产托付给他。",
+    "en": "I entrusted my property to him.",
+    "zhMachine": false
+   },
+   {
+    "id": 120461,
+    "ja": "彼が近所に越してきた。",
+    "zh": "他搬到了我家附近。",
+    "en": "He moved into my neighborhood.",
+    "zhMachine": false
+   },
+   {
+    "id": 123340,
+    "ja": "突然、明かりが消えた。",
+    "zh": "灯突然灭了。",
+    "en": "All at once the lights went out.",
+    "zhMachine": false
+   },
+   {
+    "id": 123352,
+    "ja": "突然、空が曇ってきた。",
+    "zh": "忽然天氣轉為多雲。",
+    "en": "All of a sudden, it became cloudy.",
+    "zhMachine": false
+   },
+   {
+    "id": 154676,
+    "ja": "私は日曜日はたいていジーンズをはいている。",
+    "zh": "我星期天通常穿牛仔褲。",
+    "en": "I usually wear jeans on Sunday.",
+    "zhMachine": false
+   },
+   {
+    "id": 155935,
+    "ja": "私は助手を探している。",
+    "zh": "我正在找一個助手。",
+    "en": "I am looking for an assistant.",
+    "zhMachine": false
+   },
+   {
+    "id": 162059,
+    "ja": "私は１時間ではその課を全部は理解できない。",
+    "zh": "我不能一小時內徹底的了解那堂課程。",
+    "en": "I can't absorb all of the lesson in an hour.",
+    "zhMachine": false
+   },
+   {
+    "id": 170519,
+    "ja": "最終決定は彼に任せた。",
+    "zh": "我們讓他做最後的決定。",
+    "en": "We left the final decision to him.",
+    "zhMachine": false
+   },
+   {
+    "id": 177247,
+    "ja": "君は私がどんなに心配しているかを知らない。",
+    "zh": "你不知道我有多担心啊。",
+    "en": "You don't know how worried I am.",
+    "zhMachine": false
+   },
+   {
+    "id": 178153,
+    "ja": "君の息子さん学生運動に加わってたそうだね。",
+    "zh": "聽說你兒子參與了學生運動。",
+    "en": "Your son took part in the student movement, I hear.",
+    "zhMachine": false
+   },
+   {
+    "id": 183236,
+    "ja": "気を利かせて外へ出た。",
+    "zh": "我識趣的走開了。",
+    "en": "I had enough sense to get out of there.",
+    "zhMachine": false
+   },
+   {
+    "id": 99319,
+    "ja": "彼は友人と握手した。",
+    "zh": "他和他的朋友握手。",
+    "en": "He shook hands with his friend.",
+    "zhMachine": false
+   },
+   {
+    "id": 211387,
+    "ja": "その橋は建築中です。",
+    "zh": "桥在建造中。",
+    "en": "The bridge is under construction.",
+    "zhMachine": false
+   },
+   {
+    "id": 232917,
+    "ja": "あなたは、自分の家族を守らなければならない。",
+    "zh": "你必须保护你的家庭。",
+    "en": "You have to protect your family.",
+    "zhMachine": false
+   },
+   {
+    "id": 191168,
+    "ja": "以前は私の家の裏に、大きな桜の木がありました。",
+    "zh": "我家后面曾经有棵大樱桃树。",
+    "en": "There used to be a big cherry tree at the back of my house.",
+    "zhMachine": false
+   },
+   {
+    "id": 212528,
+    "ja": "そのような教師は仕事から身を引いたほうがいい。",
+    "zh": "像那样的老师还是别干了比较好。",
+    "en": "Such a teacher may as well retire from his work.",
+    "zhMachine": false
+   },
+   {
+    "id": 219463,
+    "ja": "この明かりで字を読もうとすれば目が悪くなるよ。",
+    "zh": "在這種光線下讀書會傷眼的。",
+    "en": "You'll strain your eyes trying to read in this light.",
+    "zhMachine": false
+   },
+   {
+    "id": 111419,
+    "ja": "彼はなぜ妻が彼のもとを去ったのかわからなかった。",
+    "zh": "他不知道为什么他的妻子要离开他。",
+    "en": "He had no idea why his wife left him.",
+    "zhMachine": false
+   },
+   {
+    "id": 186649,
+    "ja": "火曜の朝までにすべて終えなければならないのです。",
+    "zh": "我们必须在周二早上之前完成所有事情。",
+    "en": "We must finish everything before Tuesday morning.",
+    "zhMachine": false
+   },
+   {
+    "id": 209112,
+    "ja": "その少年は運動靴を履くと、外へ走って出て行った。",
+    "zh": "那个男孩穿上了他的运动鞋，跑向外面。",
+    "en": "The boy put on his athletic shoes and ran outside.",
+    "zhMachine": false
+   },
+   {
+    "id": 110930,
+    "ja": "彼はほとんどだれとでも調子を合わせることができた。",
+    "zh": "他和誰都很合得來。",
+    "en": "He could make himself agreeable to almost anyone.",
+    "zhMachine": false
+   },
+   {
+    "id": 150946,
+    "ja": "歯医者に行ってその歯を抜いてもらった方がよいですね。",
+    "zh": "你應該去看牙醫，把牙拔掉。",
+    "en": "You had better go to the dentist to have that tooth pulled out.",
+    "zhMachine": false
+   },
+   {
+    "id": 211403,
+    "ja": "その教授は、私のいわんとすることが理解できなかった。",
+    "zh": "教授不明白我說了甚麼。",
+    "en": "The professor was unable to comprehend what I meant.",
+    "zhMachine": false
+   },
+   {
+    "id": 77529,
+    "ja": "列車は１０番ホームに到着します。",
+    "zh": "列车将进站，停靠在10号站台。",
+    "en": "The train will come in at platform ten.",
+    "zhMachine": true
+   },
+   {
+    "id": 77978,
+    "ja": "両地域は宗教と文化が違っている。",
+    "zh": "这两个地区在宗教和文化上有所不同。",
+    "en": "The two regions differ in religion and culture.",
+    "zhMachine": true
+   },
+   {
+    "id": 78401,
+    "ja": "利益になるような本を読みなさい。",
+    "zh": "去读些有益的书吧。",
+    "en": "Read books that are worthwhile.",
+    "zhMachine": true
+   },
+   {
+    "id": 82303,
+    "ja": "僕にアイスクリームとっといてよ。",
+    "zh": "帮我留个冰淇淋哦。",
+    "en": "Save me some ice cream.",
+    "zhMachine": true
+   },
+   {
+    "id": 82787,
+    "ja": "母親は赤ん坊をベッドに横にした。",
+    "zh": "母亲让婴儿躺在床上。",
+    "en": "The mother laid her baby on the bed.",
+    "zhMachine": true
+   },
+   {
+    "id": 85834,
+    "ja": "被害額は相当なものになるだろう。",
+    "zh": "受害金额恐怕会相当可观。",
+    "en": "The damage will cost us a lot of money.",
+    "zhMachine": true
+   },
+   {
+    "id": 90039,
+    "ja": "彼女は今にも泣き出しそうだった。",
+    "zh": "她眼看就要哭出来了。",
+    "en": "She was on the verge of crying.",
+    "zhMachine": true
+   },
+   {
+    "id": 90069,
+    "ja": "彼女は腰に革のベルトをしている。",
+    "zh": "她腰间系着一条皮带。",
+    "en": "She is wearing a leather belt around her waist.",
+    "zhMachine": true
+   },
+   {
+    "id": 93024,
+    "ja": "彼女はガラスの花瓶を取り上げた。",
+    "zh": "她拿起了玻璃花瓶。",
+    "en": "She picked up one of the glass vases.",
+    "zhMachine": true
+   },
+   {
+    "id": 93933,
+    "ja": "彼女の魅力はうまく表現できない。",
+    "zh": "她的魅力难以形容。",
+    "en": "Her charm is beyond description.",
+    "zhMachine": true
+   },
+   {
+    "id": 100543,
+    "ja": "彼は病気の間すごい勇気を示した。",
+    "zh": "他在生病期间表现出了非凡的勇气。",
+    "en": "He showed great courage during his illness.",
+    "zhMachine": true
+   },
+   {
+    "id": 100809,
+    "ja": "彼は彼女を救うために命をかけた。",
+    "zh": "他为了救她而拼命。",
+    "en": "He risked his life to save her.",
+    "zhMachine": true
+   },
+   {
+    "id": 103308,
+    "ja": "彼は正午までここにいるでしょう。",
+    "zh": "他中午之前应该会在这里。",
+    "en": "He'll be here until noon.",
+    "zhMachine": true
+   },
+   {
+    "id": 116443,
+    "ja": "彼の努力は会社の成長に貢献した。",
+    "zh": "他的努力为公司的成长做出了贡献。",
+    "en": "His effort contributed to my company's growth.",
+    "zhMachine": true
+   },
+   {
+    "id": 117244,
+    "ja": "彼の仕事は観光バスの運転手です。",
+    "zh": "他的工作是观光巴士司机。",
+    "en": "His job is driving a sight-seeing bus.",
+    "zhMachine": true
+   },
+   {
+    "id": 117919,
+    "ja": "彼の過去の成功は何にもならない。",
+    "zh": "他过去的成功一文不值。",
+    "en": "His past successes count for nothing.",
+    "zhMachine": true
+   },
+   {
+    "id": 118024,
+    "ja": "彼の音楽が全国で大流行している。",
+    "zh": "他的音乐在全日本大火。",
+    "en": "His music is sweeping the whole country.",
+    "zhMachine": true
+   },
+   {
+    "id": 119231,
+    "ja": "彼とは仕事の上だけのつきあいだ。",
+    "zh": "我跟他只有工作上的往来。",
+    "en": "He's just a business associate.",
+    "zhMachine": true
+   },
+   {
+    "id": 122859,
+    "ja": "日常の運動はあなたのためになる。",
+    "zh": "日常运动对您有好处。",
+    "en": "Moderate exercise is good for you.",
+    "zhMachine": true
+   },
+   {
+    "id": 124306,
+    "ja": "投票結果はもうすぐわかるだろう。",
+    "zh": "投票结果很快就会揭晓吧。",
+    "en": "The result of the poll will be known soon.",
+    "zhMachine": true
+   },
+   {
+    "id": 124831,
+    "ja": "電子タイプライターはありますか。",
+    "zh": "有电子打字机吗？",
+    "en": "Do you have an electronic typewriter?",
+    "zhMachine": true
+   },
+   {
+    "id": 126640,
+    "ja": "遅刻するのではないかと心配した。",
+    "zh": "我担心自己会迟到。",
+    "en": "I was afraid I might be late.",
+    "zhMachine": true
+   },
+   {
+    "id": 137992,
+    "ja": "体育祭が延期になると発表された。",
+    "zh": "体育祭被宣布延期。",
+    "en": "It was announced that the athletic meet would be put off.",
+    "zhMachine": true
+   },
+   {
+    "id": 140720,
+    "ja": "祖父は、再来年引退する予定です。",
+    "zh": "祖父计划后年退休。",
+    "en": "My grandfather is planning to retire the year after next.",
+    "zhMachine": true
+   },
+   {
+    "id": 141455,
+    "ja": "先日小学校のクラス会に出席した。",
+    "zh": "前几天我去参加了小学的同窗会。",
+    "en": "The other day I attended a class reunion of my elementary school.",
+    "zhMachine": true
+   },
+   {
+    "id": 142330,
+    "ja": "石炭を石油の代わりに使いました。",
+    "zh": "我们用煤炭代替了石油。",
+    "en": "They substituted coal for oil.",
+    "zhMachine": true
+   },
+   {
+    "id": 145351,
+    "ja": "新しい鉄道はまだ完成していない。",
+    "zh": "新铁路还没有建成。",
+    "en": "The new railway is not completed yet.",
+    "zhMachine": true
+   },
+   {
+    "id": 145982,
+    "ja": "植物学は植物の研究を扱っている。",
+    "zh": "植物学研究植物。",
+    "en": "Botany deals with the study of plants.",
+    "zhMachine": true
+   },
+   {
+    "id": 147398,
+    "ja": "書類は内ポケットにしまっておけ。",
+    "zh": "文件收在内袋里。",
+    "en": "Keep the paper in the inside pocket.",
+    "zhMachine": true
+   },
+   {
+    "id": 148233,
+    "ja": "州知事は黒い金に手をつけました。",
+    "zh": "州长动用了黑钱。",
+    "en": "The governor took the money out of a slush fund.",
+    "zhMachine": true
+   },
+   {
+    "id": 149465,
+    "ja": "実はそれはただのうわさだったよ。",
+    "zh": "其实那只是个传言罢了。",
+    "en": "Actually, it was just a rumour.",
+    "zhMachine": true
+   },
+   {
+    "id": 149832,
+    "ja": "自分の姿を鏡にうつして見なさい。",
+    "zh": "请在镜子里照照自己的样子。",
+    "en": "Look at yourself in the mirror.",
+    "zhMachine": true
+   },
+   {
+    "id": 150958,
+    "ja": "歯を左右にすり合わせてください。",
+    "zh": "请左右磨磨牙齿。",
+    "en": "Please grind your teeth from left to right.",
+    "zhMachine": true
+   },
+   {
+    "id": 152777,
+    "ja": "私は妹と共同で部屋を使っている。",
+    "zh": "我和妹妹共用一个房间。",
+    "en": "I share the room with my sister.",
+    "zhMachine": true
+   },
+   {
+    "id": 153347,
+    "ja": "私は彼女に深い愛情を持っている。",
+    "zh": "我对她怀有深厚的爱意。",
+    "en": "I have a deep affection for her.",
+    "zhMachine": true
+   },
+   {
+    "id": 153421,
+    "ja": "私は彼女と妹を区別できなかった。",
+    "zh": "我分不清她和妹妹。",
+    "en": "I couldn't tell her from her sister.",
+    "zhMachine": true
+   },
+   {
+    "id": 153486,
+    "ja": "私は彼女が通りを横切るのを見た。",
+    "zh": "我看见她横穿马路。",
+    "en": "I saw her crossing the street.",
+    "zhMachine": true
+   },
+   {
+    "id": 153832,
+    "ja": "私は彼の卒業祝いに電報を打った。",
+    "zh": "我为他的毕业祝贺发了电报。",
+    "en": "I wired him a message of congratulation on his graduation.",
+    "zhMachine": true
+   },
+   {
+    "id": 154765,
+    "ja": "私は二十日までに帰るつもりです。",
+    "zh": "我打算在二十号之前回来。",
+    "en": "I expect to be back by the 20th.",
+    "zhMachine": true
+   },
+   {
+    "id": 155701,
+    "ja": "私は森の中で野うさぎをみつけた。",
+    "zh": "我在森林里发现了一只野兔。",
+    "en": "I caught sight of the rabbit in the middle of the forest.",
+    "zhMachine": true
+   },
+   {
+    "id": 155744,
+    "ja": "私は新しい下着が気に入っている。",
+    "zh": "我喜欢新内衣。",
+    "en": "I'm pleased with my new underwear.",
+    "zhMachine": true
+   },
+   {
+    "id": 156198,
+    "ja": "私は自分の力で留学するつもりだ。",
+    "zh": "我打算靠自己的力量去留学。",
+    "en": "I will study abroad on my own.",
+    "zhMachine": true
+   },
+   {
+    "id": 156433,
+    "ja": "私は事故の責任を彼のせいにした。",
+    "zh": "我把事故的责任归咎于他。",
+    "en": "I blamed him for the accident.",
+    "zhMachine": true
+   },
+   {
+    "id": 157076,
+    "ja": "私は今でも彼女の名を覚えている。",
+    "zh": "我至今还记得她的名字。",
+    "en": "I still bear her name in mind.",
+    "zhMachine": true
+   },
+   {
+    "id": 157230,
+    "ja": "私は古い本を大切に保存している。",
+    "zh": "我精心保存着一些旧书。",
+    "en": "I keep old books with care.",
+    "zhMachine": true
+   },
+   {
+    "id": 157704,
+    "ja": "私は客に別れのあいさつを述べた。",
+    "zh": "我向客人道别。",
+    "en": "I bade farewell to the guests.",
+    "zhMachine": true
+   },
+   {
+    "id": 157892,
+    "ja": "私は各生徒用に番号札を使います。",
+    "zh": "我给每个学生准备号码牌。",
+    "en": "I use numbered index cards for each student.",
+    "zhMachine": true
+   },
+   {
+    "id": 159932,
+    "ja": "私はその点で彼と意見が一致した。",
+    "zh": "我在那一点上与他意见一致。",
+    "en": "I agreed with him on that point.",
+    "zhMachine": true
+   },
+   {
+    "id": 161232,
+    "ja": "私はお前を消せと命令されている。",
+    "zh": "我接到命令要除掉你。",
+    "en": "I have orders to waste you.",
+    "zhMachine": true
+   },
+   {
+    "id": 162206,
+    "ja": "私は、突然夜明け前に起こされた。",
+    "zh": "我在黎明前突然被叫醒了。",
+    "en": "I was woken up suddenly at dawn.",
+    "zhMachine": true
+   },
+   {
+    "id": 163269,
+    "ja": "私の心臓が止まるような気がした。",
+    "zh": "我感觉自己心脏都快停了。",
+    "en": "My heart stopped beating.",
+    "zhMachine": true
+   },
+   {
+    "id": 170516,
+    "ja": "最終提案は来週中に発表されます。",
+    "zh": "最终提案将在下周内公布。",
+    "en": "The final proposal will be announced sometime next week.",
+    "zhMachine": true
+   },
+   {
+    "id": 172420,
+    "ja": "今後気をつけなくてはなりません。",
+    "zh": "今后必须小心。",
+    "en": "You must be careful from now on.",
+    "zhMachine": true
+   },
+   {
+    "id": 172483,
+    "ja": "今学期は政治学を取っていますか。",
+    "zh": "这学期你选了政治学的课吗？",
+    "en": "Are you taking politics this semester?",
+    "zhMachine": true
+   },
+   {
+    "id": 175973,
+    "ja": "激しい運動をすると汗をかきます。",
+    "zh": "剧烈运动就会出汗。",
+    "en": "Vigorous exercise makes you sweat.",
+    "zhMachine": true
+   },
+   {
+    "id": 176796,
+    "ja": "君も将来のことを考えていい頃だ。",
+    "zh": "你也该考虑将来了。",
+    "en": "It's time you looked ahead.",
+    "zhMachine": true
+   },
+   {
+    "id": 179721,
+    "ja": "金は打ち延ばされ薄い板になった。",
+    "zh": "金子被锤打延展成了薄板。",
+    "en": "The gold was beaten into thin plates.",
+    "zhMachine": true
+   },
+   {
+    "id": 180319,
+    "ja": "教育委員会が学校を管理している。",
+    "zh": "教育委员会管理着学校。",
+    "en": "The Board of Education governs the schools.",
+    "zhMachine": true
+   },
+   {
+    "id": 182965,
+    "ja": "輝くものすべてが金とは限らない。",
+    "zh": "并非所有闪光的东西都是金子。",
+    "en": "All that glitters is not gold.",
+    "zhMachine": true
+   },
+   {
+    "id": 189166,
+    "ja": "英語の単語を何語知っていますか。",
+    "zh": "你认识多少英语单词？",
+    "en": "How many English words do you know?",
+    "zhMachine": true
+   },
+   {
+    "id": 191590,
+    "ja": "われわれは文明社会に生きている。",
+    "zh": "我们生活在一个文明社会里。",
+    "en": "We live in a civilized society.",
+    "zhMachine": true
+   },
+   {
+    "id": 191595,
+    "ja": "われわれは彼をますます尊敬した。",
+    "zh": "我们对他越来越敬佩了。",
+    "en": "We respected him all the more.",
+    "zhMachine": true
+   },
+   {
+    "id": 198657,
+    "ja": "ぬれたぞうきんで窓をふきなさい。",
+    "zh": "用湿抹布擦擦窗户。",
+    "en": "Clean the window with a damp cloth.",
+    "zhMachine": true
+   },
+   {
+    "id": 201657,
+    "ja": "どうかドアを閉めてくれませんか。",
+    "zh": "请把门关上好吗？",
+    "en": "Will you please shut the door?",
+    "zhMachine": true
+   },
+   {
+    "id": 203442,
+    "ja": "タバコにかけられている税は高い。",
+    "zh": "香烟征收的税很高。",
+    "en": "There is a heavy tax on tobacco.",
+    "zhMachine": true
+   },
+   {
+    "id": 204389,
+    "ja": "そんなことをしたら逆効果になる。",
+    "zh": "如果做那样的事，会适得其反。",
+    "en": "If you do that, it will only bring about a contrary effect.",
+    "zhMachine": true
+   },
+   {
+    "id": 206454,
+    "ja": "その問題はまだ解決されていない。",
+    "zh": "那个问题还没有解决。",
+    "en": "The problem is not settled yet.",
+    "zhMachine": true
+   },
+   {
+    "id": 207612,
+    "ja": "その店は通りの向かいにあります。",
+    "zh": "那家店在马路对面。",
+    "en": "The store is across the street.",
+    "zhMachine": true
+   },
+   {
+    "id": 208093,
+    "ja": "その男はトラの面をかぶっていた。",
+    "zh": "那个男人戴着老虎面具。",
+    "en": "The man wore a mask of a tiger.",
+    "zhMachine": true
+   },
+   {
+    "id": 210784,
+    "ja": "その光景は私の記憶に焼きついた。",
+    "zh": "那光景深深地烙印在了我的记忆中。",
+    "en": "The scene was burned into my memory.",
+    "zhMachine": true
+   },
+   {
+    "id": 211702,
+    "ja": "その絵画を見たらおもしろかった。",
+    "zh": "看到那幅画很有趣。",
+    "en": "I found the picture interesting.",
+    "zhMachine": true
+   },
+   {
+    "id": 212829,
+    "ja": "そのニュースは急いで印刷された。",
+    "zh": "那条新闻被匆忙印刷了。",
+    "en": "The news was rushed into print.",
+    "zhMachine": true
+   },
+   {
+    "id": 213870,
+    "ja": "そうするなと警告したではないか。",
+    "zh": "我不是警告过你不要那么做吗？",
+    "en": "I warned you not to do so, didn't I?",
+    "zhMachine": true
+   },
+   {
+    "id": 215038,
+    "ja": "スープに多少の塩が必要だと思う。",
+    "zh": "我觉得汤里需要放点盐。",
+    "en": "I think the soup needs a bit of salt.",
+    "zhMachine": true
+   },
+   {
+    "id": 219955,
+    "ja": "この服は寒い冬の日には向かない。",
+    "zh": "这件衣服不适合寒冷的冬日。",
+    "en": "These clothes are not appropriate for a cold winter day.",
+    "zhMachine": true
+   },
+   {
+    "id": 220269,
+    "ja": "この道具はなんの役にもたたない。",
+    "zh": "这个工具一点用都没有。",
+    "en": "This tool is good for nothing.",
+    "zhMachine": true
+   },
+   {
+    "id": 223523,
+    "ja": "このテーブルを頼んだのではない。",
+    "zh": "我点的不是这张桌子。",
+    "en": "I didn't ask for a table here.",
+    "zhMachine": true
+   },
+   {
+    "id": 224173,
+    "ja": "こちらに来るように手で合図した。",
+    "zh": "用手示意让他过来。",
+    "en": "I made motions at him to come here with my hand.",
+    "zhMachine": true
+   },
+   {
+    "id": 224384,
+    "ja": "ここに来た時は、必ず連絡してね。",
+    "zh": "来的时候，请一定联系我哦。",
+    "en": "Please get in touch with me when you are here.",
+    "zhMachine": true
+   },
+   {
+    "id": 226043,
+    "ja": "きつい仕事で彼は体を壊しました。",
+    "zh": "由于工作太累，他把身体搞垮了。",
+    "en": "Hard work injured his health.",
+    "zhMachine": true
+   },
+   {
+    "id": 228688,
+    "ja": "いつレポートを提出するのですか。",
+    "zh": "您什么时候提交报告？",
+    "en": "When do we hand in the report?",
+    "zhMachine": true
+   },
+   {
+    "id": 229183,
+    "ja": "いくつになっても学ぶことはある。",
+    "zh": "无论多大年纪，都有东西可学。",
+    "en": "One is never too old to learn.",
+    "zhMachine": true
+   },
+   {
+    "id": 229408,
+    "ja": "いいクリスマスを過ごしましたか。",
+    "zh": "圣诞节过得好吗？",
+    "en": "Did you have a nice Christmas?",
+    "zhMachine": true
+   },
+   {
+    "id": 231351,
+    "ja": "あのカメラが欲しくてたまらない。",
+    "zh": "我好想要那台相机。",
+    "en": "I'm dying for that camera.",
+    "zhMachine": true
+   },
+   {
+    "id": 231383,
+    "ja": "あの〜郵便局はどちらでしょうか。",
+    "zh": "那个…邮局在哪里呢？",
+    "en": "Uh..., where's the post office?",
+    "zhMachine": true
+   },
+   {
+    "id": 231717,
+    "ja": "あなたは徹底した人間嫌いですね。",
+    "zh": "你真是讨厌与人交往啊。",
+    "en": "You're a complete misanthrope.",
+    "zhMachine": true
+   },
+   {
+    "id": 233780,
+    "ja": "そこでお会いしたかったのですが。",
+    "zh": "我本想在那里见您的。",
+    "en": "I had hoped to meet you there.",
+    "zhMachine": true
+   },
+   {
+    "id": 234519,
+    "ja": "あかりを消してもかまいませんか。",
+    "zh": "可以关灯吗？",
+    "en": "Do you mind if I turn off the light?",
+    "zhMachine": true
+   },
+   {
+    "id": 236861,
+    "ja": "私がいない間も作業を続けなさい。",
+    "zh": "我不在时也要继续工作。",
+    "en": "Carry on working while I'm away.",
+    "zhMachine": true
+   },
+   {
+    "id": 393817,
+    "ja": "彼女に留守を頼んで外出しました。",
+    "zh": "我托她看家后外出。",
+    "en": "I went on the trip, leaving the house in her care.",
+    "zhMachine": true
+   },
+   {
+    "id": 74879,
+    "ja": "番号を奇麗さっぱり忘れてしまった。",
+    "zh": "号码忘得一干二净了。",
+    "en": "I completely forgot the number.",
+    "zhMachine": true
+   },
+   {
+    "id": 75667,
+    "ja": "理想を絵に描いたような男性だった。",
+    "zh": "他是个理想中完美无缺的男人。",
+    "en": "He was a man who was the very picture of her ideals.",
+    "zhMachine": true
+   },
+   {
+    "id": 77629,
+    "ja": "冷房が効きすぎているのですが。",
+    "zh": "空调开得太冷了。",
+    "en": "How do I fix the air-conditioner?",
+    "zhMachine": true
+   },
+   {
+    "id": 77675,
+    "ja": "冷えたビールがあればたまらないね。",
+    "zh": "要是有冰镇啤酒就好了。",
+    "en": "A cold beer would hit the spot!",
+    "zhMachine": true
+   },
+   {
+    "id": 78161,
+    "ja": "旅行の総費用を計算してくれますか。",
+    "zh": "你能计算一下旅行的总费用吗？",
+    "en": "Can you work out the total cost of the trip?",
+    "zhMachine": true
+   },
+   {
+    "id": 79431,
+    "ja": "輸入量の急激な増加に我々は驚いた。",
+    "zh": "进口量的急剧增加令我们大吃一惊。",
+    "en": "The rapid increase of imports surprised us.",
+    "zhMachine": true
+   },
+   {
+    "id": 79991,
+    "ja": "目が口よりものを言う時がある。",
+    "zh": "有时眼神比言语更能表达意思。",
+    "en": "Eyes sometimes talk louder than words.",
+    "zhMachine": true
+   },
+   {
+    "id": 80642,
+    "ja": "明日、友達の誕生会を開きます。",
+    "zh": "明天要举办朋友的生日会。",
+    "en": "I'm going to give a birthday party for my friend tomorrow.",
+    "zhMachine": true
+   },
+   {
+    "id": 83744,
+    "ja": "物質は温度によって形を変える。",
+    "zh": "物质会随温度改变形态。",
+    "en": "Matter changes its form according to temperature.",
+    "zhMachine": true
+   },
+   {
+    "id": 84185,
+    "ja": "部屋の整理をしたほうがいいよ。",
+    "zh": "最好还是整理一下房间吧。",
+    "en": "You should set your room in order.",
+    "zhMachine": true
+   },
+   {
+    "id": 85070,
+    "ja": "不正に対して反対の声を上げろ。",
+    "zh": "要对不正当行为大声说不。",
+    "en": "Cry out against injustice!",
+    "zhMachine": true
+   },
+   {
+    "id": 85654,
+    "ja": "飛行機は外国旅行を容易にした。",
+    "zh": "飞机使出国旅行变得容易了。",
+    "en": "Airplanes have made it easy to travel abroad.",
+    "zhMachine": true
+   },
+   {
+    "id": 86681,
+    "ja": "彼女は本の絵をノートに書き移した。",
+    "zh": "她把书上的画誊写到了笔记本上。",
+    "en": "She transferred the picture in the book to her notebook.",
+    "zhMachine": true
+   },
+   {
+    "id": 86738,
+    "ja": "彼女は宝石を盗もうとして捕まった。",
+    "zh": "她企图偷窃珠宝时被抓了。",
+    "en": "She was captured trying to steal jewelry.",
+    "zhMachine": true
+   },
+   {
+    "id": 86800,
+    "ja": "彼女は勉強が非常に後れている。",
+    "zh": "她在学业上非常落后。",
+    "en": "She's far behind in her studies.",
+    "zhMachine": true
+   },
+   {
+    "id": 87308,
+    "ja": "彼女は彼の死にそら涙を流した。",
+    "zh": "她为他的死假惺惺地流了泪。",
+    "en": "She shed crocodile tears over his death.",
+    "zhMachine": true
+   },
+   {
+    "id": 88913,
+    "ja": "彼女は実のところ全く信用できない。",
+    "zh": "说实在的，她完全不可信。",
+    "en": "In fact, she's quite unreliable.",
+    "zhMachine": true
+   },
+   {
+    "id": 90260,
+    "ja": "彼女は健康食品に関心を持っている。",
+    "zh": "她对健康食品很感兴趣。",
+    "en": "She is concerned with health foods.",
+    "zhMachine": true
+   },
+   {
+    "id": 90450,
+    "ja": "彼女は狭い範囲でしか物が見えない。",
+    "zh": "她视野狭隘，看不清事物。",
+    "en": "Her viewpoint is limited.",
+    "zhMachine": true
+   },
+   {
+    "id": 91340,
+    "ja": "彼女はやせるために食事を制限した。",
+    "zh": "她为了减肥而控制饮食。",
+    "en": "She went on a reducing diet.",
+    "zhMachine": true
+   },
+   {
+    "id": 91429,
+    "ja": "彼女はみためにかわいい少女だ。",
+    "zh": "她是个看上去可爱的少女。",
+    "en": "She is a pretty girl to look at.",
+    "zhMachine": true
+   },
+   {
+    "id": 92833,
+    "ja": "彼女はさっぱりした服装をしている。",
+    "zh": "她穿着一身清爽的衣服。",
+    "en": "She is neatly dressed.",
+    "zhMachine": true
+   },
+   {
+    "id": 93030,
+    "ja": "彼女はかなりの量の酒を飲んだ。",
+    "zh": "她喝了不少酒。",
+    "en": "She has had quite a lot to drink.",
+    "zhMachine": true
+   },
+   {
+    "id": 94199,
+    "ja": "彼女の声は騒音でよく届かなかった。",
+    "zh": "她的声音被噪音盖住，听不太清楚。",
+    "en": "Her voice did not carry well over the noise.",
+    "zhMachine": true
+   },
+   {
+    "id": 94202,
+    "ja": "彼女の声は私の神経にさわった。",
+    "zh": "她的声音刺激到了我的神经。",
+    "en": "Her voice set my nerves on edge.",
+    "zhMachine": true
+   },
+   {
+    "id": 94288,
+    "ja": "彼女の笑顔が感謝の気持ちを表した。",
+    "zh": "她的微笑表达了感激之情。",
+    "en": "Her smile expressed her thanks.",
+    "zhMachine": true
+   },
+   {
+    "id": 94788,
+    "ja": "彼女に直接言ったらどうですか。",
+    "zh": "直接跟她说怎么样？",
+    "en": "Why don't you tell her directly?",
+    "zhMachine": true
+   },
+   {
+    "id": 95418,
+    "ja": "彼女が最後にゴールした人です。",
+    "zh": "她是最后冲过终点的人。",
+    "en": "She was the last to cross the finishing line.",
+    "zhMachine": true
+   },
+   {
+    "id": 96491,
+    "ja": "彼らは天気についておしゃべりした。",
+    "zh": "他们聊了会儿天气。",
+    "en": "They chatted about the weather.",
+    "zhMachine": true
+   },
+   {
+    "id": 96648,
+    "ja": "彼らは息がぴたりと合っている。",
+    "zh": "他们配合得严丝合缝。",
+    "en": "They are a perfect match for each other.",
+    "zhMachine": true
+   },
+   {
+    "id": 97461,
+    "ja": "彼らは家の建築にとりかかった。",
+    "zh": "他们开始着手建房子。",
+    "en": "They set about building a house.",
+    "zhMachine": true
+   }
+  ],
+  "4": [
+   {
+    "id": 88306,
+    "ja": "彼女は赤いスカートをはいていた。",
+    "zh": "她穿着红裙子。",
+    "en": "She was wearing a red skirt.",
+    "zhMachine": false
+   },
+   {
+    "id": 153353,
+    "ja": "私は彼女に謝らなければならない。",
+    "zh": "我不得不向她道歉。",
+    "en": "I must make an apology to her.",
+    "zhMachine": false
+   },
+   {
+    "id": 154301,
+    "ja": "私は彼と連絡を取る事ができない。",
+    "zh": "我无法与他联络上。",
+    "en": "I cannot get in touch with him.",
+    "zhMachine": false
+   },
+   {
+    "id": 192617,
+    "ja": "ラジオの音を下げてくれませんか。",
+    "zh": "您能把收音机开小声一点吗？",
+    "en": "Could you turn down the radio?",
+    "zhMachine": false
+   },
+   {
+    "id": 234350,
+    "ja": "あちらに着いたら手紙をください。",
+    "zh": "當你到達時寄封信給我。",
+    "en": "Please write to me when you get there.",
+    "zhMachine": false
+   },
+   {
+    "id": 86635,
+    "ja": "彼女は毎朝シャワーを浴びます。",
+    "zh": "她每天早上都冲澡。",
+    "en": "She takes a shower every morning.",
+    "zhMachine": false
+   },
+   {
+    "id": 104121,
+    "ja": "彼は少しずつよくなっています。",
+    "zh": "他一點一點地變好。",
+    "en": "He is getting better bit by bit.",
+    "zhMachine": false
+   },
+   {
+    "id": 182114,
+    "ja": "魚に塩とこしょうで味をつけた。",
+    "zh": "我在魚上灑鹽和胡椒作調味。",
+    "en": "I seasoned the fish with salt and pepper.",
+    "zhMachine": false
+   },
+   {
+    "id": 224923,
+    "ja": "コーヒーのおかわりはいかがですか。",
+    "zh": "你想再喝點咖啡嗎？",
+    "en": "Would you like another cup of coffee?",
+    "zhMachine": false
+   },
+   {
+    "id": 236771,
+    "ja": "私も似た話を聞いたことがある。",
+    "zh": "我也听过一个类似的故事。",
+    "en": "I also heard a similar story.",
+    "zhMachine": false
+   },
+   {
+    "id": 80785,
+    "ja": "名前だけでしか彼を知らない。",
+    "zh": "我只知道他的名字。",
+    "en": "I only know him by name.",
+    "zhMachine": false
+   },
+   {
+    "id": 101423,
+    "ja": "彼は日曜日に部屋を掃除した。",
+    "zh": "他在週日打掃他的房間。",
+    "en": "He cleaned his room on Sunday.",
+    "zhMachine": false
+   },
+   {
+    "id": 163365,
+    "ja": "趣味は切手を集めることです。",
+    "zh": "我的嗜好是集郵。",
+    "en": "My hobby is collecting stamps.",
+    "zhMachine": false
+   },
+   {
+    "id": 201599,
+    "ja": "どうしたらあなたに連絡がつきますか。",
+    "zh": "我怎么联系你？",
+    "en": "How can I get in touch with you?",
+    "zhMachine": false
+   },
+   {
+    "id": 224661,
+    "ja": "ここでタクシーをつかまえられますか。",
+    "zh": "這裡攔得到計程車嗎？",
+    "en": "Can I catch a taxi here?",
+    "zhMachine": false
+   },
+   {
+    "id": 228452,
+    "ja": "いるだけ持っていらっしゃい。",
+    "zh": "請拿您需要的份量即可。",
+    "en": "Please take with you as much as you need.",
+    "zhMachine": false
+   },
+   {
+    "id": 236166,
+    "ja": "「彼女は若いですか」「はい」",
+    "zh": "“她很年轻吗？”“是的。”",
+    "en": "\"Is she young?\" \"Yes, she is.\"",
+    "zhMachine": false
+   },
+   {
+    "id": 148215,
+    "ja": "秋になると葉は黄色くなる。",
+    "zh": "到了秋天，葉子就會變黃。",
+    "en": "In autumn the leaves turn yellow.",
+    "zhMachine": false
+   },
+   {
+    "id": 154184,
+    "ja": "私は彼に会ったことがある。",
+    "zh": "我見過他。",
+    "en": "I have met him before.",
+    "zhMachine": false
+   },
+   {
+    "id": 156744,
+    "ja": "私は昨日大きな魚を釣った。",
+    "zh": "我昨天抓了條大魚。",
+    "en": "I caught a big fish yesterday.",
+    "zhMachine": false
+   },
+   {
+    "id": 74920,
+    "ja": "君、ええ仕事をしてるな。",
+    "zh": "你工作做得不错嘛。",
+    "en": "You're doing good work there.",
+    "zhMachine": false
+   },
+   {
+    "id": 87037,
+    "ja": "彼女は病気だったらしい。",
+    "zh": "她看起来病了。",
+    "en": "It seems that she was ill.",
+    "zhMachine": false
+   },
+   {
+    "id": 109536,
+    "ja": "彼は答えを三つ間違えた。",
+    "zh": "他给出了三个错误答案。",
+    "en": "He gave three wrong answers.",
+    "zhMachine": false
+   },
+   {
+    "id": 147784,
+    "ja": "出来るだけ早く参ります。",
+    "zh": "盡可能及早拜訪您。",
+    "en": "I'll come as soon as I can.",
+    "zhMachine": false
+   },
+   {
+    "id": 154147,
+    "ja": "彼に雑誌を買ってあげた。",
+    "zh": "我给他买了本杂志。",
+    "en": "I bought him a magazine.",
+    "zhMachine": false
+   },
+   {
+    "id": 183200,
+    "ja": "心ここにあらず、ですね。",
+    "zh": "你现在很是心不在焉啊。",
+    "en": "Your mind is not occupied with your own affairs.",
+    "zhMachine": false
+   },
+   {
+    "id": 200732,
+    "ja": "どちらの日でも結構です。",
+    "zh": "我哪一天都可以。",
+    "en": "Either day is OK.",
+    "zhMachine": false
+   },
+   {
+    "id": 213665,
+    "ja": "そこに行くことに決めた。",
+    "zh": "我决定去那里。",
+    "en": "I made up my mind to go there.",
+    "zhMachine": false
+   },
+   {
+    "id": 93263,
+    "ja": "彼女はいつも自分の部屋をきれいにしておく。",
+    "zh": "她总是把自己的房子打扫得很干净。",
+    "en": "She always keeps her room clean.",
+    "zhMachine": false
+   },
+   {
+    "id": 109549,
+    "ja": "彼は奥さんが怖かった。",
+    "zh": "他怕他老婆。",
+    "en": "He was afraid of his wife.",
+    "zhMachine": false
+   },
+   {
+    "id": 172272,
+    "ja": "今朝は気分が良いです。",
+    "zh": "我今天早晨感觉良好。",
+    "en": "I'm feeling good this morning.",
+    "zhMachine": false
+   },
+   {
+    "id": 79972,
+    "ja": "目に砂が入りました。",
+    "zh": "我眼睛裡進沙子了。",
+    "en": "I got some sand in my eye.",
+    "zhMachine": false
+   },
+   {
+    "id": 163789,
+    "ja": "私の兄は大学生です。",
+    "zh": "我哥哥是個大學生。",
+    "en": "My brother is a college student.",
+    "zhMachine": false
+   },
+   {
+    "id": 77169,
+    "ja": "話すことが多すぎて、どこから話し始めたらいいか分からない。",
+    "zh": "我有太多話想和你說，以至於不知從何說起。",
+    "en": "There are so many things to tell you that I don't know where to start.",
+    "zhMachine": false
+   },
+   {
+    "id": 4988,
+    "ja": "驚かない所をみると知ってたのね。",
+    "zh": "看你一点也不惊讶的样子，看来你早就知道了吧。",
+    "en": "Seeing that you're not surprised, I think you must have known.",
+    "zhMachine": true
+   },
+   {
+    "id": 98909,
+    "ja": "彼は歴史小説を読んでいるだろう。",
+    "zh": "他大概在读历史小说吧。",
+    "en": "He will be reading a historical novel.",
+    "zhMachine": true
+   },
+   {
+    "id": 121097,
+    "ja": "彼がいうことはわけがわからない。",
+    "zh": "他说的话莫名其妙。",
+    "en": "What he says makes no sense at all.",
+    "zhMachine": true
+   },
+   {
+    "id": 142511,
+    "ja": "静かにするように気をつけなさい。",
+    "zh": "请注意保持安静。",
+    "en": "See to it that you keep quiet.",
+    "zhMachine": true
+   },
+   {
+    "id": 145405,
+    "ja": "新しい仕事で彼は気が張っていた。",
+    "zh": "面对新工作，他精神很紧张。",
+    "en": "He was tense with his new business.",
+    "zhMachine": true
+   },
+   {
+    "id": 168224,
+    "ja": "指輪はどこにも見つからなかった。",
+    "zh": "戒指在哪儿都找不到。",
+    "en": "The ring was not to be found anywhere.",
+    "zhMachine": true
+   },
+   {
+    "id": 189643,
+    "ja": "雨で彼女は庭仕事ができなかった。",
+    "zh": "因为下雨，她没能做庭院工作。",
+    "en": "The rainy weather prevented her from working in the garden.",
+    "zhMachine": true
+   },
+   {
+    "id": 197333,
+    "ja": "ビルは去年の秋に私に会いに来た。",
+    "zh": "比尔去年秋天来看过我。",
+    "en": "Bill came to see me last autumn.",
+    "zhMachine": true
+   },
+   {
+    "id": 205901,
+    "ja": "それが何かぼくにはわかっている。",
+    "zh": "我知道那是什么。",
+    "en": "I have an idea what it is.",
+    "zhMachine": true
+   },
+   {
+    "id": 208129,
+    "ja": "その男の人は自動車事故で死んだ。",
+    "zh": "那个男人死于车祸。",
+    "en": "The man died in a car accident.",
+    "zhMachine": true
+   },
+   {
+    "id": 220819,
+    "ja": "この川はあそこで浅くなっている。",
+    "zh": "这条河在那里变浅了。",
+    "en": "This river becomes shallow at that point.",
+    "zhMachine": true
+   },
+   {
+    "id": 223341,
+    "ja": "このバスは美術館まで行きますか。",
+    "zh": "这趟公共汽车去美术馆吗？",
+    "en": "Does this bus go to the museum?",
+    "zhMachine": true
+   },
+   {
+    "id": 231135,
+    "ja": "あの壊れた花瓶は祖父のものです。",
+    "zh": "那个坏了的花瓶是祖父的。",
+    "en": "That broken vase is my grandfather's.",
+    "zhMachine": true
+   },
+   {
+    "id": 232852,
+    "ja": "あなたはアルバイトをしているの。",
+    "zh": "你在打工吗？",
+    "en": "Do you have a part-time job?",
+    "zhMachine": true
+   },
+   {
+    "id": 233649,
+    "ja": "あなたに頼んでもよろしいですか。",
+    "zh": "我可以拜托您吗？",
+    "en": "May I request a favour of you?",
+    "zhMachine": true
+   },
+   {
+    "id": 234384,
+    "ja": "あそこは少し高すぎると思います。",
+    "zh": "我觉得那里价格偏高了些。",
+    "en": "I'm afraid that place is a little too expensive.",
+    "zhMachine": true
+   },
+   {
+    "id": 235778,
+    "ja": "１時間以内にそこに着くでしょう。",
+    "zh": "应该能在一个小时内到达那里吧。",
+    "en": "We'll arrive there within an hour.",
+    "zhMachine": true
+   },
+   {
+    "id": 236163,
+    "ja": "「疲れたか」「いいや、ちっとも」",
+    "zh": "「累了吗？」「不，一点儿也不累。」",
+    "en": "\"Are you tired?\" \"No, not at all.\"",
+    "zhMachine": true
+   },
+   {
+    "id": 78642,
+    "ja": "来週の日曜日に遊びに来てください。",
+    "zh": "下周日过来玩吧。",
+    "en": "Come and see me on Sunday next week.",
+    "zhMachine": true
+   },
+   {
+    "id": 82279,
+    "ja": "僕に嘘をつくとは彼も落ちたもんだ。",
+    "zh": "他竟然骗我，他也堕落了。",
+    "en": "He degraded himself by telling me lies.",
+    "zhMachine": true
+   },
+   {
+    "id": 86798,
+    "ja": "彼女は勉強部屋から出ていった。",
+    "zh": "她从书房走了出去。",
+    "en": "She went out of her study.",
+    "zhMachine": true
+   },
+   {
+    "id": 88772,
+    "ja": "彼女は重い病気にかかっている。",
+    "zh": "她患了重病。",
+    "en": "She's suffering from a serious disease.",
+    "zhMachine": true
+   },
+   {
+    "id": 91684,
+    "ja": "彼女はピアノで高い音を出した。",
+    "zh": "她弹钢琴弹出了一个高音。",
+    "en": "She struck high notes on the piano.",
+    "zhMachine": true
+   },
+   {
+    "id": 92605,
+    "ja": "彼女はそのことを日記に書いた。",
+    "zh": "她把那件事写在了日记里。",
+    "en": "She wrote about it in her diary.",
+    "zhMachine": true
+   },
+   {
+    "id": 93617,
+    "ja": "彼女は１時間前に退院しました。",
+    "zh": "她一小时前出院了。",
+    "en": "She left the hospital an hour ago.",
+    "zhMachine": true
+   },
+   {
+    "id": 93728,
+    "ja": "彼女は、自分は正しいと言い切った。",
+    "zh": "她断言自己是正确的。",
+    "en": "She declared that she was right.",
+    "zhMachine": true
+   },
+   {
+    "id": 101365,
+    "ja": "彼は年はとっているが気は若い。",
+    "zh": "他年纪虽大，但心态很年轻。",
+    "en": "Though he is old, he has a youthful spirit.",
+    "zhMachine": true
+   },
+   {
+    "id": 104486,
+    "ja": "彼は手を上げてにこっと笑った。",
+    "zh": "他举起手，咧嘴笑了笑。",
+    "en": "He raised his hand and smiled.",
+    "zhMachine": true
+   },
+   {
+    "id": 118169,
+    "ja": "彼の意見はいつも役に立たない。",
+    "zh": "他的意见总是毫无用处。",
+    "en": "His opinion is always of no use.",
+    "zhMachine": true
+   },
+   {
+    "id": 126248,
+    "ja": "朝ごはんにはなにがよろしいですか。",
+    "zh": "早餐您想吃点什么？",
+    "en": "What would you like for breakfast?",
+    "zhMachine": true
+   },
+   {
+    "id": 140078,
+    "ja": "息子のことを考えると頭が痛い。",
+    "zh": "一想到儿子的事情就头疼。",
+    "en": "My son is my biggest headache.",
+    "zhMachine": true
+   },
+   {
+    "id": 140539,
+    "ja": "早く病気がよくなりますように。",
+    "zh": "祝愿疾病早日痊愈。",
+    "en": "I hope you'll get well soon.",
+    "zhMachine": true
+   },
+   {
+    "id": 141143,
+    "ja": "船はまっすぐ北に向かっている。",
+    "zh": "船正径直向北驶去。",
+    "en": "The ship is bearing due north.",
+    "zhMachine": true
+   },
+   {
+    "id": 141880,
+    "ja": "先月は、ほとんど雨が降らなかった。",
+    "zh": "上个月几乎没下雨。",
+    "en": "We had little rain last month.",
+    "zhMachine": true
+   },
+   {
+    "id": 144646,
+    "ja": "人に褒められて悪い気はしない。",
+    "zh": "被人夸奖，心里总是高兴的。",
+    "en": "No one feels displeased when he is praised.",
+    "zhMachine": true
+   },
+   {
+    "id": 145625,
+    "ja": "寝坊しないように注意しなさい。",
+    "zh": "注意别睡过头了。",
+    "en": "Take care not to oversleep.",
+    "zhMachine": true
+   },
+   {
+    "id": 147527,
+    "ja": "初めは何でも難しそうに見えた。",
+    "zh": "起初一切看起来都很难。",
+    "en": "At first, everything seemed difficult.",
+    "zhMachine": true
+   },
+   {
+    "id": 147637,
+    "ja": "春になるとどこも美しく見える。",
+    "zh": "春天一到，哪里都显得很美。",
+    "en": "Everywhere looks beautiful in the spring.",
+    "zhMachine": true
+   },
+   {
+    "id": 148568,
+    "ja": "私は手紙を出したことを覚えている。",
+    "zh": "我确实记得自己寄出了那封信。",
+    "en": "I remember mailing the letter.",
+    "zhMachine": true
+   },
+   {
+    "id": 150948,
+    "ja": "歯医者に行く必要はないですよ。",
+    "zh": "你没必要去看牙医哦。",
+    "en": "You don't need to go to the dentist's.",
+    "zhMachine": true
+   },
+   {
+    "id": 152966,
+    "ja": "私は封筒を開けて手紙を引き出した。",
+    "zh": "我打开信封，抽出了信。",
+    "en": "I opened the envelope and pulled out a letter.",
+    "zhMachine": true
+   },
+   {
+    "id": 155323,
+    "ja": "私は息子に計画を立てさせてみます。",
+    "zh": "我打算让儿子试着制定计划。",
+    "en": "I'll get my son to make the plan.",
+    "zhMachine": true
+   },
+   {
+    "id": 156999,
+    "ja": "私は今朝バターつきのパンを食べた。",
+    "zh": "我今天早上吃了涂黄油的面包。",
+    "en": "I ate bread and butter this morning.",
+    "zhMachine": true
+   },
+   {
+    "id": 161412,
+    "ja": "私はいつの日かアフリカに行きたい。",
+    "zh": "我有朝一日想去非洲。",
+    "en": "I want to go to Africa someday.",
+    "zhMachine": true
+   },
+   {
+    "id": 163778,
+    "ja": "彼は私の兄よりも年が上に見えます。",
+    "zh": "他看起来比我哥哥年纪还大。",
+    "en": "He looks older than my brother.",
+    "zhMachine": true
+   },
+   {
+    "id": 164128,
+    "ja": "私のハンドバッグをどうしたの？",
+    "zh": "你把我的手提包怎么了？",
+    "en": "What did you do with my purse?",
+    "zhMachine": true
+   },
+   {
+    "id": 171268,
+    "ja": "今晩そちらにお電話いたします。",
+    "zh": "今晚我会给您打电话。",
+    "en": "I'll call you up this evening.",
+    "zhMachine": true
+   },
+   {
+    "id": 184431,
+    "ja": "学校の前に何本か木が見えます。",
+    "zh": "学校前面可以看到几棵树。",
+    "en": "You see some trees in front of the school.",
+    "zhMachine": true
+   },
+   {
+    "id": 187003,
+    "ja": "家へついたら電話が鳴っていた。",
+    "zh": "回到家时，电话正在响。",
+    "en": "The telephone was ringing when I got home.",
+    "zhMachine": true
+   },
+   {
+    "id": 187665,
+    "ja": "何も恥ずかしがる必要はありません。",
+    "zh": "没必要感到羞耻。",
+    "en": "You have no need to be ashamed.",
+    "zhMachine": true
+   },
+   {
+    "id": 190587,
+    "ja": "一時間前に雪が降り止みました。",
+    "zh": "一小时前雪停了。",
+    "en": "It stopped snowing an hour ago.",
+    "zhMachine": true
+   },
+   {
+    "id": 198755,
+    "ja": "ニュースは毎時放送しています。",
+    "zh": "新闻每小时播放。",
+    "en": "We broadcast news on the hour.",
+    "zhMachine": true
+   },
+   {
+    "id": 201988,
+    "ja": "テレビは家庭生活をダメにしている。",
+    "zh": "电视正在破坏家庭生活。",
+    "en": "Television is ruining family life.",
+    "zhMachine": true
+   },
+   {
+    "id": 208142,
+    "ja": "その男の子は心配して病気になった。",
+    "zh": "那个男孩因为担心而生病了。",
+    "en": "The boy got sick from anxiety.",
+    "zhMachine": true
+   },
+   {
+    "id": 208608,
+    "ja": "その赤ちゃんははいはいをはじめた。",
+    "zh": "那个宝宝开始爬了。",
+    "en": "The baby began to crawl.",
+    "zhMachine": true
+   },
+   {
+    "id": 209899,
+    "ja": "その事故について彼に質問した。",
+    "zh": "关于那起事故，我问了他问题。",
+    "en": "I asked him about the accident.",
+    "zhMachine": true
+   },
+   {
+    "id": 210169,
+    "ja": "その子は遊び友達を欲しがっている。",
+    "zh": "那孩子想要一起玩的朋友。",
+    "en": "He wants a playmate.",
+    "zhMachine": true
+   },
+   {
+    "id": 212760,
+    "ja": "そのパーティーはいつ行われますか。",
+    "zh": "那个派对什么时候举行？",
+    "en": "When will the party take place?",
+    "zhMachine": true
+   },
+   {
+    "id": 213882,
+    "ja": "そうしてくれて君は親切ですね。",
+    "zh": "你这么做真是太亲切了。",
+    "en": "It is kind of you to do so.",
+    "zhMachine": true
+   },
+   {
+    "id": 218970,
+    "ja": "これからは決してうそをつきません。",
+    "zh": "从今以后我再也不撒谎了。",
+    "en": "I will never tell a lie from now on.",
+    "zhMachine": true
+   },
+   {
+    "id": 222621,
+    "ja": "この階段を上がっていきなさい。",
+    "zh": "请走上这个楼梯。",
+    "en": "Go up these stairs.",
+    "zhMachine": true
+   },
+   {
+    "id": 223352,
+    "ja": "このバスは、海岸に行きますか。",
+    "zh": "这辆公交车去海岸吗？",
+    "en": "Does this bus go to the beach?",
+    "zhMachine": true
+   },
+   {
+    "id": 224162,
+    "ja": "こちらの方があちらより値段が高い。",
+    "zh": "这边的价格比那边高。",
+    "en": "This costs more than that.",
+    "zhMachine": true
+   },
+   {
+    "id": 226613,
+    "ja": "お母さんはいらっしゃいますか。",
+    "zh": "妈妈在家吗？",
+    "en": "Is your mother at home?",
+    "zhMachine": true
+   },
+   {
+    "id": 229381,
+    "ja": "いいレストランをご存知でしょうか。",
+    "zh": "您知道哪家餐厅比较好吗？",
+    "en": "Do you know a good restaurant?",
+    "zhMachine": true
+   },
+   {
+    "id": 229691,
+    "ja": "あれは世界で最も速い電車です。",
+    "zh": "那是世界上最快的列车。",
+    "en": "That is the fastest train in the world.",
+    "zhMachine": true
+   },
+   {
+    "id": 230449,
+    "ja": "あの本を自分のためにとっておこう。",
+    "zh": "那本书就留给我自己吧。",
+    "en": "I'll keep that book for myself.",
+    "zhMachine": true
+   },
+   {
+    "id": 231238,
+    "ja": "ラジオをとめてくれないかなぁ。",
+    "zh": "能不能帮我把收音机关掉呀。",
+    "en": "I wish they would turn off the radio.",
+    "zhMachine": true
+   },
+   {
+    "id": 231428,
+    "ja": "あなたを私の両親に紹介したい。",
+    "zh": "我想把你介绍给我的父母。",
+    "en": "I want you to meet my parents.",
+    "zhMachine": true
+   },
+   {
+    "id": 231844,
+    "ja": "あなたは小学校に通っているの？",
+    "zh": "你在上小学吗？",
+    "en": "Do you go to an elementary school?",
+    "zhMachine": true
+   },
+   {
+    "id": 232171,
+    "ja": "あなたは花に興味がありますか。",
+    "zh": "你对花感兴趣吗？",
+    "en": "Are you interested in flowers?",
+    "zhMachine": true
+   },
+   {
+    "id": 233420,
+    "ja": "あなたの家族はきっと親切でしょう。",
+    "zh": "你的家人一定很和善吧。",
+    "en": "Your family must be very nice.",
+    "zhMachine": true
+   },
+   {
+    "id": 234086,
+    "ja": "あなたが呼べば、彼は来るでしょう。",
+    "zh": "如果你叫他，他会来的。",
+    "en": "He will come if you call him.",
+    "zhMachine": true
+   },
+   {
+    "id": 236427,
+    "ja": "「もう一本くれ」と彼が言った。",
+    "zh": "他说：'再来一瓶。'",
+    "en": "\"Give me a fresh bottle,\" he said.",
+    "zhMachine": true
+   },
+   {
+    "id": 82204,
+    "ja": "僕の趣味は漫画を読む事です。",
+    "zh": "我的爱好是看漫画。",
+    "en": "My hobby is reading comics.",
+    "zhMachine": true
+   },
+   {
+    "id": 83323,
+    "ja": "勉強しないと試験に落ちるよ。",
+    "zh": "不用功的话考试会落榜哦。",
+    "en": "If you don't study, you will fail the exam.",
+    "zhMachine": true
+   },
+   {
+    "id": 88562,
+    "ja": "彼女は新しい時計をなくした。",
+    "zh": "她弄丢了新买的手表。",
+    "en": "She lost her new watch.",
+    "zhMachine": true
+   },
+   {
+    "id": 90689,
+    "ja": "彼女は学生を下宿させている。",
+    "zh": "她让租房给她学生。",
+    "en": "She boards students.",
+    "zhMachine": true
+   },
+   {
+    "id": 96119,
+    "ja": "彼らは娘の結婚をひろうした。",
+    "zh": "他们为女儿的婚事张罗。",
+    "en": "They announced the engagement of their daughter.",
+    "zhMachine": true
+   },
+   {
+    "id": 98560,
+    "ja": "彼らの意見はほとんど問題にならない。",
+    "zh": "他们的意见几乎不成问题。",
+    "en": "Their opinion matters little.",
+    "zhMachine": true
+   },
+   {
+    "id": 105095,
+    "ja": "彼は自分のお金を全部箱の中に入れた。",
+    "zh": "他把所有的钱都放进了箱子里。",
+    "en": "He put all his money in the box.",
+    "zhMachine": true
+   },
+   {
+    "id": 105425,
+    "ja": "彼は試験に失敗して気を落としている。",
+    "zh": "他考试失败，很沮丧。",
+    "en": "He is discouraged by his failure in the examination.",
+    "zhMachine": true
+   },
+   {
+    "id": 108858,
+    "ja": "彼は学校生活を楽しんでいる。",
+    "zh": "他正享受着校园生活。",
+    "en": "He is enjoying his school life.",
+    "zhMachine": true
+   },
+   {
+    "id": 111146,
+    "ja": "彼はひどく急いで大またで道を歩いた。",
+    "zh": "他急匆匆地迈着大步走在路上。",
+    "en": "He strode along the road in a great hurry.",
+    "zhMachine": true
+   },
+   {
+    "id": 121264,
+    "ja": "半時間したら彼はここに来るでしょう。",
+    "zh": "半小时后他应该会来这里。",
+    "en": "He will be here in half an hour.",
+    "zhMachine": true
+   },
+   {
+    "id": 122959,
+    "ja": "日がだんだん短くなっている。",
+    "zh": "白天正渐渐变短。",
+    "en": "The days are becoming shorter.",
+    "zhMachine": true
+   },
+   {
+    "id": 139909,
+    "ja": "息子は箱から飴を一つ取った。",
+    "zh": "儿子从盒子里拿了一颗糖。",
+    "en": "My son took a candy from the box.",
+    "zhMachine": true
+   },
+   {
+    "id": 140573,
+    "ja": "早くよくなられるように祈っています。",
+    "zh": "祈祷您早日康复。",
+    "en": "I hope you'll get well soon.",
+    "zhMachine": true
+   },
+   {
+    "id": 143698,
+    "ja": "水泳が私の楽しみの１つです。",
+    "zh": "游泳是我的乐趣之一。",
+    "en": "Swimming is one thing I enjoy.",
+    "zhMachine": true
+   },
+   {
+    "id": 152325,
+    "ja": "私は両親には必ず毎月手紙を書きます。",
+    "zh": "我每月必定会给父母写信。",
+    "en": "I never fail to write to my parents every month.",
+    "zhMachine": true
+   },
+   {
+    "id": 155088,
+    "ja": "私は昼も夜も彼女のことを考えている。",
+    "zh": "我日日夜夜都在想她。",
+    "en": "I think of her day and night.",
+    "zhMachine": true
+   },
+   {
+    "id": 156083,
+    "ja": "私は手を取って彼を案内した。",
+    "zh": "我牵着他的手，引导他。",
+    "en": "I led him by the hand.",
+    "zhMachine": true
+   },
+   {
+    "id": 156148,
+    "ja": "私は車が盗まれたことを警察に届けた。",
+    "zh": "我向警方报告了车被偷的事。",
+    "en": "I reported the theft of my car to the police.",
+    "zhMachine": true
+   },
+   {
+    "id": 161560,
+    "ja": "私はあの店で新しいステレオを買った。",
+    "zh": "我在那家店买了新的立体声音响。",
+    "en": "I got a new stereo at that store.",
+    "zhMachine": true
+   },
+   {
+    "id": 163138,
+    "ja": "私の息子は、高校に入学した。",
+    "zh": "我的儿子上高中了",
+    "en": "My son entered high school.",
+    "zhMachine": true
+   },
+   {
+    "id": 169838,
+    "ja": "昨日彼に電話をかけましたか。",
+    "zh": "你昨天给他打电话了吗？",
+    "en": "Did you call him up yesterday?",
+    "zhMachine": true
+   },
+   {
+    "id": 171184,
+    "ja": "今夜、パーティーを開きます。",
+    "zh": "今晚要举办派对。",
+    "en": "We're giving a party tonight.",
+    "zhMachine": true
+   },
+   {
+    "id": 171747,
+    "ja": "今日はどちらかといえば、気分が良い。",
+    "zh": "今天我的心情算是比较好的。",
+    "en": "Today he is better, if anything.",
+    "zhMachine": true
+   },
+   {
+    "id": 172116,
+    "ja": "今度の旅行は仕事じゃなくて遊びです。",
+    "zh": "这次旅行是去玩，不是出差。",
+    "en": "Our next trip is for pleasure, not for work.",
+    "zhMachine": true
+   },
+   {
+    "id": 174979,
+    "ja": "厳しい冬になるという話です。",
+    "zh": "听说会是一个严冬。",
+    "en": "They say we are going to have a severe winter.",
+    "zhMachine": true
+   },
+   {
+    "id": 180166,
+    "ja": "教室は生徒でいっぱいだった。",
+    "zh": "教室里挤满了学生。",
+    "en": "The classroom was full of pupils.",
+    "zhMachine": true
+   },
+   {
+    "id": 184215,
+    "ja": "学生時代は彼は今ほど優しくなかった。",
+    "zh": "学生时代他不像现在这样温柔。",
+    "en": "In his school days he wasn't as gentle as he is now.",
+    "zhMachine": true
+   },
+   {
+    "id": 184910,
+    "ja": "階段から落ちて背中を強く打ちました。",
+    "zh": "从楼梯上摔下来，背部重重地撞了一下。",
+    "en": "I fell down the stairs and hit my back very hard.",
+    "zhMachine": true
+   },
+   {
+    "id": 189616,
+    "ja": "雨に降られてぬれちゃったよ。",
+    "zh": "被雨淋湿了。",
+    "en": "I was caught in the rain and got wet.",
+    "zhMachine": true
+   },
+   {
+    "id": 189846,
+    "ja": "雨があがったら散歩に行こう。",
+    "zh": "雨停了我们就去散步吧。",
+    "en": "When the rain stops, we'll go for a walk.",
+    "zhMachine": true
+   },
+   {
+    "id": 189967,
+    "ja": "飲み過ぎて部屋が回り始めた。",
+    "zh": "喝太多，房间开始转起来了。",
+    "en": "The room started to spin after I drank too much.",
+    "zhMachine": true
+   },
+   {
+    "id": 190767,
+    "ja": "医者は彼の折れた足をついだ。",
+    "zh": "医生接好了他骨折的腿。",
+    "en": "The doctor set his broken leg.",
+    "zhMachine": true
+   },
+   {
+    "id": 191501,
+    "ja": "悪いけどほかに用事があるの。",
+    "zh": "不好意思，我还有别的事。",
+    "en": "I'm sorry, I have another engagement.",
+    "zhMachine": true
+   },
+   {
+    "id": 191853,
+    "ja": "わたしはこまかい点までしらべました。",
+    "zh": "我调查到了细微之处。",
+    "en": "I went into details.",
+    "zhMachine": true
+   },
+   {
+    "id": 194183,
+    "ja": "もう私は大人だから、そうは考えない。",
+    "zh": "我已经长大了，不会那么想。",
+    "en": "Now that I'm a grownup, I think otherwise.",
+    "zhMachine": true
+   },
+   {
+    "id": 196196,
+    "ja": "ホテルの前で私を車で拾ってください。",
+    "zh": "请在酒店前开车接我。",
+    "en": "Please pick me up by car in front of the hotel.",
+    "zhMachine": true
+   },
+   {
+    "id": 199061,
+    "ja": "なるべく安いほうがいいです。",
+    "zh": "尽可能便宜点比较好。",
+    "en": "I would like the least expensive one.",
+    "zhMachine": true
+   },
+   {
+    "id": 199669,
+    "ja": "どれくらいこの寒い天気は続きますか。",
+    "zh": "这种寒冷的天气还会持续多久？",
+    "en": "How long will this cold weather go on?",
+    "zhMachine": true
+   },
+   {
+    "id": 200881,
+    "ja": "どこへ行っても、彼は必ず友達を作る。",
+    "zh": "无论去哪里，他总能交到朋友。",
+    "en": "Wherever he may go, he is sure to make friends.",
+    "zhMachine": true
+   },
+   {
+    "id": 201448,
+    "ja": "どうして私をつれていってくれないの。",
+    "zh": "为什么不带我去？",
+    "en": "How come you aren't taking me?",
+    "zhMachine": true
+   },
+   {
+    "id": 203387,
+    "ja": "たばこを吸ってもよろしいでしょうか。",
+    "zh": "我可以抽支烟吗？",
+    "en": "Do you mind if I smoke?",
+    "zhMachine": true
+   },
+   {
+    "id": 205401,
+    "ja": "それはほとんど終わりかかっています。",
+    "zh": "那几乎就要结束了。",
+    "en": "It's almost over.",
+    "zhMachine": true
+   },
+   {
+    "id": 205515,
+    "ja": "それはこのようにして起きた。",
+    "zh": "事情就是这样发生的。",
+    "en": "This is how it all came about.",
+    "zhMachine": true
+   },
+   {
+    "id": 205727,
+    "ja": "それで事故の原因が分かった。",
+    "zh": "于是，事故的原因明白了。",
+    "en": "That accounts for the accident.",
+    "zhMachine": true
+   },
+   {
+    "id": 209615,
+    "ja": "その写真は空から写されたものである。",
+    "zh": "那张照片是从空中拍摄的。",
+    "en": "The picture was taken from the air.",
+    "zhMachine": true
+   },
+   {
+    "id": 212159,
+    "ja": "その音はだんだん小さくなっていった。",
+    "zh": "那个声音逐渐变小了。",
+    "en": "The sound grew fainter and fainter.",
+    "zhMachine": true
+   },
+   {
+    "id": 219525,
+    "ja": "この本をお借りしてもよろしいですか。",
+    "zh": "我可以借这本书吗？",
+    "en": "May I borrow this book?",
+    "zhMachine": true
+   },
+   {
+    "id": 220022,
+    "ja": "この部屋の空気は汚れている。",
+    "zh": "这个房间的空气很污浊。",
+    "en": "The air in this room is foul.",
+    "zhMachine": true
+   },
+   {
+    "id": 221740,
+    "ja": "この指輪をある場所で買った。",
+    "zh": "这枚戒指是在某个地方买的。",
+    "en": "I bought this ring at a certain place.",
+    "zhMachine": true
+   },
+   {
+    "id": 221924,
+    "ja": "この国は季節が４つあります。",
+    "zh": "这个国家有四个季节。",
+    "en": "This country has four seasons.",
+    "zhMachine": true
+   },
+   {
+    "id": 222985,
+    "ja": "このワイシャツは首まわりが合わない。",
+    "zh": "这件衬衫领口不合适。",
+    "en": "This shirt doesn't fit me round the neck.",
+    "zhMachine": true
+   },
+   {
+    "id": 222986,
+    "ja": "このワープロをお借りしていいですか。",
+    "zh": "我可以借用一下这台文字处理机吗？",
+    "en": "May I use this word processor?",
+    "zhMachine": true
+   },
+   {
+    "id": 224591,
+    "ja": "ここでは天気は変わりやすい。",
+    "zh": "这里的天气容易变化。",
+    "en": "The weather is changeable here.",
+    "zhMachine": true
+   },
+   {
+    "id": 226492,
+    "ja": "カーテンがゆっくり引かれた。",
+    "zh": "窗帘被慢慢拉上了。",
+    "en": "The curtains were drawn slowly.",
+    "zhMachine": true
+   },
+   {
+    "id": 226598,
+    "ja": "お母さんは目を大きく開いた。",
+    "zh": "妈妈睁大了眼睛。",
+    "en": "His mother opened her eyes wide.",
+    "zhMachine": true
+   },
+   {
+    "id": 227734,
+    "ja": "おじさんがぼくにカメラをくれました。",
+    "zh": "叔叔送了我一台相机。",
+    "en": "My uncle gave me a camera.",
+    "zhMachine": true
+   },
+   {
+    "id": 228760,
+    "ja": "いつもと変えてたまに外で食事しよう。",
+    "zh": "偶尔换个花样，到外面吃饭吧。",
+    "en": "Let's occasionally change where we go to eat out.",
+    "zhMachine": true
+   },
+   {
+    "id": 229779,
+    "ja": "ある貿易会社に勤めています。",
+    "zh": "我在一家贸易公司工作。",
+    "en": "I'm working for a trading firm.",
+    "zhMachine": true
+   },
+   {
+    "id": 230259,
+    "ja": "アメリカでは英語を話します。",
+    "zh": "在美国人们说英语。",
+    "en": "They speak English in America.",
+    "zhMachine": true
+   },
+   {
+    "id": 230686,
+    "ja": "あの水を飲むと気持ちが悪い。",
+    "zh": "喝了那水就会恶心。",
+    "en": "I don't feel well after drinking that water.",
+    "zhMachine": true
+   },
+   {
+    "id": 231897,
+    "ja": "趣味については話しましたか？",
+    "zh": "你谈到兴趣爱好了吗？",
+    "en": "Did you talk about your hobby?",
+    "zhMachine": true
+   },
+   {
+    "id": 232981,
+    "ja": "あなたの訳を彼の訳と比べてみなさい。",
+    "zh": "把你的译文和他的译文比比看。",
+    "en": "Compare your translation with his.",
+    "zhMachine": true
+   },
+   {
+    "id": 233207,
+    "ja": "あなたの趣味について話してください。",
+    "zh": "请谈谈你的兴趣爱好。",
+    "en": "Please tell me about your hobbies.",
+    "zhMachine": true
+   },
+   {
+    "id": 234253,
+    "ja": "あなたがいなくなれば寂しくなります。",
+    "zh": "你要是不在了，我会很寂寞的。",
+    "en": "I'll miss you very much if you go.",
+    "zhMachine": true
+   },
+   {
+    "id": 236363,
+    "ja": "「急ぐな」と彼は言いたした。",
+    "zh": "“别着急”，他说道。",
+    "en": "\"Don't hurry,\" he added.",
+    "zhMachine": true
+   },
+   {
+    "id": 74817,
+    "ja": "警察は彼に目をつけている。",
+    "zh": "警方正在监视他。",
+    "en": "The cops are keeping tabs on him.",
+    "zhMachine": true
+   },
+   {
+    "id": 76875,
+    "ja": "あんな本みたらフツーの女は引くもんな！",
+    "zh": "看了那种书，普通女人当然会退缩啊！",
+    "en": "Obviously a normal woman would lose interest if she saw a book like that!",
+    "zhMachine": true
+   },
+   {
+    "id": 79331,
+    "ja": "友達がはがきをくれるように私に頼んだ。",
+    "zh": "朋友拜托我给他寄明信片。",
+    "en": "A friend of mine asked me to send her a postcard.",
+    "zhMachine": true
+   },
+   {
+    "id": 83457,
+    "ja": "壁に地図がかかっています。",
+    "zh": "墙上挂着地图。",
+    "en": "There is a map on the wall.",
+    "zhMachine": true
+   },
+   {
+    "id": 88153,
+    "ja": "彼女は贈り物を紙に包んだ。",
+    "zh": "她用纸包了礼物。",
+    "en": "She wrapped the present in paper.",
+    "zhMachine": true
+   },
+   {
+    "id": 89367,
+    "ja": "彼女は私の手にしっかりとしがみ付いた。",
+    "zh": "她紧紧抓住我的手不放。",
+    "en": "She held on to my hand tightly.",
+    "zhMachine": true
+   },
+   {
+    "id": 89954,
+    "ja": "彼女は砂糖を塩と間違えた。",
+    "zh": "她把糖错当成盐了。",
+    "en": "She mistook the sugar for salt.",
+    "zhMachine": true
+   },
+   {
+    "id": 91856,
+    "ja": "彼女はナイフで手を切った。",
+    "zh": "她用刀切到了手。",
+    "en": "She cut her hand on a knife.",
+    "zhMachine": true
+   },
+   {
+    "id": 91892,
+    "ja": "彼女はどのような人ですか。",
+    "zh": "她是个什么样的人？",
+    "en": "What is she like?",
+    "zhMachine": true
+   },
+   {
+    "id": 92065,
+    "ja": "彼女はテニスは上手いが、水泳は下手だ。",
+    "zh": "她网球打得很好，但游泳不行。",
+    "en": "She's very good at tennis, but she's not much of a swimmer.",
+    "zhMachine": true
+   },
+   {
+    "id": 101934,
+    "ja": "彼は天気のよい日を利用して壁を塗った。",
+    "zh": "他趁着天气好把墙壁粉刷了。",
+    "en": "He took advantage of the fine weather to paint the wall.",
+    "zhMachine": true
+   },
+   {
+    "id": 103577,
+    "ja": "彼は人の名前を忘れやすい。",
+    "zh": "他容易忘记别人的名字。",
+    "en": "He is apt to forget people's name.",
+    "zhMachine": true
+   },
+   {
+    "id": 106004,
+    "ja": "彼は私に短い手紙をくれた。",
+    "zh": "他给了我一封简短的信。",
+    "en": "He sent me a brief note.",
+    "zhMachine": true
+   },
+   {
+    "id": 108708,
+    "ja": "彼は眼鏡ごしに彼女を見た。",
+    "zh": "他透过眼镜看着她。",
+    "en": "He looked at her over his glasses.",
+    "zhMachine": true
+   },
+   {
+    "id": 109207,
+    "ja": "彼は果物の他何も食べない。",
+    "zh": "他除了水果什么都不吃。",
+    "en": "He eats nothing else but fruit.",
+    "zhMachine": true
+   },
+   {
+    "id": 109822,
+    "ja": "彼は雨の中を傘もささずに歩きつづけた。",
+    "zh": "他在雨中继续走着，连伞都不撑。",
+    "en": "He went on walking in the rain without an umbrella.",
+    "zhMachine": true
+   },
+   {
+    "id": 117993,
+    "ja": "彼の家はここから遠くない。",
+    "zh": "他家离这儿不远。",
+    "en": "His house is not far from here.",
+    "zhMachine": true
+   },
+   {
+    "id": 120410,
+    "ja": "彼が言ったことが嘘であることが解った。",
+    "zh": "我明白了他说的话是谎言。",
+    "en": "What he said turned out to be false.",
+    "zhMachine": true
+   },
+   {
+    "id": 137483,
+    "ja": "大人だけこの映画が見える。",
+    "zh": "这部电影仅限成人观看。",
+    "en": "Only adults can see this film.",
+    "zhMachine": true
+   },
+   {
+    "id": 141840,
+    "ja": "先週の今日彼を訪ねました。",
+    "zh": "上周的今天我去拜访了他。",
+    "en": "I visited him this day last week.",
+    "zhMachine": true
+   },
+   {
+    "id": 153996,
+    "ja": "私は彼の運転の技術は素晴らしいと思う。",
+    "zh": "我认为他的驾驶技术非常棒。",
+    "en": "I admire his skill at driving.",
+    "zhMachine": true
+   },
+   {
+    "id": 155123,
+    "ja": "私は地理より歴史が好きだ。",
+    "zh": "比起地理我更喜欢历史。",
+    "en": "I prefer history to geography.",
+    "zhMachine": true
+   },
+   {
+    "id": 159125,
+    "ja": "私はバスの前の席に座った。",
+    "zh": "我在公交车的前排座位坐下。",
+    "en": "I sat in the front of the bus.",
+    "zhMachine": true
+   },
+   {
+    "id": 162549,
+    "ja": "私の娘は人形を集め始めた。",
+    "zh": "我女儿开始收集玩偶了。",
+    "en": "My daughter has taken up doll collecting.",
+    "zhMachine": true
+   },
+   {
+    "id": 162620,
+    "ja": "私の妹は、祖母に似ている。",
+    "zh": "我妹妹长得像祖母。",
+    "en": "My sister resembles my grandmother.",
+    "zhMachine": true
+   },
+   {
+    "id": 163606,
+    "ja": "私の妻はひどく猫嫌いです。",
+    "zh": "我妻子极其讨厌猫。",
+    "en": "My wife really hates cats.",
+    "zhMachine": true
+   }
+  ],
+  "5": [
+   {
+    "id": 193234,
+    "ja": "もっと大きい声で言ってください。",
+    "zh": "請說更大聲一點。",
+    "en": "Louder, please.",
+    "zhMachine": false
+   },
+   {
+    "id": 159572,
+    "ja": "私はたちの悪い風邪にかかっている。",
+    "zh": "我患上了重感冒。",
+    "en": "I am suffering from a bad cold.",
+    "zhMachine": false
+   },
+   {
+    "id": 187188,
+    "ja": "夏休みにどこかへ行きましたか。",
+    "zh": "这个暑假你有去哪儿玩吗?",
+    "en": "Did you go anywhere during the summer vacation?",
+    "zhMachine": false
+   },
+   {
+    "id": 194302,
+    "ja": "もう一度言ってくださいますか。",
+    "zh": "能不能请你重复一下？",
+    "en": "Could you repeat that, please?",
+    "zhMachine": false
+   },
+   {
+    "id": 222600,
+    "ja": "この学校はたくさんの生徒がいます。",
+    "zh": "这个学校有很多学生。",
+    "en": "This school has many students.",
+    "zhMachine": false
+   },
+   {
+    "id": 199202,
+    "ja": "なぜ空が青いか知っているか。",
+    "zh": "你知道天為什麼是藍色的嗎？",
+    "en": "Do you know why the sky is blue?",
+    "zhMachine": false
+   },
+   {
+    "id": 222301,
+    "ja": "この近くに病院はありますか。",
+    "zh": "這附近有醫院嗎？",
+    "en": "Is there a hospital near here?",
+    "zhMachine": false
+   },
+   {
+    "id": 223306,
+    "ja": "このハンカチはいくらですか。",
+    "zh": "请问这个手帕多少钱？",
+    "en": "How much is this handkerchief?",
+    "zhMachine": false
+   },
+   {
+    "id": 149251,
+    "ja": "写真をどうぞ見せて下さい。",
+    "zh": "请让我看下照片吧。",
+    "en": "Please show me your picture.",
+    "zhMachine": false
+   },
+   {
+    "id": 207603,
+    "ja": "その店は野菜を売っている。",
+    "zh": "这家店在卖蔬菜。",
+    "en": "The store deals in vegetables.",
+    "zhMachine": false
+   },
+   {
+    "id": 126791,
+    "ja": "池には橋がかかっている。",
+    "zh": "池塘上有座桥。",
+    "en": "There is a bridge over the pond.",
+    "zhMachine": false
+   },
+   {
+    "id": 145651,
+    "ja": "寝る前に歯を磨きなさい。",
+    "zh": "睡覺之前把牙給刷了啊。",
+    "en": "Brush your teeth before going to bed.",
+    "zhMachine": false
+   },
+   {
+    "id": 77857,
+    "ja": "良い天気になりました。",
+    "zh": "天气变好了。",
+    "en": "It turned out to be a lovely day.",
+    "zhMachine": false
+   },
+   {
+    "id": 152773,
+    "ja": "私は妹に辞書をあげた。",
+    "zh": "我給了我妹妹一本字典。",
+    "en": "I gave my sister a dictionary.",
+    "zhMachine": false
+   },
+   {
+    "id": 156721,
+    "ja": "私は昨日夕飯を作った。",
+    "zh": "我昨天做了晚饭。",
+    "en": "I cooked supper last night.",
+    "zhMachine": false
+   },
+   {
+    "id": 224559,
+    "ja": "ここで降りましょう。",
+    "zh": "我们在这里下车吧。",
+    "en": "Let's get off here.",
+    "zhMachine": false
+   },
+   {
+    "id": 140336,
+    "ja": "窓を閉めて。",
+    "zh": "把窗關上。",
+    "en": "Close the window.",
+    "zhMachine": false
+   },
+   {
+    "id": 237285,
+    "ja": "「あなたの辞書を使ってもいいですか」「はい、どうぞ」",
+    "zh": "「可以借你的詞典一用嗎？」「沒問題。」",
+    "en": "\"Can I use your dictionary?\" \"Yes, here you are.\"",
+    "zhMachine": false
+   },
+   {
+    "id": 154689,
+    "ja": "私は日曜日にはいつも家にいない。",
+    "zh": "我星期日总是不在家。",
+    "en": "I'm never at home on Sundays.",
+    "zhMachine": true
+   },
+   {
+    "id": 159921,
+    "ja": "私はその動物の名前を知っている。",
+    "zh": "我知道那个动物的名字。",
+    "en": "I know the name of this animal.",
+    "zhMachine": true
+   },
+   {
+    "id": 191816,
+    "ja": "音楽が好きで、毎日聴いています。",
+    "zh": "我喜欢音乐，每天都听。",
+    "en": "I like music, and I listen to it every day.",
+    "zhMachine": true
+   },
+   {
+    "id": 212803,
+    "ja": "そのニュースはラジオで聞いたよ。",
+    "zh": "那个消息我是从广播里听到的。",
+    "en": "I heard the news on the radio.",
+    "zhMachine": true
+   },
+   {
+    "id": 224579,
+    "ja": "ここで煙草を吸ってはなりません。",
+    "zh": "在这里不能吸烟。",
+    "en": "You are not to smoke here.",
+    "zhMachine": true
+   },
+   {
+    "id": 226878,
+    "ja": "お茶かコーヒーでもいかがですか。",
+    "zh": "来点茶或咖啡怎么样？",
+    "en": "Would you like tea or coffee?",
+    "zhMachine": true
+   },
+   {
+    "id": 232489,
+    "ja": "あなたはどこでテレビを見ますか。",
+    "zh": "你在哪里看电视？",
+    "en": "Where do you watch television?",
+    "zhMachine": true
+   },
+   {
+    "id": 4914,
+    "ja": "「どなたですか」「お母さんよ」",
+    "zh": "“哪位？”“是我，妈妈。”",
+    "en": "\"Who is it?\" \"It's your mother.\"",
+    "zhMachine": true
+   },
+   {
+    "id": 84196,
+    "ja": "部屋に入る前に靴を脱ぎなさい。",
+    "zh": "进屋前请先脱鞋。",
+    "en": "Take your shoes off before you come into the room.",
+    "zhMachine": true
+   },
+   {
+    "id": 126420,
+    "ja": "昼ご飯を食べに外に出ませんか。",
+    "zh": "要不要出去吃午饭？",
+    "en": "How about going out for lunch?",
+    "zhMachine": true
+   },
+   {
+    "id": 145648,
+    "ja": "寝る前に電気を消してください。",
+    "zh": "睡觉前请把灯关掉。",
+    "en": "Turn off the light before you go to bed.",
+    "zhMachine": true
+   },
+   {
+    "id": 145660,
+    "ja": "寝る前にテレビを消してよ、いいね。",
+    "zh": "睡觉前把电视关掉，好吗？",
+    "en": "Turn off the TV before you go to bed, OK?",
+    "zhMachine": true
+   },
+   {
+    "id": 200912,
+    "ja": "どこの医者にかかっていますか。",
+    "zh": "你在看哪位医生？",
+    "en": "Which doctor is attending you?",
+    "zhMachine": true
+   },
+   {
+    "id": 201877,
+    "ja": "ドアに鍵をかけてくださいませんか。",
+    "zh": "请您把门锁上好吗？",
+    "en": "Would you please lock the door?",
+    "zhMachine": true
+   },
+   {
+    "id": 207608,
+    "ja": "その店は日曜日は閉まっている。",
+    "zh": "那家店星期天不营业。",
+    "en": "The shop is closed on Sundays.",
+    "zhMachine": true
+   },
+   {
+    "id": 211013,
+    "ja": "その犬に毎日食べ物をやって下さい。",
+    "zh": "请每天给那只狗喂食。",
+    "en": "Please feed the dog every day.",
+    "zhMachine": true
+   },
+   {
+    "id": 217034,
+    "ja": "ご飯とパンどちらがいいですか。",
+    "zh": "米饭和面包，你喜欢哪个？",
+    "en": "Which do you prefer, rice or bread?",
+    "zhMachine": true
+   },
+   {
+    "id": 218296,
+    "ja": "これは私の妹を撮った写真です。",
+    "zh": "这是我给妹妹拍的照片。",
+    "en": "This is a picture of my sister.",
+    "zhMachine": true
+   },
+   {
+    "id": 223518,
+    "ja": "このテープレコーダーは新しくない。",
+    "zh": "这台录音机不是新的。",
+    "en": "This tape recorder is not new.",
+    "zhMachine": true
+   },
+   {
+    "id": 223615,
+    "ja": "このスリッパに履きかえてください。",
+    "zh": "请换上这双拖鞋。",
+    "en": "Please put on these slippers.",
+    "zhMachine": true
+   },
+   {
+    "id": 232163,
+    "ja": "あなたは外国の本を持っていますか。",
+    "zh": "你有外国的书吗？",
+    "en": "Do you have any foreign books?",
+    "zhMachine": true
+   },
+   {
+    "id": 233594,
+    "ja": "あなたのお父さんはおいくつですか。",
+    "zh": "令尊今年高寿？",
+    "en": "How old is your father?",
+    "zhMachine": true
+   },
+   {
+    "id": 233856,
+    "ja": "あなたと一緒にいて楽しかった。",
+    "zh": "和你在一起很开心。",
+    "en": "I really enjoyed your company.",
+    "zhMachine": true
+   },
+   {
+    "id": 234351,
+    "ja": "あちらが私の待っていた人です。",
+    "zh": "那位就是我在等的人。",
+    "en": "That's the person I've been waiting for.",
+    "zhMachine": true
+   },
+   {
+    "id": 136992,
+    "ja": "誰がその電話に出たか知っていますか。",
+    "zh": "你知道是谁接的那个电话吗？",
+    "en": "Do you know who took the call?",
+    "zhMachine": true
+   },
+   {
+    "id": 137064,
+    "ja": "誰かが入り口に立っています。",
+    "zh": "有人站在门口。",
+    "en": "Someone is standing at the door.",
+    "zhMachine": true
+   },
+   {
+    "id": 148779,
+    "ja": "若い男の人がドアの前で歌っています。",
+    "zh": "一个年轻男人在门前唱歌。",
+    "en": "A young man is singing in front of the door.",
+    "zhMachine": true
+   },
+   {
+    "id": 170005,
+    "ja": "昨日はその本を８０ページまで読んだ。",
+    "zh": "昨天我读了那本书到80页。",
+    "en": "I read the book up to page 80 yesterday.",
+    "zhMachine": true
+   },
+   {
+    "id": 202415,
+    "ja": "テーブルの下には黒猫がいた。",
+    "zh": "桌子下面有一只黑猫。",
+    "en": "Under the table was a black cat.",
+    "zhMachine": true
+   },
+   {
+    "id": 208147,
+    "ja": "その男の子は向こうにいます。",
+    "zh": "那个男孩在那边。",
+    "en": "The boy is over there.",
+    "zhMachine": true
+   },
+   {
+    "id": 212237,
+    "ja": "その映画をもう一度見たいな。",
+    "zh": "真想再看一遍那部电影啊。",
+    "en": "I want to see the movie again.",
+    "zhMachine": true
+   },
+   {
+    "id": 233694,
+    "ja": "あなたに公園の行き方を教えましょう。",
+    "zh": "我来告诉你怎么去公园吧。",
+    "en": "I will show you how to go to the park.",
+    "zhMachine": true
+   },
+   {
+    "id": 122970,
+    "ja": "肉料理には何がありますか。",
+    "zh": "有哪些肉菜呢？",
+    "en": "What kinds of meat dishes do you serve?",
+    "zhMachine": true
+   },
+   {
+    "id": 155750,
+    "ja": "あのデパートで新しいコートを買いたい。",
+    "zh": "我想在那家百货商店买件新外套。",
+    "en": "I would like to buy a new coat at that department store.",
+    "zhMachine": true
+   },
+   {
+    "id": 195363,
+    "ja": "まっすぐ前を見てください。",
+    "zh": "请直视前方。",
+    "en": "Look forward, please.",
+    "zhMachine": true
+   },
+   {
+    "id": 201731,
+    "ja": "トイレの水が止まりません。",
+    "zh": "马桶的水停不下来。",
+    "en": "The toilet won't stop running.",
+    "zhMachine": true
+   },
+   {
+    "id": 206678,
+    "ja": "その本はどれも読んでない。",
+    "zh": "那些书我一本都没读。",
+    "en": "I have not read all the books.",
+    "zhMachine": true
+   },
+   {
+    "id": 223801,
+    "ja": "このコーヒーはぬるいです。",
+    "zh": "这杯咖啡不烫。",
+    "en": "This coffee is not hot enough.",
+    "zhMachine": true
+   },
+   {
+    "id": 226441,
+    "ja": "かえでは秋に赤くなります。",
+    "zh": "枫树在秋天会变红。",
+    "en": "Maples turn red in fall.",
+    "zhMachine": true
+   },
+   {
+    "id": 232436,
+    "ja": "あなたはなぜ働いているの。",
+    "zh": "你为什么在工作呢？",
+    "en": "How come you're still working?",
+    "zhMachine": true
+   },
+   {
+    "id": 77149,
+    "ja": "話をつけようじゃないか。",
+    "zh": "我们把事情说清楚吧。",
+    "en": "Let's talk it out.",
+    "zhMachine": true
+   },
+   {
+    "id": 155725,
+    "ja": "私は新しい背広を買った。",
+    "zh": "我买了一件新西装。",
+    "en": "I bought a new suit of clothes.",
+    "zhMachine": true
+   },
+   {
+    "id": 158010,
+    "ja": "私は家族の写真を撮った。",
+    "zh": "我给家人拍了照片。",
+    "en": "I took a picture of my family.",
+    "zhMachine": true
+   },
+   {
+    "id": 170921,
+    "ja": "左耳から耳だれが出ます。",
+    "zh": "左耳有耳漏流出。",
+    "en": "I have a discharge from my left ear.",
+    "zhMachine": true
+   },
+   {
+    "id": 198633,
+    "ja": "ネクタイが曲がってるよ。",
+    "zh": "你的领带歪了。",
+    "en": "Your tie is crooked.",
+    "zhMachine": true
+   },
+   {
+    "id": 201738,
+    "ja": "トイレお借りできますか。",
+    "zh": "可以借用一下厕所吗？",
+    "en": "May I use your toilet?",
+    "zhMachine": true
+   },
+   {
+    "id": 203062,
+    "ja": "だんだん暖かくなります。",
+    "zh": "天渐渐暖和起来了。",
+    "en": "It will get warmer and warmer.",
+    "zhMachine": true
+   },
+   {
+    "id": 204780,
+    "ja": "それよりもこれが好きだ。",
+    "zh": "比起那个，我更喜欢这个。",
+    "en": "I like this better than that.",
+    "zhMachine": true
+   },
+   {
+    "id": 224958,
+    "ja": "コートを持ちましょうか。",
+    "zh": "我来帮您拿外套吧？",
+    "en": "Shall I carry your coat?",
+    "zhMachine": true
+   },
+   {
+    "id": 232046,
+    "ja": "今日は何をしたいですか。",
+    "zh": "今天想做什么？",
+    "en": "What would you like to do today?",
+    "zhMachine": true
+   },
+   {
+    "id": 233400,
+    "ja": "あなたの鞄はどれですか。",
+    "zh": "哪个是你的包？",
+    "en": "Which is your bag?",
+    "zhMachine": true
+   },
+   {
+    "id": 140403,
+    "ja": "窓から手を出さないで。",
+    "zh": "不要把手伸出窗外。",
+    "en": "Don't stick your hand out of the window.",
+    "zhMachine": true
+   },
+   {
+    "id": 157660,
+    "ja": "私は牛乳が飲みたいな。",
+    "zh": "我想喝牛奶呢。",
+    "en": "I want to drink milk.",
+    "zhMachine": true
+   },
+   {
+    "id": 172291,
+    "ja": "今朝はとても寒かった。",
+    "zh": "今天早上非常冷。",
+    "en": "It was very cold this morning.",
+    "zhMachine": true
+   },
+   {
+    "id": 174014,
+    "ja": "公園を散歩しましょう。",
+    "zh": "我们去公园散散步吧。",
+    "en": "Let's take a walk in the park.",
+    "zhMachine": true
+   },
+   {
+    "id": 176362,
+    "ja": "警官はその男をつけた。",
+    "zh": "警察盯上了那个男的。",
+    "en": "The policeman followed him.",
+    "zhMachine": true
+   },
+   {
+    "id": 2351690,
+    "ja": "机の上に本があります。",
+    "zh": "桌子上面有一本书。",
+    "en": "There is a book on the desk.",
+    "zhMachine": true
+   },
+   {
+    "id": 126109,
+    "ja": "町は村よりも大きい。",
+    "zh": "城镇比村庄大。",
+    "en": "Towns are larger than villages.",
+    "zhMachine": true
+   },
+   {
+    "id": 194174,
+    "ja": "もう手が冷たくって。",
+    "zh": "手已经冰凉了。",
+    "en": "My hand's getting too cold.",
+    "zhMachine": true
+   },
+   {
+    "id": 202047,
+    "ja": "テレビがつきません。",
+    "zh": "电视开不了。",
+    "en": "The TV won't turn on.",
+    "zhMachine": true
+   },
+   {
+    "id": 77640,
+    "ja": "冷蔵庫の中にたくさんの食べ物が入っていますか。",
+    "zh": "冰箱里有很多食物吗？",
+    "en": "Is there much food in the refrigerator?",
+    "zhMachine": true
+   },
+   {
+    "id": 124619,
+    "ja": "電話番号を教えて。",
+    "zh": "请告诉我拨打这个电话号码的方法。",
+    "en": "Give me your phone number.",
+    "zhMachine": true
+   },
+   {
+    "id": 193032,
+    "ja": "やられる前にやれ。",
+    "zh": "先下手为强。",
+    "en": "Get 'em before they get you!",
+    "zhMachine": true
+   },
+   {
+    "id": 201970,
+    "ja": "テレビをつけて。",
+    "zh": "打开电视。",
+    "en": "Please turn on the television.",
+    "zhMachine": true
+   },
+   {
+    "id": 205974,
+    "ja": "そらバスが来た。",
+    "zh": "看，公交车来了。",
+    "en": "Here's the bus.",
+    "zhMachine": true
+   },
+   {
+    "id": 218428,
+    "ja": "これは犬です。",
+    "zh": "这是一只狗。",
+    "en": "This is a dog.",
+    "zhMachine": true
+   }
+  ]
+ }
+}

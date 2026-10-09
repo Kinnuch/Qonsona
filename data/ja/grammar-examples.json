@@ -1,0 +1,10597 @@
+{
+ "generated": "2026-10-08",
+ "points": {
+  "desu": {
+   "builtin": [
+    4,
+    6
+   ],
+   "corpus": [
+    {
+     "id": 223306,
+     "ja": "このハンカチはいくらですか。",
+     "en": "How much is this handkerchief?",
+     "zh": "请问这个手帕多少钱？",
+     "zhMachine": false,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 4914,
+     "ja": "「どなたですか」「お母さんよ」",
+     "en": "\"Who is it?\" \"It's your mother.\"",
+     "zh": "“哪位？”“是我，妈妈。”",
+     "zhMachine": true,
+     "start": 4,
+     "end": 6
+    },
+    {
+     "id": 217034,
+     "ja": "ご飯とパンどちらがいいですか。",
+     "en": "Which do you prefer, rice or bread?",
+     "zh": "米饭和面包，你喜欢哪个？",
+     "zhMachine": true,
+     "start": 11,
+     "end": 13
+    }
+   ]
+  },
+  "deshita": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 145792,
+     "ja": "食堂はセルフサービスでした。",
+     "en": "The cafeteria was self-service.",
+     "zh": "食堂是自助服务的。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    },
+    {
+     "id": 170138,
+     "ja": "昨日、東京は曇りでしたか。",
+     "en": "Was it cloudy in Tokyo yesterday?",
+     "zh": "昨天东京是阴天吗？",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 191813,
+     "ja": "わたしは去年一年生でした。",
+     "en": "I was a first year student last year.",
+     "zh": "我去年是一年级学生。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    }
+   ]
+  },
+  "masu": {
+   "builtin": [
+    9,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 222301,
+     "ja": "この近くに病院はありますか。",
+     "en": "Is there a hospital near here?",
+     "zh": "這附近有醫院嗎？",
+     "zhMachine": false,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 222600,
+     "ja": "この学校はたくさんの生徒がいます。",
+     "en": "This school has many students.",
+     "zh": "这个学校有很多学生。",
+     "zhMachine": false,
+     "start": 14,
+     "end": 16
+    },
+    {
+     "id": 228828,
+     "ja": "いつでも私の車を貸してあげますよ。",
+     "en": "You can borrow my car anytime.",
+     "zh": "你隨時可以借用我的車。",
+     "zhMachine": false,
+     "start": 13,
+     "end": 15
+    }
+   ]
+  },
+  "masen": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 201731,
+     "ja": "トイレの水が止まりません。",
+     "en": "The toilet won't stop running.",
+     "zh": "马桶的水停不下来。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    },
+    {
+     "id": 202047,
+     "ja": "テレビがつきません。",
+     "en": "The TV won't turn on.",
+     "zh": "电视开不了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 224579,
+     "ja": "ここで煙草を吸ってはなりません。",
+     "en": "You are not to smoke here.",
+     "zh": "在这里不能吸烟。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    }
+   ]
+  },
+  "mashita": {
+   "builtin": [
+    6,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 77857,
+     "ja": "良い天気になりました。",
+     "en": "It turned out to be a lovely day.",
+     "zh": "天气变好了。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 187188,
+     "ja": "夏休みにどこかへ行きましたか。",
+     "en": "Did you go anywhere during the summer vacation?",
+     "zh": "这个暑假你有去哪儿玩吗?",
+     "zhMachine": false,
+     "start": 10,
+     "end": 13
+    },
+    {
+     "id": 79972,
+     "ja": "目に砂が入りました。",
+     "en": "I got some sand in my eye.",
+     "zh": "我眼睛裡進沙子了。",
+     "zhMachine": false,
+     "start": 6,
+     "end": 9
+    }
+   ]
+  },
+  "mashou": {
+   "builtin": [
+    5,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 224559,
+     "ja": "ここで降りましょう。",
+     "en": "Let's get off here.",
+     "zh": "我们在这里下车吧。",
+     "zhMachine": false,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 174014,
+     "ja": "公園を散歩しましょう。",
+     "en": "Let's take a walk in the park.",
+     "zh": "我们去公园散散步吧。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 233694,
+     "ja": "あなたに公園の行き方を教えましょう。",
+     "en": "I will show you how to go to the park.",
+     "zh": "我来告诉你怎么去公园吧。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 17
+    }
+   ]
+  },
+  "mashouka": {
+   "builtin": [
+    4,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 224958,
+     "ja": "コートを持ちましょうか。",
+     "en": "Shall I carry your coat?",
+     "zh": "我来帮您拿外套吧？",
+     "zhMachine": true,
+     "start": 6,
+     "end": 11
+    },
+    {
+     "id": 122987,
+     "ja": "肉は何切れにしましょうか。",
+     "en": "How many slices of meat would you like?",
+     "zh": "肉要切成几片？",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    },
+    {
+     "id": 226886,
+     "ja": "お宅までお送りしましょうか？",
+     "en": "May I escort you home?",
+     "zh": "要我送您回家吗？",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    }
+   ]
+  },
+  "masenka": {
+   "builtin": [
+    10,
+    14
+   ],
+   "corpus": [
+    {
+     "id": 126420,
+     "ja": "昼ご飯を食べに外に出ませんか。",
+     "en": "How about going out for lunch?",
+     "zh": "要不要出去吃午饭？",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 190069,
+     "ja": "ちょっと一服しませんか？",
+     "en": "What do you say to taking a rest?",
+     "zh": "稍微歇一会儿怎么样？（来根烟？）",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 192973,
+     "ja": "ゆっくりしてお茶でも飲んでいきませんか。",
+     "en": "Won't you stay for tea?",
+     "zh": "不着急，留下来喝杯茶再走吧。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 19
+    }
+   ]
+  },
+  "niiku": {
+   "builtin": [
+    6,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 197333,
+     "ja": "ビルは去年の秋に私に会いに来た。",
+     "en": "Bill came to see me last autumn.",
+     "zh": "比尔去年秋天来看过我。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 203293,
+     "ja": "たまには会いに来て下さい。",
+     "en": "Come and see me once in a while.",
+     "zh": "请偶尔来看看我。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 159994,
+     "ja": "私はその川を見に行ったが、たいへん増水していた。",
+     "en": "I went to see the river, which I found greatly swollen.",
+     "zh": "我去看那条河，但河水涨得很厉害。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    }
+   ]
+  },
+  "nai": {
+   "builtin": [
+    8,
+    10
+   ],
+   "corpus": [
+    {
+     "id": 140403,
+     "ja": "窓から手を出さないで。",
+     "en": "Don't stick your hand out of the window.",
+     "zh": "不要把手伸出窗外。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 154689,
+     "ja": "私は日曜日にはいつも家にいない。",
+     "en": "I'm never at home on Sundays.",
+     "zh": "我星期日总是不在家。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 15
+    },
+    {
+     "id": 206678,
+     "ja": "その本はどれも読んでない。",
+     "en": "I have not read all the books.",
+     "zh": "那些书我一本都没读。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    }
+   ]
+  },
+  "ta": {
+   "builtin": [
+    7,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 152773,
+     "ja": "私は妹に辞書をあげた。",
+     "en": "I gave my sister a dictionary.",
+     "zh": "我給了我妹妹一本字典。",
+     "zhMachine": false,
+     "start": 9,
+     "end": 10
+    },
+    {
+     "id": 156721,
+     "ja": "私は昨日夕飯を作った。",
+     "en": "I cooked supper last night.",
+     "zh": "我昨天做了晚饭。",
+     "zhMachine": false,
+     "start": 9,
+     "end": 10
+    },
+    {
+     "id": 155725,
+     "ja": "私は新しい背広を買った。",
+     "en": "I bought a new suit of clothes.",
+     "zh": "我买了一件新西装。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 11
+    }
+   ]
+  },
+  "te": {
+   "builtin": [
+    3,
+    4
+   ],
+   "corpus": [
+    {
+     "id": 140336,
+     "ja": "窓を閉めて。",
+     "en": "Close the window.",
+     "zh": "把窗關上。",
+     "zhMachine": false,
+     "start": 4,
+     "end": 5
+    },
+    {
+     "id": 149251,
+     "ja": "写真をどうぞ見せて下さい。",
+     "en": "Please show me your picture.",
+     "zh": "请让我看下照片吧。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 9
+    },
+    {
+     "id": 124619,
+     "ja": "電話番号を教えて。",
+     "en": "Give me your phone number.",
+     "zh": "请告诉我拨打这个电话号码的方法。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 8
+    }
+   ]
+  },
+  "teiru": {
+   "builtin": [
+    6,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 126791,
+     "ja": "池には橋がかかっている。",
+     "en": "There is a bridge over the pond.",
+     "zh": "池塘上有座桥。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 199202,
+     "ja": "なぜ空が青いか知っているか。",
+     "en": "Do you know why the sky is blue?",
+     "zh": "你知道天為什麼是藍色的嗎？",
+     "zhMachine": false,
+     "start": 9,
+     "end": 12
+    },
+    {
+     "id": 207603,
+     "ja": "その店は野菜を売っている。",
+     "en": "The store deals in vegetables.",
+     "zh": "这家店在卖蔬菜。",
+     "zhMachine": false,
+     "start": 9,
+     "end": 12
+    }
+   ]
+  },
+  "tekudasai": {
+   "builtin": [
+    8,
+    13
+   ],
+   "corpus": [
+    {
+     "id": 193234,
+     "ja": "もっと大きい声で言ってください。",
+     "en": "Louder, please.",
+     "zh": "請說更大聲一點。",
+     "zhMachine": false,
+     "start": 10,
+     "end": 15
+    },
+    {
+     "id": 194302,
+     "ja": "もう一度言ってくださいますか。",
+     "en": "Could you repeat that, please?",
+     "zh": "能不能请你重复一下？",
+     "zhMachine": false,
+     "start": 6,
+     "end": 11
+    },
+    {
+     "id": 227003,
+     "ja": "お水を持ってきてください。",
+     "en": "Could you bring me some water?",
+     "zh": "能给我带一点水来吗？",
+     "zhMachine": false,
+     "start": 7,
+     "end": 12
+    }
+   ]
+  },
+  "tekara": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 158041,
+     "ja": "私は家に帰ってからうたた寝した。",
+     "en": "I took a doze after coming home.",
+     "zh": "我回家后小睡了一会儿。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 211665,
+     "ja": "その学校は開校してから７０年になる。",
+     "en": "The school was founded seventy years ago.",
+     "zh": "那所学校建校已有70年了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 115156,
+     "ja": "彼は３０歳になってから絵をかき始めた。",
+     "en": "He didn't start to paint until he was thirty.",
+     "zh": "他到了30岁才开始画画。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    }
+   ]
+  },
+  "temoii": {
+   "builtin": [
+    5,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 237285,
+     "ja": "「あなたの辞書を使ってもいいですか」「はい、どうぞ」",
+     "en": "\"Can I use your dictionary?\" \"Yes, here you are.\"",
+     "zh": "「可以借你的詞典一用嗎？」「沒問題。」",
+     "zhMachine": false,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 226648,
+     "ja": "お母さん、泳ぎに行ってもいい？",
+     "en": "Can I go swimming, Mother?",
+     "zh": "媽，我可以去游泳嗎?",
+     "zhMachine": false,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 197026,
+     "ja": "フラッシュを使ってもいいですか。",
+     "en": "Is it all right to use a flash here?",
+     "zh": "可以用闪光灯吗？",
+     "zhMachine": true,
+     "start": 8,
+     "end": 12
+    }
+   ]
+  },
+  "tewaikenai": {
+   "builtin": [
+    9,
+    13
+   ],
+   "corpus": [
+    {
+     "id": 211701,
+     "ja": "その階段を上ってはいけません。",
+     "en": "You must not go up the stairs.",
+     "zh": "请不要上那个楼梯。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 207198,
+     "ja": "その箱をのぞいてはいけない。",
+     "en": "Don't look into the box.",
+     "zh": "不能看那个箱子。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 172854,
+     "ja": "今この応接間に入ってはいけません。",
+     "en": "Don't go into this drawing room now.",
+     "zh": "现在不能进入这个接待室。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    }
+   ]
+  },
+  "naidekudasai": {
+   "builtin": [
+    8,
+    15
+   ],
+   "corpus": [
+    {
+     "id": 77153,
+     "ja": "話をさえぎらないでください。",
+     "en": "Please don't cut me off like that.",
+     "zh": "请不要打断别人说话。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 13
+    },
+    {
+     "id": 201640,
+     "ja": "どうか私にかまわないでください。",
+     "en": "Please don't mind me.",
+     "zh": "请不要太在意我。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 15
+    },
+    {
+     "id": 222939,
+     "ja": "この雨の中をおいでにならないでください。",
+     "en": "Don't bother coming in this rain.",
+     "zh": "请别在雨中过来。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 19
+    }
+   ]
+  },
+  "tai": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 157660,
+     "ja": "私は牛乳が飲みたいな。",
+     "en": "I want to drink milk.",
+     "zh": "我想喝牛奶呢。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 212237,
+     "ja": "その映画をもう一度見たいな。",
+     "en": "I want to see the movie again.",
+     "zh": "真想再看一遍那部电影啊。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 232046,
+     "ja": "今日は何をしたいですか。",
+     "en": "What would you like to do today?",
+     "zh": "今天想做什么？",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    }
+   ]
+  },
+  "hoshii": {
+   "builtin": [
+    7,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 126622,
+     "ja": "茶飲み友達がほしい。",
+     "en": "I want someone to talk to.",
+     "zh": "想找个能一起喝茶的朋友。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 75536,
+     "ja": "ＭＰ３プレーヤーがほしい！",
+     "en": "I want an MP3 player!",
+     "zh": "我想要一个MP3播放器！",
+     "zhMachine": false,
+     "start": 8,
+     "end": 12
+    },
+    {
+     "id": 231351,
+     "ja": "あのカメラが欲しくてたまらない。",
+     "en": "I'm dying for that camera.",
+     "zh": "我好想要那台相机。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    }
+   ]
+  },
+  "takotogaaru": {
+   "builtin": [
+    6,
+    12
+   ],
+   "corpus": [
+    {
+     "id": 154184,
+     "ja": "私は彼に会ったことがある。",
+     "en": "I have met him before.",
+     "zh": "我見過他。",
+     "zhMachine": false,
+     "start": 6,
+     "end": 12
+    },
+    {
+     "id": 236771,
+     "ja": "私も似た話を聞いたことがある。",
+     "en": "I also heard a similar story.",
+     "zh": "我也听过一个类似的故事。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 14
+    },
+    {
+     "id": 231608,
+     "ja": "あなたは飛行機で旅行したことがありますか。",
+     "en": "Have you ever traveled by air?",
+     "zh": "您坐过飞机旅行吗？",
+     "zhMachine": true,
+     "start": 11,
+     "end": 17
+    }
+   ]
+  },
+  "tari": {
+   "builtin": [
+    9,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 144884,
+     "ja": "神経質な人は頭をかいたりするものだ。",
+     "en": "Nervous people will scratch their heads.",
+     "zh": "神经质的人常会挠头之类。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 220727,
+     "ja": "この素材は決してすり減ったりしない。",
+     "en": "This material never wears out.",
+     "zh": "这种材料绝不会磨损。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 14
+    },
+    {
+     "id": 140208,
+     "ja": "息を深く吸ったり吐いたりしてください。",
+     "en": "Take a deep breath in and out, please.",
+     "zh": "请深吸气或呼气。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    }
+   ]
+  },
+  "kara": {
+   "builtin": [
+    7,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 80493,
+     "ja": "明日の夜から雨だから置き傘をしていこう。",
+     "en": "It's supposed to rain tomorrow night, so let's leave our umbrellas until then.",
+     "zh": "从明天晚上开始下雨，所以带把备用伞去吧。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    },
+    {
+     "id": 113402,
+     "ja": "彼はずけずけものをいうからね。",
+     "en": "He doesn't mince words.",
+     "zh": "他说话很冲，你懂的。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 13
+    },
+    {
+     "id": 173513,
+     "ja": "硬貨に「あび」がついてるからよ。",
+     "en": "Because there's a red-throated loon on the coin.",
+     "zh": "因为硬币上刻着‘阿比’啊。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 14
+    }
+   ]
+  },
+  "ga": {
+   "builtin": [
+    8,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 137394,
+     "ja": "大中小ありますがどれにしますか。",
+     "en": "We have large, medium, and small. What size do you want?",
+     "zh": "有大中小三种尺寸，你选哪种？",
+     "zhMachine": true,
+     "start": 7,
+     "end": 8
+    },
+    {
+     "id": 162528,
+     "ja": "私の木は少し花をつけたが実はならなかった。",
+     "en": "My tree had a few blossoms but no fruit.",
+     "zh": "我种的树开了点花，可没结出果子。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 12
+    },
+    {
+     "id": 174256,
+     "ja": "御粗末なものですが私の自転車をお使いください。",
+     "en": "You may use my bicycle such as it is.",
+     "zh": "虽然很简陋，但请用我的自行车吧。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 9
+    }
+   ]
+  },
+  "keredo": {
+   "builtin": [
+    4,
+    6
+   ],
+   "corpus": [
+    {
+     "id": 191501,
+     "ja": "悪いけどほかに用事があるの。",
+     "en": "I'm sorry, I have another engagement.",
+     "zh": "不好意思，我还有别的事。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    },
+    {
+     "id": 111531,
+     "ja": "彼はとても年をとっているけれどたっしゃだ。",
+     "en": "Although he is very old, he is strong.",
+     "zh": "他虽然年纪很大，但身体硬朗。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    },
+    {
+     "id": 219860,
+     "ja": "この辺臭うんだけど。",
+     "en": "Something stinks here.",
+     "zh": "这一带很臭。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 9
+    }
+   ]
+  },
+  "maeni": {
+   "builtin": [
+    0,
+    4
+   ],
+   "corpus": [
+    {
+     "id": 145651,
+     "ja": "寝る前に歯を磨きなさい。",
+     "en": "Brush your teeth before going to bed.",
+     "zh": "睡覺之前把牙給刷了啊。",
+     "zhMachine": false,
+     "start": 0,
+     "end": 4
+    },
+    {
+     "id": 84196,
+     "ja": "部屋に入る前に靴を脱ぎなさい。",
+     "en": "Take your shoes off before you come into the room.",
+     "zh": "进屋前请先脱鞋。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 145648,
+     "ja": "寝る前に電気を消してください。",
+     "en": "Turn off the light before you go to bed.",
+     "zh": "睡觉前请把灯关掉。",
+     "zhMachine": true,
+     "start": 0,
+     "end": 4
+    }
+   ]
+  },
+  "atode": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 234118,
+     "ja": "あなたが家を出た後で、私はあなたのコートに気づきました。",
+     "en": "I found your coat after you left the house.",
+     "zh": "你出门后，我才发现你的外套。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 75641,
+     "ja": "富士山に登った後で一首浮かんだ。",
+     "en": "After climbing Mt Fuji I got the inspiration for a poem.",
+     "zh": "攀登富士山後，我得到了一首詩的靈感。",
+     "zhMachine": false,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 232305,
+     "ja": "あなたは一日中働いた後で疲れきっているにちがいない。",
+     "en": "You must be worn out after working all day.",
+     "zh": "您工作了一整天，一定累坏了吧。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    }
+   ]
+  },
+  "nagara": {
+   "builtin": [
+    5,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 141208,
+     "ja": "洗濯物の山を見ながら、私はため息をついた。",
+     "en": "Looking at the pile of laundry, I sighed.",
+     "zh": "看着堆积如山的待洗衣物，我叹了口气。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 159099,
+     "ja": "私ははらはらしながら結果を待っていました。",
+     "en": "I have been waiting for the results with anxiety.",
+     "zh": "我提心吊胆地等待着结果。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 80228,
+     "ja": "迷子の女の子はすすり泣きしながら名前を言っていた。",
+     "en": "The stray girl sobbed her name.",
+     "zh": "迷路的小女孩一边抽泣，一边说出自己的名字。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 16
+    }
+   ]
+  },
+  "deshou": {
+   "builtin": [
+    6,
+    10
+   ],
+   "corpus": [
+    {
+     "id": 145957,
+     "ja": "色はさめないでしょう。",
+     "en": "The color will not go off.",
+     "zh": "颜色不会褪掉吧。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 225117,
+     "ja": "ケンは昼まで家にいるでしょう。",
+     "en": "Ken will be at home until noon.",
+     "zh": "肯应该会在家待到中午。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 235778,
+     "ja": "１時間以内にそこに着くでしょう。",
+     "en": "We'll arrive there within an hour.",
+     "zh": "应该能在一个小时内到达那里吧。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    }
+   ]
+  },
+  "tsumori": {
+   "builtin": [
+    10,
+    13
+   ],
+   "corpus": [
+    {
+     "id": 152381,
+     "ja": "私は来年留学するつもりです。",
+     "en": "I intend to study abroad next year.",
+     "zh": "我打算明年去留学。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 152593,
+     "ja": "私は明日北海道に行くつもりです。",
+     "en": "I will go to Hokkaido tomorrow.",
+     "zh": "我明天打算去北海道。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    },
+    {
+     "id": 154765,
+     "ja": "私は二十日までに帰るつもりです。",
+     "en": "I expect to be back by the 20th.",
+     "zh": "我打算在二十号之前回来。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "nohougaa": {
+   "builtin": [
+    6,
+    10
+   ],
+   "corpus": [
+    {
+     "id": 157662,
+     "ja": "私は牛肉より羊肉の方が好きだ。",
+     "en": "I prefer mutton to beef.",
+     "zh": "比起牛肉，我更喜欢羊肉。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 234808,
+     "ja": "ＳＦのほうが好きですね。",
+     "en": "I like science fiction better.",
+     "zh": "还是科幻片更合我口味呢。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 224162,
+     "ja": "こちらの方があちらより値段が高い。",
+     "en": "This costs more than that.",
+     "zh": "这边的价格比那边高。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    }
+   ]
+  },
+  "yori": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 126109,
+     "ja": "町は村よりも大きい。",
+     "en": "Towns are larger than villages.",
+     "zh": "城镇比村庄大。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 5
+    },
+    {
+     "id": 204780,
+     "ja": "それよりもこれが好きだ。",
+     "en": "I like this better than that.",
+     "zh": "比起那个，我更喜欢这个。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    },
+    {
+     "id": 79991,
+     "ja": "目が口よりものを言う時がある。",
+     "en": "Eyes sometimes talk louder than words.",
+     "zh": "有时眼神比言语更能表达意思。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 5
+    }
+   ]
+  },
+  "dake": {
+   "builtin": [
+    2,
+    4
+   ],
+   "corpus": [
+    {
+     "id": 147784,
+     "ja": "出来るだけ早く参ります。",
+     "en": "I'll come as soon as I can.",
+     "zh": "盡可能及早拜訪您。",
+     "zhMachine": false,
+     "start": 3,
+     "end": 5
+    },
+    {
+     "id": 228452,
+     "ja": "いるだけ持っていらっしゃい。",
+     "en": "Please take with you as much as you need.",
+     "zh": "請拿您需要的份量即可。",
+     "zhMachine": false,
+     "start": 2,
+     "end": 4
+    },
+    {
+     "id": 80785,
+     "ja": "名前だけでしか彼を知らない。",
+     "en": "I only know him by name.",
+     "zh": "我只知道他的名字。",
+     "zhMachine": false,
+     "start": 2,
+     "end": 4
+    }
+   ]
+  },
+  "nakereba": {
+   "builtin": [
+    12,
+    18
+   ],
+   "corpus": [
+    {
+     "id": 153353,
+     "ja": "私は彼女に謝らなければならない。",
+     "en": "I must make an apology to her.",
+     "zh": "我不得不向她道歉。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 13
+    },
+    {
+     "id": 224569,
+     "ja": "ここで靴を脱がなければなりませんか。",
+     "en": "Do I have to take off my shoes here?",
+     "zh": "必须在这里脱鞋吗？",
+     "zhMachine": true,
+     "start": 7,
+     "end": 13
+    },
+    {
+     "id": 149909,
+     "ja": "自分の為になるような本を読まなければならない。",
+     "en": "We must read such books as will benefit us.",
+     "zh": "必须读些对自己有益的书。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 20
+    }
+   ]
+  },
+  "nakutemoii": {
+   "builtin": [
+    4,
+    10
+   ],
+   "corpus": [
+    {
+     "id": 204091,
+     "ja": "そんな小さなことに目くじら立てなくてもいいじゃないの。",
+     "en": "You don't have to go getting so hairy about such a small thing.",
+     "zh": "不要這麼吹毛求疵。",
+     "zhMachine": false,
+     "start": 15,
+     "end": 21
+    },
+    {
+     "id": 232396,
+     "ja": "あなたはボスにへつらわなくてもよい。",
+     "en": "You don't need to flatter your boss.",
+     "zh": "你不用去拍老板的马屁。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 17
+    },
+    {
+     "id": 229565,
+     "ja": "あんなに朝早くから来なくてもよかったのに。",
+     "en": "You needn't have come so early in the morning.",
+     "zh": "其实你不必那么一大早就来的。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 17
+    }
+   ]
+  },
+  "hougaii": {
+   "builtin": [
+    4,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 199061,
+     "ja": "なるべく安いほうがいいです。",
+     "en": "I would like the least expensive one.",
+     "zh": "尽可能便宜点比较好。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 11
+    },
+    {
+     "id": 224464,
+     "ja": "ここにはいない方がよい。",
+     "en": "We had better not remain here.",
+     "zh": "你最好别待在这儿。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 84185,
+     "ja": "部屋の整理をしたほうがいいよ。",
+     "en": "You should set your room in order.",
+     "zh": "最好还是整理一下房间吧。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    }
+   ]
+  },
+  "baii": {
+   "builtin": [
+    14,
+    17
+   ],
+   "corpus": [
+    {
+     "id": 232397,
+     "ja": "あなたはボタンを押しさえすればいい。",
+     "en": "All you have to do is press the button.",
+     "zh": "你只需按下按钮就行。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 17
+    },
+    {
+     "id": 143606,
+     "ja": "睡眠時間が十分あればいいのに。",
+     "en": "I wish I had enough time to sleep.",
+     "zh": "如果睡眠时间充足就好了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    },
+    {
+     "id": 187154,
+     "ja": "夏服を着ればいいのに。",
+     "en": "Why don't you wear summer clothes?",
+     "zh": "穿夏装就好了嘛。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    }
+   ]
+  },
+  "toomou": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 143025,
+     "ja": "晴れだと思うよ。",
+     "en": "I think it will be sunny.",
+     "zh": "我觉得会放晴。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 193098,
+     "ja": "やったと思った。",
+     "en": "I felt I had hit the jackpot.",
+     "zh": "我以为做到了。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 205453,
+     "ja": "それはどうかと思いますね。",
+     "en": "I wouldn't be so sure about that.",
+     "zh": "我觉得那样不太合适吧。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    }
+   ]
+  },
+  "youtoomou": {
+   "builtin": [
+    8,
+    12
+   ],
+   "corpus": [
+    {
+     "id": 103757,
+     "ja": "彼は新聞に何か寄稿しようと思った。",
+     "en": "He purposed writing something for the paper.",
+     "zh": "他想向报纸投稿点什么。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    },
+    {
+     "id": 222865,
+     "ja": "この夏はこんがり焼こうと思います。",
+     "en": "I am going to try to get a good tan.",
+     "zh": "这个夏天我想晒成古铜色。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 202096,
+     "ja": "デモに参加しようと思う。",
+     "en": "I'm going to join a demonstration.",
+     "zh": "我要参加一个示威游行。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 11
+    }
+   ]
+  },
+  "toiu": {
+   "builtin": [
+    8,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 4711,
+     "ja": "何と言ったら良いか分かりません。",
+     "en": "I don't know what I should say.",
+     "zh": "我不知道應該說什麼才好。",
+     "zhMachine": false,
+     "start": 1,
+     "end": 4
+    },
+    {
+     "id": 174979,
+     "ja": "厳しい冬になるという話です。",
+     "en": "They say we are going to have a severe winter.",
+     "zh": "听说会是一个严冬。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 93728,
+     "ja": "彼女は、自分は正しいと言い切った。",
+     "en": "She declared that she was right.",
+     "zh": "她断言自己是正确的。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "ndesu": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 227742,
+     "ja": "おじいさんは少し耳が遠いんだ。",
+     "en": "My grandfather is a bit hard of hearing.",
+     "zh": "我爺爺的聽力不太好。",
+     "zhMachine": false,
+     "start": 12,
+     "end": 14
+    },
+    {
+     "id": 232498,
+     "ja": "どうやってそのお金を手に入れたんですか。",
+     "en": "How did you come by the money?",
+     "zh": "你是怎麼搞到這筆錢的？",
+     "zhMachine": false,
+     "start": 15,
+     "end": 18
+    },
+    {
+     "id": 74910,
+     "ja": "もう〜、なにやってんだよ。",
+     "en": "Jeez, what're you up to?",
+     "zh": "真是的，你在搞什么啊。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    }
+   ]
+  },
+  "kamoshirenai": {
+   "builtin": [
+    7,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 137561,
+     "ja": "大根は人参より高いかもしれない。",
+     "en": "Daikon might be more expensive than the carrots.",
+     "zh": "白蘿蔔可能比紅蘿蔔貴。",
+     "zhMachine": false,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 197418,
+     "ja": "ひょっとすると明日は雨かもしれない。",
+     "en": "Perhaps it will rain tomorrow.",
+     "zh": "说不定明天可能会下雨。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    },
+    {
+     "id": 193878,
+     "ja": "もしかすると彼は明日来るかもしれない。",
+     "en": "He might come tomorrow.",
+     "zh": "说不定他明天会来。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    }
+   ]
+  },
+  "darou": {
+   "builtin": [
+    9,
+    12
+   ],
+   "corpus": [
+    {
+     "id": 80346,
+     "ja": "明日雨が降るだろうか。",
+     "en": "Will it rain tomorrow?",
+     "zh": "明天会下雨吗？",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 98909,
+     "ja": "彼は歴史小説を読んでいるだろう。",
+     "en": "He will be reading a historical novel.",
+     "zh": "他大概在读历史小说吧。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    },
+    {
+     "id": 203358,
+     "ja": "たぶん、明日は雪が降るだろう。",
+     "en": "Probably it will snow tomorrow.",
+     "zh": "大概明天会下雪吧。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    }
+   ]
+  },
+  "hazu": {
+   "builtin": [
+    9,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 163301,
+     "ja": "私の女友達は今頃もうここに来ているはずだ。",
+     "en": "My girl friend ought to be here by this time.",
+     "zh": "我的女性朋友现在应该已经到这里了。",
+     "zhMachine": true,
+     "start": 17,
+     "end": 19
+    },
+    {
+     "id": 83791,
+     "ja": "物価はまもなく下がるはずだ。",
+     "en": "Prices ought to come down soon.",
+     "zh": "物价很快应该会下降。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 228473,
+     "ja": "イヤホンを頼んだはずなのですが。",
+     "en": "Do you have earphones?",
+     "zh": "我应该订了耳机的。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    }
+   ]
+  },
+  "soulook": {
+   "builtin": [
+    9,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 147527,
+     "ja": "初めは何でも難しそうに見えた。",
+     "en": "At first, everything seemed difficult.",
+     "zh": "起初一切看起来都很难。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    },
+    {
+     "id": 171463,
+     "ja": "今日雨は降りそうにない。",
+     "en": "There is no chance of rain today.",
+     "zh": "今天看起来不会下雨。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    },
+    {
+     "id": 194440,
+     "ja": "もうすぐ雨が降りそうだ。",
+     "en": "It is going to rain very soon.",
+     "zh": "眼看就要下雨了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    }
+   ]
+  },
+  "souhear": {
+   "builtin": [
+    16,
+    18
+   ],
+   "corpus": [
+    {
+     "id": 178153,
+     "ja": "君の息子さん学生運動に加わってたそうだね。",
+     "en": "Your son took part in the student movement, I hear.",
+     "zh": "聽說你兒子參與了學生運動。",
+     "zhMachine": false,
+     "start": 16,
+     "end": 18
+    },
+    {
+     "id": 99656,
+     "ja": "彼は名医だそうだ。",
+     "en": "He is said to be a good doctor.",
+     "zh": "听说他是一位名医。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 7
+    },
+    {
+     "id": 142500,
+     "ja": "静岡で地震があったそうだ。",
+     "en": "I hear there was an earthquake in Shizuoka.",
+     "zh": "据说静冈那边地震了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    }
+   ]
+  },
+  "youda": {
+   "builtin": [
+    4,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 85515,
+     "ja": "鼻にポリープがあるようです。",
+     "en": "I'm afraid I have a polyp in my nose.",
+     "zh": "鼻子里好像长了息肉。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 179075,
+     "ja": "君が一番乗りのようだ。",
+     "en": "It seems as if you are the first one here.",
+     "zh": "看来你是第一个到的。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 187028,
+     "ja": "家の地階に問題があるようだ。",
+     "en": "The basements of the houses are likely to have problems.",
+     "zh": "房子的地下室似乎有问题。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "mitai": {
+   "builtin": [
+    6,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 85112,
+     "ja": "不景気になってきているみたいね。",
+     "en": "We're in store for a recession.",
+     "zh": "好像变得不景气了呢。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    },
+    {
+     "id": 211038,
+     "ja": "その建物は化け物みたいだ。",
+     "en": "The building is a monstrous structure.",
+     "zh": "那个建筑物简直像怪物一样。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 75939,
+     "ja": "赤ん坊のお尻みたいにすべすべだ。",
+     "en": "It's as smooth as a baby's bottom.",
+     "zh": "它像婴儿的屁股一样光滑。",
+     "zhMachine": false,
+     "start": 6,
+     "end": 9
+    }
+   ]
+  },
+  "rashii": {
+   "builtin": [
+    11,
+    14
+   ],
+   "corpus": [
+    {
+     "id": 87037,
+     "ja": "彼女は病気だったらしい。",
+     "en": "It seems that she was ill.",
+     "zh": "她看起来病了。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 230516,
+     "ja": "あの二人はどうもできているらしい。",
+     "en": "They seem to be in love with each other.",
+     "zh": "那两个人似乎有来头。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 16
+    },
+    {
+     "id": 199801,
+     "ja": "トムは明日の授業の予習をしているらしい。",
+     "en": "Tom seems to be preparing for tomorrow's lessons.",
+     "zh": "汤姆好像在预习明天的课。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 19
+    }
+   ]
+  },
+  "ba": {
+   "builtin": [
+    3,
+    4
+   ],
+   "corpus": [
+    {
+     "id": 147666,
+     "ja": "出来れば明日までに帰ります。",
+     "en": "I'll be back by tomorrow, if possible.",
+     "zh": "可能的话，我明天之前回来。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 4
+    },
+    {
+     "id": 234086,
+     "ja": "あなたが呼べば、彼は来るでしょう。",
+     "en": "He will come if you call him.",
+     "zh": "如果你叫他，他会来的。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 7
+    },
+    {
+     "id": 171747,
+     "ja": "今日はどちらかといえば、気分が良い。",
+     "en": "Today he is better, if anything.",
+     "zh": "今天我的心情算是比较好的。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 11
+    }
+   ]
+  },
+  "tara": {
+   "builtin": [
+    4,
+    6
+   ],
+   "corpus": [
+    {
+     "id": 4711,
+     "ja": "何と言ったら良いか分かりません。",
+     "en": "I don't know what I should say.",
+     "zh": "我不知道應該說什麼才好。",
+     "zhMachine": false,
+     "start": 4,
+     "end": 6
+    },
+    {
+     "id": 234350,
+     "ja": "あちらに着いたら手紙をください。",
+     "en": "Please write to me when you get there.",
+     "zh": "當你到達時寄封信給我。",
+     "zhMachine": false,
+     "start": 6,
+     "end": 8
+    },
+    {
+     "id": 201599,
+     "ja": "どうしたらあなたに連絡がつきますか。",
+     "en": "How can I get in touch with you?",
+     "zh": "我怎么联系你？",
+     "zhMachine": false,
+     "start": 3,
+     "end": 5
+    }
+   ]
+  },
+  "nara": {
+   "builtin": [
+    8,
+    10
+   ],
+   "corpus": [
+    {
+     "id": 74210,
+     "ja": "面白半分なら来ないで欲しい。",
+     "en": "If you're doing it in fun, I'd rather you didn't come.",
+     "zh": "如果你只是闹着好玩就别来了。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 6
+    },
+    {
+     "id": 171537,
+     "ja": "今日が天気ならいいのに。",
+     "en": "I wish it were fine today.",
+     "zh": "今天要是天气好就好了。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 7
+    },
+    {
+     "id": 234417,
+     "ja": "あそこなら花火が見やすいよ。",
+     "en": "It's easy to see the fireworks from over there.",
+     "zh": "从那儿很容易就能看到焰火。",
+     "zhMachine": false,
+     "start": 3,
+     "end": 5
+    }
+   ]
+  },
+  "to": {
+   "builtin": [
+    4,
+    5
+   ],
+   "corpus": [
+    {
+     "id": 148215,
+     "ja": "秋になると葉は黄色くなる。",
+     "en": "In autumn the leaves turn yellow.",
+     "zh": "到了秋天，葉子就會變黃。",
+     "zhMachine": false,
+     "start": 4,
+     "end": 5
+    },
+    {
+     "id": 140078,
+     "ja": "息子のことを考えると頭が痛い。",
+     "en": "My son is my biggest headache.",
+     "zh": "一想到儿子的事情就头疼。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 10
+    },
+    {
+     "id": 147637,
+     "ja": "春になるとどこも美しく見える。",
+     "en": "Everywhere looks beautiful in the spring.",
+     "zh": "春天一到，哪里都显得很美。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 5
+    }
+   ]
+  },
+  "temo": {
+   "builtin": [
+    4,
+    6
+   ],
+   "corpus": [
+    {
+     "id": 200881,
+     "ja": "どこへ行っても、彼は必ず友達を作る。",
+     "en": "Wherever he may go, he is sure to make friends.",
+     "zh": "无论去哪里，他总能交到朋友。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 7
+    },
+    {
+     "id": 172676,
+     "ja": "今はそうじゃなくても将来はいい夫になるよ。",
+     "en": "Even if he isn't now, he'll be a good husband in the future.",
+     "zh": "就算现在不行，将来你会是个好老公的。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    },
+    {
+     "id": 182393,
+     "ja": "泣いても笑ってもあと一日。",
+     "en": "There is only one day left, whether we like it or not.",
+     "zh": "哭也好笑也好，只剩最后一天了。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    }
+   ]
+  },
+  "noni": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 146443,
+     "ja": "招待を受理したのに、彼は来なかった。",
+     "en": "Having accepted the invitation, he failed to show up.",
+     "zh": "尽管接受了邀请，他却没有来。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 184951,
+     "ja": "皆留守だというのに、不思議なことに家中の電灯がついていた。",
+     "en": "Strange to say, all the lights in the house were on, though no one was at home.",
+     "zh": "明明全家都不在，奇怪的是屋里的灯全亮着。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 80651,
+     "ja": "明日、大事なプレゼンがあるって言うのに、余裕綽々だね。",
+     "en": "You're pretty calm, cool and collected for somebody who has a major presentation tomorrow.",
+     "zh": "明天都有重要展示了，你还这么从容不迫啊。",
+     "zhMachine": true,
+     "start": 17,
+     "end": 19
+    }
+   ]
+  },
+  "node": {
+   "builtin": [
+    4,
+    6
+   ],
+   "corpus": [
+    {
+     "id": 85307,
+     "ja": "病気なのでご一緒できません。",
+     "en": "As I am ill, I will not join you.",
+     "zh": "因为生病，所以不能和您同行了。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 5
+    },
+    {
+     "id": 214052,
+     "ja": "せきがひどかったので、苦い薬を飲んだ。",
+     "en": "I had a bad cough, so I took the bitter medicine.",
+     "zh": "因为咳嗽得很厉害，所以喝了苦药。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    },
+    {
+     "id": 150518,
+     "ja": "時計がおくれていたので、私は特急にのりそこねた。",
+     "en": "As my watch was slow, I missed the special express.",
+     "zh": "因为手表慢了，我错过了特快列车。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    }
+   ]
+  },
+  "shi": {
+   "builtin": [
+    7,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 190709,
+     "ja": "一つには、私は貧しいし、それにまた忙しくもある。",
+     "en": "For one thing, I am poor; for another, I am busy.",
+     "zh": "一方面我很穷，另一方面我也很忙。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 11
+    },
+    {
+     "id": 107254,
+     "ja": "彼は国語が好きだし得意だ。",
+     "en": "He likes Japanese, and he's good at it.",
+     "zh": "他喜欢国语，也很擅长。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 9
+    },
+    {
+     "id": 203252,
+     "ja": "だるいし頭がずきずきする。",
+     "en": "I feel listless and have a throbbing headache.",
+     "zh": "浑身没劲儿，头还一抽一抽地疼。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 4
+    }
+   ]
+  },
+  "tameni": {
+   "builtin": [
+    5,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 189591,
+     "ja": "雨のために私は家にいた。",
+     "en": "I stayed home because of the rain.",
+     "zh": "因为下雨，我待在家里。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 5
+    },
+    {
+     "id": 230449,
+     "ja": "あの本を自分のためにとっておこう。",
+     "en": "I'll keep that book for myself.",
+     "zh": "那本书就留给我自己吧。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 149909,
+     "ja": "自分の為になるような本を読まなければならない。",
+     "en": "We must read such books as will benefit us.",
+     "zh": "必须读些对自己有益的书。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 5
+    }
+   ]
+  },
+  "youni": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 140539,
+     "ja": "早く病気がよくなりますように。",
+     "en": "I hope you'll get well soon.",
+     "zh": "祝愿疾病早日痊愈。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    },
+    {
+     "id": 142511,
+     "ja": "静かにするように気をつけなさい。",
+     "en": "See to it that you keep quiet.",
+     "zh": "请注意保持安静。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    },
+    {
+     "id": 145625,
+     "ja": "寝坊しないように注意しなさい。",
+     "en": "Take care not to oversleep.",
+     "zh": "注意别睡过头了。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    }
+   ]
+  },
+  "younisuru": {
+   "builtin": [
+    8,
+    12
+   ],
+   "corpus": [
+    {
+     "id": 85431,
+     "ja": "必要以上にお金を使わないようにしなさい。",
+     "en": "Try not to spend more money than is necessary.",
+     "zh": "注意不要花超过必要的钱。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    },
+    {
+     "id": 118424,
+     "ja": "彼のいいところを引き出すようにしなさい。",
+     "en": "Try to bring out the best in him.",
+     "zh": "要设法发挥出他的长处。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    },
+    {
+     "id": 225647,
+     "ja": "くどくど言わないようにしよう。",
+     "en": "Let's not go into details.",
+     "zh": "别唠唠叨叨了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    }
+   ]
+  },
+  "youninaru": {
+   "builtin": [
+    7,
+    12
+   ],
+   "corpus": [
+    {
+     "id": 81446,
+     "ja": "摩擦でマッチに火がつくようになる。",
+     "en": "Friction causes a match to light.",
+     "zh": "通过摩擦，火柴开始能够点燃。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 16
+    },
+    {
+     "id": 197700,
+     "ja": "ピーターはその子を恋するようになった。",
+     "en": "Peter fell in love with the girl.",
+     "zh": "彼得爱上了那个女孩。",
+     "zhMachine": false,
+     "start": 12,
+     "end": 17
+    },
+    {
+     "id": 214803,
+     "ja": "すぐ泳げるようになりますよ。",
+     "en": "You'll soon be able to swim.",
+     "zh": "你很快就能学会游泳了。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 10
+    }
+   ]
+  },
+  "kotogadekiru": {
+   "builtin": [
+    8,
+    13
+   ],
+   "corpus": [
+    {
+     "id": 155388,
+     "ja": "私は全問に答えることができた。",
+     "en": "I was able to answer all the questions.",
+     "zh": "我答出了所有问题。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    },
+    {
+     "id": 198304,
+     "ja": "ハエは天井を歩くことができる。",
+     "en": "A fly can walk on the ceiling.",
+     "zh": "蒼蠅能在天花板上走。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 14
+    },
+    {
+     "id": 199403,
+     "ja": "どんな小さな点でも見ることができる。",
+     "en": "I can see the tiniest spot.",
+     "zh": "再小的点都能看到。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 17
+    }
+   ]
+  },
+  "kotonisuru": {
+   "builtin": [
+    8,
+    12
+   ],
+   "corpus": [
+    {
+     "id": 231456,
+     "ja": "あなたをケパと呼ぶことにします。",
+     "en": "You will be called Cephas.",
+     "zh": "我决定叫你凯帕。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 74578,
+     "ja": "ここで迷わず迂回路を取ることにする。",
+     "en": "Here I decide, without hesitating, to take the alternative route.",
+     "zh": "在这里不犹豫，决定走迂回路。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 17
+    },
+    {
+     "id": 107991,
+     "ja": "彼は系統立った調査を行うことにした。",
+     "en": "He decided to perform systematic research.",
+     "zh": "他决定进行系统性的调查。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    }
+   ]
+  },
+  "kotoninaru": {
+   "builtin": [
+    10,
+    15
+   ],
+   "corpus": [
+    {
+     "id": 204924,
+     "ja": "それは彼の人格を阻害することになる。",
+     "en": "It runs against his character.",
+     "zh": "这会损害他的人格。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 17
+    },
+    {
+     "id": 99128,
+     "ja": "彼は来月の末でここに１０年間住むことになる。",
+     "en": "He will have lived here for ten years by the end of next month.",
+     "zh": "到下个月底，他就在这里住了十年了。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 21
+    },
+    {
+     "id": 193010,
+     "ja": "やれやれ、女を選んで結婚することになるのか・・・。",
+     "en": "Maybe I will settle down with a woman.",
+     "zh": "哎呀呀，难道我最终要选个女人结婚吗...",
+     "zhMachine": true,
+     "start": 14,
+     "end": 19
+    }
+   ]
+  },
+  "passive": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 151205,
+     "ja": "紙は木から作られる。",
+     "en": "Paper is made from wood.",
+     "zh": "纸是由木制成的。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 224661,
+     "ja": "ここでタクシーをつかまえられますか。",
+     "en": "Can I catch a taxi here?",
+     "zh": "這裡攔得到計程車嗎？",
+     "zhMachine": false,
+     "start": 12,
+     "end": 14
+    },
+    {
+     "id": 84020,
+     "ja": "風に吹かれて木が曲がった。",
+     "en": "The tree bent in the wind.",
+     "zh": "树被风吹弯了。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 5
+    }
+   ]
+  },
+  "causative": {
+   "builtin": [
+    9,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 90689,
+     "ja": "彼女は学生を下宿させている。",
+     "en": "She boards students.",
+     "zh": "她让租房给她学生。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 10
+    },
+    {
+     "id": 137944,
+     "ja": "待たせてすまなかったな。",
+     "en": "I am sorry to have kept you waiting.",
+     "zh": "让你久等了，真不好意思。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 3
+    },
+    {
+     "id": 150028,
+     "ja": "自動車を門の外に待たせてある。",
+     "en": "The car is waiting at the gate.",
+     "zh": "汽车在门外等着。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 11
+    }
+   ]
+  },
+  "teshimau": {
+   "builtin": [
+    9,
+    13
+   ],
+   "corpus": [
+    {
+     "id": 155723,
+     "ja": "新しい万年筆をなくしてしまった。",
+     "en": "I have lost my new fountain pen.",
+     "zh": "我把新钢笔弄丢了。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 189616,
+     "ja": "雨に降られてぬれちゃったよ。",
+     "en": "I was caught in the rain and got wet.",
+     "zh": "被雨淋湿了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 203724,
+     "ja": "タクシーに傘を忘れてしまった。",
+     "en": "I left my umbrella in the cab.",
+     "zh": "我把伞忘在出租车上了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    }
+   ]
+  },
+  "teoku": {
+   "builtin": [
+    12,
+    15
+   ],
+   "corpus": [
+    {
+     "id": 93263,
+     "ja": "彼女はいつも自分の部屋をきれいにしておく。",
+     "en": "She always keeps her room clean.",
+     "zh": "她总是把自己的房子打扫得很干净。",
+     "zhMachine": false,
+     "start": 17,
+     "end": 20
+    },
+    {
+     "id": 230449,
+     "ja": "あの本を自分のためにとっておこう。",
+     "en": "I'll keep that book for myself.",
+     "zh": "那本书就留给我自己吧。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    },
+    {
+     "id": 170831,
+     "ja": "座席をとっておいてください。",
+     "en": "Please save my place.",
+     "zh": "请保留我的位置",
+     "zhMachine": false,
+     "start": 5,
+     "end": 8
+    }
+   ]
+  },
+  "temiru": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 76062,
+     "ja": "自分でもそれをやってみなさい。",
+     "en": "Do it by yourself.",
+     "zh": "你自己也试试看。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 155323,
+     "ja": "私は息子に計画を立てさせてみます。",
+     "en": "I'll get my son to make the plan.",
+     "zh": "我打算让儿子试着制定计划。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 14
+    },
+    {
+     "id": 232981,
+     "ja": "あなたの訳を彼の訳と比べてみなさい。",
+     "en": "Compare your translation with his.",
+     "zh": "把你的译文和他的译文比比看。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 14
+    }
+   ]
+  },
+  "tearu": {
+   "builtin": [
+    6,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 150028,
+     "ja": "自動車を門の外に待たせてある。",
+     "en": "The car is waiting at the gate.",
+     "zh": "汽车在门外等着。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    },
+    {
+     "id": 183451,
+     "ja": "机の上には漫画本が重ねてあった。",
+     "en": "The comic books were piled on the desk.",
+     "zh": "桌上摞着漫画书。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    },
+    {
+     "id": 187037,
+     "ja": "家の周りには囲いがしてある。",
+     "en": "There is a fence about the house.",
+     "zh": "房子周围有围栏。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "teikukuru": {
+   "builtin": [
+    4,
+    6
+   ],
+   "corpus": [
+    {
+     "id": 227003,
+     "ja": "お水を持ってきてください。",
+     "en": "Could you bring me some water?",
+     "zh": "能给我带一点水来吗？",
+     "zhMachine": false,
+     "start": 5,
+     "end": 7
+    },
+    {
+     "id": 74924,
+     "ja": "よし、かかってこい！",
+     "en": "OK! Bring it on!",
+     "zh": "好，放马过来吧！",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 86798,
+     "ja": "彼女は勉強部屋から出ていった。",
+     "en": "She went out of her study.",
+     "zh": "她从书房走了出去。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "juju": {
+   "builtin": [
+    8,
+    11
+   ],
+   "corpus": [
+    {
+     "id": 154147,
+     "ja": "彼に雑誌を買ってあげた。",
+     "en": "I bought him a magazine.",
+     "zh": "我给他买了本杂志。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 192617,
+     "ja": "ラジオの音を下げてくれませんか。",
+     "en": "Could you turn down the radio?",
+     "zh": "您能把收音机开小声一点吗？",
+     "zhMachine": false,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 228828,
+     "ja": "いつでも私の車を貸してあげますよ。",
+     "en": "You can borrow my car anytime.",
+     "zh": "你隨時可以借用我的車。",
+     "zhMachine": false,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "tehoshii": {
+   "builtin": [
+    10,
+    14
+   ],
+   "corpus": [
+    {
+     "id": 74210,
+     "ja": "面白半分なら来ないで欲しい。",
+     "en": "If you're doing it in fun, I'd rather you didn't come.",
+     "zh": "如果你只是闹着好玩就别来了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 150147,
+     "ja": "耳垢を取って欲しい。",
+     "en": "I want the wax cleaned from my ears.",
+     "zh": "帮我掏一下耳垢。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 233484,
+     "ja": "あなたには、もっと人間らしく生きてほしいの。",
+     "en": "I want you to live more like a human being.",
+     "zh": "我希望你能活得更像个人。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 20
+    }
+   ]
+  },
+  "sugiru": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 169868,
+     "ja": "昨日食べすぎた。",
+     "en": "I ate too much food yesterday.",
+     "zh": "昨天吃撑了。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 6
+    },
+    {
+     "id": 189967,
+     "ja": "飲み過ぎて部屋が回り始めた。",
+     "en": "The room started to spin after I drank too much.",
+     "zh": "喝太多，房间开始转起来了。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    },
+    {
+     "id": 234384,
+     "ja": "あそこは少し高すぎると思います。",
+     "en": "I'm afraid that place is a little too expensive.",
+     "zh": "我觉得那里价格偏高了些。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    }
+   ]
+  },
+  "hodonai": {
+   "builtin": [
+    7,
+    13
+   ],
+   "corpus": [
+    {
+     "id": 230432,
+     "ja": "あの木はこれほど高くない。",
+     "en": "That tree is not so tall as this.",
+     "zh": "那棵树没有这么高。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 12
+    },
+    {
+     "id": 184215,
+     "ja": "学生時代は彼は今ほど優しくなかった。",
+     "en": "In his school days he wasn't as gentle as he is now.",
+     "zh": "学生时代他不像现在这样温柔。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 17
+    },
+    {
+     "id": 223594,
+     "ja": "このソーダはあれほど甘くない。",
+     "en": "This soda is less sweet than that.",
+     "zh": "这个汽水没那么甜。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 14
+    }
+   ]
+  },
+  "yasui": {
+   "builtin": [
+    7,
+    10
+   ],
+   "corpus": [
+    {
+     "id": 79985,
+     "ja": "目が疲れやすいです。",
+     "en": "My eyes get tired very easily.",
+     "zh": "眼睛很容易疲劳。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    },
+    {
+     "id": 103577,
+     "ja": "彼は人の名前を忘れやすい。",
+     "en": "He is apt to forget people's name.",
+     "zh": "他容易忘记别人的名字。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    },
+    {
+     "id": 218391,
+     "ja": "これは使いやすい小箱です。",
+     "en": "This is a handy little box.",
+     "zh": "这是一个用起来很方便的小盒子。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    }
+   ]
+  },
+  "mama": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 160466,
+     "ja": "私はセーターを着たまま眠り込んだ。",
+     "en": "I fell asleep with a sweater on.",
+     "zh": "我穿着毛衣就睡着了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 142868,
+     "ja": "正面のドアは鍵がかかったままだった。",
+     "en": "The front door remained locked.",
+     "zh": "正门的门一直锁着。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 14
+    },
+    {
+     "id": 197683,
+     "ja": "ヒーターをつけたまま外出した。",
+     "en": "I went out with the heater on.",
+     "zh": "开着暖气就出门了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    }
+   ]
+  },
+  "zuni": {
+   "builtin": [
+    6,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 109822,
+     "ja": "彼は雨の中を傘もささずに歩きつづけた。",
+     "en": "He went on walking in the rain without an umbrella.",
+     "zh": "他在雨中继续走着，连伞都不撑。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 216089,
+     "ja": "しばらく電話を切らずにお待ちください。",
+     "en": "Please hold the line a moment.",
+     "zh": "請在綫稍候。",
+     "zhMachine": false,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 218717,
+     "ja": "これに懲りずにまたやれよ。",
+     "en": "Don't let this discourage you from trying it again.",
+     "zh": "别因此气馁，再试一次吧。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 7
+    }
+   ]
+  },
+  "shika": {
+   "builtin": [
+    5,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 80785,
+     "ja": "名前だけでしか彼を知らない。",
+     "en": "I only know him by name.",
+     "zh": "我只知道他的名字。",
+     "zhMachine": false,
+     "start": 5,
+     "end": 7
+    },
+    {
+     "id": 161919,
+     "ja": "私は５千円だけしか持っていません。",
+     "en": "I have only five thousand yen.",
+     "zh": "我只有5000日元。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 235171,
+     "ja": "５０セントしかくれませんでしたよ。",
+     "en": "You gave me only fifty cents.",
+     "zh": "你只給了我五十美分。",
+     "zhMachine": false,
+     "start": 5,
+     "end": 7
+    }
+   ]
+  },
+  "bakari": {
+   "builtin": [
+    5,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 231343,
+     "ja": "あのかわいい鳥は来る日も来る日も鳴いてばかりいた。",
+     "en": "That pretty bird did nothing but sing day after day.",
+     "zh": "那只可爱的小鸟日复一日地叫个不停。",
+     "zhMachine": true,
+     "start": 19,
+     "end": 22
+    },
+    {
+     "id": 102165,
+     "ja": "彼は中学時代小説ばかり読んでいた。",
+     "en": "He did nothing but read novels in his junior high school days.",
+     "zh": "他上中学的时候净看小说了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 227483,
+     "ja": "おやおや困ったものだ、いつも同じ間違いばかりして。",
+     "en": "Well really, you are always repeating the same mistake.",
+     "zh": "哎呀呀，真是伤脑筋，老是犯同样的错误。",
+     "zhMachine": true,
+     "start": 19,
+     "end": 22
+    }
+   ]
+  },
+  "kadouka": {
+   "builtin": [
+    4,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 204071,
+     "ja": "そんな大仕事が私にできるかどうか心配だ。",
+     "en": "I'm concerned whether or not I can handle a big job like that.",
+     "zh": "这么大的工程能不能做到，我很担心。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    },
+    {
+     "id": 124639,
+     "ja": "電話機が壊れているかどうか調べて下さい。",
+     "en": "Can you check if the phone is out of order?",
+     "zh": "请检查一下电话机是否坏了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 178849,
+     "ja": "君が来るかどうかは私にとってはどうでもよいことだ。",
+     "en": "It does not matter to me whether you come or not.",
+     "zh": "你来不来对我来说无所谓。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    }
+   ]
+  },
+  "nitsuite": {
+   "builtin": [
+    5,
+    9
+   ],
+   "corpus": [
+    {
+     "id": 209899,
+     "ja": "その事故について彼に質問した。",
+     "en": "I asked him about the accident.",
+     "zh": "关于那起事故，我问了他问题。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 231897,
+     "ja": "趣味については話しましたか？",
+     "en": "Did you talk about your hobby?",
+     "zh": "你谈到兴趣爱好了吗？",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 233207,
+     "ja": "あなたの趣味について話してください。",
+     "en": "Please tell me about your hobbies.",
+     "zh": "请谈谈你的兴趣爱好。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    }
+   ]
+  },
+  "niyotte": {
+   "builtin": [
+    1,
+    5
+   ],
+   "corpus": [
+    {
+     "id": 175099,
+     "ja": "見様によっては彼女は正しい。",
+     "en": "In a sense, she is right, too.",
+     "zh": "从某种角度看，她是正确的。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 236712,
+     "ja": "熱によって氷は水に変わる。",
+     "en": "Heat turns ice into water.",
+     "zh": "冰在热的作用下变成水。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    },
+    {
+     "id": 151206,
+     "ja": "紙は中国人によって発明された。",
+     "en": "Paper was invented by the Chinese.",
+     "zh": "紙是由中國人發明的。",
+     "zhMachine": false,
+     "start": 5,
+     "end": 9
+    }
+   ]
+  },
+  "niyoruto": {
+   "builtin": [
+    4,
+    8
+   ],
+   "corpus": [
+    {
+     "id": 198759,
+     "ja": "ニュースによるとギリシアに大地震があったようだ。",
+     "en": "The news says that there was a big earthquake in Greece.",
+     "zh": "据新闻报道，希腊似乎发生了大地震。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 143029,
+     "ja": "星占いによると彼女と僕はあまり相性がよくないようだ。",
+     "en": "According to the stars, she and I aren't supposed to have much chemistry between us.",
+     "zh": "根据星座运势，我和她似乎不太合得来。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 125882,
+     "ja": "長期予報によると、暖冬だそうだ。",
+     "en": "The long-range forecast says we will have a mild winter.",
+     "zh": "长期预报说会是暖冬。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    }
+   ]
+  },
+  "toshite": {
+   "builtin": [
+    4,
+    7
+   ],
+   "corpus": [
+    {
+     "id": 108333,
+     "ja": "彼は教師としての経験が浅い。",
+     "en": "He has little experience in teaching.",
+     "zh": "他沒有甚麼教學經驗。",
+     "zhMachine": false,
+     "start": 4,
+     "end": 7
+    },
+    {
+     "id": 144877,
+     "ja": "神戸は港市として有名だ。",
+     "en": "Kobe is famous as a port city.",
+     "zh": "神户作为港口城市很有名。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    },
+    {
+     "id": 119417,
+     "ja": "彼が勇気ある人として知られている。",
+     "en": "We know him to be a brave man.",
+     "zh": "他被人们所知是一个有勇气的人。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    }
+   ]
+  },
+  "nitotte": {
+   "builtin": [
+    1,
+    5
+   ],
+   "more": [
+    [
+     9,
+     13
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 122131,
+     "ja": "日曜日は私にとって普通の日ではない。",
+     "en": "Sunday is not an ordinary day to me.",
+     "zh": "星期日对我来说不是普通的日子。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 97879,
+     "ja": "彼らはその男を社会にとって危険人物と考えた。",
+     "en": "They regarded the man as a danger to society.",
+     "zh": "他们认为那个男人对社会来说是个危险人物。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 178849,
+     "ja": "君が来るかどうかは私にとってはどうでもよいことだ。",
+     "en": "It does not matter to me whether you come or not.",
+     "zh": "你来不来对我来说无所谓。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    }
+   ]
+  },
+  "nitaishite": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     11,
+     15
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 85070,
+     "ja": "不正に対して反対の声を上げろ。",
+     "en": "Cry out against injustice!",
+     "zh": "要对不正当行为大声说不。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 141259,
+     "ja": "戦争は人類に対する犯罪だ。",
+     "en": "War is a crime against humanity.",
+     "zh": "战争是对人类的犯罪。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 225583,
+     "ja": "クラスの女生徒の男生徒に対する割合は３対２だ。",
+     "en": "The proportion of girls to boys in our class is three to two.",
+     "zh": "班上女生对男生的比例是3比2。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    }
+   ]
+  },
+  "nikanshite": {
+   "builtin": [
+    3,
+    7
+   ],
+   "more": [
+    [
+     10,
+     14
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 87699,
+     "ja": "彼女は動物に関する本を書いた。",
+     "en": "She wrote a book about animals.",
+     "zh": "她写了一本关于动物的书。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 105098,
+     "ja": "彼は自分のお金に関しては非常にけちだ。",
+     "en": "He is very mean with his money.",
+     "zh": "他对于自己的钱非常吝啬。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 113872,
+     "ja": "彼はコインの歴史に関する本を出した。",
+     "en": "He published the book about the history of coins.",
+     "zh": "他出了一本关于硬币历史的书。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 12
+    }
+   ]
+  },
+  "muke": {
+   "builtin": [
+    6,
+    8
+   ],
+   "more": [
+    [
+     7,
+     9
+    ],
+    [
+     8,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 146171,
+     "ja": "乗り物は子供向けである。",
+     "en": "Rides in the cars are for kids.",
+     "zh": "这种交通工具是面向儿童的。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    },
+    {
+     "id": 218276,
+     "ja": "これは若者向きの車です。",
+     "en": "This is a car for young people.",
+     "zh": "这是一款面向年轻人的汽车。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 7
+    },
+    {
+     "id": 223500,
+     "ja": "このテレビショーは子供向けだ。",
+     "en": "This TV show is aimed at children.",
+     "zh": "这个电视节目是面向小孩子的。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 13
+    }
+   ]
+  },
+  "tokoro": {
+   "builtin": [
+    7,
+    12
+   ],
+   "more": [
+    [
+     11,
+     15
+    ],
+    [
+     11,
+     16
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 183591,
+     "ja": "危なく車にひかれるところだった。",
+     "en": "I was nearly run over by a car.",
+     "zh": "差点被车撞到，太危险了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 15
+    },
+    {
+     "id": 229895,
+     "ja": "ある学生に会うところです。",
+     "en": "I'm going to meet a certain student.",
+     "zh": "我正要去见一个学生。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    },
+    {
+     "id": 212895,
+     "ja": "そのとき太陽がのぼるところだった。",
+     "en": "The sun was coming up then.",
+     "zh": "那时太阳正要升起。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 16
+    }
+   ]
+  },
+  "uchini": {
+   "builtin": [
+    2,
+    5
+   ],
+   "more": [
+    [
+     6,
+     9
+    ],
+    [
+     8,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 172748,
+     "ja": "今のうちにそれをしなさい。",
+     "en": "Do it when you have time.",
+     "zh": "趁现在赶紧把那件事做了。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 5
+    },
+    {
+     "id": 203763,
+     "ja": "たくさんの虫が一晩のうちに消えてしまった。",
+     "en": "A lot of insects vanished overnight.",
+     "zh": "好多虫子一夜之间就不见了。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    },
+    {
+     "id": 224239,
+     "ja": "ここ何日かの内に必ず私のところへ会いに来て下さい。",
+     "en": "Don't fail to come and see me one of these days.",
+     "zh": "请务必在这几天之内来看我。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    }
+   ]
+  },
+  "tabini": {
+   "builtin": [
+    6,
+    9
+   ],
+   "more": [
+    [
+     5,
+     8
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 213670,
+     "ja": "そこに行くたびに彼女に会う。",
+     "en": "Every time I go there, I meet her.",
+     "zh": "每次去那里都会遇见她。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    },
+    {
+     "id": 190010,
+     "ja": "稲妻が走るたびに、犬はベッドの下に隠れた。",
+     "en": "The dog hid under the bed whenever lightning flashed.",
+     "zh": "每当闪电划过时，狗就躲到床底下。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    },
+    {
+     "id": 126294,
+     "ja": "著者が本を書き直す度に新版となる。",
+     "en": "Each time an author re-writes a book, it is a new edition.",
+     "zh": "作者每重写一次，就会出一个新版本。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    }
+   ]
+  },
+  "saichuu": {
+   "builtin": [
+    3,
+    6
+   ],
+   "more": [
+    [
+     10,
+     13
+    ],
+    [
+     3,
+     6
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 145850,
+     "ja": "食事の最中に呼び鈴が鳴った。",
+     "en": "The doorbell rang during the meal.",
+     "zh": "吃饭时呼叫铃响了。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 217522,
+     "ja": "コンサートの最中に喋るのは無作法である。",
+     "en": "To talk during a concert is rude.",
+     "zh": "在音乐会过程中交谈是不礼貌的。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 215162,
+     "ja": "シンディは卒業試験の最中にうとうとしてしまった。",
+     "en": "Cindy dozed off in the middle of her graduation examinations.",
+     "zh": "辛迪在毕业考试中途打起了瞌睡。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "totan": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     6,
+     9
+    ],
+    [
+     11,
+     14
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 195823,
+     "ja": "マーケットが開いたとたんに火事がおきた。",
+     "en": "Scarcely had the market opened when the fire broke out.",
+     "zh": "市场刚开门就发生了火灾。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 207941,
+     "ja": "その知らせを聞いたとたんに彼女は青くなった。",
+     "en": "The moment she heard the news, she turned pale.",
+     "zh": "一听到那个消息，她脸色就发青了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 200220,
+     "ja": "トムがテレビをつけたとたんにヒューズがとんだ。",
+     "en": "No sooner had Tom turned on the TV than the fuse blew.",
+     "zh": "湯姆一打開電視，保險絲就燒了。",
+     "zhMachine": false,
+     "start": 10,
+     "end": 14
+    }
+   ]
+  },
+  "irai": {
+   "builtin": [
+    4,
+    7
+   ],
+   "more": [
+    [
+     2,
+     4
+    ],
+    [
+     17,
+     19
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 204482,
+     "ja": "それ以来彼のうわさは聞いていない。",
+     "en": "He has never been heard of since.",
+     "zh": "从那以后就没再听到他的消息了。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    },
+    {
+     "id": 106913,
+     "ja": "彼は妻が死んで以来酒を飲む癖がついた。",
+     "en": "He has taken to drinking since the death of his wife.",
+     "zh": "妻子死后，他染上了喝酒的毛病。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 204484,
+     "ja": "それ以来、彼からは何の便りもありません。",
+     "en": "I have never heard from him since.",
+     "zh": "从那以后，他再也没有任何消息。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    }
+   ]
+  },
+  "tehajimete": {
+   "builtin": [
+    5,
+    10
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 235267,
+     "ja": "３日後になってはじめて彼女が失踪したことを知った。",
+     "en": "It was not until three days after that I knew she had disappeared.",
+     "zh": "三天后我才知道她失踪了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 11
+    },
+    {
+     "id": 209752,
+     "ja": "その時になって初めて私は危険な事態に気がついたのである。",
+     "en": "Not till then did I realize the danger of the situation.",
+     "zh": "直到那时，我才意识到情况的危险性。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 143793,
+     "ja": "水の価値は井戸がかれて初めて分かる。",
+     "en": "We never know the worth of water till the well is dry.",
+     "zh": "水的价值只有在井干了之后才会明白。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    }
+   ]
+  },
+  "tsuideni": {
+   "builtin": [
+    4,
+    8
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": []
+  },
+  "nikurabete": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     2,
+     7
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 81064,
+     "ja": "味は日本のお米に比べて遜色はありません。",
+     "en": "It tastes every bit as good as Japanese rice.",
+     "zh": "味道與日本米相比毫不遜色。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 205342,
+     "ja": "それは以前に比べて格段に進歩した。",
+     "en": "It has greatly improved compared with what it was.",
+     "zh": "那比以前有了显著的进步。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 227196,
+     "ja": "お兄さんと比べて、彼は運動神経が鈍い。",
+     "en": "Compared with his brother, he is a poor athlete.",
+     "zh": "和哥哥相比，他的运动神经比较迟钝。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    }
+   ]
+  },
+  "kawarini": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     6,
+     10
+    ],
+    [
+     10,
+     14
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 142330,
+     "ja": "石炭を石油の代わりに使いました。",
+     "en": "They substituted coal for oil.",
+     "zh": "我们用煤炭代替了石油。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 190489,
+     "ja": "自分で行く代わりに手紙を送りました。",
+     "en": "Instead of going myself, I sent a letter.",
+     "zh": "我没有亲自去，而是寄了封信。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 107003,
+     "ja": "彼は砂糖の代わりにハチミツを使う。",
+     "en": "He uses honey instead of sugar.",
+     "zh": "他用蜂蜜代替糖。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    }
+   ]
+  },
+  "nikawatte": {
+   "builtin": [
+    2,
+    7
+   ],
+   "more": [
+    [
+     7,
+     12
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 125301,
+     "ja": "敵意に代わって愛情が生まれた。",
+     "en": "Hostility was replaced by love.",
+     "zh": "敌意渐渐化为爱意。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    }
+   ]
+  },
+  "okagede": {
+   "builtin": [
+    3,
+    7
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     20,
+     25
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 146000,
+     "ja": "錠剤のおかげで痛みがなくなった。",
+     "en": "The tablets took away my pain.",
+     "zh": "药片止住了我的疼痛。",
+     "zhMachine": false,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 161701,
+     "ja": "私はあなたの援助のおかげで成功した。",
+     "en": "I succeeded through your help.",
+     "zh": "我多亏了你的帮助才取得成功。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 167729,
+     "ja": "私が今日あるのは両親のおかげである。",
+     "en": "I owe what I am to my parents.",
+     "zh": "我今天能站在这里，全靠父母。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    }
+   ]
+  },
+  "seide": {
+   "builtin": [
+    2,
+    5
+   ],
+   "more": [
+    [
+     2,
+     5
+    ],
+    [
+     12,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 493157,
+     "ja": "彼は勉強不足のせいで試験に落ちました。",
+     "en": "He failed the exam because he had not studied enough.",
+     "zh": "他因学习不足考试落榜了。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 120559,
+     "ja": "彼が家を飛び出したのは父親が厳しかったせいだ。",
+     "en": "His running away from home is due to his father's severity.",
+     "zh": "他离家出走是因为父亲太严厉。",
+     "zhMachine": true,
+     "start": 19,
+     "end": 22
+    },
+    {
+     "id": 115983,
+     "ja": "彼の目は年のせいでかすんでいる。",
+     "en": "His eyes are dim with age.",
+     "zh": "他的眼睛因为年龄而变得模糊。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    }
+   ]
+  },
+  "mondakara": {
+   "builtin": [
+    7,
+    12
+   ],
+   "more": [
+    [
+     11,
+     14
+    ],
+    [
+     7,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 228742,
+     "ja": "いつもの列車に乗り遅れたものですから。",
+     "en": "It's because I missed my usual train.",
+     "zh": "因为我没赶上平时的那趟列车。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 18
+    },
+    {
+     "id": 140216,
+     "ja": "造られたもので、この方によらずできたものは一つもない。",
+     "en": "Without him nothing was made that has been made.",
+     "zh": "被造的东西，没有一样是不依赖这位而能做成的。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    }
+   ]
+  },
+  "dakedenaku": {
+   "builtin": [
+    6,
+    11
+   ],
+   "more": [
+    [
+     5,
+     11
+    ],
+    [
+     8,
+     14
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 214352,
+     "ja": "スポーツだけでなく、音楽も好きだ。",
+     "en": "I love music as well as sports.",
+     "zh": "不仅喜欢体育，音乐我也喜欢。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 9
+    },
+    {
+     "id": 222721,
+     "ja": "この花は美しいだけでなく、よい香りがします。",
+     "en": "These flowers are not only beautiful but also fragrant.",
+     "zh": "这花不仅好看，还香得很。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    },
+    {
+     "id": 107581,
+     "ja": "彼は言語学だけでなく音声学にも通じている。",
+     "en": "He is at home in phonetics as well as linguistics.",
+     "zh": "他不只精通語言學，也精通語音學。",
+     "zhMachine": false,
+     "start": 5,
+     "end": 10
+    }
+   ]
+  },
+  "wamochiron": {
+   "builtin": [
+    8,
+    13
+   ],
+   "more": [
+    [
+     5,
+     10
+    ],
+    [
+     8,
+     13
+    ]
+   ],
+   "corpus": []
+  },
+  "sae": {
+   "builtin": [
+    11,
+    13
+   ],
+   "more": [
+    [
+     11,
+     14
+    ],
+    [
+     9,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 89413,
+     "ja": "彼女は私の家にさえ来なかった。",
+     "en": "She did not come even as far as my house.",
+     "zh": "她连我家都没来。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 141762,
+     "ja": "先生でさえその問題は解けなかった。",
+     "en": "Even the teacher could not solve the problem.",
+     "zh": "连老师都没解开那道题。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 5
+    },
+    {
+     "id": 229051,
+     "ja": "いちばん頭の良い生徒でさえ、その問題は解けなかった。",
+     "en": "Even the brightest student couldn't solve the problem.",
+     "zh": "即使是最聪明的学生，也没能解出那道题。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "koso": {
+   "builtin": [
+    2,
+    4
+   ],
+   "more": [
+    [
+     7,
+     9
+    ],
+    [
+     8,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 149709,
+     "ja": "自由こそ不可欠なものだ。",
+     "en": "Freedom is the breath of life.",
+     "zh": "自由才是不可或缺的。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    },
+    {
+     "id": 205777,
+     "ja": "それでこそわが娘だ。",
+     "en": "That's what I expected of my daughter.",
+     "zh": "这才像我的女儿。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 5
+    },
+    {
+     "id": 218802,
+     "ja": "これこそ適切な事例だと思う。",
+     "en": "I believe this is a case in point.",
+     "zh": "我觉得这个才是恰当的事例。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    }
+   ]
+  },
+  "nitsurete": {
+   "builtin": [
+    9,
+    13
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     5,
+     8
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 85875,
+     "ja": "皮は乾くにつれて堅くなった。",
+     "en": "The skin tightened as it dried.",
+     "zh": "皮革随着变干而变硬。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 150630,
+     "ja": "時間がたつにつれて我々の希望は消えた。",
+     "en": "As time went on, our hopes sank.",
+     "zh": "随着时间的流逝，我们的希望逐渐消逝了。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 124386,
+     "ja": "冬が近づくにつれて日が短くなる。",
+     "en": "The days grow shorter as winter approaches.",
+     "zh": "随着冬天临近，白天变短了。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    }
+   ]
+  },
+  "nishitagatte": {
+   "builtin": [
+    4,
+    10
+   ],
+   "more": [
+    [
+     6,
+     12
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 163203,
+     "ja": "私の設計にしたがって、作ってもらいました。",
+     "en": "I had it made after my own plan.",
+     "zh": "按照我的设计，让人制作了。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 10
+    },
+    {
+     "id": 117541,
+     "ja": "彼の言に従って行動するのは利口ではない。",
+     "en": "It is not wise to go by his word.",
+     "zh": "跟着他的话行事可不明智。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 76946,
+     "ja": "ＧＰＬのルールに従い頒布可能です。",
+     "en": "May be distributed in accordance with the GPL.",
+     "zh": "可以按照GPL规则进行分发。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    }
+   ]
+  },
+  "toori": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 183395,
+     "ja": "期待されたとおり彼は賞を得た。",
+     "en": "As was expected, he won the prize.",
+     "zh": "如预期所料，他得了奖。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    },
+    {
+     "id": 193055,
+     "ja": "やっぱり、あなたは私の思ったとおりの人だった。",
+     "en": "You're just the kind of person I imagined you'd be.",
+     "zh": "果然，你就是我所想的那种人。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 17
+    },
+    {
+     "id": 105693,
+     "ja": "彼は私の望み通りの人物だ。",
+     "en": "He is a man after my own heart.",
+     "zh": "他是如我所愿的人物。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    }
+   ]
+  },
+  "wochuushinni": {
+   "builtin": [
+    5,
+    9
+   ],
+   "more": [
+    [
+     12,
+     16
+    ],
+    [
+     10,
+     16
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 126949,
+     "ja": "地球は地軸を中心として回転している。",
+     "en": "The Earth rotates on its axis.",
+     "zh": "地球以地轴为中心旋转。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 11
+    }
+   ]
+  },
+  "wotooshite": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 169401,
+     "ja": "山を通してトンネルを通した。",
+     "en": "They drove a tunnel through the hill.",
+     "zh": "凿开山，打通了隧道。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    },
+    {
+     "id": 77662,
+     "ja": "冷たい風が彼のコートを通して身にしみた。",
+     "en": "The cold wind cut through his coat.",
+     "zh": "冷风透过他的外套，让他感到刺骨。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 80850,
+     "ja": "霧を通して、わずかに陸地をみわけることができた。",
+     "en": "The land could just be discerned through the mist.",
+     "zh": "透过浓雾，我们依稀辨认出了陆地。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    }
+   ]
+  },
+  "wokomete": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     6,
+     10
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 99760,
+     "ja": "彼は満身の力を込めてそれを持ち上げた。",
+     "en": "He lifted it up with all his might.",
+     "zh": "他使出浑身的力气把它举了起来。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 152231,
+     "ja": "私は渾身の力をこめてその戸を開けようとした。",
+     "en": "I tried to open the door with all my force.",
+     "zh": "我用尽全身力气试图打开那扇门。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 75886,
+     "ja": "丹精をこめてつくったこの美しい織物をごらんください。",
+     "en": "Take a look at this beautiful embroidery made with great effort.",
+     "zh": "请欣赏这精心织就的精美织物。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    }
+   ]
+  },
+  "tte": {
+   "builtin": [
+    11,
+    13
+   ],
+   "more": [
+    [
+     12,
+     14
+    ],
+    [
+     4,
+     8
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 74880,
+     "ja": "風邪を人に移すと治るって本当？",
+     "en": "Is it true that you recover from colds when you give them to someone else?",
+     "zh": "感冒傳染給別人就會痊癒是真的嗎？",
+     "zhMachine": false,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 119283,
+     "ja": "彼って手の掛かる人だね。",
+     "en": "You really have to manage him carefully.",
+     "zh": "他真是个让人费心的人呢。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 3
+    },
+    {
+     "id": 83853,
+     "ja": "複雑炭水化物って何か知ってますか。",
+     "en": "Do you know anything about complex carbohydrates?",
+     "zh": "你对复合碳水化合物有什么了解吗？",
+     "zhMachine": false,
+     "start": 6,
+     "end": 8
+    }
+   ]
+  },
+  "kke": {
+   "builtin": [
+    7,
+    10
+   ],
+   "more": [
+    [
+     10,
+     13
+    ],
+    [
+     11,
+     16
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 163264,
+     "ja": "私の新しいムスタングを見せてなかったっけ？",
+     "en": "Didn't I show you my new Mustang?",
+     "zh": "我不是给你看过我的新野马（车）了吗？",
+     "zhMachine": true,
+     "start": 17,
+     "end": 20
+    },
+    {
+     "id": 76180,
+     "ja": "五輪旗の右端の輪っかって何色だったっけか？",
+     "en": "What color is the far right ring on the Olympic flag?",
+     "zh": "奥运五环旗最右边那个圈是什么颜色来着？",
+     "zhMachine": true,
+     "start": 14,
+     "end": 19
+    }
+   ]
+  },
+  "toiukotoda": {
+   "builtin": [
+    16,
+    22
+   ],
+   "more": [
+    [
+     12,
+     19
+    ],
+    [
+     15,
+     22
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 123238,
+     "ja": "内閣は倒れるだろうということだ。",
+     "en": "They say that the cabinet will fall.",
+     "zh": "据说内阁即将垮台。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 15
+    },
+    {
+     "id": 79819,
+     "ja": "問題は誰が決定を下すかということだ。",
+     "en": "The question is who will make the decision.",
+     "zh": "问题在于谁来做出决定。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 17
+    },
+    {
+     "id": 192626,
+     "ja": "ラジオによると、北海で嵐が起こるとのことだ。",
+     "en": "According to the radio, a storm is imminent in the North Sea.",
+     "zh": "据广播报道，北海将有风暴。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 21
+    }
+   ]
+  },
+  "toiuyori": {
+   "builtin": [
+    6,
+    11
+   ],
+   "more": [
+    [
+     6,
+     11
+    ],
+    [
+     6,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 108842,
+     "ja": "彼は学者というよりもむしろ流行作家だ。",
+     "en": "He is not so much a scholar as a popular writer.",
+     "zh": "他与其说是学者，不如说是流行作家。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 9
+    },
+    {
+     "id": 87068,
+     "ja": "彼女は美人と言うより才女だ。",
+     "en": "She is more clever than beautiful.",
+     "zh": "比起美人，她更是一位才女。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 10
+    },
+    {
+     "id": 186290,
+     "ja": "我々の計画の問題点は費用というよりもそれにかかる時間だ。",
+     "en": "The problem with our plan is not so much the cost as it is the time required.",
+     "zh": "比起费用，我们计划的问题点更多在于所耗费的时间。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 17
+    }
+   ]
+  },
+  "kurai": {
+   "builtin": [
+    16,
+    19
+   ],
+   "more": [
+    [
+     4,
+     7
+    ],
+    [
+     12,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 151278,
+     "ja": "私達は忙しくて猫の手も借りたいくらいだ。",
+     "en": "We are so busy we'd take any help we could get.",
+     "zh": "我們忙得不可開交。",
+     "zhMachine": false,
+     "start": 15,
+     "end": 18
+    },
+    {
+     "id": 213995,
+     "ja": "せめて日常会話ができるくらいになりたい。",
+     "en": "At the very least, I'd like to be able to have everyday conversations.",
+     "zh": "至少希望能达到日常会话的水平。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    },
+    {
+     "id": 74635,
+     "ja": "今、キーボードがダブって見えるぐらい酔ってます。",
+     "en": "I'm so drunk now that I'm seeing two keyboards.",
+     "zh": "我現在醉到看鍵盤都有重影了。",
+     "zhMachine": false,
+     "start": 15,
+     "end": 18
+    }
+   ]
+  },
+  "hodo": {
+   "builtin": [
+    4,
+    6
+   ],
+   "more": [
+    [
+     9,
+     11
+    ],
+    [
+     8,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 224901,
+     "ja": "コーヒーは舌が焼けるほど熱かった。",
+     "en": "The coffee was so hot that I nearly burned my tongue.",
+     "zh": "咖啡烫得舌头都要烧焦了。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 211301,
+     "ja": "その景色は言葉では表現できないほどだった。",
+     "en": "The scenery was beyond description.",
+     "zh": "那景色美得无法用言语形容。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 17
+    },
+    {
+     "id": 110180,
+     "ja": "彼は暗算をするほど頭が良くない。",
+     "en": "He doesn't have enough brains to do sums in his head.",
+     "zh": "他脑子没灵光到能心算的程度。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    }
+   ]
+  },
+  "bahodo": {
+   "builtin": [
+    3,
+    9
+   ],
+   "more": [
+    [
+     7,
+     13
+    ],
+    [
+     6,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 236362,
+     "ja": "「急げば急ぐほど遅くなる」は逆説である。",
+     "en": "More haste, less speed is a paradox.",
+     "zh": "“越急越慢”是一种悖论。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 8
+    },
+    {
+     "id": 82673,
+     "ja": "法律が多ければ多いほど、違反者も多くなる。",
+     "en": "The more laws, the more offenders.",
+     "zh": "法律越多，违法者也就越多。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 11
+    },
+    {
+     "id": 186815,
+     "ja": "暇な時間が多ければ多いほど、それだけ彼は楽しい。",
+     "en": "The more leisure he has, the happier he is.",
+     "zh": "空闲时间越多，他就越开心。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    }
+   ]
+  },
+  "tetamaranai": {
+   "builtin": [
+    8,
+    14
+   ],
+   "more": [
+    [
+     20,
+     26
+    ],
+    [
+     18,
+     28
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 231351,
+     "ja": "あのカメラが欲しくてたまらない。",
+     "en": "I'm dying for that camera.",
+     "zh": "我好想要那台相机。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 15
+    },
+    {
+     "id": 227800,
+     "ja": "オーストラリアに行きたくてたまらない。",
+     "en": "I'm aching to go to Australia.",
+     "zh": "我简直太想去澳大利亚了。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 18
+    },
+    {
+     "id": 124602,
+     "ja": "登山家は清水が欲しくてたまらなかった。",
+     "en": "The mountaineer craved fresh water.",
+     "zh": "登山者非常想喝清水。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 18
+    }
+   ]
+  },
+  "teshikataganai": {
+   "builtin": [
+    10,
+    17
+   ],
+   "more": [
+    [
+     16,
+     23
+    ],
+    [
+     18,
+     26
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 198527,
+     "ja": "パーティーが待ち遠しくて仕方ない。",
+     "en": "I just can't wait for the party.",
+     "zh": "期待派对期待得不行。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 16
+    },
+    {
+     "id": 171828,
+     "ja": "今日は、もうだるくてしょうがない。",
+     "en": "I've had it for today. I'm too tired.",
+     "zh": "今天已经累得不行了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 16
+    },
+    {
+     "id": 234592,
+     "ja": "あいつを見ると、いまいましくてしょうがない。",
+     "en": "The sight of him is hateful to me.",
+     "zh": "一看到那家伙，我就烦得不行。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 21
+    }
+   ]
+  },
+  "dasu": {
+   "builtin": [
+    9,
+    11
+   ],
+   "more": [
+    [
+     13,
+     15
+    ],
+    [
+     15,
+     17
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 90039,
+     "ja": "彼女は今にも泣き出しそうだった。",
+     "en": "She was on the verge of crying.",
+     "zh": "她眼看就要哭出来了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    },
+    {
+     "id": 117290,
+     "ja": "彼の妻は必要から働き出した。",
+     "en": "His wife has started to work out of necessity.",
+     "zh": "他妻子出于需要开始工作了。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 212155,
+     "ja": "その音を聞くと犬は吠え出した。",
+     "en": "The noise set the dog barking.",
+     "zh": "听到那个声音，狗就叫了起来。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 13
+    }
+   ]
+  },
+  "kiru": {
+   "builtin": [
+    19,
+    21
+   ],
+   "more": [
+    [
+     13,
+     15
+    ],
+    [
+     10,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 151050,
+     "ja": "試合が始まるのが待ちきれなかった。",
+     "en": "I was impatient for the game to start.",
+     "zh": "我迫不及待地等待比赛开始。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    },
+    {
+     "id": 209806,
+     "ja": "その事実はだれにでもわかりきったことだ。",
+     "en": "The fact is apparent to everybody.",
+     "zh": "那事儿谁都知道。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 15
+    },
+    {
+     "id": 220118,
+     "ja": "この氷は薄すぎて君の体を支えきれないだろう。",
+     "en": "This ice is too thin to bear your weight.",
+     "zh": "这冰太薄了，恐怕撑不住你的身体。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 16
+    }
+   ]
+  },
+  "au": {
+   "builtin": [
+    12,
+    14
+   ],
+   "more": [
+    [
+     16,
+     18
+    ],
+    [
+     9,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 209808,
+     "ja": "この事実はお互いに関連し合っている。",
+     "en": "These facts are mutually related.",
+     "zh": "这些事实相互关联。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 14
+    },
+    {
+     "id": 3101242,
+     "ja": "うちと彼の家は隣り合っている。",
+     "en": "Our house adjoins his.",
+     "zh": "我家和他家紧挨着。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 144288,
+     "ja": "人間は互いに言葉で意思を通じ合う。",
+     "en": "Human beings communicate with each other by means of language.",
+     "zh": "人类通过语言互相沟通意思。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 16
+    }
+   ]
+  },
+  "kake": {
+   "builtin": [
+    7,
+    9
+   ],
+   "more": [
+    [
+     6,
+     8
+    ],
+    [
+     2,
+     4
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 188770,
+     "ja": "演奏は終わりかけていた。",
+     "en": "The performance was almost over.",
+     "zh": "演奏快要结束了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    },
+    {
+     "id": 227550,
+     "ja": "おぼれかけた人は息を吹き返した。",
+     "en": "The man who nearly drowned began to breathe.",
+     "zh": "溺水的人恢复了呼吸。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 5
+    },
+    {
+     "id": 120598,
+     "ja": "彼が何か言いかけたが先手を打ってやった。",
+     "en": "He started to say something, but I beat him to it.",
+     "zh": "他刚要说什么，我先发制人把他堵了回去。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    }
+   ]
+  },
+  "ppoi": {
+   "builtin": [
+    13,
+    16
+   ],
+   "more": [
+    [
+     10,
+     13
+    ],
+    [
+     10,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 117212,
+     "ja": "彼の子供っぽい笑い方が素敵よね。",
+     "en": "His childlike laugh is charming.",
+     "zh": "他那孩子气的笑法真不错呢。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    },
+    {
+     "id": 223840,
+     "ja": "このクリームは、リキッドっぽくて使いやすい。",
+     "en": "This is more like a liquid than a facial cream. That makes it easy to use.",
+     "zh": "这个面霜像液体一样，很好用。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    },
+    {
+     "id": 74590,
+     "ja": "男性の方が女性より肌が脂っぽいって本当ですか？",
+     "en": "Is it true that men have oilier skin than women?",
+     "zh": "男人比女人皮肤更油是真的吗？",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    }
+   ]
+  },
+  "gachi": {
+   "builtin": [
+    7,
+    9
+   ],
+   "more": [
+    [
+     11,
+     13
+    ],
+    [
+     12,
+     14
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 163123,
+     "ja": "うちの息子は病気がちだ。",
+     "en": "My son is subject to ill health.",
+     "zh": "我儿子经常生病。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 10
+    },
+    {
+     "id": 180618,
+     "ja": "共同責任は無責任になりがちだ。",
+     "en": "Everybody's business is nobody's business.",
+     "zh": "共同责任往往容易变成无人负责。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 13
+    },
+    {
+     "id": 184242,
+     "ja": "学生は時間を浪費しがちである。",
+     "en": "Students are apt to waste time.",
+     "zh": "学生容易浪费时间。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    }
+   ]
+  },
+  "darake": {
+   "builtin": [
+    8,
+    11
+   ],
+   "more": [
+    [
+     7,
+     10
+    ],
+    [
+     19,
+     22
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 113481,
+     "ja": "彼はすきだらけだ。",
+     "en": "He is utterly unguarded.",
+     "zh": "他浑身都是破绽。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    },
+    {
+     "id": 219654,
+     "ja": "この本は間違いだらけだ。",
+     "en": "This book is full of mistakes.",
+     "zh": "这本书错误百出。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 204823,
+     "ja": "それは矛盾だらけだ。",
+     "en": "It's a bundle of contradictions.",
+     "zh": "那里面全是矛盾。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    }
+   ]
+  },
+  "ppanashi": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 143707,
+     "ja": "水を出しっぱなしにしておくな。",
+     "en": "Don't leave the water running.",
+     "zh": "别让水一直开着。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 125420,
+     "ja": "弟は部屋をちらかしっぱなしにしている。",
+     "en": "My brother leaves his room in a mess.",
+     "zh": "弟弟把房间搞得一团糟，也不收拾。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 228044,
+     "ja": "エアコンをつけっぱなしにしないで。",
+     "en": "Don't leave the air conditioner on.",
+     "zh": "别让空调一直开着。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    }
+   ]
+  },
+  "osoregaaru": {
+   "builtin": [
+    8,
+    14
+   ],
+   "more": [
+    [
+     6,
+     12
+    ],
+    [
+     12,
+     17
+    ]
+   ],
+   "corpus": []
+  },
+  "bekida": {
+   "builtin": [
+    10,
+    13
+   ],
+   "more": [
+    [
+     10,
+     15
+    ],
+    [
+     7,
+     16
+    ]
+   ],
+   "corpus": []
+  },
+  "shikanai": {
+   "builtin": [
+    16,
+    20
+   ],
+   "more": [
+    [
+     12,
+     16
+    ],
+    [
+     10,
+     17
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 96617,
+     "ja": "彼らは退却するしかなかった。",
+     "en": "They had no alternative but to retreat.",
+     "zh": "他们不得不后撤。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 13
+    },
+    {
+     "id": 211061,
+     "ja": "その件は成り行きに任せるしかないな。",
+     "en": "You can only let the matter take its own course.",
+     "zh": "那件事只能顺其自然了。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    }
+   ]
+  },
+  "nichigainai": {
+   "builtin": [
+    20,
+    25
+   ],
+   "more": [
+    [
+     22,
+     28
+    ],
+    [
+     13,
+     21
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 230413,
+     "ja": "あの老人は頭がおかしいにちがいない。",
+     "en": "That old man must be off his rock.",
+     "zh": "那个老人脑子肯定有问题。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 17
+    },
+    {
+     "id": 230822,
+     "ja": "あの紳士は医師にちがいない。",
+     "en": "That gentleman must be a doctor.",
+     "zh": "那个绅士一定是个医生。",
+     "zhMachine": false,
+     "start": 7,
+     "end": 13
+    },
+    {
+     "id": 234386,
+     "ja": "あそこの建物が燃えているに違いない。",
+     "en": "That building must be on fire.",
+     "zh": "那边那栋建筑肯定着火了。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 17
+    }
+   ]
+  },
+  "hazuganai": {
+   "builtin": [
+    16,
+    21
+   ],
+   "more": [
+    [
+     13,
+     18
+    ],
+    [
+     12,
+     17
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 95681,
+     "ja": "彼女がこんなに早く来るはずない。",
+     "en": "She cannot be here so early.",
+     "zh": "她不可能这么早来。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    },
+    {
+     "id": 178644,
+     "ja": "君にふさわしいはずはないのだから。",
+     "en": "He couldn't be good for you.",
+     "zh": "因为本就配不上你。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    },
+    {
+     "id": 226462,
+     "ja": "カールが優等生だったはずがない。",
+     "en": "Carl cannot have been a model student.",
+     "zh": "卡尔怎么可能是好学生。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 15
+    }
+   ]
+  },
+  "towakagiranai": {
+   "builtin": [
+    8,
+    14
+   ],
+   "more": [
+    [
+     8,
+     14
+    ],
+    [
+     17,
+     24
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 179683,
+     "ja": "金持ちが幸せとは限らない。",
+     "en": "The rich are not always happy.",
+     "zh": "有钱人未必幸福。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 12
+    },
+    {
+     "id": 182965,
+     "ja": "輝くものすべてが金とは限らない。",
+     "en": "All that glitters is not gold.",
+     "zh": "并非所有闪光的东西都是金子。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 15
+    },
+    {
+     "id": 179680,
+     "ja": "金持ちが必ずしも幸福とは限らない。",
+     "en": "The rich are not always happy.",
+     "zh": "有钱人未必幸福。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 16
+    }
+   ]
+  },
+  "wake": {
+   "builtin": [
+    16,
+    19
+   ],
+   "more": [
+    [
+     16,
+     20
+    ],
+    [
+     23,
+     26
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 76419,
+     "ja": "まぁ、日本も鎖国していたわけだしなあ。",
+     "en": "Well, after all Japan also cut itself off from the world.",
+     "zh": "唉，日本也曾闭关锁国过啊。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    },
+    {
+     "id": 74983,
+     "ja": "これでこの一画は少なくとも２０匹ニジマスがいるわけだ。",
+     "en": "So now there are at least 20 rainbow trout in this area.",
+     "zh": "这样看来，这一带至少有20条虹鳟鱼。",
+     "zhMachine": true,
+     "start": 23,
+     "end": 26
+    }
+   ]
+  },
+  "wakedewanai": {
+   "builtin": [
+    5,
+    11
+   ],
+   "more": [
+    [
+     7,
+     13
+    ],
+    [
+     14,
+     23
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 144460,
+     "ja": "人は誰でも芸術家になれるわけではない。",
+     "en": "Not everybody can be an artist.",
+     "zh": "不是所有人都能当艺术家的。",
+     "zhMachine": false,
+     "start": 12,
+     "end": 18
+    },
+    {
+     "id": 214420,
+     "ja": "すべての人間が平等に創られているわけではない。",
+     "en": "Not all men are created equal.",
+     "zh": "并非所有人生来平等。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 22
+    },
+    {
+     "id": 208673,
+     "ja": "その星は必ずしも肉眼で見えるわけではない。",
+     "en": "We cannot necessarily see the star with the naked eye.",
+     "zh": "那颗星星并非肉眼一定能看到。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 20
+    }
+   ]
+  },
+  "wakeganai": {
+   "builtin": [
+    15,
+    20
+   ],
+   "more": [
+    [
+     14,
+     19
+    ],
+    [
+     14,
+     19
+    ]
+   ],
+   "corpus": []
+  },
+  "wakeniwaikanai": {
+   "builtin": [
+    16,
+    24
+   ],
+   "more": [
+    [
+     18,
+     26
+    ],
+    [
+     20,
+     29
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 194466,
+     "ja": "もうこれ以上延ばすわけにはいかない。",
+     "en": "I can't put it off any longer.",
+     "zh": "不能再拖延下去了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 17
+    },
+    {
+     "id": 144255,
+     "ja": "人間は鋳型に入れて作るわけにはいかない。",
+     "en": "A man cannot be made in a mold.",
+     "zh": "人不能像放入模具那样被制造。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 19
+    },
+    {
+     "id": 177201,
+     "ja": "君は自分の健康を度外視するわけにはいかない。",
+     "en": "You can't afford to neglect your health.",
+     "zh": "你不能不顾自己的健康。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 21
+    }
+   ]
+  },
+  "monoda": {
+   "builtin": [
+    9,
+    12
+   ],
+   "more": [
+    [
+     16,
+     20
+    ],
+    [
+     13,
+     16
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 143982,
+     "ja": "人生は思うようにはいかないものだ。",
+     "en": "Life doesn't always go the way we want it to.",
+     "zh": "人生哪能事事如意。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 16
+    },
+    {
+     "id": 175820,
+     "ja": "結局のところ、物価は上がるものだ。",
+     "en": "In the long run, prices will rise.",
+     "zh": "说到底，物价总是会涨的。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 16
+    },
+    {
+     "id": 233014,
+     "ja": "あなたの妹さんに会いたいものです。",
+     "en": "I'd like to see your sister.",
+     "zh": "真想见见你妹妹啊。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    }
+   ]
+  },
+  "monodewanai": {
+   "builtin": [
+    7,
+    13
+   ],
+   "more": [
+    [
+     6,
+     12
+    ],
+    [
+     15,
+     24
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 147355,
+     "ja": "女の子があぐらをかいて座るものではない。",
+     "en": "A girl should not sit with her legs crossed.",
+     "zh": "女孩子不该盘腿坐着。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 19
+    }
+   ]
+  },
+  "kotoda": {
+   "builtin": [
+    18,
+    21
+   ],
+   "more": [
+    [
+     17,
+     21
+    ],
+    [
+     20,
+     23
+    ]
+   ],
+   "corpus": []
+  },
+  "kotowanai": {
+   "builtin": [
+    13,
+    18
+   ],
+   "more": [
+    [
+     16,
+     24
+    ],
+    [
+     9,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 149883,
+     "ja": "自分の気持ちを押し隠すことはないんだよ。",
+     "en": "You don't have to hide your feelings.",
+     "zh": "不必隐藏自己的感情。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 16
+    },
+    {
+     "id": 76121,
+     "ja": "昨日の易者の占いなんか気にすることないよ。",
+     "en": "What that fortuneteller said yesterday is nothing to be concerned about.",
+     "zh": "昨天算命先生的占卜什么的，根本不用在意啦。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 19
+    }
+   ]
+  },
+  "naikotowanai": {
+   "builtin": [
+    10,
+    17
+   ],
+   "more": [
+    [
+     11,
+     18
+    ],
+    [
+     4,
+     14
+    ]
+   ],
+   "corpus": []
+  },
+  "youtosuru": {
+   "builtin": [
+    4,
+    7
+   ],
+   "more": [
+    [
+     11,
+     14
+    ],
+    [
+     7,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 219463,
+     "ja": "この明かりで字を読もうとすれば目が悪くなるよ。",
+     "en": "You'll strain your eyes trying to read in this light.",
+     "zh": "在這種光線下讀書會傷眼的。",
+     "zhMachine": false,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 76541,
+     "ja": "できるだけ安くあげようとした。",
+     "en": "I tried to make it as cheap as possible.",
+     "zh": "我尽力做得便宜些。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    },
+    {
+     "id": 100926,
+     "ja": "彼は彼女の気を引こうとした。",
+     "en": "He tried to attract her attention.",
+     "zh": "他想引起她的注意。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    }
+   ]
+  },
+  "youniiu": {
+   "builtin": [
+    10,
+    15
+   ],
+   "more": [
+    [
+     13,
+     18
+    ],
+    [
+     14,
+     19
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 225839,
+     "ja": "キャプテンは静かにするように命じた。",
+     "en": "The captain commanded silence.",
+     "zh": "队长命令保持安静。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 16
+    },
+    {
+     "id": 190759,
+     "ja": "医者は彼女に静養するように言った。",
+     "en": "The doctor told her that she should take a rest.",
+     "zh": "医生告诉她要静养。",
+     "zhMachine": false,
+     "start": 10,
+     "end": 15
+    },
+    {
+     "id": 162829,
+     "ja": "私の父は私に、ぜひそこを見てくるようにといった。",
+     "en": "My father insisted that I should go to see the place.",
+     "zh": "我爸爸坚持要我去那地方看看。",
+     "zhMachine": false,
+     "start": 16,
+     "end": 22
+    }
+   ]
+  },
+  "kotoninatteiru": {
+   "builtin": [
+    12,
+    20
+   ],
+   "more": [
+    [
+     10,
+     17
+    ],
+    [
+     15,
+     22
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 80263,
+     "ja": "明日彼とその事を話し合うことになっている。",
+     "en": "I am to talk over the matter with him tomorrow.",
+     "zh": "明天要和他商量那件事。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 20
+    },
+    {
+     "id": 184512,
+     "ja": "学園祭は来週行われることになっている。",
+     "en": "Our campus festival is to be held next week.",
+     "zh": "校园节预计下周举行。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 18
+    },
+    {
+     "id": 179790,
+     "ja": "近日中に彼女にまた会うことになっている。",
+     "en": "I will be seeing her again one of these days.",
+     "zh": "近日内会再与她见面。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 19
+    }
+   ]
+  },
+  "kotonishiteiru": {
+   "builtin": [
+    13,
+    20
+   ],
+   "more": [
+    [
+     11,
+     17
+    ],
+    [
+     17,
+     23
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 179542,
+     "ja": "九時以降はテレビを見ないことにしている。",
+     "en": "I make it a rule not to watch television after nine o'clock.",
+     "zh": "我规定自己在九点之后不看电视。",
+     "zhMachine": false,
+     "start": 12,
+     "end": 19
+    },
+    {
+     "id": 161904,
+     "ja": "私は６時に起床することにしている。",
+     "en": "I make a practice of getting up at six.",
+     "zh": "我习惯六点起床。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 16
+    },
+    {
+     "id": 161382,
+     "ja": "私はいつも事物をあるがままに描くことにしている。",
+     "en": "I always make it a point to paint things as they are.",
+     "zh": "我总是尽量如实描绘事物的本来面目。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 23
+    }
+   ]
+  },
+  "temoraenai": {
+   "builtin": [
+    11,
+    19
+   ],
+   "more": [
+    [
+     8,
+     17
+    ],
+    [
+     5,
+     16
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 127003,
+     "ja": "地下鉄へ行く道を教えていただけませんか。",
+     "en": "Could you tell me how to get to the subway station?",
+     "zh": "请问能告诉我去地铁的路吗？",
+     "zhMachine": true,
+     "start": 10,
+     "end": 19
+    },
+    {
+     "id": 211274,
+     "ja": "その計画に大すじで賛成していただけませんか。",
+     "en": "Would you agree to the plan in principle?",
+     "zh": "您能在大体上赞同那个计划吗？",
+     "zhMachine": true,
+     "start": 12,
+     "end": 21
+    },
+    {
+     "id": 217873,
+     "ja": "これらの書類に目をとおしていただけませんか。",
+     "en": "Will you look over these papers?",
+     "zh": "请您过目一下这些文件好吗？",
+     "zhMachine": true,
+     "start": 12,
+     "end": 21
+    }
+   ]
+  },
+  "sasetemorau": {
+   "builtin": [
+    15,
+    21
+   ],
+   "more": [
+    [
+     11,
+     17
+    ],
+    [
+     11,
+     16
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 233498,
+     "ja": "あなたのパーティーに喜んで出席させていただきます。",
+     "en": "I will be happy to attend your party.",
+     "zh": "我很乐意出席您的聚会。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 22
+    },
+    {
+     "id": 169512,
+     "ja": "皿洗いを手伝わせて下さい。",
+     "en": "Let me help you with the dishes.",
+     "zh": "请让我帮忙洗碗。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    },
+    {
+     "id": 149555,
+     "ja": "失礼ですが御提案を修正させていただきます。",
+     "en": "I beg to modify your proposal.",
+     "zh": "恕我冒昧，请允许我修正您的提案。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 18
+    }
+   ]
+  },
+  "causativepassive": {
+   "builtin": [
+    15,
+    18
+   ],
+   "more": [
+    [
+     15,
+     18
+    ],
+    [
+     11,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 115495,
+     "ja": "彼は、自分の意志に反して契約書に署名させられた。",
+     "en": "He was made to sign the contract against his will.",
+     "zh": "他被迫违背自己的意愿在合同上签了字。",
+     "zhMachine": true,
+     "start": 19,
+     "end": 22
+    },
+    {
+     "id": 146249,
+     "ja": "上司に残業させられたんだよ。",
+     "en": "My boss made me work overtime.",
+     "zh": "我被上司逼着加班了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    },
+    {
+     "id": 206933,
+     "ja": "その部隊は戦線から撤退させられた。",
+     "en": "The troops were retired from the front lines.",
+     "zh": "那支部队被从前线撤下。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    }
+   ]
+  },
+  "toshitara": {
+   "builtin": [
+    10,
+    14
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 167880,
+     "ja": "あなたが援助しなかったとしたら彼は失敗するだろう。",
+     "en": "Without your help, he would fail.",
+     "zh": "如果你没有援助他的话，他可能会失败吧。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    },
+    {
+     "id": 226176,
+     "ja": "仮に核戦争が起こったとすれば、人類は滅亡するだろう。",
+     "en": "If a nuclear war were to break out, mankind would perish.",
+     "zh": "如果发生核战争，人类可能会灭亡。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    }
+   ]
+  },
+  "toshitemo": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     6,
+     10
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 231309,
+     "ja": "あのチームは、あるとしても、まず優勝の望みはない。",
+     "en": "That team has little, if any, chance of winning.",
+     "zh": "那支队伍就算有，首先夺冠的希望也很渺茫。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 78092,
+     "ja": "両者の間には、あったとしても、相違はごくわずかである。",
+     "en": "There is little, if any, difference between the two.",
+     "zh": "两者之间就算有差异，也微乎其微。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    },
+    {
+     "id": 225195,
+     "ja": "ゲンドウがこの件に関与していたとしても不思議ではない。",
+     "en": "It is no wonder to me that Gendou has something to do with.",
+     "zh": "即使源堂参与了这件事，也不足为奇。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 19
+    }
+   ]
+  },
+  "nishitemo": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 202966,
+     "ja": "チャンスというものはいずれにしても、まれにしかない。",
+     "en": "Chances come rarely in any case.",
+     "zh": "机会这种东西，无论如何都很少见。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 17
+    },
+    {
+     "id": 167497,
+     "ja": "私が彼にテニスで勝つのは不可能ではないにしても、難しい。",
+     "en": "It is difficult, if not impossible, for me to beat him at tennis.",
+     "zh": "我要在网球上赢他，虽说并非不可能，但也很难。",
+     "zhMachine": true,
+     "start": 19,
+     "end": 23
+    }
+   ]
+  },
+  "bayokatta": {
+   "builtin": [
+    9,
+    14
+   ],
+   "more": [
+    [
+     11,
+     16
+    ],
+    [
+     7,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 202370,
+     "ja": "テーラーさんはパーティーに来なければよかったと思っている。",
+     "en": "Mr Taylor wishes he had not come to the party.",
+     "zh": "泰勒先生觉得不来参加派对就好了。",
+     "zhMachine": true,
+     "start": 17,
+     "end": 22
+    },
+    {
+     "id": 76353,
+     "ja": "一からやるんだから、大胆にイメチェンすればよかったのに。",
+     "en": "As you're starting from scratch you might as well have gone for a major makeover...",
+     "zh": "既然要从头开始，大胆地改变形象就好了。",
+     "zhMachine": true,
+     "start": 20,
+     "end": 25
+    }
+   ]
+  },
+  "warini": {
+   "builtin": [
+    11,
+    14
+   ],
+   "more": [
+    [
+     12,
+     16
+    ],
+    [
+     8,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 209172,
+     "ja": "その少女は年の割に小さい。",
+     "en": "The girl is small for her age.",
+     "zh": "那个少女看起来比实际年龄小。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 101368,
+     "ja": "彼は年の割には若作りだ。",
+     "en": "He looks young for his age.",
+     "zh": "他跟实际年龄比起来显年轻。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    },
+    {
+     "id": 220078,
+     "ja": "この布は値段の割に品質が良い。",
+     "en": "This cloth is good in quality for its price.",
+     "zh": "这块布价格不高，质量却很好。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    }
+   ]
+  },
+  "nishitewa": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     3,
+     7
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 172415,
+     "ja": "今頃にしては暖かい。",
+     "en": "It's warm for this time of year.",
+     "zh": "考虑到是这个时候，还挺暖和的。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 235070,
+     "ja": "６月にしては寒い朝だ。",
+     "en": "It is a cold morning for June.",
+     "zh": "对于六月来说，今天早上挺冷的。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 179511,
+     "ja": "駆け出しの新聞記者にしては腕がいい。",
+     "en": "You are doing well for a cub reporter.",
+     "zh": "作为一个初出茅庐的新闻记者，他算是很厉害了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    }
+   ]
+  },
+  "kuseni": {
+   "builtin": [
+    11,
+    14
+   ],
+   "more": [
+    [
+     5,
+     8
+    ],
+    [
+     4,
+     7
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 102553,
+     "ja": "彼は太っているくせに声は細い。",
+     "en": "His voice is thin even though he is fat.",
+     "zh": "他明明很胖，声音却很细。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 145102,
+     "ja": "新米のくせに大きな顔をするな。",
+     "en": "Act your place.",
+     "zh": "明明是个新手，别摆出一副了不起的样子。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 170678,
+     "ja": "最近は、年下のくせにため口を聞く奴が多すぎる。",
+     "en": "These days more and more young people talk to their elders on even terms.",
+     "zh": "最近年纪比我小却用不敬语的家伙太多了。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    }
+   ]
+  },
+  "toieba": {
+   "builtin": [
+    1,
+    5
+   ],
+   "more": [
+    [
+     3,
+     7
+    ],
+    [
+     7,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 124886,
+     "ja": "田中さんといえば、最近彼に会ったか。",
+     "en": "Talking of Mr Tanaka, have you seen him lately?",
+     "zh": "说到田中先生，你最近见过他吗？",
+     "zhMachine": false,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 236017,
+     "ja": "１０年といえば相当な時間だ。",
+     "en": "Ten years is a long time.",
+     "zh": "十年说起来是很长的时间了。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 204011,
+     "ja": "ダーウィンというと「種の起源」を連想する。",
+     "en": "We associate the name of Darwin with The Origin of Species.",
+     "zh": "一提到达尔文，就会联想到《物种起源》。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    }
+   ]
+  },
+  "karasuruto": {
+   "builtin": [
+    4,
+    9
+   ],
+   "more": [
+    [
+     1,
+     6
+    ],
+    [
+     4,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 194956,
+     "ja": "みんなの話からすると、それは真実だろう。",
+     "en": "By all accounts, it's the truth.",
+     "zh": "从大家的话来看，那应该是真的吧。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 10
+    },
+    {
+     "id": 149289,
+     "ja": "実践的見地からすれば彼の計画は実行しにくい。",
+     "en": "From a practical point of view, his plan is not easy to carry out.",
+     "zh": "从实践的角度来看，他的计划很难执行。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 10
+    }
+   ]
+  },
+  "nishitara": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     3,
+     7
+    ],
+    [
+     12,
+     18
+    ]
+   ],
+   "corpus": []
+  },
+  "nioite": {
+   "builtin": [
+    10,
+    14
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     4,
+     8
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 189119,
+     "ja": "英語は商業において役に立つ。",
+     "en": "English is useful in commerce.",
+     "zh": "英语在商业中很有用。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 144033,
+     "ja": "人生においてお金を重視する人もいる。",
+     "en": "Some people place a lot more emphasis on the importance of money in life.",
+     "zh": "人生中也有人重视金钱。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 149797,
+     "ja": "自分の責任において何でも行いなさい。",
+     "en": "Do everything at your own risk.",
+     "zh": "在自己责任范围内做任何事都可以。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    }
+   ]
+  },
+  "niwatatte": {
+   "builtin": [
+    6,
+    11
+   ],
+   "more": [
+    [
+     11,
+     16
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 77155,
+     "ja": "話は多岐にわたった。",
+     "en": "We talked about various topics.",
+     "zh": "话题涉及了许多方面。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 9
+    },
+    {
+     "id": 173629,
+     "ja": "広い地域にわたって大雪が降った。",
+     "en": "There was heavy snow over a large area.",
+     "zh": "大雪纷飞，覆盖了广大地区。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 9
+    },
+    {
+     "id": 191113,
+     "ja": "委員会の会議は長時間にわたった。",
+     "en": "The committee had a long session.",
+     "zh": "委员会的会议持续了很长时间。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 15
+    }
+   ]
+  },
+  "nisaishite": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     4,
+     7
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": []
+  },
+  "niatatte": {
+   "builtin": [
+    9,
+    14
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     4,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 79339,
+     "ja": "友人を選ぶにあたってはいくら注意してもしすぎることはない。",
+     "en": "You cannot be too careful in choosing your friends.",
+     "zh": "在选择朋友时，再怎么小心也不为过。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 10
+    },
+    {
+     "id": 212565,
+     "ja": "そのめでたいときに当たり彼は祝辞を述べた。",
+     "en": "He offered his congratulations on the happy occasion.",
+     "zh": "在那喜庆的时刻，他发表了祝辞。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 12
+    }
+   ]
+  },
+  "womotoni": {
+   "builtin": [
+    12,
+    16
+   ],
+   "more": [
+    [
+     8,
+     12
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 103682,
+     "ja": "彼は親譲りの財産をもとにして富を作った。",
+     "en": "He built on his father's fortune.",
+     "zh": "他凭借父母传下来的财产积累了财富。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 12
+    }
+   ]
+  },
+  "nimotozuite": {
+   "builtin": [
+    2,
+    7
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 219937,
+     "ja": "この物語は実際の出来事に基づいている。",
+     "en": "This story is based on actual events.",
+     "zh": "这个故事是基于真实事件写的。",
+     "zhMachine": false,
+     "start": 11,
+     "end": 16
+    },
+    {
+     "id": 186870,
+     "ja": "科学は観察に基づいている。",
+     "en": "Science rests upon observation.",
+     "zh": "科学是基于观察的。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 10
+    },
+    {
+     "id": 219938,
+     "ja": "この物語は事実に基づいている。",
+     "en": "This story is founded on fact.",
+     "zh": "这个故事基于真实事件。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    }
+   ]
+  },
+  "nioujite": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 148282,
+     "ja": "収入に応じた生活をするように。",
+     "en": "You should try to live within your means.",
+     "zh": "生活要量入为出。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 84919,
+     "ja": "布に応じて服を裁断せよ。",
+     "en": "Cut your coat according to your cloth.",
+     "zh": "照着布料来裁衣服。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    },
+    {
+     "id": 84920,
+     "ja": "布に応じて衣服を裁て。",
+     "en": "Cut your coat according to your cloth.",
+     "zh": "看布料裁衣。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    }
+   ]
+  },
+  "nisotte": {
+   "builtin": [
+    1,
+    5
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 217188,
+     "ja": "ご希望に沿うように努力します。",
+     "en": "I'll try to meet your wishes.",
+     "zh": "我们会努力满足您的要求。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 220485,
+     "ja": "この通りに沿って行けば駅に着きます。",
+     "en": "If you follow this street, you will get to the station.",
+     "zh": "沿着这条路走就能到车站。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 165529,
+     "ja": "私たちは川に沿って散歩した。",
+     "en": "We took a walk along the river.",
+     "zh": "我们沿着河边散步了。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    }
+   ]
+  },
+  "wokikkakeni": {
+   "builtin": [
+    2,
+    8
+   ],
+   "more": [
+    [
+     2,
+     8
+    ],
+    [
+     5,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "nimukete": {
+   "builtin": [
+    5,
+    9
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 141089,
+     "ja": "船は明日マニラに向けて出発する。",
+     "en": "The ship is about to sail for Manila tomorrow.",
+     "zh": "船将于明天启程前往马尼拉。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 172145,
+     "ja": "今度の土曜日の朝、シカゴに向けて出発します。",
+     "en": "I'm leaving for Chicago next Saturday morning.",
+     "zh": "这个星期六早上，我将出发前往芝加哥。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 16
+    },
+    {
+     "id": 186504,
+     "ja": "過去ではなく、未来に向けて取り組むのが当社の方針です。",
+     "en": "Our policy is to build for the future, not the past.",
+     "zh": "我们公司的方针是面向未来努力，而不是过去。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    }
+   ]
+  },
+  "totomoni": {
+   "builtin": [
+    4,
+    8
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 164886,
+     "ja": "私と共に来てくれませんか。",
+     "en": "Would you mind coming with me?",
+     "zh": "你愿意跟我来吗？",
+     "zhMachine": true,
+     "start": 1,
+     "end": 4
+    },
+    {
+     "id": 74572,
+     "ja": "その瞬間、大音響とともに爆発した。",
+     "en": "At that instant it exploded with a great noise.",
+     "zh": "随着一声巨响，瞬间爆炸了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 12
+    },
+    {
+     "id": 195178,
+     "ja": "マリーゴールドは太陽とともに起きる。",
+     "en": "The marigold rises with the sun.",
+     "zh": "金盏花随着太阳升起而开放。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    }
+   ]
+  },
+  "nitomonatte": {
+   "builtin": [
+    5,
+    9
+   ],
+   "more": [
+    [
+     5,
+     8
+    ],
+    [
+     4,
+     7
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 191007,
+     "ja": "移転にともない５月３０日、３１日は休業いたします。",
+     "en": "Due to our office moving, we will be closed from May 30 to 31.",
+     "zh": "因搬迁事宜，5月30日和31日将暂停营业。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    },
+    {
+     "id": 170050,
+     "ja": "昨日の株価下落に伴い、今日の取引は低迷だった。",
+     "en": "Trading was slow today after yesterday's market decline.",
+     "zh": "受昨日股价下跌影响，今天交易低迷。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    }
+   ]
+  },
+  "nihanshite": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 191052,
+     "ja": "意志に反して何かを無理にさせる事はできない。",
+     "en": "No one can force you to do anything against your will.",
+     "zh": "不能违背意志强迫做某事。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 158523,
+     "ja": "私は意に反して彼と結婚した。",
+     "en": "I married him against my will.",
+     "zh": "我违心地与他结了婚。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 115495,
+     "ja": "彼は、自分の意志に反して契約書に署名させられた。",
+     "en": "He was made to sign the contract against his will.",
+     "zh": "他被迫违背自己的意愿在合同上签了字。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 12
+    }
+   ]
+  },
+  "karakoso": {
+   "builtin": [
+    9,
+    13
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     3,
+     7
+    ]
+   ],
+   "corpus": []
+  },
+  "ijou": {
+   "builtin": [
+    4,
+    7
+   ],
+   "more": [
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     7
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 176551,
+     "ja": "契約を交わした以上、決定を守らなければならなかった。",
+     "en": "We were tied to our decision because we signed the contract.",
+     "zh": "既然签订了合同，就必须遵守决定。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    }
+   ]
+  },
+  "karaniwa": {
+   "builtin": [
+    5,
+    9
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": []
+  },
+  "bakarini": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": []
+  },
+  "monono": {
+   "builtin": [
+    10,
+    13
+   ],
+   "more": [
+    [
+     9,
+     12
+    ],
+    [
+     8,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "nagaramo": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     6,
+     9
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 74644,
+     "ja": "残念ながら昨日はご覧の通りの結果となりました。",
+     "en": "Unfortunately, the results yesterday were as you see.",
+     "zh": "很遗憾，昨天的结果如您所见。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 5
+    },
+    {
+     "id": 86975,
+     "ja": "彼女は不本意ながらもそうした。",
+     "en": "She did it against her will.",
+     "zh": "她虽然不情愿，但还是那样做了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 147360,
+     "ja": "女ながらも彼女は勇敢だった。",
+     "en": "Woman as she was, she was brave.",
+     "zh": "她虽是女性，却很勇敢。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    }
+   ]
+  },
+  "nimokakawarazu": {
+   "builtin": [
+    1,
+    8
+   ],
+   "more": [
+    [
+     6,
+     13
+    ],
+    [
+     7,
+     14
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 210745,
+     "ja": "その工事は住民からの強い反対にもかかわらず、続けられた。",
+     "en": "They carried on with the construction in the face of strong opposition from the residents.",
+     "zh": "那项工程尽管遭到居民的强烈反对，但仍被继续推进。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 21
+    },
+    {
+     "id": 166062,
+     "ja": "私たちは雨降りにもかかわらず、外出した。",
+     "en": "We went out in spite of the rain.",
+     "zh": "尽管下雨，我们还是出门了。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 14
+    },
+    {
+     "id": 145150,
+     "ja": "新聞のさまざまな虚偽や卑俗さにも関わらず。",
+     "en": "Reject all its lies and vulgarity.",
+     "zh": "尽管报纸有各种虚假和低俗。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 20
+    }
+   ]
+  },
+  "toittemo": {
+   "builtin": [
+    6,
+    11
+   ],
+   "more": [
+    [
+     2,
+     7
+    ],
+    [
+     1,
+     6
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 90824,
+     "ja": "彼女は歌手といってもお粗末なものだ。",
+     "en": "She is a poor excuse for a singer.",
+     "zh": "说她是歌手，水平也很糟糕。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 10
+    },
+    {
+     "id": 147897,
+     "ja": "宿屋といってもまるで丸太小屋のようだった。",
+     "en": "The inn was no better than a log cabin.",
+     "zh": "说是旅馆，简直就像间小木屋。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    },
+    {
+     "id": 190639,
+     "ja": "一口に英会話教材といっても、千差万別だ。",
+     "en": "They all get lumped together as English texts. But in fact these books are extremely varied and wide-ranging.",
+     "zh": "虽说都是英语会话教材，但也是千差万别。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    }
+   ]
+  },
+  "karatoitte": {
+   "builtin": [
+    2,
+    8
+   ],
+   "more": [
+    [
+     3,
+     9
+    ],
+    [
+     6,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 137970,
+     "ja": "体積が大きいからといって常に重量も重いとは限らない。",
+     "en": "Great bulk does not always mean great weight.",
+     "zh": "体积大不代表重量大。",
+     "zhMachine": false,
+     "start": 6,
+     "end": 12
+    },
+    {
+     "id": 229853,
+     "ja": "ある人が間違いをしたからといってそれを笑うのは無作法である。",
+     "en": "It is not good manners to laugh at someone when he makes mistakes.",
+     "zh": "仅仅因为别人犯了错就嘲笑他，这是不礼貌的。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 16
+    },
+    {
+     "id": 208789,
+     "ja": "その人が申し分がないからといって、恋に落ちるわけではない。",
+     "en": "You don't fall in love with somebody because he's perfect.",
+     "zh": "即使那个人无可挑剔，也不一定会坠入爱河。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 16
+    }
+   ]
+  },
+  "nishiro": {
+   "builtin": [
+    2,
+    5
+   ],
+   "more": [
+    [
+     8,
+     11
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 229109,
+     "ja": "いずれにしろ、明日は列車に乗りなさい。",
+     "en": "In any case, catch the train tomorrow.",
+     "zh": "不管怎样，明天你坐火车吧。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 76337,
+     "ja": "嘘ではないにしろ、ホラに近い。",
+     "en": "If not a lie, close to a boast.",
+     "zh": "虽非谎言，但近乎吹牛。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    },
+    {
+     "id": 187492,
+     "ja": "何事にせよ最善を尽くしなさい。",
+     "en": "You should do your best in everything.",
+     "zh": "无论做什么事，都要竭尽全力。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 5
+    }
+   ]
+  },
+  "bakarika": {
+   "builtin": [
+    4,
+    8
+   ],
+   "more": [
+    [
+     9,
+     13
+    ],
+    [
+     13,
+     17
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 87093,
+     "ja": "彼女は美しいばかりか、心も優しく、しかも、聡明である。",
+     "en": "Besides being beautiful, she is kind and intellectual.",
+     "zh": "她不仅美丽，心地善良，而且聪慧过人。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    }
+   ]
+  },
+  "nikuwaete": {
+   "builtin": [
+    1,
+    5
+   ],
+   "more": [
+    [
+     9,
+     13
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 220690,
+     "ja": "この増加に加えて、世界の経済構造の変化があった。",
+     "en": "Along with this increase, there has been a change in the world's economic organization.",
+     "zh": "除了这一增长，世界经济结构也发生了变化。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 182439,
+     "ja": "急行に乗るには、普通券に加えて急行券を買う必要がある。",
+     "en": "To take an express train, we have to get an express ticket in addition to an ordinary ticket.",
+     "zh": "乘坐特快列车，除了普通车票，还需要购买特快车票。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    },
+    {
+     "id": 74625,
+     "ja": "パソコンに加え、携帯電話での利用が可能です。",
+     "en": "In addition to PCs, it can be used with cell phones.",
+     "zh": "除了电脑，还可以用手机使用。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    }
+   ]
+  },
+  "nikagirazu": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": []
+  },
+  "nikagitte": {
+   "builtin": [
+    9,
+    13
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     6,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 207351,
+     "ja": "その日に限って子供たちは会館に入ることを許される。",
+     "en": "The hall allows children in only on that day.",
+     "zh": "只有在那天，孩子们才被允许进入会馆。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 79686,
+     "ja": "夜寝れない時に限って、時計のカチカチいう音が気になるものだ。",
+     "en": "It's only when I can't sleep at night that the ticking of the clock becomes loud enough to bother me.",
+     "zh": "偏偏在夜晚睡不着的时候，钟表的滴答声才让人在意。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    }
+   ]
+  },
+  "wohajime": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     8,
+     15
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": []
+  },
+  "ueni": {
+   "builtin": [
+    10,
+    13
+   ],
+   "more": [
+    [
+     5,
+     8
+    ],
+    [
+     5,
+     7
+    ]
+   ],
+   "corpus": []
+  },
+  "ippou": {
+   "builtin": [
+    6,
+    9
+   ],
+   "more": [
+    [
+     8,
+     10
+    ],
+    [
+     10,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 76346,
+     "ja": "一部の住民が様子見の態度を取る一方で他の者は大洪水に備えた。",
+     "en": "Some residents took a wait-and-see attitude while others prepared for heavy flooding.",
+     "zh": "一部分居民持观望态度，而另一部分居民则为洪水做好了准备。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 18
+    }
+   ]
+  },
+  "uede": {
+   "builtin": [
+    7,
+    9
+   ],
+   "more": [
+    [
+     6,
+     8
+    ],
+    [
+     9,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 75152,
+     "ja": "英語を学習する上で不可欠な、不規則動詞の活用。",
+     "en": "Conjugation of irregular verbs - essential for those learning English.",
+     "zh": "学习英语不可或缺的不规则动词活用。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 190984,
+     "ja": "衣食は生活する上で不可欠なものである。",
+     "en": "Food and clothes are necessities of life.",
+     "zh": "衣食是生活中必不可少的东西。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    },
+    {
+     "id": 127308,
+     "ja": "暖かい天候の時は、発汗作用が体温の調節をする上で役立つ。",
+     "en": "During warm weather, sweating helps man regulate his body temperature.",
+     "zh": "天气暖和时，出汗有助于调节体温。",
+     "zhMachine": true,
+     "start": 22,
+     "end": 24
+    }
+   ]
+  },
+  "tekarademonai": {
+   "builtin": [
+    5,
+    12
+   ],
+   "more": [
+    [
+     4,
+     11
+    ],
+    [
+     7,
+     15
+    ]
+   ],
+   "corpus": []
+  },
+  "nikakawarazu": {
+   "builtin": [
+    2,
+    8
+   ],
+   "more": [
+    [
+     9,
+     15
+    ],
+    [
+     5,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 195187,
+     "ja": "マラソンは晴雨にかかわらず開かれます。",
+     "en": "The marathon will be held, rain or shine.",
+     "zh": "马拉松比赛风雨无阻举行。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 13
+    },
+    {
+     "id": 143216,
+     "ja": "成否に関わらず、私はできるだけのことをやってみます。",
+     "en": "I will try my best, whether I shall be successful or not.",
+     "zh": "无论成败，我都会尽力而为。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    },
+    {
+     "id": 142997,
+     "ja": "晴雨にかかわらず、競技会は挙行されます。",
+     "en": "Rain or shine, the athletic meet will be held.",
+     "zh": "无论晴雨，比赛都会举行。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 8
+    }
+   ]
+  },
+  "wotowazu": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     8,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 629091,
+     "ja": "それは今でも男女を問わず愛読されている本です。",
+     "en": "It is, even now, a book loved by men and women alike.",
+     "zh": "這仍是一本男女皆愛的書。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 12
+    }
+   ]
+  },
+  "wahotomokaku": {
+   "builtin": [
+    1,
+    6
+   ],
+   "more": [
+    [
+     3,
+     8
+    ],
+    [
+     2,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 183637,
+     "ja": "顔はともかく、気立てはとてもいい子だよ。",
+     "en": "Looks aside, she is very good-natured.",
+     "zh": "长相姑且不论，性格是个非常好的孩子。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 6
+    }
+   ]
+  },
+  "nuki": {
+   "builtin": [
+    2,
+    8
+   ],
+   "more": [
+    [
+     13,
+     16
+    ],
+    [
+     5,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 191515,
+     "ja": "挨拶抜きでいきなり用件を切り出す。",
+     "en": "Skip the pleasantries and get down to business.",
+     "zh": "省去寒暄，直接切入正题。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 5
+    }
+   ]
+  },
+  "tonaruto": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     4,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 229136,
+     "ja": "いざとなれば勇気が湧いてくる。",
+     "en": "Your courage will come out in a crisis.",
+     "zh": "到了关键时刻，勇气自然就会涌上来。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 6
+    },
+    {
+     "id": 211292,
+     "ja": "その計画が実行できないとなれば、どうしなければなりませんか。",
+     "en": "What must be done if the plan proves unworkable?",
+     "zh": "如果那个计划无法执行，该怎么办呢？",
+     "zhMachine": true,
+     "start": 11,
+     "end": 15
+    },
+    {
+     "id": 143199,
+     "ja": "政治の話となると、彼は誰にも増して雄弁になる。",
+     "en": "When it comes to politics, he is as eloquent as anyone.",
+     "zh": "一谈到政治，他就变得比谁都雄辩。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    }
+   ]
+  },
+  "saeba": {
+   "builtin": [
+    2,
+    7
+   ],
+   "more": [
+    [
+     6,
+     11
+    ],
+    [
+     3,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 118652,
+     "ja": "彼に会う機会さえあればなあ。",
+     "en": "If only I get a chance to see him.",
+     "zh": "要是有机会见到他就好了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 11
+    },
+    {
+     "id": 232397,
+     "ja": "あなたはボタンを押しさえすればいい。",
+     "en": "All you have to do is press the button.",
+     "zh": "你只需按下按钮就行。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 15
+    },
+    {
+     "id": 231604,
+     "ja": "あなたは膝に手を組んで静かに座っていさえすればよい。",
+     "en": "You have only to sit quietly with your hands folded in your lap.",
+     "zh": "你只需要盘腿安静地坐着就行。",
+     "zhMachine": true,
+     "start": 18,
+     "end": 23
+    }
+   ]
+  },
+  "kagiri": {
+   "builtin": [
+    6,
+    8
+   ],
+   "more": [
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 163037,
+     "ja": "私の知る限りでは彼は正直です。",
+     "en": "As far as I know, he is honest.",
+     "zh": "据我所知他是诚实的。",
+     "zhMachine": false,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 163050,
+     "ja": "私の知る限りでは、彼は信頼できる。",
+     "en": "As far as I know, he is reliable.",
+     "zh": "据我所知，他是可靠的。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 76091,
+     "ja": "私の見た限りでは、なかなか良い製品だ。",
+     "en": "From what I've seen of the product so far, it's pretty good.",
+     "zh": "就我所见，这产品相当不错。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    }
+   ]
+  },
+  "kotokara": {
+   "builtin": [
+    8,
+    12
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 183673,
+     "ja": "眼鏡の形をしていることから、その橋を眼鏡橋とよぶ。",
+     "en": "Since the bridge looks like a pair of glasses, they call it Meganebashi.",
+     "zh": "由于形状像眼镜，那座桥被称为眼镜桥。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    }
+   ]
+  },
+  "kotonaku": {
+   "builtin": [
+    4,
+    8
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 74277,
+     "ja": "食べられることなくそのたこは、海に帰ったのであった。",
+     "en": "That octopus returned to the sea without being eaten.",
+     "zh": "那条章鱼没被吃掉，自己游回海里去了。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 9
+    },
+    {
+     "id": 90983,
+     "ja": "彼女は臆することなく王の面前に出た。",
+     "en": "She boldly went up to the king.",
+     "zh": "她毫不畏惧地走到国王面前。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 176282,
+     "ja": "警察が墜落事故の原因を昼夜休むことなく調査している。",
+     "en": "The police are investigating the cause of the crash around the clock.",
+     "zh": "警察正在昼夜不停地调查坠机事故的原因。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 19
+    }
+   ]
+  },
+  "naikotoniwa": {
+   "builtin": [
+    7,
+    13
+   ],
+   "more": [
+    [
+     5,
+     11
+    ],
+    [
+     4,
+     10
+    ]
+   ],
+   "corpus": []
+  },
+  "kotoni": {
+   "builtin": [
+    3,
+    6
+   ],
+   "more": [
+    [
+     3,
+     6
+    ],
+    [
+     4,
+     8
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 180054,
+     "ja": "驚いたことに、彼は簡単に案を考え出した。",
+     "en": "To my surprise, he easily came up with a plan.",
+     "zh": "令我吃惊的是，他很容易就想出了一个方案。",
+     "zhMachine": false,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 85975,
+     "ja": "悲しいことに、彼女の息子は若死にした。",
+     "en": "Sad to say, her son died young.",
+     "zh": "可悲的是，她的儿子英年早逝",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    },
+    {
+     "id": 173711,
+     "ja": "幸いなことに、息子は新しい学校での生活にすぐに慣れた。",
+     "en": "Fortunately, my son quickly adjusted to life in his new school.",
+     "zh": "幸运的是，儿子很快就适应了新学校的生活。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    }
+   ]
+  },
+  "kotoka": {
+   "builtin": [
+    21,
+    24
+   ],
+   "more": [
+    [
+     9,
+     12
+    ],
+    [
+     20,
+     23
+    ]
+   ],
+   "corpus": []
+  },
+  "monogaaru": {
+   "builtin": [
+    13,
+    18
+   ],
+   "more": [
+    [
+     16,
+     21
+    ],
+    [
+     17,
+     22
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 164087,
+     "ja": "私の愛犬に対する愛情は浅からぬものがあった。",
+     "en": "My love for my dog was very deep.",
+     "zh": "我对爱犬的感情非同寻常。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 20
+    }
+   ]
+  },
+  "mononara": {
+   "builtin": [
+    3,
+    7
+   ],
+   "more": [
+    [
+     3,
+     7
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": []
+  },
+  "monoka": {
+   "builtin": [
+    10,
+    13
+   ],
+   "more": [
+    [
+     12,
+     15
+    ],
+    [
+     10,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 5071464,
+     "ja": "無礼もヘチマもあるものか。",
+     "en": "Who cares about bad manners?",
+     "zh": "什么失礼不失礼的，哪有这回事。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    }
+   ]
+  },
+  "toiumonoda": {
+   "builtin": [
+    15,
+    21
+   ],
+   "more": [
+    [
+     16,
+     23
+    ],
+    [
+     14,
+     20
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 195635,
+     "ja": "まずご両親に話してみるのが順序というものだろう。",
+     "en": "First of all, you should talk it over with your parents.",
+     "zh": "首先跟父母商量，这不是理所应当的顺序吗？",
+     "zhMachine": true,
+     "start": 15,
+     "end": 22
+    },
+    {
+     "id": 205505,
+     "ja": "それはご都合主義というものだ。",
+     "en": "That's opportunism, pure and simple.",
+     "zh": "那就是所谓的方便主义。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 14
+    },
+    {
+     "id": 213973,
+     "ja": "そいつは衰退のレトリックというものだ。",
+     "en": "But it's the rhetoric of failure.",
+     "zh": "那是衰退的修辞术。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 18
+    }
+   ]
+  },
+  "shidai": {
+   "builtin": [
+    4,
+    6
+   ],
+   "more": [
+    [
+     9,
+     11
+    ],
+    [
+     18,
+     20
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 140438,
+     "ja": "相手次第で我々の態度を決める。",
+     "en": "We determine our attitude on the basis of the other party.",
+     "zh": "根据对方来决定我们的态度。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 4
+    },
+    {
+     "id": 141009,
+     "ja": "選択は全く君次第だ。",
+     "en": "The choice is all up to you.",
+     "zh": "选择权完全在你。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 8
+    },
+    {
+     "id": 169129,
+     "ja": "仕事の成功はあなた方の努力次第です。",
+     "en": "Our success in this work depends on your efforts.",
+     "zh": "工作的成功取决于你们的努力。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 15
+    }
+   ]
+  },
+  "tatokoro": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "takiri": {
+   "builtin": [
+    6,
+    9
+   ],
+   "more": [
+    [
+     16,
+     19
+    ],
+    [
+     7,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 124989,
+     "ja": "店はたたまれ、それっきりだった。",
+     "en": "The store closed down for good.",
+     "zh": "店铺就此关门大吉，再也没有开业。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 12
+    },
+    {
+     "id": 212132,
+     "ja": "その家で彼女は赤ん坊と二人きりだった。",
+     "en": "She was alone with her baby in the house.",
+     "zh": "在那栋房子里，她和婴儿只有两个人。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 15
+    },
+    {
+     "id": 112254,
+     "ja": "彼はそれきり再び故国をみることはなかった。",
+     "en": "He was never to see his native land again.",
+     "zh": "从那以后，他再也没能回到故乡。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 6
+    }
+   ]
+  },
+  "katoomouto": {
+   "builtin": [
+    10,
+    15
+   ],
+   "more": [
+    [
+     3,
+     9
+    ],
+    [
+     6,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 235848,
+     "ja": "１つが通り過ぎたかと思うと、すぐに次の台風が接近する。",
+     "en": "No sooner has one typhoon passed than the next one approaches.",
+     "zh": "一个刚过去，下一个台风就又逼近了。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    }
+   ]
+  },
+  "kanaika": {
+   "builtin": [
+    5,
+    15
+   ],
+   "more": [
+    [
+     4,
+     14
+    ],
+    [
+     7,
+     17
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 167663,
+     "ja": "私が床に入るか入らないうちに電話が鳴りだした。",
+     "en": "I had hardly gotten into bed when the telephone began to ring.",
+     "zh": "我还没上床，电话就响了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 14
+    },
+    {
+     "id": 235823,
+     "ja": "１マイル歩くか歩かないうちに雷が鳴りだした。",
+     "en": "I had hardly walked a mile when it began to thunder.",
+     "zh": "还没走一英里，雷声就开始了。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 14
+    }
+   ]
+  },
+  "ge": {
+   "builtin": [
+    8,
+    9
+   ],
+   "more": [
+    [
+     4,
+     5
+    ],
+    [
+     4,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 115626,
+     "ja": "彼は、とても満足げに見える。",
+     "en": "He looks like a cat that ate the canary.",
+     "zh": "他看起来一副心满意足的样子。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 9
+    },
+    {
+     "id": 209336,
+     "ja": "その女性は悲しげで、その上疲れているようだった。",
+     "en": "The lady looked sad, also tired.",
+     "zh": "那位女性看起来悲伤，而且似乎还很疲惫。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 8
+    },
+    {
+     "id": 146991,
+     "ja": "小さな鳥が楽しげにさえずっている。",
+     "en": "Little birds are singing merrily.",
+     "zh": "一只小鸟欢快地鸣叫着。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 8
+    }
+   ]
+  },
+  "gimi": {
+   "builtin": [
+    7,
+    9
+   ],
+   "more": [
+    [
+     12,
+     14
+    ],
+    [
+     9,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 103576,
+     "ja": "彼は人の名前を忘れ気味である。",
+     "en": "He is apt to forget people's names.",
+     "zh": "他有些记不住别人的名字。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 171504,
+     "ja": "今日は風邪気味だ。",
+     "en": "I have a touch of a cold today.",
+     "zh": "我今天有点感冒。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 7
+    },
+    {
+     "id": 2579098,
+     "ja": "最近気分が萎え気味だ。",
+     "en": "Recently I've been feeling a bit down.",
+     "zh": "最近情绪有点低落。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    }
+   ]
+  },
+  "tsutsu": {
+   "builtin": [
+    6,
+    8
+   ],
+   "more": [
+    [
+     13,
+     17
+    ],
+    [
+     8,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 137591,
+     "ja": "大気が汚染されつつある。",
+     "en": "The atmosphere is being polluted.",
+     "zh": "大气正在被污染。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 226870,
+     "ja": "お茶の質は下がりつつある。",
+     "en": "The quality of tea is going down.",
+     "zh": "茶的品质正在下降。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 12
+    },
+    {
+     "id": 210599,
+     "ja": "その国は高等教育社会に変わりつつある。",
+     "en": "That country is turning into a society with high education.",
+     "zh": "那个国家正逐渐转变为高等教育社会。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 18
+    }
+   ]
+  },
+  "zuniwairarenai": {
+   "builtin": [
+    10,
+    19
+   ],
+   "more": [
+    [
+     16,
+     24
+    ],
+    [
+     15,
+     24
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 161609,
+     "ja": "私はあなたを笑わずにはいられない。",
+     "en": "I cannot help laughing at you.",
+     "zh": "我忍不住要笑你。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 16
+    },
+    {
+     "id": 153841,
+     "ja": "私は彼の正直さを疑わないではいられない。",
+     "en": "I can't help doubting his honesty.",
+     "zh": "我忍不住怀疑他的诚实。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 19
+    },
+    {
+     "id": 155516,
+     "ja": "私は赤ちゃんを見ると微笑まずにはいられない。",
+     "en": "I cannot help smiling at babies.",
+     "zh": "一看到婴儿我就忍不住微笑。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 21
+    }
+   ]
+  },
+  "tenaranai": {
+   "builtin": [
+    10,
+    15
+   ],
+   "more": [
+    [
+     16,
+     22
+    ],
+    [
+     16,
+     21
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 76251,
+     "ja": "気になってならない俺は思わず、目の前の学生に聞いてしまった。",
+     "en": "It was on my mind so much that I unthinkingly asked the pupil in front of me.",
+     "zh": "我实在放心不下，忍不住问了眼前的学生。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 9
+    }
+   ]
+  },
+  "zaruwoenai": {
+   "builtin": [
+    14,
+    20
+   ],
+   "more": [
+    [
+     10,
+     17
+    ],
+    [
+     7,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 104255,
+     "ja": "彼は書類に署名せざるを得なかった。",
+     "en": "He was forced to sign the document.",
+     "zh": "他不得不签署那份文件。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 15
+    },
+    {
+     "id": 152782,
+     "ja": "私は本当のことを言わざるを得なかった。",
+     "en": "I couldn't but speak the truth.",
+     "zh": "我不得不说了实话。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 17
+    },
+    {
+     "id": 85071,
+     "ja": "不正には抗議せざるをえない。",
+     "en": "You must speak out against injustice.",
+     "zh": "不得不抗议不公之事。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 13
+    }
+   ]
+  },
+  "hokanai": {
+   "builtin": [
+    16,
+    20
+   ],
+   "more": [
+    [
+     18,
+     24
+    ],
+    [
+     14,
+     21
+    ]
+   ],
+   "corpus": []
+  },
+  "gatai": {
+   "builtin": [
+    15,
+    18
+   ],
+   "more": [
+    [
+     8,
+     11
+    ],
+    [
+     15,
+     18
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 126582,
+     "ja": "中には耐え難いものもある。",
+     "en": "Some of them are too much to bear.",
+     "zh": "其中也有难以忍受的。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 7
+    },
+    {
+     "id": 146487,
+     "ja": "少年老い易く学成り難し。",
+     "en": "Art is long, time is fleeting.",
+     "zh": "少年易老学难成。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 153801,
+     "ja": "私は彼の墓を立ち去り難かった。",
+     "en": "I hesitated to leave his grave.",
+     "zh": "我难以离开他的坟墓。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "kaneru": {
+   "builtin": [
+    12,
+    16
+   ],
+   "more": [
+    [
+     20,
+     24
+    ],
+    [
+     12,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 116071,
+     "ja": "彼の無礼には我慢しかねます。",
+     "en": "I have trouble putting up with his rude manner.",
+     "zh": "我受不了他的无礼。",
+     "zhMachine": false,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 94149,
+     "ja": "彼女の態度は少々腹にすえかねる。",
+     "en": "I find her manner a little hard to take.",
+     "zh": "她的态度实在有些令人无法容忍。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 15
+    },
+    {
+     "id": 137400,
+     "ja": "大男総身に知恵が回りかね。",
+     "en": "With a big man it's hard for the blood to get up to the brain.",
+     "zh": "大个子未必有大智慧。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 12
+    }
+   ]
+  },
+  "kanenai": {
+   "builtin": [
+    18,
+    22
+   ],
+   "more": [
+    [
+     11,
+     15
+    ],
+    [
+     17,
+     22
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 209042,
+     "ja": "その少年は盗みをしかねない。",
+     "en": "The boy is capable of robbery.",
+     "zh": "那个少年说不定会偷东西。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    },
+    {
+     "id": 230592,
+     "ja": "あの男は裏切りもしかねない。",
+     "en": "He is capable of treachery.",
+     "zh": "那个男人说不定会背叛。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    }
+   ]
+  },
+  "eru": {
+   "builtin": [
+    8,
+    11
+   ],
+   "more": [
+    [
+     10,
+     12
+    ],
+    [
+     2,
+     4
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 205239,
+     "ja": "それは決してありえない。",
+     "en": "That'll be a cold day in hell.",
+     "zh": "那是绝对不可能的。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 174696,
+     "ja": "言葉の意味は文脈によって変わりうる。",
+     "en": "The meaning of words can change according to their context.",
+     "zh": "词语的意思可能会根据上下文而变化。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 17
+    },
+    {
+     "id": 221978,
+     "ja": "この港は封鎖されうる。",
+     "en": "The harbor can be blocked.",
+     "zh": "這個港口可能會遭到封鎖。",
+     "zhMachine": false,
+     "start": 8,
+     "end": 10
+    }
+   ]
+  },
+  "kkonai": {
+   "builtin": [
+    18,
+    22
+   ],
+   "more": [
+    [
+     15,
+     19
+    ],
+    [
+     17,
+     21
+    ]
+   ],
+   "corpus": []
+  },
+  "yougaanai": {
+   "builtin": [
+    13,
+    18
+   ],
+   "more": [
+    [
+     14,
+     20
+    ],
+    [
+     17,
+     22
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 94039,
+     "ja": "彼女の美しさはたとえようもない。",
+     "en": "Her beauty is incomparable.",
+     "zh": "她的美，无与伦比。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 15
+    },
+    {
+     "id": 226528,
+     "ja": "お礼の言いようもありません。",
+     "en": "I don't know how to thank you enough.",
+     "zh": "感激之情无以言表。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 13
+    },
+    {
+     "id": 116346,
+     "ja": "彼の発言は他に解釈のしようがない。",
+     "en": "His remarks allow of no other interpretation.",
+     "zh": "他的发言没有其他解释的余地。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 16
+    }
+   ]
+  },
+  "nikimatteiru": {
+   "builtin": [
+    16,
+    23
+   ],
+   "more": [
+    [
+     10,
+     16
+    ],
+    [
+     12,
+     18
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 204155,
+     "ja": "そんな計画は失敗するに決まっている。",
+     "en": "Such a plan is bound to fail.",
+     "zh": "那样的计划注定会失败。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 17
+    }
+   ]
+  },
+  "nisuginai": {
+   "builtin": [
+    9,
+    14
+   ],
+   "more": [
+    [
+     10,
+     16
+    ],
+    [
+     9,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 191718,
+     "ja": "われわれの世界は宇宙の小部分にすぎない。",
+     "en": "Our world is only a small part of the universe.",
+     "zh": "我們的世界只不過是宇宙的一小部分。",
+     "zhMachine": false,
+     "start": 14,
+     "end": 19
+    },
+    {
+     "id": 153068,
+     "ja": "私は貧しい農民に過ぎない。",
+     "en": "I am nothing but a poor peasant.",
+     "zh": "我不过是个贫穷的农民。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    },
+    {
+     "id": 229915,
+     "ja": "ある意味で、人生は夢にすぎない。",
+     "en": "In a sense, life is but a dream.",
+     "zh": "从某种意义上说，人生不过是一场梦。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 15
+    }
+   ]
+  },
+  "nihokanaranai": {
+   "builtin": [
+    16,
+    23
+   ],
+   "more": [
+    [
+     20,
+     27
+    ],
+    [
+     16,
+     24
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 208217,
+     "ja": "その脱出は全く奇跡に他ならなかった。",
+     "en": "The escape was nothing less than a miracle.",
+     "zh": "那次脱险完全称得上是奇迹。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 16
+    },
+    {
+     "id": 125034,
+     "ja": "天才とは忍耐に堪え得る偉大な適性に外ならぬ。",
+     "en": "Genius is nothing but a great aptitude for patience.",
+     "zh": "天才不外乎是能够忍受忍耐的伟大适应性。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 21
+    }
+   ]
+  },
+  "nikagiru": {
+   "builtin": [
+    10,
+    13
+   ],
+   "more": [
+    [
+     11,
+     14
+    ],
+    [
+     9,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 74529,
+     "ja": "こんな時は、迎え酒に限ります。",
+     "en": "In times like this, there's nothing like a hair of the dog.",
+     "zh": "这种时候，只能用迎酒来解酒。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 14
+    },
+    {
+     "id": 187207,
+     "ja": "夏はビールのジョッキ大に限るよ。",
+     "en": "Nothing beats a big glass of beer in summer.",
+     "zh": "夏天就是要大杯扎啤才过瘾啊。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    }
+   ]
+  },
+  "toiuwakedewanai": {
+   "builtin": [
+    4,
+    13
+   ],
+   "more": [
+    [
+     11,
+     20
+    ],
+    [
+     2,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 233276,
+     "ja": "あなたの作文は全然だめだというわけではない。",
+     "en": "Your composition is not altogether bad.",
+     "zh": "你的作文并非完全不行。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 21
+    },
+    {
+     "id": 200304,
+     "ja": "どの女の子もバレリーナになれると言うわけではない。",
+     "en": "Every girl cannot be a ballerina.",
+     "zh": "并不是每个女孩都能成为芭蕾舞演员。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 24
+    },
+    {
+     "id": 151845,
+     "ja": "私達はいつも彼の忠告を取り入れるというわけではない。",
+     "en": "We do not always take his advice.",
+     "zh": "我们并不是总是采纳他的忠告。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 25
+    }
+   ]
+  },
+  "mai": {
+   "builtin": [
+    12,
+    14
+   ],
+   "more": [
+    [
+     13,
+     15
+    ],
+    [
+     7,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 194215,
+     "ja": "もう言うまい。",
+     "en": "I'll say no more.",
+     "zh": "对方球队试图阻止（我们）越线。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 6
+    },
+    {
+     "id": 140454,
+     "ja": "相手チームはラインを越えさせまいとしたのです。",
+     "en": "The other team tried to keep them from crossing the line.",
+     "zh": "对方队伍试图阻止我们越过线。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 16
+    },
+    {
+     "id": 209047,
+     "ja": "その少年は男らしくして泣くまいとがんばった。",
+     "en": "The boy tried to be a man and not cry.",
+     "zh": "那个少年努力忍着不哭，想表现得像个男子汉。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 15
+    }
+   ]
+  },
+  "nari": {
+   "builtin": [
+    7,
+    9
+   ],
+   "more": [
+    [
+     8,
+     10
+    ],
+    [
+     7,
+     9
+    ]
+   ],
+   "corpus": []
+  },
+  "yaina": {
+   "builtin": [
+    5,
+    8
+   ],
+   "more": [
+    [
+     9,
+     10
+    ],
+    [
+     9,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 144470,
+     "ja": "人は生まれるやいなや、死に向かう。",
+     "en": "As soon as man is born, he begins to die.",
+     "zh": "人一出生便开始走向死亡。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 10
+    },
+    {
+     "id": 213654,
+     "ja": "そこに出かけるやいなや彼女は病気になった。",
+     "en": "No sooner had she gone there than she was taken ill.",
+     "zh": "刚一出门，她就病倒了。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 11
+    },
+    {
+     "id": 187065,
+     "ja": "家に着くやいなや、彼は床に倒れ込んだ。",
+     "en": "On arriving home, he laid himself on the floor.",
+     "zh": "他一到家就倒在了地板上。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    }
+   ]
+  },
+  "gahayaika": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "sobakara": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     3,
+     7
+    ]
+   ],
+   "corpus": []
+  },
+  "womotte": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     8,
+     12
+    ],
+    [
+     11,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 123436,
+     "ja": "毒をもって毒を制すだ！",
+     "en": "We've got to fight fire with fire!",
+     "zh": "这就叫以毒攻毒！",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    },
+    {
+     "id": 174554,
+     "ja": "己をもって他人を律するな。",
+     "en": "Don't judge others by yourself.",
+     "zh": "莫以己律人。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 5
+    },
+    {
+     "id": 115945,
+     "ja": "彼の勇気をもってすれば、この困難な仕事をやり通せるだろう。",
+     "en": "His courage will carry him through this difficult job.",
+     "zh": "以他的勇气，应该能把这份困难的工作坚持到底吧。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    }
+   ]
+  },
+  "tekaratoiumono": {
+   "builtin": [
+    6,
+    14
+   ],
+   "more": [
+    [
+     8,
+     16
+    ],
+    [
+     7,
+     15
+    ]
+   ],
+   "corpus": []
+  },
+  "wokagirini": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": []
+  },
+  "wokawakirini": {
+   "builtin": [
+    4,
+    9
+   ],
+   "more": [
+    [
+     6,
+     11
+    ],
+    [
+     5,
+     10
+    ]
+   ],
+   "corpus": []
+  },
+  "niitatte": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     11,
+     16
+    ],
+    [
+     14,
+     19
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 141426,
+     "ja": "宣戦布告に至るまでの時期はこのような状況であったと言える。",
+     "en": "You can say that the circumstances were thus in the period leading up to the declaration of war.",
+     "zh": "可以说，直到宣战布告之前的时期就是这种状况。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 9
+    }
+   ]
+  },
+  "nishite": {
+   "builtin": [
+    5,
+    8
+   ],
+   "more": [
+    [
+     8,
+     11
+    ],
+    [
+     3,
+     6
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 180047,
+     "ja": "驚いたことにそれは一瞬にして姿を消した。",
+     "en": "To my amazement, it disappeared in an instant.",
+     "zh": "令人惊讶的是，它瞬间就消失得无影无踪了。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    },
+    {
+     "id": 192255,
+     "ja": "ローマは、一日にして建設されたものではない。",
+     "en": "Rome was not built in a day.",
+     "zh": "罗马不是一天建成的。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 174777,
+     "ja": "言うまでもないことだがローマは１日にしては成らず。",
+     "en": "It goes without saying that Rome was not built in a day.",
+     "zh": "不用说，罗马不是一天建成的。",
+     "zhMachine": true,
+     "start": 17,
+     "end": 20
+    }
+   ]
+  },
+  "toatte": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     7,
+     11
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": []
+  },
+  "toareba": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": []
+  },
+  "tomonaruto": {
+   "builtin": [
+    3,
+    8
+   ],
+   "more": [
+    [
+     3,
+     8
+    ],
+    [
+     2,
+     7
+    ]
+   ],
+   "corpus": []
+  },
+  "ikan": {
+   "builtin": [
+    5,
+    9
+   ],
+   "more": [
+    [
+     3,
+     12
+    ],
+    [
+     5,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 125054,
+     "ja": "天候のいかんにかかわらず駅へ迎えに参ります。",
+     "en": "Rain or shine, I will come to meet you at the station.",
+     "zh": "无论天气如何，我一定前去车站接您。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 12
+    }
+   ]
+  },
+  "taraasaigo": {
+   "builtin": [
+    8,
+    12
+   ],
+   "more": [
+    [
+     13,
+     17
+    ],
+    [
+     10,
+     13
+    ]
+   ],
+   "corpus": []
+  },
+  "towaie": {
+   "builtin": [
+    1,
+    5
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     10,
+     14
+    ]
+   ],
+   "corpus": []
+  },
+  "toiedomo": {
+   "builtin": [
+    3,
+    8
+   ],
+   "more": [
+    [
+     5,
+     10
+    ],
+    [
+     2,
+     7
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 85200,
+     "ja": "貧しいといえども彼女は幸せだ。",
+     "en": "Though she is poor, she is happy.",
+     "zh": "尽管贫穷，她仍然幸福。",
+     "zhMachine": true,
+     "start": 3,
+     "end": 8
+    },
+    {
+     "id": 178263,
+     "ja": "君の指摘、中らずといえども遠からずだね。",
+     "en": "Your point may be a little off target, but it certainly is close.",
+     "zh": "你的指摘虽不中，亦不远矣。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 13
+    },
+    {
+     "id": 144777,
+     "ja": "親友といえども、その友情を維持する努力が必要である。",
+     "en": "Even good friends should make an effort to keep up their friendship.",
+     "zh": "即使是挚友，也需要努力维持友谊。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    }
+   ]
+  },
+  "deare": {
+   "builtin": [
+    5,
+    8
+   ],
+   "more": [
+    [
+     4,
+     9
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 203469,
+     "ja": "たとえ天候がどうであれ、私は行きます。",
+     "en": "I will go, be the weather what it may.",
+     "zh": "无论天气如何，我都会去。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 198948,
+     "ja": "なんであれ物事の本体を捕らえる事が肝心だ。",
+     "en": "No matter what the problem is, it's essential to get at the heart of the matter.",
+     "zh": "不管怎样，关键是要把握事物的本质。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 5
+    },
+    {
+     "id": 201245,
+     "ja": "どうであろうと、君はそれをしなくてはいけない。",
+     "en": "You'll have to do it, whether you like it or not.",
+     "zh": "不管怎样，你都必须做那件事。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    }
+   ]
+  },
+  "tatokorode": {
+   "builtin": [
+    5,
+    10
+   ],
+   "more": [
+    [
+     5,
+     10
+    ],
+    [
+     7,
+     12
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 167605,
+     "ja": "私が選挙で一票入れたところで、何も変わらないと思ってしまう。",
+     "en": "I figure that my vote won't change anything.",
+     "zh": "就算我投一票，也改变不了什么吧。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 14
+    }
+   ]
+  },
+  "naimademo": {
+   "builtin": [
+    6,
+    11
+   ],
+   "more": [
+    [
+     5,
+     10
+    ],
+    [
+     6,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "naramadashimo": {
+   "builtin": [
+    3,
+    9
+   ],
+   "more": [
+    [
+     2,
+     8
+    ],
+    [
+     5,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "nomiarazu": {
+   "builtin": [
+    7,
+    12
+   ],
+   "more": [
+    [
+     7,
+     12
+    ],
+    [
+     11,
+     16
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 150658,
+     "ja": "時は虚偽のみならず真実も明らかにする。",
+     "en": "Time reveals truth as well as falsehood.",
+     "zh": "时间不仅能揭示谎言，也能揭露真相。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 9
+    }
+   ]
+  },
+  "toii": {
+   "builtin": [
+    1,
+    9
+   ],
+   "more": [
+    [
+     4,
+     11
+    ],
+    [
+     2,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "narinari": {
+   "builtin": [
+    9,
+    16
+   ],
+   "more": [
+    [
+     10,
+     18
+    ],
+    [
+     10,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 230035,
+     "ja": "あらゆる国の歴史は男なり女なりの心の中に始まる。",
+     "en": "The history of every country begins in the heart of a man or a woman.",
+     "zh": "任何国家的历史，都始于男女心中。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 15
+    }
+   ]
+  },
+  "waoroka": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     3,
+     7
+    ],
+    [
+     10,
+     14
+    ]
+   ],
+   "corpus": []
+  },
+  "mosarukotonagara": {
+   "builtin": [
+    11,
+    19
+   ],
+   "more": [
+    [
+     1,
+     9
+    ],
+    [
+     5,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 76053,
+     "ja": "失業問題もさることながら、環境問題も大切だ。",
+     "en": "Although the unemployment problem can't be ignored, the environment problem is also very important.",
+     "zh": "除了失业问题，环境问题也很重要。",
+     "zhMachine": false,
+     "start": 4,
+     "end": 12
+    }
+   ]
+  },
+  "wasateoki": {
+   "builtin": [
+    2,
+    7
+   ],
+   "more": [
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     7
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 175870,
+     "ja": "結果はさておき、あなたの意図はよかった。",
+     "en": "Apart from the result, your intention was good.",
+     "zh": "抛开结果不谈，你的初衷是好的。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    },
+    {
+     "id": 205504,
+     "ja": "それはさておき、他に必要なものはないか。",
+     "en": "Aside from that, is there anything else you want?",
+     "zh": "那个先不说，还有什么需要的吗？",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    },
+    {
+     "id": 146110,
+     "ja": "冗談はさておいて、事態はどうなっていますか。",
+     "en": "Joking aside, how are things going?",
+     "zh": "玩笑暂且不论，事态怎么样了？",
+     "zhMachine": true,
+     "start": 2,
+     "end": 7
+    }
+   ]
+  },
+  "nihikikae": {
+   "builtin": [
+    6,
+    11
+   ],
+   "more": [
+    [
+     11,
+     16
+    ],
+    [
+     4,
+     9
+    ]
+   ],
+   "corpus": []
+  },
+  "wofumaete": {
+   "builtin": [
+    8,
+    13
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     2,
+     6
+    ]
+   ],
+   "corpus": []
+  },
+  "nisokushite": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     13,
+     16
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 116459,
+     "ja": "彼の伝記は全くの事実に即して書かれたものだ。",
+     "en": "His biography is quite true to life.",
+     "zh": "他的传记完全是根据事实撰写的。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 14
+    }
+   ]
+  },
+  "toaimatte": {
+   "builtin": [
+    5,
+    10
+   ],
+   "more": [
+    [
+     2,
+     7
+    ],
+    [
+     7,
+     12
+    ]
+   ],
+   "corpus": []
+  },
+  "woyosoni": {
+   "builtin": [
+    4,
+    8
+   ],
+   "more": [
+    [
+     5,
+     9
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": []
+  },
+  "womonotomosezu": {
+   "builtin": [
+    7,
+    14
+   ],
+   "more": [
+    [
+     4,
+     12
+    ],
+    [
+     8,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 206853,
+     "ja": "その兵士は自分の傷をものともしなかった。",
+     "en": "The soldier carried on as if his wound was nothing.",
+     "zh": "那名士兵完全不把伤当回事。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 18
+    },
+    {
+     "id": 213325,
+     "ja": "そのおてんば娘は危険をものともせずにその木に登った。",
+     "en": "The reckless girl climbed the tree regardless of danger.",
+     "zh": "那个野丫头不顾危险爬上了那棵树。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 18
+    }
+   ]
+  },
+  "nikakotsukete": {
+   "builtin": [
+    4,
+    10
+   ],
+   "more": [
+    [
+     8,
+     14
+    ],
+    [
+     1,
+     7
+    ]
+   ],
+   "corpus": []
+  },
+  "gatera": {
+   "builtin": [
+    2,
+    5
+   ],
+   "more": [
+    [
+     5,
+     8
+    ],
+    [
+     3,
+     6
+    ]
+   ],
+   "corpus": []
+  },
+  "katagata": {
+   "builtin": [
+    5,
+    9
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "corpus": []
+  },
+  "katawara": {
+   "builtin": [
+    8,
+    12
+   ],
+   "more": [
+    [
+     6,
+     10
+    ],
+    [
+     9,
+     13
+    ]
+   ],
+   "corpus": []
+  },
+  "nagarani": {
+   "builtin": [
+    12,
+    18
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     3,
+     7
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 86243,
+     "ja": "彼女は涙ながらに友達と別れた。",
+     "en": "She parted from her friend in tears.",
+     "zh": "她含泪与朋友告别。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 106551,
+     "ja": "彼は子供ながらにお母さんを助けるために一生懸命働いた。",
+     "en": "Child as he was, he worked hard to help his mother.",
+     "zh": "他虽然还是个孩子，却为了帮助母亲而拼命工作。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 8
+    },
+    {
+     "id": 177105,
+     "ja": "君は生まれながらの詩人だ。",
+     "en": "You are made to be a poet.",
+     "zh": "你天生就是个诗人。",
+     "zhMachine": true,
+     "start": 2,
+     "end": 9
+    }
+   ]
+  },
+  "naradewa": {
+   "builtin": [
+    7,
+    11
+   ],
+   "more": [
+    [
+     4,
+     8
+    ],
+    [
+     3,
+     7
+    ]
+   ],
+   "corpus": []
+  },
+  "wooite": {
+   "builtin": [
+    14,
+    18
+   ],
+   "more": [
+    [
+     15,
+     19
+    ],
+    [
+     15,
+     19
+    ]
+   ],
+   "corpus": []
+  },
+  "narini": {
+   "builtin": [
+    2,
+    5
+   ],
+   "more": [
+    [
+     1,
+     4
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 105107,
+     "ja": "彼は自分なりの理論を発展させた。",
+     "en": "He developed his own theory.",
+     "zh": "他发展出了属于自己的一套理论。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    },
+    {
+     "id": 236838,
+     "ja": "君なりのやり方で仕事しなさい。",
+     "en": "Do your work in your own way.",
+     "zh": "用你自己的方式工作吧。",
+     "zhMachine": true,
+     "start": 1,
+     "end": 4
+    }
+   ]
+  },
+  "sura": {
+   "builtin": [
+    10,
+    12
+   ],
+   "more": [
+    [
+     11,
+     13
+    ],
+    [
+     8,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 170796,
+     "ja": "最も強大な帝国ですら崩壊する。",
+     "en": "Even the mightiest of empires comes to an end.",
+     "zh": "即使是最强大的帝国也会崩溃。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    }
+   ]
+  },
+  "tekoso": {
+   "builtin": [
+    7,
+    10
+   ],
+   "more": [
+    [
+     8,
+     11
+    ],
+    [
+     5,
+     8
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 144743,
+     "ja": "身を捨ててこそ浮かぶ瀬もあれ。",
+     "en": "Risk all and gain all.",
+     "zh": "舍弃自身才能找到出路。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 7
+    },
+    {
+     "id": 76762,
+     "ja": "こだわりはお客に伝わってこそ意味をなす。",
+     "en": "Care over the particulars only has meaning once it gets across to customers.",
+     "zh": "讲究这种东西，只有让顾客感受到才有意义。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 14
+    }
+   ]
+  },
+  "bakoso": {
+   "builtin": [
+    9,
+    12
+   ],
+   "more": [
+    [
+     8,
+     11
+    ],
+    [
+     6,
+     9
+    ]
+   ],
+   "corpus": []
+  },
+  "taritomo": {
+   "builtin": [
+    2,
+    6
+   ],
+   "more": [
+    [
+     14,
+     18
+    ],
+    [
+     8,
+     12
+    ]
+   ],
+   "corpus": []
+  },
+  "dani": {
+   "builtin": [
+    19,
+    21
+   ],
+   "more": [
+    [
+     2,
+     4
+    ],
+    [
+     13,
+     15
+    ]
+   ],
+   "corpus": []
+  },
+  "kagirida": {
+   "builtin": [
+    14,
+    17
+   ],
+   "more": [
+    [
+     17,
+     21
+    ],
+    [
+     13,
+     18
+    ]
+   ],
+   "corpus": []
+  },
+  "kiwamari": {
+   "builtin": [
+    14,
+    19
+   ],
+   "more": [
+    [
+     9,
+     14
+    ],
+    [
+     16,
+     19
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 211565,
+     "ja": "その机は、乱雑極まりない状態だ。",
+     "en": "The desk is in a state of total disorder.",
+     "zh": "那张桌子乱得不像话。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 12
+    }
+   ]
+  },
+  "nokiwami": {
+   "builtin": [
+    20,
+    23
+   ],
+   "more": [
+    [
+     12,
+     15
+    ],
+    [
+     17,
+     20
+    ]
+   ],
+   "corpus": []
+  },
+  "noitari": {
+   "builtin": [
+    14,
+    17
+   ],
+   "more": [
+    [
+     2,
+     5
+    ],
+    [
+     14,
+     17
+    ]
+   ],
+   "corpus": []
+  },
+  "zukume": {
+   "builtin": [
+    7,
+    10
+   ],
+   "more": [
+    [
+     6,
+     9
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 231015,
+     "ja": "あの黒ずくめの紳士は誰ですか。",
+     "en": "Who is the gentleman all dressed in black?",
+     "zh": "那个一身黑的绅士是谁？",
+     "zhMachine": true,
+     "start": 3,
+     "end": 6
+    }
+   ]
+  },
+  "mamire": {
+   "builtin": [
+    6,
+    9
+   ],
+   "more": [
+    [
+     13,
+     16
+    ],
+    [
+     2,
+     5
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 116601,
+     "ja": "彼の袖が油まみれのなべに触れた。",
+     "en": "His sleeve touched the greasy pan.",
+     "zh": "他的袖子碰到了沾满油的锅。",
+     "zhMachine": true,
+     "start": 5,
+     "end": 8
+    }
+   ]
+  },
+  "meku": {
+   "builtin": [
+    12,
+    14
+   ],
+   "more": [
+    [
+     2,
+     4
+    ],
+    [
+     13,
+     15
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 194414,
+     "ja": "もうすっかり秋めいてきました。",
+     "en": "It looks as if autumn is really here.",
+     "zh": "已经有了浓浓的秋意。",
+     "zhMachine": true,
+     "start": 6,
+     "end": 9
+    }
+   ]
+  },
+  "jimiru": {
+   "builtin": [
+    11,
+    13
+   ],
+   "more": [
+    [
+     10,
+     12
+    ],
+    [
+     6,
+     8
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 204199,
+     "ja": "そんなふるまいをするとは彼も子供じみていた。",
+     "en": "It was childish of him to behave like that.",
+     "zh": "他那样做，也太孩子气了。",
+     "zhMachine": true,
+     "start": 16,
+     "end": 18
+    },
+    {
+     "id": 197692,
+     "ja": "ピーターは子供じみた娘達にほとほとうんざりした。",
+     "en": "Peter was fed up with childish girls.",
+     "zh": "彼得对女儿们孩子气的举动感到厌烦透了。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 9
+    }
+   ]
+  },
+  "tokitara": {
+   "builtin": [
+    5,
+    9
+   ],
+   "more": [
+    [
+     8,
+     12
+    ],
+    [
+     5,
+     9
+    ]
+   ],
+   "corpus": []
+  },
+  "kirai": {
+   "builtin": [
+    11,
+    17
+   ],
+   "more": [
+    [
+     17,
+     23
+    ],
+    [
+     21,
+     27
+    ]
+   ],
+   "corpus": []
+  },
+  "shimatsu": {
+   "builtin": [
+    21,
+    24
+   ],
+   "more": [
+    [
+     19,
+     22
+    ],
+    [
+     21,
+     25
+    ]
+   ],
+   "corpus": []
+  },
+  "zujimai": {
+   "builtin": [
+    15,
+    19
+   ],
+   "more": [
+    [
+     17,
+     21
+    ],
+    [
+     16,
+     20
+    ]
+   ],
+   "corpus": []
+  },
+  "yue": {
+   "builtin": [
+    2,
+    5
+   ],
+   "more": [
+    [
+     5,
+     8
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "dewaarumaishi": {
+   "builtin": [
+    2,
+    9
+   ],
+   "more": [
+    [
+     2,
+     9
+    ],
+    [
+     8,
+     15
+    ]
+   ],
+   "corpus": []
+  },
+  "kotonashini": {
+   "builtin": [
+    4,
+    9
+   ],
+   "more": [
+    [
+     4,
+     7
+    ],
+    [
+     5,
+     10
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 78385,
+     "ja": "利用条件を予告なしに変更することがあります。",
+     "en": "Terms of use may be changed without notice.",
+     "zh": "使用条件可能会在没有预告的情况下变更。",
+     "zhMachine": true,
+     "start": 7,
+     "end": 10
+    },
+    {
+     "id": 77364,
+     "ja": "労働者は事前通知なしに解雇されることはない。",
+     "en": "No workers can be dismissed without previous notice.",
+     "zh": "工人不会在没有事先通知的情况下被解雇。",
+     "zhMachine": true,
+     "start": 8,
+     "end": 11
+    },
+    {
+     "id": 209518,
+     "ja": "その取り決めは、予告なしに変わることがある。",
+     "en": "The arrangements are subject to change without notice.",
+     "zh": "那个约定可能会在没有预告的情况下改变。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 13
+    }
+   ]
+  },
+  "toomoikiya": {
+   "builtin": [
+    6,
+    11
+   ],
+   "more": [
+    [
+     6,
+     11
+    ],
+    [
+     6,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "madademonai": {
+   "builtin": [
+    13,
+    18
+   ],
+   "more": [
+    [
+     12,
+     17
+    ],
+    [
+     16,
+     24
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 211757,
+     "ja": "その解釈は学者を待つまでもない。",
+     "en": "It doesn't require a scholar to interpret.",
+     "zh": "那种解释根本无需等学者来定论。",
+     "zhMachine": true,
+     "start": 10,
+     "end": 15
+    },
+    {
+     "id": 189239,
+     "ja": "英語が世界語であることは言うまでもない。",
+     "en": "It goes without saying that English is an international language.",
+     "zh": "英语是世界语言，这自不必说。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 19
+    },
+    {
+     "id": 77230,
+     "ja": "論じるまでもなく基本的人権は尊重されなければならない。",
+     "en": "Needless to say, fundamental human rights should be respected.",
+     "zh": "無須多言，基本人權應當被尊重。",
+     "zhMachine": false,
+     "start": 3,
+     "end": 8
+    }
+   ]
+  },
+  "nikoshitakotowanai": {
+   "builtin": [
+    8,
+    17
+   ],
+   "more": [
+    [
+     10,
+     19
+    ],
+    [
+     5,
+     17
+    ]
+   ],
+   "corpus": []
+  },
+  "nihaoyobanai": {
+   "builtin": [
+    16,
+    23
+   ],
+   "more": [
+    [
+     12,
+     18
+    ],
+    [
+     16,
+     23
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 100368,
+     "ja": "彼は父親には及ばない。",
+     "en": "He is not equal to his father.",
+     "zh": "他比不上他的父亲。",
+     "zhMachine": true,
+     "start": 4,
+     "end": 10
+    },
+    {
+     "id": 234528,
+     "ja": "あえて休暇を取りやめるには及ばない。",
+     "en": "You don't have to cancel your vacation.",
+     "zh": "不必特意取消休假。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 17
+    },
+    {
+     "id": 184836,
+     "ja": "外交の駆け引きでは、とても彼には及ばない。",
+     "en": "I am no match for him in diplomatic shrewdness.",
+     "zh": "在外交谈判上，远远比不上他。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 20
+    }
+   ]
+  },
+  "madeda": {
+   "builtin": [
+    15,
+    18
+   ],
+   "more": [
+    [
+     19,
+     22
+    ],
+    [
+     16,
+     23
+    ]
+   ],
+   "corpus": []
+  },
+  "nisouinai": {
+   "builtin": [
+    13,
+    18
+   ],
+   "more": [
+    [
+     21,
+     26
+    ],
+    [
+     19,
+     27
+    ]
+   ],
+   "corpus": []
+  },
+  "zuniwaokanai": {
+   "builtin": [
+    18,
+    25
+   ],
+   "more": [
+    [
+     16,
+     23
+    ],
+    [
+     18,
+     25
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 118260,
+     "ja": "彼のふしだらな行為は気付かれずにはすまなかった。",
+     "en": "His immoral actions did not go unnoticed.",
+     "zh": "他那放荡的行为不可能不被注意到。",
+     "zhMachine": true,
+     "start": 14,
+     "end": 22
+    }
+   ]
+  },
+  "woyoginakusareru": {
+   "builtin": [
+    11,
+    19
+   ],
+   "more": [
+    [
+     15,
+     23
+    ],
+    [
+     13,
+     20
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 208230,
+     "ja": "その大臣は内閣からの辞職を余儀なくされた。",
+     "en": "The minister was obliged to resign from the cabinet.",
+     "zh": "那位大臣被迫辞去了内阁职务。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 20
+    }
+   ]
+  },
+  "nitaru": {
+   "builtin": [
+    13,
+    16
+   ],
+   "more": [
+    [
+     5,
+     10
+    ],
+    [
+     16,
+     19
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 225919,
+     "ja": "きみの意見は私にとって取るに足りない。",
+     "en": "Your opinion means nothing to me.",
+     "zh": "你的意见对我来说无足轻重。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 18
+    },
+    {
+     "id": 141284,
+     "ja": "戦争の際には歩兵は取るに足らないものだ。",
+     "en": "The infantry soldier is only a pawn in the game of war.",
+     "zh": "在战争期间，步兵是微不足道的。",
+     "zhMachine": true,
+     "start": 11,
+     "end": 16
+    },
+    {
+     "id": 197340,
+     "ja": "ビルは印刷業でいい暮らしをするに足るお金をかせいだ。",
+     "en": "The printing business made Bill a small fortune.",
+     "zh": "比尔通过印刷业赚到了足以过上好生活的钱。",
+     "zhMachine": true,
+     "start": 15,
+     "end": 18
+    }
+   ]
+  },
+  "nitaenai": {
+   "builtin": [
+    15,
+    20
+   ],
+   "more": [
+    [
+     15,
+     21
+    ],
+    [
+     12,
+     16
+    ]
+   ],
+   "corpus": []
+  },
+  "nikatakunai": {
+   "builtin": [
+    20,
+    26
+   ],
+   "more": [
+    [
+     15,
+     21
+    ],
+    [
+     20,
+     25
+    ]
+   ],
+   "corpus": []
+  },
+  "bekumonai": {
+   "builtin": [
+    20,
+    25
+   ],
+   "more": [
+    [
+     19,
+     25
+    ],
+    [
+     21,
+     26
+    ]
+   ],
+   "corpus": []
+  },
+  "gotoku": {
+   "builtin": [
+    5,
+    8
+   ],
+   "more": [
+    [
+     4,
+     7
+    ],
+    [
+     1,
+     4
+    ]
+   ],
+   "corpus": []
+  },
+  "nbakari": {
+   "builtin": [
+    15,
+    19
+   ],
+   "more": [
+    [
+     2,
+     6
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 230848,
+     "ja": "あの少年たちは若さがあふれんばかりだ。",
+     "en": "Those boys are in the first flush of youth.",
+     "zh": "那些少年浑身散发着蓬勃的青春气息。",
+     "zhMachine": true,
+     "start": 13,
+     "end": 17
+    },
+    {
+     "id": 76662,
+     "ja": "スタディアムは溢れんばかりの人込みだった。",
+     "en": "The stadium was overflowing with people.",
+     "zh": "体育场里人山人海，几乎要挤爆了。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 13
+    }
+   ]
+  },
+  "tobakarini": {
+   "builtin": [
+    18,
+    23
+   ],
+   "more": [
+    [
+     10,
+     15
+    ],
+    [
+     10,
+     15
+    ]
+   ],
+   "corpus": []
+  },
+  "beku": {
+   "builtin": [
+    8,
+    10
+   ],
+   "more": [
+    [
+     9,
+     11
+    ],
+    [
+     12,
+     14
+    ]
+   ],
+   "corpus": []
+  },
+  "ngatame": {
+   "builtin": [
+    6,
+    10
+   ],
+   "more": [
+    [
+     8,
+     12
+    ],
+    [
+     2,
+     7
+    ]
+   ],
+   "corpus": []
+  },
+  "bekarazu": {
+   "builtin": [
+    11,
+    15
+   ],
+   "more": [
+    [
+     10,
+     15
+    ],
+    [
+     7,
+     11
+    ]
+   ],
+   "corpus": []
+  },
+  "majiki": {
+   "builtin": [
+    15,
+    20
+   ],
+   "more": [
+    [
+     15,
+     18
+    ],
+    [
+     20,
+     25
+    ]
+   ],
+   "corpus": []
+  },
+  "towa": {
+   "builtin": [
+    14,
+    16
+   ],
+   "more": [
+    [
+     9,
+     11
+    ],
+    [
+     11,
+     13
+    ]
+   ],
+   "corpus": [
+    {
+     "id": 229538,
+     "ja": "あんな男に金を貸すとは、君はどうかしているよ。",
+     "en": "You are crazy to lend money to him.",
+     "zh": "借钱给那种男人，你脑子有病吧。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 230508,
+     "ja": "あの日彼女に会おうとは思いもよらなかった。",
+     "en": "She was the last person I expected to meet that day.",
+     "zh": "那天我根本没想到会遇见她。",
+     "zhMachine": true,
+     "start": 9,
+     "end": 11
+    },
+    {
+     "id": 120505,
+     "ja": "彼が完全試合を成し遂げるとは、少しも想像できませんでした。",
+     "en": "Little did I imagine he would achieve a perfect game.",
+     "zh": "我完全没想到他竟然能投出完投比赛。",
+     "zhMachine": true,
+     "start": 12,
+     "end": 14
+    }
+   ]
+  },
+  "teyamanai": {
+   "builtin": [
+    12,
+    18
+   ],
+   "more": [
+    [
+     12,
+     18
+    ],
+    [
+     14,
+     19
+    ]
+   ],
+   "corpus": []
+  },
+  "wokinjienai": {
+   "builtin": [
+    13,
+    19
+   ],
+   "more": [
+    [
+     9,
+     16
+    ],
+    [
+     12,
+     19
+    ]
+   ],
+   "corpus": []
+  },
+  "monowo": {
+   "builtin": [
+    14,
+    17
+   ],
+   "more": [
+    [
+     8,
+     11
+    ],
+    [
+     18,
+     21
+    ]
+   ],
+   "corpus": []
+  },
+  "younimo": {
+   "builtin": [
+    10,
+    14
+   ],
+   "more": [
+    [
+     3,
+     7
+    ],
+    [
+     4,
+     7
+    ]
+   ],
+   "corpus": []
+  }
+ }
+}

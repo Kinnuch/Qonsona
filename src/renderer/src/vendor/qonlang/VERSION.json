@@ -1,0 +1,12 @@
+{
+  "qonlangVersion": "1.0.0-beta.1",
+  "commit": "41e5354f19fc2a84abacad84cf23b3cd28a85184",
+  "commitDate": "2026-10-09T10:59:51+08:00",
+  "subject": "1.0.0-beta.2：配套的学习软件改名 Qonsona",
+  "files": 82,
+  "skipped": [
+    "core/guide.ts",
+    "core/tourSteps.ts",
+    "engine/gloss/resolve.ts"
+  ]
+}

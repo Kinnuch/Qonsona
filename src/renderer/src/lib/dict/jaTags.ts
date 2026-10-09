@@ -1,0 +1,150 @@
+/**
+ * JMdict 标记的中文 / 英文简称。没列的在界面上用 JMdict 自带的英文说明（meta.tags）。
+ */
+type Label = { zh: string; en: string }
+
+const L = (zh: string, en: string): Label => ({ zh, en })
+
+export const JA_TAGS: Record<string, Label> = {
+  // 词性
+  n: L('名词', 'noun'),
+  'n-adv': L('副词性名词', 'adverbial noun'),
+  'n-pr': L('专有名词', 'proper noun'),
+  'n-pref': L('名词·前缀', 'noun prefix'),
+  'n-suf': L('名词·后缀', 'noun suffix'),
+  'n-t': L('时间名词', 'temporal noun'),
+  num: L('数词', 'numeric'),
+  pn: L('代词', 'pronoun'),
+  pref: L('前缀', 'prefix'),
+  suf: L('后缀', 'suffix'),
+  ctr: L('量词', 'counter'),
+  prt: L('助词', 'particle'),
+  conj: L('接续词', 'conjunction'),
+  int: L('感叹词', 'interjection'),
+  exp: L('惯用表达', 'expression'),
+  cop: L('系动词', 'copula'),
+  aux: L('助动词', 'auxiliary'),
+  'aux-v': L('助动词', 'auxiliary verb'),
+  'aux-adj': L('补助形容词', 'auxiliary adjective'),
+  unc: L('未分类', 'unclassified'),
+  adv: L('副词', 'adverb'),
+  'adv-to': L('副词（と）', 'adverb (to)'),
+  'adj-i': L('い形容词', 'i-adjective'),
+  'adj-ix': L('い形容词（よい / いい）', 'i-adjective (yoi/ii)'),
+  'adj-na': L('な形容词', 'na-adjective'),
+  'adj-no': L('の形容词', 'no-adjective'),
+  'adj-pn': L('连体词', 'pre-noun adjectival'),
+  'adj-t': L('たる形容词', 'taru adjective'),
+  'adj-f': L('连体修饰', 'prenominal'),
+  'adj-ku': L('く形容词（古）', 'ku-adjective (archaic)'),
+  'adj-shiku': L('しく形容词（古）', 'shiku-adjective (archaic)'),
+  'adj-nari': L('なり形容词（古）', 'nari-adjective (archaic)'),
+  'adj-kari': L('かり形容词（古）', 'kari-adjective (archaic)'),
+  v1: L('一段动词', 'ichidan verb'),
+  'v1-s': L('一段动词（くれる类）', 'ichidan verb (kureru)'),
+  v5aru: L('五段动词（ある类）', 'godan verb (-aru)'),
+  v5b: L('五段动词', 'godan verb'),
+  v5g: L('五段动词', 'godan verb'),
+  v5k: L('五段动词', 'godan verb'),
+  'v5k-s': L('五段动词（行く）', 'godan verb (iku)'),
+  v5m: L('五段动词', 'godan verb'),
+  v5n: L('五段动词', 'godan verb'),
+  v5r: L('五段动词', 'godan verb'),
+  'v5r-i': L('五段动词（不规则）', 'godan verb (irregular)'),
+  v5s: L('五段动词', 'godan verb'),
+  v5t: L('五段动词', 'godan verb'),
+  v5u: L('五段动词', 'godan verb'),
+  'v5u-s': L('五段动词（特殊）', 'godan verb (special)'),
+  vk: L('カ变动词', 'kuru verb'),
+  vs: L('サ变（名词＋する）', 'suru noun'),
+  'vs-i': L('サ变动词', 'suru verb'),
+  'vs-s': L('サ变动词（特殊）', 'suru verb (special)'),
+  'vs-c': L('サ变动词（す）', 'su verb'),
+  vz: L('ザ变动词', 'zuru verb'),
+  vn: L('ナ变动词', 'nu verb'),
+  vr: L('ラ变动词', 'ru verb (irregular)'),
+  vi: L('自动词', 'intransitive'),
+  vt: L('他动词', 'transitive'),
+  'v-unspec': L('动词', 'verb'),
+  // 用法
+  uk: L('多写假名', 'usually kana'),
+  col: L('口语', 'colloquial'),
+  sl: L('俚语', 'slang'),
+  'net-sl': L('网络用语', 'internet slang'),
+  hon: L('尊敬语', 'honorific'),
+  hum: L('谦让语', 'humble'),
+  pol: L('礼貌语', 'polite'),
+  fam: L('亲昵', 'familiar'),
+  fem: L('女性用语', 'female'),
+  male: L('男性用语', 'male'),
+  chn: L('儿语', "children's language"),
+  arch: L('古语', 'archaic'),
+  obs: L('已废', 'obsolete'),
+  dated: L('旧时用法', 'dated'),
+  rare: L('罕用', 'rare'),
+  form: L('正式', 'formal'),
+  poet: L('诗语', 'poetical'),
+  abbr: L('缩略', 'abbreviation'),
+  'on-mim': L('拟声拟态', 'onomatopoeia'),
+  id: L('惯用语', 'idiom'),
+  proverb: L('谚语', 'proverb'),
+  yoji: L('四字熟语', 'yojijukugo'),
+  derog: L('贬义', 'derogatory'),
+  vulg: L('粗俗', 'vulgar'),
+  sens: L('敏感', 'sensitive'),
+  X: L('粗鲁', 'rude'),
+  joc: L('诙谐', 'jocular'),
+  euph: L('委婉', 'euphemistic'),
+  hist: L('历史', 'historical'),
+  // 写法
+  ateji: L('当て字', 'ateji'),
+  iK: L('不规范汉字写法', 'irregular kanji'),
+  ik: L('不规范假名写法', 'irregular kana'),
+  io: L('不规范送假名', 'irregular okurigana'),
+  oK: L('旧式汉字写法', 'outdated kanji'),
+  ok: L('旧式假名写法', 'outdated kana'),
+  rK: L('罕用汉字写法', 'rare kanji form'),
+  rk: L('罕用假名写法', 'rare kana form'),
+  gikun: L('义训', 'gikun'),
+  // 常见领域
+  med: L('医学', 'medicine'),
+  comp: L('计算机', 'computing'),
+  math: L('数学', 'mathematics'),
+  law: L('法律', 'law'),
+  bus: L('商务', 'business'),
+  econ: L('经济', 'economics'),
+  finc: L('金融', 'finance'),
+  food: L('饮食', 'food'),
+  sports: L('体育', 'sports'),
+  music: L('音乐', 'music'),
+  Buddh: L('佛教', 'Buddhism'),
+  ling: L('语言学', 'linguistics'),
+  gramm: L('语法', 'grammar'),
+  biol: L('生物', 'biology'),
+  chem: L('化学', 'chemistry'),
+  physics: L('物理', 'physics'),
+  // 方言
+  ksb: L('关西方言', 'Kansai-ben'),
+  osb: L('大阪方言', 'Osaka-ben'),
+  kyb: L('京都方言', 'Kyoto-ben'),
+  hob: L('北海道方言', 'Hokkaido-ben'),
+  thb: L('东北方言', 'Tohoku-ben'),
+  kyu: L('九州方言', 'Kyushu-ben'),
+  rkb: L('琉球方言', 'Ryukyu-ben')
+}
+
+/** 标记的显示名：有中文 / 英文简称用简称，没有用 JMdict 的英文说明，再没有显示原样 */
+export function tagLabel(tag: string, locale: string, jmdictTags: Record<string, string>): string {
+  const l = JA_TAGS[tag]
+  if (l) return locale === 'zh' ? l.zh : l.en
+  return jmdictTags[tag] ?? tag
+}
+
+/** 一串词性合并重复的显示名（五段动词的各种词尾都叫「五段动词」） */
+export function posLabels(
+  pos: string[],
+  locale: string,
+  jmdictTags: Record<string, string>
+): string[] {
+  return [...new Set(pos.map((p) => tagLabel(p, locale, jmdictTags)))]
+}

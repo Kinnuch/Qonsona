@@ -1,0 +1,15 @@
+node_modules
+dist
+out
+.DS_Store
+.eslintcache
+*.log*
+*.tmp
+*.tsbuildinfo
+
+# 私有语言数据（瑟乌丝林语等）只在本机测，不入库
+tests/fixtures/private
+.cache
+
+# 生成的词典数据库（npm run data:ja）
+resources/data
