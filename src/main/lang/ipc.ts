@@ -6,10 +6,14 @@ import { app, ipcMain, net } from 'electron'
 import { createHash } from 'node:crypto'
 import { existsSync, promises as fs } from 'node:fs'
 import { join } from 'node:path'
-import { isLangCode } from '../../shared/lang/registry'
+import { LANGS, isLangCode } from '../../shared/lang/registry'
+import type { LangArticleInput } from '../../shared/lang/articles'
 import type { LangCode, SourceRef } from '../../shared/lang/types'
 import type { LexStatus } from '../../shared/lang/views'
 import { LexDb } from './lexdb'
+import { analyzeLex } from './analyze'
+import { LangArticleStore } from './articles'
+import { LANG_TEXTS } from './texts'
 
 /**
  * 一门语言的数据文件：先看数据目录里下载的（userData/data/<代码>/），再看随程序带的
@@ -47,6 +51,28 @@ export function lexDb(code: string): LexDb | null {
   }
   dbs.set(code, db)
   return db
+}
+
+const stores = new Map<LangCode, LangArticleStore>()
+
+/** 一门语言的文章库（内置课文、自己导入的、新闻） */
+export function langArticles(code: string): LangArticleStore | null {
+  if (!isLangCode(code)) return null
+  let s = stores.get(code)
+  if (!s) {
+    s = new LangArticleStore(
+      code,
+      join(app.getPath('userData'), 'articles', code),
+      LANG_TEXTS[code],
+      LANGS[code].news ?? [],
+      (text) => {
+        const db = lexDb(code)
+        return db ? analyzeLex(db, text).level : null
+      }
+    )
+    stores.set(code, s)
+  }
+  return s
 }
 
 /** 录音只从这几处取 */
@@ -129,4 +155,32 @@ export function registerLangIpc(): void {
       lexDb(code)?.items((Array.isArray(ids) ? ids : []).map(Number).slice(0, 5000)) ?? []
   )
   ipcMain.handle('lang:audio', (_e, url: string) => fetchAudio(String(url)).catch(() => null))
+
+  // 阅读：分析、文章库、新闻
+  ipcMain.handle('lang:analyze', (_e, code: string, text: string) => {
+    const db = lexDb(code)
+    return db ? analyzeLex(db, String(text)) : null
+  })
+  ipcMain.handle('langArticles:list', (_e, code: string) => langArticles(code)?.list() ?? [])
+  ipcMain.handle(
+    'langArticles:get',
+    (_e, code: string, id: string) => langArticles(code)?.get(String(id)) ?? null
+  )
+  ipcMain.handle(
+    'langArticles:save',
+    (_e, code: string, input: LangArticleInput) => langArticles(code)?.save(input) ?? null
+  )
+  ipcMain.handle('langArticles:remove', (_e, code: string, id: string) =>
+    langArticles(code)?.remove(String(id))
+  )
+  ipcMain.handle('langArticles:markRead', (_e, code: string, id: string, read: boolean) =>
+    langArticles(code)?.markRead(String(id), !!read)
+  )
+  ipcMain.handle('langArticles:setTranslation', (_e, code: string, id: string, text: string) =>
+    langArticles(code)?.setTranslation(String(id), String(text))
+  )
+  ipcMain.handle(
+    'langNews:refresh',
+    (_e, code: string, force?: boolean) => langArticles(code)?.refreshNews(!!force) ?? null
+  )
 }

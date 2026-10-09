@@ -276,8 +276,142 @@ export interface LangSpec {
   intro: LocalizedText
 }
 
-/** 一门语言的全部：说明 + 规则；以后的阶段再加阅读、课程、练习的部分 */
+/** 一门语言的全部：说明 + 规则，以及各阶段加上的部分（没做的省略） */
 export interface LangModule {
   spec: LangSpec
   rules: LangRules
+  /** 阶段二：语法点（阅读器认、词典的语法页签、语法课用） */
+  grammar?: LexGrammarPoint[]
+  /** 阶段二：新闻来源 */
+  news?: NewsSource[]
+}
+
+// ───────────────────────── 阅读（阶段二） ─────────────────────────
+
+/** 正文里的一段：阅读器显示、点击查词、认语法点都用它 */
+export interface LexToken {
+  text: string
+  start: number
+  end: number
+  kind: RawToken['kind']
+  /** 对上的词条（词典 entry.id） */
+  entry?: number
+  /** 原形（词头） */
+  lemma?: string
+  /** 词性 */
+  pos?: PosTag
+  /** 这个词形的标签：复数、过去分词、主格助词……（form 表的 tags，或者猜原形时给的） */
+  tags?: string[]
+  /** 主分级的等级 */
+  lv?: string | null
+  zh?: string
+  en?: string
+  /** 注音：罗马化 / IPA（按 features.ruby） */
+  ruby?: string
+}
+
+export interface LexSentence {
+  start: number
+  end: number
+  /** 第几段 */
+  para: number
+  tokens: LexToken[]
+}
+
+/** 正文里认出的一个语法点 */
+export interface LexGrammarHit {
+  id: string
+  /** 第几句 */
+  sentence: number
+  start: number
+  end: number
+}
+
+export interface LexAnalysis {
+  text: string
+  sentences: LexSentence[]
+  grammar: LexGrammarHit[]
+  /** 估出来的难度（主分级的等级）；词太少时为 null */
+  level: string | null
+}
+
+/**
+ * 认语法点用的「一个词」的条件。几个条件都要满足；没写的不管。
+ * 一个语法点的 pattern 是这种条件的序列，按顺序对上正文里的词（标点、空白跳过）。
+ */
+export interface TokenTest {
+  /** 原形是这个（或其中之一）；用 rules.key() 规整后比较 */
+  lemma?: string | string[]
+  /** 原文写法是这个（或其中之一）；规整后比较 */
+  form?: string | string[]
+  /** 原文写法要匹配的正则 */
+  surface?: RegExp
+  pos?: PosTag | PosTag[]
+  /** 这些标签都要有 */
+  tags?: string[]
+  /** 这些标签里有一个就行 */
+  anyTags?: string[]
+  /** 这个词不能满足的条件 */
+  not?: TokenTest
+  /** 可以没有这个词 */
+  optional?: boolean
+  /** 跟上一个词之间最多隔几个词（默认 0：紧挨着） */
+  gap?: number
+  /** 只看不算：前后文条件，不算进标出的范围 */
+  ctx?: boolean
+}
+
+/** 一个语法点：讲解、例句，以及在正文里怎么认出来 */
+export interface LexGrammarPoint {
+  id: string
+  /** 主分级的等级（CEFR A1、TOPIK 2……） */
+  level: string
+  /** 名字：passé composé、-고 싶다、present perfect */
+  name: LocalizedText
+  /** 构成：avoir / être + 过去分词 */
+  form: LocalizedText
+  /** 意思与用法 */
+  meaning: LocalizedText
+  /** 补充说明（易错点、跟相近语法的区别） */
+  notes?: LocalizedText
+  /** 例句（自己写的或语料里的；要地道、正确） */
+  examples: { text: string; zh?: string; en?: string }[]
+  /** 正文里怎么认出来：几种词序列，任一种对上就算；没有的只在语法课、词典里出现 */
+  patterns?: TokenTest[][]
+  /** 意思相近、出题时不互相当干扰项的一组 */
+  group?: string
+}
+
+/** 新闻来源 */
+export interface NewsSource {
+  id: string
+  name: string
+  /** RSS / Atom 地址 */
+  url: string
+  /** headline：有版权，只收标题与导语，正文看原文；full：开放许可（公有领域、CC），可以收全文 */
+  license: 'headline' | 'full'
+  /** 许可的名字（公有领域、CC BY 2.5、版权所有……） */
+  licenseName: string
+  home: string
+  /** 分类：显示在文章库的主题里 */
+  topic?: string
+  /** 简易新闻（美国之音 Learning English、RFI 简易法语）标出难度（主分级的等级） */
+  level?: string
+}
+
+/** 内置课文（data/<代码>/texts.json 的一项）：公有领域或开放许可的文章、故事、诗 */
+export interface LexText {
+  id: string
+  title: string
+  author?: string
+  /** 正文：段落之间空一行 */
+  text: string
+  /** 出处：维基文库的页面、古登堡编号…… */
+  source: string
+  license: string
+  url?: string
+  /** 主题：story、fable、poem、news、wiki…… */
+  topic?: string
+  /** 难度（主分级的等级），数据管线估好写进来 */
+  level?: string
 }

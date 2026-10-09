@@ -117,6 +117,35 @@ export default {
       romanization: '拉丁转写'
     }
   },
+  langReading: {
+    intro:
+      '点击一篇文章即可阅读：词按等级画下划线，点击词可以查词典，右边列出本文的词汇与语法。新闻有版权的只收标题和导语，全文请到原网站阅读。',
+    pasteBody: '请把{lang}文章粘贴到这里。',
+    sources: { all: '全部来源', news: '新闻', user: '我导入的', builtin: '内置课文' },
+    refresh: '获取新闻',
+    refreshing: '正在获取新闻……',
+    newsFailed: '新闻没能取到，请检查网络连接；内置课文和自己导入的文章照常能读。',
+    newsStatus: '{total} 个新闻来源里有 {ok} 个取到了文章，这次新加 {added} 篇。',
+    sourceOk: '取到 {n} 篇',
+    sourceFail: '没取到（{error}）',
+    underline: '等级下划线',
+    noVoice:
+      '没有找到{lang}的系统语音，请在 Windows 设置 → 时间和语言 → 语音 中添加；词典里的真人录音照常能放。',
+    excerptNote: '这是{source}公开的标题与导语，全文请点击「查看原文出处」到原网站阅读。',
+    excerptChip: '只有导语',
+    license: '许可：{license}',
+    topics: {
+      story: '故事',
+      fable: '寓言',
+      poem: '诗',
+      folktale: '民间故事',
+      news: '新闻',
+      wiki: '百科',
+      essay: '散文',
+      literature: '文学',
+      children: '儿童读物'
+    }
+  },
   lang: {
     about: {
       data: '词典：{entries} 个词条、{examples} 句例句。',
@@ -231,6 +260,7 @@ export default {
       see: '参见',
       sources: '来源：',
       sentenceHint: '请输入一个词或一段文字，这里会列出含有它的例句。',
+      noGrammar: '没有符合条件的语法点。',
       extra: {
         hanja: '汉字',
         root: '词根',

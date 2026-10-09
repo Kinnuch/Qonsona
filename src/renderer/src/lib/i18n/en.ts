@@ -119,6 +119,37 @@ export default {
       romanization: 'Romanization'
     }
   },
+  langReading: {
+    intro:
+      'Click an article to read it: words are underlined by level, click a word to look it up, and the side panel lists the vocabulary and grammar of the text. Copyrighted news only comes with headlines and leads; read the full story on the original site.',
+    pasteBody: 'Paste a {lang} text here.',
+    sources: { all: 'All sources', news: 'News', user: 'Imported', builtin: 'Built-in texts' },
+    refresh: 'Get news',
+    refreshing: 'Getting news…',
+    newsFailed:
+      'The news could not be fetched. Please check your internet connection; built-in texts and your own articles can still be read.',
+    newsStatus: '{ok} of {total} news sources returned articles; {added} new this time.',
+    sourceOk: '{n} articles',
+    sourceFail: 'failed ({error})',
+    underline: 'Level underlines',
+    noVoice:
+      'No {lang} system voice was found. Please add one in Windows Settings → Time & language → Speech; recordings in the dictionary still play.',
+    excerptNote:
+      'This is the public headline and lead from {source}; click “Original” to read the full story on the original site.',
+    excerptChip: 'Lead only',
+    license: 'Licence: {license}',
+    topics: {
+      story: 'Story',
+      fable: 'Fable',
+      poem: 'Poem',
+      folktale: 'Folk tale',
+      news: 'News',
+      wiki: 'Encyclopedia',
+      essay: 'Essay',
+      literature: 'Literature',
+      children: 'Children'
+    }
+  },
   lang: {
     about: {
       data: 'Dictionary: {entries} entries, {examples} example sentences.',
@@ -235,6 +266,7 @@ export default {
       see: 'See also',
       sources: 'Sources: ',
       sentenceHint: 'Type a word or some text to list example sentences containing it.',
+      noGrammar: 'No grammar points match.',
       extra: {
         hanja: 'Hanja',
         root: 'Root',

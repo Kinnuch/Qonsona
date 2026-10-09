@@ -15,12 +15,17 @@
   import AddToNotebook from '$lib/notebook/AddToNotebook.svelte'
   import { lexFromEntry, lexKey } from '$lib/notebook/cards'
   import { playRemote } from '$lib/lang/remoteAudio'
+  import LexGrammarDict from './LexGrammarDict.svelte'
 
   let { code }: { code: string } = $props()
 
   const spec = $derived(LANGS[code as LangCode].spec)
   const memo = $derived(dictState.of(code))
-  const TABS: DictTab[] = ['words', 'sentences']
+  const TABS = $derived<DictTab[]>(
+    LANGS[code as LangCode].grammar?.length
+      ? ['words', 'sentences', 'grammar']
+      : ['words', 'sentences']
+  )
   /** 正文的书写方向与语言标记（阿拉伯语从右往左） */
   const dir = $derived(spec.direction)
   const lang = $derived(spec.bcp47)
@@ -382,6 +387,8 @@
         {/if}
       </article>
     </div>
+  {:else if memo.tab === 'grammar'}
+    <LexGrammarDict {code} query={memo.query} />
   {:else}
     <ul class="sentences" data-sentences>
       {#each examples as ex (ex.id)}

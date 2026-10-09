@@ -18,7 +18,13 @@ import type { GrammarExampleData } from '$shared/ja/grammar-course'
 import type { ExamPaper, ExamQuestion, PracticeKind } from '$shared/exam'
 import type { MediaItem, MediaPatch } from '$shared/media'
 import type { Article, ArticleInput, ArticleMeta, NhkStatus } from '$shared/articles'
-import type { LexExample, SourceRef } from '$shared/lang/types'
+import type { LexAnalysis, LexExample, SourceRef } from '$shared/lang/types'
+import type {
+  LangArticle,
+  LangArticleInput,
+  LangArticleMeta,
+  LangNewsStatus
+} from '$shared/lang/articles'
 import type { LexEntryView, LexSearchResult, LexStatus, LexWordItem } from '$shared/lang/views'
 
 /** 维基词典的一条释义：来源（日语版 / 中文版）、词性、释义、例句、出自哪一页 */
@@ -190,7 +196,24 @@ export const platform = {
     levelCounts: (code: string) => invoke<Record<string, number>>('lang:levelCounts', code),
     items: (code: string, ids: number[]) => invoke<LexWordItem[]>('lang:items', code, ids),
     /** 真人录音（维基共享资源等）：主进程下载并缓存；没联网、地址不在白名单里时是 null */
-    audio: (url: string) => invoke<{ bytes: Uint8Array; mime: string } | null>('lang:audio', url)
+    audio: (url: string) => invoke<{ bytes: Uint8Array; mime: string } | null>('lang:audio', url),
+    /** 阅读器：分句、切词、对词条、注音、认语法点、估难度；没有词典数据时是 null */
+    analyze: (code: string, text: string) => invoke<LexAnalysis | null>('lang:analyze', code, text),
+    /** 文章库：内置课文、自己导入的、新闻 */
+    articles: {
+      list: (code: string) => invoke<LangArticleMeta[]>('langArticles:list', code),
+      get: (code: string, id: string) => invoke<LangArticle | null>('langArticles:get', code, id),
+      save: (code: string, input: LangArticleInput) =>
+        invoke<LangArticleMeta | null>('langArticles:save', code, input),
+      remove: (code: string, id: string) => invoke<void>('langArticles:remove', code, id),
+      markRead: (code: string, id: string, read: boolean) =>
+        invoke<void>('langArticles:markRead', code, id, read),
+      setTranslation: (code: string, id: string, text: string) =>
+        invoke<void>('langArticles:setTranslation', code, id, text)
+    },
+    /** 取新闻（一小时最多一次，force 除外） */
+    news: (code: string, force?: boolean) =>
+      invoke<LangNewsStatus | null>('langNews:refresh', code, force)
   },
   /** 课程进度：每门语言一个文件 */
   course: {

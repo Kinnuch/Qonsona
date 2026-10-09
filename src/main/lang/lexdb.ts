@@ -11,6 +11,7 @@ import type {
   LangModule,
   LexEntryData,
   LexExample,
+  PosTag,
   SourceRef
 } from '../../shared/lang/types'
 import type {
@@ -26,6 +27,19 @@ import type {
 import { SCHEMA_VERSION, enGlossKey, unpackEntry } from './lexdb-schema'
 
 const ORDER: LexMatch[] = ['exact', 'form', 'loose', 'guess', 'gloss', 'prefix']
+
+/** 阅读器里一个词形对上的词条 */
+export interface LookupHit {
+  entry: number
+  lemma: string
+  pos: PosTag
+  /** 这个词形的标签（form 表的，或者猜原形时给的） */
+  tags: string[]
+  lv: string | null
+  zh: string
+  en: string
+  ipa?: string
+}
 
 interface Row {
   id: number
@@ -232,6 +246,62 @@ export class LexDb {
       )
     }
     return out.map((r) => ({ ...r, id: Number(r.id) }))
+  }
+
+  // ───────────── 阅读器查词 ─────────────
+
+  #lookups = new Map<string, LookupHit | null>()
+
+  /**
+   * 阅读器：一个词形对上哪个词条。严格键 → 宽松键 → 按规则猜原形；同一层里常用的优先。
+   * 结果按键缓存（一篇文章里同一个词只查一次）
+   */
+  lookup(surface: string): LookupHit | null {
+    const rules = this.lang.rules
+    const key = rules.key(surface)
+    if (!key) return null
+    if (this.#lookups.has(key)) return this.#lookups.get(key)!
+    const rows = (
+      k: string,
+      loose: 0 | 1
+    ): { entry: number; tags: string; lv: string | null; data: Uint8Array }[] =>
+      this.#stmt(
+        `SELECT f.entry, f.tags, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
+         WHERE f.key = ? AND f.loose = ? ORDER BY e.fr IS NULL, e.fr, length(e.w) LIMIT 1`
+      ).all(k, loose) as never
+    let found = rows(key, 0)[0]
+    let tags: string[] | null = null
+    if (!found) {
+      const loose = rules.looseKey?.(surface)
+      if (loose) found = rows(loose, 1)[0] ?? rows(loose, 0)[0]
+    }
+    if (!found) {
+      for (const g of rules.lemmaCandidates?.(surface) ?? []) {
+        found = rows(rules.key(g.lemma), 0)[0]
+        if (found) {
+          tags = g.tags
+          break
+        }
+      }
+    }
+    let hit: LookupHit | null = null
+    if (found) {
+      const d = unpackEntry(found.data)
+      const g = firstGloss(d)
+      hit = {
+        entry: Number(found.entry),
+        lemma: d.w,
+        pos: d.p[0],
+        tags: tags ?? (found.tags ? found.tags.split(' ').filter((x) => x !== 'lemma') : []),
+        lv: found.lv,
+        zh: g.zh,
+        en: g.en,
+        ipa: d.ipa?.[0]
+      }
+    }
+    if (this.#lookups.size > 20000) this.#lookups.clear()
+    this.#lookups.set(key, hit)
+    return hit
   }
 
   // ───────────── 词条 ─────────────
