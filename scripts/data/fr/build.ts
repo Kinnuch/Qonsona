@@ -4,6 +4,7 @@
  *   node scripts/data/run-ts.mjs scripts/data/fr/download.ts   下载原始数据（已有的跳过，约 3.6 GB）
  *   node scripts/data/run-ts.mjs scripts/data/fr/build.ts      建库（第一次十来分钟，之后中间结果有缓存）
  *   node scripts/data/run-ts.mjs scripts/lang/validate.ts fr   校验
+ * 软件开着时库文件被占用换不掉：加 --out <文件> 写到别处，校验时把文件路径写在语言代码后面。
  *
  * 词条的骨架是英文维基词典的法语词条（英文释义、性、变位表、IPA、录音、例句）；
  * 中文释义按「中文维基词典 → 法语维基词典的译词表 → 英文维基词典的译词表 → CFDICT」对到各个义项上（align.ts）；
@@ -123,13 +124,14 @@ function pickAudio(list: AudioRef[]): AudioRef[] {
     seen.add(file)
     return true
   })
+  // 标签已经统一成「国家 (城市)」（wikt-en.ts 的 placeLabel）
   const region = (a: AudioRef): string => {
     const l = a.label ?? ''
-    if (/Canada|Québec|Quebec|Acadi/i.test(l)) return 'ca'
-    if (/Belgi/i.test(l)) return 'be'
-    if (/Suisse|Switzerland/i.test(l)) return 'ch'
+    if (/^Canada|^United States/.test(l)) return 'ca'
+    if (/^Belgium/.test(l)) return 'be'
+    if (/^Switzerland/.test(l)) return 'ch'
     if (
-      /Sénégal|Senegal|Côte|Cameroun|Cameroon|Congo|Maroc|Morocco|Algérie|Algeria|Tunisie|Tunisia|Mali|Bénin|Benin|Togo|Afrique|Africa|Madagascar|Burkina|Niger|Gabon|Guinée|Rwanda/i.test(
+      /^(Senegal|Côte d'Ivoire|Cameroon|Congo|Morocco|Algeria|Tunisia|Mali|Bénin|Benin|Togo|Madagascar|Burkina|Niger|Gabon|Guinée|Guinea|Rwanda|Burundi)/.test(
         l
       )
     )
@@ -244,14 +246,37 @@ for (const d of enw.drafts) {
 log('拼词条、对中文释义…')
 for (const d of enw.drafts) items.push(fromDraft(d))
 
+// 同形不同性的名词（le livre「书」、la livre「磅」；la part「份」、le part「新生儿」）：
+// Lexique 分了性的，没有自己那个性的词频的一条只是借了别人的词频，大打折扣；
+// Lexique 不分性的（两条拿到同一个词频），英文维基词典里排在后面的词源打个折（第一个词源通常是常用的那个）
+for (const list of group(
+  items.filter((i) => i.p === 'noun' && (i.g === 'm' || i.g === 'f')),
+  (i) => i.k
+).values()) {
+  if (new Set(list.map((i) => i.g)).size < 2) continue
+  const own = list.filter((i) => lex.lemmas[`${i.k}|noun|${i.g}`])
+  if (own.length) {
+    for (const i of list) if (!own.includes(i)) i.score *= 0.05
+  } else for (const i of list.slice(1)) i.score *= 0.15
+}
+
+// 单个字母（h「小时」的缩写、y「色度坐标」、i「格拉哥里字母」）借的是字母本身的词频，不排名、不分级
+for (const i of items)
+  if ([...i.w].length === 1 && !['pron', 'adp', 'det', 'cconj', 'sconj', 'verb'].includes(i.p))
+    i.score = 0
+
 // 法语维基词典有、英文维基词典没有的常用词：用法语释义和译词表建词条
 const FR_ONLY_MIN = 0.5
 let frOnly = 0
 const haveKeyPos = new Set(items.map((i) => `${i.k}|${i.p}`))
+const bestScore = new Map<string, number>()
+for (const i of items) bestScore.set(i.k, Math.max(bestScore.get(i.k) ?? 0, i.score))
 for (const e of frwikt) {
   if (matchedFr.has(e) || haveKeyPos.has(`${e.k}|${e.p}`)) continue
+  if ([...e.w].length < 2 || e.w !== e.w.toLocaleLowerCase('fr')) continue
   const score = lexScore(lexLookup(lex, e.k, e.p, e.g))
-  if (score < FR_ONLY_MIN) continue
+  // 同一个词另有常用得多的词性的（avant 介词 / 形容词「Avant-lès-Marcilly 的」）：多半是 Lexique 标错的词性
+  if (score < FR_ONLY_MIN || (bestScore.get(e.k) ?? 0) > 5 * score) continue
   const zw = zhByKey.get(`${e.k}|${e.p}`) ?? []
   const senses: Sense[] = e.s.slice(0, 4).map((s, i) => {
     const zh = [...new Set([...(s.zh ?? []), ...(zw[0]?.s[i] ? [zw[0].s[i]] : [])])].slice(0, 4)
@@ -301,20 +326,38 @@ for (const ptr of enw.pointers) {
 }
 log(`变形、异体：另挂上 ${attached} 个`)
 
+// 大写的缩写、字母（CE、VA、H）跟同键的小写词（ce、va、h）共用 Lexique 的词频，不算
+const lowerKeys = new Set(items.filter((i) => i.w === i.w.toLocaleLowerCase('fr')).map((i) => i.k))
+for (const it of items)
+  if (it.p !== 'propn' && it.w !== it.w.toLocaleLowerCase('fr') && lowerKeys.has(it.k)) it.score = 0
+
 // ───────────────────────── Tatoeba：短语与专名的出现次数 ─────────────────────────
 
+// 没有 Lexique 词频的词，用它在 Tatoeba 里的出现次数估一个（打五折）。单词只数别的有词频的词条解释不了的写法：
+// 动词 hier「夯」不能拿副词 hier「昨天」的次数；词缀（a-、-ai）不数
+const explained = new Set<string>()
+for (const it of items)
+  if (it.score > 0) for (const form of [it.w, ...it.f.map(([x]) => x)]) explained.add(frKey(form))
 const multi = new Map<string, { item: Item; keys: string[] }[]>()
 const single = new Map<string, Item[]>()
 for (const it of items) {
-  if (it.score > 0) continue
+  if (
+    it.score > 0 ||
+    it.p === 'affix' ||
+    (it.p !== 'propn' && it.w !== it.w.toLocaleLowerCase('fr'))
+  )
+    continue
   const keys = tokenize(it.w)
     .filter((t) => t.kind === 'word' || t.kind === 'num')
     .map((t) => frKey(t.text))
+  // 省音的代词打头的（j'aime 名词「点赞」）不数：数到的几乎都是 j' + aime
+  if (keys.length > 1 && /['’]$/.test(keys[0]) && !['phrase', 'idiom', 'proverb'].includes(it.p))
+    continue
   if (keys.length > 1) {
     const l = multi.get(keys[0]) ?? []
     l.push({ item: it, keys })
     multi.set(keys[0], l)
-  } else if (keys.length === 1) {
+  } else if (keys.length === 1 && keys[0] === it.k && (it.p === 'propn' || !explained.has(it.k))) {
     const l = single.get(keys[0]) ?? []
     l.push(it)
     single.set(keys[0], l)
@@ -353,7 +396,30 @@ const CLOSED = new Set<PosTag>([
   'other',
   'aux'
 ])
+/**
+ * 省音、倒装拼起来的组合（qu'il、n'est、a-t-il、puis-je）：切词时本来就拆成两个词分别查，单列一条只会占着
+ * 常用词的名次；c'est 这种当整体学的留着
+ */
+const KEEP_COMBOS = new Set([
+  "c'est",
+  "qu'est-ce que",
+  "qu'est-ce qui",
+  "n'importe",
+  "s'il vous plaît"
+])
+/** 不缩合的写法（de le、à les）只在少数情况下出现，单列一条会占着常用词的名次 */
+const SKIP = new Set(['de le', 'de les', 'à le', 'à les', 'en le', 'en les'])
+const isCombo = (it: Item): boolean =>
+  (it.p === 'verb' || it.p === 'other' || it.p === 'intj' || it.p === 'phrase') &&
+  !KEEP_COMBOS.has(it.k) &&
+  tokenize(it.w).some(
+    (t, i, all) =>
+      (t.kind === 'punct' && /^-(t-)?$/.test(t.text) && i > 0) ||
+      (t.kind === 'word' && /['’]$/.test(t.text) && all.some((x, j) => j > i && x.kind === 'word'))
+  )
+for (const it of items) if (it.p === 'other' && KEEP_COMBOS.has(it.k)) it.p = 'phrase'
 const kept = items.filter((it) => {
+  if (isCombo(it) || SKIP.has(it.k)) return false
   if (it.p === 'propn') return it.tat >= 20 || !!coreLevel(core, it.k, it.p, it.g)
   if (CLOSED.has(it.p)) return true
   return it.score > 0 || it.senses.some((s) => s.zh?.length) || !!coreLevel(core, it.k, it.p, it.g)
@@ -374,7 +440,9 @@ for (const it of kept) {
 
 // ───────────────────────── 写库 ─────────────────────────
 
-const db = new LexDbWriter('fr')
+// --out <文件>：写到别处（软件开着时 dict.sqlite 换不掉，先写到旁边再换）
+const outArg = process.argv.indexOf('--out')
+const db = new LexDbWriter('fr', outArg > 0 ? { file: process.argv[outArg + 1] } : {})
 for (const s of Object.values(SOURCES)) db.source(s)
 db.source(LEXIQUE_SOURCE)
 db.source(CORE_SOURCE)

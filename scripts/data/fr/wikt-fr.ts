@@ -123,7 +123,7 @@ export async function loadFrWikt(want: Set<string>): Promise<FrEntry[]> {
   // 词集来自英文维基词典与 Lexique，那两份变了这里也要重算：用词集的大小与一个简单的校验和当版本的一部分
   let sum = 0
   for (const k of want) for (let i = 0; i < k.length; i++) sum = (sum * 31 + k.charCodeAt(i)) >>> 0
-  return cached(`frwikt-${want.size}-${sum}`, 2, [file], async () => {
+  return cached(`frwikt-${want.size}-${sum}`, 3, [file], async () => {
     log('读法语维基词典的法语词条（3 GB，一两分钟）…')
     const out: FrEntry[] = []
     let n = 0

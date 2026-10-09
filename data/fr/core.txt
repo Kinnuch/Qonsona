@@ -11,14 +11,16 @@
 # ───────── A1 ─────────
 
 A1 | * | bonjour, bonsoir, salut, au revoir, merci, pardon, s'il vous plaît, s'il te plaît, excusez-moi, d'accord, à bientôt, à demain, bienvenue, bravo, allô, oui, non, si, voilà, voici, il y a, ça va, enchanté
-A1 | * | qui, que, quoi, où, quand, comment, pourquoi, combien, quel, est-ce que, qu'est-ce que
+A1 | * | qui, que, quoi, où, quand, comment, pourquoi, combien, quel, est-ce que, qu'est-ce que, c'est, il faut, pas de, ne, pas, plus, n', l', d', j', m', t', s', c', qu'
+A1 | pron | je, tu, il, elle, on, nous, vous, ils, elles, me, te, se, moi, toi, lui, leur, eux, y, en, ce, ça, cela, ceci, rien, tout, quelqu'un, quelque chose, personne, celui, celle, ceux, celles
+A1 | det | le, la, les, un, une, des, du, de la, de l', au, aux, ce, cet, cette, ces, mon, ma, mes, ton, ta, tes, son, sa, ses, notre, nos, votre, vos, leur, leurs, quel, quelle, quels, quelles, chaque, tout, toute, tous, toutes, quelques
 A1 | num | zéro, un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, onze, douze, treize, quatorze, quinze, seize, dix-sept, dix-huit, dix-neuf, vingt, trente, quarante, cinquante, soixante, soixante-dix, quatre-vingts, quatre-vingt-dix, cent, mille
 A1 | adj | premier, deuxième, troisième, dernier
 A1 | noun | jour, semaine, mois, an, année, week-end, matin, midi, après-midi, soir, nuit, heure, minute, quart, date, calendrier, anniversaire, fête, saison, printemps, été, automne, hiver
 A1 | noun | lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche
 A1 | noun | janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre
 A1 | adv | aujourd'hui, demain, hier, maintenant, toujours, souvent, jamais, parfois, tard, tôt, ici, là, beaucoup, peu, très, trop, aussi, bien, mal, ensemble, après, avant, déjà, encore, vite
-A1 | noun | famille, père, mère, parent, frère, sœur, fils, fille, enfant, mari, femme, homme, garçon, bébé, grand-père, grand-mère, grands-parents, oncle, tante, cousin, cousine, ami, amie, copain, copine, voisin, monsieur, madame, mademoiselle, personne, gens
+A1 | noun | maman, papa, famille, père, mère, parent, frère, sœur, fils, fille, enfant, mari, femme, homme, garçon, bébé, grand-père, grand-mère, grands-parents, oncle, tante, cousin, cousine, ami, amie, copain, copine, voisin, monsieur, madame, mademoiselle, personne, gens
 A1 | noun | nom, prénom, âge, adresse, numéro, téléphone, nationalité, pays, ville, langue
 A1 | noun | tête, visage, œil, bouche, nez, oreille, dent, cheveu, main, bras, jambe, pied, dos, ventre, corps
 A1 | noun | couleur

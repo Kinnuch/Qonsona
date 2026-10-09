@@ -222,6 +222,9 @@ const SKIP_FORM_TAGS = new Set([
 /** 混进变形表的 IPA（manger 表里的 mɑ\u0303ʒ） */
 const IPA_CHARS = /[ɑɛɔəøœʁʒʃɲŋɥɡˈˌː]|\u0303/
 
+/** 整条都是「某词的变形 / 异体」时仍当词条收的词性（虚词） */
+const KEEP_FORM_POS = new Set(['contraction', 'article', 'det', 'pron', 'prep', 'conj', 'particle'])
+
 const isFormOf = (s: WxSense): boolean =>
   !!(s.form_of?.length || s.alt_of?.length) ||
   !!s.tags?.some((t) => t === 'form-of' || t === 'alt-of')
@@ -255,12 +258,61 @@ function audioOf(sounds: WxSound[]): AudioRef[] {
   return out
 }
 
+/** 录音地区里认得的国家（法语、英语的叫法）→ 统一的英文名 */
+const COUNTRIES: [RegExp, string][] = [
+  [/^(France|Paris)$/i, 'France'],
+  [/^(Belgique|Belgium)$/i, 'Belgium'],
+  [/^(Suisse|Switzerland)$/i, 'Switzerland'],
+  [/^(Canada|Québec|Quebec)$/i, 'Canada'],
+  [/^(Louisiane|Louisiana|États-Unis|United States|USA)$/i, 'United States'],
+  [/^(Luxembourg)$/i, 'Luxembourg'],
+  [/^(Monaco)$/i, 'Monaco'],
+  [/^(Haïti|Haiti)$/i, 'Haiti'],
+  [/^(Sénégal|Senegal)$/i, 'Senegal'],
+  [/^(Côte d['’]Ivoire|Ivory Coast)$/i, "Côte d'Ivoire"],
+  [/^(Cameroun|Cameroon)$/i, 'Cameroon'],
+  [/^(Congo|RDC|République démocratique du Congo|DR Congo)$/i, 'Congo'],
+  [/^(Maroc|Morocco)$/i, 'Morocco'],
+  [/^(Algérie|Algeria)$/i, 'Algeria'],
+  [/^(Tunisie|Tunisia)$/i, 'Tunisia'],
+  [
+    /^(Mali|Bénin|Benin|Togo|Madagascar|Burkina Faso|Niger|Gabon|Guinée|Guinea|Rwanda|Burundi)$/i,
+    ''
+  ],
+  [/^(Liban|Lebanon)$/i, 'Lebanon'],
+  [/^(La Réunion|Réunion|Martinique|Guadeloupe|Guyane|Nouvelle-Calédonie|Mayotte)$/i, 'France']
+]
+
+/** 「Paris (France)」「Suisse (canton du Valais)」「France · Agen」统一写成「France (Paris)」「Switzerland (Valais)」 */
+export function placeLabel(parts: string[]): string {
+  const flat = parts
+    .flatMap((p) => p.split(/[()（）,，·]/))
+    .map((p) =>
+      p
+        .replace(/^(canton|région|province|département|ville) (du|de la|de l['’]|de|des) /i, '')
+        .trim()
+    )
+    .filter((p) => p && !/^(audio|音频|音頻|prononciation)$/i.test(p))
+  let country = ''
+  const places: string[] = []
+  for (const p of flat) {
+    const hit = COUNTRIES.find(([re]) => re.test(p))
+    if (hit && !country) {
+      country = hit[1] || p
+      // Paris、Québec 本身也是地名
+      if (/^(Paris|Québec|Quebec|Louisiane|Louisiana)$/i.test(p)) places.push(p)
+      else if (hit[1] === 'France' && !/^(France|Paris)$/i.test(p)) places.push(p)
+    } else if (!hit && !places.includes(p)) places.push(p)
+  }
+  const place = places.slice(0, 1).join('')
+  if (country) return place ? `${country} (${place})` : country
+  return places.join(' · ')
+}
+
 /** Lingua Libre 的文件名是「LL-Q150 (fra)-说话人-词.wav」，一律 CC BY-SA 4.0 */
 export function audioRef(url: string, file: string, tags: string[], note?: string): AudioRef {
   const ll = /^LL-Q150 \(fra\)-([^-]+)-/.exec(file)
-  const place = [...new Set([...tags, ...(note ? [note] : [])])]
-    .filter((t) => !/^(audio|音频|音頻)$/i.test(t))
-    .join(' · ')
+  const place = placeLabel([...tags, ...(note ? [note] : [])])
   return {
     url,
     ...(place ? { label: place } : {}),
@@ -300,7 +352,7 @@ const MAX_EXAMPLE = 120
 
 export async function loadEnWikt(): Promise<EnWikt> {
   const file = join(CACHE, DOWNLOADS.enwikt.file)
-  return cached('enwikt', 3, [file], async () => {
+  return cached('enwikt', 6, [file], async () => {
     log('读英文维基词典的法语词条…')
     const byKey = new Map<string, Draft>()
     const pointers: Pointer[] = []
@@ -320,8 +372,11 @@ export async function loadEnWikt(): Promise<EnWikt> {
         if (s.alt_of?.length && !tags.includes('alternative')) tags.push('alternative')
         pointers.push({ form: e.word, of, pos, tags })
       }
+      // 缩合冠词（au = à + le）、省音形式（l'、qu'）、限定词的变形（cette）这些虚词，英文维基词典记成
+      // 「某词的异体 / 变形」，但学习者要能单独查到：整条都是变形的虚词，把这些义项当正式义项收
+      const keepForms = KEEP_FORM_POS.has(e.pos) && senses.every(isFormOf)
       const real = senses.filter(
-        (s) => !isFormOf(s) && (s.glosses?.length || s.raw_glosses?.length)
+        (s) => (keepForms || !isFormOf(s)) && (s.glosses?.length || s.raw_glosses?.length)
       )
       if (!real.length) continue
       const g = pos === 'noun' || pos === 'propn' ? genderOf(e, real) : undefined
@@ -343,7 +398,8 @@ export async function loadEnWikt(): Promise<EnWikt> {
         byKey.set(key, d)
       }
       const sounds = e.sounds ?? []
-      for (const i of ipaOf(sounds)) if (!d.ipa.includes(i)) d.ipa.push(i)
+      // IPA 只取第一条记录的：几个词源并在一起时，后面的读音多是方言或外来词（chat「网聊」/tʃat/）
+      if (!d.ipa.length) d.ipa.push(...ipaOf(sounds))
       for (const a of audioOf(sounds)) if (!d.au.some((x) => x.url === a.url)) d.au.push(a)
       // 变形
       for (const f of e.forms ?? []) {
@@ -367,8 +423,13 @@ export async function loadEnWikt(): Promise<EnWikt> {
       for (const s of real) {
         const gl = s.glosses ?? s.raw_glosses ?? []
         const en = cleanGloss(gl[gl.length - 1] ?? '')
-        if (!en) continue
-        const t = [...new Set((s.tags ?? []).filter((x) => SENSE_TAGS.has(x)))]
+        // 「Used other than figuratively or idiomatically: see à, la.」这种只是说字面意思见各个词，不算义项
+        if (!en || /^Used other than figuratively or idiomatically/i.test(en)) continue
+        const t = [
+          ...new Set(
+            (s.tags ?? []).filter((x) => SENSE_TAGS.has(x) && !(keepForms && x === 'abbreviation'))
+          )
+        ]
         // 跟词条的性一样的不必每个义项都标
         const st =
           g && g !== 'mf' ? t.filter((x) => x !== (g === 'm' ? 'masculine' : 'feminine')) : t

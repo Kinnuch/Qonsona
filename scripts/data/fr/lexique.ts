@@ -161,13 +161,33 @@ export function lexLookup(
         ? ['verb']
         : pos === 'propn'
           ? ['noun']
-          : [pos]
+          : pos === 'det'
+            ? ['det', 'adp'] // Lexique 把缩合冠词 au、du 算介词
+            : [pos]
   for (const p of tryPos) {
     const l = lex.lemmas[`${key}|${p}`]
     if (l) return l
   }
-  // 短语、缩合冠词、词性对不上（Lexique 把 au 算介词）的：用合计
-  if (['phrase', 'idiom', 'proverb', 'other', 'det', 'adp', 'part', 'intj', 'num'].includes(pos))
-    return lex.any[key]
+  // 省音形式（n'、s'、qu'）各家词性不一，直接用合计
+  if (pos === 'other') return lex.any[key]
+  // 短语、缩合冠词、词性对不上（Lexique 把 au 算介词）的：用合计——但这个词在 Lexique 里另有词性时不行，
+  // 不然感叹词 feu !、介词 question 会拿到名词 feu、question 的词频
+  if (['phrase', 'idiom', 'proverb', 'other', 'det', 'adp', 'part', 'intj', 'num'].includes(pos)) {
+    const other = LEX_POS.some((p) => p !== pos && lex.lemmas[`${key}|${p}`])
+    if (!other || / /.test(key)) return lex.any[key]
+  }
   return undefined
 }
+
+const LEX_POS: PosTag[] = [
+  'noun',
+  'verb',
+  'adj',
+  'adv',
+  'pron',
+  'det',
+  'adp',
+  'sconj',
+  'num',
+  'intj'
+]
