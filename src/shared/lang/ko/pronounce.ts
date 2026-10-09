@@ -98,7 +98,8 @@ function simplifyCluster(t: string, next: Syl, stemBoundary: boolean, syl: Syl):
     t === 'ㄼ' &&
     syl.l === 'ㄴ' &&
     syl.v === 'ㅓ' &&
-    ((next.v === 'ㅜ' && (next.l === 'ㅈ' || next.l === 'ㄷ')) || (next.l === 'ㅈ' && next.v === 'ㅓ'))
+    ((next.v === 'ㅜ' && (next.l === 'ㅈ' || next.l === 'ㄷ')) ||
+      (next.l === 'ㅈ' && next.v === 'ㅓ'))
   )
     return 'ㅂ' // 넓죽하다 [넙쭈카다]、넓둥글다 [넙뚱글다]、넓적하다 [넙쩌카다]
   if (t === 'ㄺ' && stemBoundary && next.l === 'ㄱ') return 'ㄹ' // 맑게 [말께]、읽고 [일꼬]
@@ -109,7 +110,21 @@ function simplifyCluster(t: string, next: Syl, stemBoundary: boolean, syl: Syl):
  * 词尾常见的开头音节：没有词干信息时，ㄻ 后面是这些就当作「词干 + 词尾」（젊다 [점따]、삶고 [삼꼬]）。
  * 不收「기」：굶기다、옮기다 的 -기- 是使动后缀，不读紧音
  */
-const ENDING_START = new Set(['다', '고', '지', '게', '자', '더', '던', '든', '죠', '잖', '겠', '네', '습'])
+const ENDING_START = new Set([
+  '다',
+  '고',
+  '지',
+  '게',
+  '자',
+  '더',
+  '던',
+  '든',
+  '죠',
+  '잖',
+  '겠',
+  '네',
+  '습'
+])
 
 /** 没有词干信息时，双收音后的辅音按「词干末」读紧音吗：ㄵ、ㄾ 只出现在词干末；ㄼ 除了「여덟」；ㄻ 看后面像不像词尾 */
 function stemLikeCluster(c: string, a: Syl, nextChar: string): boolean {
@@ -131,7 +146,11 @@ function pronounceWord(word: string, opts: PronounceOptions): string {
   for (let i = 0; i < n - 1; i++)
     if (chars[i + 1] === '없' && syls[i].t && syls[i].t !== 'ㅇ' && syls[i].t !== 'ㅎ') {
       const t = syls[i].t
-      syls[i].t = CLUSTERS[t] ? (t === 'ㄳ' || t === 'ㅄ' ? CLUSTERS[t][0] : (CLUSTER_KEEP[t] ?? t)) : (NEUTRAL[t] ?? t)
+      syls[i].t = CLUSTERS[t]
+        ? t === 'ㄳ' || t === 'ㅄ'
+          ? CLUSTERS[t][0]
+          : (CLUSTER_KEEP[t] ?? t)
+        : (NEUTRAL[t] ?? t)
     }
   for (let i = 0; i < n; i++) {
     const a = syls[i]
@@ -225,8 +244,10 @@ function pronounceWord(word: string, opts: PronounceOptions): string {
     // 紧音化
     if (tense && TENSE[on]) {
       const stemish = stemBoundary || stemLikeCluster(c, a, chars[i + 1])
-      if (OBSTRUENT_CODA.includes(c) && (t !== 'ㄹ' || stemish)) on = TENSE[on] // 학교 [학꾜]、맑게 [말께]
-      else if (STEM_TENSE_CODA.includes(c) && stemish) on = TENSE[on] // 신고 [신꼬]、앉고 [안꼬]、넓다 [널따]
+      if (OBSTRUENT_CODA.includes(c) && (t !== 'ㄹ' || stemish))
+        on = TENSE[on] // 학교 [학꾜]、맑게 [말께]
+      else if (STEM_TENSE_CODA.includes(c) && stemish)
+        on = TENSE[on] // 신고 [신꼬]、앉고 [안꼬]、넓다 [널따]
       else if (i + 1 < sinoUpTo && t === 'ㄹ' && (on === 'ㄷ' || on === 'ㅅ' || on === 'ㅈ'))
         on = TENSE[on] // 갈등 [갈뜽]
     }
@@ -260,7 +281,11 @@ function tenseAfterRieul(syls: Syl[], chars: string[]): void {
     }
   if (at < 0)
     for (const e of ['게', '지', '지요', '지도'])
-      if (w.endsWith(e) && chars.length > e.length && RIEUL_SYLLABLES.has(chars[chars.length - e.length - 1])) {
+      if (
+        w.endsWith(e) &&
+        chars.length > e.length &&
+        RIEUL_SYLLABLES.has(chars[chars.length - e.length - 1])
+      ) {
         at = chars.length - e.length
         break
       }

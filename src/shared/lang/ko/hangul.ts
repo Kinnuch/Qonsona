@@ -61,7 +61,11 @@ export const isConsonant = (j: string): boolean =>
 export function decompose(ch: string): Syllable | null {
   if (!isSyllable(ch)) return null
   const i = ch.charCodeAt(0) - SBASE
-  return { l: INITIALS[Math.floor(i / 588)], v: VOWELS[Math.floor((i % 588) / 28)], t: i % 28 ? FINALS[(i % 28) - 1] : '' }
+  return {
+    l: INITIALS[Math.floor(i / 588)],
+    v: VOWELS[Math.floor((i % 588) / 28)],
+    t: i % 28 ? FINALS[(i % 28) - 1] : ''
+  }
 }
 
 /** 初声、中声、终声合成一个音节；拼不成（字母不对）给 null */

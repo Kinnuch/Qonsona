@@ -200,9 +200,11 @@ function parseEntry(block: string): KrEntry {
     const f = feats(r[1])
     const form = first(f, 'writtenForm')
     const rid = first(f, 'id')
-    if (form) e.related.push({ type: first(f, 'type') ?? '', form, id: rid ? Number(rid) : undefined })
+    if (form)
+      e.related.push({ type: first(f, 'type') ?? '', form, id: rid ? Number(rid) : undefined })
   }
-  for (const s of block.matchAll(/<Sense att="id"[\s\S]*?<\/Sense>/g)) e.senses.push(parseSense(s[0]))
+  for (const s of block.matchAll(/<Sense att="id"[\s\S]*?<\/Sense>/g))
+    e.senses.push(parseSense(s[0]))
   return e
 }
 
