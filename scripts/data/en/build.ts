@@ -909,9 +909,12 @@ for (const b of all) {
   const kk = kaikki.get(b.w.toLowerCase())
   if (!kk || !Object.keys(kk.glosses).length) continue
   const used = new Set<string>()
+  // 这个词性已经有 WordNet 的英文释义时不补（同词性的第二个义项补上去常常对不上：water 的「流泪」）
+  const hasEn = new Set(b.s.filter((s) => s.en?.length).map((s) => s.p?.[0] ?? b.p[0]))
   for (const s of b.s) {
     if (s.en?.length || !s.zh?.length || s.dom) continue
     const pos = s.p?.[0] ?? b.p[0]
+    if (hasEn.has(pos)) continue
     const wp = (WIKT_POS[pos] ?? WIKT_POS.other).find((x) => kk.glosses[x]?.length && !used.has(x))
     if (!wp) continue
     used.add(wp)
