@@ -25,7 +25,13 @@ import type {
   LangArticleMeta,
   LangNewsStatus
 } from '$shared/lang/articles'
-import type { LexEntryView, LexSearchResult, LexStatus, LexWordItem } from '$shared/lang/views'
+import type {
+  LexEntryView,
+  LexListInfo,
+  LexSearchResult,
+  LexStatus,
+  LexWordItem
+} from '$shared/lang/views'
 
 /** 维基词典的一条释义：来源（日语版 / 中文版）、词性、释义、例句、出自哪一页 */
 export interface WiktDefinition {
@@ -192,6 +198,8 @@ export const platform = {
     list: (code: string, name: string, limit?: number) =>
       invoke<LexWordItem[]>('lang:list', code, name, limit),
     listCounts: (code: string) => invoke<Record<string, number>>('lang:listCounts', code),
+    /** 全部词表（分级的各级、主题词本……）与词数 */
+    lists: (code: string) => invoke<LexListInfo[]>('lang:lists', code),
     /** 主分级每一级多少词 */
     levelCounts: (code: string) => invoke<Record<string, number>>('lang:levelCounts', code),
     items: (code: string, ids: number[]) => invoke<LexWordItem[]>('lang:items', code, ids),

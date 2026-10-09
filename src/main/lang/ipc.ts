@@ -148,6 +148,7 @@ export function registerLangIpc(): void {
       lexDb(code)?.list(String(name), Number(limit) || 5000) ?? []
   )
   ipcMain.handle('lang:listCounts', (_e, code: string) => lexDb(code)?.listCounts() ?? {})
+  ipcMain.handle('lang:lists', (_e, code: string) => lexDb(code)?.lists() ?? [])
   ipcMain.handle('lang:levelCounts', (_e, code: string) => lexDb(code)?.levelCounts() ?? {})
   ipcMain.handle(
     'lang:items',

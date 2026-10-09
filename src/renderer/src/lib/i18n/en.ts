@@ -334,7 +334,7 @@ export default {
     newListName: 'Name of the new list',
     newList: 'New list',
     builtin: 'Built-in lists',
-    groups: { jlpt: 'JLPT lists', theme: 'Topics' },
+    groups: { jlpt: 'JLPT lists', theme: 'Topics', x: 'Other lists' },
     favorite: "Author's favorites (learn these first)",
     tag: 'Tag: {tag}',
     addBuiltin: 'Add',

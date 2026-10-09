@@ -21,6 +21,7 @@ import type {
   LexMatch,
   LexSearchResult,
   LexSenseView,
+  LexListInfo,
   LexStatus,
   LexWordItem
 } from '../../shared/lang/views'
@@ -430,6 +431,34 @@ export class LexDb {
     }[])
       out[r.name] = Number(r.n)
     return out
+  }
+
+  /**
+   * 全部词表与词数；主题词本、别的词表的名字取自 meta.themes（[{ id, title }]，词表名 theme:<id>）
+   * 与 meta.lists_info（[{ name, title }]）
+   */
+  lists(): LexListInfo[] {
+    const meta = this.#meta()
+    const titles = new Map<string, Record<string, string>>()
+    try {
+      for (const th of JSON.parse(meta.get('themes') ?? '[]') as {
+        id: string
+        title: Record<string, string>
+      }[])
+        titles.set(`theme:${th.id}`, th.title)
+      for (const l of JSON.parse(meta.get('lists_info') ?? '[]') as {
+        name: string
+        title: Record<string, string>
+      }[])
+        titles.set(l.name, l.title)
+    } catch {
+      // 名字坏了就只显示 id
+    }
+    return Object.entries(this.listCounts()).map(([name, count]) => ({
+      name,
+      count,
+      ...(titles.has(name) ? { title: titles.get(name) } : {})
+    }))
   }
 
   items(ids: number[]): LexWordItem[] {

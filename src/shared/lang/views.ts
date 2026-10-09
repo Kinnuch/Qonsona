@@ -87,6 +87,14 @@ export interface LexWordItem {
   en: string
 }
 
+/** 一张词表：分级的一级（cefr:A1）、主题（theme:food）、别的（x:awl） */
+export interface LexListInfo {
+  name: string
+  count: number
+  /** 主题词本、别的词表的名字（数据管线写在 meta.themes / meta.lists_info 里）；分级的名字界面按 spec 写 */
+  title?: LocalizedText
+}
+
 /** 一门语言的数据装了没有、多大、什么时候生成的 */
 export interface LexStatus {
   code: string

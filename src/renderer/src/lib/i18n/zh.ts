@@ -327,7 +327,7 @@ export default {
     newListName: '新词本的名字',
     newList: '新建词本',
     builtin: '内置词本',
-    groups: { jlpt: 'JLPT 词表', theme: '主题词本' },
+    groups: { jlpt: 'JLPT 词表', theme: '主题词本', x: '其他词表' },
     favorite: '作者收藏（建议先学）',
     tag: '标签：{tag}',
     addBuiltin: '加入',
