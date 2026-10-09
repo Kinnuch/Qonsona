@@ -1,68 +1,11 @@
 # 没有中文释义的常用词（按词频，前 8000 个）：词头	词性 性	英文释义（几个义项用 | 隔开）
-le	det	the (definite article) | the; my, your, etc. | a, an, per | on
-c'	pron	apocopic form of ce
-l'	det	apocopic form of le, la: the | apocopic form of le: the
-d'	adp	apocopic form of de: of | apocopic form of de: of
-une	det	feminine singular of un (“a / an”), the feminine indefinite article
-on	pron	one, people, you, someone (an unspecified individual) | we
-n'	other	Prevocalic form of ne.
-du	det	contraction of de + le, literally “of the” | Forms the partitive article.
-ce	pron	it, this, that (see § Usage notes) | he, she, it, they | he, she, it, they | it
-au	det	contraction of à + le, literally “to the, for the, at the”
-y	pron	there (at a place) | there, thither (to there) | Used as a pronoun to replace an adverbial phrase starting with à. | With verbs: see Appendix:French verbs followed by à for verbs which use this structure.
-l'	pron	apocopic form of le, la: him, her, it | apocopic form of le: him, it
-le	pron	him, her, it, them | replaces the argument of a copular verb, especially être; often not translated in English
-m'	pron	prevocalic form of me | prevocalic form of moi
-en	pron	Used as the object of a verb to indicate an indefinite quantity; of it, of them. Replaces the partitive article (du, de la, etc.) | Adverbial preposition indicating movement away from a place already mentioned; from there, from it. Replaces the phrase de là or d’ici.
-qu'	pron	apocopic form of que (“what”)
-cette	det	feminine singular of ce
-t'	pron	elided form of te | elided form of tu
-te	pron	you | you | yourself
-si	adv	so, such (intensifier) | however (to whatever extent or degree)
-quand	sconj	when (at the time that) | whenever
-ce que	pron	what (relative pronoun - direct object) | what (in indirect questions)
-de la	det	of the | some; the feminine partitive article
-à la	adp	a la, in the style or manner of (with a feminine singular adjective or a proper noun)
-aux	det	Contraction of à + les ('to the' or 'of the')
-mes	det	my (when referring to a plural noun)
-de l'	det	some; the singular prevocalic partitive article
-quelque	det	some (singular)
-s'	sconj	Elision of si (“if”) before il or ils.
-ta	det	your
-autre	pron	another
-cet	det	this
-mieux	adv	more, -er.
-tout	det	all
-dont	pron	of/from whom/which, whose; whereof | by which | Denotes a part of a set, may be translated as "including" or such as in some situations.
-mal	adv	badly
-ni	cconj	neither; nor
-ce qui	pron	what (that which; those which; the thing that) | what (in indirect questions, subject)
-tes	det	your (when referring to a plural noun)
-eh	intj	signifying indifference or surprise
-pas que	sconj	not that
-celui	pron	the one
-aucune	det	feminine singular of aucun
-qu'	sconj	apocopic form of que (“that, which; only; etc.”) | apocopic form of que (“that, which; only; etc.”) | apocopic form of qui (“who, that, which”)
 meilleur	adj	better | best
-je ne sais pas	phrase	I don't know
-parce	adp	only used in parce que
 près	adp	attached to, connects a person or an organisation delegated officially to a setting.
-toute	det	feminine singular of tout
-d'autres	det	plural of un autre
 aide	noun mf	aide (person)
 travers	noun m	outside (the external part of) | wide side (the side of which the width is measured) | border toll | oddity, irregularity of mind and mood, unfortunate disposition, defect of character
-laquelle	pron	feminine singular of lequel
-tiens	intj	used to show uncertainty; like, you know | used to show surprise | used to show emphasis | said when giving something to someone; here
-quoi que	pron	whatever (+ subjunctive)
-une fois	sconj	once, as soon as | With que, introducing a full clause in the perfect aspect. | Introducing a reduced passive-voice clause consisting only of a subject plus a past participle phrase. | Introducing a reduced perfect-aspect clause consisting only of a subject plus a past participle phrase (provided that the verb is one that forms the perfect aspect with être).
-du tout	intj	not at all
 comme ça	adj	large, big
-hors	adp	outside, out of, off | apart from, if not, except, but
-une autre	det	feminine of un autre
 quoi que ce soit	pron	anything (at all)
 que de	adv	how (modifier)
-même pas	adv	not even
-même pas	intj	no, not even!
 un coup	adv	used to soften an order | once, one time
 de quoi	pron	What is necessary to | something
 de quoi	intj	what was that
@@ -84,14 +27,10 @@ trop de	adj	excessive, (an excess of) | too much | too many
 copine	noun f	Camarade, femme que l'on apprécie, amie.
 parfaitement	adv	perfectly
 mieux	noun m	the best of one's ability, one's best
-celles	pron	feminine plural of celui: those
-à côté	adp	beside, next to | next door
 parfaire	verb	to finish, to complete | to make a supplementary payment
 vu	adj	Qui a été vu, qui a été remarqué.
 neuf	noun m	new
-là-haut	adv	up there
 véritable	adj	veritable
-tout à fait	intj	certainly, definitely (emphatic yes)
 faveur	noun f	favour
 oeuf	noun m	Variante typographique de œuf.
 sur ce	adv	thereupon, with this, on that note
@@ -148,12 +87,10 @@ ha	intj	ha (exclamation of surprise or laughter)
 piger	verb	to understand; to get, to catch on, to twig, to cotton on | to choose at random; to draw
 douer	verb	to endow (someone) (de with)
 boucler	verb	to buckle (to fasten) | to curl (make curly) | to tie up, to finish up (e.g. an affair or case) | to shut
-lorsqu'	sconj	apocopic form of lorsque; when
 dater	verb	to date, to add a date onto something | to date (de from)
 baigner	verb	to bathe | to go for a swim
 dit	adj	Appelé, surnommé.
 bagnole	noun f	ride; whip; wheels (an automobile)
-lesquels	pron	which ones
 commun	noun m	common rail
 en panne	adj	broken, broken-down, out of order
 en tant que	sconj	in that, inasmuch as, insofar as
@@ -216,7 +153,6 @@ saleté	noun f	dirtiness, mess
 en route	intj	let's go
 pour autant	adv	even so
 girl	noun f	dancing girl
-ma	det	feminine singular of mon
 diner	noun m	Restaurant sans prétention.
 diner	noun m	Monnaie andorrane de fantaisie.
 pyjama	noun m	pyjamas
@@ -7999,3 +7935,67 @@ on ne saurait faire boire un âne qui n'a pas soif	proverb	you can lead a horse 
 tabarnak	intj	An expletive and intensifier for all purposes.
 tabarnak	noun m	asshole; bastard; jerk; prick
 œillade	noun f	a wink
+se mettre à table	verb	to sit down at a table to eat | to sing, to confess under interrogation
+faire chier	verb	to piss off, to annoy, to irritate | to have a (fucking) nightmare of a time; to be excessively bored | to bust one's arse; to work extremely hard; to push oneself to the limit
+cordon bleu	noun m	blue ribbon | cordon bleu (skilfull chef) | cordon bleu (schnitzel)
+salade niçoise	noun f	Niçoise salad
+comme un éléphant dans un magasin de porcelaine	adv	like a bull in a china shop
+comme ci comme ça	adv	comme ci comme ça, so-so
+pain au chocolat	noun m	pain au chocolat (French pastry filled with chocolate)
+merde alors	intj	damn! bugger! dammit!
+bonne continuation	phrase	all the best, best of luck (used to wish someone, who one doesn't expect to see again, luck in their future endeavours)
+delacroix	noun m	a one-hundred French franc note
+laissez les bons temps rouler	intj	make merry!, let the good times roll!
+2e	adj	2nd
+5e	adj	5th
+termen	noun f	termen
+à tout bout de champ	adv	constantly, at every turn, especially if inappropriate or for no good reason
+oiseau rare	noun m	rara avis, rare bird
+point virgule	noun m	semicolon
+qui vole un œuf vole un bœuf	proverb	once a thief, always a thief (someone dishonest enough to steal a small thing can steal a big thing as well)
+mise en place	noun f	installation | mise en place (preparations done before cooking)
+comme un chien dans un jeu de quilles	adv	very suddenly and incongruously
+bête à manger du foin	adj	Very stupid; dumb as a rock; dumb as a doorknob
+pure laine	adj	of old stock Quebecois | authentic
+pure laine	noun mf	old stock Quebecois | pure wool
+avion de combat	noun m	warplane
+forces terrestres	noun f	ground forces, infantry
+pâte brisée	noun f	pâte brisée
+mal de l'air	noun m	airsickness
+en avoir pour son argent	verb	to get one's money's worth, to get good value for money
+propre comme un sou neuf	adj	Very clean; squeaky clean; clean as a whistle
+à grand-peine	adv	with great difficulty
+telle mère, telle fille	proverb	like mother, like daughter
+copains comme cochons	adj	thick as thieves
+volume sonore	noun m	sound level
+cache-œil	noun m	eyepatch
+pied de nez	noun m	snook (disrespectful gesture, performed by placing the tip of a thumb on one's nose with the fingers spread, and typically while wiggling the fingers back and forth) | act of defiance
+ça gaze	phrase	how's things?, how's tricks?
+baba au rhum	noun m	baba au rhum
+hémorragie interne	noun f	internal bleeding
+malgré que	sconj	despite that (even though; despite the fact that; although)
+et/ou	sconj	and/or
+rayon d'action	noun m	range | range, field of action
+se cogner	verb	to bump oneself
+épicène	adj	epicene (lacking gender distinction); neuter, gender-neutral
+nénètse	noun m	Nenets (language)
+caisse noire	noun f	slush fund (money stored for illegal or dishonest purposes)
+lesdits	det	masculine plural of ledit
+tenants et aboutissants	noun m	Everything connected to, all the ramifications of a situation
+en deçà	adp	on this side | below
+passé composé	noun m	a past tense in French grammar, to express a completed ('perfect') action. In English, it can either be called the perfect tense or referred to by its French name. The name 'passé composé' reflects the fact that it is a compound tense, unlike the passé simple.
+pour le coup	adv	this time, this time round, in this case | truly, actually, really; in fact
+coup de sifflet final	noun m	final whistle
+bonnet d'âne	noun m	dunce cap, dunce hat (conical hat one pupil is forced to wear to indicate he is a dunce) | donkey ears
+après la lettre	adj	lettered. "Épreuve, gravure après la lettre": a print made after the caption is added (lettered proof)
+ingénieur du son	noun m	sound engineer
+lingua franca nova	noun m	the Lingua Franca Nova language
+aussitôt dit, aussitôt fait	phrase	no sooner said than done
+cahier des charges	noun m	specifications, specs, requirements; brief
+fièvre de cheval	noun f	a strong, raging fever
+prendre son pied	verb	to have a blast, to have a great time, to have a ball | to take pleasure from something, usually to cum or to get off (have an orgasm)
+en revenir	verb	to believe; to be able to believe (something incredible) | to get over something
+langue vivante	noun f	living language (language which is still spoken in the contemporary period, as opposed to a dead language)
+enclitique	noun m	enclitic (clitic which joins with the preceding word)
+aux portes de la mort	adj	at death's door
+qui ne dit mot consent	proverb	He who says nothing (tacitly) agrees; silence is consent

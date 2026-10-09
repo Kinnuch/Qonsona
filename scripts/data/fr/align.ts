@@ -137,6 +137,8 @@ interface Cand {
   head?: Set<string>
   /** 中文维基词典的第几个义项（序号回退用） */
   ord?: number
+  /** 来自没写词性的中文维基词典词条（几个词性的意思混在一起，不能按序号对） */
+  mixed?: boolean
   w: number
 }
 
@@ -225,11 +227,11 @@ export function align(
 
   // 收候选
   const cands: Cand[] = []
-  const zwSenses = input.zhwikt?.flatMap((e) => e.s) ?? []
-  zwSenses.forEach((gloss, ord) => {
-    for (const part of splitZh(gloss)) {
+  const zwSenses = input.zhwikt?.flatMap((e) => e.s.map((g) => ({ g, mixed: e.p === null }))) ?? []
+  zwSenses.forEach(({ g, mixed }, ord) => {
+    for (const part of splitZh(g)) {
       const zh = cleanItem(part)
-      if (zh) cands.push({ zh, src: 'zhwikt', ...meaning(zh), ord, w: WEIGHT.zhwikt })
+      if (zh) cands.push({ zh, src: 'zhwikt', ...meaning(zh), ord, mixed, w: WEIGHT.zhwikt })
     }
   })
   for (const s of input.fr?.s ?? [])
@@ -284,7 +286,9 @@ export function align(
   }
   // 桥是空的人写释义：只有一个义项给它；义项数一样按序号；否则只把中文维基词典的第一个给第一个义项
   for (const c of orphans) {
-    if (n === 1) put(0, c)
+    if (c.mixed) {
+      if (c.ord === 0 && (n === 1 || perSense[0].size === 0)) put(0, c)
+    } else if (n === 1) put(0, c)
     else if (c.src === 'zhwikt' && c.ord !== undefined) {
       if (zwSenses.length === n) put(c.ord, c)
       else if (c.ord === 0 && perSense[0].size === 0) put(0, c)

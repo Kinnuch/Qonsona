@@ -17,14 +17,18 @@ import { CEFR_LEVELS } from '../../../src/shared/lang/types'
 import { frKey } from '../../../src/shared/lang/fr/rules'
 import { FREQ_BANDS } from '../../../src/shared/lang/fr/spec'
 
-/** 每一级的最后一个名次（levels-check.ts 按 FLELex 各级词数算出） */
+/**
+ * 每一级的最后一个名次。A1–C1 是 levels-check.ts 按 FLELex/Beacco 各级的词数算出的切点（取整）：
+ * 1387、2132、4164、12477、22793；C2 照算是 51545，但 4 万名以后多是专业词、FLELex 里也只剩零星几个，
+ * 定在 40000，再往后的不分级
+ */
 export const CUTS: Record<CefrLevel, number> = {
-  A1: 1300,
-  A2: 2600,
-  B1: 5500,
+  A1: 1400,
+  A2: 2150,
+  B1: 4200,
   B2: 12500,
-  C1: 20000,
-  C2: 32000
+  C1: 22800,
+  C2: 40000
 }
 
 export function levelOfRank(rank: number | undefined): CefrLevel | undefined {
@@ -109,4 +113,35 @@ export function coreLevel(
     best = easier(best, c.lv)
   }
   return best
+}
+
+export interface CoreGloss {
+  /** 英文义项的开头（小写） */
+  sense: string
+  zh: string[]
+  /** 建库时有没有对上 */
+  used?: boolean
+}
+
+/** data/fr/zh-core.txt：「键|词性」→ 各义项手写的中文 */
+export function loadZhCore(root: string): Map<string, CoreGloss[]> {
+  const out = new Map<string, CoreGloss[]>()
+  const text = readFileSync(join(root, 'data', 'fr', 'zh-core.txt'), 'utf8')
+  for (const line of text.split(/\r?\n/)) {
+    if (!line.trim() || line.startsWith('#')) continue
+    const parts = line.split(' | ').map((x) => x.trim())
+    if (parts.length !== 4 || !parts[3]) throw new Error(`zh-core.txt 这行不对：${line}`)
+    const [w, pos, sense, zh] = parts
+    const k = `${frKey(w)}|${pos}`
+    const list = out.get(k) ?? []
+    list.push({
+      sense: sense.toLowerCase(),
+      zh: zh
+        .split('；')
+        .map((x) => x.trim())
+        .filter(Boolean)
+    })
+    out.set(k, list)
+  }
+  return out
 }

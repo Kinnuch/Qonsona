@@ -42,6 +42,7 @@ import {
   harder,
   levelOfRank,
   loadCore,
+  loadZhCore,
   registerFloor
 } from './levels'
 
@@ -58,6 +59,7 @@ const want = new Set<string>([...enw.drafts.map((d) => d.k), ...Object.keys(lex.
 const frwikt = await loadFrWikt(want)
 const tatoeba = await loadTatoeba(cedict.t2s)
 const core = loadCore(ROOT)
+const zhCore = loadZhCore(ROOT)
 
 // ───────────────────────── 索引 ─────────────────────────
 
@@ -425,6 +427,33 @@ const kept = items.filter((it) => {
   return it.score > 0 || it.senses.some((s) => s.zh?.length) || !!coreLevel(core, it.k, it.p, it.g)
 })
 log(`收词：${kept.length} / ${items.length}（不收没有词频、没有中文的冷僻词与专名）`)
+
+// 虚词的中文用手写的（data/fr/zh-core.txt）：列了的词条，自动对出的中文全部不用，没写到的义项不给中文
+for (const it of kept) {
+  const lines = zhCore.get(`${it.k}|${it.p}`)
+  if (!lines) continue
+  for (const s of it.senses) {
+    const en = (s.en[0] ?? '').toLowerCase()
+    // 最长的开头优先：「you」也是「yourself」的开头
+    const hit = lines
+      .filter((l) => en.startsWith(l.sense))
+      .sort((a, b) => b.sense.length - a.sense.length)[0]
+    delete s.zh
+    delete s.zs
+    if (hit) {
+      s.zh = hit.zh
+      s.zs = 'fr-core'
+      hit.used = true
+    }
+  }
+  if (!it.senses.some((s) => s.zs === 'wikt-zh')) it.src.delete('wikt-zh')
+  if (!it.senses.some((s) => s.zs === 'cfdict')) it.src.delete('cfdict')
+  it.src.add('fr-core')
+}
+const unused = [...zhCore].flatMap(([k, lines]) =>
+  lines.filter((l) => !l.used).map((l) => `${k}「${l.sense}」`)
+)
+if (unused.length) log(`zh-core.txt 有 ${unused.length} 行没对上义项：${unused.join('；')}`)
 
 // 名次与等级
 const ranked = kept.filter((it) => it.score > 0).sort((a, b) => b.score - a.score)
