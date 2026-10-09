@@ -58,6 +58,30 @@ jobs:
         run: |
           npx electron-vite build
           npx electron-builder --mac --publish never
+      # 核对打出来的程序：词典数据、程序包名（决定数据目录）、更新仓库、麦克风用途说明，缺了就失败
+      - name: Check package (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          ls -la dist/win-unpacked/resources/data/ja
+          test -s dist/win-unpacked/resources/data/ja/dict.sqlite
+          test -s dist/win-unpacked/resources/data/ja/wikt.sqlite
+          node -e "const p=JSON.parse(require('@electron/asar').extractFile('dist/win-unpacked/resources/app.asar','package.json'));console.log(p.name,p.version);if(p.name!=='qonsona')process.exit(1)"
+          cat dist/win-unpacked/resources/app-update.yml
+          grep -q '^repo: Qonsona' dist/win-unpacked/resources/app-update.yml
+          cat dist/latest.yml
+      - name: Check package (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          for app in dist/mac/Qonsona.app dist/mac-arm64/Qonsona.app; do
+            echo "== $app"
+            ls -la "$app/Contents/Resources/data/ja"
+            test -s "$app/Contents/Resources/data/ja/dict.sqlite"
+            test -s "$app/Contents/Resources/data/ja/wikt.sqlite"
+            plutil -extract CFBundleShortVersionString raw "$app/Contents/Info.plist"
+            plutil -extract NSMicrophoneUsageDescription raw "$app/Contents/Info.plist"
+            node -e "const a=require('@electron/asar'),f=process.argv[1];const p=JSON.parse(a.extractFile(f,'package.json'));const n=a.listPackage(f).filter((x)=>x.includes('kuromoji/dict/')).length;console.log(p.name,p.version,'kuromoji dict files',n);if(p.name!=='qonsona'||!n)process.exit(1)" "$app/Contents/Resources/app.asar"
+          done
       - name: List outputs
         shell: bash
         run: ls -la dist | grep -v '^d'
