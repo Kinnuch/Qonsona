@@ -253,9 +253,10 @@ export const platform = {
   /** 视听：媒体库（视频、音频只记路径）与字幕 */
   media: {
     list: () => invoke<MediaItem[]>('media:list'),
-    /** 挑视频、音频文件加进库；返回加进去的 */
-    pick: () => invoke<MediaItem[]>('media:pick'),
-    addPaths: (paths: string[]) => invoke<MediaItem[]>('media:addPaths', paths),
+    /** 挑视频、音频文件加进库（归到 lang 这门语言）；返回加进去的 */
+    pick: (lang?: string) => invoke<MediaItem[]>('media:pick', lang),
+    addPaths: (paths: string[], lang?: string) =>
+      invoke<MediaItem[]>('media:addPaths', paths, lang),
     /** 挑字幕文件加到这一条上；failed 是没能解析的文件名 */
     pickSubtitle: (id: string) =>
       invoke<{ item: MediaItem | null; failed: string[] }>('media:pickSubtitle', id),
