@@ -10,7 +10,7 @@
  * 截图在 dist/lang-smoke/。断言全程零控制台错误、零未捕获异常。端口默认 9391（LANG_SMOKE_PORT 可换）。
  */
 import { spawn } from 'node:child_process'
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -38,6 +38,15 @@ const want = process.argv[2]?.split(',').filter(Boolean)
 const codes = Object.keys(SAMPLES).filter(
   (c) => (!want || want.includes(c)) && existsSync(join(root, 'resources/data', c, 'dict.sqlite'))
 )
+// 词典先复制进这次的数据目录（程序先读 userData/data/<代码>/）：开着的程序会占住文件，
+// 别挡住各语言的数据管线重建 resources/data 里的那一份
+for (const c of codes) {
+  mkdirSync(join(userData, 'data', c), { recursive: true })
+  copyFileSync(
+    join(root, 'resources/data', c, 'dict.sqlite'),
+    join(userData, 'data', c, 'dict.sqlite')
+  )
+}
 
 const results = []
 const errors = []
