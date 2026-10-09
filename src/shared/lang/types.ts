@@ -367,7 +367,7 @@ export interface LangModule {
    * 会话 / 惯用语 phrases、故事 texts）；course.id 用 alphabet / grammar / inflection / phrasebook / idioms / stories，
    * 跟 features 的开关对应。故事课的 TextItem.articleId 写内置课文的 'b-<texts.json 里的 id>'
    */
-  courses?: () => import('../course').Course[]
+  courses?: (locale: string) => import('../course').Course[]
   /** 字母课：一个字出现在不在这个词里（韩文要先拆音节；不写时看包不包含） */
   hasSymbol?: (word: string, symbol: string) => boolean
   /** 阶段五：这门语言特有的题型 */
@@ -466,8 +466,11 @@ export interface LexGrammarPoint {
   meaning: LocalizedText
   /** 补充说明（易错点、跟相近语法的区别） */
   notes?: LocalizedText
-  /** 例句（自己写的或语料里的；要地道、正确） */
-  examples: { text: string; zh?: string; en?: string }[]
+  /**
+   * 例句（自己写的或语料里的；要地道、正确）。hl 是语法点在句子里的那一段（照抄原文，连续的一段；
+   * 不连续的写首尾之间整段）：语法课里高亮、挖空出题，练习也先用它，没有时才靠 patterns 认
+   */
+  examples: { text: string; zh?: string; en?: string; hl?: string }[]
   /** 正文里怎么认出来：几种词序列，任一种对上就算；没有的只在语法课、词典里出现 */
   patterns?: TokenTest[][]
   /** 意思相近、出题时不互相当干扰项的一组 */

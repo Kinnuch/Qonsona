@@ -95,7 +95,23 @@ const GRAMMAR: LexGrammarPoint[] = [
     { text: 'Il faut parler lentement.', zh: '得慢慢说。', en: 'One must speak slowly.' },
     [{ form: 'il' }, { form: 'faut' }],
     'il'
-  )
+  ),
+  // 没有 patterns、只靠例句写的 hl 标出那一段
+  {
+    id: 'depuis',
+    level: 'A2',
+    name: { zh: 'depuis', en: 'depuis' },
+    form: { zh: 'depuis + 时间', en: 'depuis + time' },
+    meaning: { zh: '……以来（一直）', en: 'since / for (ongoing)' },
+    examples: [
+      {
+        text: "J'habite ici depuis deux ans.",
+        zh: '我在这里住了两年了。',
+        en: 'I have lived here for two years.',
+        hl: 'depuis deux ans'
+      }
+    ]
+  }
 ]
 
 /** 特有题型的样子：名词配冠词 */
@@ -514,16 +530,17 @@ describe('通用题型', () => {
       expect(q.prompt.listen).toMatchObject({ text: q.prompt.text, lang: 'fr-FR' })
   })
 
-  it('语法填空：挖掉的是语法点认出的那一段，干扰项来自别的语法点', () => {
-    const qs = practice('grammar-fill')
-    expect(qs).toHaveLength(5)
+  it('语法填空：挖掉的是例句写的 hl 或按 patterns 认出的那一段，干扰项来自别的语法点', () => {
+    const qs = practice('grammar-fill', 6)
+    expect(qs).toHaveLength(6)
     wellFormed(qs, 'grammar-fill')
     const spans: Record<string, string> = {
       'Il ne mange pas de viande.': 'ne mange pas',
       'Il y a un chat ici.': 'Il y a',
       'Je vais manger une pomme.': 'vais manger',
       'La maison est très grande.': 'très grande',
-      'Il faut parler lentement.': 'Il faut'
+      'Il faut parler lentement.': 'Il faut',
+      "J'habite ici depuis deux ans.": 'depuis deux ans'
     }
     for (const q of qs) {
       const [s, e] = q.prompt.blank!

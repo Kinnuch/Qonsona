@@ -438,13 +438,24 @@ function sentenceQuestions(c: Ctx, n: number, listen: boolean): ExamQuestion[] {
   return out
 }
 
-/** 语法点的例句里标出它的那一段（用这门语言的规则分析，认出的范围） */
+/** 能出语法题的语法点：例句写了 hl（在句子里找得到），或者有 patterns 能认 */
+export const usableGrammar = (g: LexGrammarPoint): boolean =>
+  g.examples.length > 0 &&
+  (!!g.patterns?.length || g.examples.some((ex) => !!ex.hl && ex.text.includes(ex.hl)))
+
+/** 语法点的例句里标出它的那一段：先用例句写的 hl，没有时用这门语言的规则分析、按 patterns 认 */
 function grammarSpans(
   c: Ctx,
   g: LexGrammarPoint
 ): { text: string; zh?: string; en?: string; s: number; e: number }[] {
   const out: { text: string; zh?: string; en?: string; s: number; e: number }[] = []
   for (const ex of g.examples) {
+    const at = ex.hl ? ex.text.indexOf(ex.hl) : -1
+    if (at >= 0) {
+      out.push({ ...ex, s: at, e: at + ex.hl!.length })
+      continue
+    }
+    if (!g.patterns?.length) continue
     const a = c.db.analyze(ex.text)
     const hit = findGrammar(a.sentences, [g], c.mod.rules.key)[0]
     if (hit) out.push({ ...ex, s: hit.start, e: hit.end })
@@ -453,7 +464,7 @@ function grammarSpans(
 }
 
 function grammarQuestions(c: Ctx, n: number, fill: boolean): ExamQuestion[] {
-  const points = (c.mod.grammar ?? []).filter((g) => g.patterns?.length && g.examples.length)
+  const points = (c.mod.grammar ?? []).filter(usableGrammar)
   if (points.length < 4) return []
   const order = c.mod.spec.levelSystems.find((s) => s.primary)!.levels.map((l) => l.id)
   const upTo = c.level ? order.indexOf(c.level) : order.length
@@ -535,7 +546,7 @@ const MAKERS: Partial<Record<PracticeKind, Maker>> = {
 /** 这门语言的词典够出哪几种通用题（练习页只列这些；特有题型另由 LangModule.practice 给） */
 export function practiceKindsFor(db: LexDb): PracticeKind[] {
   const s = db.practiceStats()
-  const grammar = (LANGS[db.code].grammar ?? []).filter((g) => g.patterns?.length).length
+  const grammar = (LANGS[db.code].grammar ?? []).filter(usableGrammar).length
   const out: PracticeKind[] = []
   if (s.glossed >= 8) out.push('word-meaning', 'meaning-word', 'listen-word', 'spelling')
   if (s.genders >= 2) out.push('gender')
