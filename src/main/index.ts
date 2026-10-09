@@ -26,6 +26,7 @@ import { ArticleStore, refreshNhk } from './articles'
 import { MediaLibrary, MEDIA_SCHEME } from './media'
 import { applyPendingRestore, createBackup, readBackup, scheduleRestore } from './backup'
 import { migrateLegacyData } from './migrate'
+import { registerLangIpc } from './lang/ipc'
 import { AUDIO_EXT as MEDIA_AUDIO, SUBTITLE_EXT, VIDEO_EXT, type MediaPatch } from '../shared/media'
 import { analysisLevel, cleanAozora, type ArticleInput, type NhkStatus } from '../shared/articles'
 import type { JaAnalysis } from '../shared/ja/reader'
@@ -251,6 +252,8 @@ function createWindow(): void {
 
 // 软件内更新：检查、下载（装过的 Windows 版先试增量）、安装
 registerUpdater(() => mainWindow, userData)
+// 框架里各语言（英、法、韩、西、阿、俄、盖尔）的词典与录音
+registerLangIpc()
 
 ipcMain.handle('app:info', () => ({
   version: app.getVersion(),

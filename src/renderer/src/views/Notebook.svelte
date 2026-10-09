@@ -20,6 +20,8 @@
   } from '$shared/notebook'
   import { DAY, STATE, endOfDay } from '$shared/srs'
   import { builtinLists } from '$lib/notebook/builtin'
+  import { langModule } from '$shared/lang/registry'
+  import type { LexListInfo } from '$shared/lang/views'
   import ReviewSession from '$lib/notebook/ReviewSession.svelte'
 
   /** 大词本先列这么多个 */
@@ -31,9 +33,12 @@
   const view = notebook.view
 
   let jlptCounts = $state<Record<number, number>>({})
+  let langLists = $state.raw<LexListInfo[]>([])
   onMount(async () => {
     await notebook.load(packs.active?.id ?? null)
-    if (packs.active?.id === 'ja') jlptCounts = await platform.ja.jlptCounts()
+    const id = packs.active?.id
+    if (id === 'ja') jlptCounts = await platform.ja.jlptCounts()
+    else if (id && langModule(id)) langLists = await platform.lang.lists(id).catch(() => [])
   })
 
   const builtins = $derived(
@@ -45,7 +50,8 @@
       packs.hidden,
       pick,
       { favorite: t('notebook.favorite'), tag: (tag) => t('notebook.tag', { tag }) },
-      jlptCounts
+      jlptCounts,
+      langLists
     )
   )
   const list = $derived(nb ? (listOf(nb, view.list) ?? listOf(nb, MINE)!) : null)
@@ -165,7 +171,7 @@
               {@const got = added(b.source)}
               {#if b.group && b.group !== builtins[i - 1]?.group}
                 <h4 class="group" data-builtin-group={b.group}>
-                  {t(`notebook.groups.${b.group}`)}
+                  {b.groupName ?? t(`notebook.groups.${b.group}`)}
                 </h4>
               {/if}
               <div class="builtin" data-builtin={b.source}>

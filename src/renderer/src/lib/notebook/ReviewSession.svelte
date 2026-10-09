@@ -10,7 +10,9 @@
   import type { EntryView } from '$shared/dict'
   import { lexemeScript, renderScript } from '$qon/script/render'
   import { ensureScriptFont, fontFamilyCss } from '$qon/script/fonts'
-  import { jaEntryId, qonItem } from './cards'
+  import { jaEntryId, lexEntryId, qonItem } from './cards'
+  import { langModule } from '$shared/lang/registry'
+  import type { LexEntryView } from '$shared/lang/views'
   import Pronounce from '$lib/ui/Pronounce.svelte'
 
   const GRADES: { q: Grade; id: 'forgot' | 'unsure' | 'known' }[] = [
@@ -38,7 +40,36 @@
         if (entryId === id) entry = e
       })
   })
-  const example = $derived(entry?.senses.flatMap((x) => x.examples)[0] ?? null)
+  // 框架语言（英、法、韩……）：背面取词条的例句
+  const lang = $derived(packs.active ? langModule(packs.active.id) : null)
+  const lexId = $derived(card && lang ? lexEntryId(card.key) : null)
+  let lexEntry = $state<LexEntryView | null>(null)
+  $effect(() => {
+    const id = lexId
+    const code = lang?.spec.code
+    lexEntry = null
+    if (id !== null && code)
+      platform.lang.entry(code, id).then((e) => {
+        if (lexId === id) lexEntry = e
+      })
+  })
+  const lexExample = $derived(
+    lexEntry
+      ? (lexEntry.senses.flatMap((x) => x.examples)[0] ?? lexEntry.examples[0] ?? null)
+      : null
+  )
+  const example = $derived.by(() => {
+    const ja = entry?.senses.flatMap((x) => x.examples)[0]
+    if (ja) return { text: ja.ja, zh: ja.zh, en: ja.en, lang: 'ja' }
+    if (lexExample)
+      return {
+        text: lexExample.text,
+        zh: lexExample.zh ?? null,
+        en: lexExample.en ?? null,
+        lang: lang?.spec.bcp47
+      }
+    return null
+  })
 
   // 千语集：词条 / 短语与这门语言的第一套文字
   const project = $derived(packs.project)
@@ -61,7 +92,9 @@
       ? null
       : entryId !== null
         ? { key: `entry-${entryId}`, text: card.reading || card.front, lang: 'ja-JP' }
-        : { key: card.key, ipa: card.reading }
+        : lexId !== null && lang?.spec.features.speech
+          ? { key: card.key, text: card.front, lang: lang.spec.features.speech }
+          : { key: card.key, ipa: card.reading }
   )
 
   function ivlLabel(days: number): string {
@@ -171,7 +204,7 @@
             <p class="meaning">{meaning(card.meaning)}</p>
             {#if example}
               <div class="example">
-                <p lang="ja">{example.ja}</p>
+                <p lang={example.lang} dir="auto">{example.text}</p>
                 <p class="muted">
                   {(i18n.locale === 'zh' ? example.zh : example.en) ?? example.en ?? ''}
                 </p>
