@@ -34,6 +34,12 @@ describe('查词键', () => {
     expect(looseKey("o'clock")).toBe('oclock')
     expect(looseKey('U.S.')).toBe('us')
     expect(looseKey('a lot')).toBe('alot')
+    expect(looseKey("don't")).toBe('dont')
+  })
+  it("宽松键留着词尾的所有格（John's 不能变成另一个词 Johns）", () => {
+    expect(looseKey("John's")).toBe("john's")
+    expect(looseKey("students'")).toBe("students'")
+    expect(looseKey("O'Brien's")).toBe("obrien's")
   })
   it('登记在框架里的就是这一份', () => {
     expect(LANGS.en.rules).toBe(rules)
@@ -202,6 +208,9 @@ describe('猜原形', () => {
     expect(lemmaCandidates("students'")[1].tags).toEqual(['plural', 'possessive'])
     expect(lemmas("'em")).toEqual(['them'])
     expect(lemmas('e-mail')).toEqual(['email', 'e mail', 'mail'])
+    expect(lemmas('e-mails')).toContain('email')
+    expect(lemmas("someone's")).toEqual(['someone'])
+    expect(lemmaCandidates("someone's")[0].tags).toEqual(['possessive'])
   })
   it('猜不出的不乱猜', () => {
     expect(lemmaCandidates('xq')).toEqual([])
