@@ -37,7 +37,7 @@ describe('语言登记', () => {
 describe('写库与读回', () => {
   it('词条、查词键、反查、词表、例句、meta', () => {
     const file = join(dir, 'fr.sqlite')
-    const w = new LexDbWriter('fr', { file })
+    const w = new LexDbWriter('fr', { file, mt: false })
     w.source({
       id: 'test',
       name: 'Test',
@@ -122,7 +122,7 @@ describe('写库与读回', () => {
   })
 
   it('词性、分级写错了直接报错', () => {
-    const w = new LexDbWriter('fr', { file: join(dir, 'bad.sqlite') })
+    const w = new LexDbWriter('fr', { file: join(dir, 'bad.sqlite'), mt: false })
     expect(() => w.entry({ w: 'x', p: ['noun-ish' as never], s: [{ en: ['x'] }] })).toThrow()
     expect(() => w.entry({ w: 'x', p: ['noun'], s: [{ en: ['x'] }], lv: { cefr: 'Z9' } })).toThrow()
     expect(() => w.entry({ w: 'x', p: ['noun'], s: [{ en: ['x'] }], lv: { nope: 'A1' } })).toThrow()

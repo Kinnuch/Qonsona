@@ -1,7 +1,11 @@
 /**
- * 视听：字幕文件的解码与解析（SRT、WebVTT、ASS、LRC）、按时间找字幕、第二字幕对齐。
+ * 视听：字幕文件的解码与解析（SRT、WebVTT、ASS、LRC）、按时间找字幕、第二字幕对齐、媒体库分语言。
  */
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { MediaLibrary } from '../src/main/media'
 import {
   cleanCueText,
   cueAt,
@@ -152,5 +156,32 @@ describe('文件', () => {
     expect(decodeText(new Uint8Array([0x82, 0xa0, 0x82, 0xa2, 0x82, 0xa4]))).toBe('あいう')
     // 「中文」的 GBK
     expect(decodeText(new Uint8Array([0xd6, 0xd0, 0xce, 0xc4]))).toBe('中文')
+  })
+})
+
+describe('媒体库分语言', () => {
+  it('加文件时记下哪门语言；不写的算日语；同一个文件换一门语言再加就归过去', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'qonsona-media-'))
+    try {
+      const a = join(dir, 'a.mp4')
+      const b = join(dir, 'b.mp3')
+      writeFileSync(a, 'x')
+      writeFileSync(b, 'x')
+      const lib = new MediaLibrary(join(dir, 'lib'))
+      const fr = await lib.add(a, 'fr')
+      expect(fr?.lang).toBe('fr')
+      const ja = await lib.add(b)
+      expect(ja?.lang).toBeUndefined()
+      const ko = await lib.add(a, 'ko')
+      expect(ko).toMatchObject({ id: fr!.id, lang: 'ko' })
+      // 存进文件，重新打开还在
+      const again = await new MediaLibrary(join(dir, 'lib')).list()
+      expect(again.map((x) => [x.title, x.lang])).toEqual([
+        ['a', 'ko'],
+        ['b', undefined]
+      ])
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
   })
 })

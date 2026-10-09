@@ -3,6 +3,7 @@
   // 放不了声音（没有这门语言的系统语音）时听力题不能选
   import { ListChecks, Timer, ChevronRight } from '@lucide/svelte'
   import { practice, COUNTS, type RunKind } from '$lib/state/practice.svelte'
+  import { packs } from '$lib/state/packs.svelte'
   import { t, pick, i18n } from '$lib/i18n/index.svelte'
   import { txt } from '$lib/courses/view'
   import { dayKey } from '$shared/srs'
@@ -17,6 +18,23 @@
   const history = $derived([...(practice.log?.exams ?? [])].reverse())
 
   const blocked = (k: RunKind): boolean => LISTEN.includes(k as PracticeKind) && !practice.canListen
+
+  /** 题型的名字与说明：框架语言特有的题型用它自己给的 */
+  function kindText(k: RunKind, part: 'name' | 'desc'): string {
+    if (k.startsWith('custom:')) {
+      const def = practice.fw?.practice?.find((x) => x.id === k.slice(7))
+      return def ? pick(part === 'name' ? def.name : (def.desc ?? def.name)) : k
+    }
+    return t(`practice.kinds.${k}.${part}`)
+  }
+  /** 框架语言模拟卷的结构：几节、几题、限时几分钟 */
+  const shapeOf = (
+    sections: { minutes: number; parts: { n: number }[] }[]
+  ): { sections: number; n: number; m: number } => ({
+    sections: sections.length,
+    n: sections.reduce((a, s) => a + s.parts.reduce((b, p) => b + p.n, 0), 0),
+    m: sections.reduce((a, s) => a + s.minutes, 0)
+  })
 
   const date = (at: number): string =>
     new Date(at).toLocaleDateString(i18n.locale === 'zh' ? 'zh-CN' : 'en', {
@@ -86,8 +104,8 @@
           disabled={practice.busy || blocked(k)}
           onclick={() => practice.start(k)}
         >
-          <strong>{t(`practice.kinds.${k}.name`)}</strong>
-          <span class="muted">{t(`practice.kinds.${k}.desc`)}</span>
+          <strong>{kindText(k, 'name')}</strong>
+          <span class="muted">{kindText(k, 'desc')}</span>
           {#if blocked(k)}<span class="faint">{t('practice.noVoice')}</span>{/if}
         </button>
       {/each}
@@ -96,11 +114,27 @@
     <p class="card muted" data-no-kinds>{t('practice.noKinds')}</p>
   {/if}
 
-  {#if practice.paperLevels.length}
+  {#if practice.paperLevels.length || practice.langPapers.length}
     <section class="stack" data-exams>
       <h2>{t('practice.exam.title')}</h2>
-      <p class="muted">{t('practice.exam.intro')}</p>
+      <p class="muted">{practice.fw ? t('practice.exam.introLang') : t('practice.exam.intro')}</p>
       <div class="papers">
+        {#each practice.langPapers as p (p.id)}
+          <button
+            class="card paper"
+            data-start-exam={p.id}
+            disabled={practice.busy}
+            title={pick(p.basis)}
+            onclick={() => practice.startExam(p.id)}
+          >
+            <Timer size={20} strokeWidth={1.8} />
+            <span class="ptext">
+              <strong>{pick(p.title)}</strong>
+              <span class="muted">{t('practice.exam.structure', shapeOf(p.sections))}</span>
+            </span>
+            <ChevronRight size={16} />
+          </button>
+        {/each}
         {#each practice.paperLevels as lv (lv)}
           <button
             class="card paper"
@@ -119,7 +153,9 @@
           </button>
         {/each}
       </div>
-      {#if !practice.canListen}<p class="faint">{t('practice.exam.noVoice')}</p>{/if}
+      {#if !practice.canListen}<p class="faint">
+          {t('practice.exam.noVoice', { lang: packs.active ? pick(packs.active.name) : '' })}
+        </p>{/if}
 
       {#if history.length}
         <h3>{t('practice.exam.history')}</h3>

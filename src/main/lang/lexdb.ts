@@ -12,6 +12,7 @@ import type {
   LexEntryData,
   LexExample,
   PosTag,
+  PracticeWord,
   SourceRef
 } from '../../shared/lang/types'
 import type {
@@ -489,6 +490,117 @@ export class LexDb {
       out.push({ text: w, reading, zh: hit.zh, en: hit.en, entry: hit.entry })
     }
     return out
+  }
+
+  // ───────────── 出题 ─────────────
+
+  /** 出题用的词：主分级某一级（null 全部），常用的在前（只取有词频的） */
+  practiceWords(o: {
+    level?: string | null
+    pos?: PosTag[]
+    limit: number
+    need?: ('gloss' | 'forms' | 'gender' | 'examples')[]
+  }): PracticeWord[] {
+    const need = new Set(o.need ?? ['gloss'])
+    const rows = (o.level
+      ? this.#stmt(
+          'SELECT id, w, p, fr, lv, data FROM entry WHERE lv = ? ORDER BY fr IS NULL, fr LIMIT 4000'
+        ).all(o.level)
+      : this.#stmt(
+          'SELECT id, w, p, fr, lv, data FROM entry ORDER BY fr IS NULL, fr LIMIT 6000'
+        ).all()) as unknown as Row[]
+    const withExamples = need.has('examples')
+      ? new Set(
+          (this.#stmt('SELECT DISTINCT entry FROM example_entry').all() as { entry: number }[]).map(
+            (r) => Number(r.entry)
+          )
+        )
+      : null
+    const out: PracticeWord[] = []
+    for (const r of rows) {
+      if (o.pos && !o.pos.includes(r.p as PosTag)) continue
+      if (withExamples && !withExamples.has(Number(r.id))) continue
+      const d = unpackEntry(r.data)
+      const g = firstGloss(d)
+      if (need.has('gloss') && !g.zh && !g.en) continue
+      if (need.has('forms') && !d.f?.length) continue
+      if (need.has('gender') && !d.g) continue
+      out.push({
+        id: Number(r.id),
+        w: d.w,
+        d: d.d,
+        p: d.p,
+        g: d.g,
+        lv: r.lv,
+        zh: g.zh,
+        en: g.en,
+        forms: d.f ?? [],
+        ipa: d.ipa?.[0],
+        rom: d.rom,
+        x: d.x
+      })
+      if (out.length >= o.limit) break
+    }
+    return out
+  }
+
+  /** 挂在词条上的例句，短的在前 */
+  entryExamples(entry: number, limit = 6): LexExample[] {
+    return (
+      this.#stmt(
+        `SELECT x.id, x.text, x.en, x.zh, x.zs, x.src, x.lv FROM example_entry j JOIN example x ON x.id = j.example
+         WHERE j.entry = ? ORDER BY length(x.text) LIMIT ?`
+      ).all(entry, limit) as unknown as LexExample[]
+    ).map((e) => ({ ...e, id: Number(e.id) }))
+  }
+
+  /** 主分级某一级（null 全部）有翻译的例句：例句挂的词条里最难的就是这一级；短的在前 */
+  levelSentences(level: string | null, limit: number): LexExample[] {
+    const rows = (level
+      ? this.#stmt(
+          `SELECT x.id, x.text, x.en, x.zh, x.zs, x.src, x.lv FROM example x
+             WHERE (x.zh IS NOT NULL OR x.en IS NOT NULL) AND (x.lv = ? OR (x.lv IS NULL AND EXISTS (
+               SELECT 1 FROM example_entry j JOIN entry e ON e.id = j.entry WHERE j.example = x.id AND e.lv = ?)))
+             ORDER BY length(x.text) LIMIT ?`
+        ).all(level, level, limit)
+      : this.#stmt(
+          `SELECT id, text, en, zh, zs, src, lv FROM example WHERE zh IS NOT NULL OR en IS NOT NULL
+             ORDER BY length(text) LIMIT ?`
+        ).all(limit)) as unknown as LexExample[]
+    return rows.map((e) => ({ ...e, id: Number(e.id) }))
+  }
+
+  /**
+   * 数据够不够出这几类题：有释义的词、带性的名词（几种性）、有变形表的词、挂了例句的词、有翻译的例句。
+   * 词按出题时的顺序（常用的在前，没有词频的排后面）看前 3000 个
+   */
+  practiceStats(): {
+    glossed: number
+    genders: number
+    forms: number
+    linked: number
+    sentences: number
+  } {
+    const n = (sql: string): number => Number((this.#stmt(sql).get() as { n: number }).n)
+    const genders = new Set<string>()
+    let glossed = 0
+    let forms = 0
+    for (const r of this.#stmt(
+      'SELECT data FROM entry ORDER BY fr IS NULL, fr LIMIT 3000'
+    ).all() as { data: Uint8Array }[]) {
+      const d = unpackEntry(r.data)
+      const g = firstGloss(d)
+      if (g.zh || g.en) glossed++
+      if (d.p[0] === 'noun' && d.g && d.g !== 'mf') genders.add(d.g)
+      if ((d.f?.filter((f) => f.length > 1).length ?? 0) >= 4) forms++
+    }
+    return {
+      glossed,
+      genders: genders.size,
+      forms,
+      linked: n('SELECT COUNT(DISTINCT entry) AS n FROM example_entry'),
+      sentences: n('SELECT COUNT(*) AS n FROM example WHERE zh IS NOT NULL OR en IS NOT NULL')
+    }
   }
 
   /** 主分级每一级有多少词 */

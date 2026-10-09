@@ -107,7 +107,7 @@
       {/if}
       {#if item.pair}
         <p class="pair">
-          <span class="faint">{pairLabel(item.pair)}</span>
+          <span class="faint">{item.pairLabel ? txt(item.pairLabel) : pairLabel(item.pair)}</span>
           <span {lang}>{item.pair}</span>
         </p>
       {/if}

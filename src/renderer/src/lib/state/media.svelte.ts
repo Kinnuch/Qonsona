@@ -7,6 +7,7 @@ import { platform } from '$lib/platform'
 import { t } from '$lib/i18n/index.svelte'
 import { parseSubtitles, type Cue, type MediaItem, type MediaPatch } from '$shared/media'
 import { ui } from './ui.svelte'
+import { packs } from './packs.svelte'
 
 export type MediaView = { page: 'library' } | { page: 'player'; id: string }
 
@@ -36,9 +37,12 @@ class MediaState {
   #positionTimer: ReturnType<typeof setTimeout> | undefined
   #pending: { id: string; patch: MediaPatch } | null = null
 
+  /** 正在学的这门语言的（没写语言的是日语的）；换了语言，播放器里那一条不是这门语言的就回到库 */
+  mine = $derived(this.items.filter((x) => (x.lang ?? 'ja') === (packs.active?.id ?? 'ja')))
+
   current = $derived.by<MediaItem | null>(() => {
     const v = this.view
-    return v.page === 'player' ? (this.items.find((x) => x.id === v.id) ?? null) : null
+    return v.page === 'player' ? (this.mine.find((x) => x.id === v.id) ?? null) : null
   })
 
   async load(): Promise<void> {
@@ -58,7 +62,7 @@ class MediaState {
 
   /** 挑文件加进库；只加了一个时直接打开 */
   async pick(): Promise<void> {
-    const added = await platform.media.pick().catch((e) => {
+    const added = await platform.media.pick(packs.active?.id).catch((e) => {
       ui.toast(String(e), 'error', 6000)
       return [] as MediaItem[]
     })
@@ -73,7 +77,8 @@ class MediaState {
     const others = paths.filter((p) => !subs.includes(p))
     if (subs.length && this.current)
       await this.#subtitles(platform.media.addSubtitlePaths(this.current.id, subs))
-    if (others.length) this.#added(await platform.media.addPaths(others).catch(() => []))
+    if (others.length)
+      this.#added(await platform.media.addPaths(others, packs.active?.id).catch(() => []))
     else if (subs.length && !this.current) ui.toast(t('media.dropSubtitleHint'))
   }
 
