@@ -247,7 +247,8 @@ export default {
         guess: '「{form}」可能是「{base}」的{tags}',
         variant: '变形',
         loose: '按不带变音符号的写法对上',
-        gloss: '按释义对上'
+        gloss: '按释义对上',
+        alt: '也可能是{tags}'
       },
       variant: '其他写法',
       audio: '真人录音',
@@ -268,7 +269,12 @@ export default {
         aspect: '体的配对',
         len: '弱化形',
         plural: '复数',
-        stress: '重音'
+        stress: '重音',
+        ety: '词源',
+        vn: '动名词',
+        vnOf: '是这个动词的动名词',
+        ipaDialects: '方言读音',
+        formIpa: '变形的读音'
       }
     },
     empty: '请输入要查的词。',

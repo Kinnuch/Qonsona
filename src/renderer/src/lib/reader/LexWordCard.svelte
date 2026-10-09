@@ -60,6 +60,13 @@
         {t('dict.lex.via.form', { form: token.text, base: token.lemma ?? '', tags: changes })}
       </p>
     {/if}
+    {#if token.alt?.length}
+      <p class="faint small" data-word-alt>
+        {t('dict.lex.via.alt', {
+          tags: token.alt.map((a) => tagsLabel(a, L)).join(L === 'zh' ? '；' : '; ')
+        })}
+      </p>
+    {/if}
     {#if token.ruby}<p class="faint small ruby">{token.ruby}</p>{/if}
     <p class="gloss">{(L === 'zh' ? token.zh || token.en : token.en || token.zh) ?? ''}</p>
     <div class="actions">

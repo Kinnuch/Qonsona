@@ -37,9 +37,12 @@ export interface LookupHit {
   pos: PosTag
   /** 这个词形的标签（form 表的，或者猜原形时给的） */
   tags: string[]
+  /** 同一个词形在这个词条里的别的可能（几组标签） */
+  alt?: string[][]
   lv: string | null
   zh: string
   en: string
+  /** 读音：原形用词条的 IPA，变形用 fi 里这个形的；变形没有读音时空着 */
   ipa?: string
 }
 
@@ -266,11 +269,27 @@ export class LexDb {
     const rows = (
       k: string,
       loose: 0 | 1
-    ): { entry: number; tags: string; lv: string | null; data: Uint8Array }[] =>
-      this.#stmt(
-        `SELECT f.entry, f.tags, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
+    ): {
+      entry: number
+      form: string
+      tags: string
+      lv: string | null
+      data: Uint8Array
+      k: string
+      loose: 0 | 1
+    }[] =>
+      (
+        this.#stmt(
+          `SELECT f.entry, f.form, f.tags, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
          WHERE f.key = ? AND f.loose = ? ORDER BY e.fr IS NULL, e.fr, length(e.w) LIMIT 1`
-      ).all(k, loose) as never
+        ).all(k, loose) as {
+          entry: number
+          form: string
+          tags: string
+          lv: string | null
+          data: Uint8Array
+        }[]
+      ).map((r) => ({ ...r, k, loose }))
     let found = rows(key, 0)[0]
     let tags: string[] | null = null
     if (!found) {
@@ -290,15 +309,34 @@ export class LexDb {
     if (found) {
       const d = unpackEntry(found.data)
       const g = firstGloss(d)
+      const split = (t: string): string[] => (t ? t.split(' ').filter((x) => x !== 'lemma') : [])
+      const isLemma = !tags && found.tags.split(' ').includes('lemma')
+      // 同一个词形在这个词条里的别的几行（标签不同的）
+      const alt: string[][] = []
+      if (!tags) {
+        const first = split(found.tags).join(' ')
+        const seen = new Set([first])
+        for (const r of this.#stmt(
+          'SELECT tags FROM form WHERE key = ? AND loose = ? AND entry = ?'
+        ).all(found.k, found.loose, found.entry) as { tags: string }[]) {
+          const t = split(r.tags)
+          if (!t.length || seen.has(t.join(' '))) continue
+          seen.add(t.join(' '))
+          alt.push(t)
+        }
+      }
+      const ipa =
+        d.fi?.[found.form] ?? d.fi?.[surface] ?? (isLemma && !alt.length ? d.ipa?.[0] : undefined)
       hit = {
         entry: Number(found.entry),
         lemma: d.w,
         pos: d.p[0],
-        tags: tags ?? (found.tags ? found.tags.split(' ').filter((x) => x !== 'lemma') : []),
+        tags: tags ?? split(found.tags),
+        ...(alt.length ? { alt } : {}),
         lv: found.lv,
         zh: g.zh,
         en: g.en,
-        ipa: d.ipa?.[0]
+        ...(ipa ? { ipa } : {})
       }
     }
     if (this.#lookups.size > 20000) this.#lookups.clear()
@@ -371,7 +409,11 @@ export class LexDb {
       rom: d.rom,
       au: d.au ?? [],
       senses,
-      forms: (d.f ?? []).map(([form, ...tags]) => ({ form, tags })),
+      forms: (d.f ?? []).map(([form, ...tags]) => ({
+        form,
+        tags,
+        ...(d.fi?.[form] ? { ipa: d.fi[form] } : {})
+      })),
       cls: d.cls ?? [],
       levels,
       freq: d.fr,
