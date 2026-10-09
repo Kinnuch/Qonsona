@@ -98,9 +98,41 @@ export default {
     etymology: 'Etymology'
   },
   kinds: {
-    alphabet: { kana: 'Kana', glyphs: 'Script', phonemes: 'Letters and sounds' },
-    characters: { kanji: 'Kanji', glyphs: 'Glyphs', morphemes: 'Morphemes' },
-    ruby: { furigana: 'Furigana', ipa: 'IPA', orthography: 'Alternate spelling' }
+    alphabet: {
+      kana: 'Kana',
+      glyphs: 'Script',
+      phonemes: 'Letters and sounds',
+      letters: 'Alphabet',
+      phonics: 'Spelling and sounds'
+    },
+    characters: {
+      kanji: 'Kanji',
+      glyphs: 'Glyphs',
+      morphemes: 'Morphemes',
+      hanja: 'Hanja',
+      roots: 'Roots'
+    },
+    ruby: {
+      furigana: 'Furigana',
+      ipa: 'IPA',
+      orthography: 'Alternate spelling',
+      romanization: 'Romanization'
+    }
+  },
+  lang: {
+    about: {
+      data: 'Dictionary: {entries} entries, {examples} example sentences.',
+      noData: 'The dictionary data for this language is not installed yet.',
+      levels: 'Levels',
+      primary: 'Main scale',
+      kind: { proficiency: 'Proficiency levels', wordlist: 'Exam and textbook word lists' },
+      basis: 'Based on: ',
+      sources: 'Data sources and licences'
+    },
+    packs: {
+      data: 'Dictionary {entries} entries · {examples} examples',
+      noData: 'Dictionary data not installed yet'
+    }
   },
   modules: {
     reading: {
@@ -181,6 +213,38 @@ export default {
     },
     noData:
       'The Japanese dictionary data has not been built yet. When developing, run npm run data:ja in the repository.',
+    lex: {
+      placeholder: 'Type a {lang} word or form, or an English or Chinese meaning',
+      noData:
+        'The {lang} dictionary data has not been built yet. When developing, run node scripts/data/run-ts.mjs scripts/data/{code}/build.ts in the repository.',
+      via: {
+        form: '“{form}” is the {tags} of “{base}”',
+        guess: '“{form}” is probably the {tags} of “{base}”',
+        variant: 'inflected form',
+        loose: 'Matched ignoring accents and diacritics',
+        gloss: 'Matched by meaning'
+      },
+      variant: 'Other spellings',
+      audio: 'Recording',
+      audioFail: 'The recording could not be fetched. Please check your internet connection.',
+      freq: 'Frequency rank {n}',
+      forms: 'Forms ({n})',
+      examples: 'Examples',
+      syn: 'Synonyms',
+      ant: 'Antonyms',
+      see: 'See also',
+      sources: 'Sources: ',
+      sentenceHint: 'Type a word or some text to list example sentences containing it.',
+      extra: {
+        hanja: 'Hanja',
+        root: 'Root',
+        pattern: 'Pattern',
+        aspect: 'Aspect partner',
+        len: 'Lenited form',
+        plural: 'Plural',
+        stress: 'Stress'
+      }
+    },
     empty: 'Type a word to look it up.',
     history: 'Recent searches',
     noResult: 'Nothing found for “{q}”.',
