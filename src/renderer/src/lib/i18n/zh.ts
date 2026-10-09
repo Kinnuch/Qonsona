@@ -96,9 +96,70 @@ export default {
     etymology: '词源'
   },
   kinds: {
-    alphabet: { kana: '五十音', glyphs: '文字', phonemes: '字母与发音' },
-    characters: { kanji: '汉字', glyphs: '字形', morphemes: '语素' },
-    ruby: { furigana: '振假名', ipa: '国际音标', orthography: '另一套拼写' }
+    alphabet: {
+      kana: '五十音',
+      glyphs: '文字',
+      phonemes: '字母与发音',
+      letters: '字母',
+      phonics: '拼读规则'
+    },
+    characters: {
+      kanji: '汉字',
+      glyphs: '字形',
+      morphemes: '语素',
+      hanja: '汉字词',
+      roots: '词根'
+    },
+    ruby: {
+      furigana: '振假名',
+      ipa: '国际音标',
+      orthography: '另一套拼写',
+      romanization: '拉丁转写'
+    }
+  },
+  langReading: {
+    intro:
+      '点击一篇文章即可阅读：词按等级画下划线，点击词可以查词典，右边列出本文的词汇与语法。新闻有版权的只收标题和导语，全文请到原网站阅读。',
+    pasteBody: '请把{lang}文章粘贴到这里。',
+    sources: { all: '全部来源', news: '新闻', user: '我导入的', builtin: '内置课文' },
+    refresh: '获取新闻',
+    refreshing: '正在获取新闻……',
+    newsFailed: '新闻没能取到，请检查网络连接；内置课文和自己导入的文章照常能读。',
+    newsStatus: '{total} 个新闻来源里有 {ok} 个取到了文章，这次新加 {added} 篇。',
+    sourceOk: '取到 {n} 篇',
+    sourceFail: '没取到（{error}）',
+    underline: '等级下划线',
+    noVoice:
+      '没有找到{lang}的系统语音，请在 Windows 设置 → 时间和语言 → 语音 中添加；词典里的真人录音照常能放。',
+    excerptNote: '这是{source}公开的标题与导语，全文请点击「查看原文出处」到原网站阅读。',
+    excerptChip: '只有导语',
+    license: '许可：{license}',
+    topics: {
+      story: '故事',
+      fable: '寓言',
+      poem: '诗',
+      folktale: '民间故事',
+      news: '新闻',
+      wiki: '百科',
+      essay: '散文',
+      literature: '文学',
+      children: '儿童读物'
+    }
+  },
+  lang: {
+    about: {
+      data: '词典：{entries} 个词条、{examples} 句例句。',
+      noData: '这门语言的词典数据还没有装好。',
+      levels: '分级',
+      primary: '主分级',
+      kind: { proficiency: '能力等级', wordlist: '考试与教材词表' },
+      basis: '依据：',
+      sources: '数据来源与许可'
+    },
+    packs: {
+      data: '词典 {entries} 个词条 · 例句 {examples} 句',
+      noData: '词典数据还没有装好'
+    }
   },
   modules: {
     reading: {
@@ -177,6 +238,39 @@ export default {
       openLesson: '在语法课里学'
     },
     noData: '日语词典的数据还没有生成。开发时请在仓库里运行 npm run data:ja。',
+    lex: {
+      placeholder: '输入{lang}单词、变形，或中文、英文释义',
+      noData:
+        '{lang}词典的数据还没有生成。开发时请在仓库里运行 node scripts/data/run-ts.mjs scripts/data/{code}/build.ts。',
+      via: {
+        form: '「{form}」是「{base}」的{tags}',
+        guess: '「{form}」可能是「{base}」的{tags}',
+        variant: '变形',
+        loose: '按不带变音符号的写法对上',
+        gloss: '按释义对上'
+      },
+      variant: '其他写法',
+      audio: '真人录音',
+      audioFail: '录音没能取到，请检查网络连接。',
+      freq: '常用度第 {n} 位',
+      forms: '变形（{n}）',
+      examples: '例句',
+      syn: '近义',
+      ant: '反义',
+      see: '参见',
+      sources: '来源：',
+      sentenceHint: '请输入一个词或一段文字，这里会列出含有它的例句。',
+      noGrammar: '没有符合条件的语法点。',
+      extra: {
+        hanja: '汉字',
+        root: '词根',
+        pattern: '词型',
+        aspect: '体的配对',
+        len: '弱化形',
+        plural: '复数',
+        stress: '重音'
+      }
+    },
     empty: '请输入要查的词。',
     history: '最近查过的词',
     noResult: '没有找到「{q}」。',
@@ -233,7 +327,7 @@ export default {
     newListName: '新词本的名字',
     newList: '新建词本',
     builtin: '内置词本',
-    groups: { jlpt: 'JLPT 词表', theme: '主题词本' },
+    groups: { jlpt: 'JLPT 词表', theme: '主题词本', x: '其他词表' },
     favorite: '作者收藏（建议先学）',
     tag: '标签：{tag}',
     addBuiltin: '加入',

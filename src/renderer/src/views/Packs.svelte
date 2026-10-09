@@ -13,6 +13,9 @@
   import type { Project } from '$qon/core/model'
   import type { StudyPackFile } from '$qon/core/studyPack'
   import type { PackManifest, PackStats } from '$lib/packs/types'
+  import { onMount } from 'svelte'
+  import { LANG_CODES } from '$shared/lang/types'
+  import type { LexStatus } from '$shared/lang/views'
 
   /** 挑好文件、还没确认导入时的状态 */
   let pending = $state.raw<{
@@ -30,6 +33,13 @@
   const installedIds = $derived(new Set(packs.installed.map((p) => p.id)))
 
   const SUMMARY_KEYS: (keyof PackStats)[] = ['lexemes', 'sentences', 'phrases', 'docs', 'paradigms']
+
+  /** 框架里各语言的词典数据装了没有、有多少词条 */
+  let langStatus = $state<Record<string, LexStatus>>({})
+  onMount(async () => {
+    const list = await platform.lang.status(LANG_CODES).catch(() => [])
+    langStatus = Object.fromEntries(list.map((s) => [s.code, s]))
+  })
 
   function summary(s: PackStats | null): string {
     if (!s) return ''
@@ -130,6 +140,16 @@
         >
       {/if}
       {#if p.stats}<span class="faint">{summary(p.stats)}</span>{/if}
+      {#if langStatus[p.id]}
+        <span class="faint" data-lang-status={p.id}
+          >{langStatus[p.id].available
+            ? t('lang.packs.data', {
+                entries: langStatus[p.id].entries,
+                examples: langStatus[p.id].examples
+              })
+            : t('lang.packs.noData')}</span
+        >
+      {/if}
       {#if p.study}<span class="faint" data-pack-study>{studySummary(p.study)}</span>{/if}
     </div>
     <div class="actions">

@@ -4,6 +4,7 @@
  * 学习进度（存在主进程，改了过一会儿自动存），课程页上看到哪一步，以及正在做的一轮练习。
  * 页面上走到哪一步（哪门课、哪一课、认到第几个字）离开再回来还在；换语言时回到课程列表。
  */
+import { langModule } from '$shared/lang/registry'
 import { platform } from '$lib/platform'
 import { t, pick } from '$lib/i18n/index.svelte'
 import {
@@ -108,6 +109,17 @@ class CoursesState {
       if (sections.includes('phrasebook')) out.push(jaPhrasesCourse())
       if (sections.includes('idioms')) out.push(jaIdiomsCourse())
       if (sections.includes('stories')) out.push(jaStoriesCourse())
+    } else if (langModule(pack.id)) {
+      // 框架里的语言：课程由这门语言自己给（src/shared/lang/<代码>/），按能力开关取舍
+      const want: Record<string, boolean> = {
+        alphabet: sections.includes('alphabet'),
+        grammar: sections.includes('grammar'),
+        inflection: sections.includes('inflection'),
+        phrasebook: sections.includes('phrasebook'),
+        idioms: sections.includes('idioms'),
+        stories: sections.includes('stories')
+      }
+      for (const c of langModule(pack.id)?.courses?.() ?? []) if (want[c.id]) out.push(c)
     } else if (pack.kind === 'qonlang') {
       const project = packs.project
       const lang = project?.languages.find((l) => l.id === pack.source?.languageId)
@@ -233,6 +245,15 @@ class CoursesState {
   async startWords(course: Course, key: string): Promise<SpellWord[]> {
     const item = course.symbols[key]
     if (!item || item.learnOnly) return []
+    const fw = packs.active ? langModule(packs.active.id) : null
+    if (fw) {
+      // 这门课各课给的词里，含这个字的前三个
+      const has = fw.hasSymbol ?? ((w: string, s: string) => w.includes(s))
+      const pool = [
+        ...new Set(course.units.flatMap((u) => u.lessons.flatMap((l) => l.words ?? [])))
+      ]
+      return this.#langSpell(fw.spec.code, pool.filter((w) => has(w, item.symbol)).slice(0, 3))
+    }
     if (packs.active?.id === 'ja') {
       const words = await platform.ja.kanaStartWords(item.symbol, 3).catch(() => [])
       return words.map(kanaWord)
@@ -253,6 +274,8 @@ class CoursesState {
   ): Promise<SpellWord[]> {
     if (course.kind !== 'symbols') return []
     const allowed = poolUpTo(course, lesson.id)
+    const fw = packs.active ? langModule(packs.active.id) : null
+    if (fw) return this.#langSpell(fw.spec.code, lesson.words ?? [])
     if (packs.active?.id === 'ja') {
       const words = lesson.words?.length
         ? await platform.ja.kanaLookup(lesson.words).catch(() => [])
@@ -271,6 +294,19 @@ class CoursesState {
       gloss: (l) => firstGloss(l, pick),
       hidden: packs.hidden
     })
+  }
+
+  /** 框架语言：按词头取拼读词（读法、释义、朗读） */
+  async #langSpell(code: string, words: string[]): Promise<SpellWord[]> {
+    if (!words.length) return []
+    const speech = langModule(code)?.spec.features.speech
+    const got = await platform.lang.spell(code, words).catch(() => [])
+    return got.map((w) => ({
+      text: w.text,
+      reading: w.reading,
+      meaning: { zh: w.zh || w.en, en: w.en || w.zh },
+      say: speech ? { text: w.text, lang: speech, key: `lex-${w.entry}` } : null
+    }))
   }
 
   #qon(): {

@@ -74,3 +74,21 @@ describe('日语的内置词本', () => {
     expect(new Set(themes.map((l) => l.source)).size).toBe(themes.length)
   })
 })
+
+describe('框架语言的内置词本', () => {
+  it('每套分级一组（主分级在前），再是主题词本与别的词表；没有词的级不列', async () => {
+    const { LANG_PACKS } = await import('$lib/packs/builtin')
+    const fr = LANG_PACKS.find((p) => p.id === 'fr')!
+    const lists = builtinLists(fr, null, null, null, new Set(), zh, labels, {}, [
+      { name: 'cefr:A1', count: 500 },
+      { name: 'cefr:B2', count: 0 },
+      { name: 'theme:food', count: 40, title: { zh: '食物', en: 'Food' } },
+      { name: 'x:awl', count: 570 }
+    ])
+    expect(lists.map((l) => l.source)).toEqual(['lex-cefr:A1', 'lex-theme:food', 'lex-x:awl'])
+    expect(lists[0]).toMatchObject({ group: 'sys-cefr', count: 500 })
+    expect(lists[0].groupName).toContain('CEFR')
+    expect(lists[1]).toMatchObject({ group: 'theme', name: '食物', count: 40 })
+    expect(lists[2]).toMatchObject({ group: 'x', name: 'awl' })
+  })
+})

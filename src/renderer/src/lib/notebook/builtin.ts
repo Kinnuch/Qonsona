@@ -13,6 +13,9 @@ import type { CardInput } from '$shared/notebook'
 import { platform } from '$lib/platform'
 import { jaFromListItem, qonFromLexeme, qonFromPhrase } from './cards'
 import themesJson from '../../../../../data/ja/themes.json'
+import { langModule } from '$shared/lang/registry'
+import type { LexListInfo } from '$shared/lang/views'
+import { lexFromItem } from './cards'
 
 /** 日语的主题词本：主题、词条号、写法、读音 */
 interface ThemeData {
@@ -23,8 +26,10 @@ const THEMES = (themesJson as unknown as ThemeData).themes
 export interface BuiltinList {
   /** 词本的来源标记（加进来之后记在词本上，认得出已经加过） */
   source: string
-  /** 列表上分几组显示（日语：JLPT、主题）；没有就不分 */
-  group?: 'jlpt' | 'theme'
+  /** 列表上分几组显示（日语：JLPT、主题；框架语言：每套分级一组）；没有就不分 */
+  group?: string
+  /** 组名（框架语言的分级体系名）；没有时按 group 查文案 */
+  groupName?: string
   name: string
   /** 有多少词；日语要问过词典才知道，先是 null */
   count: number | null
@@ -39,9 +44,12 @@ export function builtinLists(
   hidden: ReadonlySet<string>,
   pick: (t: LocalizedText) => string,
   labels: { favorite: string; tag: (tag: string) => string },
-  jlptCounts: Record<number, number> = {}
+  jlptCounts: Record<number, number> = {},
+  langLists: LexListInfo[] = []
 ): BuiltinList[] {
   if (!pack) return []
+  const lang = langModule(pack.id)
+  if (lang) return langBuiltinLists(pack.id, lang.spec.levelSystems, langLists, pick)
   if (pack.id === 'ja')
     return [
       ...[5, 4, 3, 2, 1].map((n): BuiltinList => ({
@@ -61,11 +69,11 @@ export function builtinLists(
       }))
     ]
 
-  const lang = project?.languages.find((l) => l.id === pack.source?.languageId)
-  if (!project || !lang) return []
+  const qlang = project?.languages.find((l) => l.id === pack.source?.languageId)
+  if (!project || !qlang) return []
   const out: BuiltinList[] = []
   const lexemes = project.lexemes.filter(
-    (l) => l.languageId === lang.id && learnable(l) && !hidden.has(l.id)
+    (l) => l.languageId === qlang.id && learnable(l) && !hidden.has(l.id)
   )
   const favorites = lexemes.filter((l) => l.favorite)
   if (favorites.length)
@@ -73,7 +81,7 @@ export function builtinLists(
       source: 'favorite',
       name: labels.favorite,
       count: favorites.length,
-      load: async () => favorites.map((l) => qonFromLexeme(lang, l))
+      load: async () => favorites.map((l) => qonFromLexeme(qlang, l))
     })
   if (levels) {
     const freq = levels.freq
@@ -86,7 +94,7 @@ export function builtinLists(
         source: `level-${lv.id}`,
         name: pick(lv.name),
         count: words.length,
-        load: async () => words.map((l) => qonFromLexeme(lang, l))
+        load: async () => words.map((l) => qonFromLexeme(qlang, l))
       })
     }
   }
@@ -102,8 +110,8 @@ export function builtinLists(
       name: lesson.title || lesson.id,
       count: words.length + phrases.length,
       load: async () => [
-        ...words.map((l) => qonFromLexeme(lang, l)),
-        ...phrases.map((p) => qonFromPhrase(lang, p))
+        ...words.map((l) => qonFromLexeme(qlang, l)),
+        ...phrases.map((p) => qonFromPhrase(qlang, p))
       ]
     })
   }
@@ -115,7 +123,46 @@ export function builtinLists(
       source: `tag-${tag}`,
       name: labels.tag(tag),
       count: words.length,
-      load: async () => words.map((l) => qonFromLexeme(lang, l))
+      load: async () => words.map((l) => qonFromLexeme(qlang, l))
     })
+  return out
+}
+
+/** 框架里的语言（英、法、韩……）：每套分级一组（主分级在前），再是主题词本、别的词表 */
+function langBuiltinLists(
+  code: string,
+  systems: import('$shared/lang/types').LevelSystemDef[],
+  lists: LexListInfo[],
+  pick: (t: LocalizedText) => string
+): BuiltinList[] {
+  const count = new Map(lists.map((l) => [l.name, l]))
+  const load = (name: string) => async (): Promise<CardInput[]> =>
+    (await platform.lang.list(code, name)).map(lexFromItem)
+  const out: BuiltinList[] = []
+  for (const sys of [...systems].sort((a, b) => Number(!!b.primary) - Number(!!a.primary)))
+    for (const lv of sys.levels) {
+      const name = `${sys.id}:${lv.id}`
+      const info = count.get(name)
+      if (!info?.count) continue
+      out.push({
+        source: `lex-${name}`,
+        group: `sys-${sys.id}`,
+        groupName: pick(sys.name),
+        name: pick(lv.name),
+        count: info.count,
+        load: load(name)
+      })
+    }
+  for (const l of lists) {
+    const [kind, id] = l.name.split(':')
+    if (kind !== 'theme' && kind !== 'x') continue
+    out.push({
+      source: `lex-${l.name}`,
+      group: kind === 'theme' ? 'theme' : 'x',
+      name: l.title ? pick(l.title) : id,
+      count: l.count,
+      load: load(l.name)
+    })
+  }
   return out
 }
