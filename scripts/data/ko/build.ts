@@ -778,7 +778,11 @@ async function main(): Promise<void> {
     const ipa = [...krPron.slice(0, 2), ...new Set(it.kk.flatMap((k) => k.ipa))].slice(0, 3)
     const au = it.kk.flatMap((k) => k.audio).slice(0, 2)
     const isPred = !!it.conj
-    const stemEnd = isPred ? [...it.w].length - 2 : undefined
+    // 词干末的收音是 ㄴ、ㅁ（含 ㄵ ㄻ ㄼ ㄾ ㄺ）时，后面词尾的辅音读紧音（신고 [신꼬]）；
+    // ㄹ 词干脱落后接的 -ㄴ다（산다）、元音词干接的 -ㄴ（간）里的 ㄴ 是词尾的，不算
+    const stemCoda = decompose(it.w.slice(-2, -1))?.t ?? ''
+    const stemEnd =
+      isPred && /^(?:ㄴ|ㅁ|ㄵ|ㄻ|ㄼ|ㄾ|ㄺ)$/.test(stemCoda) ? [...it.w].length - 2 : undefined
     const sinoLen = it.hanja ? (/^\p{Script=Han}+/u.exec(it.hanja)?.[0].length ?? 0) : 0
     const rom = /\s|-/.test(it.w)
       ? romanize(it.w)
@@ -789,7 +793,7 @@ async function main(): Promise<void> {
     if (it.hanja) x.hanja = it.hanja
     if (it.origin) x.origin = it.origin
     if (it.kr) x.krdict = it.kr.id
-    const cls = [...clsLabels(it)]
+    const cls = it.conj ? clsLabels(it) : []
     if (it.kr?.pos === '의존 명사' || it.kr?.pos === '보조 동사' || it.kr?.pos === '보조 형용사')
       cls.push(it.kr.pos)
     const forms = isPred ? trimForms(it, rich) : it.forms
