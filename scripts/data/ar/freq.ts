@@ -166,11 +166,16 @@ export class FormIndex {
     }
     const direct = this.get(arKey(surface))
     // 词形本身就是一个虚词（أنت، أن، من، على، في）时，同形的别的词条（أُنْتَ 是动词 آنَ 的变位）只给一点点：
-    // 虚词出现得极多，同形的冷僻词分到一点也会被抬成常用词
+    // 虚词出现得极多，同形的冷僻词分到一点也会被抬成常用词。
+    // 专名（محمد、أحمد、محمود）也占住自己的写法，但只压别的词的变形（حَمِدَ 的变位、分词），不压同形的原形
+    // （形容词 سَعِيد 跟人名 Saeed 照常分）
     const isClosedLemma = (h: FormHit): boolean =>
       h.weight >= 1 && this.pos[h.entry].some((p) => CLOSED.has(p))
+    const isName = (h: FormHit): boolean => h.weight >= 1 && this.pos[h.entry].includes('propn')
     if (direct?.some(isClosedLemma))
       for (const h of direct) hits.set(h.entry, isClosedLemma(h) ? h.weight : h.weight * 0.05)
+    else if (direct?.some(isName))
+      for (const h of direct) hits.set(h.entry, h.weight >= 1 ? h.weight : h.weight * 0.05)
     else put(direct, 1)
     if (!direct) put(this.getLoose(arLooseKey(surface)), 0.8)
     const anyDirect = hits.size > 0
@@ -237,10 +242,27 @@ export function analyseCorpus(
 }
 
 /**
+ * 虚词的词头本身的频率（别的词条是 0）：虚词没有变形，词头又常跟实词的某个变位同形（في 与动词 فَى 的变位），
+ * 独有的词形往往一个都没有；把词头的频率算进它的先验，免得同形的冷僻词把它的频率分走。
+ */
+export function headwordEvidence(
+  wf: Map<string, number>,
+  heads: string[],
+  pos: PosTag[][]
+): Float64Array {
+  const out = new Float64Array(heads.length)
+  heads.forEach((w, i) => {
+    if (pos[i].some((p) => CLOSED.has(p))) out[i] = wf.get(arKey(w)) ?? 0
+  })
+  return out
+}
+
+/**
  * 把词形的频率分到词条上。一个词形对上几个词条时按「先验 × 权重」分，只分一遍（不迭代：
  * 迭代会让碰巧跟高频虚词同形的冷僻词越分越多）：
  *   先验 = base（词性：虚词高、专名低、只在方言古典里用的更低）×（独有的词形的频率 + extra）；
- *   extra 是别的证据（Tatoeba 里按英译分辨出来的出现次数）：没有独有词形的词条（هو「他」、مَن「谁」）靠它。
+ *   extra 是别的证据：Tatoeba 里按英译分辨出来的出现次数、虚词词头本身的频率（headwordEvidence）——
+ *   没有独有词形的词条（هو「他」、مَن「谁」、في「在」）靠它。
  * explain 里的词条另外列出频率从哪些词形来（排查用）。
  */
 export function allocate(

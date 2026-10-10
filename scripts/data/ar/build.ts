@@ -32,7 +32,7 @@ import {
   type WiktEntry,
   type WiktRedirect
 } from './wiktionary'
-import { FormIndex, allocate, analyseCorpus, readWordfreq } from './freq'
+import { FormIndex, allocate, analyseCorpus, headwordEvidence, readWordfreq } from './freq'
 import { assignLevels } from './levels'
 import { T2S, readZhWiktionary } from './zh'
 import { chineseTranslations, englishPivot, simplifiedOf } from './translations'
@@ -258,7 +258,25 @@ const glossWords = entries.map((e) => {
     }
   return out
 })
-const U = (i: number): number => corpus.unique[i] + 1e-7
+/**
+ * 动词的派生名词（动名词、主动名词、被动名词）也算这个动词的证据：不带元音时 يمكن 既是 أَمْكَنَ（第四式）
+ * 也是 مَكَّنَ（第二式）的现在式、يقول 既是 قَالَ 也是 قَوَّلَ 的，语料分不出来；但 مُمْكِن「可能的」、إِمْكَان
+ * 只属于 أَمْكَنَ，قَوْل、قَائِل 只属于 قَالَ。取这些名词独有词形的频率的一半。
+ */
+const derived = new Float64Array(N)
+entries.forEach((e, i) => {
+  if (e.pos !== 'verb') return
+  const forms = new Set(
+    [...e.head, ...e.cells]
+      .filter(
+        ([, t]) => (t.includes('verbal-noun') || t.includes('participle')) && !t.includes('passive')
+      )
+      .map(([f]) => f)
+  )
+  for (const f of forms)
+    for (const j of findEntries(f, ['noun', 'adj'])) if (j !== i) derived[i] += corpus.unique[j]
+})
+const U = (i: number): number => corpus.unique[i] + 0.5 * derived[i] + 1e-7
 const explainList = (process.env.AR_EXPLAIN ?? '').split(',').filter(Boolean)
 const tatoebaCount = new Float64Array(N)
 let tatoebaTokens = 0
@@ -309,7 +327,13 @@ for (const s of tatoeba) {
 // ───────────────────────── 词频（二）与分级 ─────────────────────────
 
 const extra = new Float64Array(N)
-for (let i = 0; i < N; i++) extra[i] = (0.5 * tatoebaCount[i]) / Math.max(1, tatoebaTokens)
+const heads = headwordEvidence(
+  wf,
+  entries.map((e) => e.w),
+  entries.map((e) => e.p)
+)
+for (let i = 0; i < N; i++)
+  extra[i] = (0.5 * tatoebaCount[i]) / Math.max(1, tatoebaTokens) + heads[i] + 0.5 * derived[i]
 // 排查：AR_EXPLAIN=كَتَبَ,شَمْس 列出这些词条的频率从哪些词形来
 const explainSet = new Set<number>()
 for (const w of explainList)
