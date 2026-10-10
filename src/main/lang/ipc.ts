@@ -163,6 +163,12 @@ export function registerLangIpc(): void {
       lexDb(code)?.items((Array.isArray(ids) ? ids : []).map(Number).slice(0, 5000)) ?? []
   )
   ipcMain.handle('lang:audio', (_e, url: string) => fetchAudio(String(url)).catch(() => null))
+  ipcMain.handle('lang:family', (_e, code: string, text: string) => {
+    const db = lexDb(code)
+    const kind = db ? LANGS[db.code].spec.features.characters : null
+    if (!db || !kind || !String(text).trim()) return []
+    return db.family(String(text).trim(), kind === 'roots' ? 'root' : 'hanja')
+  })
 
   // 阅读：分析、文章库、新闻
   ipcMain.handle('lang:analyze', (_e, code: string, text: string) => {

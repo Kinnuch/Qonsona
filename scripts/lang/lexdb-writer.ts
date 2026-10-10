@@ -159,13 +159,14 @@ export class LexDbWriter {
     const seen = new Set<string>()
     const addForm = (form: string, tags: string): void => {
       const strict = this.lang.rules.key(form)
-      if (strict && !seen.has(`0|${strict}|${tags}`)) {
-        seen.add(`0|${strict}|${tags}`)
+      // 去重连原文写法一起比：词头与带重音 / 元音的写法键一样，也各留一行（拼写完全一致的排前、转写都要用）
+      if (strict && !seen.has(`0|${strict}|${tags}|${form}`)) {
+        seen.add(`0|${strict}|${tags}|${form}`)
         this.#ins.form.run(strict, id, form, tags, 0)
       }
       const loose = this.lang.rules.looseKey?.(form)
-      if (loose && loose !== strict && !seen.has(`1|${loose}|${tags}`)) {
-        seen.add(`1|${loose}|${tags}`)
+      if (loose && loose !== strict && !seen.has(`1|${loose}|${tags}|${form}`)) {
+        seen.add(`1|${loose}|${tags}|${form}`)
         this.#ins.form.run(loose, id, form, tags, 1)
       }
     }

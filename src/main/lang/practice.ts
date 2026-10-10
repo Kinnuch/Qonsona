@@ -349,8 +349,8 @@ const conjugate: Maker = (c, n) => {
       )
     ].slice(0, 3)
     if (wrong.length < 3) continue
-    const zh = tagsLabel(tags, 'zh')
-    const en = tagsLabel(tags, 'en')
+    const zh = tagsLabel(tags, 'zh', c.mod.labels)
+    const en = tagsLabel(tags, 'en', c.mod.labels)
     out.push(
       question('conjugate', out.length, {
         ask: { zh: `选出「${w.w}」的${zh}`, en: `Choose the ${en} of “${w.w}”` },

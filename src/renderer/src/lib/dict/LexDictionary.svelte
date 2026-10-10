@@ -2,14 +2,14 @@
   // 框架里各语言（英、法、韩、西、阿、俄、苏格兰盖尔）的词典：查词（词头、变形、去掉变音符号、猜原形、
   // 中英文释义）与例句。数据在主进程的 SQLite（src/main/lang/lexdb.ts），各语言的规则在 src/shared/lang/<代码>/
   import { onMount } from 'svelte'
-  import { Search, Volume2 } from '@lucide/svelte'
+  import { Search, Volume2, Keyboard } from '@lucide/svelte'
   import { platform } from '$lib/platform'
   import { t, i18n, pick } from '$lib/i18n/index.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { dictState, type DictTab } from './state.svelte'
   import { LANGS } from '$shared/lang/registry'
   import type { LangCode, LexExample } from '$shared/lang/types'
-  import type { LexEntryView, LexHit, LexSearchResult } from '$shared/lang/views'
+  import type { LexEntryView, LexFamilyItem, LexHit, LexSearchResult } from '$shared/lang/views'
   import { genderLabel, posLabel, tagLabel, tagsLabel } from '$shared/lang/tags'
   import { foldWithMap } from '$shared/lang/text'
   import { paradigm } from '$shared/lang/paradigm'
@@ -19,16 +19,25 @@
   import { lexFromEntry, lexKey } from '$lib/notebook/cards'
   import { playRemote } from '$lib/lang/remoteAudio'
   import LexGrammarDict from './LexGrammarDict.svelte'
+  import OnScreenKeyboard from '$lib/lang/OnScreenKeyboard.svelte'
 
   let { code }: { code: string } = $props()
 
-  const spec = $derived(LANGS[code as LangCode].spec)
+  const mod = $derived(LANGS[code as LangCode])
+  const spec = $derived(mod.spec)
+  /** 这门语言自己的叫法（标签、变形类别、字段） */
+  const own = $derived(mod.labels)
   const memo = $derived(dictState.of(code))
-  const TABS = $derived<DictTab[]>(
-    LANGS[code as LangCode].grammar?.length
-      ? ['words', 'sentences', 'grammar']
-      : ['words', 'sentences']
-  )
+  /** 词根（阿拉伯语）/ 汉字（韩语）：有的语言多一个页签，列出同一词根、同一汉字的词 */
+  const family = $derived(spec.features.characters)
+  const TABS = $derived<DictTab[]>([
+    'words',
+    ...(family ? (['characters'] as DictTab[]) : []),
+    'sentences',
+    ...(mod.grammar?.length ? (['grammar'] as DictTab[]) : [])
+  ])
+  const tabLabel = (tab: DictTab): string =>
+    tab === 'characters' && family ? t('kinds.characters.' + family) : t('dict.tabs.' + tab)
   /** 正文的书写方向与语言标记（阿拉伯语从右往左） */
   const dir = $derived(spec.direction)
   const lang = $derived(spec.bcp47)
@@ -38,7 +47,10 @@
   let result = $state<LexSearchResult | null>(null)
   let entry = $state<LexEntryView | null>(null)
   let examples = $state<LexExample[]>([])
+  let members = $state<LexFamilyItem[]>([])
   let input = $state<HTMLInputElement | null>(null)
+  /** 屏幕键盘开着没有 */
+  let keyboard = $state(false)
   /** 变形表展开了没有 */
   let formsOpen = $state(false)
 
@@ -64,6 +76,8 @@
         if (!memo.selected || !ids.includes(memo.selected)) memo.selected = ids[0] ?? null
       } else if (tab === 'sentences') {
         examples = q.trim() ? await platform.lang.examples(code, q) : []
+      } else if (tab === 'characters') {
+        members = q.trim() ? await platform.lang.family(code, q) : []
       }
     }, 150)
   })
@@ -90,10 +104,46 @@
     dictState.remember(code, text)
   }
 
+  /** 词族里点一个词：到「词汇」页签看这个词条 */
+  function openMember(m: LexFamilyItem): void {
+    memo.tab = 'words'
+    memo.query = m.w
+    memo.selected = String(m.id)
+  }
+  /** 词族按变形类别（阿拉伯语的派生式）分组，没有类别的按词性 */
+  const memberGroups = $derived.by(() => {
+    const groups = new Map<string, LexFamilyItem[]>()
+    for (const m of members) {
+      const k = m.cls[0] ? tagLabel(m.cls[0], L, own) : posLabel(m.p[0], L)
+      const list = groups.get(k) ?? []
+      list.push(m)
+      groups.set(k, list)
+    }
+    return [...groups.entries()]
+  })
+
+  /** 屏幕键盘打的字插在光标处 */
+  function typeKey(text: string): void {
+    const q = memo.query
+    const s = input?.selectionStart ?? q.length
+    const e = input?.selectionEnd ?? q.length
+    memo.query = q.slice(0, s) + text + q.slice(e)
+    queueMicrotask(() => input?.setSelectionRange(s + text.length, s + text.length))
+  }
+  function backKey(): void {
+    const q = memo.query
+    const s = input?.selectionStart ?? q.length
+    const e = input?.selectionEnd ?? q.length
+    if (s === e && s === 0) return
+    const from = s === e ? s - 1 : s
+    memo.query = q.slice(0, from) + q.slice(e)
+    queueMicrotask(() => input?.setSelectionRange(from, from))
+  }
+
   /** 这个词怎么对上的：「chats」是「chat」的复数 */
   function viaText(h: LexHit, head: string): string {
     if (h.match === 'form' || h.match === 'guess') {
-      const tags = tagsLabel(h.via?.tags ?? [], L)
+      const tags = tagsLabel(h.via?.tags ?? [], L, own)
       return t(h.match === 'form' ? 'dict.lex.via.form' : 'dict.lex.via.guess', {
         form: h.via?.form ?? '',
         base: head,
@@ -102,7 +152,7 @@
     }
     if (h.match === 'loose') return t('dict.lex.via.loose')
     if (h.match === 'latin') {
-      const tags = tagsLabel(h.via?.tags ?? [], L)
+      const tags = tagsLabel(h.via?.tags ?? [], L, own)
       return t(tags ? 'dict.lex.via.latinForm' : 'dict.lex.via.latin', {
         form: h.via?.form ?? '',
         base: head,
@@ -122,7 +172,7 @@
   const formRows = $derived.by(() => {
     const rows = new Map<string, { form: string; ipa?: string }[]>()
     for (const f of para.rest) {
-      const k = tagsLabel(f.tags, L) || t('dict.lex.variant')
+      const k = tagsLabel(f.tags, L, own) || t('dict.lex.variant')
       const list = rows.get(k) ?? []
       if (!list.some((x) => x.form === f.form)) list.push({ form: f.form, ipa: f.ipa })
       rows.set(k, list)
@@ -137,6 +187,8 @@
     )
   )
   const extraLabel = (k: string): string => {
+    const mine = own?.[`x.${k}`]
+    if (mine) return pick(mine)
     const key = `dict.lex.extra.${k}`
     const s = t(key)
     return s === key ? k : s
@@ -232,6 +284,19 @@
         onkeydown={(e) => e.key === 'Enter' && dictState.remember(code, memo.query)}
       />
     </label>
+    {#if mod.keyboard?.length}
+      <button
+        class="btn ghost kb-toggle"
+        class:on={keyboard}
+        title={t('dict.lex.keyboard')}
+        aria-pressed={keyboard}
+        data-keyboard-toggle
+        onclick={() => {
+          keyboard = !keyboard
+          input?.focus()
+        }}><Keyboard size={16} /></button
+      >
+    {/if}
     <div class="seg" role="tablist">
       {#each TABS as tab (tab)}
         <button
@@ -239,11 +304,14 @@
           aria-selected={memo.tab === tab}
           class:on={memo.tab === tab}
           data-dict-tab={tab}
-          onclick={() => (memo.tab = tab)}>{t('dict.tabs.' + tab)}</button
+          onclick={() => (memo.tab = tab)}>{tabLabel(tab)}</button
         >
       {/each}
     </div>
   </header>
+  {#if keyboard && mod.keyboard?.length}
+    <OnScreenKeyboard rows={mod.keyboard} {lang} {dir} onkey={typeKey} onback={backKey} />
+  {/if}
 
   {#if available === false}
     <p class="card note" data-lex-nodata>
@@ -327,7 +395,7 @@
                 >{lv.levels.map((l) => (lv.primary ? l.short : pick(l.name))).join(' · ')}</span
               >
             {/each}
-            {#each entry.cls as c (c)}<span class="chip">{tagLabel(c, L)}</span>{/each}
+            {#each entry.cls as c (c)}<span class="chip">{tagLabel(c, L, own)}</span>{/each}
             {#if entry.freq}<span class="faint small">{t('dict.lex.freq', { n: entry.freq })}</span
               >{/if}
           </div>
@@ -338,7 +406,8 @@
                 {#if s.p.length || s.tags.length || s.dom.length}
                   <div class="tags">
                     {#each s.p as p (p)}<span class="chip pos">{posLabel(p, L)}</span>{/each}
-                    {#each [...s.tags, ...s.dom] as m (m)}<span class="chip">{tagLabel(m, L)}</span
+                    {#each [...s.tags, ...s.dom] as m (m)}<span class="chip"
+                        >{tagLabel(m, L, own)}</span
                       >{/each}
                   </div>
                 {/if}
@@ -388,24 +457,25 @@
               {#if formsOpen || (formRows.length <= 6 && para.grids.length <= 1)}
                 {#each para.grids as g, gi (gi)}
                   <table class="forms grid" data-paradigm>
-                    {#if g.title.length}<caption>{tagsLabel(g.title, L)}</caption>{/if}
+                    {#if g.title.length}<caption>{tagsLabel(g.title, L, own)}</caption>{/if}
                     {#if g.cols.some((c) => c.length)}
                       <thead>
                         <tr>
                           <th></th>
-                          {#each g.cols as c, ci (ci)}<th class="col">{tagsLabel(c, L)}</th>{/each}
+                          {#each g.cols as c, ci (ci)}<th class="col">{tagsLabel(c, L, own)}</th
+                            >{/each}
                         </tr>
                       </thead>
                     {/if}
                     <tbody>
                       {#each g.rows as r, ri (ri)}
                         <tr>
-                          <th>{tagsLabel(r.tags, L)}</th>
+                          <th>{tagsLabel(r.tags, L, own)}</th>
                           {#each r.cells as cell, ci (ci)}
                             <td {lang} {dir}
                               >{#each cell as x, xi (xi)}{#if xi}<br
                                   />{/if}{x.form}{#if x.note.length}<span class="faint form-ipa"
-                                    >（{tagsLabel(x.note, L)}）</span
+                                    >（{tagsLabel(x.note, L, own)}）</span
                                   >{/if}{#if x.ipa}<span class="faint form-ipa">{x.ipa}</span
                                   >{/if}{/each}</td
                             >
@@ -440,7 +510,11 @@
               {#each extras as [k, v] (k)}
                 <p>
                   <span class="faint" title={extraHelp(k) || undefined}>{extraLabel(k)}</span>
-                  <span {lang}>{extraText(v)}</span>
+                  {#if typeof v === 'string' && /^https?:\/\//.test(v)}
+                    <a class="ext-link" href={v} target="_blank" rel="noreferrer">{v}</a>
+                  {:else}
+                    <span {lang}>{extraText(v)}</span>
+                  {/if}
                 </p>
               {/each}
             </section>
@@ -460,6 +534,34 @@
     </div>
   {:else if memo.tab === 'grammar'}
     <LexGrammarDict {code} query={memo.query} />
+  {:else if memo.tab === 'characters' && family}
+    <div class="family" data-family>
+      {#if !memo.query.trim()}
+        <p class="hint">{t('dict.lex.familyHint', { kind: t('kinds.characters.' + family) })}</p>
+      {:else if !members.length}
+        <p class="hint">{t('dict.lex.familyEmpty', { kind: t('kinds.characters.' + family) })}</p>
+      {:else}
+        {#each memberGroups as [label, list] (label)}
+          <section class="fam-group">
+            <h3>{label}<span class="faint small">{list.length}</span></h3>
+            <ul>
+              {#each list as m (m.id)}
+                <li>
+                  <button class="hit" data-member={m.id} onclick={() => openMember(m)}>
+                    <span class="row">
+                      <strong {lang} {dir}>{shown(m)}</strong>
+                      {#if m.pattern}<span class="faint small" {lang} {dir}>{m.pattern}</span>{/if}
+                      {#if m.lv}<span class="chip level">{levelShort(m.lv)}</span>{/if}
+                    </span>
+                    <span class="gloss">{(L === 'zh' && m.zh) || m.en || m.zh}</span>
+                  </button>
+                </li>
+              {/each}
+            </ul>
+          </section>
+        {/each}
+      {/if}
+    </div>
   {:else}
     <ul class="sentences" data-sentences>
       {#each examples as ex (ex.id)}
@@ -476,6 +578,43 @@
 </div>
 
 <style>
+  .ex-text {
+    white-space: pre-line;
+  }
+  .ext-link {
+    color: var(--accent-text);
+    word-break: break-all;
+  }
+  .kb-toggle {
+    padding: 6px 8px;
+  }
+  .kb-toggle.on {
+    background: var(--accent-soft);
+    color: var(--accent-text);
+  }
+  .family {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .fam-group h3 {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    font-size: 14px;
+    margin: 0 0 4px;
+  }
+  .fam-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 4px;
+  }
   .dict {
     display: flex;
     flex-direction: column;

@@ -114,7 +114,8 @@ export default {
       furigana: '振假名',
       ipa: '国际音标',
       orthography: '另一套拼写',
-      romanization: '拉丁转写'
+      romanization: '拉丁转写',
+      pronunciation: '标准发音'
     }
   },
   langReading: {
@@ -253,6 +254,11 @@ export default {
         latin: '按拉丁字母转写成「{form}」对上',
         latinForm: '按拉丁字母转写成「{form}」，是「{base}」的{tags}'
       },
+      keyboard: '屏幕键盘',
+      space: '空格',
+      backspace: '退格',
+      familyHint: '请在上方输入{kind}，即可列出同一{kind}的词。',
+      familyEmpty: '没有找到这个{kind}的词。',
       variant: '其他写法',
       audio: '真人录音',
       audioFail: '录音没能取到，请检查网络连接。',

@@ -116,7 +116,8 @@ export default {
       furigana: 'Furigana',
       ipa: 'IPA',
       orthography: 'Alternate spelling',
-      romanization: 'Romanization'
+      romanization: 'Romanization',
+      pronunciation: 'Pronunciation'
     }
   },
   langReading: {
@@ -259,6 +260,11 @@ export default {
         latin: 'Matched by transliterating to “{form}”',
         latinForm: 'Transliterated to “{form}”, the {tags} of “{base}”'
       },
+      keyboard: 'On-screen keyboard',
+      space: 'Space',
+      backspace: 'Backspace',
+      familyHint: 'Enter a {kind} above to list the words that share this {kind}.',
+      familyEmpty: 'No words were found for this {kind}.',
       variant: 'Other spellings',
       audio: 'Recording',
       audioFail: 'The recording could not be fetched. Please check your internet connection.',

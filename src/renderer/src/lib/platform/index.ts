@@ -30,6 +30,7 @@ import type {
   LexListInfo,
   LexSearchResult,
   LexStatus,
+  LexFamilyItem,
   LexWordItem
 } from '$shared/lang/views'
 
@@ -214,6 +215,8 @@ export const platform = {
     audio: (url: string) => invoke<{ bytes: Uint8Array; mime: string } | null>('lang:audio', url),
     /** 阅读器：分句、切词、对词条、注音、认语法点、估难度；没有词典数据时是 null */
     analyze: (code: string, text: string) => invoke<LexAnalysis | null>('lang:analyze', code, text),
+    /** 词族：同一词根（阿拉伯语）、同一汉字（韩语）的词 */
+    family: (code: string, text: string) => invoke<LexFamilyItem[]>('lang:family', code, text),
     /** 文章库：内置课文、自己导入的、新闻 */
     articles: {
       list: (code: string) => invoke<LangArticleMeta[]>('langArticles:list', code),

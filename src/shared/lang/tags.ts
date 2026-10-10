@@ -2,7 +2,7 @@
  * 词性、性、变形标签（Wiktextract 的标签词）在界面上怎么叫。
  * 各语言共用；没收的标签原样显示。要加新的请在阶段汇报里提，由主线加进来。
  */
-import type { PosTag } from './types'
+import type { LocalizedText, PosTag } from './types'
 
 type Label = { zh: string; en: string }
 
@@ -200,10 +200,19 @@ export const posLabel = (p: string, locale: string): string =>
 
 export const genderLabel = (g: string, locale: string): string => pick(GENDER_LABELS[g], locale, g)
 
-export const tagLabel = (t: string, locale: string): string => pick(TAG_LABELS[t], locale, t)
+/** 一个标签的叫法：先查这门语言自己的（LangModule.labels），再查通用的 */
+export function tagLabel(t: string, locale: string, own?: Record<string, LocalizedText>): string {
+  const mine = own?.[t]
+  if (mine) return (locale.startsWith('zh') ? (mine.zh ?? mine.en) : (mine.en ?? mine.zh)) ?? t
+  return pick(TAG_LABELS[t], locale, t)
+}
 
 /** 一组标签合成一个说明：「复数 · 属格」 */
-export function tagsLabel(tags: string[], locale: string): string {
+export function tagsLabel(
+  tags: string[],
+  locale: string,
+  own?: Record<string, LocalizedText>
+): string {
   let rest = tags.filter((t) => t !== 'lemma')
   const out: string[] = []
   for (const c of COMBOS)
@@ -211,7 +220,7 @@ export function tagsLabel(tags: string[], locale: string): string {
       out.push(pick(c.label, locale, c.tags.join(' ')))
       rest = rest.filter((t) => !c.tags.includes(t))
     }
-  return [...out, ...rest.map((t) => tagLabel(t, locale))].join(
+  return [...out, ...rest.map((t) => tagLabel(t, locale, own))].join(
     locale.startsWith('zh') ? ' · ' : ', '
   )
 }

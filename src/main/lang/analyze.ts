@@ -89,10 +89,11 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
         continue
       }
       const hit = db.lookup(raw.text)
+      // 转写用对上的那一行的原文（带元音的），猜原形对上的转正文；IPA、标准发音用查词结果的读音
       const ruby =
         rubyKind === 'romanization'
-          ? rules.romanize?.(raw.text)
-          : rubyKind === 'ipa'
+          ? rules.romanize?.(hit?.form ?? raw.text)
+          : rubyKind === 'ipa' || rubyKind === 'pronunciation'
             ? hit?.ipa
             : undefined
       tokens.push(toToken(raw, hit, ruby))

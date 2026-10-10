@@ -89,6 +89,13 @@ export interface LexWordItem {
   en: string
 }
 
+/** 词族里的一个词（阿拉伯语同一词根、韩语同一汉字）：分组用变形类别与词型 */
+export interface LexFamilyItem extends LexWordItem {
+  cls: string[]
+  /** 词型（阿拉伯语 فَاعِل……）、汉字写法：x.pattern / x.hanja */
+  pattern?: string
+}
+
 /** 一张词表：分级的一级（cefr:A1）、主题（theme:food）、别的（x:awl） */
 export interface LexListInfo {
   name: string

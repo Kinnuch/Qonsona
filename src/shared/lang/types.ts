@@ -229,6 +229,11 @@ export interface LangRules {
   tokenize?(text: string): RawToken[]
   /** form 表查不到时，猜可能的原形（韩语去助词与词尾、阿拉伯语去附着词、英语去 -ing……） */
   lemmaCandidates?(surface: string): LemmaGuess[]
+  /**
+   * 猜出的原形去对 form 表时，这一行算不算数（韩语只认原形行、再按词性筛：「안에」不该对上 알다 的变形「안」）。
+   * 不写时每一行都算（盖尔语去弱化后要对上变形行）
+   */
+  guessFits?(guess: LemmaGuess, row: { tags: string[]; pos: PosTag }): boolean
   /** 正文上可开关的记号 */
   marks?: MarkDef[]
   /** 转写成拉丁字母 */
@@ -266,8 +271,11 @@ export interface LangFeatures {
   stories: boolean
   media: boolean
   exam: boolean
-  /** 正文上方的注音：罗马化（韩语、阿拉伯语、俄语）/ IPA（盖尔语、英语）；不注音为 null */
-  ruby: 'romanization' | 'ipa' | null
+  /**
+   * 正文上方的注音：罗马化（阿拉伯语）/ IPA（盖尔语、英语）/ 标准发音（韩语，用本文字写的读法）；不注音为 null。
+   * ipa 与 pronunciation 都取查词结果的读音（原形用词条 ipa 的第一项，变形用 fi），只是界面上的叫法不同
+   */
+  ruby: 'romanization' | 'ipa' | 'pronunciation' | null
   romanization: boolean
   /** 系统语音的语言代码（BCP-47，en-US、fr-FR……）；Windows 没有这门语言的语音时也照写，界面会提示去装 */
   speech: string | null
@@ -391,6 +399,13 @@ export interface LangModule {
   exams?: LangExamDef[]
   /** 阶段五：拼写题的错拼法（不写时按通用办法：去掉、换掉重音符号，双写、漏写字母） */
   misspell?: (word: string, rand: () => number) => string[]
+  /**
+   * 这门语言自己的叫法：标签、变形类别的代号直接当键（'non-past'、'form-ii'、'-아요/어요'），
+   * 词条特有字段写 'x.<键名>'（'x.vowels'）。界面先查这里，再查通用的
+   */
+  labels?: Record<string, LocalizedText>
+  /** 屏幕键盘：几行键，每个键是一段要输入的文字（没装这门语言输入法的学习者用） */
+  keyboard?: string[][]
 }
 
 // ───────────────────────── 阅读（阶段二） ─────────────────────────

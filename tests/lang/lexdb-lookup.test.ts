@@ -13,6 +13,7 @@ import { LANGS } from '../../src/shared/lang/registry'
 import { cefrSystem } from '../../src/shared/lang/levels'
 import { defaultKey, foldWithMap, segmentSentences, stripMarks } from '../../src/shared/lang/text'
 import type { LangCode, LangModule } from '../../src/shared/lang/types'
+import { tagLabel, tagsLabel } from '../../src/shared/lang/tags'
 
 const CODE = 'zy' as LangCode
 const LATIN: Record<string, string> = {
@@ -55,7 +56,10 @@ const FAKE: LangModule = {
   },
   rules: {
     key: (t) => stripMarks(defaultKey(t, 'ru')),
-    fromLatin: (t) => [[...t.toLowerCase()].map((c) => LATIN[c] ?? c).join('')]
+    fromLatin: (t) => [[...t.toLowerCase()].map((c) => LATIN[c] ?? c).join('')],
+    // 词尾 ы 当复数去掉（只为测猜原形的筛选）
+    lemmaCandidates: (t) => (t.endsWith('ы') ? [{ lemma: t.slice(0, -1), tags: ['plural'] }] : []),
+    guessFits: (_g, row) => row.tags.includes('lemma')
   }
 }
 
@@ -97,6 +101,29 @@ beforeAll(() => {
     s: [{ en: ['to abandon'], zh: ['放弃；抛弃'] }],
     fr: 800
   })
+  // 猜原形的筛选：常用的 сто 有个（假的）变形 стол，名词 стол 少用
+  ids.sto = w.entry({
+    w: 'сто',
+    p: ['num'],
+    s: [{ en: ['hundred'] }],
+    f: [['стол', 'genitive', 'plural']],
+    fr: 1
+  })
+  ids.stol = w.entry({ w: 'стол', p: ['noun'], s: [{ en: ['table'] }], fr: 100 })
+  // 前缀只在原形上找：只有变形 живу 以「жив」开头
+  ids.zhit = w.entry({
+    w: 'жить',
+    p: ['verb'],
+    s: [{ en: ['to live'] }],
+    f: [['живу', 'first-person', 'singular', 'present']],
+    fr: 40
+  })
+  // 拼写完全一致的在前：重音不同的同形词
+  ids.muka1 = w.entry({ w: 'мука', d: 'мука́', p: ['noun'], s: [{ en: ['flour'] }], fr: 60 })
+  ids.muka2 = w.entry({ w: 'мука', d: 'му́ка', p: ['noun'], s: [{ en: ['torment'] }], fr: 300 })
+  // 词族：同一个「词根」
+  w.form(ids.dom, 'д м', ['root'])
+  w.form(ids.domaAdv, 'д м', ['root'])
   w.finish()
   db = new LexDb(CODE, file)
 })
@@ -154,6 +181,55 @@ describe('分句', () => {
     )
     expect(keep).toEqual(['Mr. Smith met Dr. Jones.', 'They talked.'])
     expect(plain.length).toBeGreaterThanOrEqual(keep.length)
+  })
+})
+
+describe('猜原形的筛选与前缀', () => {
+  it('guessFits 只认原形行：столы 猜出 стол，对上名词 стол，不对上 сто 的变形', () => {
+    expect(db.lookup('столы')).toMatchObject({ entry: ids.stol, tags: ['plural'] })
+    expect(db.lookup('столы')?.form).toBeUndefined()
+    expect(db.search('столы').hits[0]).toMatchObject({ id: ids.stol, match: 'guess' })
+  })
+  it('前缀只在原形上找：查 жив 不出 жить（只有变形 живу 以它开头）', () => {
+    expect(db.search('жив').hits.map((h) => h.id)).not.toContain(ids.zhit)
+    expect(db.search('жи').hits.map((h) => h.id)).toContain(ids.zhit)
+  })
+  it('查词结果带上对上的那一行的原文写法：同一词条里记号最全的那行（转写、注音用）', () => {
+    expect(db.lookup('мука')?.form).toBe('мука́')
+  })
+})
+
+describe('拼写完全一致的在前', () => {
+  it('带重音输入时重音对得上的在前，不带时按常用', () => {
+    expect(db.search('му́ка').hits[0].id).toBe(ids.muka2)
+    expect(db.search('мука').hits[0].id).toBe(ids.muka1)
+  })
+})
+
+describe('词族', () => {
+  it('按标着 root 的行列出同一词根的词，写不写空格都行', () => {
+    const both = [ids.dom, ids.domaAdv].sort()
+    expect(
+      db
+        .family('д м', 'root')
+        .map((m) => m.id)
+        .sort()
+    ).toEqual(both)
+    expect(
+      db
+        .family('дм', 'root')
+        .map((m) => m.id)
+        .sort()
+    ).toEqual(both)
+    expect(db.family('д м', 'hanja')).toEqual([])
+  })
+})
+
+describe('叫法', () => {
+  it('这门语言自己的叫法优先，没有的用通用的', () => {
+    const own = { 'non-past': { zh: '现在式', en: 'non-past' } }
+    expect(tagsLabel(['non-past', 'plural'], 'zh', own)).toBe('现在式 · 复数')
+    expect(tagLabel('plural', 'en', own)).toBe('plural')
   })
 })
 

@@ -7,6 +7,7 @@ import { statSync } from 'node:fs'
 import { LANGS } from '../../shared/lang/registry'
 import { primarySystem } from '../../shared/lang/levels'
 import type {
+  LemmaGuess,
   LangCode,
   LangModule,
   LexEntryData,
@@ -17,6 +18,7 @@ import type {
 } from '../../shared/lang/types'
 import type {
   LexEntryView,
+  LexFamilyItem,
   LexHit,
   LexLevelView,
   LexMatch,
@@ -46,6 +48,8 @@ export interface LookupHit {
   en: string
   /** 读音：原形用词条的 IPA，变形用 fi 里这个形的；变形没有读音时空着 */
   ipa?: string
+  /** 对上的那一行的原文写法（带元音、重音的）；猜原形对上的没有 */
+  form?: string
 }
 
 interface Row {
@@ -147,15 +151,23 @@ export class LexDb {
       const cur = found.get(id)
       if (!cur || ORDER.indexOf(match) < ORDER.indexOf(cur.match)) found.set(id, { match, via })
     }
-    const byKey = (key: string, loose: 0 | 1): { entry: number; form: string; tags: string }[] =>
-      this.#stmt('SELECT entry, form, tags FROM form WHERE key = ? AND loose = ? LIMIT 200').all(
-        key,
-        loose
-      ) as { entry: number; form: string; tags: string }[]
+    const byKey = (
+      key: string,
+      loose: 0 | 1
+    ): { entry: number; form: string; tags: string; p: string }[] =>
+      this.#stmt(
+        'SELECT f.entry, f.form, f.tags, e.p FROM form f JOIN entry e ON e.id = f.entry WHERE f.key = ? AND f.loose = ? LIMIT 200'
+      ).all(key, loose) as { entry: number; form: string; tags: string; p: string }[]
+    // 拼写跟输入完全一样的（大小写、元音符号都一样）：排序时放前面
+    const nq = q.normalize('NFC')
+    const spelled = new Set<number>()
+    const fits = (g: LemmaGuess, r: { tags: string; p: string }): boolean =>
+      rules.guessFits?.(g, { tags: r.tags ? r.tags.split(' ') : [], pos: r.p as PosTag }) ?? true
 
     const key = rules.key(q)
     for (const r of byKey(key, 0)) {
       const tags = r.tags ? r.tags.split(' ') : []
+      if (r.form.normalize('NFC') === nq) spelled.add(Number(r.entry))
       if (tags.includes('lemma')) add(Number(r.entry), 'exact')
       else add(Number(r.entry), 'form', { form: q, tags })
     }
@@ -168,7 +180,7 @@ export class LexDb {
     }
     for (const g of rules.lemmaCandidates?.(q) ?? []) {
       for (const r of byKey(rules.key(g.lemma), 0))
-        add(Number(r.entry), 'guess', { form: q, tags: g.tags })
+        if (fits(g, r)) add(Number(r.entry), 'guess', { form: q, tags: g.tags })
     }
     // 用拉丁字母输入不用拉丁字母的语言（privet → привет）：按转写出的几种写法再查一遍
     if (rules.fromLatin && /^[\p{Script=Latin}\s'’-]+$/u.test(q)) {
@@ -181,10 +193,10 @@ export class LexDb {
         }
         for (const g of rules.lemmaCandidates?.(c) ?? [])
           for (const r of byKey(rules.key(g.lemma), 0))
-            add(Number(r.entry), 'latin', { form: c, tags: g.tags })
+            if (fits(g, r)) add(Number(r.entry), 'latin', { form: c, tags: g.tags })
         if (found.size < 20)
           for (const r of this.#stmt(
-            'SELECT DISTINCT entry FROM form WHERE key > ? AND key < ? AND loose = 0 LIMIT 100'
+            "SELECT DISTINCT entry FROM form WHERE key > ? AND key < ? AND loose = 0 AND (' ' || tags || ' ') LIKE '% lemma %' LIMIT 100"
           ).all(ck, ck + TOP) as { entry: number }[])
             add(Number(r.entry), 'prefix')
       }
@@ -222,10 +234,10 @@ export class LexDb {
         }
       }
     }
-    // 前缀：只在严格键上找，结果少时才补
+    // 前缀：只在严格键的原形行上找（查「집」不该冒出变形 집니다 的原形 지다），结果少时才补
     if (found.size < limit && key.length >= 1) {
       for (const r of this.#stmt(
-        'SELECT DISTINCT entry FROM form WHERE key > ? AND key < ? AND loose = 0 LIMIT 300'
+        "SELECT DISTINCT entry FROM form WHERE key > ? AND key < ? AND loose = 0 AND (' ' || tags || ' ') LIKE '% lemma %' LIMIT 300"
       ).all(key, key + TOP) as { entry: number }[])
         add(Number(r.entry), 'prefix')
     }
@@ -249,9 +261,9 @@ export class LexDb {
       const ma = ORDER.indexOf(found.get(a.id)!.match)
       const mb = ORDER.indexOf(found.get(b.id)!.match)
       if (ma !== mb) return ma - mb
-      // 大小写完全一样的在前（US 与 us、May 与 may）
-      const ca = Number(a.w !== q)
-      const cb = Number(b.w !== q)
+      // 拼写完全一样的在前（US 与 us、May 与 may；阿拉伯语带元音输入时元音对得上的）
+      const ca = Number(a.w !== q && !spelled.has(a.id))
+      const cb = Number(b.w !== q && !spelled.has(b.id))
       if (ca !== cb) return ca - cb
       const za = zhRank.get(a.id) ?? 2
       const zb = zhRank.get(b.id) ?? 2
@@ -321,7 +333,7 @@ export class LexDb {
       (
         this.#stmt(
           `SELECT f.entry, f.form, f.tags, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
-         WHERE f.key = ? AND f.loose = ? ORDER BY e.fr IS NULL, e.fr, length(e.w) LIMIT 1`
+         WHERE f.key = ? AND f.loose = ? ORDER BY e.fr IS NULL, e.fr, length(e.w), length(f.form) DESC LIMIT 1`
         ).all(k, loose) as {
           entry: number
           form: string
@@ -330,7 +342,7 @@ export class LexDb {
           data: Uint8Array
         }[]
       ).map((r) => ({ ...r, k, loose }))
-    let found = rows(key, 0)[0]
+    let found: ReturnType<typeof rows>[number] | undefined = rows(key, 0)[0]
     let tags: string[] | null = null
     if (!found) {
       const loose = rules.looseKey?.(surface)
@@ -338,7 +350,15 @@ export class LexDb {
     }
     if (!found) {
       for (const g of rules.lemmaCandidates?.(surface) ?? []) {
-        found = rows(rules.key(g.lemma), 0)[0]
+        const k = rules.key(g.lemma)
+        found = rules.guessFits
+          ? this.#guessRows(k).find((r) =>
+              rules.guessFits!(g, {
+                tags: r.tags ? r.tags.split(' ') : [],
+                pos: r.p as PosTag
+              })
+            )
+          : rows(k, 0)[0]
         if (found) {
           tags = g.tags
           break
@@ -381,6 +401,7 @@ export class LexDb {
         tags: tags ?? split(found.tags),
         ...(alt.length ? { alt } : {}),
         ...(others.length ? { others } : {}),
+        ...(tags ? {} : { form: found.form }),
         lv: found.lv,
         zh: g.zh,
         en: g.en,
@@ -390,6 +411,63 @@ export class LexDb {
     if (this.#lookups.size > 20000) this.#lookups.clear()
     this.#lookups.set(key, hit)
     return hit
+  }
+
+  /** 猜原形时一个键对上的几行（常用的在前），给 guessFits 挑 */
+  #guessRows(k: string): {
+    entry: number
+    form: string
+    tags: string
+    p: string
+    lv: string | null
+    data: Uint8Array
+    k: string
+    loose: 0 | 1
+  }[] {
+    return (
+      this.#stmt(
+        `SELECT f.entry, f.form, f.tags, e.p, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
+         WHERE f.key = ? AND f.loose = 0 ORDER BY e.fr IS NULL, e.fr, length(e.w), length(f.form) DESC LIMIT 30`
+      ).all(k) as {
+        entry: number
+        form: string
+        tags: string
+        p: string
+        lv: string | null
+        data: Uint8Array
+      }[]
+    ).map((r) => ({ ...r, k, loose: 0 as const }))
+  }
+
+  /**
+   * 词族：form 表里标着 tag（阿拉伯语 root、韩语 hanja）的那个键对上的全部词条（常用的在前）。
+   * 词根写不写空格都行（ك ت ب / كتب）：两种键都试
+   */
+  family(text: string, tag: string, limit = 400): LexFamilyItem[] {
+    const keys = [
+      ...new Set([this.lang.rules.key(text), this.lang.rules.key(text.replace(/\s+/g, ''))])
+    ]
+    const k2 = [...new Set([...keys, ...keys.map((k) => [...k].join(' '))])].filter(Boolean)
+    const rows: Row[] = []
+    const seen = new Set<number>()
+    for (const k of k2)
+      for (const r of this.#stmt(
+        `SELECT e.id, e.w, e.p, e.fr, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
+         WHERE f.key = ? AND (' ' || f.tags || ' ') LIKE ? ORDER BY e.fr IS NULL, e.fr LIMIT ?`
+      ).all(k, `% ${tag} %`, limit) as unknown as Row[]) {
+        if (seen.has(Number(r.id))) continue
+        seen.add(Number(r.id))
+        rows.push(r)
+      }
+    return rows.map((r) => {
+      const d = unpackEntry(r.data)
+      const pattern = d.x?.pattern ?? d.x?.hanja
+      return {
+        ...this.#item(r),
+        cls: d.cls ?? [],
+        ...(typeof pattern === 'string' ? { pattern } : {})
+      }
+    })
   }
 
   // ───────────── 词条 ─────────────

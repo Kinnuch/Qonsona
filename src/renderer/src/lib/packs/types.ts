@@ -24,7 +24,7 @@ export type AlphabetKind = 'kana' | 'glyphs' | 'phonemes' | 'letters' | 'phonics
 export type CharacterKind = 'kanji' | 'glyphs' | 'morphemes' | 'hanja' | 'roots'
 
 /** 正文上方的注音：振假名 / 国际音标 / 另一套正字法 / 罗马字转写（韩、阿、俄） */
-export type RubyKind = 'furigana' | 'ipa' | 'orthography' | 'romanization'
+export type RubyKind = 'furigana' | 'ipa' | 'orthography' | 'romanization' | 'pronunciation'
 
 export interface PackFeatures {
   /** 有文章、例句可读（自己导入的文本也要能切词） */

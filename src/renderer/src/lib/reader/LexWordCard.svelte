@@ -25,7 +25,8 @@
     if (!token.lv) return ''
     return primarySystem(spec.levelSystems).levels.find((l) => l.id === token.lv)?.short ?? token.lv
   })
-  const changes = $derived(tagsLabel(token.tags ?? [], L))
+  const own = $derived(LANGS[code as LangCode].labels)
+  const changes = $derived(tagsLabel(token.tags ?? [], L, own))
 
   function openInDict(entry = token.entry, lemma = token.lemma ?? token.text): void {
     if (!entry) return
@@ -63,7 +64,7 @@
     {#if token.alt?.length}
       <p class="faint small" data-word-alt>
         {t('dict.lex.via.alt', {
-          tags: token.alt.map((a) => tagsLabel(a, L)).join(L === 'zh' ? '；' : '; ')
+          tags: token.alt.map((a) => tagsLabel(a, L, own)).join(L === 'zh' ? '；' : '; ')
         })}
       </p>
     {/if}
