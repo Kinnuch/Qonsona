@@ -215,7 +215,8 @@ const ngsl: LevelSystemDef = {
       'New Academic Word List 1.2: 963 frequent academic words beyond the NGSL.'
     )
   ],
-  cefr: { ndl: 'A1', 'ngsl-s': 'A2', ngsl: 'B1', tsl: 'B2', bsl: 'B2', nawl: 'B2' },
+  // 按库里各表的词在 CEFR 上的中位数（docs/lang/en.md）
+  cefr: { ndl: 'A1', 'ngsl-s': 'A1', ngsl: 'A2', tsl: 'B2', bsl: 'B2', nawl: 'B2' },
   sources: [NGSL]
 }
 
