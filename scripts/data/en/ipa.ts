@@ -208,3 +208,58 @@ export function wiktionaryIpa(ipa: string, variety: 'uk' | 'us'): string | null 
   const vowels = (s.match(/aɪ|aʊ|ɔɪ|əʊ|oʊ|eɪ|ɪə|eə|ʊə|[iɪeæɑɒɔʊuʌəɜɝɚ]/g) ?? []).length
   return `/${dropMonosyllableStress(s, vowels)}/`
 }
+
+// ───────────────────────── 规则变形的读音 ─────────────────────────
+
+const SIBILANT = /(s|z|ʃ|ʒ|tʃ|dʒ)$/
+const VOICELESS = /(p|t|k|f|θ|s|ʃ|tʃ)$/
+/** 元音结尾（英式非 r 化：hear /hɪə/ 加元音开头的词尾时读出 r：hearing /ˈhɪərɪŋ/） */
+const VOWEL_END = /(ə|ɪə|eə|ʊə|ɑː|ɔː|ɜː|iː|uː|aɪ|eɪ|ɔɪ|aʊ|əʊ|oʊ|ɚ|ɝ|i|u|ɑ|ɔ|æ|e|ɪ|ʊ|ʌ|ɒ)$/
+/** IPA 里有几个元音（数音节，判断单音节加词尾后要不要补重音符号） */
+const syllables = (ipa: string): number =>
+  (ipa.match(/aɪ|aʊ|ɔɪ|əʊ|oʊ|eɪ|ɪə|eə|ʊə|iː|uː|ɑː|ɔː|ɜː|[iɪeæɑɒɔʊuʌəɜɝɚ]/g) ?? []).length
+
+/**
+ * 规则变形的读音：从原形的读音按规则推（复数与三单 -s 读 /s/ /z/ /ɪz/，过去式 -ed 读 /t/ /d/ /ɪd/，
+ * -ing /ɪŋ/，比较级 -er、最高级 -est）。spelling 是原形的拼写（英式判断要不要读出 r），variety 是英式还是美式。
+ * 不是规则变化的（went、children）返回 null。
+ */
+export function inflectIpa(
+  lemmaIpa: string,
+  lemma: string,
+  form: string,
+  tags: string[],
+  variety: 'uk' | 'us'
+): string | null {
+  const ipa = lemmaIpa.replace(/^\/|\/$/g, '')
+  if (!ipa || /[()\s,]/.test(ipa)) return null
+  const l = lemma.toLowerCase()
+  const f = form.toLowerCase()
+  // 拼写得是规则的：去 e、y 变 i、双写辅音
+  const stems = [l, l.replace(/e$/, ''), l.replace(/y$/, 'i'), l + l.slice(-1), l + 'k']
+  const is = (suffixes: string[]): boolean => stems.some((s) => suffixes.some((x) => s + x === f))
+  const linkR = variety === 'uk' && /r(e)?$/.test(l) && VOWEL_END.test(ipa) ? 'r' : ''
+  let add: string | null = null
+  if (tags.includes('plural') || tags.includes('third-person')) {
+    if (!is(['s', 'es'])) return null
+    add = SIBILANT.test(ipa) ? 'ɪz' : VOICELESS.test(ipa) ? 's' : 'z'
+  } else if (tags.includes('past')) {
+    if (!is(['ed', 'd'])) return null
+    add = /(t|d)$/.test(ipa) ? 'ɪd' : VOICELESS.test(ipa) ? 't' : 'd'
+  } else if (tags.includes('present') && tags.includes('participle')) {
+    if (!is(['ing']) && !(l.endsWith('ie') && f === l.slice(0, -2) + 'ying')) return null
+    add = linkR + 'ɪŋ'
+  } else if (tags.includes('comparative')) {
+    if (!is(['er', 'r'])) return null
+    add = variety === 'uk' ? linkR + 'ə' : 'ɚ'
+  } else if (tags.includes('superlative')) {
+    if (!is(['est', 'st'])) return null
+    add = linkR + 'ɪst'
+  }
+  if (add === null) return null
+  // y 结尾的词（happy /ˈhæpi/）直接接上：happier /ˈhæpiə/、studies /ˈstʌdiz/
+  let out = ipa + add
+  // 原来是单音节（没标重音），加了一个音节就要标上重音
+  if (!/[ˈˌ]/.test(ipa) && syllables(out) > 1) out = 'ˈ' + out
+  return `/${out}/`
+}

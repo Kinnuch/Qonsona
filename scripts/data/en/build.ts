@@ -49,6 +49,7 @@ import {
   britfoneStressed,
   britfoneToIpa,
   ecdictPhonetic,
+  inflectIpa,
   splitIpaDict,
   usStressed,
   usStyle
@@ -467,7 +468,9 @@ for (const r of rows) {
   // 只是别的词的变形、意思跟原形一样的（trees「树木」、children「孩子们」、faster「更快」）不单列：
   // 查 trees 时由原形的变形表带到 tree。意思不一样的（found「建立」、left「左边的」、glasses「眼镜」）留着
   const lemma = lemmaOfRow(r) ?? formOfIndex.get(r.word.toLowerCase())?.[0]
-  if (lemma && !listed && sameMeaning(b, lemma)) {
+  // 剩下的只有缩写、专名的意思（ideas 的「IDEAS 工业设计优秀奖」、topics 的缩写）也不单列
+  const onlyNames = b.p.every((p) => p === 'abbr' || p === 'propn')
+  if (lemma && !listed && (sameMeaning(b, lemma) || onlyNames)) {
     pureForms++
     continue
   }
@@ -511,6 +514,54 @@ const kaikki: Map<string, KaikkiWord> = existsSync(kaikkiFile)
 }
 
 // ───────────────────────── 变形表 ─────────────────────────
+
+/**
+ * 变形表的先后：同一个词形对上几行时，读库把第一行当这个词形的意思、其余放进 alt，所以可能性大的在前——
+ * 动词为主的词三单在复数前（goes），名词为主的复数在前（runs 当名词少见就排后），过去式在过去分词前（got）
+ */
+function sortForms(p: PosTag[], forms: [string, ...string[]][]): [string, ...string[]][] {
+  const verbFirst = p[0] === 'verb' || p[0] === 'aux'
+  const adjFirst = p[0] === 'adj' || p[0] === 'adv'
+  const rank = (tags: string[]): number => {
+    const t = tags.join(' ')
+    const order = verbFirst
+      ? ['third-person', 'past', 'past participle', 'present participle', 'plural', 'comparative']
+      : adjFirst
+        ? ['comparative', 'superlative', 'third-person', 'past', 'past participle', 'plural']
+        : ['plural', 'third-person', 'past', 'past participle', 'present participle', 'comparative']
+    const i = order.findIndex((o) => (o === 'past' ? t === 'past' : t.startsWith(o) || t === o))
+    return i < 0 ? order.length : i
+  }
+  return forms
+    .map((f, i) => ({ f, i, r: rank(f.slice(1)) }))
+    .sort((a, b) => a.r - b.r || a.i - b.i)
+    .map((x) => x.f)
+}
+
+/** 变形的读音：先用 Britfone 里这个词形自己的读音，再按规则从原形的读音推，最后用 ipa-dict 的美式读音 */
+function formIpa(
+  b: Built,
+  forms: [string, ...string[]][],
+  x: Record<string, unknown>
+): Record<string, string> {
+  const out: Record<string, string> = {}
+  const uk = (x.ipaUk as string[] | undefined)?.[0]
+  const us = (x.ipaUs as string[] | undefined)?.[0]
+  for (const [form, ...tags] of forms) {
+    if (out[form] || /[\s']/.test(form)) continue
+    const k = form.toLowerCase()
+    const direct = (m: typeof ukIpa): string | undefined => {
+      const e = m.get(k)
+      return e?.strong[0] ?? e?.weak[0]
+    }
+    const v =
+      (uk ? (direct(ukIpa) ?? inflectIpa(uk, b.w, form, tags, 'uk')) : null) ??
+      direct(usIpa) ??
+      (us ? inflectIpa(us, b.w, form, tags, 'us') : null)
+    if (v) out[form] = v
+  }
+  return out
+}
 
 /** 这种标签的变形，这个词性的词才有（I 没有复数，London 没有第三人称单数） */
 function posAllows(p: PosTag[], tags: string[]): boolean {
@@ -562,7 +613,7 @@ for (const b of entries) {
   if (!proper)
     for (const [form, tagsList] of reverse.get(b.w) ?? [])
       for (const tags of tagsList) add(form, tags, false)
-  formsOf.set(b, out)
+  formsOf.set(b, sortForms(b.p, out))
 }
 log(`变形表：去掉没有印证的词形 ${droppedForms} 个`)
 
@@ -670,20 +721,13 @@ const EXAM_CEFR: Record<string, CefrLevel> = {
 }
 const EXAMS = new Set(Object.keys(EXAM_CEFR))
 const levelOf = new Map<Built, CefrLevel>()
-const levelBy = { list: 0, lemma: 0, freq: 0, exam: 0, none: 0 }
-const byHead = new Map<string, Built>()
-for (const b of entries) if (!byHead.has(b.w)) byHead.set(b.w, b)
+// 本身也是别的词的变形、又单列成词条的（found「建立」、heading「标题」）：意思跟原形不同，不随原形定级
+const levelBy = { list: 0, freq: 0, exam: 0, none: 0 }
 for (const b of entries) {
   const l = easiest(cefrPosOf.get(b)!)
-  // 本身是别的词的变形（children、unlisted 的比较级）：跟原形同级
-  const lemma = b.of.map((o) => byHead.get(o) ?? byHead.get(o.toLowerCase())).find(Boolean)
-  const lemmaLevel = lemma ? easiest(profileLevels(lemma.w)) : undefined
   if (l) {
     levelOf.set(b, l)
     levelBy.list++
-  } else if (lemmaLevel) {
-    levelOf.set(b, lemmaLevel)
-    levelBy.lemma++
   } else if (b.rank && !/^[A-Z]/.test(b.w)) {
     // 专名、缩写不按词频补级（London 不是 A1 的词汇）
     levelOf.set(b, levelByRank(b.rank, cuts))
@@ -700,7 +744,7 @@ for (const b of entries) {
   }
 }
 log(
-  `CEFR：词表 ${levelBy.list}，随原形 ${levelBy.lemma}，按词频 ${levelBy.freq}，按考试标签 ${levelBy.exam}，没有 ${levelBy.none}`
+  `CEFR：词表 ${levelBy.list}，按词频 ${levelBy.freq}，按考试标签 ${levelBy.exam}，没有 ${levelBy.none}`
 )
 
 // ───────────────────────── 句子与词组 ─────────────────────────
@@ -985,6 +1029,7 @@ for (const b of all) {
   const variants = isMulti(b.w) ? [] : spellingVariants(b.w)
   if (variants.length) x.var = variants
   const forms = isMulti(b.w) ? phraseForms(b) : (formsOf.get(b) ?? [])
+  const fi = isMulti(b.w) ? {} : formIpa(b, forms, x)
   const src = new Set<string>([b.row.translation ? 'ecdict' : 'qonsona'])
   if (b.usedWordnet) src.add('wordnet')
   if (wiktUsed.has(b)) src.add('wiktionary')
@@ -1005,6 +1050,7 @@ for (const b of all) {
     ...(pron.au ? { au: pron.au } : {}),
     s: b.s,
     ...(forms.length ? { f: forms } : {}),
+    ...(Object.keys(fi).length ? { fi } : {}),
     ...(Object.keys(lv).length ? { lv } : {}),
     ...(b.rank ? { fr: b.rank } : {}),
     ...(Object.keys(x).length ? { x } : {}),

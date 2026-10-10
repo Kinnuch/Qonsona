@@ -17,6 +17,7 @@ import {
   britfoneStressed,
   britfoneToIpa,
   ecdictPhonetic,
+  inflectIpa,
   splitIpaDict,
   usStyle,
   wiktionaryIpa
@@ -137,6 +138,22 @@ describe('IPA', () => {
     expect(ecdictPhonetic('bә:d')).toBe('/bɜːd/')
     expect(ecdictPhonetic('')).toBeNull()
     expect(ecdictPhonetic('ABC')).toBeNull()
+  })
+  it('规则变形的读音：-s、-ed 的三种读法，-ing、-er、-est，英式补 r', () => {
+    const pl = ['plural']
+    const past = ['past']
+    expect(inflectIpa('/kæt/', 'cat', 'cats', pl, 'uk')).toBe('/kæts/')
+    expect(inflectIpa('/dɒg/', 'dog', 'dogs', pl, 'uk')).toBe('/dɒgz/')
+    expect(inflectIpa('/bɒks/', 'box', 'boxes', pl, 'uk')).toBe('/ˈbɒksɪz/')
+    expect(inflectIpa('/wɔːk/', 'walk', 'walked', past, 'uk')).toBe('/wɔːkt/')
+    expect(inflectIpa('/pleɪ/', 'play', 'played', past, 'uk')).toBe('/pleɪd/')
+    expect(inflectIpa('/ˈwɒnt/', 'want', 'wanted', past, 'uk')).toBe('/ˈwɒntɪd/')
+    expect(inflectIpa('/hɪə/', 'hear', 'hearing', ['present', 'participle'], 'uk')).toBe(
+      '/ˈhɪərɪŋ/'
+    )
+    expect(inflectIpa('/ˈhæpi/', 'happy', 'happier', ['comparative'], 'uk')).toBe('/ˈhæpiə/')
+    expect(inflectIpa('/tɔːl/', 'tall', 'tallest', ['superlative'], 'us')).toBe('/ˈtɔːlɪst/')
+    expect(inflectIpa('/gəʊ/', 'go', 'went', past, 'uk')).toBeNull()
   })
   it('维基词典的 IPA', () => {
     expect(wiktionaryIpa('/ˈwɔː.tə(ɹ)/', 'uk')).toBe('/ˈwɔːtə(r)/')
