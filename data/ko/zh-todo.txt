@@ -1,5 +1,4 @@
 # 没有中文释义的常用词（按词频）：词头	词性	英文释义。由 scripts/data/ko/build.ts 生成
-뭔지	noun	what it is
 해야하다	verb	to have to, must, should, ought to
 잭	noun,propn	a jack (surface mounted connector); a jack; Jack (English male name)
 제이	noun	The name of the Latin script letter J/j.
@@ -10,66 +9,67 @@
 아니오	intj	
 루시퍼	propn	Lucifer
 다시	noun	
-무언가	pron,noun	something; song without words
 여자친구	noun	girlfriend
 남자친구	noun	boyfriend
-어딘가	pron	somewhere; some place
 신경쓰다	verb	to focus, pay attention, be meticulous
 오케이	noun,intj	good; OK
 개자식	noun	bastard; son of a bitch
 앨리스	propn	a transliteration of the English female given name Alice
 크리스	propn	a transliteration of the English unisex given name Chris
 루시	propn	Rus (medieval East Slavic state)
-이젠	noun	now (as the topic of the sentence)
 신부님	noun	priest
-카라	noun	collar
+무언가	pron,noun	something; song without words
 엘리자베스	propn	a transliteration of the English female given name Elizabeth
-게이	noun	gay man (male homosexual); effeminate man; user, forum user, social media user; often mistakenly understood as a shortening of 게시판 이용자 (gesipan iyongja, “forum user”).
-존	noun	zone
 원치	noun	winch (machine)
+게이	noun	gay man (male homosexual); effeminate man; user, forum user, social media user; often mistakenly understood as a shortening of 게시판 이용자 (gesipan iyongja, “forum user”).
 저놈	noun	that guy; that bastard; that thing
 아이구	intj	
 찰스	propn	a transliteration of the English male given name Charles
 마리아	propn	Mary
+뭔지	noun	what it is
 공주님	noun	princess
+카라	noun	collar
 노아	propn	Noah
-미국인	noun	American (person born in or citizen of the USA)
 케이트	noun	a four/cater
 머피	propn	a transliteration of the English surname Murphy
+미국인	noun	American (person born in or citizen of the USA)
 필립	propn	a transliteration of the English male given name Philip; a transliteration of the French male given name Philippe
 좀더	adv	a little more
 시애틀	propn	[~시(市)] Seattle (a city in Washington, United States)
 브라이언	propn	Bryan
 루이스	propn	a transliteration of the English male given name Louis; a transliteration of the English male given name Luis; a transliteration of the Spanish male given name Luis
 개새끼	noun	son of a bitch, piece of shit, bastard; dog, regardless of age; puppy; an actual young dog
-이봐요	intj	hi, hey, hello
+디다	verb	to be bruised; to become red-hot
 나치	noun	Nazi
+거야	noun	last night, yesterday evening
 성하	noun	A term of respectful address for a pope.
 케이	noun	The name of the Latin script letter K/k.
+여	pron	
+이젠	noun	now (as the topic of the sentence)
 우리집	noun	Hanok; my house; my family's house; my family
+애기	noun	
 퀸	noun	a queen; a queen
 토마스	propn	Thomas
 시카고	propn	Chicago (a large city in Illinois, United States)
 소피아	propn	Sofia (the capital of Bulgaria)
 다니엘	propn	Daniel
+카	noun	car
 좀비	noun	zombie
 애비	noun	
-여	pron	
 감사드리다	verb	to be thankful; to feel or express a desire to repay
-애기	noun	
+쯔다	verb	to cut, to fell
 카이사르	propn	Caesar
 텍사스	propn	[~주(州)] Texas (a state in the south-central region of the United States)
 애리조나	propn	[~주(州)] Arizona (a state in the southwestern United States, established 1912)
-거야	noun	last night, yesterday evening
+론	affix,propn,noun	theory; hypothesis, claim, argument; a transliteration of the English male given name Ron
 윌리엄	propn	a transliteration of the English male given name William
 이년	noun	this girl; this bitch
-가끔씩	adv	sometimes
-카	noun	car
-스카이	propn	Seoul, Korea, and Yonsei Universities, traditionally the three most prestigious universities in South Korea
 페니	noun	penny
+스카이	propn	Seoul, Korea, and Yonsei Universities, traditionally the three most prestigious universities in South Korea
 베를린	propn	Berlin (the capital city of Germany)
 킴	propn	a transliteration of the Korean surname 김 (Gim), a back-transliteration of diasporic English Kim, Russian Ким (Kim), Ukrainian Кім (Kim), etc.
 캘리포니아	propn	[~주(州)] California (the most populous state of the United States)
+이봐요	intj	hi, hey, hello
 와이프	noun	wife
 로리	propn	a transliteration of the English female given name Laurie; a transliteration of the English female given name Laury; a transliteration of the English female given name Lori
 루이	propn	a transliteration of the French male given name Louis
@@ -77,6 +77,8 @@
 데니스	propn	a transliteration of the English male given name Dennis
 싱크	noun	sink (basin); a five/cinque
 마이	noun	shirt jacket, especially of a school uniform
+디	noun	The name of the Latin script letter D/d.
+루	noun	rampart, military wall; base
 고장나다	verb	to be/become broken
 보아하니	adv	seemingly; apparently; presumably
 할로윈	noun	Halloween
@@ -96,39 +98,44 @@
 드래곤	noun	dragon
 보스턴	propn	Boston (the capital city of Massachusetts, United States)
 전세계	noun	the whole world
-그년	noun	that girl; that bitch
 풋볼	noun	football
-개소리	noun	bullshit, nonsense
 베이비	noun	baby, infant; baby (term of endearment)
+개소리	noun	bullshit, nonsense
 클램프	noun	clamp (tool)
 심장마비	noun	heart attack
+엄	affix	a noun-forming suffix
+카다	verb	to say that; follows an explicit or implicit quotation; to intend to, to try to; be about to
 캐서린	propn	a transliteration of the English female given name Catherine
 대동맥	noun	aorta
-일이	num	one or two
 숨쉬다	verb	to breathe
+그년	noun	that girl; that bitch
 스톤	noun	curling stone
-마치	noun	
-마치	adp	
 소리지르다	verb	to yell, to shout
 플로리다	propn	[~주(州)] Florida (a state of the United States)
+마치	noun	
+마치	adp	
 목사님	noun	pastor; minister
-앤	propn	a transliteration of the English female given name Ann or Anne
 서버	noun	server
 비숍	noun,propn	a bishop; Bishop (names of various cities and towns)
 하와이	propn	[~주(州)] Hawaii (an insular state of the United States, formerly a territory)
+일이	num	one or two
 뱀파이어	noun	vampire
 남자답다	adj	manly, masculine
+일년	noun	a one year
 좆같다	adj	to be shitty, to suck, to be miserable
 개리	noun	The swan goose, Anser cygnoides.
 후드	noun	hood (headwear); hood (front of a car)
 아벨	propn	Abel
-로키	propn	Loki
-일년	noun	a one year
 좆	noun	penis, dick, cock
+롤	noun,propn	a hair roller; a roll, a roller (heavy cylinder in machinery); a roll (type of rolled food)
+로키	propn	Loki
+짜리	noun	tsar, tzar
 화이트	noun	white-out; correction fluid, correction tape
 리치	noun	lychee, Litchi chinensis; lychee fruit; reach, sphere of influence
-페	noun	lung; inconvenience; nuisance; bother; trouble
+앤	propn	a transliteration of the English female given name Ann or Anne
+다들	adv	everyone
 모세	propn	Moses
+페	noun	lung; inconvenience; nuisance; bother; trouble
 암살자	noun	assassin; hitman, contract killer
 알렉산더	propn	Alexander, the Ancient Greek name most famously held by Alexander the Great; a transliteration of the English male given name Alexander
 서연	propn	a female given name
@@ -136,11 +143,11 @@
 패티	noun	patty (portion of ground meat or vegetarian equivalent)
 백악관	propn	the White House (The official residence of the President of the United States of America)
 토네이도	noun	tornado
-콜	noun,intj	call; call; OK, agreed (on a proposal)
 십대	noun	one's teens
 클레오파트라	propn	Cleopatra
 부시	noun,propn	steel to strike sparks from a flint; Bush (surname); lie
 자켓	noun	
+따다	verb	
 블록	noun	blocks of cement or stone; block-shaped toy; urban block of residential buildings
 데이	noun	day (in expressions taken from English)
 엄니	noun	a long, pointed tooth, canine or fang of beasts of prey or serpents, as well as tusk of elephants, mammoths, walruses, wild boars, etc.
@@ -148,11 +155,11 @@
 총통	noun	president, specifically the President of the Republic of China (Taiwan); Führer, the chancellor of Nazi Germany.; caudillo, Francisco Franco.
 마샤	propn	a transliteration of the English female given name Marsha
 몬스터	noun	monster
-카다	verb	to say that; follows an explicit or implicit quotation; to intend to, to try to; be about to
 몽고메리	propn	Montgomery (the capital of Alabama, United States)
 트레이	noun	tray (object on which things are carried); a three/trey
 할리우드	propn	Hollywood (an area of Los Angeles, California, United States)
 페이스북	propn	Facebook
+룰	noun	rule
 크립톤	noun	krypton
 메이스	noun	mace; mace
 숲속	noun	forest
@@ -163,79 +170,76 @@
 지구상	noun	in the world, on Earth
 제인	propn	a transliteration of the English female given name Jane
 토르	propn,noun	Thor; torr
-룰	noun	rule
+콜	noun,intj	call; call; OK, agreed (on a proposal)
 이쁜이	noun	sweetie, someone pretty
 라이트	noun	
 등신	noun	fool, idiot
 사울	propn	Saul
 뒈지다	verb	to die, to croak
-따다	verb	
 절친	noun	best friend
 버지니아	propn	[~주(州)] Virginia (a state of the United States)
+제니	propn	a transliteration of the English female given name Jenny or Jennie
 레즈비언	noun	lesbian (female homosexual)
 니콜라스	propn	a transliteration of the English male given name Nicholas; a transliteration of the Spanish male given name Nicolás
-제니	propn	a transliteration of the English female given name Jenny or Jennie
+좆까	intj	eat a dick, fuck off.
+하드	noun	ice cream bar; ice creams in general; hard disk, hard disk drive
 헤로인	noun	heroin (drug)
+치루다	verb	
 샤	noun	shah
+보드	noun	board (a long piece of wood used in construction); board (long, flat object)
 뉴저지	propn	[~주(州)] New Jersey (a state in the northeastern United States)
-해서	noun	regular script
 휴대전화	noun	mobile phone
 맥도날드	propn	McDonald's
 아따	intj	an interjection, used when making sarcastic remarks
+해서	noun	regular script
 뉴	det,noun	the state of being new; nu (name of the Greek, Ancient Greek letter ν)
 마르코	propn	Mark
 느그	pron	you; (plural, when talking to someone of the same age or younger) you
-보드	noun	board (a long piece of wood used in construction); board (long, flat object)
-유진	propn	Yujin Point, a cape (단) in North Hamgyong, North Korea, forming the eastern end of Songjin Bay.
-안해	noun	wife
-가자	propn	Gaza (a city in Palestine)
 괜하다	adj	to be vain, to be useless
 또라이	noun	maniac; lunatic; freak
 아람	noun	self, privacy, privateness
+빌다	verb	
 스토리	noun	
 티비	noun	TV, television
 마리오	propn	a transliteration of the Italian male given name Mario
+유진	propn	Yujin Point, a cape (단) in North Hamgyong, North Korea, forming the eastern end of Songjin Bay.
 카르텔	noun	cartel
 좌현	noun	port (left hand side of a vessel)
-치루다	verb	
 하버드	noun	Harvard
 아브라함	propn	Abraham
 서프라이즈	noun	surprise (event, present, etc.)
 우현	noun	starboard (right hand side of a vessel)
 예쁜이	noun	sweetie, someone pretty
 저년	noun	that girl; that bitch
+린	noun	North Korea standard spelling of 인(燐) (in, “(chemistry) phosphorus (P)”)
 고스트	noun	ghost
 마스다	verb	to break (something).; to get rid of old systems and lifestyles.; to break a record.
-좆까	intj	eat a dick, fuck off.
 셰익스피어	propn	Shakespeare
 새미	noun	The Taczanowski's gudgeon, Ladislavia taczanowskii.
 메인	noun,propn	the state of being the main thing; [~주(州)] Maine (a state of the United States; probably named for the province in France)
 노인네	noun	old person, old folk
+트리	noun	tree; specifically, a Christmas tree
 룸	noun	room (especially that of hotels or restaurants)
-시드	propn	Sid (personal name); Cid
 타깃	noun	target
+시드	propn	Sid (personal name); Cid
 모스크바	propn	Moscow (the capital city of Russia)
 알렉산드리아	propn	Alexandria (a city in Egypt); Alexandria (a governorate of Egypt)
 빙고	noun	bingo (game); sled
 커터	noun	cutter (a tool used for cutting); cutter (a type of boat)
 어느정도	adv	to some degree, somewhat; how much?, about how long?
-빌다	verb	
 예루살렘	propn	Jerusalem (the claimed (and de-facto) capital city of Israel; the claimed capital city of Palestine)
 빅토리아	propn	[~시(市)]:; Victoria (a city, the capital of British Columbia); [~시(市)]:
 개같다	adj	annoying, shitty, crappy
-헤더	noun	header (text used to mark off a quantity of text); header (the first part of a file or record that describes its contents)
+바래다	verb	
 발리	propn	Bali (an island of Indonesia)
 짤리다	verb	
 콜린	noun	choline
 앨빈	propn	a transliteration of the English male given name Alvin
 타이탄	propn	Titan (moon of Saturn)
-린	noun	North Korea standard spelling of 인(燐) (in, “(chemistry) phosphorus (P)”)
 에미	noun	
 트위터	propn	Twitter (a social-networking website)
 안와	noun	eye socket
 히드라	noun	hydra (any of several small freshwater polyps of the genus Hydra and related genera)
-하드	noun	ice cream bar; ice creams in general; hard disk, hard disk drive
-바래다	verb	
 스코틀랜드	propn	Scotland (a constituent country of the United Kingdom)
 브랜디	noun	brandy
 바티칸	propn	the Vatican, Vatican City (a city-state in Southern Europe, an enclave within the city of Rome, Italy)
@@ -250,16 +254,19 @@
 아드레날린	noun	adrenaline
 배트맨	noun,propn	batsman; Batman (the bat-themed hero)
 들어올리다	verb	to raise, to lift, to pick up
+고	noun	
+헤더	noun	header (text used to mark off a quantity of text); header (the first part of a file or record that describes its contents)
 소세지	noun	
 기자회견	noun	press conference
 상원의원	noun	member of the upper house, senator
+니들	noun,pron	needle; you (plural)
+안해	noun	wife
 샌프란시스코	propn	San Francisco (a city in California, United States)
 루프	noun	loop
 와플	noun	waffle (flat pastry)
-유태인	noun	Jew
 당기다	verb	
+가자	propn	Gaza (a city in Palestine)
 사무엘	propn	Samuel
-트리	noun	tree; specifically, a Christmas tree
 미주리	propn	[~주(州)] Missouri (a state in the Midwestern region of the United States)
 아악	noun	the ancient court ritual music of Korea, of Chinese origin
 늑대인간	noun	werewolf
@@ -284,15 +291,15 @@
 매독	noun	syphilis
 미합중국	propn	United States of America (a country in North America) (formal and full name of the U.S.)
 닌자	noun	a ninja (person trained in stealth, espionage, assassination, and ninjutsu)
+오호	propn	the Five Barbarians
 헬레나	propn	a transliteration of the English female given name Helena
 델타	noun	delta (name of the Greek, Ancient Greek letter δ)
 이반	noun,propn	the LGBT community or a member thereof; alienation; disaffection; a transliteration of the Russian male given name Ива́н (Iván), Ivan
-시드니	propn	[~시(市)] Sydney (a major port city, the state capital of New South Wales, Australia); [~시(市)] Sydney (a former city in Nova Scotia, Canada)
 오하이오	propn	[~주(州)] Ohio (a state of the United States)
 똥꼬	noun	anus
 의용	noun	loyalty; volunteer
 하이파이브	noun	high five
-독일인	noun	German (someone from Germany)
+유태인	noun	Jew
 목	noun	
 뵈	noun	synonym of 벼 (byeo, “rice plant”); synonym of 삼베 (sambe, “burlap”)
 체리	noun	cherry
@@ -301,20 +308,22 @@
 인디아	propn	India (a country in Asia)
 나이스	intj	nice
 전단지	noun	flyer (sheet), leaflet
+독일인	noun	German (someone from Germany)
 누리	noun,verb,adj	world; hail (balls of ice); type of grasshopper
+최	propn,det	a surname, usually romanized as "Choi".; Finite or limit
 초콜렛	noun	
+아싸	intj,noun	yeah!, awesome!; loner, friendless person
 루저	noun	loser
 어제밤	noun	last night
 태블릿	noun	tablet computer; graphics tablet
-아싸	intj,noun	yeah!, awesome!; loner, friendless person
 비트	noun	bit; beet (Beta vulgaris, a plant with a swollen root which is eaten or used to make sugar); beetroot
 라마	noun	lama; llama
 발렌타인데이	noun	
 잉	noun	Conveys the buzzing of small flying insects.; Conveys a whine.
 테네시	propn	[~주(州)] Tennessee (a state of the United States)
+사마	noun	an ancient office post in China and Korea; four horses pulling a carriage
 시간여행	noun	time travel
 시타	noun	batter role in ceremonial first pitch; batting test
-노르다	adj	to be yellow
 알콜	noun	
 유정	noun	oil well; involuntary ejaculation, nocturnal emission; humaneness, compassionateness
 섹시	noun	being sexy; someone who is sexy
@@ -323,39 +332,38 @@
 엑스	noun	The name of the Latin script letter X/x.
 생일파티	noun	birthday party
 오픈	noun	open
-다들	adv	everyone
+오니	noun	polluted soil
 쇼파	noun	
 오바마	propn	Obama (foreign surname)
-미이라	noun	
 슈트	noun	a suit (of clothes); a suit; a shot
 라파엘	propn	Raphael, the Archangel.
 뱅	noun	round; while circling a relatively small area once; with a sudden moment of nausea
 미시시피	propn	[~주(州)] Mississippi (a state of the United States)
 타투	noun	synonym of 문신(文身) (munsin, “image made in the skin with ink and a needle”)
 심전도	noun	electrocardiogram
-오딘	propn	Odin
 앙	noun	Conveys a baby's crying.
 포커	noun	poker
 짭새	noun	police
 베드로	propn	Peter
 켄트	propn	[~주(州)] Kent (a county of England); [~시(市)] Kent (a city in Washington, United States)
 케네디	propn	Kennedy
+시드니	propn	[~시(市)] Sydney (a major port city, the state capital of New South Wales, Australia); [~시(市)] Sydney (a former city in Nova Scotia, Canada)
 괴	noun	cat
+오딘	propn	Odin
 콘도르	noun	a condor
 허리케인	noun	hurricane
 찬스	noun	chance, opportunity, possibility
 쓰리	noun	three
 파라오	noun	pharaoh
 호출기	noun	pager, beeper
-일본인	noun	Japanese (person)
 앗아가다	verb	to take away; to snatch; to rob; to claim; to cause the loss of
-오니	noun	polluted soil
 카톨릭	noun	
 카이로	propn	Cairo (the capital of Egypt); Cairo (a governorate of Egypt)
 영감님	noun	sir
 가비	noun	widow
 휴스턴	propn	[~시(市)] Houston (The largest city in Texas, USA and the county seat of Harris County)
 니미	noun,intj	your mother; fuck; damn it
+일본인	noun	Japanese (person)
 떡치다	verb	to fuck, to shag, to hump; to fuck up, to screw; to be sufficient
 이산화탄소	noun	carbon dioxide (CO₂)
 이성애자	noun	heterosexual (person)
@@ -374,7 +382,6 @@
 칭	noun	tune of the fifth sting to the left of a yanggeum
 리스본	propn	Lisbon (a port city on the Iberian Peninsula, at the mouth of the Tagus River on the Atlantic Ocean; the capital city of Portugal)
 테러범	noun	terrorist
-오호	propn	the Five Barbarians
 웨스턴	noun	western (film genre)
 특수부대	noun	special forces
 세리	noun	tax collector
@@ -385,7 +392,7 @@
 손오공	propn	Sun Wukong
 기관사	noun	locomotive engineer; locomotiveman
 시몬	propn	Simon
-영국인	noun	British (person); English (person)
+핫	noun	hot
 스텐	noun	
 상하이	propn	Shanghai (a city in China)
 아이스	noun	ice, iced; A-sharp
@@ -395,15 +402,15 @@
 편집증	noun	paranoia
 큐	noun	The name of the Latin script letter Q/q.; cue
 저질르다	verb	
-파이브	noun	five
+영국인	noun	British (person); English (person)
 여지껏	adv	
 암스테르담	propn	Amsterdam (the capital city of the Netherlands)
 주교	noun	bishop; bridge of boats
 저체온증	noun	hypothermia
+파이브	noun	five
 인스타그램	noun	Instagram
 구축함	noun	a destroyer (type of warship)
 네바다	propn	[~주(州)] Nevada (a state in the western United States)
-판도라	propn	Pandora (character in Greek mythology)
 인민	noun	the people (of a country), citizens, citizenry
 라이플	noun	rifle
 뮤직	noun	music
@@ -414,7 +421,7 @@
 전두엽	noun	frontal lobe
 꼬라지	noun	appearance, behaviour
 알라딘	propn	Aladdin
-해치	noun	xiezhi (a mythical creature resembling an ox or a goat, with thick dark fur covering its body, bright eyes and a single long horn on its forehead)
+준	propn	A rare Korean family name.
 바그다드	propn	Baghdad (the capital city of Iraq); Baghdad (a governorate of Iraq)
 베니스	propn	Venice (a city, the regional capital of Veneto, Italy)
 유튜브	propn	YouTube
@@ -423,23 +430,27 @@
 심폐소생술	noun	cardiopulmonary resuscitation
 치즈버거	noun	cheeseburger
 레아	propn,noun	Leah; rhea (flightless bird); Rhea
-해도	noun	chart (of the sea)
+해치	noun	xiezhi (a mythical creature resembling an ox or a goat, with thick dark fur covering its body, bright eyes and a single long horn on its forehead)
+얼간	noun	salting lightly, pickling slightly with salt
 대마	noun	hemp (Cannabis sativa); marijuana, cannabis
 보고타	propn	Bogota (the capital city of Colombia)
 슈퍼스타	noun	superstar
+타이머	noun	timer (device used to measure time)
 신시아	propn	Cynthia
 애플	noun,propn	an apple; Apple (company, brand)
 커밍아웃	noun	coming out of the closet
 아미타불	propn	Amitābha
 탄창	noun	magazine (ammunition clip)
 흉내내다	verb	to imitate
+아놔	intj	used to express frustration or anger
 혈액검사	noun	blood test
 음주운전	noun	drunk driving
 롱	adj	long
 레슬러	noun	wrestler
 뉴턴	propn	Newton
 루터	propn	Luther
-고	noun	
+해도	noun	chart (of the sea)
+다그다	verb	to put (something) close to; to bring near; to advance (a date); to bring forward
 오소리	noun	badger; In particular, the Asian badger (Meles leucurus).
 헤이그	propn	The Hague (a city, the administrative capital of the Netherlands)
 미시간	propn	[~주(州)] Michigan (a state of the United States)
@@ -458,21 +469,21 @@
 엘리사	propn	Elisha
 핑크색	noun	pink (color)
 하면	noun,adp	bottom surface; Attaches to a noun to introduce an exemplar, most desirable example, or closely associated fact about said noun.
-다그다	verb	to put (something) close to; to bring near; to advance (a date); to bring forward
-얼간	noun	salting lightly, pickling slightly with salt
+오거	noun	ogre (brutish giant)
 성부	noun	God the Father, Holy Father
-일리노이	propn	[~주(州)] Illinois (a state of the United States, named for the people)
-우웩	noun	while vomiting; in a vomit-worthy manner, repulsively
 요상하다	adj	
 잠구다	verb	
 잠구다	verb	
+일리노이	propn	[~주(州)] Illinois (a state of the United States, named for the people)
+류	noun,affix	type; kind; sort; type; category
+아자	intj	An interjection expressing encouragement.
 야쿠자	noun	yakuza
 에테르	noun	ether
+우웩	noun	while vomiting; in a vomit-worthy manner, repulsively
 가차	noun	Chinese characters that are "borrowed" to write another homophonous or near-homophonous morpheme
 타우	noun	tau (name of the Greek, Ancient Greek letter τ)
 배너	noun	banner advertisement
 전기톱	noun	chainsaw
-아놔	intj	used to express frustration or anger
 부치	noun	Buddha
 나으리	noun	
 로스앤젤레스	propn	[~시(市)] Los Angeles (a large city in California, United States)
@@ -488,36 +499,34 @@
 바이오	noun	life
 켄터키	propn	[~주(州)] Kentucky (a state of the United States); clipping of 켄터키 프라이드 치킨 (kenteoki peuraideu chikin, “Kentucky Fried Chicken”)
 아이오와	propn	[~주(州)] Iowa (a state in the Midwestern region of the United States)
-사마	noun	an ancient office post in China and Korea; four horses pulling a carriage
 틱톡	propn	TikTok
 벨소리	noun	ringtone
 생일선물	noun	birthday present, birthday gift
-퍼	noun	pho
-지난	propn	Jinan (the provincial capital of Shandong, China)
 확실	noun	certainty, reliability, trustworthiness, authenticity
 아리	noun	a leg; a foot
-윈	propn	Vienna (the capital city of Austria)
 시바	propn	Shiva
 괴사	noun	necrosis
 관상동맥	noun	coronary artery
 오사카	propn	Osaka (a city in Honshū, Japan); Osaka (a prefecture on the island of Honshu, Japan)
 궁수	noun	archer; bowman
 국회의원	noun	member of congress, congressman
-타이머	noun	timer (device used to measure time)
 도파민	noun	dopamine
 럼	noun	rum (distilled spirit)
 헌팅	noun	pickup, flirting with a stranger
 에코	noun	echo (reflected sound); eco- (eco-friendly)
 아트	noun	art
+옥다	verb	to be bent; to be crooked; to make a loss (in trade)
 비번	noun	off duty
-분대	noun	squad
 쿠다	verb	to say that; follows an explicit or implicit quotation; to intend to, to try to; be about to
-중국인	noun	Chinese (person); Han Chinese
+분대	noun	squad
+퍼	noun	pho
+유태	noun	Judea
 간단	noun	a pause; a brief cessation
 배스	noun	The largemouth bass, Micropterus salmoides.
 메릴랜드	propn	[~주(州)] Maryland (a state of the United States; named for Queen Mary, queen consort of England, Scotland and Ireland)
 시베리아	propn	Siberia (the region of Russia in Asia)
 귀요미	noun	cutie
+라자냐	noun	lasagna
 미카엘	propn	Michael, the Archangel.
 스페이스	noun	space, area, room; space (a piece of type used to separate words); an interglyph space (space between glyphs)
 친위대	noun,propn	bodyguards; Schutzstaffel, SS
@@ -525,9 +534,8 @@
 이토	propn	a transliteration of the Japanese surname 伊藤 or 伊東 (“Ito”)
 펜스	noun	fence
 드러머	noun	drummer
+핫하다	verb	to be trending
 눌르다	verb	
-사실은	adv	as a matter of fact; actually
-카인	propn	Cain (son of Adam and Eve)
 비버	noun	beaver (aquatic mammal)
 산티아고	propn	Santiago (the capital of Chile)
 포치	noun	porch
@@ -535,7 +543,6 @@
 자존감	noun	self-esteem
 랜덤	noun	random
 드럽다	adj	to be dirty
-주둔지	noun	garrison, military base, post
 탐폰	noun	tampon
 놀러오다	verb	to make a social call, visit for social purposes; to come over to play
 자유민	noun	freeman
@@ -546,7 +553,11 @@
 웜홀	noun	wormhole
 보호소	noun	shelter, protection center
 미켈란젤로	propn	Michelangelo
+중국인	noun	Chinese (person); Han Chinese
+카인	propn	Cain (son of Adam and Eve)
+주둔지	noun	garrison, military base, post
 당연	adv	justly, naturally, of course
+사실은	adv	as a matter of fact; actually
 루이지애나	propn	[~주(州)] Louisiana (a state in the Deep South and South Central regions of the United States)
 코스타리카	propn	Costa Rica (a country in Central America)
 브라더	noun	brother (younger or older)
@@ -567,6 +578,7 @@
 공화당	noun	republican party
 스킵	noun	skip (passing over)
 꼴통	noun	fool, dumbhead; stubborn person, headstrong person
+윈	propn	Vienna (the capital city of Austria)
 미세스	noun	
 한물	noun	flood; prime, season (especially the flood of either green or sea food)
 비엔나	propn	synonym of 빈 (bin, “Vienna, the capital city of Austria”)
@@ -592,7 +604,6 @@
 영웅적	noun,det	heroic; heroic
 랜	noun	LAN; local area network
 세계유산	noun	World Heritage Site
-니들	noun,pron	needle; you (plural)
 자유인	noun	freeman
 쉬리	noun,verb	The Korean splendid dace, Coreoleuciscus splendidus.; will/do rest, will/do breathe
 뉘	pron,noun	nominative of 누구 (nugu, “who; somebody”).; synonym of 누구 (nugu, “who; somebody”); raw unhulled rice
@@ -603,7 +614,6 @@
 여호와	propn	Jehovah
 픽업	noun	pickup (choice or selection); pickup (truck)
 아테나	propn	Athena
-구라	noun	bullshit; lie; story; tale; anecdote
 미니밴	noun	minivan
 조타수	noun	helmsman
 민병대	noun	militia
@@ -618,8 +628,9 @@
 어따	intj	an interjection, used when making sarcastic remarks
 운명선	noun	fate line
 페니스	noun	penis
-마더	noun	mother
+유다	propn	Judah (first son of Jacob); Judas; Jude
 제트	noun	jet; jet plane; jet (stream of fluid)
+민	affix,noun,propn	unadorned, bare, lacking; the people; a Min surname from Chinese
 늘상	adv	
 사이보그	noun	cyborg
 비상사태	noun	emergency, state of emergency (situation requiring urgent assistance)
@@ -646,12 +657,9 @@
 파테	noun	pâté (finely-ground paste of meat, fish or vegetables)
 에메랄드	noun	emerald (gemstone)
 올림피아	propn	Olympia (an ancient city in Greece, home of the very first Olympic Games); Olympia (the capital city of Washington, United States)
-해주	propn	Haeju (a city in South Hwanghae Province, North Korea)
-유태	noun	Judea
-하시	noun	what time, when; to look down on; summertime
 가인	propn	Cain
-에녹	propn	Enoch
-컴	noun	computer
+조지	propn	a transliteration of the English male given name George
+하시	noun	what time, when; to look down on; summertime
 뛰치다	verb	
 싱어	noun	Osbeck's grenadier anchovy, Coilia mystus; a singer, especially of popular or Western music
 해질녘	noun	sunset, evening
@@ -669,13 +677,15 @@
 파상풍	noun	tetanus
 으이구	intj	expression of surprise; oh, ouch
 일레븐	noun	eleven
+에녹	propn	Enoch
 컨퍼런스	noun	conference
+컴	noun	computer
 올레	noun	narrow alleyway
-요한	propn	John
 신세지다	verb	to cause trouble to or receive help from others; to be tied up with ropes or chains, etc., or locked up in a facility for confining criminals, such as for committing a crime
 띄다	verb	
 택	noun	home, house, place of living (see 댁 (daek)); housing (of elders); tack
 은근	noun,adv	politeness, courtesy; close friendship; implicitness
+오노	intj	oh no
 요거트	noun	
 리튬	noun	lithium (chemical element)
 부다페스트	propn	Budapest (the capital city of Hungary)
@@ -689,19 +699,19 @@
 아이다호	propn	[~주(州)] Idaho (a state in the western United States)
 그랴	intj	okay, really
 째깍	noun	Conveys a clear or obvious clicking noise (e.g. ticking of a clock); snapping or bumping into each other; short for 째까닥 (jjaekkadak, “very quickly; immediately”)
+세이브	noun	a save
 응답기	noun	responder, answering machine
 베토벤	propn	a transliteration of the German surname Beethoven; a transliteration of the German surname Beethoven; Ludwig van Beethoven, German composer
 오피스	noun	office
 정신감응	noun	telepathy
 염산	noun	hydrochloric acid
-오노	intj	oh no
 항법	noun	navigation
 나폴레옹	propn	Napoleon
 박살나다	verb	to be shattered, to be smashed, to be crushed
 버밍햄	propn	Birmingham (a city, the county seat of Jefferson County, Alabama, United States)
-딜	noun	dill; deal
+마더	noun	mother
+요한	propn	John
 두시	noun	douchi; poetry of Du Fu; two o'clock
-스폰지	noun	
 짜르다	verb	
 그리스어	noun	The Greek language.
 에스토니아	propn	Estonia (a country in northeastern Europe, on the southeastern coast of the Baltic Sea)
@@ -722,7 +732,6 @@
 미네소타	propn	[~주(州)] Minnesota (a state in the Upper Midwest region of the United States)
 뷰	noun	view
 고소공포증	noun	acrophobia; fear of heights
-까나리	noun	A sand lance, particularly the Pacific sand lance (Ammodytes personatus).
 펜타곤	propn	the Pentagon (the headquarters of the United States Department of Defense)
 낡아빠지다	adj	worn out, shabby, threadbare
 택시비	noun	taxi fare
@@ -736,19 +745,20 @@
 땅돼지	noun	aardvark
 가나안	propn	Canaan (region); Canaan (a grandson of Noah)
 민주당	noun	democratic party
-옥다	verb	to be bent; to be crooked; to make a loss (in trade)
+까나리	noun	A sand lance, particularly the Pacific sand lance (Ammodytes personatus).
 니거	noun	nigger (a racial slur referring to a black person)
-조지	propn	a transliteration of the English male given name George
+스폰지	noun	
+딜	noun	dill; deal
 푸	intj	whew, phew (whistling)
+지난	propn	Jinan (the provincial capital of Shandong, China)
+불리우다	verb	
+아라비아	propn	Arabia (a peninsula of West Asia between the Red Sea and the Persian Gulf; includes Jordan, Saudi Arabia, Yemen, Oman, Qatar, Bahrain, Kuwait, and the United Arab Emirates); Arabia (the region of West Asia within or adjacent to the Arabian Plate; Yemen, Oman, Qatar, Bahrain, Kuwait, Iraq, Saudi Arabia, Jordan, the Egyptian Sinai, Palestine and the United Arab Emirates)
 조폭	noun	A group of gangsters; a group of people who engage in organized violence.
 정신분열증	noun	schizophrenia
+쌤	noun	teacher, teach (specifically in schools)
 가라데	noun	karate
 차이나타운	noun	Chinatown
 시편	propn	the Book of Psalms, the Psalm
-테크	noun	track, career path, development path; clipping of 테크트리 (tekeuteuri, “tech tree”)
-불리우다	verb	
-아라비아	propn	Arabia (a peninsula of West Asia between the Red Sea and the Persian Gulf; includes Jordan, Saudi Arabia, Yemen, Oman, Qatar, Bahrain, Kuwait, and the United Arab Emirates); Arabia (the region of West Asia within or adjacent to the Arabian Plate; Yemen, Oman, Qatar, Bahrain, Kuwait, Iraq, Saudi Arabia, Jordan, the Egyptian Sinai, Palestine and the United Arab Emirates)
-쌤	noun	teacher, teach (specifically in schools)
 로메	propn	Lomé (the capital city of Togo)
 인터페이스	noun	interface
 예후	noun	prognosis
@@ -757,6 +767,7 @@
 천주	propn	the Lord of Heaven; God; Quanzhou (a prefecture-level city in southeastern Fujian, China)
 견습생	noun	apprentice; trainee
 울버린	noun	wolverine
+테크	noun	track, career path, development path; clipping of 테크트리 (tekeuteuri, “tech tree”)
 참수	noun	beheading; decapitation
 알래스카	propn	[~주(州)] Alaska (a state of the United States, formerly a territory)
 폴리네시아	propn	Polynesia (a continental region of Oceania, including Easter Island, Hawaii, New Zealand, and most of the islands between them)
@@ -772,11 +783,11 @@
 장로회	noun	Presbyterianism; presbyterian church
 고물차	noun	an automobile in poor shape or of low quality; jalopy; shitbox
 가라	propn,noun	synonym of 가야(伽倻) (Gaya, an ancient conglomeration of chiefdoms in southeastern Korea); cutting corners; lying or exaggerating to cut corners
-모두들	noun	everybody
-거란	propn	Khitan (people)
 앗다	verb	to snatch, to rob, to claim, to take away
+해주	propn	Haeju (a city in South Hwanghae Province, North Korea)
 되갈다	verb	to replow, to retill; to regrind
 궁금	noun	hollow, empty
+맞이	noun	welcoming, receiving, greeting; short for 맞이굿 (majigut, “welcoming ritual for the gods”)
 밧데리	noun	
 줄창	adv	
 더블린	propn	Dublin (the capital city of Ireland)
@@ -824,10 +835,9 @@
 스테이지	noun	stage
 응급처치	noun	first aid
 펄	noun	mudflat, tideland; any wide expanse of land, vast plain, prairie; slime along the bank of an inlet
-텐	noun	ten
+아서	propn,intj	a transliteration of the English male given name Arthur; An interjection used in intimate-style sentences to denote that doing something is forbidden; usually the expression has a softer, more considerate tone to it.
 들이키다	verb	
 취	noun	A species of aster eaten as a vegetable, Doellingeria scabra.
-콜로라도	propn	[~주(州)] Colorado (a state in the western United States, the 38th state)
 오뎅	noun	
 조그만하다	adj	
 버클	noun	buckle, clasp
@@ -840,6 +850,7 @@
 브리지	noun	bridge (card game)
 뮤직비디오	noun	music video
 물소	noun	water buffalo
+엇	intj	Used to express mild surprise, usually at something undesirable.
 거유	noun	large breasts (of a woman); a busty woman; an esteemed Confucian literatus
 조공	noun	tribute; payment from one nation to a superior one
 레전드	noun	something legendary, something amazing, something shocking (especially in a bad way)
@@ -865,8 +876,11 @@
 갈렙	propn	Caleb
 노예제	noun	slavery (as practice or system)
 의대생	noun	medical student; medical intern
-누난	noun,propn	topic-marked of 누나 (nuna); a transliteration of the English surname Noonan
+콜로라도	propn	[~주(州)] Colorado (a state in the western United States, the 38th state)
+미이라	noun	
+텐	noun	ten
 제치다	verb	
+라드	noun	lard
 도이	noun	island barbarian:; the Japanese (from the perspective of Koreans and Chinese); island barbarian:
 눈꼽	noun	
 아이구머니	intj	
@@ -931,14 +945,13 @@
 니미럴	intj	fuck; damn it
 히포크라테스	propn	Hippocrates
 보안관보	noun	deputy sheriff; sheriff's deputy
-서벌	noun	serval
-아르곤	noun	argon (a chemical element)
 석달	noun	trimester; three months
+서벌	noun	serval
+몰	noun,affix	died in...; mole (unit of quantity); shopping mall
+리가	propn	Riga (the capital city of Latvia)
 스킬	noun	skill
-유다	propn	Judah (first son of Jacob); Judas; Jude
-헤어	noun	hair
+아르곤	noun	argon (a chemical element)
 문도	noun	disciple
-푸들	noun	poodle (dog)
 불지르다	verb	to set fire to
 칙칙	adv	(imitating the sound of a train chugging); (imitating the sound of an engine running); (imitating the sound of something spluttering and going out)
 오슬로	propn	Oslo (the capital of Norway)
@@ -985,13 +998,14 @@
 안전핀	noun	safety pin
 헤드셋	noun	headset
 나사렛	propn	Nazareth
+나이들다	verb	to grow old
+푸들	noun	poodle (dog)
 피하	noun	under the skin; subcutaneous
-하난	det	many
+나단	propn	Nathan
 트	noun	number of attempts
 화질	noun	picture quality; resolution
-나이들다	verb	to grow old
 군도	noun	archipelago; sabre
-동무들	pron,noun	you (plural); comrades (plural of comrade)
+누구세요	phrase	Who is ... ?; Who are you?
 와이	noun	The name of the Latin script letter Y/y.
 스모	noun	sumo
 메타	affix	meta-
@@ -1005,6 +1019,7 @@
 오리건	propn	[~주(州)] Oregon (a state in the Pacific Northwest region of the United States)
 닉네임	noun	nickname
 아리스토텔레스	propn	Aristotle
+곤이	noun	synonym of 고니 (goni) (swan).; roe, the eggs or the egg-laden ovary of a fish; newborn fish
 브뤼셀	propn	Brussels (the capital city of Belgium)
 스톡홀름	propn	Stockholm (the capital of Sweden)
 콜롬보	propn	Colombo (the commercial capital and largest city of Sri Lanka)
@@ -1025,6 +1040,7 @@
 뭄바이	propn	Mumbai
 카라치	propn	Karachi
 벌새	noun	a hummingbird
+어치	noun	Eurasian jay (Garrulus glandarius)
 재규어	noun	jaguar, Panthera onca
 게르만	noun	Germanic
 군체	noun	colony
@@ -1081,111 +1097,113 @@
 샤를마뉴	propn	Charlemagne
 기독교적	noun	Christian
 커텐	noun	
-써다	verb	to cut, split wood with a saw.
-전자기기	noun	electronics (device)
-리가	propn	Riga (the capital city of Latvia)
 솔다	adj,verb	limited in space:; to be tight, to be small; limited in space:
+전자기기	noun	electronics (device)
+써다	verb	to cut, split wood with a saw.
+거란	propn	Khitan (people)
+모두들	noun	everybody
+누난	noun,propn	topic-marked of 누나 (nuna); a transliteration of the English surname Noonan
 삼가하다	verb	
-평범	noun	commonness; commonplaceness; banality; platitude; mediocrity; homeliness
+십자군	noun	crusaders, crusades
 흐	intj,noun	hum, hmm, huh; another name for the letter ㅎ (h), called 히읗 (hieut) in South Korean, the fourteenth jamo (letter) of the Korean alphabet
-처칠	propn	Churchill
+평범	noun	commonness; commonplaceness; banality; platitude; mediocrity; homeliness
 멜로	noun	melodrama
+팜플렛	noun	
+노인학	noun	gerontology
+바하마	propn	Bahamas (an archipelago and country in the Caribbean)
+밀라노	propn	Milan (a city and comune, the capital of the Metropolitan City of Milan and the region of Lombardy, Italy); Milan (a metropolitan city of Lombardy, established in 2015; in full, the Metropolitan City of Milan)
 미하일	propn	a transliteration of the Russian male given name Михаи́л (Mixaíl), Mikhail
 키예프	propn	Kyiv (the capital city of Ukraine)
 베이루트	propn	Beirut (the capital city of Lebanon)
+체코슬로바키아	propn	Czechoslovakia (a former country in Central Europe, now the Czech Republic and Slovakia; Carpathian Ruthenia, at the eastern end, became a part of Ukraine)
 마닐라	propn	Manila (the capital city of the Philippines)
 스타벅스	propn	Starbucks
 초록빛	noun	green colour (of grass)
 성매매	noun	prostitution
 헤모글로빈	noun	haemoglobin
 모터사이클	noun	motorcycle
+마다가스카르	propn	Madagascar (an island country in Africa)
+타이프라이터	noun	typewriter
 시스터	noun	sister, sis (older or younger)
 스컹크	noun	skunk (animal)
+한쌍	noun	a pair, a couple
+여우원숭이	noun	lemur
 벡터	noun	a vector
 입방체	noun	cube
 모세혈관	noun	capillary
 크래시	noun	crash (vehicle accident); computer crash (computer malfunction)
+재단사	noun	tailor, garment cutter
 코발트	noun	cobalt
 요오드	noun	iodine
 송도	propn	Songdo Point, a cape (갑) east of Sinpo in South Hamgyong, North Korea.
 염기	noun	base (chemistry)
+석관	noun	sarcophagus
 얼쑤	intj	An interjection of encouragement, traditionally used in pansori.
+흑형	noun	a black man who is stereotypically cool and athletic, like an older brother; any black man
 켈빈	noun	kelvin (temperature unit)
 빠이빠이	intj	bye-bye
 어드벤처	noun	adventure (exciting endeavour); adventure (genre)
+지의류	noun	lichens
+쌤통	noun	something that happens to someone who is thought to deserve it; something that serves someone right
 피해망상	noun	persecutory delusion
 합체	noun	union
 음낭	noun	scrotum
 혈구	noun	blood cell
+꼴리다	verb	to get an erection; to get horny; to get sexually aroused; to be sexy; to sexually arouse
 쌍절곤	noun	nunchucks
 네브래스카	propn	[~주(州)] Nebraska (a state in the Midwestern region of the United States)
+밴쿠버	propn	[~시(市)]:; Vancouver (a seaport, the largest city in British Columbia, Canada); [~시(市)]:
 셸	noun	shell
+균류	noun	fungi
 저체온	noun	low body temperature; hypothermia
+핵분열	noun	nuclear fission
+일나다	verb	to wake up
 태양신	noun	sungod (a god of the sun; solar deity)
 수근	noun	carpal muscles
 비겁자	noun	coward
+샵	noun	sharp (a musical note that is sharp in a particular key); shop
+해원	noun	sailor, mariner, seaman
 청금석	noun	lapis lazuli
 체스판	noun	chessboard
 타이레놀	noun	tylenol
 투창	noun	dart (weapon)
 남원	propn	[~시] Namwon (a city in North Jeolla Province, South Korea)
+선전포고	noun	declaration of war
 에프	noun	The name of the Latin script letter F/f.
 클린	noun	clean
 에토미데이트	noun	etomidate
 안드로메다	propn	Andromeda
+사회복지사	noun	social worker
 테스토스테론	noun	testosterone
 언어유희	noun	wordplay
 염좌	noun	sprain
+바울	propn	Paul
+에스겔	propn	Ezekiel
 엘리야	propn	Elijah
 성범죄자	noun	sex offender; sex criminal
 소사	noun	particle
+고질라	propn	Godzilla
 체크포인트	noun	checkpoint
 웰빙	noun	wellbeing; wellness
 마젤란	propn	Magellan
 알카에다	propn	al-Qaeda
 인터내셔널	noun,propn	being international; the Internationale
-레프트	noun	synonym of 좌익수(左翼手) (jwaiksu, “left fielder”)
-전자제품	noun	electronics (device)
-마가목	noun	Japanese rowan (Sorbus commixta)
-북북서	noun	north-northwest
-팜플렛	noun	
-노인학	noun	gerontology
-바하마	propn	Bahamas (an archipelago and country in the Caribbean)
-밀라노	propn	Milan (a city and comune, the capital of the Metropolitan City of Milan and the region of Lombardy, Italy); Milan (a metropolitan city of Lombardy, established in 2015; in full, the Metropolitan City of Milan)
-체코슬로바키아	propn	Czechoslovakia (a former country in Central Europe, now the Czech Republic and Slovakia; Carpathian Ruthenia, at the eastern end, became a part of Ukraine)
-마다가스카르	propn	Madagascar (an island country in Africa)
-타이프라이터	noun	typewriter
-한쌍	noun	a pair, a couple
-여우원숭이	noun	lemur
-재단사	noun	tailor, garment cutter
-석관	noun	sarcophagus
-흑형	noun	a black man who is stereotypically cool and athletic, like an older brother; any black man
-지의류	noun	lichens
-쌤통	noun	something that happens to someone who is thought to deserve it; something that serves someone right
-꼴리다	verb	to get an erection; to get horny; to get sexually aroused; to be sexy; to sexually arouse
-밴쿠버	propn	[~시(市)]:; Vancouver (a seaport, the largest city in British Columbia, Canada); [~시(市)]:
-균류	noun	fungi
-핵분열	noun	nuclear fission
-일나다	verb	to wake up
-샵	noun	sharp (a musical note that is sharp in a particular key); shop
-해원	noun	sailor, mariner, seaman
-선전포고	noun	declaration of war
-사회복지사	noun	social worker
-바울	propn	Paul
-에스겔	propn	Ezekiel
-고질라	propn	Godzilla
 통구이	noun	whole roasted meat
 교황청	propn	Roman Curia; Holy See
+레프트	noun	synonym of 좌익수(左翼手) (jwaiksu, “left fielder”)
+전자제품	noun	electronics (device)
 캐리어	noun	suitcase, luggage; carrier bag (small plastic or paper bag for carrying one or more beverage cups)
+마가목	noun	Japanese rowan (Sorbus commixta)
+북북서	noun	north-northwest
 바이슨	noun	wisent (a wild ox, Bison bonasus)
-나의	noun	A traditional practice in Jeju-do, a shrine is built in place of trees and rocks to protect against evil spirits.
-킬	noun	kill
-가젤	noun	gazelle
-흑해	propn	the Black Sea
-십자군	noun	crusaders, crusades
+쏠다	verb	to gnaw, to nibble
+릴	noun	reel
+헤어	noun	hair
+동무들	pron,noun	you (plural); comrades (plural of comrade)
 덩	noun	palanquin, sedan, sedan chair, litter
 종마	noun	horse used for breeding (whether stallion or mare)
 미르	noun	dragon
+처칠	propn	Churchill
 너댓	num	
 애시당초	noun	
 코메디	noun	
@@ -1224,6 +1242,7 @@
 노스다코타	propn	[~주(州)] North Dakota (a state in the Upper Midwest region of the United States)
 보드게임	noun	a board game
 락다운	noun	lockdown (confinement of people as a security measure)
+드가다	verb	synonym of 들어가다 (deureogada, “to go in”)
 빡치다	verb	to fly off the handle; to get angry, to get pissed
 다이제스트	noun	digest (magazine of abridged articles)
 다슬다	verb	see 다스리다
@@ -1274,17 +1293,20 @@
 체포영장	noun	arrest warrant
 테슬라	noun,propn	tesla (unit); Tesla
 성배	propn,noun	the Holy Grail; Anything that yields good results, but worths high risks
-쏠다	verb	to gnaw, to nibble
-펌프질	noun	pumping
-달마	noun	dharma; daruma (hollow and round traditional Japanese doll)
-마니	noun,propn	person; Mister; attached to surnames; Mani (prophet)
-지나	propn	China
-어리	noun	cage, coop (for birds or chickens)
-말리	propn	Mali (a country in Africa)
-분쇄기	noun	pulverizer, crusher, grinder
+하난	det	many
 아르	noun	synonym of 알 (al); are (unit of area)
+킬	noun	kill
+흑해	propn	the Black Sea
+마니	noun,propn	person; Mister; attached to surnames; Mani (prophet)
+어리	noun	cage, coop (for birds or chickens)
+펌프질	noun	pumping
+가젤	noun	gazelle
+말리	propn	Mali (a country in Africa)
+지나	propn	China
+노르다	adj	to be yellow
 어색	noun	being awkward
 입맞추다	verb	to kiss (formal; on the lips, other body parts, or other objects, e.g. a trophy), to press one's lips against; to arrange to give the same story
+다마	noun	something small and round; ball, orb, sphere, in particular:; billiard ball; something small and round; ball, orb, sphere, in particular:
 럭셔리	noun	luxury
 두마	noun	duma (lower house of Russian national parliament)
 놈팽이	noun	
@@ -1435,24 +1457,36 @@
 피어리다	verb	(of hardship or struggle) to remain as a trace
 버밍엄	propn	Birmingham (a major city and metropolitan borough of the West Midlands, England)
 내재되다	verb	be immanent; inhere
-조선인	noun	people of Joseon dynasty; a Korean (person)
-릴	noun	reel
-치우	propn	Chiyou (tribal leader of the ancient Nine Li tribe)
-에도	propn	former name of Tokyo: the capital city of Japan
-사하라	propn	Sahara (a desert in North Africa)
-승하	noun	death; passing away
 가나다	propn	Canada (a country in North America)
-석고	noun	plaster; gypsum
-나단	propn	Nathan
-퇴	noun	rejection, refusal (of something offered); the thing returned; weariness, satiation, being fed up; bay half of a 칸 (kan) in width, attached to the main hall of a building
-일요	noun	the Sun; Sunday
-민지	propn,noun	a female given name; the will of the people; public opinion; the knowledge, wisdom, or intelligence of the people
-딜도	noun	dildo
-생도	noun	pupil; cadet
+달마다	adv,noun	monthly, every month, each month; monthly, every month, each month
+나의	noun	A traditional practice in Jeju-do, a shrine is built in place of trees and rocks to protect against evil spirits.
+달마	noun	dharma; daruma (hollow and round traditional Japanese doll)
+조선인	noun	people of Joseon dynasty; a Korean (person)
+분쇄기	noun	pulverizer, crusher, grinder
 탐지기	noun	locator; detector
-해구	noun	oceanic trench; fur seal
-주절	noun	main clause
+가끔씩	adv	sometimes
+치우	propn	Chiyou (tribal leader of the ancient Nine Li tribe)
+생도	noun	pupil; cadet
+에도	propn	former name of Tokyo: the capital city of Japan
+빠다	noun	butter
+방위군	noun	national guard, defense force
+일요	noun	the Sun; Sunday
+퇴	noun	rejection, refusal (of something offered); the thing returned; weariness, satiation, being fed up; bay half of a 칸 (kan) in width, attached to the main hall of a building
+판도라	propn	Pandora (character in Greek mythology)
+스포	noun	short for 스포일러 (seupoilleo, “spoiler”); spoiling a plot.
 가우	noun	scissors
+해구	noun	oceanic trench; fur seal
+민지	propn,noun	a female given name; the will of the people; public opinion; the knowledge, wisdom, or intelligence of the people
+승하	noun	death; passing away
+곱배기	noun	
+깡총깡총	adv	
+땡초	noun	
+로보트	noun	
+맘모스	noun	
+쑥맥	noun	
+악셀	noun	
+장농	noun	
+판넬	noun	
 프로이센	propn	Prussia (a geographical area on the Baltic coast of Northeast Europe); Prussia (a former duchy, kingdom and (after German unification in 1871) a federal state of Germany, existing from 1525 to 1947, mostly in areas now part of Germany, Poland and Russia)
 나무늘보	noun	sloth, of suborder Folivora of mammals
 철갑상어	noun	The Chinese sturgeon, Acipenser sinensis.
@@ -1461,14 +1495,24 @@
 그린란드	propn	Greenland (a large self-governing dependent territory of Denmark, in North America)
 라이베리아	propn	Liberia (a country in Africa)
 복서	noun	a boxer (participant in a boxing match); a boxer (breed of dog)
+카나다	propn	Canada (a country in North America)
+홍해	propn	Red Sea (sea between Africa and Arabia)
+목성	propn	Jupiter
 오르가슴	noun	orgasm
+중화인민공화국	propn	People's Republic of China (official name of China: a country in East Asia)
 아첨꾼	noun	flatterer; yesman
 가스파초	noun	gazpacho
+바쿠	propn	Baku (the capital city of Azerbaijan)
 바륨	noun	barium (chemical element)
+황천	noun	netherworld, underworld, the other world; stormy weather; High Heaven, Heaven on High, God's Heaven
 흑색종	noun	melanoma
+정크푸드	noun	junk food
 녕	noun	peace
+적정량	noun	the appropriate amount (of a substance to add, consume, etc.)
 적포도주	noun	red wine
 남조선	propn	South Korea (a country in East Asia, comprising the southern part of the Korean Peninsula)
+뇌우	noun	thunderstorm
+십오	num	fifteen
 민스크	propn	Minsk (the capital city of Belarus)
 토론토	propn	[~시(市)] Toronto (the capital city of Ontario, Canada and the largest city in Canada)
 열넷	num	fourteen (in isolation, with a nominal sense)
@@ -1477,31 +1521,49 @@
 샐러리	noun	celery
 분리주의	noun	separatism; secessionism
 잡년	noun	a loose woman, slut, whore, slattern
+배기관	noun	exhaust pipe
 억류자	noun	a detainee, an internee
 기니피그	noun	guinea pig
+피라냐	noun	piranha (South American fish)
 산호세	propn	San José (the capital city of Costa Rica)
+악귀	noun	evil spirit; demon; devil
 컬트	noun	cult
 방위각	noun	azimuth
 모가디슈	propn	Mogadishu (the capital city of Somalia)
+리야드	propn	Riyadh (the capital city of Saudi Arabia)
 그레이비	noun	gravy
 양조장	noun	brewery, distillery
 파파야	noun	papaya (fruit or tree)
 지휘소	noun	command post
+여성스럽다	adj	feminine
+충수	noun	an appendix
 무화과	noun	fig
+재판소	noun	court
 릴리스	noun	release (distribution of a new product, software, movie, etc.)
 커리	noun	curry
+세슘	noun	cesium
+마유	noun	mare's milk
 소꿉친구	noun	synonym of 소꿉동무 (sokkupdongmu, “childhood friend”)
 토치	noun	torch
 프리메이슨	noun	Freemason
 은하단	noun	galaxy cluster
 으쌰	intj	Let's do it!
+스파이웨어	noun	spyware (software that surreptitiously monitors and reports activity)
+대저택	noun	mansion
+광시	propn	Guangxi (a Zhuang autonomous region of China)
 룰렛	noun	roulette
+산스크리트어	noun	Sanskrit
 지하드	noun	jihad
+멕시코시티	propn	Mexico City
+진동수	noun	oscillation frequency
 호모포비아	noun	homophobia
 글리세린	noun	glycerol, glycerin
+페놀	noun	phenol (caustic compound derived from benzene); phenol (any of a class of aromatic organic compounds having at least one hydroxyl group attached directly to the benzene ring)
 에스터	noun	ester
+역대급	noun	the largest scale or the highest level in history which has never been experienced before
 보습	noun	plowshare
 비트코인	noun	bitcoin (cryptocurrency)
+성채	noun	citadel; fortress; stronghold
 치어리딩	noun	cheerleading (physical activity)
 미분	noun	differential; rice flour
 탈출기	propn	Exodus (second book of the Bible)
@@ -1509,24 +1571,37 @@
 성체	noun	Eucharist (substances)
 바오로	propn	Paul
 다윗	propn	David
+카브	noun	curve
 윈도우	propn	Windows
+이스마엘	propn	Ishmael
 라그나로크	propn	Ragnarok
 조센징	noun	Korean (person)
 주키니	noun	zucchini
 트러스트	noun	trust (company)
 우먼	noun	woman
+랍비	noun	rabbi
 포름알데히드	noun	formaldehyde
+숙련자	noun	expert
 마노	noun	agate
 한족	noun	Han Chinese; Korean people
+아베크	noun	a couple (on a date)
+카르마	noun	karma
 알리바바	propn	Ali Baba
 설치류	noun	rodent
 필살기	noun	the technique of killing a person for sure.
 소독제	noun	disinfectant
 호치민	propn	Ho Chi Minh (person); Ho Chi Minh City
+대영제국	propn	the British Empire
+초신성	noun	supernova
+여단	noun	brigade
+뉴런	noun	neuron
+숫	affix	pure
 섬망	noun	delirium
 인구조사	noun	census
 일취월장	noun	improve daily and monthly
 투탕카멘	propn	Tutankhamun
+에스키모	noun	Eskimo (indigenous Arctic people); ice cream
+수전	noun	wet field, rice paddy; water faucet; battle on water; naval warfare
 토우	noun	dust storm, rain of dust
 코카콜라	propn	Coca-Cola
 똥파리	noun	yellow dung fly (Scathophaga stercoraria)
@@ -1540,64 +1615,108 @@
 빤스	noun	briefs, underpants, panties, knickers, boxers, shorts
 푸틴	propn	a transliteration of the Russian surname Пу́тин (Pútin)
 레닌	propn	a transliteration of the Russian surname Ле́нин (Lénin)
+묏자리	noun	grave
 한국전쟁	propn	The Korean War
 남이사	adv	Used in place of 남이야 (nam-iya, “as for other people”) when dismissing people who are too nosy, with a connotation of "none of your business".
+유성우	noun	meteor shower
 푸코	propn	a transliteration of the French surname Foucault; a transliteration of the French surname Foucault; Michel Foucault, French philosopher
+알라신	propn	Allah (the Islamic god)
 위글	noun	synonym of 위구르 (wigureu, “Uyghur”)
+연석	noun	curb (concrete margin); banquet, feast, dinner party
+앰프	noun	amplifier
 생명보험	noun	life insurance
 문손잡이	noun	doorknob
 오밤	noun	deep night, middle of the night
 재상	noun	chancellor, chief minister (in historical East Asia)
+방전	noun	electrical discharge
+남중국해	propn	South China Sea (a sea in Asia)
 버몬트	propn	[~주(州)] Vermont (a state of the United States)
 노스캐롤라이나	propn	[~주(州)] North Carolina (a state of the United States, situated on the east coast of the North American mainland north of South Carolina and south of Virginia)
+줄임말	noun	abbreviation
 지질학자	noun	geologist
 이태	noun	two (agricultural) years
+허벌나다	adj	very, incredibly, suprisingly many
+피고석	noun	dock (part of a courtroom where the accused sits)
+홍게	noun	Chionoecetes japonicus, the beni-zuwai crab or red snow crab.
 위키피디아	noun	Wikipedia
 오바마케어	propn	ObamaCare (healthcare plan in the United States)
 잠간	adv,noun	North Korea standard spelling of 잠깐 (jamkkan, “for a moment”); North Korea standard spelling of 잠깐 (jamkkan, “moment”)
+천분	noun	natural gift, talent
 개돼지	noun	ignoramus; ignorant person; (especially) the ignorant masses; Used other than figuratively or idiomatically: see 개 (gae), 돼지 (dwaeji): dogs and pigs
 얼차려	noun	punishment of a lower-ranking soldier, ostensibly to punish flagging morale but sometimes abusive (e.g. making them run laps)
 스칸디나비아	propn	Scandinavia (a geographic region of Northern Europe, consisting of Denmark, Norway, and Sweden collectively and sometimes Finland, Iceland, Åland and the Faroe Islands); Scandinavia (a peninsula in Northern Europe, consisting of Norway, Sweden and most of northern Finland; in full, Scandinavian Peninsula)
 항공우주	noun	aerospace
+어귀	noun	estuary
 떡갈나무	noun	Japanese emperor oak, daimyo oak (Quercus dentata)
+그위	noun	officialdom, government, official
 흡혈	noun	bloodsucking
 목포	propn	Mokpo (a city in South Jeolla Province, South Korea)
 정신의학	noun	psychiatry
+미들네임	noun	middle name (a name between the first given name and the family name or surname; a second or subsequent given name)
 유축기	noun	breast pump
+탭	noun	tab; tap
 의용병	noun	volunteer soldier
+무함마드	propn	Muhammad (prophet)
+온주	propn	Wenzhou (a prefecture-level city of Zhejiang, in southeastern China)
+뮤	noun	mu (name of the Greek, Ancient Greek letter μ)
+데불다	verb	to bring
 마커	noun	marker pen
+걸개	noun	beggar
 조타	noun	steering
+비영리단체	noun	non-profit organization
+가슴골	noun	breast cleavage
 산화	noun	synonym of 산불 (sanbul, “mountain fire”); oxidation, oxidization; synonym of 산꽃 (sankkot, “mountain flower”)
+기지촌	noun	gijichon; camptown
 화염방사기	noun	flamethrower
+여자답다	adj	womanly, feminine
+후렴구	noun	hook, chorus
+씨알	noun	seeds
+비문	noun	epigraph; synonym of 콧구멍 (kotgumeong, “nostril”)
 일등급	noun	top grades, perfect score; first-degree, top-grade, first class
 맨처음	noun	very beginning, first, outset, first and foremost
 열대우림	noun	tropical rainforest
 비슈누	propn	Vishnu
 야키소바	noun	yakisoba (Japanese dish)
 슬레지해머	noun	sledgehammer
+투기장	noun	arena, ring
+포탑	noun	turret
+대일본제국	propn	Empire of Japan
+부엌칼	noun	kitchen knife
 반음	noun	semitone
 카카오	noun,propn	cacao (cacao tree or bean); Kakao (company)
+스크루드라이버	noun	screwdriver
 파라핀	noun	paraffin
+출장가다	verb	to go on a business trip
 모험가	noun	adventurer
 전화비	noun	phone bill
 리크	noun	leak, leakage; round-headed leek (Allium sphaerocephalon)
+적함	noun	enemy warship
 외교부	noun	foreign ministry, (department of) foreign affairs
 염화	noun	raging fire, blaze, inferno; intense, overwhelming emotions; positive influence on one's thoughts and emotions
 난교	noun	orgy, promiscuity
 조직폭력배	noun	group of people committing organized violence; gangster
 방첩	noun	counterintelligence, counterespionage
-스포	noun	short for 스포일러 (seupoilleo, “spoiler”); spoiling a plot.
+병진	propn	The fifty-third term of the Chinese sexagenary cycle, sometimes glossed as "Fire Dragon" from its associated terms in the Chinese elements and zodiac.; Byungjin; the North Korean policy to develop nuclear weapons and the economy simultaneously.
+피질	noun	cortex
+항성계	noun	star system
 모래주머니	noun	sandbag; gizzard
 상파울루	propn	São Paulo (a municipality, the state capital of São Paulo, Brazil); São Paulo (a state of the Southeast Region, Brazil)
+탄자	noun	rug; fur mattress
 죽빵	noun	punch to the face
+채광창	noun	skylight
 캘거리	propn	[~시(市)] Calgary (the largest city in Alberta, Canada)
 요하네스버그	propn	Johannesburg (a city in Gauteng, South Africa)
+수표책	noun	chequebook/checkbook
 드라이아이스	pron	dry ice
+적십자사	noun	Red Cross (the organization itself)
 섭정	noun	regent
 퀘스트	noun	quest
 뒤태	noun	appearance from behind, figure from behind
+목안	noun	inside of the neck; inside of the neck; pharynx
 노동절	propn	May Day; Labor Day
 메스암페타민	noun	methamphetamine
+모르모트	noun	a guinea pig (tailless rodent); a guinea pig (an experimental subject)
+이족	noun	Yi people
 크로넛	noun	cronut
 헤즈볼라	propn	Hezbollah (a Lebanese Shi'a Islamist political party and paramilitary group)
 오레오	noun	Oreo
@@ -1605,6 +1724,7 @@
 퍼펙트	noun	perfection
 스패너	noun	spanner, wrench
 팔로잉	noun	following
+수과	noun	achene
 덩크	noun	dunk; dunk shot
 포니테일	noun	ponytail
 방향키	noun	arrow key; cursor key
@@ -1613,481 +1733,389 @@
 우엑	intj	Expression of disgust or nausea.
 우끼	intj	ook (the sound a monkey makes)
 킥복서	noun	kickboxer
-오크라	noun	okra (plant and pods)
 프로볼로네	noun	provolone
+잭팟	noun	jackpot (accumulating money prize pool or a large cash prize)
 파쿠르	noun	parkour
 만델라	propn	a transliteration of the Xhosa surname Mandela
+탐지견	noun	sniffer dog
 텔레포테이션	noun	teleportation
 몰래카메라	noun	spycam, secret camera; hidden camera, spy camera (especially for non-consensual filming or recording); hidden camera prank
+상담가	noun	consultant, advisor
 팝업	noun	pop-up
 오픈카	noun	convertible
+탄산수	noun	carbonated water
 런닝머신	noun	treadmill (piece of indoor sporting equipment)
 마우스피스	noun	mouthpiece; a part of a brass instrument placed on the player's lips; mouthpiece
 경구개	noun	hard palate
+커터칼	noun	utility knife
 조차장	noun	marshalling yard; classification yard
 로딩	noun	loading
+인상깊다	adj	impressive
+물물교환	noun	barter
 셰이크	noun	shake
 리트머스	noun	litmus
 플레이오프	noun	playoff
+핵잠수함	noun	nuclear submarine
 쿼리	noun	query
 기관단총	noun	submachine gun
+산탄총	noun	shotgun
 파샤	noun	pasha
 낫질	noun	use of a sickle
 막대사탕	noun	lollipop
+움키다	verb	to grasp; to clasp; to seize
+옥체	noun	king's body
 정신지체	noun	mental retardation; intellectual disability
 찌라시	noun	leaflet, flyer; tabloid, yellow journalism
+의과대학	noun	medical school
 똥싸개	noun	encopresis, fecal incontinence.
 요단강	propn	the Jordan river
 땡중	noun	corrupt or fraudulent Buddhist monk
 쓰레기차	noun	dustcart; garbage truck
 흑요석	noun	obsidian
-탈리아	propn	Thalia
-맨틀	noun	mantle
-콜럼버스	propn	Columbus
-앞산	noun	mountain or hill at the front
-씨나락	noun	rice seed
-가늠쇠	noun	a front sight of a weapon
-데코레이션	noun	decoration
-폴리에스테르	noun	polyester (polymer)
-북북동	noun	north-northeast
-곱배기	noun	
-깡총깡총	adv	
-땡초	noun	
-로보트	noun	
-맘모스	noun	
-쑥맥	noun	
-악셀	noun	
-장농	noun	
-판넬	noun	
-카나다	propn	Canada (a country in North America)
-홍해	propn	Red Sea (sea between Africa and Arabia)
-목성	propn	Jupiter
-중화인민공화국	propn	People's Republic of China (official name of China: a country in East Asia)
-바쿠	propn	Baku (the capital city of Azerbaijan)
-황천	noun	netherworld, underworld, the other world; stormy weather; High Heaven, Heaven on High, God's Heaven
-정크푸드	noun	junk food
-적정량	noun	the appropriate amount (of a substance to add, consume, etc.)
-뇌우	noun	thunderstorm
-십오	num	fifteen
-배기관	noun	exhaust pipe
-피라냐	noun	piranha (South American fish)
-악귀	noun	evil spirit; demon; devil
-리야드	propn	Riyadh (the capital city of Saudi Arabia)
-여성스럽다	adj	feminine
-충수	noun	an appendix
-재판소	noun	court
-세슘	noun	cesium
-마유	noun	mare's milk
-스파이웨어	noun	spyware (software that surreptitiously monitors and reports activity)
-대저택	noun	mansion
-광시	propn	Guangxi (a Zhuang autonomous region of China)
-산스크리트어	noun	Sanskrit
-멕시코시티	propn	Mexico City
-진동수	noun	oscillation frequency
-페놀	noun	phenol (caustic compound derived from benzene); phenol (any of a class of aromatic organic compounds having at least one hydroxyl group attached directly to the benzene ring)
-역대급	noun	the largest scale or the highest level in history which has never been experienced before
-성채	noun	citadel; fortress; stronghold
-이스마엘	propn	Ishmael
-랍비	noun	rabbi
-숙련자	noun	expert
-아베크	noun	a couple (on a date)
-카르마	noun	karma
-대영제국	propn	the British Empire
-초신성	noun	supernova
-뉴런	noun	neuron
-에스키모	noun	Eskimo (indigenous Arctic people); ice cream
-수전	noun	wet field, rice paddy; water faucet; battle on water; naval warfare
-묏자리	noun	grave
-유성우	noun	meteor shower
-알라신	propn	Allah (the Islamic god)
-연석	noun	curb (concrete margin); banquet, feast, dinner party
-앰프	noun	amplifier
-방전	noun	electrical discharge
-남중국해	propn	South China Sea (a sea in Asia)
-줄임말	noun	abbreviation
-허벌나다	adj	very, incredibly, suprisingly many
-피고석	noun	dock (part of a courtroom where the accused sits)
-홍게	noun	Chionoecetes japonicus, the beni-zuwai crab or red snow crab.
-천분	noun	natural gift, talent
-어귀	noun	estuary
-그위	noun	officialdom, government, official
-미들네임	noun	middle name (a name between the first given name and the family name or surname; a second or subsequent given name)
-탭	noun	tab; tap
-무함마드	propn	Muhammad (prophet)
-온주	propn	Wenzhou (a prefecture-level city of Zhejiang, in southeastern China)
-세이브	noun	a save
-뮤	noun	mu (name of the Greek, Ancient Greek letter μ)
-데불다	verb	to bring
-걸개	noun	beggar
-비영리단체	noun	non-profit organization
-가슴골	noun	breast cleavage
-기지촌	noun	gijichon; camptown
-여자답다	adj	womanly, feminine
-후렴구	noun	hook, chorus
-씨알	noun	seeds
-비문	noun	epigraph; synonym of 콧구멍 (kotgumeong, “nostril”)
-투기장	noun	arena, ring
-포탑	noun	turret
-대일본제국	propn	Empire of Japan
-부엌칼	noun	kitchen knife
-스크루드라이버	noun	screwdriver
-출장가다	verb	to go on a business trip
-적함	noun	enemy warship
-병진	propn	The fifty-third term of the Chinese sexagenary cycle, sometimes glossed as "Fire Dragon" from its associated terms in the Chinese elements and zodiac.; Byungjin; the North Korean policy to develop nuclear weapons and the economy simultaneously.
-피질	noun	cortex
-항성계	noun	star system
-탄자	noun	rug; fur mattress
-채광창	noun	skylight
-수표책	noun	chequebook/checkbook
-적십자사	noun	Red Cross (the organization itself)
-목안	noun	inside of the neck; inside of the neck; pharynx
-모르모트	noun	a guinea pig (tailless rodent); a guinea pig (an experimental subject)
-이족	noun	Yi people
-수과	noun	achene
-잭팟	noun	jackpot (accumulating money prize pool or a large cash prize)
-탐지견	noun	sniffer dog
-상담가	noun	consultant, advisor
-탄산수	noun	carbonated water
-커터칼	noun	utility knife
-인상깊다	adj	impressive
-물물교환	noun	barter
-핵잠수함	noun	nuclear submarine
-산탄총	noun	shotgun
-움키다	verb	to grasp; to clasp; to seize
-옥체	noun	king's body
-의과대학	noun	medical school
 슬라이스	noun	slice (thin piece)
 십자가형	noun	crucifixion
+탈리아	propn	Thalia
 부왕	noun	viceroy; My father, the king
+맨틀	noun	mantle
 당구대	noun	billiard table
+콜럼버스	propn	Columbus
 무솔리니	propn	Mussolini
+앞산	noun	mountain or hill at the front
+씨나락	noun	rice seed
 시작점	noun	starting point; initial point
 등쳐먹다	verb	to swindle; to extort
 개피	noun	sloughgrass (Beckmannia syzigachne)
 튼실하다	adj	solid, strong, sturdy
 경매장	noun	auction house
+가늠쇠	noun	a front sight of a weapon
 친아빠	noun	real father; biological father
 친엄마	noun	real mother; biological mother
-빠	noun	-th; hardcore fan, groupie
+데코레이션	noun	decoration
+폴리에스테르	noun	polyester (polymer)
+북북동	noun	north-northeast
 카란	noun	carane
-원자로	noun	nuclear reactor
-아시	noun	phoenix; the beginning; the first
-빠다	noun	butter
-방위군	noun	national guard, defense force
-여단	noun	brigade
-달마다	adv,noun	monthly, every month, each month; monthly, every month, each month
-카더라	noun	an unsubstantiated rumor, now especially one on the Internet
-사둔	noun	
+딜도	noun	dildo
+석다	verb	to melt; to mellow
 레위기	propn	Leviticus (third book of the Bible)
+사하라	propn	Sahara (a desert in North Africa)
+주절	noun	main clause
+석고	noun	plaster; gypsum
 하기	verb,noun	informal non-polite verbal noun of 하다 (hada); undermentioned; summertime
+카더라	noun	an unsubstantiated rumor, now especially one on the Internet
+빠	noun	-th; hardcore fan, groupie
+율	noun	law; rule
+원자로	noun	nuclear reactor
+아구	noun	
+아구	noun	
 이탄	noun	peat
 임질	noun	gonorrhea, a sexually transmitted disease
-트기	noun	
-아구	noun	
-아구	noun	
 전자기	noun	electromagnetism
-석다	verb	to melt; to mellow
-보지	noun	pussy, vulva, vagina; preservation, holding, retention; notice, announcement
-미러	propn	a city in Yunnan, China
-천만에요	intj	you're welcome!
-주라	noun	conch horn
+사둔	noun	
+마누	noun	Manu (the progenitor of mankind)
+마고	propn	Magu, an immortal woman; [~할미] Mago, a primordial giantess
 쬐금	noun	
 쬐금	adv	
-떨	noun	marijuana
+아시	noun	phoenix; the beginning; the first
+트기	noun	
+보지	noun	pussy, vulva, vagina; preservation, holding, retention; notice, announcement
+혹여나	adv	by any chance
+비골	noun	fibula
 맥아	noun	malt
+의례	adv	
+파나마	propn	Panama (a country in Central America)
+헤우다	verb	to tighten
+미러	propn	a city in Yunnan, China
+천만에요	intj	you're welcome!
+불타	propn	Buddha
 서서	noun,propn	gradually, slowly, steadily; Switzerland (a country in Western Europe and Central Europe)
 목이	noun	wood ear (Auricularia auricula-judae)
-포가	noun	weapon, cannon mount
-야한	noun	coldness at night
+길다랗다	adj	
 패들	noun	paddle (double-bladed oar used for kayaking)
-둔	noun	stationed camp; third hexagram of the I Ching; dhun (Indian classical music)
-파나마	propn	Panama (a country in Central America)
-코튼	noun	cotton
--구만	affix	
-비골	noun	fibula
-변한	propn	Byeonhan confederacy
 갑자	noun	The first term of the Chinese sexagenary cycle, sometimes glossed as "Wood Rat" from its associated terms in the Chinese elements and zodiac.
-의례	adv	
-전지	noun	a battery (device producing electricity)
-불타	propn	Buddha
-헤우다	verb	to tighten
-떼지어	adv	in groups; in a cluster
-팔고	noun	eight Duḥkhas (the eight kinds of suffering)
-사귀	noun	devil; demon; imp
-마누	noun	Manu (the progenitor of mankind)
-비어	noun	obscenity; profanity; swear word; flying fish; herring (fish)
-레위	propn	Levi
-태양계의	noun	orrery
-무느다	verb	to demolish
-곤이	noun	synonym of 고니 (goni) (swan).; roe, the eggs or the egg-laden ovary of a fish; newborn fish
-나사로	propn	Lazarus
+포가	noun	weapon, cannon mount
 노느다	verb	to distribute (among), to divide, to split, to share (with)
-양이	noun	Western barbarian; Westerner; expulsion of the Western barbarians; policy of seclusion
+야한	noun	coldness at night
+사우	noun	colleague (at a company); friend of the firm
+사하	propn,noun	Saha (a district of the Metropolitan City of Busan, South Korea); Sakha (a republic of Russia); something that causes diarrhea
 창세기	propn	Genesis (first book of the Bible)
+코튼	noun	cotton
+가의	propn	Chiayi (a city located in the plains of southwestern Taiwan); Chiayi (a county of Taiwan, surrounding Chiayi City)
+둔	noun	stationed camp; third hexagram of the I Ching; dhun (Indian classical music)
+무느다	verb	to demolish
+변한	propn	Byeonhan confederacy
+떼지어	adv	in groups; in a cluster
+가멸다	adj	to be rich, to be wealthy, to be prosperous
+사귀	noun	devil; demon; imp
+양이	noun	Western barbarian; Westerner; expulsion of the Western barbarians; policy of seclusion
+레위	propn	Levi
+잣다	verb	to spin (make yarn)
+발라다	noun	ballad
+성조기	propn	Star-Spangled Banner, Stars and Stripes, the flag of the United States
+가말다	verb	to manage, conduct, dispose of, deal with, take care of (a matter)
+뭇다	verb	to organize; to build; to construct
+팔고	noun	eight Duḥkhas (the eight kinds of suffering)
+팓다	verb	to lightly flutter its wings
+사나	propn	Sanaa (the capital and largest city of Yemen)
+비어	noun	obscenity; profanity; swear word; flying fish; herring (fish)
+구나	noun	act of catching a criminal
+태양계의	noun	orrery
+요나	propn	Jonah
+패이다	verb	
+식인	noun	cannibalism
+지렁	noun	soy sauce
+단번	noun	one time, once
+친	affix	by blood; of the paternal side of the family; pro-; in favour of
+자지	noun	penis, dick; purple gromwell (Lithospermum erythrorhizon); synonym of 자주(紫朱) (jaju, “violet; purple”)
+나지	noun	any vacant land, regardless of private law
+미우	noun	soft, quiet rain; forehead; tail feather
+나사로	propn	Lazarus
 날마다	adv	every day, each day
+에우다	verb	to encircle; to cross out (on a list, etc.); to make do for
+알라디	propn	Aladi (a town in Jilin, Jilin, China)
+헤라	propn	Hera
+걸우다	verb	to fertilize, to manure
+주두	noun	capital; stigma
 화성인	noun	Martian (inhabitant of Mars)
 오타와	propn	[~시(市)] Ottawa (a city in Ontario, Canada; the capital city of Canada)
-범죄인	noun	criminal, culprit, offender
-요나	propn	Jonah
-발라다	noun	ballad
-사우	noun	colleague (at a company); friend of the firm
-식인	noun	cannibalism
-성조기	propn	Star-Spangled Banner, Stars and Stripes, the flag of the United States
-팓다	verb	to lightly flutter its wings
-잣다	verb	to spin (make yarn)
-나지	noun	any vacant land, regardless of private law
-초면인	noun	stranger, unknown (person); someone met for the first time
-거두	noun	prominent person, leader
-진한	propn	Jinhan confederacy
-지렁	noun	soy sauce
-지린	propn	Jilin (a province of China)
-자지	noun	penis, dick; purple gromwell (Lithospermum erythrorhizon); synonym of 자주(紫朱) (jaju, “violet; purple”)
-에우다	verb	to encircle; to cross out (on a list, etc.); to make do for
-불은	noun	the grace, mercy, kindness, charity, or blessings of Buddha
-걸우다	verb	to fertilize, to manure
-외의	noun	outer garment, overcoat
-보고자	noun	reporter
-패이다	verb	
-바질	noun	basil (Ocimum basilicum)
-애란	propn	Ireland
-후의	noun	kind thought; kindness
-사나	propn	Sanaa (the capital and largest city of Yemen)
-갈고	noun	galgo, an ancient double-headed hourglass-shaped drum played with two sticks, used in Korean traditional music
-기울	noun	bran
-드가다	verb	synonym of 들어가다 (deureogada, “to go in”)
-여리고	propn	Jericho (a city in the West Bank, Palestine)
-묵고	noun	silent contemplation
-뭇다	verb	to organize; to build; to construct
-헤라	propn	Hera
-길다랗다	adj	
-모란	noun	peony; the suit of peony in hwatu playing cards, representing the month of June
 호랑	noun	tiger
-접어	noun	clitic; flounder
-사하	propn,noun	Saha (a district of the Metropolitan City of Busan, South Korea); Sakha (a republic of Russia); something that causes diarrhea
-자서	noun	dictionary; preface by the author
-단번	noun	one time, once
-코로나	noun	A coronavirus, especially SARS-CoV-2; COVID-19, the disease caused by SARS-CoV-2; a corona; a circle or set of circles visible around a bright celestial object
-가주	propn	synonym of 캘리포니아 (Kaelliponia, “California (a state of the United States)”)
-서요	propn	the Western Liao dynasty (1124–1218 CE)
-살피	noun	spoon
-반하	noun	Pinellia ternata; crowdipper
-배이다	verb	
-전한	noun	Former Han (Western Han)
-지치	noun	purple gromwell (Lithospermum erythrorhizon); wisdom tooth
-만이	noun	In ancient China, indigenous tribes in what is now southern and eastern China; barbarian; uncivilized people (i.e. neither Chinese nor Korean)
-평해	propn	Pyeonghae, a town in North Gyeongsang, South Korea, formerly important as a harbor
-알라디	propn	Aladi (a town in Jilin, Jilin, China)
-형아	noun	older brother of a boy; older sister of a girl
-간지나다	verb	to be cool, fashionable
-나수다	verb	to heal, to cure, to treat
-불로	noun	eternal youth
-불도	noun	teaching of Buddha; Buddhist doctrines; Buddhism and Taoism
-쯔다	verb	to cut, to fell
+몹쓸다	verb	to be bad, to be ill, to be evil, to be wicked
+불은	noun	the grace, mercy, kindness, charity, or blessings of Buddha
+범죄인	noun	criminal, culprit, offender
 이교	noun	paganism; heathenism
-금은	noun	gold and silver
-가멸다	adj	to be rich, to be wealthy, to be prosperous
-가의	propn	Chiayi (a city located in the plains of southwestern Taiwan); Chiayi (a county of Taiwan, surrounding Chiayi City)
-반가	noun	half price
-편대	noun	formation (of warships, warplanes, etc.)
-빌라도	propn	Pilate
-떼짓다	verb	to form a group
-정해	propn	The twenty-fourth term of the Chinese sexagenary cycle, sometimes glossed as "Fire Pig" from its associated terms in the Chinese elements and zodiac.
-어디여	intj	Exclamation used to drive an ox onto right direction; Exclamation used to turn an ox to the right
-기해	propn	The thirty-sixth term of the Chinese sexagenary cycle, sometimes glossed as "Earth Pig" from its associated terms in the Chinese elements and zodiac.
-예기	propn	The Book of Rites or Classic of Rites (a classic Confucian text describing the social forms, administration, and ceremonial rites of the Zhou dynasty)
-예지	noun	precognition, foreknowledge; intelligence, intellect, sagacity, wisdom
-산과	noun	obstetrics
+거두	noun	prominent person, leader
+전지	noun	a battery (device producing electricity)
+초면인	noun	stranger, unknown (person); someone met for the first time
+애란	propn	Ireland
+외의	noun	outer garment, overcoat
+주라	noun	conch horn
 금요	noun	planet Venus; Friday
-순이	propn	Shunyi (a district and former county of Beijing, China)
+나수다	verb	to heal, to cure, to treat
+지린	propn	Jilin (a province of China)
+배이다	verb	
 토요	noun	planet Saturn; Saturday
-마도	noun,propn	the world of evil spirits and demons; the dark side; dark magic, the path of evil, wicked ways; an island in Hadong-gun, Gyeongsangnam-do, South Korea
-벌기	noun	the period between logging of the same area, during which the trees recover
-서진	noun	Western Jin; Western Qin
+진한	propn	Jinhan confederacy
+간지나다	verb	to be cool, fashionable
+보고자	noun	reporter
+모란	noun	peony; the suit of peony in hwatu playing cards, representing the month of June
+반하	noun	Pinellia ternata; crowdipper
+바질	noun	basil (Ocimum basilicum)
+예기	propn	The Book of Rites or Classic of Rites (a classic Confucian text describing the social forms, administration, and ceremonial rites of the Zhou dynasty)
+불로	noun	eternal youth
+형아	noun	older brother of a boy; older sister of a girl
+불도	noun	teaching of Buddha; Buddhist doctrines; Buddhism and Taoism
+자서	noun	dictionary; preface by the author
+예지	noun	precognition, foreknowledge; intelligence, intellect, sagacity, wisdom
+후의	noun	kind thought; kindness
+여리고	propn	Jericho (a city in the West Bank, Palestine)
+떼짓다	verb	to form a group
+갈고	noun	galgo, an ancient double-headed hourglass-shaped drum played with two sticks, used in Korean traditional music
+묵고	noun	silent contemplation
+코로나	noun	A coronavirus, especially SARS-CoV-2; COVID-19, the disease caused by SARS-CoV-2; a corona; a circle or set of circles visible around a bright celestial object
+월요	noun	the Moon; Monday
+순이	propn	Shunyi (a district and former county of Beijing, China)
+울릉	propn	Ulleung (a county of North Gyeongsang Province, South Korea).
+금은	noun	gold and silver
+접어	noun	clitic; flounder
+맹	adv	after all, just as expected
+동아	noun,propn	winter melon; white gourd (Benincasa hispida); East Asia (a geographic region comprising the eastern part of Asia, inclusive of China proper, Japan, North Korea, South Korea, and Taiwan and sometimes inclusive of Mongolia and Tibet and some or all of Southeast Asia and the Philippines)
+만이	noun	In ancient China, indigenous tribes in what is now southern and eastern China; barbarian; uncivilized people (i.e. neither Chinese nor Korean)
+살피	noun	spoon
+서요	propn	the Western Liao dynasty (1124–1218 CE)
+목요	noun	planet Jupiter; Thursday
+전한	noun	Former Han (Western Han)
+평해	propn	Pyeonghae, a town in North Gyeongsang, South Korea, formerly important as a harbor
+지치	noun	purple gromwell (Lithospermum erythrorhizon); wisdom tooth
+바이스	noun,propn	vise, vice (two-jawed instrument for holding work); a transliteration of the German surname Weiss
+가주	propn	synonym of 캘리포니아 (Kaelliponia, “California (a state of the United States)”)
 사악	noun	wickedness; evil; viciousness
 인쇄기	noun	printing press
-참기	noun	slandering and insults
-정부군	noun	government army (generally in a civil war)
-재우	adv	nimbly, quickly; barely, with difficulty; at once
-비도	noun	injustice; cruelty, atrocity, inhumanity
-양과	noun	Western candies (as opposed to Korean candies)
-나약	noun	weakness, lack of willpower
-몹쓸다	verb	to be bad, to be ill, to be evil, to be wicked
-목도	noun	wooden sword used for training; synonym of 목격(目擊) (mokgyeok, “witnessing”)
-마가	propn	Mark
-씹	noun	cunt (highly offensive term for a woman's vulva); coitus, copulation, fuck, sexual intercourse
-향도	noun	guide; guidance; fugleman
-월요	noun	the Moon; Monday
-용감	noun	bravery, courage
-울릉	propn	Ulleung (a county of North Gyeongsang Province, South Korea).
-한심	noun	patheticness (chiefly in adjectival form)
-청해	propn	Qinghai (a province in northwestern China)
-도요	noun	snipe, sandpiper
-동아	noun,propn	winter melon; white gourd (Benincasa hispida); East Asia (a geographic region comprising the eastern part of Asia, inclusive of China proper, Japan, North Korea, South Korea, and Taiwan and sometimes inclusive of Mongolia and Tibet and some or all of Southeast Asia and the Philippines)
-난이	noun	relative difficulty
-가말다	verb	to manage, conduct, dispose of, deal with, take care of (a matter)
-사랍다	adj	to be lovable, to be lovely
-위대	noun	great; greatness
-부주	noun	
-목요	noun	planet Jupiter; Thursday
-안내도	noun	guide map
-바이스	noun,propn	vise, vice (two-jawed instrument for holding work); a transliteration of the German surname Weiss
-빼주	noun	baijiu
-야마	noun	head; the main point of an article; llama
-갖	noun	leather, hide.
-강렬	noun	Root of 강렬히 (gangnyeolhi) / 강렬하다 (gangnyeolhada, “intense, strong, severe, mighty”). Rarely used alone.
-이사야	propn	Isaiah
 별바다	noun	(referring to the appearance of numerous stars floating in the sky on a clear day)
 화요	noun	planet Mars; Tuesday
-지하가	noun	underground street
-부신	noun	adrenal gland
-왜인	noun	a Japanese person; dwarf; pygmy
+정부군	noun	government army (generally in a civil war)
+아라	propn	a transliteration of the Armenian male given name Արա (Ara)
+기해	propn	The thirty-sixth term of the Chinese sexagenary cycle, sometimes glossed as "Earth Pig" from its associated terms in the Chinese elements and zodiac.
+편대	noun	formation (of warships, warplanes, etc.)
+빌라도	propn	Pilate
+나약	noun	weakness, lack of willpower
+비도	noun	injustice; cruelty, atrocity, inhumanity
+정해	propn	The twenty-fourth term of the Chinese sexagenary cycle, sometimes glossed as "Fire Pig" from its associated terms in the Chinese elements and zodiac.
+씹	noun	cunt (highly offensive term for a woman's vulva); coitus, copulation, fuck, sexual intercourse
+양과	noun	Western candies (as opposed to Korean candies)
+반가	noun	half price
+용감	noun	bravery, courage
+산과	noun	obstetrics
+한심	noun	patheticness (chiefly in adjectival form)
+어디여	intj	Exclamation used to drive an ox onto right direction; Exclamation used to turn an ox to the right
+마도	noun,propn	the world of evil spirits and demons; the dark side; dark magic, the path of evil, wicked ways; an island in Hadong-gun, Gyeongsangnam-do, South Korea
+이사야	propn	Isaiah
+위대	noun	great; greatness
+부주	noun	
+벌기	noun	the period between logging of the same area, during which the trees recover
+도요	noun	snipe, sandpiper
+갖	noun	leather, hide.
+서진	noun	Western Jin; Western Qin
+강렬	noun	Root of 강렬히 (gangnyeolhi) / 강렬하다 (gangnyeolhada, “intense, strong, severe, mighty”). Rarely used alone.
+마가	propn	Mark
+난이	noun	relative difficulty
+참기	noun	slandering and insults
 차분	noun	Root of 차분하다 (chabunhada, “calm, quiet, composed”) / 차분히 (chabunhi, “quietly, composedly”). Rarely used alone.; difference
-우시	propn	[~군(郡)] a county of Chagang Province, North Korea; [~시(市)] Wuxi (a city in Jiangsu, China); Ouchy (a harbour in Lausanne, Vaud canton, Switzerland)
-상도	propn	Xanadu (the summer capital of the Yuan dynasty, now an archaeological site in Zhenglan, Xilingol, Inner Mongolia, China)
+목도	noun	wooden sword used for training; synonym of 목격(目擊) (mokgyeok, “witnessing”)
+녀	noun,affix	North Korea standard spelling of 여(女) (yeo, “woman; female”); daughter; used only when counting the number of children; woman (who is characterized by this)
+잡상	noun	Chinese imperial roof figure or charm; peddler selling miscellaneous items without a fixed store
+청해	propn	Qinghai (a province in northwestern China)
+향도	noun	guide; guidance; fugleman
 불쌍	noun	being pitiful; pathetic; poor
 솔직	noun	frankness, honesty, directness
+부신	noun	adrenal gland
 메기다	verb	to lead (f.e. in a song), to be leading; to put an arrow in a bow
-용과	noun	dragon fruit
-불라	noun	papal bull; bulla (lead seal attached to papal bulls)
-차임	noun	rent, hire; chime
-희	noun,affix	Symbol of marriage between a man and a woman; double happiness; a plural suffix
-친애	noun	deep affection
-네로	propn	Nero
+재우	adv	nimbly, quickly; barely, with difficulty; at once
+대요	noun	gist, summary, outline, main points
+안내도	noun	guide map
 차르	noun	tsar, tzar
+용과	noun	dragon fruit
+기니	propn	Guinea (a country in Africa)
+친애	noun	deep affection
+비고	noun	note
 가로막	noun	diaphragm (sheet of muscle separating thorax from abdomen); diaphragm (flexible membrane)
 정중	noun	the exact middle (of something); noon, midday
-주고도	noun	high jump
+조주	propn	Chaozhou (a prefecture-level city of Guangdong, in southern China)
 완고	noun	obstinacy; stubbornness
+지하가	noun	underground street
 민감	noun	sensitivity
-기니	propn	Guinea (a country in Africa)
+상도	propn	Xanadu (the summer capital of the Yuan dynasty, now an archaeological site in Zhenglan, Xilingol, Inner Mongolia, China)
+야마	noun	head; the main point of an article; llama
+왜인	noun	a Japanese person; dwarf; pygmy
+화사	noun	a striped snake: tiger keelback (Rhabdophis tigrinus)
 희한	noun	rarity, scarcity
+빼주	noun	baijiu
+동구	propn	Eastern Europe (a socio-political geographical area of eastern Europe usually including the European countries to the east of Germany, Austria and Italy, and to the west of the Urals)
+네로	propn	Nero
+희	noun,affix	Symbol of marriage between a man and a woman; double happiness; a plural suffix
+아도	noun	collapsing from hunger; money
+삼초	noun	triple burner. Further divided into 상초(上焦) (sangcho), 중초(中焦) (jungcho) and 하초(下焦) (hacho); literally all the internal organs in the body.
 남과	noun	pumpkin
-평이	noun	easiness, facility; plainness, simplicity, straightforwardness
-비고	noun	note
-잡상	noun	Chinese imperial roof figure or charm; peddler selling miscellaneous items without a fixed store
-크시	noun	xi (name of the Greek, Ancient Greek letter ξ)
+사초	noun	sedge; sod, turf
 비겁	noun	cowardice
 곁들이	noun	side (dish)
-판지	noun	cardboard, paperboard
-불자	noun	the disciples of Gautama Buddha; a Buddhist practicer; a monk; a Buddhist
+우시	propn	[~군(郡)] a county of Chagang Province, North Korea; [~시(市)] Wuxi (a city in Jiangsu, China); Ouchy (a harbour in Lausanne, Vaud canton, Switzerland)
+평이	noun	easiness, facility; plainness, simplicity, straightforwardness
 오고가다	verb	to come and go
-갈매	noun	moss
-미우	noun	soft, quiet rain; forehead; tail feather
-대주	noun	household master; lender
+차임	noun	rent, hire; chime
+주고도	noun	high jump
+판지	noun	cardboard, paperboard
 만끽	noun	enjoyment
 대동	propn	Dae-dong (a locality in Dong-gu, Daejeon, South Korea); Korea; Taitung (a county of Taiwan)
 가혹	noun	severity; cruelty
 극심	noun	extreme
-조주	propn	Chaozhou (a prefecture-level city of Guangdong, in southern China)
+부동사	noun	adverbial participle
 정교	noun	Orthodoxy (the Eastern Orthodox Church and its foundations)
 명확	noun	explicitness
+육구	noun	sixty-nine (sex position); pad (cushion-like thickening of the skin on the underside of the toes of animals)
 기발	noun	flag
-화사	noun	a striped snake: tiger keelback (Rhabdophis tigrinus)
-동구	propn	Eastern Europe (a socio-political geographical area of eastern Europe usually including the European countries to the east of Germany, Austria and Italy, and to the west of the Urals)
 격렬	noun	Root of 격렬(激烈)하다 (gyeongnyeolhada, “violent, furious, intense”) / 격렬(激烈)히 (gyeongnyeolhi). Rarely used alone.
-삼초	noun	triple burner. Further divided into 상초(上焦) (sangcho), 중초(中焦) (jungcho) and 하초(下焦) (hacho); literally all the internal organs in the body.
+갈매	noun	moss
+불라	noun	papal bull; bulla (lead seal attached to papal bulls)
+습	affix	a prefix indicating a relation to moisture
+노추	noun	unsightly old age; reed shoot; slave's brat; servant's whelp
 유능	noun	ability, competence, capability
 친근	noun	intimacy, familiarity, closeness
+불자	noun	the disciples of Gautama Buddha; a Buddhist practicer; a monk; a Buddhist
+대주	noun	household master; lender
 상세	noun	detail; previous generation; ancestral generation
+태권	noun	kicking and punching; symptoms of thinning and langour during pregnancy
 음탕	noun	debauchery, lewdness, dissipation
 풍족	noun	abundance, opulence, affluence, plenty, wealth, riches, richness
+크시	noun	xi (name of the Greek, Ancient Greek letter ξ)
 다양	noun	diversity; variety
 기묘	propn	The sixteenth term of the Chinese sexagenary cycle, sometimes glossed as "Earth Rabbit" from its associated terms in the Chinese elements and zodiac.
-사초	noun	sedge; sod, turf
 선명	noun	vividness; clearness
-나시	noun	synonym of 민소매 셔츠 (minsomae syeocheu) or 민소매 (minsomae)
-부동사	noun	adverbial participle
-구가	noun	an old family; glorification; thoroughfare
+무수	noun	innumerable quantity, countless quantity, infinite quantity; anhydrous (containing no water); bringing comfort to one's subordinates or subjects (of a king, official, or general)
+광서	propn	Guangxi (a Zhuang autonomous region of China)
+후지	propn	Fuji
 활발	noun	liveliness; briskness; sprightliness
 민망	noun	popular expectation, people's hope; will of the citizenry
-육구	noun	sixty-nine (sex position); pad (cushion-like thickening of the skin on the underside of the toes of animals)
+화지	noun	washi, traditional Japanese paper
+사랍다	adj	to be lovable, to be lovely
 거룩	noun	holiness, sacrality, sacredness
-무수	noun	innumerable quantity, countless quantity, infinite quantity; anhydrous (containing no water); bringing comfort to one's subordinates or subjects (of a king, official, or general)
-습	affix	a prefix indicating a relation to moisture
-오거	noun	ogre (brutish giant)
+파사	propn,noun	Persia; tired and exhausted soldier
 걷	verb	Verb stem of 걷다
 심오	noun	profound; abstruse; difficult to understand; esoteric
 적당	noun	suitability, appropriateness
-노추	noun	unsightly old age; reed shoot; slave's brat; servant's whelp
+탄화	noun	carbonisation
+악지	noun	badlands; gnathite
 절실	noun	Root of 절실히 (jeolsilhi, “desperately, urgently, direly”) / 절실하다 (jeolsilhada, “acute, keen, fervent, poignant”). Rarely used alone.
 찬란	adv	brightly, brilliantly, resplendently
 위독	noun	critical illness
+유저	noun	user
 애매	noun	obscurity, ambiguity
-양하	noun	myoga
+구가	noun	an old family; glorification; thoroughfare
 타당	noun	the other (political) party; another (political) party
-태권	noun	kicking and punching; symptoms of thinning and langour during pregnancy
-후지	propn	Fuji
+너이	num	four
+사사	noun	private matter; judge; shophet; studying under (someone)
 냉혹	noun	cruelty, heartlessness, ruthlessness, cold-heartedness, callousness
+기이	noun	strangeness, weirdness
 황량	noun	desolateness; dreariness
 가련	noun	being miserable, the root of 가련하다 (garyeonhada)
-기이	noun	strangeness, weirdness
-광서	propn	Guangxi (a Zhuang autonomous region of China)
 처참	noun	atrocious, terrible; unbearable to see; decapitation, beheading
 숭고	noun	sublimity; loftiness; noble
-풍부	noun	an abundance; an opulence; an affluence; a plenty; a wealth; richness; a plenitude
-살벌	noun	cruelty; harshness
-파사	propn,noun	Persia; tired and exhausted soldier
-화지	noun	washi, traditional Japanese paper
-맹렬	noun	Root of 맹렬(猛烈)하다 (maengnyeolhada, “furious, fierce”) / 맹렬(猛烈)해지다 (maengnyeolhaejida, “to grow violent, fiercen”). Rarely used alone.
-자이	propn	Chiayi (a city located in the plains of southwestern Taiwan); Chiayi (a county of Taiwan, surrounding Chiayi City)
-탄화	noun	carbonisation
-악지	noun	badlands; gnathite
-처절	noun	being very pitiable and sad
-능가	noun	excelling; surpassing; outdoing
-억울	noun	dejection, depression, oppression; condition of being unjust, unfair, undeserved
-웅장	noun	magnificence, splendor, grandeur
-토라	noun	Torah
-유저	noun	user
-난감	noun	embarrassment, difficulty, intolerableness
-사사	noun	private matter; judge; shophet; studying under (someone)
-급박	noun	urgency
 참마	noun	Japanese mountain yam
 등자	noun	stirrup; orange (fruit)
-다부	adv	again; instead, rather
+나시	noun	synonym of 민소매 셔츠 (minsomae syeocheu) or 민소매 (minsomae)
+풍부	noun	an abundance; an opulence; an affluence; a plenty; a wealth; richness; a plenitude
+살벌	noun	cruelty; harshness
 수부	noun	sailor, seaman; capital; metropolis; receipt, reception, acceptance
+맹렬	noun	Root of 맹렬(猛烈)하다 (maengnyeolhada, “furious, fierce”) / 맹렬(猛烈)해지다 (maengnyeolhaejida, “to grow violent, fiercen”). Rarely used alone.
+자이	propn	Chiayi (a city located in the plains of southwestern Taiwan); Chiayi (a county of Taiwan, surrounding Chiayi City)
+계사	propn,noun	The thirtieth term of the Chinese sexagenary cycle, sometimes glossed as "Water Snake" from its associated terms in the Chinese elements and zodiac.; copula (linking kind of word)
+처절	noun	being very pitiable and sad
+능가	noun	excelling; surpassing; outdoing
+장과	noun	berry
+사스	noun	SARS
+양처	noun	rickshaw (two-wheeled carriage)
+비르	noun	beer
+억울	noun	dejection, depression, oppression; condition of being unjust, unfair, undeserved
+양하	noun	myoga
+웅장	noun	magnificence, splendor, grandeur
+난감	noun	embarrassment, difficulty, intolerableness
+촉지	noun	pedipalp
+군마	noun	warhorse; charger
+창사	propn,noun	Changsha (the capital of Hunan, China); songs that a dancer sing in a dance in the imperial court
+급박	noun	urgency
+우무	noun	agar-agar, Japanese isinglass
+다부	adv	again; instead, rather
 빠삭	noun	indeed crunchingly; while lightly stepping on, grinding, or breaking with a crunching sound; indeed crunchingly; while biting on with a crunching sound; indeed crunchingly
 간소	noun	simplicity, frugality, homeliness, plainness
 험악	noun	danger; sternness
 시무룩	noun	glum; sulky and unenergetic
 극악무도	noun	atrocity; enormity; brutality; villainy
-계사	propn,noun	The thirtieth term of the Chinese sexagenary cycle, sometimes glossed as "Water Snake" from its associated terms in the Chinese elements and zodiac.; copula (linking kind of word)
-비르	noun	beer
+방추	noun	spindle
+궈	propn	a transliteration of the Chinese surname 郭 (Guō)
+걸핏	adv,noun	quickly; blinking into appearance
 비옥	noun	fertility
-장과	noun	berry
-사스	noun	SARS
-양처	noun	rickshaw (two-wheeled carriage)
-너이	num	four
 치세	noun	peaceful times; reign
-유연	phrase,propn	leaded (containing lead); Rouran (a khaganate that ruled much of present-day Mongolia, northern China and southern Siberia from the mid-4th to the mid-6th centuries, formed from a tribal confederation of pre-Mongolic peoples of Donghu origin); Rouran (the language of the Rouran khaganate)
-풍만	noun	abundance, opulence, plenty, affluence, wealth, richness
 코이	noun	soybean; Beans and legumes in general.
+유연	phrase,propn	leaded (containing lead); Rouran (a khaganate that ruled much of present-day Mongolia, northern China and southern Siberia from the mid-4th to the mid-6th centuries, formed from a tribal confederation of pre-Mongolic peoples of Donghu origin); Rouran (the language of the Rouran khaganate)
+이듬	noun	a second plowing of the fields; a second weeding of the fields
+풍만	noun	abundance, opulence, plenty, affluence, wealth, richness
+난도	noun	degree of difficulty; difficult way to walk
 엄숙	noun	solemnity; graveness; seriousness
-촉지	noun	pedipalp
-군마	noun	warhorse; charger
-창사	propn,noun	Changsha (the capital of Hunan, China); songs that a dancer sing in a dance in the imperial court
-우무	noun	agar-agar, Japanese isinglass
+화부	noun,propn	stoker; Washington, D.C. (a city, the capital city of the United States)
+진여	noun	suchness, thusness (existence as it is)
+인소	noun	suppressing a laugh; causative factor
 유념	noun	dear thought as not to forget or become careless about something
 옹졸	noun	Root of 옹졸하다 (ongjolhada). Rarely used alone.
-방추	noun	spindle
+침모	noun	seamstress, needlewoman
 인도르	propn	Indore (a city in Indore district, Madhya Pradesh, India)
-걸핏	adv,noun	quickly; blinking into appearance
 민첩	noun	agility, alacrity, swiftness; quickness, nimbleness, lightness; promptness, readiness
 사모	noun	teacher's wife; longing; yearning; love; deep attachment; admiration; adoration
 폄하	noun	derogation; disparagement
 참신	noun	being novel; being original
 현란	noun	gorgeousness, brilliancy, floweriness, gaudiness, splendor
-이듬	noun	a second plowing of the fields; a second weeding of the fields
-난도	noun	degree of difficulty; difficult way to walk
-화부	noun,propn	stoker; Washington, D.C. (a city, the capital city of the United States)
-진여	noun	suchness, thusness (existence as it is)
-인소	noun	suppressing a laugh; causative factor
-침모	noun	seamstress, needlewoman
-궈	propn	a transliteration of the Chinese surname 郭 (Guō)
-차드	propn	Chad (a country in Africa)
-구마	noun	to dispel demons; to exorcise; exorcism
 우사	noun	cowshed; cattle pen; something foolish or laughable
+구마	noun	to dispel demons; to exorcise; exorcism
+차드	propn	Chad (a country in Africa)
 천마	noun	Pegasus; celestial horse; demon, evil spirit
 예서	noun	clerical script
-쌀쌀	noun	while boiling slowly; while crawling lightly; while moving cautiously
 수서	noun	being aquatic (living in water)
 성시	noun	city
+쌀쌀	noun	while boiling slowly; while crawling lightly; while moving cautiously

@@ -9,7 +9,7 @@
  */
 import { tidy } from '../text'
 import type { LangRules, RawToken } from '../types'
-import { lemmaCandidates } from './lemma'
+import { isPredicateTags, lemmaCandidates } from './lemma'
 import { romanize } from './pronounce'
 import { toSimplified } from './t2s'
 
@@ -71,6 +71,21 @@ export function tokenize(text: string): RawToken[] {
     }
   }
   return out
+}
+
+const NOMINAL = new Set(['noun', 'pron', 'num', 'propn', 'adv', 'det', 'other'])
+const PREDICATE = new Set(['verb', 'adj', 'aux'])
+const MULTIWORD = new Set(['idiom', 'phrase', 'proverb'])
+
+/**
+ * 猜出来的原形跟词条的词性合不合：标签是助词（은/는、에）的只配体词，是词尾（-았/었-、-는）的只配谓词，
+ * 带「이다」的是体词；惯用语、短语都行。阅读器猜原形时用它挑词条（「안에」猜「안」，
+ * 不该对上 알다 的变形「안」）。框架接上之前这里先备着（见 docs/lang/ko.md「要框架做的」）。
+ */
+export function guessFits(tags: string[], pos: string[]): boolean {
+  if (!tags.length || pos.some((p) => MULTIWORD.has(p))) return true
+  if (isPredicateTags(tags)) return pos.some((p) => PREDICATE.has(p))
+  return pos.some((p) => NOMINAL.has(p))
 }
 
 export const rules: LangRules = {

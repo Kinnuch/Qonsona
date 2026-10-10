@@ -103,6 +103,8 @@ export const FINALS: Ending[] = [
   mk('C', 'ja', '-자', 'ㅈㅏ', 'v', 0, { tensed: false }),
   mk('C', 'jamaja', '-자마자', 'ㅈㅏㅁㅏㅈㅏ', 'v', 1, { tensed: false }),
   mk('C', 'jago', '-자고', 'ㅈㅏㄱㅗ', 'v', 1, { tensed: false, particle: true }),
+  mk('C', 'janeun', '-자는', 'ㅈㅏㄴㅡㄴ', 'v', 2, { tensed: false }),
+  mk('C', 'gon', '-곤', 'ㄱㅗㄴ', 'any', 1, { tensed: false }),
   mk('C', 'geona', '-거나', 'ㄱㅓㄴㅏ', 'any', 0),
   mk('C', 'geoni', '-거니', 'ㄱㅓㄴㅣ', 'any', 2),
   mk('C', 'geodeun', '-거든', 'ㄱㅓㄷㅡㄴ', 'any', 1, { particle: true }),

@@ -64,7 +64,7 @@ function revE(R: string, e: string): Cand[] {
   }
   if (vowelFinal(R)) {
     out.push({ j: R, cls: 'reg', pen: 0 }) // 가 → 가
-    if (dropsRieul(e)) out.push({ j: R + 'ㄹ', cls: 'reg', pen: 0.4 }) // 사 → 살
+    if (dropsRieul(e)) out.push({ j: R + 'ㄹ', cls: 'reg', pen: 0.15 }) // 사 → 살
     const v = last(R)
     if (v === 'ㅏ' || v === 'ㅓ' || v === 'ㅑ' || v === 'ㅕ')
       out.push({ j: R + 'ㅎ', cls: 'h', pen: 0.5 }) // 파라 → 파랗、그러 → 그렇
@@ -144,7 +144,7 @@ function revC(R: string, e: string): Cand[] {
   if (!R) return out
   out.push({ j: R, cls: 'reg', pen: 0 })
   if (vowelFinal(R)) {
-    if (dropsRieul(e)) out.push({ j: R + 'ㄹ', cls: 'reg', pen: 0.4 }) // 사는 → 살
+    if (dropsRieul(e)) out.push({ j: R + 'ㄹ', cls: 'reg', pen: 0.15 }) // 사는 → 살
     const v = last(R)
     if (e[0] === 'ㄴ' && (v === 'ㅏ' || v === 'ㅓ' || v === 'ㅑ' || v === 'ㅕ'))
       out.push({ j: R + 'ㅎ', cls: 'h', pen: 0.7 }) // 파라네요 → 파랗
@@ -198,7 +198,7 @@ function stemsBefore(J: string, e: Ending): Cand[] {
         const R = J.slice(0, -e.jv.length)
         if (vowelFinal(R)) {
           out.push({ j: R, cls: 'reg', pen: 0 })
-          out.push({ j: R + 'ㄹ', cls: 'reg', pen: 0.4 }) // 삽니다 → 살
+          out.push({ j: R + 'ㄹ', cls: 'reg', pen: 0.15 }) // 삽니다 → 살
         }
       }
       return out
@@ -227,22 +227,34 @@ function verify(stem: string, cls: PredClass, chain: string[], J: string): numbe
   return forms.indexOf(J)
 }
 
-/** 后面接了助词的词尾（먹기를、먹고요、해서는）：先剥这些 */
-const AFTER_ENDING: { j: string; label: string }[] = [
-  { j: 'ㅇㅛ', label: '요' },
-  { j: 'ㄴㅡㄴ', label: '은/는' },
-  { j: 'ㅇㅡㄴ', label: '은/는' },
-  { j: 'ㄷㅗ', label: '도' },
-  { j: 'ㅁㅏㄴ', label: '만' },
-  { j: 'ㄹㅡㄹ', label: '을/를' },
-  { j: 'ㅇㅡㄹ', label: '을/를' },
-  { j: 'ㄱㅏ', label: '이/가' },
-  { j: 'ㅇㅔ', label: '에' },
-  { j: 'ㅇㅡㄹㅗ', label: '(으)로' },
-  { j: 'ㄹㅗ', label: '(으)로' },
-  { j: 'ㄲㅏㅈㅣ', label: '까지' },
-  { j: 'ㅂㅜㅌㅓ', label: '부터' },
-  { j: 'ㅇㅢ', label: '의' }
+/** 后面接了助词的词尾（먹기를、먹고요、해서는、먹기에는、먹어서인지）：先剥这些 */
+const AFTER_ENDING: { j: string; labels: string[] }[] = [
+  { j: 'ㅇㅛ', labels: ['요'] },
+  { j: 'ㄴㅡㄴ', labels: ['은/는'] },
+  { j: 'ㅇㅡㄴ', labels: ['은/는'] },
+  { j: 'ㄷㅗ', labels: ['도'] },
+  { j: 'ㅁㅏㄴ', labels: ['만'] },
+  { j: 'ㄹㅡㄹ', labels: ['을/를'] },
+  { j: 'ㅇㅡㄹ', labels: ['을/를'] },
+  { j: 'ㄱㅏ', labels: ['이/가'] },
+  { j: 'ㅇㅔ', labels: ['에'] },
+  { j: 'ㅇㅡㄹㅗ', labels: ['(으)로'] },
+  { j: 'ㄹㅗ', labels: ['(으)로'] },
+  { j: 'ㄲㅏㅈㅣ', labels: ['까지'] },
+  { j: 'ㅂㅜㅌㅓ', labels: ['부터'] },
+  { j: 'ㅇㅢ', labels: ['의'] },
+  { j: 'ㅇㅔㄴㅡㄴ', labels: ['에', '은/는'] },
+  { j: 'ㅇㅔㄷㅗ', labels: ['에', '도'] },
+  { j: 'ㄹㅗㄴㅡㄴ', labels: ['(으)로', '은/는'] },
+  { j: 'ㅇㅡㄹㅗㄴㅡㄴ', labels: ['(으)로', '은/는'] },
+  { j: 'ㄲㅏㅈㅣㄷㅗ', labels: ['까지', '도'] },
+  { j: 'ㅁㅏㄴㅇㅡㄴ', labels: ['만', '은/는'] },
+  { j: 'ㄷㅗㅇㅛ', labels: ['도', '요'] },
+  { j: 'ㄴㅡㄴㅇㅛ', labels: ['은/는', '요'] },
+  // 이다 接在 -아서/어서、-기 后面：먹어서인지、먹기 때문이다 那种另成语节，不在这里
+  { j: 'ㅇㅣㄴㅈㅣ', labels: ['이다', '-(으)ㄴ지'] },
+  { j: 'ㅇㅣㄹㄲㅏ', labels: ['이다', '-(으)ㄹ까'] },
+  { j: 'ㅇㅣㄹㄲㅏㅇㅛ', labels: ['이다', '-(으)ㄹ까요'] }
 ]
 
 /**
@@ -288,7 +300,11 @@ export function deinflectPredicate(word: string): PredAnalysis[] {
   consider(J, [], 0)
   for (const p of AFTER_ENDING)
     if (J.endsWith(p.j) && J.length > p.j.length + 2)
-      consider(J.slice(0, -p.j.length), ['p:' + p.label], 0.5)
+      consider(
+        J.slice(0, -p.j.length),
+        p.labels.map((l) => 'p:' + l),
+        0.5 + (p.labels.length - 1) * 0.2
+      )
   // 缩约：-기는 → -긴、-지는 → -진、-기를 → -길
   for (const [tail, full, label] of [
     ['ㄱㅣㄴ', 'ㄱㅣ', '은/는'],

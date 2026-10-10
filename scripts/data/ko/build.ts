@@ -21,7 +21,12 @@ import { classify, conjugate, type PredClass } from '../../../src/shared/lang/ko
 import { chainTags, deinflectPredicate } from '../../../src/shared/lang/ko/deinflect'
 import { decompose } from '../../../src/shared/lang/ko/hangul'
 import { analyses } from '../../../src/shared/lang/ko/lemma'
-import { romanize, romanizeFromPronunciation } from '../../../src/shared/lang/ko/pronounce'
+import { PRONOUN_FORMS } from '../../../src/shared/lang/ko/particles'
+import {
+  pronounce,
+  romanize,
+  romanizeFromPronunciation
+} from '../../../src/shared/lang/ko/pronounce'
 import { key, tokenize } from '../../../src/shared/lang/ko/rules'
 import {
   FREQ_SUBTITLES,
@@ -252,6 +257,9 @@ const NOUN_PARTICLES: [string, string, string][] = [
   ['보다', '보다', '보다'],
   ['처럼', '처럼', '처럼']
 ]
+
+/** 格助词 */
+const CASE_PARTICLES = new Set(['이/가', '은/는', '을/를'])
 
 /** 维基词典里只是别的词的变形、方言、旧写法的义项（학괴「학교 的方言」、몰라요「모르다 的活用」） */
 const NOT_A_WORD =
@@ -530,26 +538,69 @@ async function main(): Promise<void> {
   ranked.forEach((it, n) => (it.fr = n + 1))
   log(`词频：${freqTypes} 个语节对上了词条，${ranked.length} 个词条有词频`)
 
-  // 体词加助词跟谓词的变形同形（우리는 / 우리다、나는 / 나다）：这个写法也收进体词的变形表，
-  // 阅读器在变形表里对上几个词条时按词频挑，常用的代词、名词就不会被冷僻的动词抢走
-  // 本身就是另一个词头的（가만 是副词，不收成 가 + 만；파도 是名词，不收成 파 + 도）不加
+  // 同形的几种处理（阅读器先在 form 表里对整词，同一个键对上几个词条时按词频挑）：
+  // 1. 谓词的变形跟别的词的原形同形（그런데 / 그렇다、하지만 / 하다、아니 / 알다、높임 / 높이다）：
+  //    这个写法更可能是哪个：那个词按「整词就是它」（分数 0.1）、谓词按这个变形的还原分数，各乘先验比一比；
+  //    那个词占上风时，这个变形不进谓词的变形表（还原规则照样认得出），整词对上的就是那个词
+  const isPredItem = (it: Item): boolean => !!it.conj
+  const rankOf = (it: Item): number => it.fr ?? 1e6
+  let lexicalized = 0
+  for (const it of items) {
+    if (!isPredItem(it)) continue
+    it.forms = it.forms.filter(([form]) => {
+      const other = (lemmaIndex.get(key(form)) ?? [])
+        .map((i) => items[i])
+        .filter((o) => o !== it && !isPredItem(o) && o.p[0] !== 'affix')
+      if (!other.length) return true
+      const wOther = Math.max(...other.map((o) => Math.exp(-0.3) * prior(o)))
+      const mine = analyses(form)
+        .filter((a) => a.lemma === it.w)
+        .map((a) => a.score)
+      const s = mine.length ? Math.min(...mine) : 0.2
+      const keep = Math.exp(-3 * s) * prior(it) > wOther
+      if (!keep) lexicalized++
+      return keep
+    })
+  }
+  log(`谓词变形跟别的词同形、让给那个词的 ${lexicalized} 个`)
+  // 2. 体词加助词跟谓词的变形同形（우리는 / 우리다、나는 / 나다）：常用的体词（초급、중급或标准课程里的）
+  //    把这个写法也收进自己的变形表，按词频跟谓词比；本身是别的词头的（가만、파도）不加
+  // 3. 体词加助词跟别的词头同形（수가 / 수가、개가 / 개가 凯歌）：体词常用得多（词频名次差五倍以上）才加
   const predForms = new Set<string>()
   for (const it of items) if (it.conj) for (const f of it.forms) predForms.add(key(f[0]))
   let clash = 0
   for (const it of items) {
     if (!['noun', 'pron', 'num', 'propn'].includes(it.p[0]) || /[\s-]/.test(it.w)) continue
+    const common = it.kr?.level === '초급' || it.kr?.level === '중급' || !!it.lv.kstd
+    if (!common || it.w === '내' || it.w === '제' || it.w === '네') continue
     const coda = !!decompose(it.w.slice(-1))?.t
     for (const [c, v, label] of NOUN_PARTICLES) {
       // 나、저、너 的主格是 내가、제가、네가，「나가」是 나가다
       if (!coda && v === '가' && (it.w === '나' || it.w === '저' || it.w === '너')) continue
       const form = it.w + (coda ? c : v)
-      if (predForms.has(key(form)) && !lemmaIndex.has(key(form))) {
+      const k = key(form)
+      const others = lemmaIndex.get(k)
+      // 跟别的词头同形的只看格助词（이/가、은/는、을/를）：그만、때로、모처럼 这些副词不拆
+      const add = others
+        ? CASE_PARTICLES.has(label) && others.every((i) => rankOf(items[i]) >= rankOf(it) * 5)
+        : predForms.has(k)
+      if (add) {
         it.forms.push([form, label])
         clash++
       }
     }
   }
-  log(`体词加助词跟谓词变形同形的 ${clash} 个，收进体词的变形表`)
+  // 代词的特殊写法（내가、제가、누가、뭘……）也进代词的变形表：整词对上时跟 내가다 这类动词按词频比
+  for (const [form, [base, tags]] of Object.entries(PRONOUN_FORMS)) {
+    if (/\s/.test(base) || !tags.length) continue
+    for (const i of lemmaIndex.get(key(base)) ?? [])
+      if (['pron', 'noun'].includes(items[i].p[0])) {
+        items[i].forms.push([form, ...tags])
+        clash++
+        break
+      }
+  }
+  log(`体词加助词跟别的写法同形、收进体词变形表的 ${clash} 个`)
 
   // 5. 分级
   const byWord = new Map<string, Item[]>()
@@ -718,7 +769,13 @@ async function main(): Promise<void> {
     if (!senses.length || senses.every((s) => !s.en?.length && !s.zh?.length && !s.mono?.length))
       continue
     const pron = (it.kr?.pron ?? []).flatMap(cleanPron)
-    const ipa = [...new Set(it.kk.flatMap((k) => k.ipa))].slice(0, 2)
+    // 读音：第一项是기초사전的标准发音（韩文写，带长音记号：[학꾜]、[사ː람]），后面是维基词典的 IPA
+    const krPron = [
+      ...new Set((it.kr?.pron ?? []).flatMap((p) => p.split('/')).map((p) => p.trim()))
+    ]
+      .filter(Boolean)
+      .map((p) => `[${p}]`)
+    const ipa = [...krPron.slice(0, 2), ...new Set(it.kk.flatMap((k) => k.ipa))].slice(0, 3)
     const au = it.kk.flatMap((k) => k.audio).slice(0, 2)
     const isPred = !!it.conj
     const stemEnd = isPred ? [...it.w].length - 2 : undefined
@@ -731,12 +788,18 @@ async function main(): Promise<void> {
     const x: Record<string, unknown> = {}
     if (it.hanja) x.hanja = it.hanja
     if (it.origin) x.origin = it.origin
-    if (pron.length) x.pron = [...new Set(pron)]
     if (it.kr) x.krdict = it.kr.id
     const cls = [...clsLabels(it)]
     if (it.kr?.pos === '의존 명사' || it.kr?.pos === '보조 동사' || it.kr?.pos === '보조 형용사')
       cls.push(it.kr.pos)
     const forms = isPred ? trimForms(it, rich) : it.forms
+    // 变形的读音：写法跟读法不一样的才写（먹었어요 [머거써요]、먹고 [먹꼬]、먹는 [멍는]）
+    const fi: Record<string, string> = {}
+    if (isPred)
+      for (const [form] of forms ?? []) {
+        const p = pronounce(form, { stemEnd, sino: sinoLen })
+        if (p !== form) fi[form] = `[${p}]`
+      }
     const src = [
       it.kr ? 'krdict' : null,
       it.kk.length ? 'wiktionary' : null,
@@ -755,6 +818,7 @@ async function main(): Promise<void> {
         : {}),
       s: senses,
       ...(forms?.length ? { f: forms } : {}),
+      ...(Object.keys(fi).length ? { fi } : {}),
       ...(cls.length ? { cls } : {}),
       ...(Object.keys(it.lv).length ? { lv: it.lv } : {}),
       // 词缀、词尾不算词频（-점、큰- 不跟名词「점」、形容词「크다」抢）

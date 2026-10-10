@@ -33,6 +33,8 @@ interface Guess extends LemmaGuess {
 let copulaTable: {
   afterC: Map<string, string[]>
   afterV: Map<string, string[]>
+  /** afterV 里「이」整个省掉的（의사라고、가라고）：容易跟动词的活用撞（가다 → 가라고），分析时往后排 */
+  dropped: Set<string>
   anida: Map<string, string[]>
 } | null = null
 
@@ -54,6 +56,7 @@ function copulaForms(): NonNullable<typeof copulaTable> {
   const afterC = new Map<string, string[]>()
   const afterV = new Map<string, string[]>()
   const anida = new Map<string, string[]>()
+  const dropped = new Set<string>()
   const put = (m: Map<string, string[]>, k: string, chain: string[]): void => {
     if (!m.has(k)) m.set(k, chain)
   }
@@ -69,14 +72,17 @@ function copulaForms(): NonNullable<typeof copulaTable> {
         if (n && n.l === 'ㅇ' && (n.v === 'ㅓ' || n.v === 'ㅔ')) {
           // 이 + 어 → 여、이 + 에 → 예、이 + 었 → 였
           put(afterV, withPart(rest[0], { v: n.v === 'ㅓ' ? 'ㅕ' : 'ㅖ' }) + rest.slice(1), chain)
-        } else put(afterV, rest, chain)
+        } else if (!afterV.has(rest)) {
+          put(afterV, rest, chain)
+          dropped.add(rest)
+        }
       }
     }
     for (const f of conjugate('아니다', 'cop', chain)) put(anida, f, chain)
   }
   // 아냐（아니야 的缩约）
   anida.set('아냐', ['hae'])
-  copulaTable = { afterC, afterV, anida }
+  copulaTable = { afterC, afterV, dropped, anida }
   return copulaTable
 }
 
@@ -204,7 +210,10 @@ function analyzeWord(word: string): Guess[] {
       add(
         base,
         ['이다', ...chainTags(chain)],
-        0.45 + (ENDINGS.get(chain.at(-1)!)?.rank ?? 1) * 0.3 + (chain.length - 1) * 0.2
+        0.45 +
+          (ENDINGS.get(chain.at(-1)!)?.rank ?? 1) * 0.3 +
+          (chain.length - 1) * 0.2 +
+          (!hasCoda && cop.dropped.has(tail) ? 0.3 : 0)
       )
     // 口语里 이 + ㄴ/ㄹ/ㅁ 缩到前一个音节上：뭔지（뭐인지）、어딘지（어디인지）、누군데（누구인데）
     const s = decompose(base.slice(-1))
@@ -215,7 +224,7 @@ function analyzeWord(word: string): Guess[] {
         add(
           base.slice(0, -1) + withPart(base.slice(-1), { t: '' }),
           ['이다', ...chainTags(c2)],
-          0.75 + (ENDINGS.get(c2.at(-1)!)?.rank ?? 1) * 0.3
+          0.95 + (ENDINGS.get(c2.at(-1)!)?.rank ?? 1) * 0.3
         )
     }
   }
@@ -224,7 +233,9 @@ function analyzeWord(word: string): Guess[] {
   for (const sp of splitParticles(word)) {
     const tags = sp.particles.map((p) => p.label)
     const pscore = sp.particles.reduce((s, p) => s + p.rank * 0.4 + 0.1, 0)
-    add(sp.base, tags, (PRONOUNS.has(sp.base) ? 0.05 : 0.3) + pscore + (sp.coda ? 0.4 : 0))
+    // 以「다」结尾的当体词（가볍다 + 는）多半是谓词的引语形（가볍다는 = -다는），往后排
+    const daPen = sp.base.endsWith('다') ? 0.5 : 0
+    add(sp.base, tags, (PRONOUNS.has(sp.base) ? 0.05 : 0.3) + pscore + (sp.coda ? 0.4 : 0) + daPen)
     // 代词特殊写法后面再接助词：제가요、내가요
     const pr2 = PRONOUN_FORMS[sp.base]
     if (pr2) add(pr2[0], [...pr2[1], ...tags], 0.2 + pscore)
@@ -267,11 +278,21 @@ export function lemmaCandidates(surface: string): LemmaGuess[] {
   const seen = new Set<string>()
   const out: LemmaGuess[] = []
   for (const g of guesses) {
-    if (seen.has(g.lemma)) continue
-    seen.add(g.lemma)
+    // 同一个原形，体词式的分析（接助词）与谓词式的（接词尾）各留一种：查词时按词条的词性挑（见 rules.guessFits）
+    const k = g.lemma + '|' + (isPredicateTags(g.tags) ? 'p' : 'n')
+    if (seen.has(k)) continue
+    seen.add(k)
     out.push({ lemma: g.lemma, tags: g.tags })
   }
   return out
+}
+
+/** 黏在体词后面的后缀（标签也带连字符，但不是词尾） */
+const NOMINAL_SUFFIX = new Set(['-들', '-쯤', '-씩', '-째'])
+
+/** 这组标签是谓词的（第一个是词尾 -아요/어요……）还是体词的（助词、이다、后缀） */
+export function isPredicateTags(tags: string[]): boolean {
+  return !!tags[0]?.startsWith('-') && !NOMINAL_SUFFIX.has(tags[0])
 }
 
 /** 给测试与数据管线：带分数的分析（同一原形可能有几种） */
