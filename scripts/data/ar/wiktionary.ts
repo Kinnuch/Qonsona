@@ -308,12 +308,19 @@ export function mergeCells(cells: Cell[]): Cell[] {
   return out
 }
 
-/** 词头模板 ar-verb 的参数：「I/a~u.pass.vn:…」→ 派生式 I、元音 a~u */
-function verbInfo(args: Record<string, string> | undefined): { form?: string; vowels?: string } {
+/** 罗马数字写的派生式（I–XV，四母动词加 q） */
+const VERB_FORM_RE = /^(?:XV|XIV|XIII|XII|XI|X|IX|VIII|VII|VI|V|IV|III|II|I)q?$/
+
+/** 词头模板 ar-verb 的参数：「I/a~u.pass.vn:…」「II.pass」「كتب<I/a~u>」→ 派生式、第一式的元音 */
+export function verbInfo(args: Record<string, string> | undefined): {
+  form?: string
+  vowels?: string
+} {
   const a = args?.['1'] ?? ''
-  const m =
-    /(?:^|<)((?:I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII|XIII|XIV|XV)q?)(?:\/([aiu])~([aiu]))?/.exec(a)
-  return m ? { form: m[1], vowels: m[2] ? `${m[2]}~${m[3]}` : undefined } : {}
+  // 罗马数字整段取下来再核对（不能用「I|II|…」的选择式：先对上 I 就停了，II、IV 都会被当成 I）
+  const m = /(?:^|<)([IVX]+q?)(?:\/([aiu])~([aiu]))?/.exec(a)
+  if (!m || !VERB_FORM_RE.test(m[1])) return {}
+  return { form: m[1], vowels: m[2] ? `${m[2]}~${m[3]}` : undefined }
 }
 
 /** 一个记录 → 词条（或 alt-of / form-of 的转向，或不要） */

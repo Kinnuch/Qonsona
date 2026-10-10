@@ -2,7 +2,7 @@
  * 阿拉伯语数据管线里的纯函数：变形表的合并、词根的写法、繁简与中文释义的清理、词形归到词条（词频）。
  */
 import { describe, expect, it } from 'vitest'
-import { mergeCells, normalizeRoot } from '../../../scripts/data/ar/wiktionary'
+import { mergeCells, normalizeRoot, verbInfo } from '../../../scripts/data/ar/wiktionary'
 import { simplifiedOf } from '../../../scripts/data/ar/translations'
 import { cleanZhGloss } from '../../../scripts/data/ar/zh'
 import { FormIndex, allocate, analyseCorpus, headwordEvidence } from '../../../scripts/data/ar/freq'
@@ -24,6 +24,16 @@ describe('维基词典解析', () => {
     expect(cells).toContainEqual(['أَكْتُبُ', ['first-person', 'singular']])
     expect(cells).toContainEqual(['مُسْتَشْفًى', ['indefinite', 'singular']])
     expect(cells).toHaveLength(3)
+  })
+  it('词头模板的派生式：II、IV、VIII 不会被当成 I、V', () => {
+    expect(verbInfo({ '1': 'I/a~u.pass.vn:كِتَابَة' })).toEqual({ form: 'I', vowels: 'a~u' })
+    expect(verbInfo({ '1': 'II.pass' })).toEqual({ form: 'II', vowels: undefined })
+    expect(verbInfo({ '1': 'IV' }).form).toBe('IV')
+    expect(verbInfo({ '1': 'VIII.ipass' }).form).toBe('VIII')
+    expect(verbInfo({ '1': 'X.pass' }).form).toBe('X')
+    expect(verbInfo({ '1': 'Iq' }).form).toBe('Iq')
+    expect(verbInfo({ '1': 'كتب<I/a~u>' })).toEqual({ form: 'I', vowels: 'a~u' })
+    expect(verbInfo({ '1': 'IIII' })).toEqual({})
   })
   it('词根写成用空格隔开的字母', () => {
     expect(normalizeRoot('ك ت ب')).toBe('ك ت ب')
