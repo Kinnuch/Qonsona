@@ -11,7 +11,7 @@ import { LexDbWriter } from '../../scripts/lang/lexdb-writer'
 import { LexDb } from '../../src/main/lang/lexdb'
 import { LANGS } from '../../src/shared/lang/registry'
 import { cefrSystem } from '../../src/shared/lang/levels'
-import { defaultKey, foldWithMap, stripMarks } from '../../src/shared/lang/text'
+import { defaultKey, foldWithMap, segmentSentences, stripMarks } from '../../src/shared/lang/text'
 import type { LangCode, LangModule } from '../../src/shared/lang/types'
 
 const CODE = 'zy' as LangCode
@@ -81,6 +81,22 @@ beforeAll(() => {
   })
   ids.domaAdv = w.entry({ w: 'дома', p: ['adv'], s: [{ en: ['at home'], zh: ['在家'] }], fr: 50 })
   ids.stal = w.entry({ w: 'сталь', p: ['noun'], s: [{ en: ['steel'] }], fr: 900 })
+  // 大小写不同的同形词：US 少用、us 常用
+  ids.US = w.entry({ w: 'US', p: ['abbr'], s: [{ en: ['United States'], zh: ['美国'] }], fr: 500 })
+  ids.us = w.entry({ w: 'us', p: ['pron'], s: [{ en: ['we'], zh: ['我们'] }], fr: 20 })
+  // 中文反查：常用的那个第一条中文不是「放弃」，少用的那个第一条就是
+  ids.leave = w.entry({
+    w: 'уйти',
+    p: ['verb'],
+    s: [{ en: ['to leave'], zh: ['离开；放弃'] }],
+    fr: 30
+  })
+  ids.abandon = w.entry({
+    w: 'бросить',
+    p: ['verb'],
+    s: [{ en: ['to abandon'], zh: ['放弃；抛弃'] }],
+    fr: 800
+  })
   w.finish()
   db = new LexDb(CODE, file)
 })
@@ -115,6 +131,29 @@ describe('同形词', () => {
     // 同一词条的另一种标签进 alt，不进 others
     expect(h.alt?.length).toBe(1)
     expect(db.lookup('сталь')?.others).toBeUndefined()
+  })
+})
+
+describe('查词排序', () => {
+  it('大小写完全一样的在前', () => {
+    expect(db.search('US').hits[0].id).toBe(ids.US)
+    expect(db.search('us').hits[0].id).toBe(ids.us)
+  })
+  it('中文反查：第一条中文释义正好是查的词的在前', () => {
+    const hits = db.search('放弃').hits.map((h) => h.id)
+    expect(hits.slice(0, 2)).toEqual([ids.abandon, ids.leave])
+  })
+})
+
+describe('分句', () => {
+  it('前一句停在缩写上（noBreakAfter）就不断开', () => {
+    const text = 'Mr. Smith met Dr. Jones. They talked.'
+    const plain = segmentSentences(text, 'en').map((r) => text.slice(r.start, r.end))
+    const keep = segmentSentences(text, 'en', /\b(?:Mr|Dr)\.$/).map((r) =>
+      text.slice(r.start, r.end)
+    )
+    expect(keep).toEqual(['Mr. Smith met Dr. Jones.', 'They talked.'])
+    expect(plain.length).toBeGreaterThanOrEqual(keep.length)
   })
 })
 

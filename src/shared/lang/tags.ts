@@ -182,7 +182,9 @@ export const TAG_LABELS: Record<string, Label> = {
   poetic: { zh: '诗歌', en: 'poetic' },
   Internet: { zh: '网络用语', en: 'Internet' },
   childish: { zh: '儿语', en: 'childish' },
-  Soviet: { zh: '苏联时期', en: 'Soviet' }
+  Soviet: { zh: '苏联时期', en: 'Soviet' },
+  adverb: { zh: '副词形', en: 'adverb' },
+  compound: { zh: '复合词', en: 'compound' }
 }
 
 /** 几个标签合起来另有叫法的（副动词 = adverbial + participle）：合起来显示一个 */

@@ -278,7 +278,14 @@ export default {
         vn: '动名词',
         vnOf: '是这个动词的动名词',
         ipaDialects: '方言读音',
-        formIpa: '变形的读音'
+        formIpa: '变形的读音',
+        ipaUk: '英式读音',
+        ipaUs: '美式读音',
+        weak: '弱读',
+        var: '另一种拼写',
+        cefrPos: '各词性的等级',
+        exp: '完整形式',
+        of: '是这个词的变形'
       },
       extraHelp: {
         stress:

@@ -284,7 +284,14 @@ export default {
         vn: 'Verbal noun',
         vnOf: 'Verbal noun of',
         ipaDialects: 'Dialect pronunciations',
-        formIpa: 'Pronunciation of forms'
+        formIpa: 'Pronunciation of forms',
+        ipaUk: 'British',
+        ipaUs: 'American',
+        weak: 'Weak form',
+        var: 'Other spelling',
+        cefrPos: 'Level by part of speech',
+        exp: 'Full form',
+        of: 'Inflected form of'
       },
       extraHelp: {
         stress:

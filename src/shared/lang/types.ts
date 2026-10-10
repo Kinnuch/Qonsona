@@ -238,6 +238,11 @@ export interface LangRules {
    * 不用拉丁字母的语言才写；查词时原样查不到或结果很少时再按它查
    */
   fromLatin?(text: string): string[]
+  /**
+   * 分句时，前一句的末尾对上这个正则就不在这里断开（英语 Mr.、U.S.、e.g.，俄语 т. е.、г.）。
+   * 默认分句用 Intl.Segmenter，遇到缩写的点常会断错
+   */
+  noBreakAfter?: RegExp
 }
 
 // ───────────────────────── 语言说明（学习包的描述） ─────────────────────────

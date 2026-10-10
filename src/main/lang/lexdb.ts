@@ -233,10 +233,29 @@ export class LexDb {
 
     const ids = [...found.keys()]
     const rows = this.#rows(ids)
+    // 中文反查：第一条中文释义正好是查的词的在前，其次是第一个义项里有这一说的（查「放弃」先出 abandon）
+    const han = /\p{Script=Han}/u.test(q)
+    const zhRank = new Map<number, number>()
+    if (han)
+      for (const r of rows) {
+        if (found.get(r.id)!.match !== 'gloss') continue
+        const zh = unpackEntry(r.data).s.find((s) => s.zh?.length)?.zh ?? []
+        const parts = zh.flatMap((g) =>
+          g.split(/[；;，,、]/).map((x) => x.replace(/[（(][^）)]*[）)]/g, '').trim())
+        )
+        zhRank.set(r.id, parts[0] === q ? 0 : parts.includes(q) ? 1 : 2)
+      }
     rows.sort((a, b) => {
       const ma = ORDER.indexOf(found.get(a.id)!.match)
       const mb = ORDER.indexOf(found.get(b.id)!.match)
       if (ma !== mb) return ma - mb
+      // 大小写完全一样的在前（US 与 us、May 与 may）
+      const ca = Number(a.w !== q)
+      const cb = Number(b.w !== q)
+      if (ca !== cb) return ca - cb
+      const za = zhRank.get(a.id) ?? 2
+      const zb = zhRank.get(b.id) ?? 2
+      if (za !== zb) return za - zb
       return (a.fr ?? 1e9) - (b.fr ?? 1e9) || a.w.length - b.w.length
     })
     const hits: LexHit[] = rows.slice(0, limit).map((r) => {

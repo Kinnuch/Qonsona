@@ -41,7 +41,7 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
   const sentences: LexSentence[] = []
   const levels: string[] = []
 
-  for (const range of segmentSentences(text, locale)) {
+  for (const range of segmentSentences(text, locale, rules.noBreakAfter)) {
     const slice = text.slice(range.start, range.end)
     const raws = (rules.tokenize?.(slice) ?? segmentWords(slice, locale)).map((r) => ({
       ...r,

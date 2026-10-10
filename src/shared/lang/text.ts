@@ -78,7 +78,11 @@ export interface SentenceRange {
 }
 
 /** 分句：Intl.Segmenter 按句切，空行另起一段；每句去掉首尾空白 */
-export function segmentSentences(text: string, locale: string): SentenceRange[] {
+export function segmentSentences(
+  text: string,
+  locale: string,
+  noBreakAfter?: RegExp
+): SentenceRange[] {
   const out: SentenceRange[] = []
   let para = 0
   let pos = 0
@@ -95,7 +99,16 @@ export function segmentSentences(text: string, locale: string): SentenceRange[] 
       const body = raw.trim()
       if (!body) continue
       const start = blockStart + seg.index + lead
-      out.push({ start, end: start + body.length, para })
+      const prev = out[out.length - 1]
+      // 前一句停在缩写上（Mr.、т. е.）：并进前一句
+      if (
+        noBreakAfter &&
+        prev &&
+        prev.para === para &&
+        noBreakAfter.test(text.slice(prev.start, prev.end))
+      )
+        prev.end = start + body.length
+      else out.push({ start, end: start + body.length, para })
     }
     // 一行一段（诗、对话）；连着的几行算同一段由各语言自己决定，这里每个换行都分段
     if (out.length && out[out.length - 1].para === para) para++
