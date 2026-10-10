@@ -1,0 +1,307 @@
+# 虚词的中文释义（本软件自编，CC0）
+#
+# 冠词、代词、介词、连词这些最常用的词，维基词典的中文多是语法说明、还混着别的词性，自动对到义项上容易错，
+# 这里逐个义项手写。列在这里的词条，自动对出的中文全部不用：没写到的义项就不给中文，宁缺毋滥。
+#
+# 一行：词 | 词性 | 英文义项的开头（照英文维基词典的释义，大小写不论；对不上时建库会报出来） | 中文（几个说法用；隔开）
+
+# ───────── 冠词 ─────────
+le | det | the (definite article) | 定冠词（阳性单数，多不译出）；这个；那个
+le | det | the; my, your | （用于身体部位等）相当于「我的」「你的」
+le | det | a, an, per | 每（un euro le kilo 每公斤一欧元）
+le | det | on | （用于星期、日期前）在；每逢（le lundi 每逢星期一）
+la | det | feminine of le | 定冠词（阴性单数，多不译出）；这个；那个
+les | det | plural of le | 定冠词（复数，多不译出）；这些；那些
+les | det | plural of la | 定冠词（复数，多不译出）；这些；那些
+l' | det | apocopic form of le, la | 定冠词 le、la 在元音或哑音 h 前的省音形式
+l' | det | apocopic form of le: | 定冠词 le 的省音形式（口语）
+un | det | an, a | 一个（阳性单数不定冠词）
+une | det | feminine singular of un | 一个（阴性单数不定冠词）
+des | det | plural of un | 一些；几个（复数不定冠词，多不译出）
+des | det | plural of une | 一些；几个（复数不定冠词）
+des | det | plural of du | 一些（复数部分冠词）
+des | det | plural of de la | 一些（复数部分冠词）
+des | det | plural of de l' | 一些（复数部分冠词）
+des | det | contraction of de + les | de 与 les 的缩合：……的；从……
+du | det | contraction of de + le | de 与 le 的缩合：……的；从……
+du | det | Forms the partitive article | 一些；若干（阳性部分冠词：du pain 一些面包）
+de la | det | of the | de 加定冠词 la：……的；从……
+de la | det | some; the feminine partitive | 一些；若干（阴性部分冠词：de la confiture 一些果酱）
+de l' | det | some; the singular prevocalic | 一些；若干（元音前的部分冠词：de l'eau 一些水）
+au | det | contraction of à + le | à 与 le 的缩合：到；在；向（au cinéma 去电影院）
+aux | det | Contraction of à + les | à 与 les 的缩合：到；在；向；给
+
+# ───────── 指示词 ─────────
+ce | det | this, that | 这；这个；那个（阳性单数）
+cet | det | this | 这；这个；那个（阳性单数，用于元音或哑音 h 前）
+cette | det | feminine singular of ce | 这；这个；那个（阴性单数）
+ces | det | masculine/feminine plural of ce | 这些；那些
+ce | pron | it, this, that | 这；那（作 être 的主语：c'est 这是）
+ce | pron | he, she, it, they | 他；她；它；他们（在 c'est、ce sont 里指人或物）
+ce | pron | it | 它；这
+c' | pron | apocopic form of ce | 这；那（ce 在元音前的省音形式：c'est 这是）
+ça | pron | that (distal | 那；那个
+ça | pron | this (proximal | 这；这个
+ça | pron | it (alternative form of ce | 这；它（代替 ce 作主语：ça a été 一切顺利吗）
+ça | pron | it (dummy pronoun) | （口语中的形式主语：ça va 还好）
+ça | pron | what | 什么
+cela | pron | that | 那；那个；这件事
+celui | pron | the one | 那个（阳性单数指示代词：celui de Paul 保罗的那个）
+celles | pron | feminine plural of celui | 那些（阴性复数指示代词）
+ce que | pron | what (relative pronoun - direct | ……的东西；……的事（作宾语：ce que je veux 我想要的）
+ce que | pron | what (in indirect questions) | 什么（间接问句：je sais ce que tu penses 我知道你在想什么）
+ce qui | pron | what (that which | ……的东西；……的事（作主语：ce qui compte 重要的事）
+ce qui | pron | what (in indirect questions, subject) | 什么（间接问句，作主语）
+
+# ───────── 物主限定词 ─────────
+mon | det | my | 我的（阳性单数，元音前也用）
+ma | det | feminine singular of mon | 我的（阴性单数）
+mes | det | my | 我的（复数）
+ton | det | your | 你的（阳性单数，元音前也用）
+ta | det | your | 你的（阴性单数）
+tes | det | your | 你的（复数）
+son | det | his, her, their, its | 他的；她的；它的（阳性单数，元音前也用）
+sa | det | his, her, its | 他的；她的；它的（阴性单数）
+ses | det | his, her, its | 他的；她的；它的（复数）
+notre | det | our | 我们的（单数）
+nos | det | plural of notre | 我们的（复数）
+votre | det | your, belonging to you | 你们的；您的（单数）
+vos | det | plural of votre | 你们的；您的（复数）
+leur | det | their | 他们的；她们的；它们的（单数）
+leurs | det | plural of leur | 他们的；她们的；它们的（复数）
+
+# ───────── 人称代词 ─────────
+je | pron | I | 我
+j' | pron | clitic form of je | 我（je 在元音前的省音形式：j'ai 我有）
+tu | pron | you (singular) | 你
+il | pron | he (third-person | 他
+il | pron | it (third-person | 它（指阳性名词）
+il | pron | Impersonal subject | （无人称句的形式主语，不译：il pleut 下雨了）
+elle | pron | she | 她
+elle | pron | it (feminine | 它（指阴性名词）
+on | pron | one, people, you | 人们；有人；大家
+on | pron | we | 我们（口语）
+nous | pron | we | 我们
+nous | pron | us, to us | 我们；给我们（宾语）
+nous | pron | we (as the royal | 朕；本人（帝王、作者的自称）
+vous | pron | you (all) | 你们；您
+vous | pron | you, to you | 你们；您；给你们；给您（宾语）
+vous | pron | plural or singular personal | 你们；您
+ils | pron | they (male or mixed | 他们；它们
+ils | pron | they (female) | 她们（口语）
+elles | pron | they (female) | 她们；它们（指阴性名词）
+le | pron | him, her, it, them | 他；它（阳性单数直接宾语）
+le | pron | replaces the argument of a copular verb | 这一点；这样（中性代词，代替表语或整句：je le sais 我知道这件事）
+la | pron | her, it (direct object) | 她；它（阴性单数直接宾语）
+les | pron | plural of le: them | 他们；她们；它们（复数直接宾语）
+les | pron | plural of la: them | 她们；它们（复数直接宾语）
+l' | pron | apocopic form of le, la | 他；她；它（le、la 在元音前的省音形式，作直接宾语）
+l' | pron | apocopic form of le: | 他；它（le 的省音形式，口语）
+s' | pron | Elision of se | 自己；互相（se 在元音前的省音形式：il s'appelle 他叫……）
+me | pron | me (direct object) | 我（直接宾语）
+me | pron | me (indirect object) | 我；给我（间接宾语）
+m' | pron | prevocalic form of me | 我；给我（me 在元音前的省音形式）
+m' | pron | prevocalic form of moi | 我（moi 在元音前的省音形式）
+te | pron | you | 你；给你（宾语）
+te | pron | yourself | 你自己
+t' | pron | elided form of te | 你；给你（te 在元音前的省音形式）
+t' | pron | elided form of tu | 你（口语里 tu 的省音形式）
+se | pron | himself | 他自己；自己
+se | pron | herself | 她自己；自己
+se | pron | oneself | 自己
+se | pron | itself | 它自己；自己
+se | pron | themselves | 他们自己；自己
+se | pron | each other | 互相；彼此
+moi | pron | me (first-person singular disjunctive | 我（重读形式：moi aussi 我也是）
+moi | pron | me (first-person singular object pronoun of imperative | 我（用于肯定命令式：donne-moi 给我）
+toi | pron | you (informal | 你（重读形式）
+toi | pron | yourself | 你自己（用于肯定命令式：assieds-toi 坐下）
+lui | pron | him, he, it; | 他；它（重读形式，用在介词后等）
+lui | pron | him, her; the third | 他；她；给他；给她（间接宾语）
+leur | pron | (to) them | 他们；她们；给他们（间接宾语）
+eux | pron | disjunctive form of ils | 他们；它们（重读形式）
+y | pron | there (at a place) | 在那里
+y | pron | there, thither | 到那里；去那里
+y | pron | Used as a pronoun to replace an adverbial phrase starting with à | 代替 à 引出的补语（j'y pense 我在想这件事）
+en | pron | Used as the object of a verb to indicate an indefinite quantity | 其中的；一些；关于这个（代替 de 引出的补语：j'en veux 我要一些）
+en | pron | Adverbial preposition indicating movement away | 从那里（j'en viens 我从那里来）
+
+# ───────── 疑问词、关系词 ─────────
+que | pron | The inanimate direct-object or predicative interrogative | 什么（疑问代词：que fais-tu ? 你在做什么？）
+que | pron | The inanimate subject interrogative pronoun in impersonal | 什么（que se passe-t-il ? 发生了什么？）
+que | pron | The inanimate subject interrogative pronoun. | 什么
+que | pron | The direct object relative pronoun | ……的（关系代词，作宾语：le livre que je lis 我在读的书）
+que | sconj | that (introduces | （引导从句，多不译出：je pense qu'il viendra 我想他会来）
+que | sconj | when, no sooner | 刚……就……
+que | sconj | than | 比（plus grand que 比……大）
+que | sconj | as | 和……一样（aussi grand que 和……一样大）
+que | sconj | only, just; but | 只；仅仅（ne ... que：je n'ai que dix euros 我只有十欧元）
+que | sconj | how (in rhetorical | 多么（que c'est beau ! 多美啊！）
+qu' | pron | apocopic form of que | 什么（que 在元音前的省音形式）
+qu' | sconj | apocopic form of que | que 在元音前的省音形式：（引导从句）；比；只
+qu' | sconj | apocopic form of qui | qui 的省音形式（口语）
+qui | pron | who, whom | 谁
+qui | pron | who, which, that | ……的（关系代词，作主语：l'homme qui parle 说话的那个人）
+qui | pron | whom (after a preposition) | 谁；……的人（用在介词后：à qui 给谁）
+qui | pron | he who | 凡是……的人
+quoi | pron | what | 什么
+dont | pron | of/from whom/which | ……的（关系代词，代替 de + 先行词：le livre dont je parle 我说的那本书）
+dont | pron | by which | 借以……的
+dont | pron | Denotes a part of a set | 其中（包括）
+où | adv | where (interrogative) | 哪里；哪儿
+où | adv | where (relative | ……的地方（关系副词：la ville où j'habite 我住的城市）
+où | adv | at that time; when | ……的时候（le jour où 那天）
+où | adv | whither, to where | 到哪里；往哪儿
+lequel | pron | which, that, whom | 哪个；（关系代词，用在介词后）那个
+lequel | pron | which one | 哪一个
+laquelle | pron | feminine singular of lequel | 哪一个；那个（阴性单数）
+lesquels | pron | which ones | 哪些
+quoi que | pron | whatever | 无论什么
+
+# ───────── 否定、副词 ─────────
+n' | other | Prevocalic form of ne | 不（ne 在元音前的省音形式：je n'ai pas 我没有）
+pas | adv | The most common adverb of negation | 不；没有（跟 ne 连用：je ne sais pas 我不知道）
+pas | adv | used as an intensifier | （用于反问，加强语气）
+si | adv | so, such (intensifier) | 那么；如此
+si | adv | however (to whatever extent | 无论多么
+mieux | adv | more, -er | 更好；比较好
+mal | adv | badly | 不好；坏；糟糕地
+près | adv | near | 近；附近
+là-haut | adv | up there | 在上面；在那上头
+même pas | adv | not even | 甚至不；连……都不
+même pas | intj | no, not even | 才不呢；连……都没有
+du tout | intj | not at all | 一点也不；根本不
+tout à fait | intj | certainly, definitely | 完全正确；当然
+eh | intj | signifying indifference or surprise | 嗯；嘿；哎（表示惊讶或不在意）
+tiens | intj | used to show uncertainty | 嗯，你知道（口语）
+tiens | intj | used to show surprise | 咦；哟（表示惊讶）
+tiens | intj | used to show emphasis | （加强语气）
+tiens | intj | said when giving something | 给你；拿着
+je ne sais pas | phrase | I don't know | 我不知道
+
+# ───────── 介词 ─────────
+à | adp | to (destination) | 到；去（aller à Paris 去巴黎）
+à | adp | at, in, on (said of a particular place) | 在（à la maison 在家）
+à | adp | at (said of a particular time) | 在（某个时刻：à midi 在中午）
+à | adp | to (until) | 到……为止（de 9 h à 17 h 从九点到十七点）
+à | adp | on the, to (some directions) | 在……边（à gauche 在左边）
+à | adp | from (origin) | 从；向（emprunter à 向……借）
+à | adp | of (belonging to) | 属于；……的（c'est à moi 这是我的）
+à | adp | by | 按；以（à la main 用手）
+à | adp | to (used to express something not completed) | 要……的；待……的（une maison à vendre 待售的房子）
+à | adp | used to make compound nouns to state what something is used for | 用来……的（une tasse à café 咖啡杯）
+à | adp | used to describe a part of something | 带有……的（une fille aux yeux bleus 蓝眼睛的女孩）
+à | adp | or, to (used to express an approximate number) | ……到……（cinq à six 五六个）
+à | adp | used to indicate the recipient | 给；对（donner à quelqu'un 给某人）
+à | adp | with; (cooking) | 加……的（tarte aux pommes 苹果挞）
+à | adp | till, until (used in farewells) | ……见（à demain 明天见）
+à | adp | found in various interjections | （用于呼喊、警告：au secours ! 救命！）
+de | adp | from (used to indicate origin) | 从；来自（venir de Chine 来自中国）
+de | adp | of (indicates possession | ……的（le livre de Paul 保罗的书）
+de | adp | of (used to indicate cause) | 因为；由于（mourir de faim 饿死）
+de | adp | of (indicates an amount) | （表示数量）（un kilo de pommes 一公斤苹果）
+de | adp | used attributively | （构成名词修饰语：une salle de classe 教室）
+de | adp | from (used to indicate the start of a time | 从（de 9 h à 17 h 从九点到十七点）
+de | adp | by (an amount) | 相差（plus âgé de deux ans 大两岁）
+de | adp | introduces the indirect object | （引出某些动词的间接宾语：parler de 谈论）
+de | adp | after certain verbs | （引出某些动词后的不定式：décider de partir 决定离开）
+de | adp | after certain adjectives | （引出某些形容词的补语：content de 对……满意）
+d' | adp | apocopic form of de | de 在元音前的省音形式：……的；从
+dans | adp | in, inside | 在……里；在……中
+dans | adp | to (indicates direction | 到……（某些大的行政区）
+dans | adp | in, within (a longer period | ……以后（dans deux jours 两天后）
+dans | adp | during | 在……期间
+dans | adp | out of, from | 从……（boire dans un verre 用杯子喝）
+en | adp | in (used to indicate space | 在（en France 在法国）
+en | adp | to (indicates direction | 到；去（aller en France 去法国）
+en | adp | by (used to indicate means) | 乘；坐（en train 坐火车）
+en | adp | as | 作为；以……身份
+en | adp | at (used to describe an ability) | 在……方面（fort en maths 数学好）
+en | adp | of, made of | ……做的（en bois 木制的）
+en | adp | in (during the following time | 在（年、月、季节：en 2026、en été）
+en | adp | while | 一边……一边……（跟现在分词构成副动词：en marchant 走着）
+en | adp | by, in (describing a way | 以……方式
+en | adp | in (used to describe color) | ……色的；穿……色（en rouge 穿红色）
+en | adp | in (used to describe feelings) | 处于……状态（en colère 生气）
+en | adp | in (as part of something) | 作为……的一部分
+sur | adp | on, upon | 在……上
+sur | adp | on top of | 在……上面
+sur | adp | about, concerning | 关于
+sur | adp | out of | ……之中（un sur dix 十个里有一个）
+par | adp | through | 通过；经由
+par | adp | by (used to introduce a means | 由；被（被动句的施动者）；用
+par | adp | per, a, an | 每（une fois par jour 每天一次）
+pour | adp | for (meant for | 为了；给
+pour | adp | for (in support of) | 支持；赞成
+pour | adp | for (an intended destination) | 去往（le train pour Lyon 开往里昂的火车）
+pour | adp | to (to bring about | 为了（加不定式：pour apprendre 为了学习）
+pour | adp | for, to (according to) | 对……来说
+avec | adp | with | 和；跟；用
+sans | adp | without (not having) | 没有；无
+sans | adp | without (not doing | 不……（sans parler 不说话）
+sous | adp | below, under | 在……下面
+chez | adp | to, at, in or into the place of | 在……家；到……家（chez moi 在我家）
+chez | adp | by extension, to, at or in the country of | 在……国家；在……那里
+chez | adp | in; among | 在……身上；在……中间
+chez | adp | in the work of | 在……的作品中
+vers | adp | towards | 朝；向
+vers | adp | to | 朝；向
+vers | adp | around, circa | 大约在……前后（vers midi 中午前后）
+entre | adp | between | 在……之间
+entre | adp | among | 在……之中
+depuis | adp | since | 自从
+depuis | adp | since, ever since | 自从
+depuis | adp | for ~ | （已经）……了（depuis deux ans 已经两年了）
+pendant | adp | during | 在……期间
+avant | adp | before (in time) | 在……之前
+avant | adp | before (in space) | 在……前面
+après | adp | after, later than | 在……之后
+dès | adp | from […] onward | 从……起；一……就
+hors | adp | outside, out of | 在……之外
+hors | adp | apart from | 除了
+parce | adp | only used in parce que | （只用在 parce que 里：因为）
+à côté | adp | beside, next to | 在旁边
+à côté | adp | next door | 隔壁
+à la | adp | a la, in the style | ……式的（à la française 法国式的）
+voilà | adp | it has been, ago | 已经……了（voilà deux ans 已经两年了）
+voici | adp | ago | ……以前
+il y a | adp | ago | ……以前（il y a deux ans 两年前）
+
+# ───────── 连词 ─────────
+et | cconj | and | 和；与；并且
+ou | cconj | or | 或者；还是
+ou | cconj | either...or | 或者……或者……；要么……要么……
+mais | cconj | but | 但是；可是
+car | cconj | as, since, because | 因为
+or | cconj | yet, however | 然而；可是
+puis | cconj | and | 然后；接着
+ni | cconj | neither; nor | 也不；既不……也不……（跟 ne 连用）
+si | sconj | if, whether | 如果；是否
+si | sconj | if (assuming that) | 如果；假如
+si | sconj | even if | 即使
+si | sconj | although, while | 虽然；尽管
+s' | sconj | Elision of si | 如果（si 在 il、ils 前的省音形式）
+comme | sconj | as (in the role of | 作为
+comme | sconj | like, as | 像；如同
+comme | sconj | such as | 例如；比如
+comme | sconj | how | 多么（comme c'est beau ! 多美啊！）
+comme | sconj | because, as, since | 因为；由于
+quand | sconj | when (at the time that) | 当……的时候
+quand | sconj | whenever | 每当
+lorsqu' | sconj | apocopic form of lorsque | 当……的时候（lorsque 在元音前的省音形式）
+pas que | sconj | not that | 不是说……
+une fois | sconj | once, as soon as | 一旦；……之后
+est-ce que | part | Used to introduce a yes-or-no question | ……吗（引导一般疑问句：est-ce que tu viens ? 你来吗？）
+est-ce que | part | Used after a preposed interrogative | （放在疑问词后：où est-ce que tu vas ? 你去哪儿？）
+
+# ───────── 限定词、不定代词 ─────────
+quelque | det | some (singular) | 某个；一些
+tout | det | all | 所有的；整个的
+toute | det | feminine singular of tout | 所有的；整个的（阴性单数）
+aucun | det | no, none, not any | 没有任何（跟 ne 连用）
+aucune | det | feminine singular of aucun | 没有任何（阴性，跟 ne 连用）
+autre | pron | another | 另一个；别人
+un autre | det | another, a different | 另一个；别的
+un autre | det | another one | 另一个
+une autre | det | feminine of un autre | 另一个（阴性）
+d'autres | det | plural of un autre | 别的；另一些

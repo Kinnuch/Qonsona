@@ -1,0 +1,61 @@
+# A1、A2 核心词（本软件自编，CC0）
+#
+# 按 DELF A1、A2 考的话题手挑：问候、自我介绍、数字、时间、家庭、身体、颜色、饮食、衣物、住房、城市、交通、
+# 学校、职业、天气、休闲、购物、健康、旅行……这些词在字幕、书籍里不一定常见（stylo、cahier、gomme、mardi），
+# 只按词频切会被分到 B1、B2，所以单列；建库时取「词频算出的级」和「这里的级」里容易的那个。
+#
+# 一行：等级 | 词性 | 词, 词, 词……
+# 词性用 UPOS（noun verb adj adv pron det adp cconj sconj num intj phrase），* 表示不管词性；
+# 名词同形不同性的在词后写 (m) 或 (f)；国名等专名写 propn。
+
+# ───────── A1 ─────────
+
+A1 | * | bonjour, bonsoir, salut, au revoir, merci, pardon, s'il vous plaît, s'il te plaît, excusez-moi, d'accord, à bientôt, à demain, bienvenue, bravo, allô, oui, non, si, voilà, voici, il y a, ça va, enchanté
+A1 | * | qui, que, quoi, où, quand, comment, pourquoi, combien, quel, est-ce que, qu'est-ce que, c'est, il faut, pas de, ne, pas, plus, n', l', d', j', m', t', s', c', qu'
+A1 | pron | je, tu, il, elle, on, nous, vous, ils, elles, me, te, se, moi, toi, lui, leur, eux, y, en, ce, ça, cela, ceci, rien, tout, quelqu'un, quelque chose, personne, celui, celle, ceux, celles
+A1 | det | le, la, les, un, une, des, du, de la, de l', au, aux, ce, cet, cette, ces, mon, ma, mes, ton, ta, tes, son, sa, ses, notre, nos, votre, vos, leur, leurs, quel, quelle, quels, quelles, chaque, tout, toute, tous, toutes, quelques
+A1 | num | zéro, un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, onze, douze, treize, quatorze, quinze, seize, dix-sept, dix-huit, dix-neuf, vingt, trente, quarante, cinquante, soixante, soixante-dix, quatre-vingts, quatre-vingt-dix, cent, mille
+A1 | adj | premier, deuxième, troisième, dernier
+A1 | noun | jour, semaine, mois, an, année, week-end, matin, midi, après-midi, soir, nuit, heure, minute, quart, date, calendrier, anniversaire, fête, saison, printemps, été, automne, hiver
+A1 | noun | lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche
+A1 | noun | janvier, février, mars, avril, mai, juin, juillet, août, septembre, octobre, novembre, décembre
+A1 | adv | aujourd'hui, demain, hier, maintenant, toujours, souvent, jamais, parfois, tard, tôt, ici, là, beaucoup, peu, très, trop, aussi, bien, mal, ensemble, après, avant, déjà, encore, vite
+A1 | noun | maman, papa, famille, père, mère, parent, frère, sœur, fils, fille, enfant, mari, femme, homme, garçon, bébé, grand-père, grand-mère, grands-parents, oncle, tante, cousin, cousine, ami, amie, copain, copine, voisin, monsieur, madame, mademoiselle, personne, gens
+A1 | noun | nom, prénom, âge, adresse, numéro, téléphone, nationalité, pays, ville, langue
+A1 | noun | tête, visage, œil, bouche, nez, oreille, dent, cheveu, main, bras, jambe, pied, dos, ventre, corps
+A1 | noun | couleur
+A1 | adj | blanc, noir, rouge, bleu, vert, jaune, gris, rose, marron, violet, orange
+A1 | noun | pain, eau, lait, café, thé, vin, bière, jus, boisson, fruit, pomme, banane, orange (f), fraise, légume, tomate, carotte, salade, pomme de terre, viande, poulet, poisson, œuf, fromage, beurre, sucre, sel, riz, pâtes, soupe, gâteau, chocolat, croissant, glace, sandwich, petit-déjeuner, déjeuner, dîner, repas, restaurant, menu, addition, bouteille, verre, tasse, assiette, couteau, fourchette, cuillère
+A1 | noun | vêtement, pantalon, jupe, robe, chemise, pull, manteau, veste, chaussure, chaussette, chapeau, jean, t-shirt, sac, lunettes
+A1 | noun | maison, appartement, chambre, cuisine, salle de bains, salon, toilettes, jardin, porte, fenêtre, table, chaise, lit, armoire, clé, étage, mur, lampe
+A1 | noun | rue, place, magasin, supermarché, boulangerie, marché, banque, poste, gare, aéroport, hôpital, pharmacie, école, université, bureau, musée, cinéma, théâtre, parc, église, hôtel, café, restaurant, plage, mer, montagne, campagne, quartier, centre
+A1 | noun | voiture, bus, train, métro, avion, vélo, taxi, bateau, moto, billet, ticket, route, station, arrêt
+A1 | noun | livre (m), cahier, stylo, crayon, gomme, règle, papier, feuille, tableau, classe, cours, leçon, exercice, devoir, question, réponse, mot, phrase, page, professeur, élève, étudiant, étudiante, examen, dictionnaire, ordinateur, sac à dos
+A1 | noun | travail, métier, médecin, infirmier, infirmière, vendeur, vendeuse, serveur, serveuse, cuisinier, boulanger, policier, ingénieur, secrétaire, journaliste, acteur, actrice, chanteur, chanteuse, coiffeur, avocat (m), directeur
+A1 | noun | temps, soleil, pluie, neige, vent, nuage, ciel, chaleur, froid
+A1 | noun | sport, football, tennis, musique, chanson, film, télévision, radio, jeu, vacances, voyage, cadeau, photo, livre (m), journal, lettre, carte, internet, message, mail, portable, chien, chat (m), oiseau, animal
+A1 | noun | argent, euro, prix, carte bancaire, monnaie, kilo, litre
+A1 | propn | France, Paris, Chine, Japon, Angleterre, Allemagne, Espagne, Italie, Belgique, Suisse, Canada, États-Unis, Europe
+A1 | adj | français, chinois, anglais, allemand, espagnol, italien, japonais, américain, belge, suisse, canadien, européen
+A1 | verb | être, avoir, aller, venir, faire, dire, parler, manger, boire, dormir, habiter, vivre, travailler, aimer, adorer, préférer, détester, vouloir, pouvoir, devoir, savoir, connaître, prendre, mettre, voir, regarder, écouter, lire, écrire, chanter, danser, jouer, acheter, payer, coûter, ouvrir, fermer, commencer, finir, arriver, partir, rentrer, sortir, entrer, rester, attendre, chercher, trouver, donner, demander, répondre, comprendre, apprendre, étudier, visiter, voyager, marcher, nager, cuisiner, s'appeler, se lever, se coucher, se laver, s'habiller, téléphoner, épeler, répéter, compter
+A1 | adj | grand, petit, beau, joli, bon, mauvais, nouveau, vieux, jeune, chaud, froid, cher, facile, difficile, content, heureux, triste, fatigué, malade, gentil, sympathique, intéressant, important, long, court, gros, mince, fort, rapide, propre, sale, ouvert, fermé, libre, seul, préféré, célèbre
+A1 | adp | à, de, en, dans, sur, sous, avec, sans, pour, chez, entre, devant, derrière, avant, après, pendant, depuis, près de, loin de, à côté de, en face de
+A1 | cconj | et, ou, mais, donc
+A1 | sconj | parce que, si, quand
+
+# ───────── A2 ─────────
+
+A2 | * | à tout à l'heure, bon appétit, bonne nuit, bonne journée, félicitations, de rien, avec plaisir, bien sûr, peut-être, tant pis, tant mieux, au secours
+A2 | noun | santé, maladie, fièvre, médicament, rendez-vous, dentiste, docteur, accident, urgence, douleur, rhume, grippe
+A2 | noun | valise, passeport, réservation, vol, quai, horaire, retard, départ, arrivée, plan, touriste, visite, monument, séjour, frontière, location, nuit, bagage, guide, carte postale
+A2 | noun | ménage, vaisselle, linge, courses, cuisine, frigo, réfrigérateur, four, machine à laver, meuble, canapé, escalier, ascenseur, loyer, voisin, propriétaire, locataire
+A2 | noun | entreprise, collègue, patron, chef, salaire, emploi, chômage, réunion, stage, métier, carrière, usine, client, projet, contrat
+A2 | noun | peur, colère, joie, amour, bonheur, surprise, envie, besoin, problème, idée, avis, souvenir, rêve
+A2 | noun | arbre, fleur, forêt, rivière, fleuve, lac, île, étoile, lune, terre, cheval, vache, cochon, mouton, lapin, poule, souris, insecte, nature, environnement, plante, herbe, champ
+A2 | noun | boucherie, pâtisserie, épicerie, librairie, magasin de vêtements, vendeur, caisse, taille, pointure, solde, promotion, liste, paquet, boîte, morceau, tranche
+A2 | noun | spectacle, concert, exposition, match, équipe, joueur, loisir, randonnée, promenade, piscine, natation, vélo, ski, guitare, piano, dessin, peinture, roman, bande dessinée, série
+A2 | noun | ordinateur, écran, clavier, site, courriel, réseau, application, mot de passe, photo, vidéo
+A2 | noun | enfance, jeunesse, naissance, mariage, divorce, retraite, vie, mort, histoire, avenir, passé, futur
+A2 | adv | souvent, quelquefois, rarement, d'abord, ensuite, puis, enfin, bientôt, longtemps, lentement, seulement, presque, assez, plutôt, vraiment, surtout, partout, ailleurs, dehors, dedans, en haut, en bas, tout de suite, tout à coup
+A2 | adj | inquiet, surpris, déçu, fier, nerveux, calme, drôle, sérieux, timide, poli, curieux, honnête, généreux, paresseux, courageux, bruyant, tranquille, moderne, ancien, pratique, agréable, désagréable, dangereux, possible, impossible, prochain, plein, vide, léger, lourd, doux, dur, sec, mouillé, haut, bas, large, étroit, gratuit, pressé
+A2 | verb | se reposer, se promener, se dépêcher, se réveiller, s'amuser, s'occuper, se sentir, se souvenir, se tromper, se marier, réserver, louer, emprunter, prêter, oublier, rencontrer, inviter, accepter, refuser, envoyer, recevoir, perdre, gagner, choisir, décider, essayer, aider, expliquer, raconter, montrer, porter, changer, réparer, conduire, garer, tourner, traverser, monter, descendre, tomber, mourir, naître, grandir, vieillir, maigrir, grossir, ranger, nettoyer, laver, préparer, goûter, remplir, vendre, livrer, commander, annuler, utiliser, appeler, rappeler, discuter, penser, croire, espérer, permettre, promettre, proposer, sembler, devenir, revenir, tenir, servir, sentir, courir, suivre, offrir, souffrir, plaire, pleuvoir, neiger
