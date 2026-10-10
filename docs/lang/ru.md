@@ -13,8 +13,10 @@
 ### 阶段一记录
 
 - 10-09：调研资料、核实许可、下载原始数据；写 `rules.ts`、`spec.ts`、`sources.ts` 与规则测试。
-- 10-09 夜～10-10：数据管线 `scripts/data/ru/`，`resources/data/ru/dict.sqlite` 过校验；合并 main 两次
-  （通用词典、词典首次打开的修复、补译流水线）；隔离实例里查词看过一遍（见「验收」）。
+- 10-09 夜～10-10：数据管线 `scripts/data/ru/`，`resources/data/ru/dict.sqlite` 过校验；合并 main 三次
+  （通用词典、词典首次打开的修复、补译流水线、`fi` / `alt` 字段、多语言冒烟）；隔离实例里查词看过一遍，
+  `LANG_SMOKE_PORT=9416 node scripts/lang-smoke.mjs ru` 9/9 通过（见「验收」）。
+- 检查：`npx vitest run tests/lang`（121 个，俄语 35 个）、`npm run typecheck` 0 错误、`npm run lint` 0 问题。
 
 构建：
 
@@ -329,6 +331,27 @@ A2 以后比官方多一点，是体的配对往前拉的结果。
 
 ## 八、要框架做的
 
-见阶段汇报。主要是：变形表与 cls、x 的标签名（short-form、adverbial、count-form、declension-1/2/3……）、
-变形表按格 × 数 / 人称 × 数排成网格、拉丁字母输入转西里尔字母、例句里标出变形时去掉重音符号再比、
-词条列表上的等级显示短名（A1 而不是 teu）、中文汇总在第一个义项时的显示与补译策略。
+阶段一汇报时提的（main 还没做的）：
+
+1. **标签的叫法**（`src/shared/lang/tags.ts` 的 `TAG_LABELS`）：
+   - 变形：`short-form` 短尾、`adverbial` 副动词（`adverbial participle` 合起来显示「副动词」最好）、`count-form` 计数形；
+   - 类别（cls）：`declension-1` 第一变格法、`declension-2` 第二变格法、`declension-3` 第三变格法、`heteroclitic` 异格名词、
+     `adjectival` 形容词式变格、`plural-only` 只有复数、`first-conjugation` 第一变位法、`second-conjugation` 第二变位法、
+     `mixed-conjugation` 混合变位、`hard-stem` 硬词干、`soft-stem` 软词干、`velar-stem` 后舌音词干、`sibilant-stem` 咝音词干、
+     `ц-stem` ц 词干、`vowel-stem` 元音词干、`mobile-stress` 重音移动；
+   - 义项标签：`derogatory` 贬义、`offensive` 冒犯、`humorous` 幽默、`ironic` 反讽、`euphemistic` 委婉、`nonstandard` 不规范、
+     `proscribed` 不推荐、`endearing` 爱称、`pejorative` 贬称、`historical` 历史、`poetic` 诗歌、`Internet` 网络用语、
+     `childish` 儿语、`Soviet` 苏联时期。
+2. **特有字段的叫法**（`dict.lex.extra`）：`zal` 扎利兹尼亚克类型（Zaliznyak class）；`stress` 现在显示成「重音 b」，
+   最好写成「重音类型 b（a 固定在词干、b 固定在词尾、c–f 会移动）」。
+3. **变形表排成网格**：名词按格（行）× 单复数（列），形容词按格 × 阳 / 中 / 阴 / 复数，动词按人称 × 单复数、过去时按性数——
+   现在是一行一组标签；一项带几个格（`nominative accusative`）时两格都填。
+4. **拉丁字母输入**：查词框里输入 privet、khorosho 时用 `latinToCyrillic()`（`src/shared/lang/ru/rules.ts` 已导出）转成
+   西里尔字母再查，像日语的罗马字。建议 `LangRules` 加一个可选的 `fromLatin?(text): string[]`。
+5. **例句里标出这个词**：现在按带重音的变形比，Tatoeba 例句不带重音，标不出变过形的词（молока́ 对不上 молока）；
+   比较前先用 `rules.key()` 或 `marks` 去掉记号。
+6. **词条列表上的等级**：列表里显示的是等级 id（teu、trki2），词条页的标签显示的是 A1——列表也用 `short`。
+7. **中文汇总**：中文都在第一个义项上（见「中文释义」）。补译流水线 `mt.ts` 挑「没有中文的义项」，这样有中文汇总的
+   常用词还会把后面的义项送去机译——建议：已经有人写的中文的词条跳过，或者照样译（界面上第一条是汇总、后面是各义项的机译）。
+8. **同形词的选择**：阅读器的 `lookup` 按词频取第一个词条；俄语里一个词形常是几个词条的变形（стали：сталь / стать；
+   дома：дом / 副词 дома），建议词卡上列出别的词条（像 `alt` 那样）。

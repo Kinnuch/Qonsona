@@ -94,4 +94,4 @@ export function rankToCounts(ranks: (number | null)[], total = 1e6): Float64Arra
 }
 
 /** 俄语词的切分（统计词频用，比 Intl.Segmenter 快）：字母、连字符连着的词 */
-export const WORD_RE = /[А-Яа-яЁё\u{301}\u{300}]+(?:-[А-Яа-яЁё\u{301}\u{300}]+)*/gu
+export const WORD_RE = /[\u{300}\u{301}А-Яа-яЁё]+(?:-[\u{300}\u{301}А-Яа-яЁё]+)*/gu

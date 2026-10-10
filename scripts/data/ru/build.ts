@@ -649,7 +649,7 @@ function stressInfo(e: Entry): { zal?: string; stress?: string; mobile?: boolean
     const c = e.classes.find((x) => /^\d/.test(x))
     if (!c) return {}
     const zal = c.split(' ')[0]
-    const letters = zal.replace(/^[\d°*]+/, '').replace(/[①-⑩()\[\]]/g, '')
+    const letters = zal.replace(/^[\d°*]+/, '').replace(/[①-⑩()[\]]/g, '')
     return { zal, stress: letters || undefined, mobile: /c/.test(letters) }
   }
   const acc = e.classes.find((x) => x.startsWith('accent-'))

@@ -322,9 +322,9 @@ export function cleanGloss(g: string): string {
   // 只看紧跟在西里尔字母（或重音符号）后面的括号：英文里的「to eat (food)」不动
   return g
     .replace(
-      /(?<=[\u{400}-\u{4FF}\u{300}\u{301}])\s\(([^()“”]*?)(?:, (“[^”]*”))?\)/gu,
+      /(?<=[\u{300}\u{301}\u{400}-\u{4FF}])\s\(([^()“”]*?)(?:, (“[^”]*”))?\)/gu,
       (m, tr: string, meaning: string | undefined) =>
-        /^[a-zA-Zà-žÀ-Žəɛʹʺ'’\u{300}-\u{36F} -]+$/u.test(tr) && /[a-z]/i.test(tr)
+        /^[\u{300}-\u{36F}a-zA-Zà-žÀ-Žəɛʹʺ'’ -]+$/u.test(tr) && /[a-z]/i.test(tr)
           ? meaning
             ? ` (${meaning})`
             : ''
