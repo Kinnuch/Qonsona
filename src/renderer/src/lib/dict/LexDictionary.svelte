@@ -12,6 +12,7 @@
   import type { LexEntryView, LexHit, LexSearchResult } from '$shared/lang/views'
   import { genderLabel, posLabel, tagLabel, tagsLabel } from '$shared/lang/tags'
   import { foldWithMap } from '$shared/lang/text'
+  import { paradigm } from '$shared/lang/paradigm'
   import { primarySystem } from '$shared/lang/levels'
   import Pronounce from '$lib/ui/Pronounce.svelte'
   import AddToNotebook from '$lib/notebook/AddToNotebook.svelte'
@@ -116,10 +117,11 @@
     if (!(await playRemote(url))) ui.toast(t('dict.lex.audioFail'), 'error')
   }
 
-  /** 变形表：同一组标签的几个写法并在一行 */
+  /** 变形表：格 × 数、人称 × 数……排成网格；排不进去的同一组标签的几个写法并在一行 */
+  const para = $derived(entry ? paradigm(entry.forms, entry.d || entry.w) : { grids: [], rest: [] })
   const formRows = $derived.by(() => {
     const rows = new Map<string, { form: string; ipa?: string }[]>()
-    for (const f of entry?.forms ?? []) {
+    for (const f of para.rest) {
       const k = tagsLabel(f.tags, L) || t('dict.lex.variant')
       const list = rows.get(k) ?? []
       if (!list.some((x) => x.form === f.form)) list.push({ form: f.form, ipa: f.ipa })
@@ -378,28 +380,57 @@
             </section>
           {/if}
 
-          {#if formRows.length}
+          {#if formRows.length || para.grids.length}
             <section class="block" data-forms>
               <button class="link" onclick={() => (formsOpen = !formsOpen)}
                 >{t('dict.lex.forms', { n: entry.forms.length })}{formsOpen ? ' ▴' : ' ▾'}</button
               >
-              {#if formsOpen || formRows.length <= 6}
-                <table class="forms">
-                  <tbody>
-                    {#each formRows as [label, forms] (label)}
-                      <tr>
-                        <th>{label}</th>
-                        <td {lang} {dir}
-                          >{#each forms as f, i (f.form)}{#if i}{L === 'zh'
-                                ? '、'
-                                : ', '}{/if}{f.form}{#if f.ipa}<span class="faint form-ipa"
-                                >{f.ipa}</span
-                              >{/if}{/each}</td
-                        >
-                      </tr>
-                    {/each}
-                  </tbody>
-                </table>
+              {#if formsOpen || (formRows.length <= 6 && para.grids.length <= 1)}
+                {#each para.grids as g, gi (gi)}
+                  <table class="forms grid" data-paradigm>
+                    {#if g.title.length}<caption>{tagsLabel(g.title, L)}</caption>{/if}
+                    {#if g.cols.some((c) => c.length)}
+                      <thead>
+                        <tr>
+                          <th></th>
+                          {#each g.cols as c, ci (ci)}<th class="col">{tagsLabel(c, L)}</th>{/each}
+                        </tr>
+                      </thead>
+                    {/if}
+                    <tbody>
+                      {#each g.rows as r, ri (ri)}
+                        <tr>
+                          <th>{tagsLabel(r.tags, L)}</th>
+                          {#each r.cells as cell, ci (ci)}
+                            <td {lang} {dir}
+                              >{#each cell as x, xi (xi)}{#if xi}<br
+                                  />{/if}{x.form}{#if x.note.length}<span class="faint form-ipa"
+                                    >（{tagsLabel(x.note, L)}）</span
+                                  >{/if}{#if x.ipa}<span class="faint form-ipa">{x.ipa}</span
+                                  >{/if}{/each}</td
+                            >
+                          {/each}
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                {/each}
+                {#if formRows.length}<table class="forms">
+                    <tbody>
+                      {#each formRows as [label, forms] (label)}
+                        <tr>
+                          <th>{label}</th>
+                          <td {lang} {dir}
+                            >{#each forms as f, i (f.form)}{#if i}{L === 'zh'
+                                  ? '、'
+                                  : ', '}{/if}{f.form}{#if f.ipa}<span class="faint form-ipa"
+                                  >{f.ipa}</span
+                                >{/if}{/each}</td
+                          >
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>{/if}
               {/if}
             </section>
           {/if}
@@ -706,6 +737,22 @@
   }
   .form-ipa {
     margin-inline-start: 4px;
+    font-size: 12px;
+  }
+  .forms.grid {
+    margin-bottom: 8px;
+  }
+  .forms.grid caption {
+    text-align: start;
+    font-size: 13px;
+    color: var(--text-2);
+    padding: 2px 0;
+  }
+  .forms.grid td {
+    padding: 3px 14px 3px 0;
+    vertical-align: top;
+  }
+  .forms.grid .col {
     font-size: 12px;
   }
   .source {
