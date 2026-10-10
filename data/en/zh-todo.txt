@@ -1,0 +1,4 @@
+# 词频前 8000 名里没有中文释义的词条（词头	词性	英文释义）。英语的中文释义来自 ECDICT，这里一般只剩极少数。
+# 由 scripts/data/en/build.ts 生成（2026-10-10）
+stuck	adj	caught or fixed; baffled
+proven	verb,adj	be shown or be found to be; establish the validity of something, as by an example, explanation or experiment
