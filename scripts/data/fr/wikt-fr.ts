@@ -38,6 +38,11 @@ interface FxSense {
   form_of?: unknown[]
   alt_of?: unknown[]
 }
+interface FxForm {
+  form?: string
+  tags?: string[]
+  ipas?: string[]
+}
 interface FxEntry {
   word: string
   lang_code: string
@@ -45,6 +50,7 @@ interface FxEntry {
   pos_title?: string
   tags?: string[]
   senses?: FxSense[]
+  forms?: FxForm[]
   sounds?: FxSound[]
   translations?: FxTranslation[]
   categories?: ({ name: string } | string)[]
@@ -68,6 +74,8 @@ export interface FrEntry {
   /** 动词的组：1、2、3 */
   grp?: number
   ipa?: string
+  /** 变形的读音：{ 词形（frKey）: /IPA/ }（变位表、复数阴性形式的读音） */
+  fi?: Record<string, string>
   au?: AudioRef[]
   s: FrSense[]
 }
@@ -123,7 +131,7 @@ export async function loadFrWikt(want: Set<string>): Promise<FrEntry[]> {
   // 词集来自英文维基词典与 Lexique，那两份变了这里也要重算：用词集的大小与一个简单的校验和当版本的一部分
   let sum = 0
   for (const k of want) for (let i = 0; i < k.length; i++) sum = (sum * 31 + k.charCodeAt(i)) >>> 0
-  return cached(`frwikt-${want.size}-${sum}`, 4, [file], async () => {
+  return cached(`frwikt-${want.size}-${sum}`, 5, [file], async () => {
     log('读法语维基词典的法语词条（3 GB，一两分钟）…')
     const out: FrEntry[] = []
     let n = 0
@@ -180,6 +188,13 @@ export async function loadFrWikt(want: Set<string>): Promise<FrEntry[]> {
             ? 3
             : undefined
       const { ipa, h } = ipaOf(e.sounds ?? [])
+      const fi: Record<string, string> = {}
+      for (const f of e.forms ?? []) {
+        if (!f.form || / /.test(f.form) || !f.ipas?.length) continue
+        const m = /\\([^\\]+)\\/.exec(f.ipas[0])
+        const fk = frKey(f.form)
+        if (m && fk !== k && !fi[fk]) fi[fk] = `/${m[1].trim()}/`
+      }
       const au: AudioRef[] = []
       for (const x of e.sounds ?? []) {
         const url = x.mp3_url ?? x.ogg_url
@@ -194,6 +209,7 @@ export async function loadFrWikt(want: Set<string>): Promise<FrEntry[]> {
         ...(h || cats.some((c) => /h aspiré/.test(c)) ? { h: 1 as const } : {}),
         ...(grp ? { grp } : {}),
         ...(ipa ? { ipa } : {}),
+        ...(Object.keys(fi).length ? { fi } : {}),
         ...(au.length ? { au: au.slice(0, 12) } : {}),
         s
       })

@@ -192,3 +192,19 @@ describe.skipIf(!existsSync(dictFile))('建好的法语词典（resources/data/f
     expect(e.senses.some((s) => s.zh.length)).toBe(true)
   })
 })
+
+describe.skipIf(!existsSync(dictFile))('变形的读音与几种可能（fi、alt）', () => {
+  const db = new LexDb('fr', dictFile)
+  it('变过形的词注这个形的读音', () => {
+    expect(db.lookup('mangent')?.ipa).toBe('/mɑ̃ʒ/')
+    expect(db.lookup('chevaux')?.ipa).toMatch(/ʃə\.?vo/)
+  })
+  it('同一个词形的几种可能放进 alt', () => {
+    const hit = db.lookup('mange')!
+    expect(hit.lemma).toBe('manger')
+    expect(hit.alt?.length).toBeGreaterThanOrEqual(2)
+    const all = [hit.tags, ...(hit.alt ?? [])].map((t) => t.join(' '))
+    expect(all.some((t) => t.includes('subjunctive'))).toBe(true)
+    expect(all.some((t) => t.includes('imperative'))).toBe(true)
+  })
+})

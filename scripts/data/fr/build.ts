@@ -100,6 +100,8 @@ interface Item {
   ipa: string[]
   au: AudioRef[]
   f: string[][]
+  /** 法语维基词典给的变形读音（frKey → /IPA/） */
+  ffi?: Record<string, string>
   cls: string[]
   x: Record<string, unknown>
   src: Set<string>
@@ -228,6 +230,7 @@ function fromDraft(d: Draft): Item {
     ipa,
     au,
     f,
+    ...(fr?.fi ? { ffi: fr.fi } : {}),
     cls,
     x,
     src,
@@ -514,6 +517,15 @@ for (const it of kept) {
   if (band) lv.freq = band
   if (it.score > 0 && it.src.has('wiktionary')) it.src.add('lexique')
   else if (it.score > 0 && it.tat === 0) it.src.add('lexique')
+  // 变形的读音：法语维基词典变位表、变格表里的（有音节点），没有的用 Lexique 按「词形 + 原形」的
+  const fi: Record<string, string> = {}
+  for (const [form] of it.f) {
+    const fk = frKey(form)
+    if (fk === it.k || fi[form] || / /.test(form)) continue
+    const lexIpa = lex.formIpa[`${fk}|${it.k}`]
+    const ipa = it.ffi?.[fk] ?? (lexIpa ? `/${lexIpa}/` : undefined)
+    if (ipa) fi[form] = ipa
+  }
   const data: LexEntryData = {
     w: it.w,
     p: [it.p],
@@ -522,6 +534,7 @@ for (const it of kept) {
     ...(it.au.length ? { au: it.au } : {}),
     s,
     ...(it.f.length ? { f: it.f as [string, ...string[]][] } : {}),
+    ...(Object.keys(fi).length ? { fi } : {}),
     ...(it.cls.length ? { cls: it.cls } : {}),
     ...(Object.keys(lv).length ? { lv } : {}),
     ...(it.rank ? { fr: it.rank } : {}),
@@ -616,13 +629,17 @@ log(`Tatoeba 例句 ${tatoebaExamples} 句`)
 
 // ───────────────────────── 收尾 ─────────────────────────
 
-// 查词键去重：同一个词条、同一个键只留一行（严格键优先）。动词的 mange 在陈述式、虚拟式、命令式里各出现一次，
-// 阅读器、查词每个键只取一行，留着几行只是占地方；变形表本身在词条 JSON 里，不受影响
+// 查词键去重。严格键同一个词条的几行都留着：动词的 mange 是直陈式现在时第一、三人称，又是虚拟式、命令式，
+// 阅读器把第一行之外的放进 alt（「也可能是……」）。宽松键跟同一词条的严格键重了的去掉（打 mange 本来就对上
+// 严格键，用不着 mangé 去重音以后的那一行）；宽松键里同一词条同一个键也只留一行（宽松键不报几种可能）
 db.db.exec(`
 CREATE INDEX tmp_form ON form (key, entry, loose);
 DELETE FROM form WHERE loose = 1 AND EXISTS (
   SELECT 1 FROM form f2 WHERE f2.key = form.key AND f2.entry = form.entry AND f2.loose = 0);
-DELETE FROM form WHERE rowid NOT IN (SELECT MIN(rowid) FROM form GROUP BY key, entry, loose);
+DELETE FROM form WHERE loose = 1 AND rowid NOT IN (
+  SELECT MIN(rowid) FROM form WHERE loose = 1 GROUP BY key, entry);
+DELETE FROM form WHERE loose = 0 AND rowid NOT IN (
+  SELECT MIN(rowid) FROM form WHERE loose = 0 GROUP BY key, entry, tags);
 DROP INDEX tmp_form;
 `)
 const stats = db.finish()

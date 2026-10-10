@@ -58,8 +58,10 @@ export interface Lexique {
   lemmas: Record<string, LexLemma>
   /** 原形键 → 各词性加起来 */
   any: Record<string, LexLemma>
-  /** 词形键 → IPA（Lexique 4，没有音节点） */
+  /** 词形键 → IPA（Lexique 4，没有音节点；同形异音的取第一个） */
   ipa: Record<string, string>
+  /** 「词形键|原形键」→ IPA：同形异音词（couvent 名词 / 动词）按原形分开 */
+  formIpa: Record<string, string>
 }
 
 /** 合起来的词频分数（每百万词） */
@@ -83,11 +85,12 @@ const rows = (tsv: string): { head: string[]; rows: string[][] } => {
 export async function loadLexique(): Promise<Lexique> {
   const z3 = join(CACHE, DOWNLOADS.lexique3.file)
   const z4 = join(CACHE, DOWNLOADS.lexique4.file)
-  return cached('lexique', 3, [z3, z4], async () => {
+  return cached('lexique', 4, [z3, z4], async () => {
     log('读 Lexique 3.83 与 4.1…')
     const lemmas: Record<string, LexLemma> = {}
     const any: Record<string, LexLemma> = {}
     const ipa: Record<string, string> = {}
+    const formIpa: Record<string, string> = {}
     const add = (
       lemma: string,
       pos: PosTag,
@@ -125,6 +128,8 @@ export async function loadLexique(): Promise<Lexique> {
       }
       const w = frKey(r[iW] ?? '')
       if (w && r[iIpa] && !ipa[w]) ipa[w] = r[iIpa]
+      const fl = `${w}|${frKey(r[iL])}`
+      if (w && r[iIpa] && !formIpa[fl]) formIpa[fl] = r[iIpa]
     }
     // Lexique 3.83：书籍词频
     const v3 = rows(readZipEntry(z3, 'Lexique383.tsv'))
@@ -136,7 +141,7 @@ export async function loadLexique(): Promise<Lexique> {
       add(r[jL], pos, 'book', Number(r[jB]) || 0, r[jG])
     }
     log(`Lexique：${Object.keys(any).length} 个原形，${Object.keys(ipa).length} 个词形有 IPA`)
-    return { lemmas, any, ipa }
+    return { lemmas, any, ipa, formIpa }
   })
 }
 
