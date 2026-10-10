@@ -165,7 +165,7 @@ const MARKS: [RegExp, PosTag][] = [
 const MARK_AT =
   /(?:n\.\s*[mf]\.?(?:\s*pl\.)?|num\.\s*(?:card|ord)\.?|adj\.|adv\.|v\.\s*(?:t|i|pr|tr|intr)\.(?:\s*ind\.)?|prép\.|pron\.|conj\.|interj\.|art\.)/gi
 
-function splitByPos(text: string): { p?: PosTag; text: string }[] {
+export function splitByPos(text: string): { p?: PosTag; text: string }[] {
   const starts: number[] = []
   for (const m of text.matchAll(MARK_AT)) if (m.index !== undefined) starts.push(m.index)
   if (!starts.length) return [{ text }]

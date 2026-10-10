@@ -297,12 +297,12 @@ export function placeLabel(parts: string[]): string {
   const places: string[] = []
   for (const p of flat) {
     const hit = COUNTRIES.find(([re]) => re.test(p))
-    if (hit && !country) {
-      country = hit[1] || p
-      // Paris、Québec 本身也是地名
-      if (/^(Paris|Québec|Quebec|Louisiane|Louisiana)$/i.test(p)) places.push(p)
-      else if (hit[1] === 'France' && !/^(France|Paris)$/i.test(p)) places.push(p)
-    } else if (!hit && !places.includes(p)) places.push(p)
+    // Paris、Québec、海外省这些本身也是地名：国家没定就顺带定下国家，地名照样记下
+    const isPlace =
+      /^(Paris|Québec|Quebec|Louisiane|Louisiana)$/i.test(p) ||
+      (hit?.[1] === 'France' && !/^France$/i.test(p))
+    if (hit && !country) country = hit[1] || p
+    if ((!hit || isPlace) && !places.includes(p)) places.push(p)
   }
   const place = places.slice(0, 1).join('')
   if (country) return place ? `${country} (${place})` : country
