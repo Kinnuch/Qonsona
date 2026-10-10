@@ -441,11 +441,14 @@ export class LexDb {
 
   /**
    * 词族：form 表里标着 tag（阿拉伯语 root、韩语 hanja）的那个键对上的全部词条（常用的在前）。
-   * 词根写不写空格都行（ك ت ب / كتب）：两种键都试
+   * 词根写不写空格都行（ك ت ب / كتب）：两种键都试；严格键、宽松键也都试
+   * （韩语输入简体「学」，库里汉字行的严格键是繁体「學」，宽松键转成了简体）
    */
   family(text: string, tag: string, limit = 400): LexFamilyItem[] {
+    const rules = this.lang.rules
+    const variants = [text, text.replace(/\s+/g, '')]
     const keys = [
-      ...new Set([this.lang.rules.key(text), this.lang.rules.key(text.replace(/\s+/g, ''))])
+      ...new Set(variants.flatMap((v) => [rules.key(v), rules.looseKey?.(v) ?? '']).filter(Boolean))
     ]
     const k2 = [...new Set([...keys, ...keys.map((k) => [...k].join(' '))])].filter(Boolean)
     const rows: Row[] = []
