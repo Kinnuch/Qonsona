@@ -18,6 +18,7 @@
   } from '$shared/course'
   import Pronounce from '$lib/ui/Pronounce.svelte'
   import JaSentence from './JaSentence.svelte'
+  import PlainSentence from './PlainSentence.svelte'
   import { meanings, sayable, scriptCss, translation, txt } from './view'
 
   const run = $derived(courses.quiz!)
@@ -26,6 +27,8 @@
   const given = $derived(run.given)
   const last = $derived(run.answers[run.answers.length - 1])
   const lang = $derived(packs.active?.kind === 'builtin' ? packs.active.bcp47 : undefined)
+  /** 日语的例句注振假名；别的语言照原样排 */
+  const ja = $derived(packs.active?.id === 'ja')
   let typed = $state('')
   let input = $state<HTMLInputElement | null>(null)
 
@@ -312,17 +315,34 @@
         <p class="muted">{t('courses.quiz.word')}</p>
       {:else if q.type === 'meaning'}
         {@const ex = course.grammar[q.key].examples[q.ex]}
-        <p class="sentence"><JaSentence text={ex.ja} start={ex.start} end={ex.end} /></p>
+        <p class="sentence">
+          {#if ja}<JaSentence text={ex.ja} start={ex.start} end={ex.end} />{:else}<PlainSentence
+              text={ex.ja}
+              start={ex.start}
+              end={ex.end}
+              {lang}
+            />{/if}
+        </p>
         <p class="muted">{t('courses.quiz.meaning')}</p>
       {:else if q.type === 'fill'}
         {@const ex = course.grammar[q.key].examples[q.ex]}
         <p class="sentence">
-          <JaSentence
-            text={ex.ja}
-            start={ex.start}
-            end={ex.end}
-            mode={given === null ? 'blank' : 'mark'}
-          />
+          {#if ja}
+            <JaSentence
+              text={ex.ja}
+              start={ex.start}
+              end={ex.end}
+              mode={given === null ? 'blank' : 'mark'}
+            />
+          {:else}
+            <PlainSentence
+              text={ex.ja}
+              start={ex.start}
+              end={ex.end}
+              mode={given === null ? 'blank' : 'filled'}
+              {lang}
+            />
+          {/if}
         </p>
         <p class="muted">{translation(ex).text}</p>
         <p class="muted">{t('courses.quiz.fill')}</p>
@@ -421,7 +441,7 @@
         {:else if q.type === 'meaning' || q.type === 'fill'}
           {@const g = course.grammar[q.key]}
           <p class="explain">
-            <strong lang="ja">{g.name}</strong>
+            <strong {lang}>{g.name}</strong>
             <span>{meanings(g.meaning).main}</span>
             <span class="muted">{translation(g.examples[q.ex]).text}</span>
           </p>

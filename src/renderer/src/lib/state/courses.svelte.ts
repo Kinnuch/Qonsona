@@ -6,7 +6,7 @@
  */
 import { langModule } from '$shared/lang/registry'
 import { platform } from '$lib/platform'
-import { t, pick } from '$lib/i18n/index.svelte'
+import { t, pick, i18n } from '$lib/i18n/index.svelte'
 import {
   emptyProgress,
   findLesson,
@@ -119,7 +119,7 @@ class CoursesState {
         idioms: sections.includes('idioms'),
         stories: sections.includes('stories')
       }
-      for (const c of langModule(pack.id)?.courses?.() ?? []) if (want[c.id]) out.push(c)
+      for (const c of langModule(pack.id)?.courses?.(i18n.locale) ?? []) if (want[c.id]) out.push(c)
     } else if (pack.kind === 'qonlang') {
       const project = packs.project
       const lang = project?.languages.find((l) => l.id === pack.source?.languageId)

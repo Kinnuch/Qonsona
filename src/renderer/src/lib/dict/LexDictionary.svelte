@@ -108,11 +108,11 @@
 
   /** 变形表：同一组标签的几个写法并在一行 */
   const formRows = $derived.by(() => {
-    const rows = new Map<string, string[]>()
+    const rows = new Map<string, { form: string; ipa?: string }[]>()
     for (const f of entry?.forms ?? []) {
       const k = tagsLabel(f.tags, L) || t('dict.lex.variant')
       const list = rows.get(k) ?? []
-      if (!list.includes(f.form)) list.push(f.form)
+      if (!list.some((x) => x.form === f.form)) list.push({ form: f.form, ipa: f.ipa })
       rows.set(k, list)
     }
     return [...rows.entries()]
@@ -129,12 +129,16 @@
     const s = t(key)
     return s === key ? k : s
   }
-  const extraText = (v: unknown): string =>
-    Array.isArray(v)
-      ? v.join(L === 'zh' ? '、' : ', ')
-      : typeof v === 'object'
-        ? JSON.stringify(v)
-        : String(v)
+  /** 数组连起来；对象写成「键: 值」（值是数组的用斜线连） */
+  const extraText = (v: unknown): string => {
+    const sep = L === 'zh' ? '、' : ', '
+    if (Array.isArray(v)) return v.map((x) => extraText(x)).join(sep)
+    if (v && typeof v === 'object')
+      return Object.entries(v as Record<string, unknown>)
+        .map(([k, x]) => `${k}: ${Array.isArray(x) ? x.join(' / ') : String(x)}`)
+        .join(L === 'zh' ? '；' : '; ')
+    return String(v)
+  }
 
   /** 例句里把查的词标出来（不分大小写） */
   function mark(sentence: string, words: string[]): { text: string; hit: boolean }[] {
@@ -358,7 +362,13 @@
                     {#each formRows as [label, forms] (label)}
                       <tr>
                         <th>{label}</th>
-                        <td {lang} {dir}>{forms.join(L === 'zh' ? '、' : ', ')}</td>
+                        <td {lang} {dir}
+                          >{#each forms as f, i (f.form)}{#if i}{L === 'zh'
+                                ? '、'
+                                : ', '}{/if}{f.form}{#if f.ipa}<span class="faint form-ipa"
+                                >{f.ipa}</span
+                              >{/if}{/each}</td
+                        >
                       </tr>
                     {/each}
                   </tbody>
@@ -663,6 +673,10 @@
   }
   .forms td {
     padding: 3px 0;
+  }
+  .form-ipa {
+    margin-inline-start: 4px;
+    font-size: 12px;
   }
   .source {
     font-size: 12px;

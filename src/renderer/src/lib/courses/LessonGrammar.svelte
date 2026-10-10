@@ -3,18 +3,23 @@
   import { onMount, untrack } from 'svelte'
   import { PenLine } from '@lucide/svelte'
   import { courses } from '$lib/state/courses.svelte'
+  import { packs } from '$lib/state/packs.svelte'
   import { t } from '$lib/i18n/index.svelte'
   import type { Course, CourseLesson } from '$shared/course'
   import GrammarPointCard from './GrammarPointCard.svelte'
 
   let { course, lesson }: { course: Course; lesson: CourseLesson } = $props()
 
+  // 例句的语言与朗读用的语音（日语之外的语言按学习包写的）
+  const lang = $derived(packs.active?.bcp47 ?? 'ja')
+  const speech = $derived(packs.active?.features.speech ?? null)
+
   onMount(() => untrack(() => courses.learned(course.id, lesson.id)))
 </script>
 
 {#each lesson.items as key (key)}
   {@const g = course.grammar[key]}
-  {#if g}<GrammarPointCard {g} />{/if}
+  {#if g}<GrammarPointCard {g} {lang} {speech} />{/if}
 {/each}
 
 <div class="end">

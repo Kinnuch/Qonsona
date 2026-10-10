@@ -32,10 +32,18 @@
   import { platform } from '$lib/platform'
   import { cueAt, formatTime, lastStarted, overlapping } from '$shared/media'
   import type { JaWord } from '$shared/ja/reader'
+  import type { LexToken } from '$shared/lang/types'
+  import { langModule } from '$shared/lang/registry'
+  import { packs } from '$lib/state/packs.svelte'
   import JaLine from './JaLine.svelte'
+  import LexLine from './LexLine.svelte'
   import JaWordCard from '$lib/reader/JaWordCard.svelte'
+  import LexWordCard from '$lib/reader/LexWordCard.svelte'
 
   const item = $derived(media.current!)
+  /** 框架里的语言（英、法、韩……）：字幕按这门语言分析、查这门语言的词典；不是时按日语 */
+  const fw = $derived(packs.active ? langModule(packs.active.id) : null)
+  const subLang = $derived(fw?.spec.bcp47 ?? 'ja')
   /** 这个播放器放的是哪一条（换一条会整个重建）；关掉时 media.current 已经没了，存进度用它 */
   const itemId = media.current!.id
   const cues = $derived(media.primary)
@@ -211,7 +219,21 @@
   })
 
   // ── 查词 ──
-  let pop = $state<{ w: JaWord; x: number; y: number } | null>(null)
+  let pop = $state<
+    { w: JaWord; x: number; y: number } | { w: LexToken; x: number; y: number; lex: true } | null
+  >(null)
+  function place(el: HTMLElement): { x: number; y: number } {
+    const r = el.getBoundingClientRect()
+    return {
+      x: Math.max(8, Math.min(r.left, window.innerWidth - 340)),
+      // 下面放不下就放到上面
+      y: r.bottom + 240 > window.innerHeight ? Math.max(8, r.top - 250) : r.bottom + 6
+    }
+  }
+  function openLexWord(w: LexToken, el: HTMLElement): void {
+    video?.pause()
+    pop = { w, ...place(el), lex: true }
+  }
   function openWord(w: JaWord, el: HTMLElement): void {
     video?.pause()
     const r = el.getBoundingClientRect()
@@ -357,7 +379,11 @@
           {:else if media.showPrimary || peek}
             {#if shown >= 0}
               <p class="line1" data-current-cue={shown}>
-                <JaLine text={cues[shown].text} onword={openWord} />
+                {#if fw}
+                  <LexLine code={fw.spec.code} text={cues[shown].text} onword={openLexWord} />
+                {:else}
+                  <JaLine text={cues[shown].text} onword={openWord} />
+                {/if}
               </p>
             {:else}
               <p class="line1 faint">…</p>
@@ -561,7 +587,7 @@
         <button class="cue" class:on={k === near} data-cue={k} onclick={() => go(k)}>
           <span class="at faint">{formatTime(c.start + offset)}</span>
           <span class="texts">
-            <span class="t1" lang="ja">{c.text}</span>
+            <span class="t1" lang={subLang} dir="auto">{c.text}</span>
             {#if media.showSecondary && aligned[k]}<span class="t2">{aligned[k]}</span>{/if}
           </span>
         </button>
@@ -569,7 +595,15 @@
     </div>
   </aside>
 
-  {#if pop}
+  {#if pop && 'lex' in pop && fw}
+    <LexWordCard
+      code={fw.spec.code}
+      token={pop.w}
+      x={pop.x}
+      y={pop.y}
+      onclose={() => (pop = null)}
+    />
+  {:else if pop && !('lex' in pop)}
     <JaWordCard w={pop.w} x={pop.x} y={pop.y} />
   {/if}
 </div>

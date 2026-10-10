@@ -11,7 +11,7 @@
 
   /** 最近看过的在前，没看过的按加入的先后 */
   const items = $derived(
-    [...media.items].sort(
+    [...media.mine].sort(
       (a, b) =>
         (b.playedAt ?? '').localeCompare(a.playedAt ?? '') || a.addedAt.localeCompare(b.addedAt)
     )
