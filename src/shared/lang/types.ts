@@ -158,6 +158,11 @@ export interface LexEntryData {
   s: LexSense[]
   /** 变形：[形式, ...标签]；词典里按标签排成表，变形练习从这里出题 */
   f?: [string, ...string[]][]
+  /**
+   * 变形的读音（IPA）：{ 词形: 读音 }。阅读器给变过形的词注音、词典变形表里显示都用它；
+   * 没有的变形不注音（免得注成原形的读音：盖尔语 bhàta 跟 bàta 读法不同，英语 went 不读 go）
+   */
+  fi?: Record<string, string>
   /** 变形类别：法语 -er 动词、俄语第一变格法、阿拉伯语第二式（Form II）、韩语 ㅂ 不规则…… */
   cls?: string[]
   /** 各套分级里的等级：{ cefr: 'A1', 'cn-exam': ['cet4', 'cet6'] } */
@@ -394,6 +399,8 @@ export interface LexToken {
   pos?: PosTag
   /** 这个词形的标签：复数、过去分词、主格助词……（form 表的 tags，或者猜原形时给的） */
   tags?: string[]
+  /** 同一个词形在这个词条里的别的可能（几组标签）：既是弱化形又是呼格、既是单数属格又是复数主格…… */
+  alt?: string[][]
   /** 主分级的等级 */
   lv?: string | null
   zh?: string

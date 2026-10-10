@@ -134,7 +134,21 @@ export const TAG_LABELS: Record<string, Label> = {
   uncountable: { zh: '不可数', en: 'uncountable' },
   irregular: { zh: '不规则', en: 'irregular' },
   UK: { zh: '英式', en: 'UK' },
-  US: { zh: '美式', en: 'US' }
+  US: { zh: '美式', en: 'US' },
+  emphatic: { zh: '强调形', en: 'emphatic' },
+  'no-plural': { zh: '无复数', en: 'no plural' },
+  elision: { zh: '省音', en: 'elision' },
+  elided: { zh: '省音', en: 'elided' },
+  dialectal: { zh: '方言', en: 'dialectal' },
+  'with-dative': { zh: '接与格', en: 'with dative' },
+  'with-genitive': { zh: '接属格', en: 'with genitive' },
+  'with-accusative': { zh: '接宾格', en: 'with accusative' },
+  'triggers-lenition': { zh: '引起弱化', en: 'triggers lenition' },
+  idiomatic: { zh: '惯用', en: 'idiomatic' },
+  indeclinable: { zh: '不变格', en: 'indeclinable' },
+  possessive: { zh: '所有格', en: 'possessive' },
+  diminutive: { zh: '指小', en: 'diminutive' },
+  augmentative: { zh: '指大', en: 'augmentative' }
 }
 
 const pick = (l: Label | undefined, locale: string, raw: string): string =>

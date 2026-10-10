@@ -253,7 +253,8 @@ export default {
         guess: '“{form}” is probably the {tags} of “{base}”',
         variant: 'inflected form',
         loose: 'Matched ignoring accents and diacritics',
-        gloss: 'Matched by meaning'
+        gloss: 'Matched by meaning',
+        alt: 'Could also be: {tags}'
       },
       variant: 'Other spellings',
       audio: 'Recording',
@@ -274,7 +275,12 @@ export default {
         aspect: 'Aspect partner',
         len: 'Lenited form',
         plural: 'Plural',
-        stress: 'Stress'
+        stress: 'Stress',
+        ety: 'Etymology',
+        vn: 'Verbal noun',
+        vnOf: 'Verbal noun of',
+        ipaDialects: 'Dialect pronunciations',
+        formIpa: 'Pronunciation of forms'
       }
     },
     empty: 'Type a word to look it up.',
