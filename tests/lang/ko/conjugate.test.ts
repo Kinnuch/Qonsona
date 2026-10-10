@@ -150,7 +150,7 @@ describe('이다、아니다', () => {
     expect(c('이다', 'cop', 'hae')).toBe('이야')
     expect(c('이다', 'cop', 'seumnida')).toBe('입니다')
     expect(c('이다', 'cop', 'past haeyo')).toBe('이었어요')
-    expect(conjugate('이다', 'cop', ['aseo'])).toEqual(['이라서', '이어서'])
+    expect(conjugate('이다', 'cop', ['aseo'])).toEqual(['이라서', '이어서', '이라'])
     expect(c('이다', 'cop', 'dago')).toBe('이라고')
     expect(c('이다', 'cop', 'n')).toBe('인')
   })

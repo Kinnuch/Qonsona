@@ -420,10 +420,15 @@ async function main(): Promise<void> {
       .map((k) => ({ ...k, senses: k.senses.filter((x) => !NOT_A_WORD.test(x.glosses.join(' '))) }))
       .filter((k) => k.senses.length)
     if (!good.length) continue
-    // 别的词的活用形（몰라요）、体词加助词（나는）不另立词条：还原规则能找到原形
+    // 别的词的活用形（몰라요）、体词加助词或缩约（나는、이젠、뭔지）不另立词条：还原规则能找到原形。
+    // 动词、形容词、代词只要还原得出기초사전的词就不要；其余（名词等）没有汉字、而且是常见的分析才不要；专名都留着
+    const found = analyses(word).filter((a) => krWords.has(key(a.lemma)))
+    const predLike = good.every((k) => k.pos === 'verb' || k.pos === 'adj' || k.pos === 'pron')
+    const hasHanja = good.some((k) => k.hanja.length)
+    const isName = good.every((k) => k.pos === 'name')
     if (
-      good.every((k) => k.pos === 'verb' || k.pos === 'adj' || k.pos === 'pron') &&
-      analyses(word).some((a) => krWords.has(key(a.lemma)))
+      !isName &&
+      ((predLike && found.length > 0) || (!hasHanja && found.some((a) => a.score < 0.8)))
     )
       continue
     const p = [...new Set(good.map((k) => KK_POS[k.pos]))]
@@ -446,7 +451,13 @@ async function main(): Promise<void> {
   const clsCount = new Map<string, number>()
   for (const it of items) {
     const p = it.p[0]
-    if (!(p === 'verb' || p === 'adj' || p === 'aux') || !it.w.endsWith('다') || /\s/.test(it.w))
+    // 이다（叙述格助词）的活用由 lemma.ts 另外认（학생이에요），不在这里生成变形表
+    if (
+      !(p === 'verb' || p === 'adj' || p === 'aux') ||
+      !it.w.endsWith('다') ||
+      /\s/.test(it.w) ||
+      it.w === '이다'
+    )
       continue
     const kr = it.kr
     // 定类别：기초사전给的活用形（들어、들으니、듣는）；没有的用维基词典活用表
@@ -470,7 +481,7 @@ async function main(): Promise<void> {
   /** 先验：기초사전等级越低（越基础）越常见；维基词典另立的词条打折扣 */
   const prior = (it: Item): number => {
     const lv = it.kr?.level
-    return (lv === '초급' ? 8 : lv === '중급' ? 4 : lv === '고급' ? 1 : 0.5) * (it.kr ? 1 : 0.3)
+    return (lv === '초급' ? 8 : lv === '중급' ? 4 : lv === '고급' ? 1 : 0.5) * (it.kr ? 1 : 0.05)
   }
   const lemmaIndex = new Map<string, number[]>()
   for (const it of items) {
@@ -491,7 +502,9 @@ async function main(): Promise<void> {
         if (w > (out.get(i) ?? 0)) out.set(i, w)
       }
     }
-    add(lemmaIndex.get(key(word)), 0)
+    // 整词就是词头的也只算一种分析（分数 0.2，跟最常见的谓词分析相当）：가 这类单音节词不会把
+    // 「가!」（가다的命令）「가」（助词）的次数全吞掉
+    add(lemmaIndex.get(key(word)), 0.2)
     for (const a of analyses(word)) add(lemmaIndex.get(key(a.lemma)), a.score)
     return [...out]
   }
@@ -519,6 +532,7 @@ async function main(): Promise<void> {
 
   // 体词加助词跟谓词的变形同形（우리는 / 우리다、나는 / 나다）：这个写法也收进体词的变形表，
   // 阅读器在变形表里对上几个词条时按词频挑，常用的代词、名词就不会被冷僻的动词抢走
+  // 本身就是另一个词头的（가만 是副词，不收成 가 + 만；파도 是名词，不收成 파 + 도）不加
   const predForms = new Set<string>()
   for (const it of items) if (it.conj) for (const f of it.forms) predForms.add(key(f[0]))
   let clash = 0
@@ -526,8 +540,10 @@ async function main(): Promise<void> {
     if (!['noun', 'pron', 'num', 'propn'].includes(it.p[0]) || /[\s-]/.test(it.w)) continue
     const coda = !!decompose(it.w.slice(-1))?.t
     for (const [c, v, label] of NOUN_PARTICLES) {
+      // 나、저、너 的主格是 내가、제가、네가，「나가」是 나가다
+      if (!coda && v === '가' && (it.w === '나' || it.w === '저' || it.w === '너')) continue
       const form = it.w + (coda ? c : v)
-      if (predForms.has(key(form))) {
+      if (predForms.has(key(form)) && !lemmaIndex.has(key(form))) {
         it.forms.push([form, label])
         clash++
       }
@@ -741,7 +757,8 @@ async function main(): Promise<void> {
       ...(forms?.length ? { f: forms } : {}),
       ...(cls.length ? { cls } : {}),
       ...(Object.keys(it.lv).length ? { lv: it.lv } : {}),
-      ...(it.fr ? { fr: it.fr } : {}),
+      // 词缀、词尾不算词频（-점、큰- 不跟名词「점」、形容词「크다」抢）
+      ...(it.fr && it.p[0] !== 'affix' ? { fr: it.fr } : {}),
       ...(Object.keys(x).length ? { x } : {}),
       src
     }

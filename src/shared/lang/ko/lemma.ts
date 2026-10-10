@@ -12,7 +12,7 @@
 import { conjugate, type PredClass } from './conjugate'
 import { chainTags, deinflectPredicate } from './deinflect'
 import { ENDINGS, FINALS } from './endings'
-import { decompose, isHangulWord, withPart } from './hangul'
+import { compose, decompose, isHangulWord, withPart } from './hangul'
 import {
   CODA_PARTICLES,
   PARTICLES,
@@ -100,6 +100,8 @@ function splitParticles(word: string): Split[] {
       if (ps.length && p.final) continue
       const rest = base.slice(0, -p.s.length)
       if (!condOk(p.cond, rest)) continue
+      // 나、저、너 的主格是 내가、제가、네가：「나가」不是「나 + 가」
+      if (p.s === '가' && (rest === '나' || rest === '저' || rest === '너')) continue
       const next = [p, ...ps]
       out.push({ base: rest, particles: next })
       walk(rest, next, depth + 1)
@@ -115,6 +117,49 @@ function splitParticles(word: string): Split[] {
         out.push({ base, particles: [{ s: '', label: c.label, cond: 'V', rank: 2 }], coda: true })
       }
   }
+  return out
+}
+
+// ───────────────────────── 补助用言连写 ─────────────────────────
+
+/** 接在 -아/어 后面、常跟前面连写的补助动词（해 주다 → 해주다、먹어 보다 → 먹어보다、만들어지다） */
+const AUX_AFTER_A = [
+  '주다',
+  '드리다',
+  '보다',
+  '버리다',
+  '놓다',
+  '두다',
+  '내다',
+  '가다',
+  '오다',
+  '있다',
+  '지다',
+  '대다'
+]
+/** 接在 -고、-지 后面的（먹고 싶다 → 먹고싶다、먹지 않다 → 먹지않다） */
+const AUX_AFTER_GO = ['싶다', '있다', '말다']
+const AUX_AFTER_JI = ['않다', '못하다', '말다']
+
+/**
+ * 一个「原形」要是「主要动词的 -아/어、-고、-지 形 + 补助用言」连写成的，给出主要动词（해주다 → 하다 + 주다）。
+ * 主要动词同样用正向活用核对。
+ */
+function splitAuxiliary(lemma: string): { main: string; tags: string[] }[] {
+  const out: { main: string; tags: string[] }[] = []
+  const try_ = (prefix: string, ending: string, aux: string): void => {
+    if (!prefix) return
+    for (const a of deinflectPredicate(prefix))
+      if (a.chain.length === 1 && a.chain[0] === ending)
+        out.push({ main: a.lemma, tags: [chainTags(a.chain)[0], aux] })
+  }
+  for (const aux of AUX_AFTER_A)
+    if (lemma.endsWith(aux) && lemma.length > aux.length)
+      try_(lemma.slice(0, -aux.length), 'hae', aux)
+  for (const aux of AUX_AFTER_GO)
+    if (lemma.endsWith('고' + aux)) try_(lemma.slice(0, -aux.length), 'go', aux)
+  for (const aux of AUX_AFTER_JI)
+    if (lemma.endsWith('지' + aux)) try_(lemma.slice(0, -aux.length), 'ji', aux)
   return out
 }
 
@@ -139,6 +184,9 @@ function analyzeWord(word: string): Guess[] {
       // 词典里没有「X하다、X되다、X시키다」时退一步给 X（名词）
       const m = /^(.+?)(하|되|시키)다$/.exec(a.lemma)
       if (m && m[1].length >= 1) add(m[1], [m[2] + '다', ...chainTags(a.chain)], a.score + 1.5)
+      // 补助用言连写（해주세요、먹어 봤어요 写成 먹어봤어요、먹고싶어요）：再给前面的主要动词
+      for (const s of splitAuxiliary(a.lemma))
+        add(s.main, [...s.tags, ...chainTags(a.chain)], a.score + 0.4)
     }
   }
 
@@ -158,6 +206,18 @@ function analyzeWord(word: string): Guess[] {
         ['이다', ...chainTags(chain)],
         0.45 + (ENDINGS.get(chain.at(-1)!)?.rank ?? 1) * 0.3 + (chain.length - 1) * 0.2
       )
+    // 口语里 이 + ㄴ/ㄹ/ㅁ 缩到前一个音节上：뭔지（뭐인지）、어딘지（어디인지）、누군데（누구인데）
+    const s = decompose(base.slice(-1))
+    if (s && (s.t === 'ㄴ' || s.t === 'ㄹ' || s.t === 'ㅁ')) {
+      const full = (compose('ㅇ', 'ㅣ', s.t) ?? '') + tail
+      const c2 = cop.afterC.get(full)
+      if (c2)
+        add(
+          base.slice(0, -1) + withPart(base.slice(-1), { t: '' }),
+          ['이다', ...chainTags(c2)],
+          0.75 + (ENDINGS.get(c2.at(-1)!)?.rank ?? 1) * 0.3
+        )
+    }
   }
 
   // 4. 体词 + 助词（학교에서는）；助词前面也可以是谓词的名词形（먹기를）、이다 的活用不在这里

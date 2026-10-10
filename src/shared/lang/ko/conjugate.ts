@@ -200,7 +200,7 @@ function copula(st: Stem, e: Ending): string[] | null {
     case 'haeyo':
       return [j + 'ㅇㅔㅇㅛ', j + 'ㅇㅓㅇㅛ'] // 이에요 / 이어요
     case 'aseo':
-      return [j + 'ㄹㅏㅅㅓ', j + 'ㅇㅓㅅㅓ'] // 이라서 / 이어서
+      return [j + 'ㄹㅏㅅㅓ', j + 'ㅇㅓㅅㅓ', j + 'ㄹㅏ'] // 이라서 / 이어서 / 이라（학생이라 바쁘다）
   }
   // 引语、转述类：이라고、이래요、이라면、이라는
   if (e.type === 'C' && e.j.startsWith('ㄷㅏ') && e.id !== 'da' && e.id !== 'daga')

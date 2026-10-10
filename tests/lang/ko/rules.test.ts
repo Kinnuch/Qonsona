@@ -8,12 +8,13 @@ import { primarySystem } from '../../../src/shared/lang/levels'
 import { toSimplified } from '../../../src/shared/lang/ko/t2s'
 
 describe('查词键', () => {
-  it('NFC、小写、空白并成一个、去掉两头的连字符', () => {
+  it('NFC、小写、空白并成一个；词缀词尾的连字符留着（宽松键去掉）', () => {
     expect(key('한국어')).toBe('한국어')
     expect(key('한국어'.normalize('NFD'))).toBe('한국어')
     expect(key('  눈이   높다 ')).toBe('눈이 높다')
-    expect(key('-고')).toBe('고')
-    expect(key('가-')).toBe('가')
+    expect(key('-고')).toBe('-고')
+    expect(key('가-')).toBe('가-')
+    expect(looseKey('-고')).toBe('고')
     expect(key('SNS')).toBe('sns')
   })
   it('宽松键：去掉空格，汉字转简体', () => {
