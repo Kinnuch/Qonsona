@@ -148,8 +148,47 @@ export const TAG_LABELS: Record<string, Label> = {
   indeclinable: { zh: '不变格', en: 'indeclinable' },
   possessive: { zh: '所有格', en: 'possessive' },
   diminutive: { zh: '指小', en: 'diminutive' },
-  augmentative: { zh: '指大', en: 'augmentative' }
+  augmentative: { zh: '指大', en: 'augmentative' },
+  'short-form': { zh: '短尾', en: 'short form' },
+  adverbial: { zh: '副动词', en: 'adverbial' },
+  'count-form': { zh: '计数形', en: 'count form' },
+  'declension-1': { zh: '第一变格法', en: '1st declension' },
+  'declension-2': { zh: '第二变格法', en: '2nd declension' },
+  'declension-3': { zh: '第三变格法', en: '3rd declension' },
+  heteroclitic: { zh: '异格', en: 'heteroclitic' },
+  adjectival: { zh: '形容词式变格', en: 'adjectival declension' },
+  'plural-only': { zh: '只有复数', en: 'plural only' },
+  'singular-only': { zh: '只有单数', en: 'singular only' },
+  'first-conjugation': { zh: '第一变位法', en: '1st conjugation' },
+  'second-conjugation': { zh: '第二变位法', en: '2nd conjugation' },
+  'mixed-conjugation': { zh: '混合变位', en: 'mixed conjugation' },
+  'hard-stem': { zh: '硬词干', en: 'hard stem' },
+  'soft-stem': { zh: '软词干', en: 'soft stem' },
+  'velar-stem': { zh: '后舌音词干', en: 'velar stem' },
+  'sibilant-stem': { zh: '咝音词干', en: 'sibilant stem' },
+  'ц-stem': { zh: 'ц 词干', en: 'ц stem' },
+  'vowel-stem': { zh: '元音词干', en: 'vowel stem' },
+  'mobile-stress': { zh: '重音移动', en: 'mobile stress' },
+  derogatory: { zh: '贬义', en: 'derogatory' },
+  offensive: { zh: '冒犯', en: 'offensive' },
+  humorous: { zh: '幽默', en: 'humorous' },
+  ironic: { zh: '反讽', en: 'ironic' },
+  euphemistic: { zh: '委婉', en: 'euphemistic' },
+  nonstandard: { zh: '不规范', en: 'nonstandard' },
+  proscribed: { zh: '不推荐', en: 'proscribed' },
+  endearing: { zh: '爱称', en: 'endearing' },
+  pejorative: { zh: '贬称', en: 'pejorative' },
+  historical: { zh: '历史', en: 'historical' },
+  poetic: { zh: '诗歌', en: 'poetic' },
+  Internet: { zh: '网络用语', en: 'Internet' },
+  childish: { zh: '儿语', en: 'childish' },
+  Soviet: { zh: '苏联时期', en: 'Soviet' }
 }
+
+/** 几个标签合起来另有叫法的（副动词 = adverbial + participle）：合起来显示一个 */
+const COMBOS: { tags: string[]; label: Label }[] = [
+  { tags: ['adverbial', 'participle'], label: { zh: '副动词', en: 'adverbial participle' } }
+]
 
 const pick = (l: Label | undefined, locale: string, raw: string): string =>
   l ? (locale.startsWith('zh') ? l.zh : l.en) : raw
@@ -163,8 +202,14 @@ export const tagLabel = (t: string, locale: string): string => pick(TAG_LABELS[t
 
 /** 一组标签合成一个说明：「复数 · 属格」 */
 export function tagsLabel(tags: string[], locale: string): string {
-  return tags
-    .filter((t) => t !== 'lemma')
-    .map((t) => tagLabel(t, locale))
-    .join(locale.startsWith('zh') ? ' · ' : ', ')
+  let rest = tags.filter((t) => t !== 'lemma')
+  const out: string[] = []
+  for (const c of COMBOS)
+    if (c.tags.every((t) => rest.includes(t))) {
+      out.push(pick(c.label, locale, c.tags.join(' ')))
+      rest = rest.filter((t) => !c.tags.includes(t))
+    }
+  return [...out, ...rest.map((t) => tagLabel(t, locale))].join(
+    locale.startsWith('zh') ? ' · ' : ', '
+  )
 }

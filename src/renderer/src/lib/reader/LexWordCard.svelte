@@ -27,12 +27,12 @@
   })
   const changes = $derived(tagsLabel(token.tags ?? [], L))
 
-  function openInDict(): void {
-    if (!token.entry) return
+  function openInDict(entry = token.entry, lemma = token.lemma ?? token.text): void {
+    if (!entry) return
     const memo = dictState.of(code)
     memo.tab = 'words'
-    memo.query = token.lemma ?? token.text
-    memo.selected = String(token.entry)
+    memo.query = lemma
+    memo.selected = String(entry)
     dictState.remember(code, memo.query)
     onclose()
     ui.go('dictionary')
@@ -67,6 +67,19 @@
         })}
       </p>
     {/if}
+    {#if token.others?.length}
+      <p class="faint small" data-word-others>
+        {t('langReading.others')}{#each token.others as o, i (o.entry)}{#if i}{L === 'zh'
+              ? '、'
+              : ', '}{/if}<button
+            class="link"
+            lang={spec.bcp47}
+            dir={spec.direction}
+            data-other={o.entry}
+            onclick={() => openInDict(o.entry, o.lemma)}>{o.lemma}</button
+          >（{posLabel(o.pos, L)}）{/each}
+      </p>
+    {/if}
     {#if token.ruby}<p class="faint small ruby">{token.ruby}</p>{/if}
     <p class="gloss">{(L === 'zh' ? token.zh || token.en : token.en || token.zh) ?? ''}</p>
     <div class="actions">
@@ -79,7 +92,7 @@
           meaning: { zh: token.zh ?? '', en: token.en ?? '' }
         })}
       />
-      <button class="btn ghost small" data-open-dict onclick={openInDict}
+      <button class="btn ghost small" data-open-dict onclick={() => openInDict()}
         >{t('reading.openInDict')}</button
       >
     </div>

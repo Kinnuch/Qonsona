@@ -11,6 +11,8 @@
   import type { LangCode, LexExample } from '$shared/lang/types'
   import type { LexEntryView, LexHit, LexSearchResult } from '$shared/lang/views'
   import { genderLabel, posLabel, tagLabel, tagsLabel } from '$shared/lang/tags'
+  import { foldWithMap } from '$shared/lang/text'
+  import { primarySystem } from '$shared/lang/levels'
   import Pronounce from '$lib/ui/Pronounce.svelte'
   import AddToNotebook from '$lib/notebook/AddToNotebook.svelte'
   import { lexFromEntry, lexKey } from '$lib/notebook/cards'
@@ -98,6 +100,14 @@
       })
     }
     if (h.match === 'loose') return t('dict.lex.via.loose')
+    if (h.match === 'latin') {
+      const tags = tagsLabel(h.via?.tags ?? [], L)
+      return t(tags ? 'dict.lex.via.latinForm' : 'dict.lex.via.latin', {
+        form: h.via?.form ?? '',
+        base: head,
+        tags
+      })
+    }
     if (h.match === 'gloss') return t('dict.lex.via.gloss')
     return ''
   }
@@ -129,6 +139,12 @@
     const s = t(key)
     return s === key ? k : s
   }
+  /** 字段的说明（悬停看）：没有的是空的 */
+  const extraHelp = (k: string): string => {
+    const key = `dict.lex.extraHelp.${k}`
+    const s = t(key)
+    return s === key ? '' : s
+  }
   /** 数组连起来；对象写成「键: 值」（值是数组的用斜线连） */
   const extraText = (v: unknown): string => {
     const sep = L === 'zh' ? '、' : ', '
@@ -140,17 +156,28 @@
     return String(v)
   }
 
-  /** 例句里把查的词标出来（不分大小写） */
+  /** 主分级里一级的短名（列表上用 A1 这样的，不用 id） */
+  const levelShort = (id: string): string =>
+    primarySystem(spec.levelSystems).levels.find((l) => l.id === id)?.short ?? id
+
+  /**
+   * 例句里把查的词标出来：不分大小写，也不管重音、元音符号这些记号（词典的写法带重音，例句多半不带）
+   */
   function mark(sentence: string, words: string[]): { text: string; hit: boolean }[] {
-    const lower = sentence.toLocaleLowerCase(lang)
+    const { folded, map } = foldWithMap(sentence, lang)
     for (const x of words.filter(Boolean).sort((a, b) => b.length - a.length)) {
-      const i = lower.indexOf(x.toLocaleLowerCase(lang))
-      if (i >= 0)
-        return [
-          { text: sentence.slice(0, i), hit: false },
-          { text: sentence.slice(i, i + x.length), hit: true },
-          { text: sentence.slice(i + x.length), hit: false }
-        ]
+      const fx = foldWithMap(x, lang).folded
+      const i = fx ? folded.indexOf(fx) : -1
+      if (i < 0) continue
+      const s = map[i]
+      let e = map[i + fx.length]
+      // 词尾后面跟着的记号（重音符）也算进去
+      while (e < sentence.length && /\p{M}/u.test(sentence[e])) e++
+      return [
+        { text: sentence.slice(0, s), hit: false },
+        { text: sentence.slice(s, e), hit: true },
+        { text: sentence.slice(e), hit: false }
+      ]
     }
     return [{ text: sentence, hit: false }]
   }
@@ -235,7 +262,7 @@
                 <strong {lang} {dir}>{shown(h)}</strong>
                 {#if h.p[0]}<span class="faint small">{posLabel(h.p[0], L)}</span>{/if}
                 {#if h.g}<span class="faint small">{genderLabel(h.g, L)}</span>{/if}
-                {#if h.lv}<span class="chip level">{h.lv}</span>{/if}
+                {#if h.lv}<span class="chip level">{levelShort(h.lv)}</span>{/if}
               </span>
               <span class="gloss">{(L === 'zh' && h.zh) || h.en || h.zh}</span>
             </button>
@@ -380,7 +407,10 @@
           {#if extras.length}
             <section class="block" data-extras>
               {#each extras as [k, v] (k)}
-                <p><span class="faint">{extraLabel(k)}</span> <span {lang}>{extraText(v)}</span></p>
+                <p>
+                  <span class="faint" title={extraHelp(k) || undefined}>{extraLabel(k)}</span>
+                  <span {lang}>{extraText(v)}</span>
+                </p>
               {/each}
             </section>
           {/if}

@@ -121,6 +121,7 @@ export default {
     intro:
       '点击一篇文章即可阅读：词按等级画下划线，点击词可以查词典，右边列出本文的词汇与语法。新闻有版权的只收标题和导语，全文请到原网站阅读。',
     pasteBody: '请把{lang}文章粘贴到这里。',
+    others: '也可能是：',
     sources: { all: '全部来源', news: '新闻', user: '我导入的', builtin: '内置课文' },
     refresh: '获取新闻',
     refreshing: '正在获取新闻……',
@@ -248,7 +249,9 @@ export default {
         variant: '变形',
         loose: '按不带变音符号的写法对上',
         gloss: '按释义对上',
-        alt: '也可能是{tags}'
+        alt: '也可能是{tags}',
+        latin: '按拉丁字母转写成「{form}」对上',
+        latinForm: '按拉丁字母转写成「{form}」，是「{base}」的{tags}'
       },
       variant: '其他写法',
       audio: '真人录音',
@@ -269,12 +272,18 @@ export default {
         aspect: '体的配对',
         len: '弱化形',
         plural: '复数',
-        stress: '重音',
+        stress: '重音类型',
+        zal: '扎利兹尼亚克类型',
         ety: '词源',
         vn: '动名词',
         vnOf: '是这个动词的动名词',
         ipaDialects: '方言读音',
         formIpa: '变形的读音'
+      },
+      extraHelp: {
+        stress:
+          '扎利兹尼亚克的重音类型：a 固定在词干，b 固定在词尾，c 到 f 在词干与词尾之间按格、数移动。',
+        zal: '扎利兹尼亚克《俄语语法词典》的变格 / 变位类型编号。'
       }
     },
     empty: '请输入要查的词。',

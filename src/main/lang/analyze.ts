@@ -23,6 +23,7 @@ function toToken(raw: RawToken, hit: LookupHit | null, ruby?: string): LexToken 
     t.pos = hit.pos
     if (hit.tags.length) t.tags = hit.tags
     if (hit.alt?.length) t.alt = hit.alt
+    if (hit.others?.length) t.others = hit.others
     t.lv = hit.lv
     if (hit.zh) t.zh = hit.zh
     if (hit.en) t.en = hit.en

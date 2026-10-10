@@ -123,6 +123,7 @@ export default {
     intro:
       'Click an article to read it: words are underlined by level, click a word to look it up, and the side panel lists the vocabulary and grammar of the text. Copyrighted news only comes with headlines and leads; read the full story on the original site.',
     pasteBody: 'Paste a {lang} text here.',
+    others: 'Could also be: ',
     sources: { all: 'All sources', news: 'News', user: 'Imported', builtin: 'Built-in texts' },
     refresh: 'Get news',
     refreshing: 'Getting news…',
@@ -254,7 +255,9 @@ export default {
         variant: 'inflected form',
         loose: 'Matched ignoring accents and diacritics',
         gloss: 'Matched by meaning',
-        alt: 'Could also be: {tags}'
+        alt: 'Could also be: {tags}',
+        latin: 'Matched by transliterating to “{form}”',
+        latinForm: 'Transliterated to “{form}”, the {tags} of “{base}”'
       },
       variant: 'Other spellings',
       audio: 'Recording',
@@ -275,12 +278,18 @@ export default {
         aspect: 'Aspect partner',
         len: 'Lenited form',
         plural: 'Plural',
-        stress: 'Stress',
+        stress: 'Stress pattern',
+        zal: 'Zaliznyak class',
         ety: 'Etymology',
         vn: 'Verbal noun',
         vnOf: 'Verbal noun of',
         ipaDialects: 'Dialect pronunciations',
         formIpa: 'Pronunciation of forms'
+      },
+      extraHelp: {
+        stress:
+          'Zaliznyak stress pattern: a = fixed on the stem, b = fixed on the ending, c to f = moves between stem and ending by case and number.',
+        zal: 'Declension or conjugation class number from Zaliznyak’s Grammatical Dictionary of Russian.'
       }
     },
     empty: 'Type a word to look it up.',

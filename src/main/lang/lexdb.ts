@@ -28,7 +28,7 @@ import type {
 } from '../../shared/lang/views'
 import { SCHEMA_VERSION, enGlossKey, unpackEntry } from './lexdb-schema'
 
-const ORDER: LexMatch[] = ['exact', 'form', 'loose', 'guess', 'gloss', 'prefix']
+const ORDER: LexMatch[] = ['exact', 'form', 'loose', 'guess', 'latin', 'gloss', 'prefix']
 
 /** 阅读器里一个词形对上的词条 */
 export interface LookupHit {
@@ -39,6 +39,8 @@ export interface LookupHit {
   tags: string[]
   /** 同一个词形在这个词条里的别的可能（几组标签） */
   alt?: string[][]
+  /** 同一个词形还能是的别的词条（常用的在前，最多三个） */
+  others?: { entry: number; lemma: string; pos: PosTag }[]
   lv: string | null
   zh: string
   en: string
@@ -167,6 +169,25 @@ export class LexDb {
     for (const g of rules.lemmaCandidates?.(q) ?? []) {
       for (const r of byKey(rules.key(g.lemma), 0))
         add(Number(r.entry), 'guess', { form: q, tags: g.tags })
+    }
+    // 用拉丁字母输入不用拉丁字母的语言（privet → привет）：按转写出的几种写法再查一遍
+    if (rules.fromLatin && /^[\p{Script=Latin}\s'’-]+$/u.test(q)) {
+      for (const c of rules.fromLatin(q).slice(0, 4)) {
+        const ck = rules.key(c)
+        if (!ck || ck === key) continue
+        for (const r of byKey(ck, 0)) {
+          const tags = r.tags ? r.tags.split(' ').filter((t) => t !== 'lemma') : []
+          add(Number(r.entry), 'latin', { form: c, tags })
+        }
+        for (const g of rules.lemmaCandidates?.(c) ?? [])
+          for (const r of byKey(rules.key(g.lemma), 0))
+            add(Number(r.entry), 'latin', { form: c, tags: g.tags })
+        if (found.size < 20)
+          for (const r of this.#stmt(
+            'SELECT DISTINCT entry FROM form WHERE key > ? AND key < ? AND loose = 0 LIMIT 100'
+          ).all(ck, ck + TOP) as { entry: number }[])
+            add(Number(r.entry), 'prefix')
+      }
     }
     // 释义反查：有汉字按中文，有拉丁字母按英文（英语本身不按英文释义反查，免得查 cat 先出一堆含 cat 的释义）
     if (/\p{Script=Han}/u.test(q)) {
@@ -327,12 +348,20 @@ export class LexDb {
       }
       const ipa =
         d.fi?.[found.form] ?? d.fi?.[surface] ?? (isLemma && !alt.length ? d.ipa?.[0] : undefined)
+      // 同一个词形还能是的别的词条（стали：сталь / стать）
+      const others = (
+        this.#stmt(
+          `SELECT DISTINCT f.entry, e.w, e.p FROM form f JOIN entry e ON e.id = f.entry
+           WHERE f.key = ? AND f.loose = ? AND f.entry != ? ORDER BY e.fr IS NULL, e.fr LIMIT 3`
+        ).all(found.k, found.loose, found.entry) as { entry: number; w: string; p: string }[]
+      ).map((r) => ({ entry: Number(r.entry), lemma: r.w, pos: r.p as PosTag }))
       hit = {
         entry: Number(found.entry),
         lemma: d.w,
         pos: d.p[0],
         tags: tags ?? split(found.tags),
         ...(alt.length ? { alt } : {}),
+        ...(others.length ? { others } : {}),
         lv: found.lv,
         zh: g.zh,
         en: g.en,

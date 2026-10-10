@@ -233,6 +233,11 @@ export interface LangRules {
   marks?: MarkDef[]
   /** 转写成拉丁字母 */
   romanize?(text: string): string
+  /**
+   * 查词框里输入的拉丁字母转成这门语言的文字（俄语 privet → привет）；可以给几种可能，常见的在前。
+   * 不用拉丁字母的语言才写；查词时原样查不到或结果很少时再按它查
+   */
+  fromLatin?(text: string): string[]
 }
 
 // ───────────────────────── 语言说明（学习包的描述） ─────────────────────────
@@ -401,6 +406,8 @@ export interface LexToken {
   tags?: string[]
   /** 同一个词形在这个词条里的别的可能（几组标签）：既是弱化形又是呼格、既是单数属格又是复数主格…… */
   alt?: string[][]
+  /** 同一个词形还能是别的词条（俄语 стали：сталь / стать）：词卡上列出来，点了到词典看 */
+  others?: { entry: number; lemma: string; pos: PosTag }[]
   /** 主分级的等级 */
   lv?: string | null
   zh?: string

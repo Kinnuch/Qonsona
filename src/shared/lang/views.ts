@@ -4,7 +4,8 @@
 import type { AudioRef, LexExample, LocalizedText, PosTag, SourceRef } from './types'
 
 /** 查词时怎么对上的：词头、变形、去掉变音符号、按规则猜原形、前缀、释义反查 */
-export type LexMatch = 'exact' | 'form' | 'loose' | 'guess' | 'prefix' | 'gloss'
+/** 怎么对上的：词头、变形、去记号、猜原形、拉丁字母转写、前缀、释义 */
+export type LexMatch = 'exact' | 'form' | 'loose' | 'guess' | 'latin' | 'prefix' | 'gloss'
 
 export interface LexHit {
   id: number

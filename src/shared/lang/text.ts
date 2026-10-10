@@ -23,6 +23,24 @@ export function stripMarks(text: string): string {
   return text.normalize('NFD').replace(/\p{M}/gu, '').normalize('NFC')
 }
 
+/**
+ * 去掉附加符号（重音、元音符号……）并转小写，同时记下折叠后每个字符在原文里的位置（map 比 folded 多一项：末尾）。
+ * 例句里找词时两边都这样折叠再比（Tatoeba 的句子不带重音，词典的写法带），找到后按 map 换回原文的起止
+ */
+export function foldWithMap(text: string, locale?: string): { folded: string; map: number[] } {
+  let folded = ''
+  const map: number[] = []
+  let i = 0
+  for (const ch of text) {
+    const f = ch.normalize('NFD').replace(/\p{M}/gu, '').toLocaleLowerCase(locale)
+    for (let k = 0; k < f.length; k++) map.push(i)
+    folded += f
+    i += ch.length
+  }
+  map.push(i)
+  return { folded, map }
+}
+
 const segmenters = new Map<string, Intl.Segmenter>()
 function segmenter(locale: string, granularity: 'word' | 'sentence'): Intl.Segmenter {
   const k = `${locale}|${granularity}`
