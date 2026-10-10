@@ -29,13 +29,13 @@ export function lemmaCounts(
   looseKey: (s: string) => string,
   n: number,
   /** 一个词形对上几个词条时挑哪些参与分（专名、字母、缩写不跟普通词分） */
-  pick?: (cands: number[]) => number[]
+  pick?: (cands: number[], form: string) => number[]
 ): Float64Array {
   const pairs: [number[], number][] = []
   for (const [form, c] of src.counts) {
     let cands = strict.get(form) ?? loose.get(looseKey(form))
     if (!cands) continue
-    if (pick) cands = pick(cands)
+    if (pick) cands = pick(cands, form)
     if (cands.length) pairs.push([cands, c])
   }
   let weight = new Float64Array(n).fill(1)

@@ -319,13 +319,16 @@ function cleanForm(form: string, lemmaHasSpace: boolean): string | null {
 
 /** 释义里维基词典给的转写「молоко́ (molokó)」去掉，带着的意思留下「дом (dom, “house”)」→「дом (“house”)」 */
 export function cleanGloss(g: string): string {
+  // 只看紧跟在西里尔字母（或重音符号）后面的括号：英文里的「to eat (food)」不动
   return g
-    .replace(/\s\(([^()“”]*?)(?:, (“[^”]*”))?\)/g, (m, tr: string, meaning: string | undefined) =>
-      /^[a-zA-Zà-žÀ-Žəɛʹʺ'’\u{300}-\u{36F} -]+$/u.test(tr) && /[a-z]/i.test(tr)
-        ? meaning
-          ? ` (${meaning})`
-          : ''
-        : m
+    .replace(
+      /(?<=[\u{400}-\u{4FF}\u{300}\u{301}])\s\(([^()“”]*?)(?:, (“[^”]*”))?\)/gu,
+      (m, tr: string, meaning: string | undefined) =>
+        /^[a-zA-Zà-žÀ-Žəɛʹʺ'’\u{300}-\u{36F} -]+$/u.test(tr) && /[a-z]/i.test(tr)
+          ? meaning
+            ? ` (${meaning})`
+            : ''
+          : m
     )
     .replace(/\s+/g, ' ')
     .trim()
@@ -388,7 +391,9 @@ const INFLECTION_TAGS = new Set([
   'stressed',
   'unstressed',
   'irregular',
-  'obsolete'
+  'obsolete',
+  'predicative',
+  'demonstrative'
 ])
 const INFLECTION_CORE = new Set([
   ...CASES,
@@ -402,10 +407,25 @@ const INFLECTION_CORE = new Set([
 
 function isInflectionSense(s: KSense): boolean {
   if (!s.form_of && !s.alt_of) return false
+  // 「inflection of весь」：标签里常常只有 form-of，看释义开头就知道是变形
+  if (s.form_of && /^inflection of /.test(s.glosses?.[0] ?? '')) return true
   const t = s.tags ?? []
   if (t.includes('passive') && !t.includes('participle')) return false
   return t.every((x) => INFLECTION_TAGS.has(x)) && t.some((x) => INFLECTION_CORE.has(x))
 }
+
+/** 旧正字法：ѣ і ѳ ѵ、辅音后词尾的 ъ、е 以外字母上的分音符号（NFD 之后） */
+const PRE_REFORM = /[ѣіѳѵѢІѲѴ]|[бвгджзклмнпрстфхцчшщ]ъ(?![\p{L}\p{M}])|[^еЕ]\u{308}/u
+
+/** 词头没有 canonical 时从义项标签里取的（性、有生、体、不变格） */
+const HEAD_FROM_SENSES = [
+  ...GENDERS,
+  ...ANIMACY,
+  'imperfective',
+  'perfective',
+  'indeclinable',
+  'by-personal-gender'
+]
 
 /** 异体写法（不另立词条）：alternative、旧正字法、错拼、按读音的写法 */
 const ALIAS_TAGS = ['alternative', 'dated', 'misspelling', 'pronunciation-spelling', 'obsolete']
@@ -435,7 +455,8 @@ export async function readWiktionary(file: string): Promise<WiktData> {
   let inflections = 0
   const inflectionWords = new Set<string>()
   for await (const o of jsonl<KRecord>(file)) {
-    if (!o.word || /[*$]/.test(o.word)) continue
+    // 旧正字法的写法（ѣ、і、ѳ、ѵ、词尾的 ъ、я̈ 这类分音符号）不立词条：今天的文本里没有，宽松键也对得上
+    if (!o.word || /[*$]/.test(o.word) || PRE_REFORM.test(o.word.normalize('NFD'))) continue
     const senses = o.senses ?? []
     const formish = senses.filter((s) => s.form_of || s.alt_of)
     const allForm = senses.length > 0 && formish.length === senses.length
@@ -472,6 +493,10 @@ function toLemma(o: KRecord, pos: PosTag, derived: boolean): WiktLemma | null {
   const canon = forms.find((f) => f.tags?.includes('canonical'))
   const stressed = (canon?.form ?? o.word).replace(/[¹²³]/g, '').trim().normalize('NFC')
   const headTags = (canon?.tags ?? []).filter((t) => t !== 'canonical')
+  // 单音节的词头不标重音（стол），kaikki 就不给 canonical，性、有生、体写在义项的标签上
+  for (const s of o.senses ?? [])
+    for (const t of s.tags ?? [])
+      if (HEAD_FROM_SENSES.includes(t) && !headTags.includes(t)) headTags.push(t)
   const hasSpace = o.word.includes(' ')
 
   // 词义：变形义项（混在原形词条里的「…的属格」）不要

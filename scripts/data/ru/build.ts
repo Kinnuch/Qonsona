@@ -132,13 +132,18 @@ for (const a of wikt.aliases) {
 }
 log(`异体写法记到目标词条上：${aliasAdded}`)
 
-// 异体写法里宽松键已经对得上的（旧正字法 столъ、ё 写成 е 的 еще́）不另存
+// 异体写法里宽松键已经对得上的（旧正字法 столъ、ё 写成 е 的 еще́）不另存；
+// 跟别的词条的词头撞上的也不要（кафе́ 是 кофе 的方言写法，可它首先是「咖啡馆」кафе）
+const headKeys = new Set(entries.map((e) => looseKey(e.w)))
 for (const e of entries) {
   const covered = new Set([
     looseKey(e.w),
     ...e.cells.filter((c) => !c.includes('alternative')).map((c) => looseKey(c[0]))
   ])
-  e.cells = e.cells.filter((c) => !c.includes('alternative') || !covered.has(looseKey(c[0])))
+  e.cells = e.cells.filter(
+    (c) =>
+      !c.includes('alternative') || (!covered.has(looseKey(c[0])) && !headKeys.has(looseKey(c[0])))
+  )
 }
 
 /**
@@ -334,9 +339,29 @@ const weak = (i: number): boolean => {
     (e.w.length === 1 && !['adp', 'cconj', 'sconj', 'part', 'pron', 'intj'].includes(e.pos))
   )
 }
-const common = (cands: number[]): number[] => {
+/**
+ * 一个词形是某个词条的词头、又是别的词条的形动词 / 短尾 / 比较级时，算给词头的那个：
+ * хорошо、красиво 是副词（不是 хороший 的短尾中性），следующий 是形容词（不是 следовать 的形动词）
+ */
+const DERIVED_FORM = ['participle', 'short-form', 'comparative', 'alternative']
+const common = (cands: number[], form: string): number[] => {
   const strong = cands.filter((i) => !weak(i))
-  return strong.length ? strong : cands
+  let c = strong.length ? strong : cands
+  if (c.length > 1) {
+    const lf = looseKey(form)
+    const owners = c.filter((i) => looseKey(entries[i].w) === lf)
+    if (owners.length) {
+      const keep = c.filter(
+        (i) =>
+          owners.includes(i) ||
+          !entries[i].cells.some(
+            (cell) => looseKey(cell[0]) === lf && cell.some((t) => DERIVED_FORM.includes(t))
+          )
+      )
+      if (keep.length) c = keep
+    }
+  }
+  return c
 }
 const subsC = lemmaCounts(subs, strictIdx, looseIdx, looseKey, n, common)
 const wikiC = lemmaCounts(wiki, strictIdx, looseIdx, looseKey, n, common)
@@ -476,9 +501,27 @@ for (const [i, e] of entries.entries()) {
  * 一个词条该用哪一条中文记录。同形异义词（есть「吃」/ есть「有」，за́мок / замо́к）两边的记录数一样时按先后对齐，
  * 不一样时分不清哪条对哪个，就都不用（宁缺毋错）；只有一个词条时，几条记录的释义合在一起
  */
+/**
+ * 三部维基词典对代词性的词、虚词的词性分法不一样（весь 在英文版是限定词，在中文版、俄文版是代词），
+ * 本词性对不上时在相近的词性里找
+ */
+const POS_FALLBACK: Partial<Record<PosTag, PosTag[]>> = {
+  det: ['pron', 'adj', 'num'],
+  pron: ['det', 'adj'],
+  adj: ['det', 'pron'],
+  num: ['det', 'adj', 'noun'],
+  propn: ['noun'],
+  part: ['adv', 'intj', 'cconj', 'sconj'],
+  adv: ['part', 'intj'],
+  intj: ['part', 'adv'],
+  cconj: ['sconj', 'part'],
+  sconj: ['cconj', 'part'],
+  adp: ['adv']
+}
+
 function zhFor(recordSets: Map<string, ZhRecords>[], i: number): string[] | null {
   const e = entries[i]
-  const keys = [zhKey(e.w, e.pos), ...(e.pos === 'propn' ? [zhKey(e.w, 'noun')] : [])]
+  const keys = [zhKey(e.w, e.pos), ...(POS_FALLBACK[e.pos] ?? []).map((p) => zhKey(e.w, p))]
   for (const k of keys) {
     const group = byWordPos.get(zhKey(e.w, e.pos)) ?? [i]
     const sets = recordSets.filter((m) => m.has(k))
@@ -645,6 +688,8 @@ function conjugation(e: Entry): string | null {
   const sg2 = pick('second-person', 'singular')
   const pl3 = pick('third-person', 'plural')
   if (!sg2) return null
+  // 第一人称单数以 -м 结尾的是古老的无构干元音变位（есть：ем、ешь；дать：дам、дашь），算不规则
+  if (/м$/.test(pick('first-person', 'singular'))) return 'irregular'
   const first = /[её]шь$/.test(sg2)
   const second = /ишь$/.test(sg2)
   const pl3first = /[ую]т$/.test(pl3)
@@ -754,15 +799,19 @@ for (const [i, e] of entries.entries()) {
     return out
   })
   // 中文：两部维基词典的义项跟英文的义项不是一一对应的（义项数相同时次序也常常不同：хороший 的
-  // 「好看的」对着中文的「亲密的」），所以中文释义按原来的次序都放在第一个义项上，当作中文释义的汇总
-  if (zhw1?.length) {
-    senses[0].zh = zhw1
-    senses[0].zs = 'zhwiktionary'
-    zhFromZhw++
-  } else if (ru1?.length) {
-    senses[0].zh = [ru1.join('；')]
-    senses[0].zs = 'ruwiktionary'
+  // 「好看的」对着中文的「亲密的」），所以中文都放在第一个义项上，当作中文释义的汇总：
+  // 先放俄文维基词典译文表里的对应词（第一个义项的直接对译：молоко → 牛奶，奶水，乳汁，乳），
+  // 再接中文维基词典的各条释义（去掉跟前面重复的）
+  const zh: string[] = []
+  if (ru1?.length) {
+    zh.push(ru1.join('，'))
     zhFromRu++
+  }
+  for (const g of zhw1 ?? []) if (!ru1?.includes(g) && !zh.includes(g)) zh.push(g)
+  if (zhw1?.length) zhFromZhw++
+  if (zh.length) {
+    senses[0].zh = zh
+    senses[0].zs = 'wikt-zh'
   }
   if (senses.some((s) => s.zh?.length)) {
     withZh++
@@ -789,12 +838,13 @@ for (const [i, e] of entries.entries()) {
     const p = aspectPartners(e)
     if (p.length) x.aspect = p
   }
+  // 重音类型（扎利兹尼亚克的 a–f）放 x.stress；重音会移动的另在 cls 里标 mobile-stress（界面显示成标签）
   const st = stressInfo(e)
   if (st.stress) x.stress = st.stress
-  if (st.mobile) x.stressMobile = true
   if (st.zal) x.zal = st.zal
 
   const cls = classesOf(e)
+  if (st.mobile) cls.push('mobile-stress')
   const src = ['wiktionary']
   if (e.orOnly) src[0] = 'openrussian'
   else if (e.or) src.push('openrussian')
@@ -805,7 +855,8 @@ for (const [i, e] of entries.entries()) {
     w: e.w,
     ...(e.d && { d: e.d }),
     p: [e.pos],
-    ...(e.g && { g: e.g }),
+    // 只有复数的名词（ножницы、деньги）不标性
+    ...(e.g && !cls.includes('plural-only') && { g: e.g }),
     ...(e.ipa.length && { ipa: e.ipa }),
     rom: romanize(e.d ?? e.w),
     ...(e.audio.length && { au: e.audio }),
@@ -820,7 +871,7 @@ for (const [i, e] of entries.entries()) {
   entryIds[i] = db.entry(data)
 }
 log(
-  `词条写完：${entries.length - dropped}（没有词频证据、不收的 ${dropped}），有中文的 ${withZh}（中文维基词典 ${zhFromZhw}，俄文维基词典译文 ${zhFromRu}）`
+  `词条写完：${entries.length - dropped}（没有词频证据、不收的 ${dropped}），有中文的 ${withZh}（用到中文维基词典的 ${zhFromZhw}，用到俄文维基词典译文表的 ${zhFromRu}）`
 )
 
 // Tatoeba 例句挂到词条上：选它的词条，再加句中其他例句还不到 8 句的词
@@ -873,7 +924,8 @@ for (const i of ranked) {
   if (entryIds[i] === undefined || hasZh.has(i)) continue
   const en = e.senses
     .flatMap((s) => s.en)
-    .slice(0, 4)
+    .slice(0, 3)
+    .map((g) => (g.length > 120 ? g.slice(0, 117) + '…' : g))
     .join('; ')
     .replace(/\t|\n/g, ' ')
   todo.push(`${e.d ?? e.w}\t${e.pos}\t${en}`)

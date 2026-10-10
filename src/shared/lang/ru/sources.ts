@@ -13,21 +13,14 @@ export const RU_SOURCES = {
     home: 'https://kaikki.org/dictionary/Russian/',
     note: '词头与重音、词性、英文释义、IPA、变格变位表、体的配对、录音地址'
   },
-  zhwiktionary: {
-    id: 'zhwiktionary',
-    name: '中文维基词典的俄语词条（kaikki.org 用 wiktextract 抽取）',
+  wiktZh: {
+    id: 'wikt-zh',
+    name: '维基词典里的中文：俄文维基词典（Викисловарь）译文表的中文对应词、中文维基词典俄语词条的中文释义（kaikki.org 用 wiktextract 抽取）',
     license: 'CC BY-SA 4.0 / 3.0',
-    credit: 'Wiktionary 贡献者（zh.wiktionary.org）；kaikki.org / wiktextract（Tatu Ylonen）',
-    home: 'https://zh.wiktionary.org/',
-    note: '人写的中文释义；2010 年机器人批量建的、来源不明的光杆释义不收'
-  },
-  ruwiktionary: {
-    id: 'ruwiktionary',
-    name: '俄文维基词典（Викисловарь）的俄语词条（kaikki.org 用 wiktextract 抽取）',
-    license: 'CC BY-SA 4.0 / 3.0',
-    credit: 'Участники Викисловаря（ru.wiktionary.org）；kaikki.org / wiktextract（Tatu Ylonen）',
+    credit:
+      'Участники Викисловаря（ru.wiktionary.org）；Wiktionary 贡献者（zh.wiktionary.org）；kaikki.org / wiktextract（Tatu Ylonen）',
     home: 'https://ru.wiktionary.org/',
-    note: '俄语释义（俄俄词典）、扎利兹尼亚克变格变位类型、译文表里的中文对应词'
+    note: '人写的中文：俄文维基词典译文表里第一个义项的中文（排在前面），再接中文维基词典正式词条的释义；中文维基词典 2010 年机器人批量建的光杆条目来源不明，不收；繁体按 OpenCC 转简体'
   },
   openrussian: {
     id: 'openrussian',
