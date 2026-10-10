@@ -644,10 +644,11 @@ async function pickFiles(
 }
 
 /** 一批路径里认得的媒体文件加进库；返回加进去的条目 */
-async function addMedia(paths: string[]): Promise<unknown[]> {
+async function addMedia(paths: string[], lang?: string): Promise<unknown[]> {
   const out: unknown[] = []
+  const code = typeof lang === 'string' && lang.trim() ? lang.trim().slice(0, 64) : undefined
   for (const p of paths) {
-    const it = await media().add(String(p))
+    const it = await media().add(String(p), code)
     if (it) out.push(it)
   }
   return out
@@ -674,16 +675,17 @@ async function addSubtitles(
 }
 
 ipcMain.handle('media:list', () => media().list())
-ipcMain.handle('media:pick', async (e) =>
+ipcMain.handle('media:pick', async (e, lang?: string) =>
   addMedia(
     await pickFiles(e, [
       { name: 'Video / Audio', extensions: [...VIDEO_EXT, ...MEDIA_AUDIO] },
       { name: 'Video', extensions: VIDEO_EXT },
       { name: 'Audio', extensions: MEDIA_AUDIO }
-    ])
+    ]),
+    lang
   )
 )
-ipcMain.handle('media:addPaths', (_e, paths: string[]) => addMedia(paths))
+ipcMain.handle('media:addPaths', (_e, paths: string[], lang?: string) => addMedia(paths, lang))
 ipcMain.handle('media:pickSubtitle', async (e, id: string) =>
   addSubtitles(id, await pickFiles(e, [{ name: 'Subtitles', extensions: SUBTITLE_EXT }]))
 )

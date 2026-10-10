@@ -14,6 +14,8 @@ import { LexDb } from './lexdb'
 import { analyzeLex } from './analyze'
 import { LangArticleStore } from './articles'
 import { LANG_TEXTS } from './texts'
+import { langPaper, langPractice, practiceKindsFor } from './practice'
+import type { PracticeKind } from '../../shared/exam'
 
 /**
  * 一门语言的数据文件：先看数据目录里下载的（userData/data/<代码>/），再看随程序带的
@@ -185,6 +187,41 @@ export function registerLangIpc(): void {
   ipcMain.handle('langArticles:setTranslation', (_e, code: string, id: string, text: string) =>
     langArticles(code)?.setTranslation(String(id), String(text))
   )
+  // 练习与模拟卷
+  ipcMain.handle('lang:practiceKinds', (_e, code: string): PracticeKind[] => {
+    const db = lexDb(code)
+    return db ? practiceKindsFor(db) : []
+  })
+  ipcMain.handle(
+    'lang:practice',
+    (
+      _e,
+      code: string,
+      kind: string,
+      level: string | null,
+      n: number,
+      seed: number,
+      locale: string,
+      custom?: string
+    ) => {
+      const db = lexDb(code)
+      return db
+        ? langPractice(
+            db,
+            String(kind),
+            level ?? null,
+            Math.min(60, Number(n) || 10),
+            Number(seed) >>> 0,
+            String(locale),
+            custom
+          )
+        : []
+    }
+  )
+  ipcMain.handle('lang:paper', (_e, code: string, examId: string, seed: number, locale: string) => {
+    const db = lexDb(code)
+    return db ? langPaper(db, String(examId), Number(seed) >>> 0, String(locale)) : null
+  })
   ipcMain.handle(
     'langNews:refresh',
     (_e, code: string, force?: boolean) => langArticles(code)?.refreshNews(!!force) ?? null
