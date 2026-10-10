@@ -200,6 +200,21 @@ for (const line of readFileSync(path.lemma, 'utf8').split(/\r?\n/)) {
 }
 // be 的 am：ECDICT 没有这个变形
 addReverse('be', 'am', ['first-person', 'singular', 'present'])
+/** 词形 → 它是哪些词的变形（小写）；ECDICT 里很多复数、过去式词条没写 0:，靠这个认 */
+const formOfIndex = new Map<string, string[]>()
+for (const [lemma, forms] of reverse)
+  for (const f of forms.keys()) {
+    const k = f.toLowerCase()
+    if (k !== lemma.toLowerCase()) formOfIndex.set(k, [...(formOfIndex.get(k) ?? []), lemma])
+  }
+for (const r of rows) {
+  if (isMulti(r.word)) continue
+  for (const [f] of parseExchange(r.exchange).forms) {
+    const k = f.toLowerCase()
+    if (k !== r.word.toLowerCase() && !formOfIndex.get(k)?.includes(r.word))
+      formOfIndex.set(k, [...(formOfIndex.get(k) ?? []), r.word])
+  }
+}
 log(`变形：${reverse.size} 个原形`)
 
 // ───────────────────────── 分级词表 ─────────────────────────
@@ -279,7 +294,19 @@ log(
   `Tatoeba：英语 ${sstats.total} 句，母语者 ${sstats.native}，挡掉（标签）${sstats.badTag}，长度不合 ${sstats.length}，可用 ${sstats.kept}（有中文 ${sstats.withZh}）`
 )
 const attested = new Set<string>()
-for (const s of rawSentences) for (const t of sentenceTokens(s.text)) attested.add(key(t))
+/** 句子里每个词形出现几次（ECDICT 没有词频、但句子里常见的词也收：gonna、wanna） */
+const tokenCount = new Map<string, number>()
+for (const s of rawSentences)
+  for (const t of sentenceTokens(s.text)) {
+    const k = key(t)
+    attested.add(k)
+    tokenCount.set(k, (tokenCount.get(k) ?? 0) + 1)
+  }
+/** exchange 的 0: 指向自己的（clergy 写成 clergy 的复数）不算变形 */
+const lemmaOfRow = (r: EcdictRow): string | undefined => {
+  const l = parseExchange(r.exchange).lemma
+  return l && l.toLowerCase() !== r.word.toLowerCase() ? l : undefined
+}
 
 // ───────────────────────── 挑单词 ─────────────────────────
 
@@ -310,8 +337,8 @@ function buildSenses(
   const defs = parseDefinitions(row.definition)
   const of: string[] = []
   for (const l of lines) for (const n of l.notes) if (!of.includes(n.lemma)) of.push(n.lemma)
-  const ex = parseExchange(row.exchange)
-  if (ex.lemma && !of.includes(ex.lemma)) of.unshift(ex.lemma)
+  const lemma = lemmaOfRow(row)
+  if (lemma && !of.includes(lemma)) of.unshift(lemma)
   const general = lines.filter(
     (l) => !l.web && !l.domain && (!l.name || opts.proper) && l.items.length
   )
@@ -401,7 +428,10 @@ function sameMeaning(b: Built, lemma: string): boolean {
   const base = hanOf(parseTranslation(row.translation).flatMap((l) => (l.domain ? [] : l.items)))
   let common = 0
   for (const c of mine) if (base.has(c)) common++
-  return common / mine.size >= 0.5
+  if (common / mine.size >= 0.5) return true
+  // 第一条释义跟原形沾边就算（animals「动物、动物世界、牲畜」）；完全不同的才单列（found「建立」）
+  const first = hanOf(b.s.find((s) => !s.dom && s.zh?.length)?.zh?.slice(0, 1) ?? [])
+  return [...first].some((c) => base.has(c))
 }
 
 const WORD = /^[\p{L}][\p{L}.'’-]*$/u
@@ -415,7 +445,12 @@ for (const r of rows) {
   const tagged = r.tags.length > 0
   const starred = r.collins > 0 || r.oxford
   const rank = rankOf(r)
-  if (!listed && !tagged && !starred && !rank) continue
+  // ECDICT 没词频、但母语者句子里常见的（gonna、wanna）；别的词的变形不算（animals、asked）
+  const spoken =
+    (tokenCount.get(r.word) ?? 0) >= 20 &&
+    r.word === r.word.toLowerCase() &&
+    !formOfIndex.has(r.word)
+  if (!listed && !tagged && !starred && !rank && !spoken) continue
   const proper = /^[A-Z]/.test(r.word)
   // 大写开头的：专名只收常用的
   if (proper && !listed && !tagged && !starred && rank > 15000) continue
@@ -431,8 +466,8 @@ for (const r of rows) {
   }
   // 只是别的词的变形、意思跟原形一样的（trees「树木」、children「孩子们」、faster「更快」）不单列：
   // 查 trees 时由原形的变形表带到 tree。意思不一样的（found「建立」、left「左边的」、glasses「眼镜」）留着
-  const ex = parseExchange(r.exchange)
-  if (ex.lemma && !listed && sameMeaning(b, ex.lemma)) {
+  const lemma = lemmaOfRow(r) ?? formOfIndex.get(r.word.toLowerCase())?.[0]
+  if (lemma && !listed && sameMeaning(b, lemma)) {
     pureForms++
     continue
   }
@@ -521,7 +556,7 @@ for (const b of entries) {
   // 大写的词（Monday）：变形也大写
   const cased = (f: string): string => (proper ? f[0].toUpperCase() + f.slice(1) : f)
   // 本身就是变形的词条（found、better、children）：自己的 exchange 常混着原形的变形，不用
-  if (!ex.lemma)
+  if (!lemmaOfRow(b.row))
     for (const [form, t] of ex.forms) for (const tags of typeTags(t)) add(cased(form), tags, true)
   // 专名、缩写不用推来的变形（London 没有 londons）
   if (!proper)

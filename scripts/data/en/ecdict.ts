@@ -287,9 +287,9 @@ export const isFlaggedZh = (s: string): boolean =>
   FLAG_ZH.test(s) || [...s.matchAll(/<([^<>]{1,4})>/g)].some((m) => FLAG_LABELS.has(m[1]))
 export const isFlaggedEn = (s: string): boolean => FLAG_EN.test(s)
 
-/** 「go的过去式」「(big的比较级)」这类变形说明 */
+/** 「go的过去式」「(big的比较级)」「lesson的名词复数」这类变形说明 */
 const NOTE =
-  /[（(]?\s*([A-Za-z][A-Za-z'-]*)\s*的\s*(过去式和过去分词|过去式及过去分词|过去分词和过去式|过去式|过去分词|现在分词|第三人称单数现在式|第三人称单数形式|第三人称单数|现在式第三人称单数|现在式第三人称|现在时复数或第二人称单数|复数形式|复数|比较级|最高级)\s*(?:形式)?\s*[)）]?/g
+  /[（(]?\s*([A-Za-z][A-Za-z'-]*)\s*的\s*(?:名词|动词|形容词|副词)?\s*(过去式和过去分词|过去式及过去分词|过去分词和过去式|过去式|过去分词|现在分词|第三人称单数现在式|第三人称单数形式|第三人称单数|现在式第三人称单数|现在式第三人称|现在时复数或第二人称单数|复数形式|复数|比较级|最高级)\s*(?:形式)?\s*[)）]?/g
 const NOTE_TAGS: Record<string, string[][]> = {
   过去式和过去分词: [['past'], ['past', 'participle']],
   过去式及过去分词: [['past'], ['past', 'participle']],
