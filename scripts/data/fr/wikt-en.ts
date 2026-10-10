@@ -222,6 +222,30 @@ const SKIP_FORM_TAGS = new Set([
 /** 混进变形表的 IPA（manger 表里的 mɑ\u0303ʒ） */
 const IPA_CHARS = /[ɑɛɔəøœʁʒʃɲŋɥɡˈˌː]|\u0303/
 
+/**
+ * 变形标签整理：简单过去时英文维基词典写成 historic + past，框架的标签词是 past-historic；
+ * canonical（只是标出词头的写法）不要
+ */
+function formTags(tags: string[]): string[] {
+  const t = tags.filter((x) => x !== 'canonical')
+  if (t.includes('historic') && t.includes('past'))
+    return ['past-historic', ...t.filter((x) => x !== 'historic' && x !== 'past')]
+  return t
+}
+
+/** wiktextract 自动加上的上级领域（科学、生活方式、爱好……），跟具体领域重复，不要 */
+const UMBRELLA = new Set([
+  'sciences',
+  'natural-sciences',
+  'human-sciences',
+  'physical-sciences',
+  'social-science',
+  'lifestyle',
+  'hobbies',
+  'entertainment',
+  'science'
+])
+
 /** 整条都是「某词的变形 / 异体」时仍当词条收的词性（虚词） */
 const KEEP_FORM_POS = new Set(['contraction', 'article', 'det', 'pron', 'prep', 'conj', 'particle'])
 
@@ -352,7 +376,7 @@ const MAX_EXAMPLE = 120
 
 export async function loadEnWikt(): Promise<EnWikt> {
   const file = join(CACHE, DOWNLOADS.enwikt.file)
-  return cached('enwikt', 6, [file], async () => {
+  return cached('enwikt', 7, [file], async () => {
     log('读英文维基词典的法语词条…')
     const byKey = new Map<string, Draft>()
     const pointers: Pointer[] = []
@@ -414,7 +438,7 @@ export async function loadEnWikt(): Promise<EnWikt> {
         }
         if (IPA_CHARS.test(f.form) || f.form === '-' || f.form === '—') continue
         if (pos === 'verb' && / /.test(f.form) && !/^(?:me|te|se|s'|m'|t')/.test(f.form)) continue
-        const ft = tags.filter((t) => t !== 'canonical')
+        const ft = formTags(tags)
         if (tags.includes('canonical') && frKey(f.form) === d.k) continue
         if (!d.f.some((x) => x[0] === f.form && x.slice(1).join(' ') === ft.join(' ')))
           d.f.push([f.form, ...ft])
@@ -444,7 +468,7 @@ export async function loadEnWikt(): Promise<EnWikt> {
         d.senses.push({
           en: [en],
           t: st,
-          dom: [...new Set(s.topics ?? [])].slice(0, 3),
+          dom: [...new Set((s.topics ?? []).filter((t) => !UMBRELLA.has(t)))].slice(0, 3),
           ex,
           syn: [...new Set((s.synonyms ?? []).map((x) => x.word))].slice(0, 6),
           ant: [...new Set((s.antonyms ?? []).map((x) => x.word))].slice(0, 6)
