@@ -182,7 +182,6 @@ const DROP_TAGS = new Set([
   'form-iiiq',
   'form-ivq'
 ])
-const DECL_TAGS = ['triptote', 'diptote', 'invariable']
 
 /** 义项标签里留给学习者看的（语域、地区、及物性……）；派生式、form-of 之类不留 */
 const SENSE_TAG_DROP = /^(form-|no-gloss|form-of|alt-of|alternative|error-|morpheme$)/
@@ -250,12 +249,35 @@ export async function* readKaikki(file: string): AsyncGenerator<RawRecord> {
   }
 }
 
-/** 变形表一格：去掉不要的标签；双数、复数格子上 wiktextract 多带的 singular 去掉 */
-function cleanTags(tags: string[]): string[] {
-  let t = tags.filter((x) => !DROP_TAGS.has(x))
+/**
+ * 变形表一格：去掉不要的标签；双数、复数格子上 wiktextract 多带的 singular 去掉；
+ * 动名词的 noun-from-verb 换成 verbal-noun（界面有「动名词」这个叫法）。
+ * 名词表的复数一栏表头合并了「破碎式复数 / 阴性规则复数」，wiktextract 把两个表头都安到每个复数形上
+ * （مَدَارِس 也带 sound-form、feminine），所以名词格子上的 broken-form、sound-form 和性都不要，
+ * 复数类型改从分类看（见 parseRecord）。
+ */
+function cleanTags(tags: string[], noun: boolean): string[] {
+  let t = tags
+    .filter((x) => !DROP_TAGS.has(x) && x !== 'broken-form' && x !== 'sound-form')
+    .map((x) => (x === 'noun-from-verb' ? 'verbal-noun' : x))
   if (t.includes('dual') || t.includes('plural') || t.includes('paucal'))
     t = t.filter((x) => x !== 'singular')
+  if (noun) t = t.filter((x) => x !== 'masculine' && x !== 'feminine')
   return [...new Set(t)].sort()
+}
+
+/** 名词、形容词的变格类型与复数类型：看维基词典的分类（变格表模板加的，比格子上的标签可靠） */
+function declOf(cats: string[]): string[] {
+  const out = new Set<string>()
+  for (const c of cats) {
+    const m =
+      /^Arabic (?:nouns|adjectives) with (?:basic )?(triptote|diptote|invariable) singular/.exec(c)
+    if (m) out.add(m[1])
+    if (/^Arabic (?:nouns|adjectives) with broken plural/.test(c)) out.add('broken-plural')
+    if (/^Arabic (?:nouns|adjectives) with sound (?:feminine|masculine) plural/.test(c))
+      out.add('sound-plural')
+  }
+  return [...out]
 }
 
 /**
@@ -330,18 +352,14 @@ export function parseRecord(
   // 词头模板里的主要形式（没有 source 的）；变形表（declension / conjugation / inflection）
   const head: Cell[] = []
   const cells: Cell[] = []
-  const decl = new Set<string>()
+  const noun = pos === 'noun' || pos === 'propn'
   for (const f of forms) {
     const tags = f.tags ?? []
     if (!f.form || /^[-—–?]+$/.test(f.form) || !ARABIC.test(f.form)) continue
     if (tags.includes('canonical') || tags.includes('romanization')) continue
     if (tags.includes('table-tags') || tags.includes('inflection-template')) continue
-    // 变格类型看单数（复数的类型另记：破碎式 / 规则复数）
-    if (tags.includes('singular') && !tags.includes('dual') && !tags.includes('plural'))
-      for (const t of DECL_TAGS) if (tags.includes(t)) decl.add(t)
-    if (tags.includes('broken-form')) decl.add('broken-plural')
-    if (tags.includes('sound-form') && tags.includes('plural')) decl.add('sound-plural')
-    const clean = cleanTags(tags)
+    // 名词词头模板里的「阴性」是派生的阴性名词（مَلِك → مَلِكَة），保留；表里的性是表头的残留，去掉
+    const clean = cleanTags(tags, noun && !!f.source)
     if (!f.source) {
       if (clean.length) head.push([f.form, clean])
     } else if (
@@ -447,7 +465,7 @@ export function parseRecord(
       verbForm: verb.form,
       vowels: verb.vowels,
       deriv,
-      decl: [...decl],
+      decl: declOf(cats),
       etyLinks: (o.etymology_links ?? [])
         .map(([, target]) => target.split('#')[0])
         .filter((t) => ARABIC.test(t) && !t.includes(':')),

@@ -146,7 +146,7 @@ function cellWeight(tags: string[]): number {
   if (tags.includes('passive')) return 0.2
   if (tags.includes('imperative')) return 0.25
   if (tags.includes('jussive') || tags.includes('subjunctive')) return 0.3
-  if (tags.includes('participle') || tags.includes('noun-from-verb')) return 0.3
+  if (tags.includes('participle') || tags.includes('verbal-noun')) return 0.3
   if (tags.includes('construct')) return 0.4
   return 0.6
 }
@@ -168,7 +168,7 @@ entries.forEach((e, i) => {
   index.add(e.w, i, 1)
   index.add(e.d, i, 1)
   for (const a of e.dAlt) index.add(a, i, 0.9)
-  for (const [f, t] of e.head) index.add(f, i, t.includes('noun-from-verb') ? 0.3 : 0.8)
+  for (const [f, t] of e.head) index.add(f, i, t.includes('verbal-noun') ? 0.3 : 0.8)
   for (const [f, t] of e.cells) index.add(f, i, cellWeight(t))
 })
 // 异体、变形记录指向的词条
@@ -566,7 +566,7 @@ function verbTags(t: string[]): string[] {
 const has = (t: string[], ...xs: string[]): boolean => xs.every((x) => t.includes(x))
 /** 冷僻动词只收的主要形式：过去式与现在式的他、她、他们、我，现在式的我们，命令式的你，分词与动名词 */
 function principal(t: string[]): boolean {
-  if (t.includes('participle') || t.includes('noun-from-verb')) return !t.includes('passive')
+  if (t.includes('participle') || t.includes('verbal-noun')) return !t.includes('passive')
   if (t.includes('passive')) return false
   const person =
     has(t, 'third-person', 'masculine', 'singular') ||
