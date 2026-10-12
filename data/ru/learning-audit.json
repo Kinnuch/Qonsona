@@ -1,0 +1,191 @@
+{
+  "checkedAt": "2026-10-12T08:16:11.113Z",
+  "code": "ru",
+  "dictionary": {
+    "entries": 56463,
+    "examples": 71138,
+    "levels": {
+      "teu": 780,
+      "tbu": 640,
+      "trki1": 1064,
+      "trki2": 2754,
+      "trki3": 6107,
+      "trki4": 10374
+    },
+    "lists": 24
+  },
+  "grammar": {
+    "points": 75,
+    "examples": 173,
+    "missed": []
+  },
+  "courses": [
+    {
+      "id": "alphabet",
+      "units": 2,
+      "lessons": 10
+    },
+    {
+      "id": "grammar",
+      "units": 6,
+      "lessons": 26
+    },
+    {
+      "id": "inflection",
+      "units": 1,
+      "lessons": 12
+    },
+    {
+      "id": "phrasebook",
+      "units": 11,
+      "lessons": 11
+    },
+    {
+      "id": "idioms",
+      "units": 2,
+      "lessons": 2
+    },
+    {
+      "id": "stories",
+      "units": 6,
+      "lessons": 6
+    }
+  ],
+  "texts": {
+    "count": 6,
+    "profiles": [
+      {
+        "id": "ru-original-teu",
+        "editorialLevel": "teu",
+        "lexicalLevel": "teu",
+        "wordTokens": 29,
+        "unknown": 0,
+        "grammarHits": 5
+      },
+      {
+        "id": "ru-original-tbu",
+        "editorialLevel": "tbu",
+        "lexicalLevel": "teu",
+        "wordTokens": 45,
+        "unknown": 0,
+        "grammarHits": 14
+      },
+      {
+        "id": "ru-original-trki1",
+        "editorialLevel": "trki1",
+        "lexicalLevel": "teu",
+        "wordTokens": 61,
+        "unknown": 0,
+        "grammarHits": 25
+      },
+      {
+        "id": "ru-original-trki2",
+        "editorialLevel": "trki2",
+        "lexicalLevel": "trki1",
+        "wordTokens": 67,
+        "unknown": 0,
+        "grammarHits": 16
+      },
+      {
+        "id": "ru-original-trki3",
+        "editorialLevel": "trki3",
+        "lexicalLevel": "trki2",
+        "wordTokens": 64,
+        "unknown": 0,
+        "grammarHits": 22
+      },
+      {
+        "id": "ru-original-trki4",
+        "editorialLevel": "trki4",
+        "lexicalLevel": "trki2",
+        "wordTokens": 70,
+        "unknown": 1,
+        "grammarHits": 8
+      }
+    ]
+  },
+  "exams": [
+    {
+      "id": "ru-training-teu",
+      "level": "teu",
+      "full": true
+    },
+    {
+      "id": "ru-training-tbu",
+      "level": "tbu",
+      "full": true
+    },
+    {
+      "id": "ru-training-trki1",
+      "level": "trki1",
+      "full": true
+    },
+    {
+      "id": "ru-training-trki2",
+      "level": "trki2",
+      "full": true
+    },
+    {
+      "id": "ru-training-trki3",
+      "level": "trki3",
+      "full": true
+    },
+    {
+      "id": "ru-training-trki4",
+      "level": "trki4",
+      "full": true
+    }
+  ],
+  "primaryLevels": ["teu", "tbu", "trki1", "trki2", "trki3", "trki4"],
+  "feedsCheckedAt": "2026-10-12T08:07:01.669Z",
+  "feeds": [
+    {
+      "id": "tass",
+      "url": "https://tass.ru/rss/v2.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 99,
+      "latest": "2026-10-12T08:04:08.000Z"
+    },
+    {
+      "id": "ria",
+      "url": "https://ria.ru/export/rss2/archive/index.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 97,
+      "latest": "2026-10-12T08:04:50.000Z"
+    },
+    {
+      "id": "interfax",
+      "url": "https://www.interfax.ru/rss.asp",
+      "ok": true,
+      "status": 200,
+      "entries": 25,
+      "latest": "2026-10-12T07:57:00.000Z"
+    },
+    {
+      "id": "kommersant",
+      "url": "https://www.kommersant.ru/RSS/news.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 248,
+      "latest": "2026-10-12T08:05:12.000Z"
+    },
+    {
+      "id": "rbc",
+      "url": "https://rssexport.rbc.ru/rbcnews/news/30/full.rss",
+      "ok": true,
+      "status": 200,
+      "entries": 30,
+      "latest": "2026-10-12T07:59:12.000Z"
+    },
+    {
+      "id": "bbc",
+      "url": "https://feeds.bbci.co.uk/russian/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 37,
+      "latest": "2026-10-12T03:18:34.000Z"
+    }
+  ]
+}

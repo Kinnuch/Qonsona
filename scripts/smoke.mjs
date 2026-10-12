@@ -461,8 +461,36 @@ try {
   await s.evaluate(click('[data-add-builtin="jlpt-5"]'))
   check(
     '生词本：加入 N5 词表',
-    await s.waitFor(`document.querySelectorAll('[data-card-row]').length >= 300`, 15000)
+    await s.waitFor(
+      `document.querySelectorAll('[data-card-row]').length === 100 && document.querySelector('[data-notebook-next]') && !document.querySelector('[data-notebook-next]').disabled`,
+      15000
+    )
   )
+  let n5List
+  for (let attempt = 0; attempt < 50; attempt++) {
+    const fullNotebook = await s.evaluate(
+      `return JSON.parse(await window.qstudy.invoke('notebook:load','ja'))`
+    )
+    n5List = fullNotebook?.lists.find((l) => l.source === 'jlpt-5')
+    if (n5List?.keys.length >= 300) break
+    await s.evaluate(`await new Promise(resolve=>setTimeout(resolve,100))`)
+  }
+  check(
+    '生词本：分页仍保留完整N5词表',
+    !!n5List && n5List.keys.length >= 300,
+    String(n5List?.keys.length)
+  )
+  const firstPageKey = await s.evaluate(
+    `return document.querySelector('[data-card-row]').dataset.cardRow`
+  )
+  await s.evaluate(click('[data-notebook-next]'))
+  check(
+    '生词本：第二页显示下一批100词',
+    await s.waitFor(
+      `document.querySelectorAll('[data-card-row]').length===100 && document.querySelector('[data-card-row]').dataset.cardRow!==${JSON.stringify(firstPageKey)}`
+    )
+  )
+  await s.evaluate(click('[data-notebook-previous]'))
   await s.evaluate(click('[data-nav="home"]'))
   await s.waitFor($('[data-home-review]'))
   const homeReview = await s.evaluate(
@@ -1074,8 +1102,9 @@ try {
     await s.waitFor(`document.querySelector('[data-entry="${kaso.id}"]')`, 5000),
     await s.evaluate(`return document.querySelector('.note-line')?.textContent ?? ''`)
   )
+  await s.evaluate(click('[data-inflection-toggle]'))
   check(
-    'Aelith：词条上有自造文字与词形变化表',
+    'Aelith：点击屈折后有自造文字与词形变化表',
     await s.waitFor(
       `document.querySelector('[data-entry] .script') && document.querySelector('[data-entry] .forms')`
     )

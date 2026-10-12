@@ -69,8 +69,28 @@ describe.skipIf(!has)('盖尔语词典库：从变过的形式找回原形', () 
     expect(lemma('mór')).toBe('mòr')
     expect(lemma('Gaidhlig')).toBe('Gàidhlig')
   })
-  it('多词说法里不单独成词的一段', () => {
+  it('多词说法里不单独成词的一段；旧拼写分写的副词', () => {
     expect(lemma('dheidhinn')).toBe('mu dheidhinn')
+    expect(lemma('an diugh')).toBe('an-diugh')
+    expect(lemma('a nis')).toBe('a-nis')
+  })
+  it('虚词认对：系词、否定小品词、冠词', () => {
+    expect(lemma('Is')).toBe('is')
+    expect(lemma('Bu')).toBe('is')
+    expect(lemma('Cha')).toBe('cha')
+    expect(lemma('na')).toBe('an')
+    expect(db!.lookup('na')?.pos).toBe('det')
+    expect(lemma('chan eil')).toBe('bi')
+    expect(lemma('bhith')).toBe('bi')
+  })
+  it("短语查不到时不乱猜（anns a' 不能撞上 annsa）", () => {
+    expect(db!.lookup("anns a'")).toBeNull()
+    expect(db!.lookup('Is e')).toBeNull()
+  })
+  it('读音：原形用词条的 IPA，变形用 fi 里这个形的，没有就不注', () => {
+    expect(db!.lookup('bàta')?.ipa).toBe('/ˈpaːʰt̪ə/')
+    expect(db!.lookup('chù')?.ipa).toBe('/ˈxuː/')
+    expect(db!.lookup('bhàta')?.ipa).toBeUndefined()
   })
   it('查词：英文、中文释义反查', () => {
     expect(

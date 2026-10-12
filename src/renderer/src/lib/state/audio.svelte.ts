@@ -6,6 +6,7 @@
 import { platform, type Voice } from '$lib/platform'
 import { t } from '$lib/i18n/index.svelte'
 import { ui } from './ui.svelte'
+import { serializedWrites } from './persistence'
 
 /** 一个能发音的条目 */
 export interface Sayable {
@@ -35,6 +36,10 @@ class AudioState {
   /** 正在放的那一段放完（或被停下）时调：say() 返回的 Promise 靠它结束 */
   #finish: (() => void) | null = null
   #recorder: MediaRecorder | null = null
+  #recordEpoch = 0
+  #micPending = false
+  #recordingsPending = new Set<Promise<void>>()
+  #playEpoch = 0
 
   async loadVoices(): Promise<void> {
     try {
@@ -46,10 +51,17 @@ class AudioState {
   }
 
   async loadRecordings(packId: string | null): Promise<void> {
+    if (packId !== this.#packId) {
+      this.stop()
+      this.stopRecording()
+      this.recorded = new Set()
+      this.authored = new Set()
+    }
     this.#packId = packId
     const [mine, authored] = packId
       ? await Promise.all([platform.listRecordings(packId), platform.listPackAudio(packId)])
       : [[], []]
+    if (this.#packId !== packId) return
     this.recorded = new Set(mine)
     this.authored = new Set(authored)
   }
@@ -83,6 +95,7 @@ class AudioState {
 
   async say(item: Sayable, opts: { synthOnly?: boolean } = {}): Promise<void> {
     this.stop()
+    const epoch = this.#playEpoch
     const id = item.key ?? item.ipa ?? item.text ?? ''
     const source = this.sourceOf(item)
     if (!opts.synthOnly && item.key && this.#packId && source !== 'tts') {
@@ -90,6 +103,7 @@ class AudioState {
         source === 'recording'
           ? await platform.getRecording(this.#packId, item.key)
           : await platform.getPackAudio(this.#packId, item.key)
+      if (epoch !== this.#playEpoch) return
       if (rec) return this.#play(id, new Blob([rec.bytes as BlobPart], { type: rec.mime }))
     }
     const rate = ui.prefs.speechRate
@@ -98,6 +112,7 @@ class AudioState {
       : { content: item.text ?? '', ipa: false, voice: this.textVoice(item.lang ?? '') ?? '', rate }
     if (!req.content.trim()) return
     const r = await platform.speak(req)
+    if (epoch !== this.#playEpoch) return
     // 单独的附加符号（鼻化 ◌̃ 这类）前面垫一个 ◌，不然看不见
     const shown = (s: string): string => (/^\p{M}/u.test(s) ? '◌' + s : s)
     if (r.dropped.length)
@@ -136,6 +151,7 @@ class AudioState {
   }
 
   stop(): void {
+    this.#playEpoch++
     this.#player?.pause()
     // 停下的那一段也算结束（连读整篇时靠它往下走或收尾）
     const finish = this.#finish
@@ -146,51 +162,119 @@ class AudioState {
   }
 
   async startRecording(key: string): Promise<void> {
-    if (this.recording) return
+    if (this.recording || this.#micPending) return
+    const packId = this.#packId
+    if (!packId) return
     // 先停掉正在放的声音，免得把音箱里的声音录进去
     this.stop()
+    const epoch = ++this.#recordEpoch
+    this.#micPending = true
     let stream: MediaStream
     try {
       stream = await navigator.mediaDevices.getUserMedia({ audio: true })
     } catch {
-      ui.toast(t('audio.noMic'), 'error', 6000)
+      if (epoch === this.#recordEpoch) {
+        this.#micPending = false
+        ui.toast(t('audio.noMic'), 'error', 6000)
+      }
       return
     }
-    const chunks: Blob[] = []
-    const rec = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' })
-    rec.ondataavailable = (e) => e.data.size && chunks.push(e.data)
-    rec.onstop = async () => {
+    if (epoch !== this.#recordEpoch || this.#packId !== packId) {
       stream.getTracks().forEach((tr) => tr.stop())
-      this.recording = null
-      this.#recorder = null
-      const blob = new Blob(chunks, { type: 'audio/webm' })
-      if (blob.size && this.#packId)
-        await this.#save(key, new Uint8Array(await blob.arrayBuffer()), 'webm')
+      return
+    }
+    this.#micPending = false
+    const chunks: Blob[] = []
+    let rec: MediaRecorder
+    try {
+      rec = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' })
+    } catch (error) {
+      stream.getTracks().forEach((tr) => tr.stop())
+      ui.toast(String(error), 'error', 6000)
+      return
+    }
+    let resolve!: () => void
+    let reject!: (error: unknown) => void
+    const saved = new Promise<void>((done, fail) => {
+      resolve = done
+      reject = fail
+    })
+    this.#recordingsPending.add(saved)
+    void saved.then(
+      () => {
+        this.#recordingsPending.delete(saved)
+      },
+      (error) => {
+        this.#recordingsPending.delete(saved)
+        ui.toast(String(error), 'error', 8000)
+      }
+    )
+    rec.ondataavailable = (e) => e.data.size && chunks.push(e.data)
+    rec.onstop = () => {
+      stream.getTracks().forEach((tr) => tr.stop())
+      if (this.#recorder === rec) {
+        this.recording = null
+        this.#recorder = null
+      }
+      void (async () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' })
+        if (blob.size)
+          await this.#save(key, new Uint8Array(await blob.arrayBuffer()), 'webm', packId)
+      })().then(resolve, reject)
+    }
+    rec.onerror = () => {
+      stream.getTracks().forEach((tr) => tr.stop())
+      if (this.#recorder === rec) {
+        this.#recorder = null
+        this.recording = null
+      }
+      reject(new Error('Recording failed'))
     }
     this.#recorder = rec
     this.recording = key
-    rec.start()
+    try {
+      rec.start()
+    } catch (error) {
+      stream.getTracks().forEach((tr) => tr.stop())
+      this.#recorder = null
+      this.recording = null
+      reject(error)
+    }
   }
 
   stopRecording(): void {
+    this.#recordEpoch++
+    this.#micPending = false
     if (this.#recorder?.state === 'recording') this.#recorder.stop()
   }
 
-  async importFile(key: string): Promise<void> {
-    const f = await platform.pickAudioFile()
-    if (f) await this.#save(key, f.bytes, f.ext)
+  /** Closing or exporting also waits for the final audio chunk to reach disk. */
+  async flushRecording(): Promise<void> {
+    this.stopRecording()
+    while (this.#recordingsPending.size) await Promise.all([...this.#recordingsPending])
   }
 
-  async #save(key: string, bytes: Uint8Array, ext: string): Promise<void> {
-    if (!this.#packId) return
-    await platform.saveRecording(this.#packId, key, bytes, ext)
-    this.recorded = new Set([...this.recorded, key])
+  async importFile(key: string): Promise<void> {
+    const packId = this.#packId
+    const f = await platform.pickAudioFile()
+    if (f && packId) await this.#save(key, f.bytes, f.ext, packId)
+  }
+
+  async #save(key: string, bytes: Uint8Array, ext: string, packId: string): Promise<void> {
+    await serializedWrites.enqueue(`audio:${packId}:${key}`, () =>
+      platform.saveRecording(packId, key, bytes, ext)
+    )
+    if (this.#packId === packId) this.recorded = new Set([...this.recorded, key])
     ui.toast(t('audio.saved'))
   }
 
   async remove(key: string): Promise<void> {
-    if (!this.#packId) return
-    await platform.deleteRecording(this.#packId, key)
+    const packId = this.#packId
+    if (!packId) return
+    await serializedWrites.enqueue(`audio:${packId}:${key}`, () =>
+      platform.deleteRecording(packId, key)
+    )
+    if (this.#packId !== packId) return
     const next = new Set(this.recorded)
     next.delete(key)
     this.recorded = next

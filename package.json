@@ -1,7 +1,7 @@
 {
   "name": "qonsona",
-  "version": "0.1.0",
-  "description": "Qonsona — learn languages: Japanese first, plus the conlangs you build in Qonlang.",
+  "version": "0.2.0",
+  "description": "Qonsona — learn Japanese, English, French, Korean, Spanish, Arabic, Russian, Scottish Gaelic and your Qonlang languages.",
   "homepage": "https://github.com/Kinnuch/Qonsona",
   "main": "./out/main/index.js",
   "author": {
@@ -21,6 +21,12 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "smoke": "node scripts/smoke.mjs",
+    "smoke:languages": "node scripts/smoke-languages.mjs",
+    "smoke:layout": "node scripts/smoke-layout.mjs",
+    "smoke:responsiveness": "node scripts/smoke-responsiveness.mjs",
+    "smoke:review": "node scripts/smoke-review-feedback.mjs",
+    "smoke:transfer": "node scripts/smoke-transfer.mjs",
+    "smoke:save": "node scripts/smoke-save-close.mjs",
     "sync:qonlang": "node scripts/sync-qonlang.mjs",
     "data:ja": "node scripts/data/build-ja.mjs",
     "data:examples": "esbuild scripts/data/examples-ja.ts --bundle --platform=node --format=esm --packages=external --log-level=warning --outfile=.cache/examples-ja.mjs && node .cache/examples-ja.mjs",
@@ -28,7 +34,11 @@
     "data:levels": "esbuild scripts/data/article-levels.ts --bundle --platform=node --format=esm --packages=external --log-level=warning --outfile=.cache/article-levels.mjs && node .cache/article-levels.mjs",
     "pack:win": "bash scripts/pack-win.sh",
     "installer:win": "bash scripts/pack-win.sh && electron-builder --win nsis --prepackaged dist/win-unpacked --publish never",
-    "build:mac": "electron-vite build && electron-builder --mac --publish never"
+    "build:mac": "electron-vite build && electron-builder --mac --publish never",
+    "smoke:daily": "node scripts/smoke-dictionary-daily.mjs",
+    "smoke:inflection": "node scripts/smoke-dictionary-inflection.mjs",
+    "smoke:packaged": "node scripts/smoke-packaged.mjs",
+    "prepare:packaged-qa": "node scripts/prepare-packaged-qa.mjs"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",

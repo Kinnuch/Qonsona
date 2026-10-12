@@ -62,6 +62,8 @@ export interface Lexique {
   ipa: Record<string, string>
   /** 「词形键|原形键」→ IPA：同形异音词（couvent 名词 / 动词）按原形分开 */
   formIpa: Record<string, string>
+  /** 「词形键|UPOS」→ 这个词形本身的词频（省音形式 l'、s'、qu' 的词条用：它们的原形是 le、se、que） */
+  forms: Record<string, LexLemma>
 }
 
 /** 合起来的词频分数（每百万词） */
@@ -85,12 +87,16 @@ const rows = (tsv: string): { head: string[]; rows: string[][] } => {
 export async function loadLexique(): Promise<Lexique> {
   const z3 = join(CACHE, DOWNLOADS.lexique3.file)
   const z4 = join(CACHE, DOWNLOADS.lexique4.file)
-  return cached('lexique', 4, [z3, z4], async () => {
+  return cached('lexique', 5, [z3, z4], async () => {
     log('读 Lexique 3.83 与 4.1…')
     const lemmas: Record<string, LexLemma> = {}
     const any: Record<string, LexLemma> = {}
     const ipa: Record<string, string> = {}
     const formIpa: Record<string, string> = {}
+    const forms: Record<string, LexLemma> = {}
+    const addForm = (form: string, pos: PosTag, field: 'sub' | 'book', v: number): void => {
+      ;(forms[`${frKey(form)}|${pos}`] ??= { sub: 0, book: 0 })[field] += v
+    }
     const add = (
       lemma: string,
       pos: PosTag,
@@ -122,6 +128,7 @@ export async function loadLexique(): Promise<Lexique> {
       const pos = lexPos(r[iC] ?? '')
       if (!pos || !r[iL]) continue
       add(r[iL], pos, 'sub', Number(r[iF]) || 0, r[iG])
+      if (r[iW]?.endsWith("'")) addForm(r[iW], pos, 'sub', Number(r[iF]) || 0)
       if (r[iLem] === '1' && r[iPrev]) {
         const k = `${frKey(r[iL])}|${pos}`
         lemmas[k].prev = Math.max(lemmas[k].prev ?? 0, Number(r[iPrev]))
@@ -134,14 +141,21 @@ export async function loadLexique(): Promise<Lexique> {
     // Lexique 3.83：书籍词频
     const v3 = rows(readZipEntry(z3, 'Lexique383.tsv'))
     const c3 = (name: string): number => v3.head.indexOf(name)
-    const [jL, jC, jG, jB] = [c3('lemme'), c3('cgram'), c3('genre'), c3('freqlivres')]
+    const [jW, jL, jC, jG, jB] = [
+      c3('ortho'),
+      c3('lemme'),
+      c3('cgram'),
+      c3('genre'),
+      c3('freqlivres')
+    ]
     for (const r of v3.rows) {
       const pos = lexPos(r[jC] ?? '')
       if (!pos || !r[jL]) continue
       add(r[jL], pos, 'book', Number(r[jB]) || 0, r[jG])
+      if (r[jW]?.endsWith("'")) addForm(r[jW], pos, 'book', Number(r[jB]) || 0)
     }
     log(`Lexique：${Object.keys(any).length} 个原形，${Object.keys(ipa).length} 个词形有 IPA`)
-    return { lemmas, any, ipa, formIpa }
+    return { lemmas, any, ipa, formIpa, forms }
   })
 }
 
@@ -155,6 +169,12 @@ export function lexLookup(
   pos: PosTag,
   gender?: string
 ): LexLemma | undefined {
+  // 省音形式（l'、s'、qu'、n'）：词条的词头就是词形，按词形本身的词频（s' 代词远比 s' 连词常用）
+  if (key.endsWith("'")) {
+    const tries: PosTag[] =
+      pos === 'other' ? ['adv', 'pron', 'sconj'] : pos === 'cconj' ? ['sconj'] : [pos]
+    for (const p of tries) if (lex.forms[`${key}|${p}`]) return lex.forms[`${key}|${p}`]
+  }
   if (pos === 'noun' && (gender === 'm' || gender === 'f')) {
     const l = lex.lemmas[`${key}|noun|${gender}`]
     if (l) return l
@@ -168,7 +188,9 @@ export function lexLookup(
           ? ['noun']
           : pos === 'det'
             ? ['det', 'adp'] // Lexique 把缩合冠词 au、du 算介词
-            : [pos]
+            : pos === 'part'
+              ? ['adv'] // ne、pas 之类 Lexique 算副词
+              : [pos]
   for (const p of tryPos) {
     const l = lex.lemmas[`${key}|${p}`]
     if (l) return l

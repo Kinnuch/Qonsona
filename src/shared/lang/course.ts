@@ -19,6 +19,7 @@ export function lexGrammarItem(g: LexGrammarPoint, locale: string): GrammarItem 
     name: pickText(g.name, locale),
     form: pickText(g.form, locale),
     meaning: g.meaning,
+    ...(g.notes ? { notes: g.notes } : {}),
     ...(g.group ? { group: g.group } : {}),
     examples: g.examples.map((ex) => {
       const at = ex.hl ? ex.text.indexOf(ex.hl) : -1

@@ -63,10 +63,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: bash
         run: |
-          ls -la dist/win-unpacked/resources/data/ja
-          test -s dist/win-unpacked/resources/data/ja/dict.sqlite
-          test -s dist/win-unpacked/resources/data/ja/wikt.sqlite
-          node -e "const p=JSON.parse(require('@electron/asar').extractFile('dist/win-unpacked/resources/app.asar','package.json'));console.log(p.name,p.version);if(p.name!=='qonsona')process.exit(1)"
+          node scripts/release/check-package.mjs dist/win-unpacked/resources
           cat dist/win-unpacked/resources/app-update.yml
           grep -q '^repo: Qonsona' dist/win-unpacked/resources/app-update.yml
           cat dist/latest.yml
@@ -75,12 +72,9 @@ jobs:
         run: |
           for app in dist/mac/Qonsona.app dist/mac-arm64/Qonsona.app; do
             echo "== $app"
-            ls -la "$app/Contents/Resources/data/ja"
-            test -s "$app/Contents/Resources/data/ja/dict.sqlite"
-            test -s "$app/Contents/Resources/data/ja/wikt.sqlite"
+            node scripts/release/check-package.mjs "$app/Contents/Resources"
             plutil -extract CFBundleShortVersionString raw "$app/Contents/Info.plist"
             plutil -extract NSMicrophoneUsageDescription raw "$app/Contents/Info.plist"
-            node -e "const a=require('@electron/asar'),f=process.argv[1];const p=JSON.parse(a.extractFile(f,'package.json'));const n=a.listPackage(f).filter((x)=>x.includes('kuromoji/dict/')).length;console.log(p.name,p.version,'kuromoji dict files',n);if(p.name!=='qonsona'||!n)process.exit(1)" "$app/Contents/Resources/app.asar"
           done
       - name: List outputs
         shell: bash

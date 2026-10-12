@@ -282,6 +282,28 @@ export class JapaneseDict {
     return out
   }
 
+  /** 每日推荐只解压各级前64词；例句保留真实翻译，不伪造句子难度。 */
+  dailyPool(): { words: (WordListItem & { level: string })[]; sentences: ExampleView[] } {
+    const words: (WordListItem & { level: string })[] = []
+    for (const level of [5, 4, 3, 2, 1])
+      for (const row of this.#stmt(
+        'SELECT id,head,reading,data FROM entry WHERE jlpt=? ORDER BY score DESC,id LIMIT 64'
+      ).all(level) as Row[])
+        words.push({ ...this.#listItem(row), level: `N${level}` })
+    const sentences = (
+      this.#stmt(
+        'SELECT id,ja,en,zh,zh_mt FROM example WHERE length(ja) BETWEEN 8 AND 500 AND (length(en)>0 OR length(zh)>0 OR length(zh_mt)>0) ORDER BY id LIMIT 384'
+      ).all() as Row[]
+    ).map((r) => ({
+      id: Number(r.id),
+      ja: String(r.ja),
+      en: r.en as string | null,
+      zh: (r.zh || r.zh_mt || null) as string | null,
+      zhMachine: !r.zh && !!r.zh_mt
+    }))
+    return { words, sentences }
+  }
+
   /** 一批词条的词头、读音与一句释义（阅读器把本文词汇一起加进生词本），按给的顺序 */
   wordItems(ids: number[]): WordListItem[] {
     const byId = new Map<number, WordListItem>()

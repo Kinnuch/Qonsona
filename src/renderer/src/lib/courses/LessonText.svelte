@@ -5,6 +5,9 @@
   import { BookOpen, PenLine, Check } from '@lucide/svelte'
   import { courses } from '$lib/state/courses.svelte'
   import { reading } from '$lib/state/reading.svelte'
+  import { langReading } from '$lib/state/langReading.svelte'
+  import { packs } from '$lib/state/packs.svelte'
+  import { langModule } from '$shared/lang/registry'
   import { practice } from '$lib/state/practice.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { t } from '$lib/i18n/index.svelte'
@@ -12,10 +15,20 @@
 
   let { course, lesson }: { course: Course; lesson: CourseLesson } = $props()
 
-  onMount(() => reading.ensure())
+  const fw = $derived(packs.active ? langModule(packs.active.id) : null)
+  const language = $derived(packs.active?.bcp47 ?? 'ja')
+  onMount(() => {
+    if (fw) void langReading.ensure(fw.spec.code)
+    else reading.ensure()
+  })
 
   const item = $derived(course.texts?.[lesson.items[0]] ?? null)
-  const meta = $derived(item ? reading.articles.find((a) => a.id === item.articleId) : undefined)
+  const meta = $derived(
+    item
+      ? (fw ? langReading.articles : reading.articles).find((a) => a.id === item.articleId)
+      : undefined
+  )
+  const level = $derived(meta?.level ? (fw ? String(meta.level) : `N${meta.level}`) : '')
   const passed = $derived(lessonState(courses.progress!, course, lesson.id) === 'passed')
   /** 开头一段（去掉「一」「二」这类节号） */
   const preview = $derived(meta?.preview?.replace(/^[一二三四五六七八九十]+\s+/, '') ?? '')
@@ -24,7 +37,10 @@
     if (!item) return
     courses.learned(course.id, lesson.id)
     ui.go('reading')
-    await reading.open(item.articleId, 'course')
+    if (fw) {
+      await langReading.ensure(fw.spec.code)
+      await langReading.open(item.articleId, 'course')
+    } else await reading.open(item.articleId, 'course')
   }
 
   async function practise(): Promise<void> {
@@ -46,18 +62,14 @@
 {#if item}
   <article class="card story" data-text={item.articleId}>
     <header>
-      <h2 lang="ja">{item.title}</h2>
+      <h2 lang={language} dir="auto">{item.title}</h2>
       <span class="faint">
-        {[
-          item.author,
-          meta?.level ? `N${meta.level}` : '',
-          meta ? t('reading.chars', { n: meta.chars }) : ''
-        ]
+        {[item.author, level, meta ? t('reading.chars', { n: meta.chars }) : '']
           .filter(Boolean)
           .join(' · ')}
       </span>
     </header>
-    {#if preview}<p class="preview" lang="ja">{preview}……</p>{/if}
+    {#if preview}<p class="preview" lang={language} dir="auto">{preview}……</p>{/if}
     <div class="row">
       <button class="btn primary" data-read-text onclick={read}
         ><BookOpen size={14} />{t('courses.text.read')}</button

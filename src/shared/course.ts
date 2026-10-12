@@ -74,6 +74,8 @@ export interface GrammarItem {
   /** 接续：V-ます + ましょう */
   form: string
   meaning: Record<string, string>
+  /** 用法与易错点（多语言语法课程）。 */
+  notes?: Text
   /** 意思相近的一组（〜から / 〜ので）：出题时不拿同组的互相当干扰项 */
   group?: string
   examples: GrammarExample[]

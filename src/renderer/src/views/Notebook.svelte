@@ -23,9 +23,14 @@
   import { langModule } from '$shared/lang/registry'
   import type { LexListInfo } from '$shared/lang/views'
   import ReviewSession from '$lib/notebook/ReviewSession.svelte'
+  import ReviewSettings from '$lib/notebook/ReviewSettings.svelte'
+  import NotebookTransfer from '$lib/notebook/NotebookTransfer.svelte'
 
   /** 大词本先列这么多个 */
-  const PAGE = 300
+  const PAGE = 100
+  let page = $state(0)
+  let search = $state('')
+  let previousList = $state<string | null>(null)
   const FILTERS: ('all' | CardStatus)[] = ['all', 'new', 'forgot', 'unsure', 'known']
 
   const pack = $derived(packs.active)
@@ -58,13 +63,33 @@
   const cards = $derived(nb && list ? cardsOf(nb, list) : [])
   const statusCounts = $derived(countStatuses(cards))
   const filtered = $derived(
-    view.filter === 'all' ? cards : cards.filter((c) => statusOf(c) === view.filter)
+    cards.filter(
+      (c) =>
+        (view.filter === 'all' || statusOf(c) === view.filter) &&
+        (!search.trim() ||
+          [c.front, c.reading, ...Object.values(c.meaning)]
+            .join(' ')
+            .toLocaleLowerCase()
+            .includes(search.trim().toLocaleLowerCase()))
+    )
   )
-  const shown = $derived(view.showAll ? filtered : filtered.slice(0, PAGE))
+  const pages = $derived(Math.max(1, Math.ceil(filtered.length / PAGE)))
+  const shown = $derived(
+    filtered.slice(Math.min(page, pages - 1) * PAGE, (Math.min(page, pages - 1) + 1) * PAGE)
+  )
+  $effect(() => {
+    const id = list?.id ?? null
+    if (previousList !== id) {
+      previousList = id
+      page = 0
+      search = ''
+    }
+  })
 
   let newName = $state('')
   let renaming = $state<string | null>(null)
   let busy = $state<string | null>(null)
+  let settingsOpen = $state(false)
 
   function createList(): void {
     const id = notebook.newList(newName)
@@ -130,6 +155,21 @@
       >
     </header>
     <p class="muted">{t('notebook.intro')}</p>
+    <!-- NotebookTransfer insertion point: independent import/export component. -->
+    <div class="toolbar">
+      <button
+        class="btn"
+        data-open-review-settings
+        disabled={!nb}
+        onclick={() => (settingsOpen = true)}
+        >{i18n.locale === 'zh' ? '复习计划与题型' : 'Review plan and tasks'}</button
+      >
+      <div class="transfer"><NotebookTransfer /></div>
+    </div>
+    {#if settingsOpen}<ReviewSettings
+        listId={list?.id ?? null}
+        onclose={() => (settingsOpen = false)}
+      />{/if}
 
     {#if !nb}
       <p class="muted">{t('common.loading')}</p>
@@ -224,6 +264,15 @@
               <div class="grow"></div>
               <button
                 class="btn"
+                data-start-list-review
+                disabled={!nb || notebook.reviewCount(list.id) === 0}
+                onclick={() => notebook.startReview(list.id)}
+                ><Play size={16} />{i18n.locale === 'zh'
+                  ? '按本词本计划复习'
+                  : 'Review this list’s plan'}</button
+              >
+              <button
+                class="btn"
                 data-drill
                 disabled={!filtered.length}
                 title={t('notebook.drillHint')}
@@ -244,6 +293,16 @@
             </div>
 
             <div class="filters">
+              <input
+                class="input"
+                data-notebook-search
+                aria-label={i18n.locale === 'zh'
+                  ? '搜索词语、读音、释义'
+                  : 'Search words, readings and meanings'}
+                placeholder={i18n.locale === 'zh' ? '搜索当前词本…' : 'Search this list…'}
+                bind:value={search}
+                oninput={() => (page = 0)}
+              />
               {#each FILTERS as f (f)}
                 <button
                   class="chip status {f}"
@@ -251,6 +310,7 @@
                   data-filter={f}
                   onclick={() => {
                     view.filter = f
+                    page = 0
                     view.showAll = false
                   }}
                 >
@@ -265,34 +325,50 @@
                 {t(list.id === MINE ? 'notebook.emptyMine' : 'notebook.empty')}
               </p>
             {:else}
-              <table class="words">
-                <tbody>
-                  {#each shown as c (c.key)}
-                    {@const st = statusOf(c)}
-                    <tr data-card-row={c.key}>
-                      <td class="front" class:data={isData} lang={pack?.bcp47}>{c.front}</td>
-                      <td class="reading" class:data={isData}
-                        >{c.reading !== c.front ? c.reading : ''}</td
-                      >
-                      <td class="meaning">{meaning(c.meaning)}</td>
-                      <td><span class="chip status {st}">{t(`notebook.status.${st}`)}</span></td>
-                      <td class="faint due">{dueLabel(c)}</td>
-                      <td>
-                        <button
-                          class="icon"
-                          title={t('notebook.removeWord')}
-                          onclick={() => notebook.remove([c.key], list.id)}><X size={14} /></button
+              <div class="table-scroll">
+                <table class="words">
+                  <tbody>
+                    {#each shown as c (c.key)}
+                      {@const st = statusOf(c)}
+                      <tr data-card-row={c.key}>
+                        <td class="front" class:data={isData} lang={pack?.bcp47}>{c.front}</td>
+                        <td class="reading" class:data={isData}
+                          >{c.reading !== c.front ? c.reading : ''}</td
                         >
-                      </td>
-                    </tr>
-                  {/each}
-                </tbody>
-              </table>
-              {#if filtered.length > shown.length}
-                <button class="btn ghost more" onclick={() => (view.showAll = true)}
-                  >{t('notebook.showAll', { n: filtered.length })}</button
+                        <td class="meaning">{meaning(c.meaning)}</td>
+                        <td><span class="chip status {st}">{t(`notebook.status.${st}`)}</span></td>
+                        <td class="faint due">{dueLabel(c)}</td>
+                        <td>
+                          <button
+                            class="icon"
+                            title={t('notebook.removeWord')}
+                            onclick={() => notebook.remove([c.key], list.id)}
+                            ><X size={14} /></button
+                          >
+                        </td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination" data-notebook-pagination>
+                <button
+                  class="btn"
+                  data-notebook-previous
+                  disabled={page === 0}
+                  onclick={() => (page = Math.max(0, page - 1))}
+                  >{i18n.locale === 'zh' ? '上一页' : 'Previous'}</button
+                ><span class="muted"
+                  >{Math.min(page, pages - 1) + 1} / {pages} · {filtered.length}
+                  {i18n.locale === 'zh' ? '词' : 'words'}</span
+                ><button
+                  class="btn"
+                  data-notebook-next
+                  disabled={page >= pages - 1}
+                  onclick={() => (page = Math.min(pages - 1, page + 1))}
+                  >{i18n.locale === 'zh' ? '下一页' : 'Next'}</button
                 >
-              {/if}
+              </div>
             {/if}
           </section>
         {/if}
@@ -387,8 +463,33 @@
   }
   .row {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    min-width: 0;
+  }
+  .toolbar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    min-width: 0;
+  }
+  .transfer {
+    width: 100%;
+    min-width: 0;
+  }
+  .lists,
+  .rename {
+    min-width: 0;
+  }
+  h2 {
+    overflow-wrap: anywhere;
+  }
+  @media (max-width: 850px) {
+    .cols {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
   .filters {
     display: flex;
@@ -471,7 +572,11 @@
   .empty {
     padding: 20px;
   }
-  .more {
-    align-self: center;
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
   }
 </style>

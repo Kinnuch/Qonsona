@@ -11,10 +11,11 @@ import type { LangArticleInput } from '../../shared/lang/articles'
 import type { LangCode, SourceRef } from '../../shared/lang/types'
 import type { LexStatus } from '../../shared/lang/views'
 import { LexDb } from './lexdb'
-import { analyzeLex } from './analyze'
+import { analysisClient } from './analysis-client'
+import { articleMutationKey, pendingWrites } from '../pending-writes'
 import { LangArticleStore } from './articles'
 import { LANG_TEXTS } from './texts'
-import { langPaper, langPractice, practiceKindsFor } from './practice'
+import { langArticlePractice, langPaper, langPractice, practiceKindsFor } from './practice'
 import type { PracticeKind } from '../../shared/exam'
 
 /**
@@ -68,8 +69,8 @@ export function langArticles(code: string): LangArticleStore | null {
       LANG_TEXTS[code],
       LANGS[code].news ?? [],
       (text) => {
-        const db = lexDb(code)
-        return db ? analyzeLex(db, text).level : null
+        const file = langDataFile(code)
+        return file ? analysisClient.request(code, file, text, 'level') : null
       }
     )
     stores.set(code, s)
@@ -172,28 +173,49 @@ export function registerLangIpc(): void {
 
   // 阅读：分析、文章库、新闻
   ipcMain.handle('lang:analyze', (_e, code: string, text: string) => {
-    const db = lexDb(code)
-    return db ? analyzeLex(db, String(text)) : null
+    if (!isLangCode(code)) return null
+    const file = langDataFile(code)
+    return file ? analysisClient.request(code, file, String(text), 'analyze') : null
   })
   ipcMain.handle('langArticles:list', (_e, code: string) => langArticles(code)?.list() ?? [])
   ipcMain.handle(
     'langArticles:get',
     (_e, code: string, id: string) => langArticles(code)?.get(String(id)) ?? null
   )
-  ipcMain.handle(
-    'langArticles:save',
-    (_e, code: string, input: LangArticleInput) => langArticles(code)?.save(input) ?? null
+  ipcMain.handle('langArticles:save', (_e, code: string, input: LangArticleInput) =>
+    pendingWrites.run(
+      articleMutationKey(code, 'save', input),
+      async () => langArticles(code)?.save(input) ?? null
+    )
   )
   ipcMain.handle('langArticles:remove', (_e, code: string, id: string) =>
-    langArticles(code)?.remove(String(id))
+    pendingWrites.run(articleMutationKey(code, 'remove', String(id)), async () =>
+      langArticles(code)?.remove(String(id))
+    )
   )
   ipcMain.handle('langArticles:markRead', (_e, code: string, id: string, read: boolean) =>
-    langArticles(code)?.markRead(String(id), !!read)
+    pendingWrites.run(articleMutationKey(code, 'markRead', String(id)), async () =>
+      langArticles(code)?.markRead(String(id), !!read)
+    )
   )
   ipcMain.handle('langArticles:setTranslation', (_e, code: string, id: string, text: string) =>
-    langArticles(code)?.setTranslation(String(id), String(text))
+    pendingWrites.run(articleMutationKey(code, 'translation', String(id)), async () =>
+      langArticles(code)?.setTranslation(String(id), String(text))
+    )
   )
   // 练习与模拟卷
+  ipcMain.handle(
+    'lang:articlePractice',
+    async (_e, code: string, id: string, seed: number, locale: string) => {
+      const db = lexDb(code)
+      const article = await langArticles(code)?.get(String(id))
+      if (!db || !article) return []
+      const file = langDataFile(db.code)
+      if (!file) return []
+      const analysis = await analysisClient.request(db.code, file, article.body, 'analyze')
+      return langArticlePractice(db, analysis, Number(seed) >>> 0, String(locale))
+    }
+  )
   ipcMain.handle('lang:practiceKinds', (_e, code: string): PracticeKind[] => {
     const db = lexDb(code)
     return db ? practiceKindsFor(db) : []

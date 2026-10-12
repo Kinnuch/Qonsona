@@ -3,6 +3,7 @@
  * 记录存在 userData/stats.json（所有语言一个文件），一分钟存一次，关窗时也存。统计页从这里读。
  */
 import { platform } from '$lib/platform'
+import { serializedWrites } from './persistence'
 import { addSeconds, emptyActivity, normalizeActivity, type ActivityLog } from '$shared/stats'
 import { dayKey } from '$shared/srs'
 import { packs } from './packs.svelte'
@@ -67,14 +68,20 @@ class Activity {
       document.visibilityState === 'visible' &&
       document.hasFocus() &&
       (now - this.#lastInput < IDLE || media.playing)
-    if (this.#dirty && now - this.#lastSave >= SAVE_EVERY) this.flush()
+    if (this.#dirty && now - this.#lastSave >= SAVE_EVERY) void this.flush().catch(() => {})
   }
 
-  flush(): void {
+  flush(): Promise<void> {
     this.#lastSave = Date.now()
-    if (!this.log || !this.#dirty) return
+    if (!this.log || !this.#dirty) return Promise.resolve()
     this.#dirty = false
-    void platform.stats.save(JSON.stringify(this.log)).catch(() => {})
+    const content = JSON.stringify(this.log)
+    return serializedWrites
+      .enqueue('stats', () => platform.stats.save(content))
+      .catch((e) => {
+        this.#dirty = true
+        throw e
+      })
   }
 }
 

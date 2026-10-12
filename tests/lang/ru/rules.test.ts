@@ -138,6 +138,8 @@ describe('猜原形', () => {
     expect(lemmas('стол')).not.toContain('стол')
     expect(lemmaCandidates('table')).toEqual([])
     expect(lemmaCandidates('переговорившимися').length).toBeLessThanOrEqual(40)
+    // 几个词连起来（阅读器查短语时）不猜
+    expect(lemmaCandidates('а у')).toEqual([])
   })
 })
 
@@ -190,6 +192,14 @@ describe('拉丁字母输入', () => {
   it('词首的 e 另给 э', () => {
     expect(latinToCyrillic('eto')).toEqual(['ето', 'это'])
   })
+  it('ts、x 两种读法都给，常见的在前', () => {
+    expect(latinToCyrillic('tsvet')[0]).toBe('цвет')
+    expect(latinToCyrillic('uchitsya')).toContain('учится')
+    expect(latinToCyrillic('detskiy')).toContain('детский')
+    expect(latinToCyrillic('taxi')).toEqual(['тахи', 'такси'])
+    expect(latinToCyrillic('tsvet tsirk').length).toBeLessThanOrEqual(6)
+    expect(ru.rules.fromLatin).toBe(latinToCyrillic)
+  })
   it('不是拉丁字母拼的给空', () => {
     expect(latinToCyrillic('привет')).toEqual([])
     expect(latinToCyrillic('2024')).toEqual([])
@@ -204,10 +214,10 @@ describe('学习包的描述', () => {
     expect(Object.values(p.cefr ?? {})).toEqual(['A1', 'A2', 'B1', 'B2', 'C1', 'C2'])
     for (const l of p.levels) expect(l.desc?.zh && l.desc.en).toBeTruthy()
   })
-  it('阶段一只开词典', () => {
+  it('学习模块已接入，转写与键规则仍可用', () => {
     const f = ru.spec.features
     expect(f.lexicon).toBe(true)
-    expect(f.texts || f.grammar || f.inflection || f.exam || f.romanization).toBe(false)
+    expect(f.texts && f.grammar && f.inflection && f.exam).toBe(true)
     expect(ru.rules.key).toBe(key)
   })
 })

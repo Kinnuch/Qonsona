@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'fs'
 import { resolve } from 'path'
 import { afterAll, describe, expect, it } from 'vitest'
 import { rng } from '$shared/course'
-import { scorePaper, type ExamPaper, type ExamQuestion } from '$shared/exam'
+import { normalizePracticeLog, scorePaper, type ExamPaper, type ExamQuestion } from '$shared/exam'
 import {
   jaArticlePractice,
   jaPaper,
@@ -45,6 +45,13 @@ describe('判分', () => {
       { id: 'listening', title: '', minutes: 1, questions: [q(0), q(0)] }
     ]
   }
+
+  it('loading history preserves every imported paper beyond the display page size', () => {
+    const exams = Array.from({ length: 45 }, (_, i) => ({ id: String(i), paper, answers: [[0]] }))
+    const normalized = normalizePracticeLog({ exams, days: {} })
+    expect(normalized.exams).toHaveLength(45)
+    expect(normalized.exams.map((record) => record.id)).toEqual(exams.map((record) => record.id))
+  })
 
   it('每节答对几题，按比例换算成 JLPT 的两部分分数', () => {
     const r = scorePaper(paper, [

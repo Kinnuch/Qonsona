@@ -5,7 +5,6 @@ import { execFileSync } from 'node:child_process'
 export const REPO = process.env.GITHUB_REPOSITORY || 'Kinnuch/Qonsona'
 /** 词典数据放在这个草稿 Release 里（草稿不显示在发布页上，也不算「最新版本」） */
 export const DATA_RELEASE = 'build-data'
-export const DATA_ASSET = 'ja-data.zip'
 
 let cached = ''
 export function token() {

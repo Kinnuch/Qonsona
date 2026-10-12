@@ -23,7 +23,7 @@ import { combine, lemmaCounts, rankToCounts, WORD_RE, type FormIndex, type Sourc
 import { readOpenRussian, type OrWord } from './openrussian'
 import { ToSimplified, bz2Text, tsvRows } from './read'
 import { SOURCE } from './sources'
-import { readWiktionary, type Cell, type WiktSense } from './wiktionary'
+import { readWiktionary, sortTags, type Cell, type WiktSense } from './wiktionary'
 import { readRuWiktionaryZh, readZhWiktionary, zhKey, type ZhRecords } from './zh'
 
 const t0 = Date.now()
@@ -174,18 +174,100 @@ for (const [i, e] of entries.entries()) {
 }
 log(`变格表挪到会变格的同形词上：${moved}`)
 
+/**
+ * 人称代词：维基词典的 я、ты、он、мы、себя……各页用的是同一张「全部人称代词」的表，每个词条都带着别人的形式
+ * （меня 会对到 себя 上）。这几个是封闭的小集合，变格直接写在这里（н- 开头的是前置词后面的形式）
+ */
+const PERSONAL: Record<string, [string, ...string[]][]> = {
+  я: [
+    ['я', 'first-person', 'nominative', 'singular'],
+    ['меня́', 'first-person', 'genitive', 'accusative', 'singular'],
+    ['мне', 'first-person', 'dative', 'prepositional', 'singular'],
+    ['мной', 'first-person', 'instrumental', 'singular'],
+    ['мно́ю', 'first-person', 'instrumental', 'singular']
+  ],
+  ты: [
+    ['ты', 'second-person', 'nominative', 'singular'],
+    ['тебя́', 'second-person', 'genitive', 'accusative', 'singular'],
+    ['тебе́', 'second-person', 'dative', 'prepositional', 'singular'],
+    ['тобо́й', 'second-person', 'instrumental', 'singular'],
+    ['тобо́ю', 'second-person', 'instrumental', 'singular']
+  ],
+  он: [
+    ['он', 'third-person', 'nominative', 'masculine', 'singular'],
+    ['его́', 'third-person', 'genitive', 'accusative', 'masculine', 'singular'],
+    ['него́', 'third-person', 'genitive', 'accusative', 'masculine', 'singular'],
+    ['ему́', 'third-person', 'dative', 'masculine', 'singular'],
+    ['нему́', 'third-person', 'dative', 'masculine', 'singular'],
+    ['им', 'third-person', 'instrumental', 'masculine', 'singular'],
+    ['ним', 'third-person', 'instrumental', 'masculine', 'singular'],
+    ['нём', 'third-person', 'prepositional', 'masculine', 'singular']
+  ],
+  оно: [
+    ['оно́', 'third-person', 'nominative', 'neuter', 'singular'],
+    ['его́', 'third-person', 'genitive', 'accusative', 'neuter', 'singular'],
+    ['него́', 'third-person', 'genitive', 'accusative', 'neuter', 'singular'],
+    ['ему́', 'third-person', 'dative', 'neuter', 'singular'],
+    ['нему́', 'third-person', 'dative', 'neuter', 'singular'],
+    ['им', 'third-person', 'instrumental', 'neuter', 'singular'],
+    ['ним', 'third-person', 'instrumental', 'neuter', 'singular'],
+    ['нём', 'third-person', 'prepositional', 'neuter', 'singular']
+  ],
+  она: [
+    ['она́', 'third-person', 'nominative', 'feminine', 'singular'],
+    ['её', 'third-person', 'genitive', 'accusative', 'feminine', 'singular'],
+    ['неё', 'third-person', 'genitive', 'accusative', 'feminine', 'singular'],
+    ['ей', 'third-person', 'dative', 'instrumental', 'feminine', 'singular'],
+    ['ней', 'third-person', 'dative', 'instrumental', 'prepositional', 'feminine', 'singular'],
+    ['е́ю', 'third-person', 'instrumental', 'feminine', 'singular'],
+    ['не́ю', 'third-person', 'instrumental', 'feminine', 'singular']
+  ],
+  мы: [
+    ['мы', 'first-person', 'nominative', 'plural'],
+    ['нас', 'first-person', 'genitive', 'accusative', 'prepositional', 'plural'],
+    ['нам', 'first-person', 'dative', 'plural'],
+    ['на́ми', 'first-person', 'instrumental', 'plural']
+  ],
+  вы: [
+    ['вы', 'second-person', 'nominative', 'plural'],
+    ['вас', 'second-person', 'genitive', 'accusative', 'prepositional', 'plural'],
+    ['вам', 'second-person', 'dative', 'plural'],
+    ['ва́ми', 'second-person', 'instrumental', 'plural']
+  ],
+  они: [
+    ['они́', 'third-person', 'nominative', 'plural'],
+    ['их', 'third-person', 'genitive', 'accusative', 'plural'],
+    ['них', 'third-person', 'genitive', 'accusative', 'prepositional', 'plural'],
+    ['им', 'third-person', 'dative', 'plural'],
+    ['ним', 'third-person', 'dative', 'plural'],
+    ['и́ми', 'third-person', 'instrumental', 'plural'],
+    ['ни́ми', 'third-person', 'instrumental', 'plural']
+  ],
+  себя: [
+    ['себя́', 'genitive', 'accusative'],
+    ['себе́', 'dative', 'prepositional'],
+    ['собо́й', 'instrumental'],
+    ['собо́ю', 'instrumental']
+  ]
+}
+for (const [w, cells] of Object.entries(PERSONAL))
+  for (const i of byWord.get(w) ?? [])
+    if (entries[i].pos === 'pron')
+      entries[i].cells = cells.map((c) => [c[0], ...sortTags(c.slice(1))])
+
 // ───────────────────────── OpenRussian ─────────────────────────
 
 const or = readOpenRussian(raw.orSql)
 log(`OpenRussian：${or.size} 个词`)
 
+/** OpenRussian 的词类 → 能对上的词性（按可能性排：同一个词有几个词性时，排名给排在前面的那个） */
 const OR_POS: Record<string, PosTag[]> = {
   noun: ['noun', 'propn'],
   verb: ['verb'],
   adjective: ['adj', 'det', 'num', 'pron'],
   adverb: ['adv', 'part', 'intj'],
   expression: ['phrase', 'idiom', 'proverb'],
-  other: ['pron', 'det', 'adp', 'cconj', 'sconj', 'part', 'intj', 'num', 'adv', 'phrase', 'other']
+  other: ['adp', 'cconj', 'sconj', 'part', 'pron', 'det', 'num', 'adv', 'intj', 'phrase', 'other']
 }
 
 const OR_ONLY_POS: PosTag[] = ['noun', 'verb', 'adj', 'adv']
@@ -202,12 +284,30 @@ let orMatched = 0
 let orAdded = 0
 const orToEntry = new Map<number, number>()
 for (const w of or.values()) {
-  const cands = (byWord.get(w.bare) ?? []).filter((i) =>
-    w.type ? (OR_POS[w.type] ?? []).includes(entries[i].pos) : true
-  )
+  const order = w.type ? (OR_POS[w.type] ?? []) : []
+  const cands = (byWord.get(w.bare) ?? [])
+    .filter((i) => !w.type || order.includes(entries[i].pos))
+    .sort((a, b) => order.indexOf(entries[a].pos) - order.indexOf(entries[b].pos))
   if (cands.length) {
-    // 同形词（за́мок / замо́к）按重音挑
-    const i = cands.find((c) => (entries[c].d ?? entries[c].w) === w.accented) ?? cands[0]
+    // 同形词（за́мок / замо́к）按重音挑；再看哪个词条的英文释义跟 OpenRussian 的第一个译文对得上
+    // （да 的第一个译文是 yes，不是连词「和」）；都一样时按词性的可能性（о 是前置词，不是感叹词「哦」）
+    const first = new Set((w.en[0] ?? '').toLowerCase().match(/[a-z]+/g) ?? [])
+    const overlap = (c: number): number => {
+      const words = new Set(
+        entries[c].senses.flatMap(
+          (s) =>
+            s.en
+              .join(' ')
+              .toLowerCase()
+              .match(/[a-z]+/g) ?? []
+        )
+      )
+      return [...first].filter((x) => words.has(x)).length
+    }
+    // 重音只在分得开的时候才用来缩小范围（单音节词没有重音符号，大家都一样）
+    const byStress = cands.filter((c) => (entries[c].d ?? entries[c].w) === w.accented)
+    const pool = byStress.length && byStress.length < cands.length ? byStress : cands
+    const i = pool.reduce((best, c) => (overlap(c) > overlap(best) ? c : best), pool[0])
     if (!entries[i].or || (w.rank ?? 1e9) < (entries[i].or!.rank ?? 1e9)) entries[i].or = w
     orToEntry.set(w.id, i)
     orMatched++
@@ -344,9 +444,13 @@ const weak = (i: number): boolean => {
  * хорошо、красиво 是副词（不是 хороший 的短尾中性），следующий 是形容词（不是 следовать 的形动词）
  */
 const DERIVED_FORM = ['participle', 'short-form', 'comparative', 'alternative']
+/** 虚词跟感叹词同形时（о、на、а、нет）次数不算给感叹词：「哦」「拿着」远没有前置词、连词常用 */
+const FUNCTION_POS: PosTag[] = ['adp', 'cconj', 'sconj', 'part', 'pron', 'det']
 const common = (cands: number[], form: string): number[] => {
   const strong = cands.filter((i) => !weak(i))
   let c = strong.length ? strong : cands
+  if (c.some((i) => FUNCTION_POS.includes(entries[i].pos)))
+    c = c.filter((i) => entries[i].pos !== 'intj')
   if (c.length > 1) {
     const lf = looseKey(form)
     const owners = c.filter((i) => looseKey(entries[i].w) === lf)
@@ -845,6 +949,15 @@ for (const [i, e] of entries.entries()) {
 
   const cls = classesOf(e)
   if (st.mobile) cls.push('mobile-stress')
+  // 动词的每一格带上体（未完成体 / 完成体）：阅读器认语法点要看（буду + 未完成体、完成体的将来时……）；
+  // 两体动词不标
+  const aspect = ['imperfective', 'perfective'].filter((a) => cls.includes(a))
+  const f =
+    e.pos === 'verb' && aspect.length === 1
+      ? cells.map((c): Cell =>
+          c.includes('alternative') ? c : [c[0], ...sortTags([...c.slice(1), aspect[0]])]
+        )
+      : cells
   const src = ['wiktionary']
   if (e.orOnly) src[0] = 'openrussian'
   else if (e.or) src.push('openrussian')
@@ -861,7 +974,7 @@ for (const [i, e] of entries.entries()) {
     rom: romanize(e.d ?? e.w),
     ...(e.audio.length && { au: e.audio }),
     s: senses,
-    ...(cells.length && { f: cells }),
+    ...(f.length && { f }),
     ...(cls.length && { cls }),
     ...(e.level && { lv: { torfl: e.level } }),
     ...(e.fr && { fr: e.fr }),

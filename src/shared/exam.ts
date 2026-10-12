@@ -248,8 +248,8 @@ export interface PracticeLog {
   days: Record<string, { answered: number; right: number }>
 }
 
-/** 历史里最多留几张卷子 */
-export const MAX_EXAMS = 20
+/** 每页显示几张历史卷；存盘和导入不截断用户历史。 */
+export const EXAM_HISTORY_PAGE = 20
 
 export const emptyPracticeLog = (): PracticeLog => ({ version: 1, exams: [], days: {} })
 
@@ -258,9 +258,9 @@ export function normalizePracticeLog(raw: unknown): PracticeLog {
   if (!raw || typeof raw !== 'object') return log
   const r = raw as Partial<PracticeLog>
   if (Array.isArray(r.exams))
-    log.exams = r.exams
-      .filter((e) => e && typeof e === 'object' && e.paper && Array.isArray(e.answers))
-      .slice(-MAX_EXAMS)
+    log.exams = r.exams.filter(
+      (e) => e && typeof e === 'object' && e.paper && Array.isArray(e.answers)
+    )
   for (const [k, v] of Object.entries(r.days ?? {}))
     if (v && typeof v === 'object')
       log.days[k] = { answered: Number(v.answered) || 0, right: Number(v.right) || 0 }

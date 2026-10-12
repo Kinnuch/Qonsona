@@ -19,6 +19,11 @@ import {
   type Grade,
   type QueueCard
 } from './srs'
+import {
+  normalizeNotebookReviewSettings,
+  type NotebookReviewSettings,
+  type ReviewSettings
+} from './review-settings'
 
 /** 多语言文字（{ zh, en }），按界面语言挑 */
 export type Texts = Record<string, string>
@@ -65,6 +70,10 @@ export interface Notebook {
   days: Record<string, DayStat>
   /** 下一张卡的顺序号 */
   seq: number
+  /** 可选：旧用户继续沿用全局偏好；每语言文件独立保存。 */
+  review?: NotebookReviewSettings
+  /** 按语言/词本记录每日额度，不影响原 days 与卡片历史。 */
+  reviewDays?: Record<string, Record<string, DayStat>>
 }
 
 export const MINE = 'mine'
@@ -92,6 +101,9 @@ export function normalizeNotebook(raw: unknown, now = Date.now()): Notebook {
   }
   if (r.days && typeof r.days === 'object') nb.days = r.days as Notebook['days']
   nb.seq = Number(r.seq) || 0
+  const review = normalizeNotebookReviewSettings(r.review)
+  if (review) nb.review = review
+  if (r.reviewDays && typeof r.reviewDays === 'object') nb.reviewDays = r.reviewDays
   for (const c of Object.values(nb.cards)) nb.seq = Math.max(nb.seq, (Number(c.order) || 0) + 1)
   // 词本里指着不存在的卡的键去掉
   for (const l of nb.lists) l.keys = l.keys.filter((k) => k in nb.cards)
@@ -174,6 +186,7 @@ export function removeList(nb: Notebook, listId: string): number {
   if (!list) return 0
   const deleted = removeFromList(nb, listId, list.keys)
   nb.lists = nb.lists.filter((l) => l.id !== listId)
+  if (nb.review) delete nb.review.lists[listId]
   return deleted
 }
 
@@ -215,16 +228,66 @@ export function todayCounts(
 /**
  * 答一张卡：记进排期与今天的计数。drill 是按词本过闪卡——排了期、还没到期的卡当抽查。
  */
-export function answer(nb: Notebook, key: string, q: Grade, now = Date.now(), drill = false): void {
+export function answer(
+  nb: Notebook,
+  key: string,
+  q: Grade,
+  now = Date.now(),
+  drill = false,
+  plan?: Pick<ReviewSettings, 'masterDays' | 'ladder'>,
+  scope = 'language'
+): void {
   const c = nb.cards[key]
   if (!c) return
   const wasNew = c.state === STATE.NEW
-  if (drill && isSpot(c, now)) spotGrade(c, q, now)
-  else grade(c, q, now)
+  if (drill && isSpot(c, now)) spotGrade(c, q, now, plan?.masterDays, plan?.ladder)
+  else grade(c, q, now, plan?.masterDays, plan?.ladder)
   const k = dayKey(now)
   const d = (nb.days[k] ??= { learned: 0, reviewed: 0, total: 0, correct: 0 })
   if (wasNew) d.learned++
   else d.reviewed++
   d.total++
   if (q === 5) d.correct++
+  nb.reviewDays ??= {}
+  const byScope = (nb.reviewDays[scope] ??= {})
+  const scoped = (byScope[k] ??= { learned: 0, reviewed: 0, total: 0, correct: 0 })
+  if (wasNew) scoped.learned++
+  else scoped.reviewed++
+  scoped.total++
+  if (q === 5) scoped.correct++
+}
+
+export interface ReviewAnswerSnapshot {
+  key: string
+  card: NoteCard
+  dayKey: string
+  day: DayStat | null
+  scope: string
+  scopedDay: DayStat | null
+}
+export function reviewAnswerSnapshot(
+  nb: Notebook,
+  key: string,
+  scope: string,
+  now = Date.now()
+): ReviewAnswerSnapshot {
+  const k = dayKey(now)
+  return {
+    key,
+    card: structuredClone(nb.cards[key]),
+    dayKey: k,
+    day: nb.days[k] ? { ...nb.days[k] } : null,
+    scope,
+    scopedDay: nb.reviewDays?.[scope]?.[k] ? { ...nb.reviewDays[scope][k] } : null
+  }
+}
+export function restoreReviewAnswer(nb: Notebook, snap: ReviewAnswerSnapshot): void {
+  nb.cards[snap.key] = structuredClone(snap.card)
+  if (snap.day) nb.days[snap.dayKey] = { ...snap.day }
+  else delete nb.days[snap.dayKey]
+  if (snap.scopedDay) {
+    nb.reviewDays ??= {}
+    nb.reviewDays[snap.scope] ??= {}
+    nb.reviewDays[snap.scope][snap.dayKey] = { ...snap.scopedDay }
+  } else if (nb.reviewDays?.[snap.scope]) delete nb.reviewDays[snap.scope][snap.dayKey]
 }

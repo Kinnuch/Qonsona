@@ -42,6 +42,8 @@ import {
   harder,
   levelOfRank,
   loadCore,
+  loadExtraSenses,
+  loadPhraseRules,
   loadZhCore,
   registerFloor
 } from './levels'
@@ -60,6 +62,8 @@ const frwikt = await loadFrWikt(want)
 const tatoeba = await loadTatoeba(cedict.t2s)
 const core = loadCore(ROOT)
 const zhCore = loadZhCore(ROOT)
+const phraseRules = loadPhraseRules(ROOT)
+const extraSenses = loadExtraSenses(ROOT)
 
 // ───────────────────────── 索引 ─────────────────────────
 
@@ -334,6 +338,41 @@ for (const ptr of enw.pointers) {
 }
 log(`变形、异体：另挂上 ${attached} 个`)
 
+// 代词的变形表里列着别的代词和限定词（vous 的 tu、je 的 nous / mon、ils 的 eux、il 的 le / lui / son）：
+// 它们各有词条，留着的话阅读器会把 tu 对到更常用的 vous 上、把 son 对到 il 上。冠词照留（la、les 对到 le 是对的）
+const pronHeads = new Set(items.filter((i) => i.p === 'pron' || i.p === 'det').map((i) => i.k))
+for (const it of items)
+  if (it.p === 'pron')
+    it.f = it.f.filter(([form]) => frKey(form) === it.k || !pronHeads.has(frKey(form)))
+
+// 现在分词当形容词用的（important、intéressant、suivant）：有形容词词条时，动词的变形表里不留这个形，
+// 不然阅读器会把 important 对到更常用的 importer 上
+const adjHeads = new Set(items.filter((i) => i.p === 'adj').map((i) => i.k))
+for (const it of items)
+  if (it.p === 'verb')
+    it.f = it.f.filter(
+      ([form, ...tags]) =>
+        !(tags.includes('participle') && tags.includes('present') && adjHeads.has(frKey(form)))
+    )
+
+// 维基词典漏了的常用义项（data/fr/senses-extra.txt），加在最前面
+for (const it of items) {
+  const extra = extraSenses.get(`${it.k}|${it.p}`)
+  if (!extra) continue
+  it.senses.unshift({
+    en: [extra.en],
+    zh: extra.zh,
+    zs: 'fr-core',
+    t: [],
+    dom: [],
+    ex: [],
+    syn: [],
+    ant: []
+  })
+  if (extra.newPos) it.p = extra.newPos
+  it.src.add('fr-core')
+}
+
 // 大写的缩写、字母（CE、VA、H）跟同键的小写词（ce、va、h）共用 Lexique 的词频，不算
 const lowerKeys = new Set(items.filter((i) => i.w === i.w.toLocaleLowerCase('fr')).map((i) => i.k))
 for (const it of items)
@@ -426,9 +465,22 @@ const isCombo = (it: Item): boolean =>
       (t.kind === 'word' && /['’]$/.test(t.text) && all.some((x, j) => j > i && x.kind === 'word'))
   )
 for (const it of items) if (it.p === 'other' && KEEP_COMBOS.has(it.k)) it.p = 'phrase'
+/**
+ * 多词词条：阅读器会把正文里连着的词并成这个词条（data/fr/phrases.txt 有说明）。感叹词、短语里的只留固定说法，
+ * 别的词性去掉几个普通词凑成的
+ */
+const phraseOk = (it: Item): boolean => {
+  if (!/ /.test(it.k)) return true
+  if (it.p === 'intj' || it.p === 'phrase') return phraseRules.keep.has(it.k)
+  return !phraseRules.drop.has(`${it.k}|${it.p}`)
+}
 const kept = items.filter((it) => {
-  if (isCombo(it) || SKIP.has(it.k)) return false
-  if (it.p === 'propn') return it.tat >= 20 || !!coreLevel(core, it.k, it.p, it.g)
+  if (isCombo(it) || SKIP.has(it.k) || !phraseOk(it)) return false
+  // 专名：常见的（Tatoeba 里 20 次以上）、核心词表里的，和有中文释义的（国名、地名、名人，新闻里常见）
+  if (it.p === 'propn')
+    return (
+      it.tat >= 20 || !!coreLevel(core, it.k, it.p, it.g) || it.senses.some((s) => s.zh?.length)
+    )
   if (CLOSED.has(it.p)) return true
   return it.score > 0 || it.senses.some((s) => s.zh?.length) || !!coreLevel(core, it.k, it.p, it.g)
 })
@@ -517,11 +569,26 @@ for (const it of kept) {
   if (band) lv.freq = band
   if (it.score > 0 && it.src.has('wiktionary')) it.src.add('lexique')
   else if (it.score > 0 && it.tat === 0) it.src.add('lexique')
-  // 变形的读音：法语维基词典变位表、变格表里的（有音节点），没有的用 Lexique 按「词形 + 原形」的
+  // 变形表里跟词头一样的不定式（manger [infinitive]）是重复的：词头本来就是不定式，留着反倒让阅读器以为
+  // 这个词形有几种可能
+  const f = it.f.filter(
+    ([form, ...tags]) =>
+      !(
+        it.p === 'verb' &&
+        frKey(form) === it.k &&
+        tags.every((t) => t === 'infinitive' || t === 'reflexive')
+      )
+  )
+  // 变形的读音：法语维基词典变位表、变格表里的（有音节点），没有的用 Lexique 按「词形 + 原形」的；
+  // 词头也是别的形（heureux 也是阳性复数）时记上词头的读音，阅读器才注得上
   const fi: Record<string, string> = {}
-  for (const [form] of it.f) {
+  for (const [form] of f) {
     const fk = frKey(form)
-    if (fk === it.k || fi[form] || / /.test(form)) continue
+    if (fi[form] || / /.test(form)) continue
+    if (fk === it.k) {
+      if (it.ipa[0]) fi[form] = it.ipa[0]
+      continue
+    }
     const lexIpa = lex.formIpa[`${fk}|${it.k}`]
     const ipa = it.ffi?.[fk] ?? (lexIpa ? `/${lexIpa}/` : undefined)
     if (ipa) fi[form] = ipa
@@ -533,7 +600,7 @@ for (const it of kept) {
     ...(it.ipa.length ? { ipa: it.ipa } : {}),
     ...(it.au.length ? { au: it.au } : {}),
     s,
-    ...(it.f.length ? { f: it.f as [string, ...string[]][] } : {}),
+    ...(f.length ? { f: f as [string, ...string[]][] } : {}),
     ...(Object.keys(fi).length ? { fi } : {}),
     ...(it.cls.length ? { cls: it.cls } : {}),
     ...(Object.keys(lv).length ? { lv } : {}),

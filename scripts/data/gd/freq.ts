@@ -10,6 +10,7 @@
  * 后两份只有词形：按词典的变形表（跟阅读器查词同一套键）找回原形；一个词形对上几个词条时，
  * 按 ARCOSG 里各词条的次数分（a 是「他的」「去」还是关系小品词，看 ARCOSG 里谁常见）。
  */
+import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import Bunzip from 'seek-bzip'
 import { gdKey, lemmaCandidatesGd, tokenizeGd } from '../../../src/shared/lang/gd/rules'
@@ -109,6 +110,20 @@ export interface CorpusCounts {
 const top = (m: Map<string, number>, n: number): [string, number][] =>
   [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, n)
 
+/**
+ * UD 的词性加上特征，对到更细的 kaikki 词性：限定词里冠词（PronType=Art）是 article，
+ * 物主（Poss=Yes：mo、do、a、ar、ur、an「他们的」）是 det——不然 an「那个」的次数会分一半给 an「他们的」
+ */
+function kposOf(upos: string, feats: string): string[] | undefined {
+  if (upos === 'DET') {
+    if (/PronType=Art/.test(feats)) return ['article']
+    if (/Poss=Yes/.test(feats)) return ['det']
+  }
+  // 关系小品词 a（a tha、a bha）：维基词典把它算代词
+  if (upos === 'PART' && /PronType=Rel/.test(feats)) return ['pron', 'particle']
+  return UPOS_TO_KPOS[upos]
+}
+
 /** ARCOSG：数原形（带词性） */
 export function countArcosg(files: string[], index: FormIndex): CorpusCounts {
   const counts = new Float64Array(index.entries.length)
@@ -119,11 +134,11 @@ export function countArcosg(files: string[], index: FormIndex): CorpusCounts {
     for (const line of readFileSync(file, 'utf8').split('\n')) {
       if (!line || line.startsWith('#')) continue
       const cols = line.split('\t')
-      if (cols.length < 4 || !/^\d+$/.test(cols[0])) continue
-      const [, form, lemma, upos] = cols
+      if (cols.length < 6 || !/^\d+$/.test(cols[0])) continue
+      const [, form, lemma, upos, , feats] = cols
       if (upos === 'PUNCT' || upos === 'SYM' || upos === 'X') continue
       tokens++
-      const kpos = UPOS_TO_KPOS[upos]
+      const kpos = kposOf(upos, feats)
       let ids = index.resolve(lemma === '_' ? form : lemma, kpos)
       if (!ids.length) ids = index.resolve(form, kpos)
       if (!ids.length) {
@@ -131,7 +146,9 @@ export function countArcosg(files: string[], index: FormIndex): CorpusCounts {
         miss.set(`${lemma}/${upos}`, (miss.get(`${lemma}/${upos}`) ?? 0) + 1)
         continue
       }
-      for (const i of ids) counts[i] += 1 / ids.length
+      // 同一个原形、同一种词性的几个词条（维基词典按词源分开的四个小品词 a）各记一次：
+      // 平分的话每个都只剩几分之一，常用虚词反倒排到后头
+      for (const i of ids) counts[i] += 1
     }
   return { counts, tokens, unmatched, topUnmatched: top(miss, 40) }
 }
@@ -200,28 +217,84 @@ export function stripWikitext(src: string): string {
   return t
 }
 
-/** 盖尔语维基百科：数正文里的词形（结果缓存在 .cache，换了 dump 才重数） */
-export function countWikiForms(dumpFile: string, cacheFile: string): Map<string, number> {
+/**
+ * 一段正文里出现的多词说法（a h-uile、sam bith、mu dheidhinn、an diugh）：词与词之间只隔空白时才算连着，
+ * 隔了标点的不算。phrases 是「多词说法的查词键」的集合
+ */
+export function countPhraseKeys(
+  text: string,
+  phrases: Set<string>,
+  out: Map<string, number>
+): number {
+  let run: string[] = []
+  let words = 0
+  const flush = (): void => {
+    for (let i = 0; i < run.length; i++)
+      for (let n = 2; n <= 4 && i + n <= run.length; n++) {
+        const k = run.slice(i, i + n).join(' ')
+        if (phrases.has(k)) out.set(k, (out.get(k) ?? 0) + 1)
+      }
+    run = []
+  }
+  for (const tok of tokenizeGd(text)) {
+    if (tok.kind === 'word') {
+      run.push(gdKey(tok.text))
+      words++
+    } else if (tok.kind !== 'space') flush()
+  }
+  flush()
+  return words
+}
+
+/** ARCOSG 的句子原文（# text = …），数多词说法用 */
+export function arcosgSentences(files: string[]): string[] {
+  const out: string[] = []
+  for (const file of files)
+    for (const line of readFileSync(file, 'utf8').split('\n'))
+      if (line.startsWith('# text = ')) out.push(line.slice(9))
+  return out
+}
+
+export interface WikiCounts {
+  forms: Map<string, number>
+  /** 多词说法的出现次数（查词键 → 次数） */
+  phrases: Map<string, number>
+  /** 正文一共多少词 */
+  words: number
+}
+
+/**
+ * 盖尔语维基百科：数正文里的词形与多词说法（结果缓存在 .cache；换了 dump、改了去标记的规则、
+ * 多词说法的清单变了才重数）
+ */
+export function countWiki(dumpFile: string, cacheFile: string, phrases: Set<string>): WikiCounts {
   // 改了去标记的规则就改版本号，缓存跟着作废
-  const stamp = `${statSync(dumpFile).size}-v2`
+  const phraseSig = createHash('sha1')
+    .update([...phrases].sort().join('\n'))
+    .digest('hex')
+    .slice(0, 12)
+  const stamp = `${statSync(dumpFile).size}-v3-${phraseSig}`
   if (existsSync(cacheFile)) {
     const c = JSON.parse(readFileSync(cacheFile, 'utf8')) as {
       stamp: string
+      words: number
       forms: [string, number][]
+      phrases: [string, number][]
     }
-    if (c.stamp === stamp) return new Map(c.forms)
+    if (c.stamp === stamp)
+      return { forms: new Map(c.forms), phrases: new Map(c.phrases), words: c.words }
   }
   const xml = Bunzip.decode(readFileSync(dumpFile)).toString('utf8')
   const forms = new Map<string, number>()
+  const phraseCounts = new Map<string, number>()
   const pageRe = /<page>([\s\S]*?)<\/page>/g
   let m: RegExpExecArray | null
-  let pages = 0
+  let words = 0
   while ((m = pageRe.exec(xml))) {
     const page = m[1]
     if (!/<ns>0<\/ns>/.test(page) || /<redirect /.test(page)) continue
     const text = /<text[^>]*>([\s\S]*?)<\/text>/.exec(page)?.[1]
     if (!text) continue
-    pages++
     const plain = stripWikitext(
       text
         .replace(/&lt;/g, '<')
@@ -235,11 +308,15 @@ export function countWikiForms(dumpFile: string, cacheFile: string): Map<string,
       if (k.length > 30) continue
       forms.set(k, (forms.get(k) ?? 0) + 1)
     }
+    words += countPhraseKeys(plain, phrases, phraseCounts)
   }
   // 只出现一两次的多是专名、错字：不要（也省缓存）
   const kept = [...forms.entries()].filter(([, n]) => n >= 3)
-  writeFileSync(cacheFile, JSON.stringify({ stamp, pages, forms: kept }))
-  return new Map(kept)
+  writeFileSync(
+    cacheFile,
+    JSON.stringify({ stamp, words, forms: kept, phrases: [...phraseCounts.entries()] })
+  )
+  return { forms: new Map(kept), phrases: phraseCounts, words }
 }
 
 /** 合并：每份语料换成每百万词，按权重相加 */

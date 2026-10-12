@@ -183,3 +183,92 @@ export function takesA(vowel: string): boolean {
 export function normalizeHangul(text: string): string {
   return text.normalize('NFC')
 }
+
+// ───────────────────────── 输入：字母合成音节 ─────────────────────────
+
+/** 两个元音键合成复合元音（두벌식：ㅗ + ㅏ = ㅘ） */
+const VOWEL_PAIRS: Record<string, string> = {
+  ㅗㅏ: 'ㅘ',
+  ㅗㅐ: 'ㅙ',
+  ㅗㅣ: 'ㅚ',
+  ㅜㅓ: 'ㅝ',
+  ㅜㅔ: 'ㅞ',
+  ㅜㅣ: 'ㅟ',
+  ㅡㅣ: 'ㅢ'
+}
+const CLUSTER_OF_PAIR = new Map(Object.entries(CLUSTERS).map(([k, v]) => [v, k]))
+
+/**
+ * 把连着的兼容字母（屏幕键盘、没装韩文输入法时一个个敲进来的 ㅎ ㅏ ㄴ）合成音节，跟两벌식输入法一样：
+ * 「ㅎㅏㄴㄱㅜㄱ」→「한국」、「ㅇㅣㄹㄱㅇㅓ」→「읽어」；收音后面跟元音时收音挪到下一个音节
+ * （「ㅇㅣㄹㄱㅓ」→「일거」）。合不成的字母原样留着（ㄱ、-ㄴ다 的 ㄴ）。
+ */
+export function composeHangul(text: string): string {
+  if (!/[ㄱ-ㆎ]/.test(text)) return text
+  let out = ''
+  let L = ''
+  let V = ''
+  let T = '' // 收音（一个或两个辅音字母）
+  const flush = (): void => {
+    if (L && V)
+      out += compose(L, V, T.length === 2 ? (CLUSTER_OF_PAIR.get(T) ?? '') : T) ?? L + V + T
+    else out += L + V + T
+    L = V = T = ''
+  }
+  for (const ch of text) {
+    const cons = INITIALS.includes(ch) || FINALS.includes(ch)
+    const vow = VOWELS.includes(ch)
+    if (!cons && !vow) {
+      flush()
+      out += ch
+      continue
+    }
+    if (!L && !V) {
+      if (cons && INITIALS.includes(ch)) L = ch
+      else out += ch
+      continue
+    }
+    if (L && !V) {
+      if (vow) V = ch
+      else {
+        out += L
+        L = INITIALS.includes(ch) ? ch : ''
+        if (!L) out += ch
+      }
+      continue
+    }
+    // 有初声、中声
+    if (!T) {
+      if (vow) {
+        const pair = VOWEL_PAIRS[V + ch]
+        if (pair) V = pair
+        else {
+          flush()
+          out += ch
+        }
+      } else if (FINALS.includes(ch)) T = ch
+      else {
+        flush()
+        L = ch // ㄸ ㅃ ㅉ 不能当收音
+      }
+      continue
+    }
+    // 有收音
+    if (vow) {
+      // 收音挪到下一个音节当初声（双收音挪后一个）
+      const moved = T.length === 2 ? T[1] : T
+      T = T.length === 2 ? T[0] : ''
+      flush()
+      L = INITIALS.includes(moved) ? moved : ''
+      if (L) V = ch
+      else out += moved + ch
+    } else if (T.length === 1 && CLUSTER_OF_PAIR.has(T + ch)) T = T + ch
+    else {
+      flush()
+      if (INITIALS.includes(ch)) L = ch
+      else out += ch
+    }
+  }
+  flush()
+  return out
+}

@@ -1,7 +1,7 @@
 <script lang="ts">
   // 框架里各语言（英、法、韩、西、阿、俄、苏格兰盖尔）的词典：查词（词头、变形、去掉变音符号、猜原形、
   // 中英文释义）与例句。数据在主进程的 SQLite（src/main/lang/lexdb.ts），各语言的规则在 src/shared/lang/<代码>/
-  import { onMount } from 'svelte'
+  import { onMount, untrack } from 'svelte'
   import { Search, Volume2, Keyboard } from '@lucide/svelte'
   import { platform } from '$lib/platform'
   import { t, i18n, pick } from '$lib/i18n/index.svelte'
@@ -12,7 +12,10 @@
   import type { LexEntryView, LexFamilyItem, LexHit, LexSearchResult } from '$shared/lang/views'
   import { genderLabel, posLabel, tagLabel, tagsLabel } from '$shared/lang/tags'
   import { foldWithMap } from '$shared/lang/text'
-  import { paradigm } from '$shared/lang/paradigm'
+  import LexInflection from './LexInflection.svelte'
+  import DictionaryDaily from './DictionaryDaily.svelte'
+  import type { DailyWord, DailySentence, DailyGrammar } from '$shared/dictionary-daily'
+  import { courses } from '$lib/state/courses.svelte'
   import { primarySystem } from '$shared/lang/levels'
   import Pronounce from '$lib/ui/Pronounce.svelte'
   import AddToNotebook from '$lib/notebook/AddToNotebook.svelte'
@@ -27,7 +30,8 @@
   const spec = $derived(mod.spec)
   /** 这门语言自己的叫法（标签、变形类别、字段） */
   const own = $derived(mod.labels)
-  const memo = $derived(dictState.of(code))
+  // Dictionary is keyed by language: initialise mutable state outside a derived evaluation.
+  const memo = dictState.of(untrack(() => code))
   /** 词根（阿拉伯语）/ 汉字（韩语）：有的语言多一个页签，列出同一词根、同一汉字的词 */
   const family = $derived(spec.features.characters)
   const TABS = $derived<DictTab[]>([
@@ -51,8 +55,6 @@
   let input = $state<HTMLInputElement | null>(null)
   /** 屏幕键盘开着没有 */
   let keyboard = $state(false)
-  /** 变形表展开了没有 */
-  let formsOpen = $state(false)
 
   onMount(async () => {
     const [s] = await platform.lang.status([code]).catch(() => [])
@@ -84,7 +86,7 @@
 
   $effect(() => {
     const id = memo.selected
-    formsOpen = false
+    memo.inflection = false
     if (!available || !id) {
       entry = null
       return
@@ -167,19 +169,6 @@
     if (!(await playRemote(url))) ui.toast(t('dict.lex.audioFail'), 'error')
   }
 
-  /** 变形表：格 × 数、人称 × 数……排成网格；排不进去的同一组标签的几个写法并在一行 */
-  const para = $derived(entry ? paradigm(entry.forms, entry.d || entry.w) : { grids: [], rest: [] })
-  const formRows = $derived.by(() => {
-    const rows = new Map<string, { form: string; ipa?: string }[]>()
-    for (const f of para.rest) {
-      const k = tagsLabel(f.tags, L, own) || t('dict.lex.variant')
-      const list = rows.get(k) ?? []
-      if (!list.some((x) => x.form === f.form)) list.push({ form: f.form, ipa: f.ipa })
-      rows.set(k, list)
-    }
-    return [...rows.entries()]
-  })
-
   /** 语言特有的信息：认得的键用说明，不认得的照原样 */
   const extras = $derived(
     Object.entries(entry?.x ?? {}).filter(
@@ -238,6 +227,25 @@
   const entryWords = $derived(
     entry ? [entry.w, ...(entry.d ? [entry.d] : []), ...entry.forms.map((f) => f.form)] : []
   )
+  function onword(word: DailyWord): void {
+    lookup(word.card.front)
+    memo.selected = String(word.entryId ?? word.id)
+  }
+  function onsentence(sentence: DailySentence): void {
+    memo.query = sentence.text
+    memo.tab = 'sentences'
+  }
+  function ongrammar(grammar: DailyGrammar): void {
+    memo.query = ''
+    memo.grammar = grammar.id
+    memo.tab = 'grammar'
+  }
+  function oncourse(grammar: DailyGrammar): void {
+    if (grammar.lessonId) {
+      courses.openLesson('grammar', grammar.lessonId)
+      ui.go('courses')
+    }
+  }
 </script>
 
 {#snippet refs(kind: 'syn' | 'ant' | 'see', words: string[])}
@@ -313,7 +321,18 @@
     <OnScreenKeyboard rows={mod.keyboard} {lang} {dir} onkey={typeKey} onback={backKey} />
   {/if}
 
-  {#if available === false}
+  {#if memo.tab === 'words' && !memo.query.trim()}
+    <div class="discoveries">
+      <DictionaryDaily packId={code} {onword} {onsentence} {ongrammar} {oncourse} />
+      {#if memo.history.length}<section class="daily-history">
+          <h3>{t('dict.history')}</h3>
+          <div>
+            {#each memo.history as q (q)}<button class="chip" onclick={() => lookup(q)}>{q}</button
+              >{/each}
+          </div>
+        </section>{/if}
+    </div>
+  {:else if available === false}
     <p class="card note" data-lex-nodata>
       {t('dict.lex.noData', { lang: pick(spec.name), code })}
     </p>
@@ -357,9 +376,9 @@
         {#if entry}
           <header class="head">
             <span class="headword" {lang} {dir} data-headword>{shown(entry)}</span>
-            {#if speech}
-              <Pronounce item={{ key: lexKey(entry.id), text: entry.w, lang: speech }} />
-            {/if}
+            <Pronounce
+              item={{ key: lexKey(entry.id), ...(speech ? { text: entry.w, lang: speech } : {}) }}
+            />
             {#each entry.au.slice(0, 4) as a (a.url)}
               <button
                 class="btn ghost small audio"
@@ -369,6 +388,13 @@
                 ><Volume2 size={14} />{a.label ?? t('dict.lex.audio')}</button
               >
             {/each}
+            <button
+              class="btn small"
+              data-inflection-toggle
+              aria-expanded={memo.inflection}
+              onclick={() => (memo.inflection = !memo.inflection)}
+              >{memo.inflection ? t('dict.hideInflection') : t('dict.inflection')}</button
+            >
             <span class="head-grow"></span>
             <AddToNotebook key={lexKey(entry.id)} make={() => lexFromEntry(entry!)} />
           </header>
@@ -399,6 +425,8 @@
             {#if entry.freq}<span class="faint small">{t('dict.lex.freq', { n: entry.freq })}</span
               >{/if}
           </div>
+
+          {#if memo.inflection}{#key entry.id}<LexInflection {entry} />{/key}{/if}
 
           <ol class="senses">
             {#each entry.senses as s, i (i)}
@@ -446,62 +474,6 @@
               <ul class="examples">
                 {#each entry.examples as ex (ex.id)}{@render exampleView(ex, entryWords)}{/each}
               </ul>
-            </section>
-          {/if}
-
-          {#if formRows.length || para.grids.length}
-            <section class="block" data-forms>
-              <button class="link" onclick={() => (formsOpen = !formsOpen)}
-                >{t('dict.lex.forms', { n: entry.forms.length })}{formsOpen ? ' ▴' : ' ▾'}</button
-              >
-              {#if formsOpen || (formRows.length <= 6 && para.grids.length <= 1)}
-                {#each para.grids as g, gi (gi)}
-                  <table class="forms grid" data-paradigm>
-                    {#if g.title.length}<caption>{tagsLabel(g.title, L, own)}</caption>{/if}
-                    {#if g.cols.some((c) => c.length)}
-                      <thead>
-                        <tr>
-                          <th></th>
-                          {#each g.cols as c, ci (ci)}<th class="col">{tagsLabel(c, L, own)}</th
-                            >{/each}
-                        </tr>
-                      </thead>
-                    {/if}
-                    <tbody>
-                      {#each g.rows as r, ri (ri)}
-                        <tr>
-                          <th>{tagsLabel(r.tags, L, own)}</th>
-                          {#each r.cells as cell, ci (ci)}
-                            <td {lang} {dir}
-                              >{#each cell as x, xi (xi)}{#if xi}<br
-                                  />{/if}{x.form}{#if x.note.length}<span class="faint form-ipa"
-                                    >（{tagsLabel(x.note, L, own)}）</span
-                                  >{/if}{#if x.ipa}<span class="faint form-ipa">{x.ipa}</span
-                                  >{/if}{/each}</td
-                            >
-                          {/each}
-                        </tr>
-                      {/each}
-                    </tbody>
-                  </table>
-                {/each}
-                {#if formRows.length}<table class="forms">
-                    <tbody>
-                      {#each formRows as [label, forms] (label)}
-                        <tr>
-                          <th>{label}</th>
-                          <td {lang} {dir}
-                            >{#each forms as f, i (f.form)}{#if i}{L === 'zh'
-                                  ? '、'
-                                  : ', '}{/if}{f.form}{#if f.ipa}<span class="faint form-ipa"
-                                  >{f.ipa}</span
-                                >{/if}{/each}</td
-                          >
-                        </tr>
-                      {/each}
-                    </tbody>
-                  </table>{/if}
-              {/if}
             </section>
           {/if}
 
@@ -578,6 +550,20 @@
 </div>
 
 <style>
+  .discoveries {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .daily-history {
+    padding-block: 18px;
+  }
+  .daily-history div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
   .ex-text {
     white-space: pre-line;
   }
@@ -857,42 +843,6 @@
     font-size: 13px;
     color: var(--text-2);
     margin: 0 0 6px;
-  }
-  .forms {
-    border-collapse: collapse;
-    margin-top: 6px;
-    font-size: 14px;
-  }
-  .forms th {
-    text-align: start;
-    font-weight: 400;
-    color: var(--text-2);
-    padding: 3px 14px 3px 0;
-    white-space: nowrap;
-    vertical-align: top;
-  }
-  .forms td {
-    padding: 3px 0;
-  }
-  .form-ipa {
-    margin-inline-start: 4px;
-    font-size: 12px;
-  }
-  .forms.grid {
-    margin-bottom: 8px;
-  }
-  .forms.grid caption {
-    text-align: start;
-    font-size: 13px;
-    color: var(--text-2);
-    padding: 2px 0;
-  }
-  .forms.grid td {
-    padding: 3px 14px 3px 0;
-    vertical-align: top;
-  }
-  .forms.grid .col {
-    font-size: 12px;
   }
   .source {
     font-size: 12px;

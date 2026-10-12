@@ -1,0 +1,191 @@
+{
+  "checkedAt": "2026-10-12T08:16:11.113Z",
+  "code": "gd",
+  "dictionary": {
+    "entries": 15463,
+    "examples": 2197,
+    "levels": {
+      "A1": 489,
+      "A2": 808,
+      "B1": 1197,
+      "B2": 1292,
+      "C1": 1014,
+      "C2": 1222
+    },
+    "lists": 20
+  },
+  "grammar": {
+    "points": 48,
+    "examples": 96,
+    "missed": []
+  },
+  "courses": [
+    {
+      "id": "grammar",
+      "units": 6,
+      "lessons": 17
+    },
+    {
+      "id": "alphabet",
+      "units": 1,
+      "lessons": 4
+    },
+    {
+      "id": "inflection",
+      "units": 1,
+      "lessons": 4
+    },
+    {
+      "id": "phrasebook",
+      "units": 1,
+      "lessons": 4
+    },
+    {
+      "id": "idioms",
+      "units": 1,
+      "lessons": 2
+    },
+    {
+      "id": "stories",
+      "units": 6,
+      "lessons": 6
+    }
+  ],
+  "texts": {
+    "count": 6,
+    "profiles": [
+      {
+        "id": "gd-reading-a1",
+        "editorialLevel": "A1",
+        "lexicalLevel": "A1",
+        "wordTokens": 51,
+        "unknown": 0,
+        "grammarHits": 7
+      },
+      {
+        "id": "gd-reading-a2",
+        "editorialLevel": "A2",
+        "lexicalLevel": "A1",
+        "wordTokens": 56,
+        "unknown": 0,
+        "grammarHits": 9
+      },
+      {
+        "id": "gd-reading-b1",
+        "editorialLevel": "B1",
+        "lexicalLevel": "A1",
+        "wordTokens": 71,
+        "unknown": 0,
+        "grammarHits": 14
+      },
+      {
+        "id": "gd-reading-b2",
+        "editorialLevel": "B2",
+        "lexicalLevel": "A2",
+        "wordTokens": 78,
+        "unknown": 0,
+        "grammarHits": 11
+      },
+      {
+        "id": "gd-reading-c1",
+        "editorialLevel": "C1",
+        "lexicalLevel": "A2",
+        "wordTokens": 95,
+        "unknown": 0,
+        "grammarHits": 8
+      },
+      {
+        "id": "gd-reading-c2",
+        "editorialLevel": "C2",
+        "lexicalLevel": "A2",
+        "wordTokens": 132,
+        "unknown": 0,
+        "grammarHits": 11
+      }
+    ]
+  },
+  "exams": [
+    {
+      "id": "gd-study-A1",
+      "level": "A1",
+      "full": true
+    },
+    {
+      "id": "gd-study-A2",
+      "level": "A2",
+      "full": true
+    },
+    {
+      "id": "gd-study-B1",
+      "level": "B1",
+      "full": true
+    },
+    {
+      "id": "gd-study-B2",
+      "level": "B2",
+      "full": true
+    },
+    {
+      "id": "gd-study-C1",
+      "level": "C1",
+      "full": true
+    },
+    {
+      "id": "gd-study-C2",
+      "level": "C2",
+      "full": true
+    }
+  ],
+  "primaryLevels": ["A1", "A2", "B1", "B2", "C1", "C2"],
+  "feedsCheckedAt": "2026-10-12T08:07:01.669Z",
+  "feeds": [
+    {
+      "id": "bbc-naidheachdan",
+      "url": "https://feeds.bbci.co.uk/naidheachdan/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 19,
+      "latest": "2026-10-12T06:12:05.000Z"
+    },
+    {
+      "id": "smo",
+      "url": "https://www.smo.uhi.ac.uk/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 50,
+      "latest": "2026-10-08T13:04:46.000Z"
+    },
+    {
+      "id": "bng",
+      "url": "https://www.gaidhlig.scot/gd/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-09-30T10:01:35.000Z"
+    },
+    {
+      "id": "mgalba",
+      "url": "https://mgalba.com/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-06-24T09:11:13.000Z"
+    },
+    {
+      "id": "feisean",
+      "url": "https://www.feisean.org/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2026-10-06T13:51:12.000Z"
+    },
+    {
+      "id": "togblog",
+      "url": "https://togblog.org/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 5,
+      "latest": "2026-10-06T12:06:33.000Z"
+    }
+  ]
+}

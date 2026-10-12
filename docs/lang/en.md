@@ -1,5 +1,10 @@
 # 英语（en）
 
+> 2026-10-12 进度更新：已接入阅读、语法词典、六类课程、本文练习、自测卷、字幕查词、录音与统计。
+> 当前 56,187 个词条、60 个语法点、120 个双语教学例句、6 篇读物、6 套自测卷。
+> 拼读、冠词/可数性、时体和语篇用法；保留已有开放词表。
+> 下文的「阶段一」「要框架做的」为历史记录；现行范围、限制和下一阶段以 [多语言进度](../multilingual-progress.md) 为准。
+
 > 负责：lang/en 分支（worktree `Documents\GitHub\Qonsona-wt\en`）。约定见 [lang-kit.md](../lang-kit.md)。
 > 状态（2026-10-10）：阶段一完成——规则、数据管线、词典库（59,383 词条）、测试。进度与待定见文末。
 
@@ -48,17 +53,17 @@ defence / defense、grey / gray、aeroplane / airplane……两种写法都收�
 
 ### 5. 句法与语法：中文母语者的难点
 
-| 难点 | 为什么难 | 以后的课程、练习怎么照顾 |
-|---|---|---|
-| 时态与体（一般 / 进行 / 完成 / 完成进行 × 现在 / 过去 / 将来） | 中文靠「了、过、着」和时间词，动词不变形；最常见的错是漏第三人称单数、漏过去式、现在完成时与一般过去时混用 | 时态填空、选时态、找错 |
-| 冠词 a / an / the / 零冠词 | 中文没有冠词 | 冠词选择题 |
-| 可数与不可数（information、advice、furniture；a piece of） | 中文名词不分 | 判断可数、量词搭配 |
-| 主谓一致 | 中文动词不随主语变 | 选正确的谓语形式 |
-| 介词与搭配（in / on / at；make a decision、do homework） | 跟中文对不上 | 介词填空、搭配选择 |
-| 短语动词（give up、look after、put up with） | 意思不是字面相加 | 短语动词意思题 |
-| 非谓语动词（to do / doing / done）、从句、被动语态、虚拟语气、倒装 | 中文没有对应形式 | 语法填空（高考题型）、句型转换 |
-| 词性转换（-tion、-ness、-ly、-ful……） | 高考「语法填空」、四六级「选词填空」都考 | 用词的适当形式填空 |
-| 一词多义（get、take、make）、近义词 | 常用词义项极多 | 义项选择、辨析（ECDICT resemble.txt） |
+| 难点                                                               | 为什么难                                                                                                   | 以后的课程、练习怎么照顾              |
+| ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| 时态与体（一般 / 进行 / 完成 / 完成进行 × 现在 / 过去 / 将来）     | 中文靠「了、过、着」和时间词，动词不变形；最常见的错是漏第三人称单数、漏过去式、现在完成时与一般过去时混用 | 时态填空、选时态、找错                |
+| 冠词 a / an / the / 零冠词                                         | 中文没有冠词                                                                                               | 冠词选择题                            |
+| 可数与不可数（information、advice、furniture；a piece of）         | 中文名词不分                                                                                               | 判断可数、量词搭配                    |
+| 主谓一致                                                           | 中文动词不随主语变                                                                                         | 选正确的谓语形式                      |
+| 介词与搭配（in / on / at；make a decision、do homework）           | 跟中文对不上                                                                                               | 介词填空、搭配选择                    |
+| 短语动词（give up、look after、put up with）                       | 意思不是字面相加                                                                                           | 短语动词意思题                        |
+| 非谓语动词（to do / doing / done）、从句、被动语态、虚拟语气、倒装 | 中文没有对应形式                                                                                           | 语法填空（高考题型）、句型转换        |
+| 词性转换（-tion、-ness、-ly、-ful……）                              | 高考「语法填空」、四六级「选词填空」都考                                                                   | 用词的适当形式填空                    |
+| 一词多义（get、take、make）、近义词                                | 常用词义项极多                                                                                             | 义项选择、辨析（ECDICT resemble.txt） |
 
 ### 6. 词汇与分级
 
@@ -69,34 +74,34 @@ defence / defense、grey / gray、aeroplane / airplane……两种写法都收�
 
 ### 7. 跟日语的做法比
 
-| 日语的做法 | 英语 |
-|---|---|
-| 正文注振假名 | 不注；以后可选在词上方注 IPA |
-| 五十音逐个学 | 字母不用逐个学，改学拼读规则（`alphabet: 'phonics'`） |
-| JMdict（英文释义）+ 机器翻译的中文 | ECDICT 本身就是英汉双解（中文释义人工整理，MIT），**不需要机器翻译，也不需要 zh-todo** |
-| deinflect 规则一层层还原 | 变形表为主（几万个词形），规则兜底 |
-| kuromoji 分词 | Intl.Segmenter + 英语的后处理（连字符复合词并成一段、缩写的点、'em 这类前撇号） |
-| JLPT 五级 | CEFR 六级（主分级）+ 中国考试词表 + NGSL 系列词表 + 柯林斯星级 |
-| 汉字页（笔顺、音训） | 没有；以后考虑「词根词缀」（ECDICT wordroot.txt） |
-| 声调（Kanjium） | 重音（IPA 里的 ˈ ˌ）与弱读（`x.weak`） |
-| 一种日语语音 | 美式（en-US）、英式（en-GB）两种语音，跟两套 IPA 对应 |
-| 中文例句：Tatoeba 日中对照 + Tomoshi 机器翻译 | Tatoeba 英中对照（人工翻译 7.8 万对），繁体句用 Tatoeba 自带的简体转写 |
+| 日语的做法                                    | 英语                                                                                   |
+| --------------------------------------------- | -------------------------------------------------------------------------------------- |
+| 正文注振假名                                  | 不注；以后可选在词上方注 IPA                                                           |
+| 五十音逐个学                                  | 字母不用逐个学，改学拼读规则（`alphabet: 'phonics'`）                                  |
+| JMdict（英文释义）+ 机器翻译的中文            | ECDICT 本身就是英汉双解（中文释义人工整理，MIT），**不需要机器翻译，也不需要 zh-todo** |
+| deinflect 规则一层层还原                      | 变形表为主（几万个词形），规则兜底                                                     |
+| kuromoji 分词                                 | Intl.Segmenter + 英语的后处理（连字符复合词并成一段、缩写的点、'em 这类前撇号）        |
+| JLPT 五级                                     | CEFR 六级（主分级）+ 中国考试词表 + NGSL 系列词表 + 柯林斯星级                         |
+| 汉字页（笔顺、音训）                          | 没有；以后考虑「词根词缀」（ECDICT wordroot.txt）                                      |
+| 声调（Kanjium）                               | 重音（IPA 里的 ˈ ˌ）与弱读（`x.weak`）                                                 |
+| 一种日语语音                                  | 美式（en-US）、英式（en-GB）两种语音，跟两套 IPA 对应                                  |
+| 中文例句：Tatoeba 日中对照 + Tomoshi 机器翻译 | Tatoeba 英中对照（人工翻译 7.8 万对），繁体句用 Tatoeba 自带的简体转写                 |
 
 ## 二、资料清单
 
 ### 阶段一用上的
 
-| 资料 | 许可 | 地址 | 取了什么 | 能否再分发 |
-|---|---|---|---|---|
-| ECDICT（ecdict.csv 基础版，77 万条） | MIT（© Linwei / skywind3000） | https://github.com/skywind3000/ECDICT | 词头、音标（英式为主，作英式 IPA 的后备）、英文释义（多出自 WordNet）、中文释义、柯林斯星级、牛津 3000 标记（只当挑词的依据）、考试标签、BNC 与当代语料库词频名次、变形（exchange） | 可以，署名 |
-| ECDICT lemma.en.txt（词形 → 原形，18.6 万个词形） | 文件头写「free to use for any research and/or educational purposes」，仓库整体 MIT | 同上 | 补 exchange 没有的词形 | 本软件是免费的学习软件，在教育用途之内；写进来源说明 |
-| CEFR-J Wordlist 1.6（2020-03-24） | 免费用于研究、教育与商用，须注明出处；版权归东京外国语大学投野由紀夫研究室 | http://www.cefr-j.org/download.html | A1–B2 的等级（7,801 项按词性分，6,868 个词头）、主题分类 | 可以，按要求引用：*The CEFR-J Wordlist Version 1.6. Compiled by Yukio Tono, Tokyo University of Foreign Studies.* |
-| Octanove Vocabulary Profile C1/C2 1.0 | CC BY-SA 4.0 | https://github.com/openlanguageprofiles/olp-en-cefrj | C1 1,111 项、C2 1,025 项 | 可以 |
-| NGSL 系列：NGSL 1.2、NGSL-Spoken 1.2、NAWL 1.2、TSL 1.2、BSL 1.20、NDL 1.1 | CC BY-SA 4.0（Browne, Culligan, Phillips） | https://www.newgeneralservicelist.com/ | 通用核心词、口语核心词、学术词、托业词、商务词、初级读物高频词 | 可以 |
-| ipa-dict en_US | MIT（数据出自 cmudict-ipa / CMUdict） | https://github.com/open-dict-data/ipa-dict | 美式 IPA（12.6 万词，含弱读式） | 可以 |
-| Britfone 3.0.1 | MIT（© Jose Llarena） | https://github.com/JoseLlarena/Britfone | 英式（RP）IPA（1.6 万词，主次重音，弱读式） | 可以 |
-| Tatoeba | CC BY 2.0 FR | https://tatoeba.org/ （导出：downloads.tatoeba.org/exports/per_language/） | 英语句子 204 万句（自报母语者写的 153 万句）、英中对照 7.8 万对、中文句子与它们的简繁转写、句子标签（挡掉不合适的句子） | 可以，署名 Tatoeba contributors |
-| Windows 语音 | 系统自带 | — | 朗读（本机有 en-US、en-GB） | — |
+| 资料                                                                       | 许可                                                                               | 地址                                                                       | 取了什么                                                                                                                                                                            | 能否再分发                                                                                                        |
+| -------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| ECDICT（ecdict.csv 基础版，77 万条）                                       | MIT（© Linwei / skywind3000）                                                      | https://github.com/skywind3000/ECDICT                                      | 词头、音标（英式为主，作英式 IPA 的后备）、英文释义（多出自 WordNet）、中文释义、柯林斯星级、牛津 3000 标记（只当挑词的依据）、考试标签、BNC 与当代语料库词频名次、变形（exchange） | 可以，署名                                                                                                        |
+| ECDICT lemma.en.txt（词形 → 原形，18.6 万个词形）                          | 文件头写「free to use for any research and/or educational purposes」，仓库整体 MIT | 同上                                                                       | 补 exchange 没有的词形                                                                                                                                                              | 本软件是免费的学习软件，在教育用途之内；写进来源说明                                                              |
+| CEFR-J Wordlist 1.6（2020-03-24）                                          | 免费用于研究、教育与商用，须注明出处；版权归东京外国语大学投野由紀夫研究室         | http://www.cefr-j.org/download.html                                        | A1–B2 的等级（7,801 项按词性分，6,868 个词头）、主题分类                                                                                                                            | 可以，按要求引用：_The CEFR-J Wordlist Version 1.6. Compiled by Yukio Tono, Tokyo University of Foreign Studies._ |
+| Octanove Vocabulary Profile C1/C2 1.0                                      | CC BY-SA 4.0                                                                       | https://github.com/openlanguageprofiles/olp-en-cefrj                       | C1 1,111 项、C2 1,025 项                                                                                                                                                            | 可以                                                                                                              |
+| NGSL 系列：NGSL 1.2、NGSL-Spoken 1.2、NAWL 1.2、TSL 1.2、BSL 1.20、NDL 1.1 | CC BY-SA 4.0（Browne, Culligan, Phillips）                                         | https://www.newgeneralservicelist.com/                                     | 通用核心词、口语核心词、学术词、托业词、商务词、初级读物高频词                                                                                                                      | 可以                                                                                                              |
+| ipa-dict en_US                                                             | MIT（数据出自 cmudict-ipa / CMUdict）                                              | https://github.com/open-dict-data/ipa-dict                                 | 美式 IPA（12.6 万词，含弱读式）                                                                                                                                                     | 可以                                                                                                              |
+| Britfone 3.0.1                                                             | MIT（© Jose Llarena）                                                              | https://github.com/JoseLlarena/Britfone                                    | 英式（RP）IPA（1.6 万词，主次重音，弱读式）                                                                                                                                         | 可以                                                                                                              |
+| Tatoeba                                                                    | CC BY 2.0 FR                                                                       | https://tatoeba.org/ （导出：downloads.tatoeba.org/exports/per_language/） | 英语句子 204 万句（自报母语者写的 153 万句）、英中对照 7.8 万对、中文句子与它们的简繁转写、句子标签（挡掉不合适的句子）                                                             | 可以，署名 Tatoeba contributors                                                                                   |
+| Windows 语音                                                               | 系统自带                                                                           | —                                                                          | 朗读（本机有 en-US、en-GB）                                                                                                                                                         | —                                                                                                                 |
 
 ### 调研过、以后的阶段用
 
@@ -117,32 +122,32 @@ defence / defense、grey / gray、aeroplane / airplane……两种写法都收�
 
 ### 不用的
 
-| 资料 | 为什么 |
-|---|---|
-| English Vocabulary Profile（剑桥） | 只能在线查，不能再分发 |
-| 牛津 3000 / 5000 | ECDICT 有「牛津 3000」标记，但这是牛津大学出版社编选的词表（Oxford 3000 还是商标），单列一套分级等于原样再分发它的编选成果；只在挑词时当作「收录」的依据之一，界面上不出现 |
-| Kelly 词表、EFLLex | CC BY-NC-SA（非商用），能不用就不用 |
-| Coxhead 的 AWL | 许可不明，学术词改用 NAWL（CC BY-SA） |
-| COCA 词频表 | 商业许可；词频用 ECDICT 里的 BNC 与当代语料库名次 |
-| Tatoeba 上 CK 的句子录音（83.5 万条，占英语录音的 98%） | CC BY-NC-ND 3.0；CC BY / BY-SA 的录音只有约 7 千条，以后可选 |
+| 资料                                                    | 为什么                                                                                                                                                                     |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| English Vocabulary Profile（剑桥）                      | 只能在线查，不能再分发                                                                                                                                                     |
+| 牛津 3000 / 5000                                        | ECDICT 有「牛津 3000」标记，但这是牛津大学出版社编选的词表（Oxford 3000 还是商标），单列一套分级等于原样再分发它的编选成果；只在挑词时当作「收录」的依据之一，界面上不出现 |
+| Kelly 词表、EFLLex                                      | CC BY-NC-SA（非商用），能不用就不用                                                                                                                                        |
+| Coxhead 的 AWL                                          | 许可不明，学术词改用 NAWL（CC BY-SA）                                                                                                                                      |
+| COCA 词频表                                             | 商业许可；词频用 ECDICT 里的 BNC 与当代语料库名次                                                                                                                          |
+| Tatoeba 上 CK 的句子录音（83.5 万条，占英语录音的 98%） | CC BY-NC-ND 3.0；CC BY / BY-SA 的录音只有约 7 千条，以后可选                                                                                                               |
 
 ### 新闻与文本（阶段二用；2026-10-09 从这台电脑实际请求过）
 
 **开放许可、可以收全文的：**
 
-| 来源 | 许可 | 请求结果 | 说明 |
-|---|---|---|---|
-| VOA Learning English（40 多个栏目的 RSS，如 As It Is、Science & Technology、Health & Lifestyle、Words and Their Stories、American Stories、Everyday Grammar） | 公有领域 | 200，但**最新一条停在 2025-03** | 美国之音 2025 年 3 月起停止更新。当作公有领域的**存档**：几千篇分级文章（慢速、限定词汇）+ MP3 + 文稿；RSS 只有标题与一句简介，全文要抓文章页 |
-| 英文维基新闻 | 2005-09-25 至 2024-12-15 的稿 CC BY 2.5，之后 CC BY 4.0 | 网站 200；**2026-05-04 起只读**（维基媒体基金会关闭了全部语种的维基新闻），NewsFeed 已撤，API 还能用 | 当存档（约 2 万篇） |
-| Global Voices | CC BY 3.0 | 200，15 条，全文在 content:encoded（平均约 9,500 字符），当天有更新 | ✔ 每日新闻全文 |
-| The Conversation（global / us / uk） | CC BY-ND 4.0 | 200，各 50 条，全文（平均 9,000–14,000 字符），当天有更新 | ✔ 学者写的评论与科普（B2–C1）；ND = 正文不能改：原样显示（下划线、查词叠加在上面），不删改、不做改写版 |
-| NASA 新闻 | 公有领域 | 200，10 条，全文（平均 4,300 字符） | ✔ 科技 |
-| 维基百科「新闻动态」（Portal:Current events，按日一页） | CC BY-SA 4.0 | API 200 | ✔ 每天几十条一句话的新闻，可做「每日要闻」 |
-| 维基百科每日特色条目 / 历史上的今天（featuredfeed） | CC BY-SA 4.0 | 200 | 每天一篇长摘要（C1） |
-| Our World in Data | CC BY 4.0 | 200，只有摘要，全文在网页 | 数据类长文 |
-| Mongabay | CC BY-ND 4.0 | 200，部分正文 | 环境新闻 |
-| Simple English Wikipedia | CC BY-SA 4.0 | API 200 | B1 左右的百科读物 |
-| NIH News in Health | 公有领域 | 403（拒绝脚本访问） | 不用 |
+| 来源                                                                                                                                                          | 许可                                                    | 请求结果                                                                                             | 说明                                                                                                                                          |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| VOA Learning English（40 多个栏目的 RSS，如 As It Is、Science & Technology、Health & Lifestyle、Words and Their Stories、American Stories、Everyday Grammar） | 公有领域                                                | 200，但**最新一条停在 2025-03**                                                                      | 美国之音 2025 年 3 月起停止更新。当作公有领域的**存档**：几千篇分级文章（慢速、限定词汇）+ MP3 + 文稿；RSS 只有标题与一句简介，全文要抓文章页 |
+| 英文维基新闻                                                                                                                                                  | 2005-09-25 至 2024-12-15 的稿 CC BY 2.5，之后 CC BY 4.0 | 网站 200；**2026-05-04 起只读**（维基媒体基金会关闭了全部语种的维基新闻），NewsFeed 已撤，API 还能用 | 当存档（约 2 万篇）                                                                                                                           |
+| Global Voices                                                                                                                                                 | CC BY 3.0                                               | 200，15 条，全文在 content:encoded（平均约 9,500 字符），当天有更新                                  | ✔ 每日新闻全文                                                                                                                                |
+| The Conversation（global / us / uk）                                                                                                                          | CC BY-ND 4.0                                            | 200，各 50 条，全文（平均 9,000–14,000 字符），当天有更新                                            | ✔ 学者写的评论与科普（B2–C1）；ND = 正文不能改：原样显示（下划线、查词叠加在上面），不删改、不做改写版                                        |
+| NASA 新闻                                                                                                                                                     | 公有领域                                                | 200，10 条，全文（平均 4,300 字符）                                                                  | ✔ 科技                                                                                                                                        |
+| 维基百科「新闻动态」（Portal:Current events，按日一页）                                                                                                       | CC BY-SA 4.0                                            | API 200                                                                                              | ✔ 每天几十条一句话的新闻，可做「每日要闻」                                                                                                    |
+| 维基百科每日特色条目 / 历史上的今天（featuredfeed）                                                                                                           | CC BY-SA 4.0                                            | 200                                                                                                  | 每天一篇长摘要（C1）                                                                                                                          |
+| Our World in Data                                                                                                                                             | CC BY 4.0                                               | 200，只有摘要，全文在网页                                                                            | 数据类长文                                                                                                                                    |
+| Mongabay                                                                                                                                                      | CC BY-ND 4.0                                            | 200，部分正文                                                                                        | 环境新闻                                                                                                                                      |
+| Simple English Wikipedia                                                                                                                                      | CC BY-SA 4.0                                            | API 200                                                                                              | B1 左右的百科读物                                                                                                                             |
+| NIH News in Health                                                                                                                                            | 公有领域                                                | 403（拒绝脚本访问）                                                                                  | 不用                                                                                                                                          |
 
 **有版权、只收标题与导语（附原文链接，日语 NHK 的做法）：**
 BBC（总览、国际、科学、科技各栏目，200）、NPR（200）、卫报（200；导语平均约 900 字符，偏长要截到完整的一两句）、
@@ -205,12 +210,13 @@ CGTN（200；RSS 里有全文，但有版权，只取导语）、南华早报（
   （推出来几乎全是 A1、A2，会把初级词表撑到上万条，give up 的难处也不在组成词），以后看阶段三怎么用再定。
 - **这一版各级多少词**（词条的级 = 主分级）：
 
-  | | A1 | A2 | B1 | B2 | C1 | C2 |
-  |---|---|---|---|---|---|---|
+  |        | A1    | A2    | B1    | B2    | C1    | C2     |
+  | ------ | ----- | ----- | ----- | ----- | ----- | ------ |
   | 词条数 | 1,184 | 1,411 | 2,768 | 4,390 | 4,320 | 30,038 |
 
   依据：CEFR-J / Octanove 8,659 条，按词频 34,632 条，按考试标签 617 条，没有等级 1,665 条单词与 13,655 个词组。
   C2 偏大是因为按词频补级把词频 1.3 万名以后的词都放进了 C2（C2 以外还有很多冷僻词，它们当作「C2 及以上」）。
+
 - 官方数字对照：CEFR-J 1.6 品词别 A1 1,166、A2 1,411、B1 2,445、B2 2,779 项（词头 1,068 / 1,352 / 2,353 / 2,692）；
   Octanove C1 1,111、C2 1,025 项。
 
@@ -314,16 +320,16 @@ ECDICT 的 collins 字段（1–5 星，五星最常用；ECDICT 全库：五星
 摘要缓存成 `kaikki-en.extract-*.json`；没有它也能建库，只是少这几样。dict.sqlite 正被软件占着时先写
 `dict.next.sqlite`，等放开再换上。
 
-| 文件 | 做什么 |
-|---|---|
-| `build.ts` | 主流程：挑词、义项、变形、读音、分级、词组、例句、写库 |
-| `ecdict.ts` | ECDICT 的 CSV、exchange、中文释义（词性、领域、语体标记、变形说明、粗俗标记）、英文释义 |
-| `ipa.ts` | Britfone → 课本写法、ipa-dict → 词典写法、ECDICT 旧式音标、维基词典 IPA、规则变形的读音 |
-| `levels.ts` | CEFR-J（xlsx）、Octanove、NGSL、词频切点、主题类 |
-| `phrases.ts` | 词组的匹配样子（one's、oneself、sb / sth 隔开）与在句子里计数 |
-| `tatoeba.ts` | 句子、母语者、标签、中文翻译（繁体换简体转写）、挑例句的先后 |
-| `kaikki.ts` | 维基词典摘要（可选） |
-| `xlsx.ts` | 读 xlsx（CEFR-J 只发 xlsx） |
+| 文件         | 做什么                                                                                  |
+| ------------ | --------------------------------------------------------------------------------------- |
+| `build.ts`   | 主流程：挑词、义项、变形、读音、分级、词组、例句、写库                                  |
+| `ecdict.ts`  | ECDICT 的 CSV、exchange、中文释义（词性、领域、语体标记、变形说明、粗俗标记）、英文释义 |
+| `ipa.ts`     | Britfone → 课本写法、ipa-dict → 词典写法、ECDICT 旧式音标、维基词典 IPA、规则变形的读音 |
+| `levels.ts`  | CEFR-J（xlsx）、Octanove、NGSL、词频切点、主题类                                        |
+| `phrases.ts` | 词组的匹配样子（one's、oneself、sb / sth 隔开）与在句子里计数                           |
+| `tatoeba.ts` | 句子、母语者、标签、中文翻译（繁体换简体转写）、挑例句的先后                            |
+| `kaikki.ts`  | 维基词典摘要（可选）                                                                    |
+| `xlsx.ts`    | 读 xlsx（CEFR-J 只发 xlsx）                                                             |
 
 **2026-10-10 这一版**：
 

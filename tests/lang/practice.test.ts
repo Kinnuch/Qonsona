@@ -11,11 +11,13 @@ import { LexDbWriter } from '../../scripts/lang/lexdb-writer'
 import { LexDb } from '../../src/main/lang/lexdb'
 import {
   defaultMisspell,
+  langArticlePractice,
   langPaper,
   langPractice,
   practiceKindsFor
 } from '../../src/main/lang/practice'
 import { LANGS } from '../../src/shared/lang/registry'
+import { analyzeLex } from '../../src/main/lang/analyze'
 import { cefrSystem } from '../../src/shared/lang/levels'
 import { defaultKey, stripMarks } from '../../src/shared/lang/text'
 import { rng } from '../../src/shared/course'
@@ -587,6 +589,24 @@ describe('特有题型', () => {
 })
 
 describe('模拟卷', () => {
+  it('题库不足不生成残卷或空节，不能改变原定计分权重', () => {
+    const exams = FAKE.exams
+    const base = exams![0]
+    FAKE.exams = [
+      {
+        ...base,
+        id: 'too-many',
+        sections: [
+          { id: 'vocab', title: 'Test', minutes: 10, parts: [{ kind: 'word-meaning', n: 1000 }] }
+        ]
+      }
+    ]
+    try {
+      expect(langPaper(db, 'too-many', 1, 'zh')).toBeNull()
+    } finally {
+      FAKE.exams = exams
+    }
+  })
   it('按定义分节配题，带上计分办法；全对及格、全错不及格', () => {
     const paper = langPaper(db, 'a1', 42, 'zh')!
     expect(paper.level).toBe('A1')
@@ -614,6 +634,35 @@ describe('模拟卷', () => {
 
     expect(langPaper(db, 'a1', 42, 'zh')).toEqual(paper)
     expect(langPaper(db, 'c2', 42, 'zh')).toBeNull()
+  })
+})
+
+describe('本文练习', () => {
+  it('词汇只取本文、语法题使用正文范围，同种子重复一致', () => {
+    const analysis = analyzeLex(
+      db,
+      'Il y a un chat ici. Il ne mange pas de pomme. La maison est très grande.'
+    )
+    const qs = langArticlePractice(db, analysis, 42, 'zh')
+    expect(qs.length).toBeGreaterThan(0)
+    const entries = new Set(
+      analysis.sentences.flatMap((s) => s.tokens.map((w) => `lex-${w.entry}`))
+    )
+    for (const q of qs) {
+      expect(q.choices).toHaveLength(4)
+      expect(new Set(q.choices.map((c) => textOf(c.text))).size).toBe(4)
+      if (q.kind === 'word-meaning') expect(entries.has(q.explain.card!)).toBe(true)
+      if (q.kind === 'grammar-meaning') {
+        expect(analysis.text).toContain(q.prompt.text)
+        expect(q.prompt.mark![1]).toBeGreaterThan(q.prompt.mark![0])
+        expect(q.prompt.mark![1]).toBeLessThanOrEqual(q.prompt.text.length)
+      }
+    }
+    expect(new Set(qs.map((q) => q.id)).size).toBe(qs.length)
+    expect(langArticlePractice(db, analysis, 42, 'zh')).toEqual(qs)
+  })
+  it('空文本不借用别的课文凑题', () => {
+    expect(langArticlePractice(db, analyzeLex(db, ''), 1, 'zh')).toEqual([])
   })
 })
 

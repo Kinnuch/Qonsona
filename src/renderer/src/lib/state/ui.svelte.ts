@@ -4,6 +4,7 @@
 import { platform, DEFAULT_PREFS, type Prefs } from '$lib/platform'
 import { i18n } from '$lib/i18n/index.svelte'
 import type { ModuleId } from '$lib/packs/types'
+import { serializedWrites } from './persistence'
 
 export interface Toast {
   id: number
@@ -24,6 +25,7 @@ const darkQuery = (): MediaQueryList => window.matchMedia('(prefers-color-scheme
 class Ui {
   prefs = $state<Prefs>({ ...DEFAULT_PREFS })
   section = $state<ModuleId>('home')
+  closing = $state(false)
   toasts = $state<Toast[]>([])
   confirmRequest = $state<ConfirmRequest | null>(null)
   #toastSeq = 0
@@ -46,7 +48,8 @@ class Ui {
       this.applyTheme()
       void platform.setTheme(patch.theme)
     }
-    await platform.setPrefs(patch)
+    const snapshot = { ...patch }
+    await serializedWrites.enqueue('prefs', () => platform.setPrefs(snapshot))
   }
 
   applyTheme(): void {

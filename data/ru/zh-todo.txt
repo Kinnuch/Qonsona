@@ -1,23 +1,22 @@
 # 俄语：还没有中文释义的常用词（按词频，前 8000 个）。每行：词头（带重音）	词性	英文释义
 э́то	pron	Generic demonstrative pronoun. Translated as "this" or "that" (or their plural forms, "these" or "those"), depending …; Used as a personal pronoun when not referring to a particular noun. Translated as "it".; used as a personal pronoun to indicate that something at the centre of a matter at hand is a certain thing; can be tr…
-смочь	verb	to be able, to manage
 вот	part	Used in place of a pronoun to direct attention towards something; this (is), here (is), that (is), there (is); Used before; both before and after; or (less commonly) after a pronoun or adverb to direct attention towards a partic…; Used before a full sentence to describe a scene unfolding before one's eyes.
-то	pron	Used to link an interrogative content clause in the following constructions. Usually omitted in English translations.…; Used to link a declarative content clause in the following constructions. Often omitted in English translations, but …; Optionally used in the following construction to refer to the thing denoted by что earlier in the sentence. Can be om…
+смочь	verb	to be able, to manage
 не́который	pron	some; certain (adjectival); some, some people; certain people (pronominal)
 рассказа́ть	verb	to tell; to relate, to narrate
 спроси́ть	verb	to ask (to ask a question of); to ask for, to request, to demand; to call to account, to hold accountable, to make answer (for), to confront, to challenge, to question
+то	pron	Used to link an interrogative content clause in the following constructions. Usually omitted in English translations.…; Used to link a declarative content clause in the following constructions. Often omitted in English translations, but …; Optionally used in the following construction to refer to the thing denoted by что earlier in the sentence. Can be om…
 произойти́	verb	to take place, to happen, to occur; to derive, to be descended, to descend, to originate; to spring, to arise, to result, to take place
 кро́ме	adp	except, besides
 прие́хать	verb	to arrive, to come (by vehicle or horse); to hit rock bottom
 позво́лить	verb	to allow, to permit; to afford (often as позволить себе); excuse (me), sorry, pardon (me) (used to express objection, disagreement or reminding of some fact)
 пожа́луйста	intj	please; you're welcome, not at all, don't mention it, it's a pleasure (reply to thank you); here you are (when handing something over)
+а	pron	he, she or it (used to point to a particular person)
 та́ка	noun	taka (currency of Bangladesh)
 попроси́ть	verb	to ask for, to request
 зна́чить	verb	to mean, to signify; to mean, to be of importance, to matter
 опя́ть	adv	again (occurring another time); again (used when re-emphasising something already stated)
 и́менно	adv	Used to emphasise, clarify or confirm the meaning or identity of the following word or what comes later and sometimes…; namely, specifically, which is/are, to wit; used to specify something or to enumerate a list.
-а	intj	oh! (expressing surprise or realization)
-а	pron	he, she or it (used to point to a particular person)
 позвони́ть	verb	to call (to contact by telephone); to call; to cause to ring
 во	part	clipping of вот
 учи́ться	verb	to learn (to receive knowledge or skills or to gain useful experience); to learn; reflexive of учи́ть; to study (to receive education)
@@ -25,7 +24,6 @@
 о́чень	adj	not very good, not very well
 ну́жно	adj	it is necessary, one must
 назва́ть	verb	to name, to specify; to call; to convene, to invite many people
-но	intj	same as но́-о-о
 звони́ть	verb	to call (to contact by telephone); to call; to cause to ring
 обеща́ть	verb	to promise, to pledge; to promise, to give grounds for expectation (perfective is not used)
 наве́рное	adv	probably, most likely; for sure, certainly, for certain
@@ -45,24 +43,23 @@
 де́тство	noun	childhood
 зайти́	verb	to go (to see), to come in (to see, etc.), to call, to drop in; to pick up, to fetch; to call at, to enter (a port)
 означа́ть	verb	to mean, to signify; to stand for, to represent, to betoken, to denote
-все	pron	everyone, everybody; used after comparatives of adjectives or adverbs as one way to form the superlative when talking about people; than a…
+сто́лько	pron	this/that much/many; so much, so many
 ра́да	noun	rada, Rada (a parliamentary body in a number of Slavic countries)
 мно́гий	adj	much; many
+все	pron	everyone, everybody; used after comparatives of adjectives or adverbs as one way to form the superlative when talking about people; than a…
 тере́ть	verb	to rub; to polish; to rub sore, to chafe, to abrade
 насчёт	adp	about, concerning, regarding
 живо́тный	adj	animal; brutal, bestial
 очко́	noun	point; spot, pip (on cards or dice); hole, peephole
-вот	intj	here, look; take it! (when offering something)
 отпусти́ть	verb	to let go, to let off; to release, to set free; to dismiss, to give leave
 научи́ться	verb	to learn (often not in an academic setting)
 относи́ться	verb	to treat; to express one's opinion; to date from
 ра́ди	adp	for the sake of
 пона́добиться	verb	to need, to be needed, to become necessary; to come in handy
 должна́	adj	feminine singular of до́лжен
-сто́лько	adv	this much, this long; so much
-дя́дя	noun	uncle
 что́-нибудь	pron	anything, something (implies one does not care what, or does not have any particular thing in mind)
 то́же	part	expresses disbelief, sarcasm, irony, often combined with мне
+дя́дя	noun	man, uncle (an older man; also as a term of address); the man, boss (authority figure)
 подписа́ть	verb	to sign (one's own name); to add to; to subscribe, to take out a subscription for someone
 придти́	verb	Pre-1956 spelling of прийти́.
 перее́хать	verb	to move (to change residence); to cross, to run over, to drive over
@@ -79,12 +76,10 @@
 сомнева́ться	verb	to doubt
 отту́да	adv	thence, from there
 вы́яснить	verb	to clear up, to elucidate, to clarify, to find out, to ascertain
-ничего́	intj	never mind!; that's all right!; no problem!
 а́дрес	noun	address (a description of the location of a property, usually with at least a street name and number, name of a town,…; address (the location of a property); the recipient or direction of a statement, claim, allegation etc.
 повезти́	verb	to convey, to carry (by vehicle), to deliver, to transport; to be lucky, to have luck, to work out for, to succeed, to be successful
 жа́лить	verb	to sting; to bite
 вы́сший	adj	superlative degree of высо́кий
-коле́но	noun	knee; lap
 проче́сть	verb	to finish reading, to read through; to recite
 я́вно	adv	clearly, evidently, obviously; explicitly
 практи́чески	adv	practically, in a practical manner; practically, virtually
@@ -114,6 +109,7 @@
 посади́ть	verb	to seat, to set; to plant; to put in jail
 америка́нец	noun	male American (citizen, resident)
 влюблённый	adj	in love, enamored (affected with love, experiencing love; of a person); fond (of) (passionate about some hobby, profession, cause); amorous (expressing love; of a look, tone, etc.)
+всё	pron	everything; Used in certain situations where in English "it" or "things" would be used. Has the approximate meaning of "the situa…; used after comparatives of adjectives or adverbs as one way to form the superlative
 состоя́ться	verb	to take place, to come about; to establish oneself; passive of состоя́ть
 не́что	pron	something
 интересова́ть	verb	to interest, to concern
@@ -123,7 +119,6 @@
 испо́льзоваться	verb	passive of испо́льзовать: to be in use, to be used
 непло́хо	adv	not badly
 подозрева́ть	verb	to suspect
-всё	pron	everything; Used in certain situations where in English "it" or "things" would be used. Has the approximate meaning of "the situa…; used after comparatives of adjectives or adverbs as one way to form the superlative
 ви́димо	adv	apparently, evidently; noticeably, appreciably
 отвезти́	verb	to take away (by vehicle), to drive away, to take (someone or something by vehicle)
 лю́бый	adj	dear, sweet, cute, pleasant, pleasing
@@ -227,11 +222,10 @@
 поигра́ть	verb	to play (for a while)
 оконча́тельно	adv	finally, definitively
 экономи́ческий	adj	economic (relating to the economy); economical, thrifty
-сто́лько	pron	this/that much/many; so much, so many
 по-мо́ему	adv	in my opinion; methinks; my way, the way I want it
 инстру́кция	noun	instruction (act of instructing or that which instructs, or with which one is instructed)
 бере́менный	adj	pregnant (carrying developing offspring within the body); filled (with something, usually abstract); pregnant (having a profusion of ideas)
-помеша́ть	verb	to disturb, to hinder, to impede
+помеша́ть	verb	to stir; to mix, to mix up, to mingle, to blend, (something for some time); to shuffle (playing cards)
 пожела́ть	verb	to wish, to desire; to covet; to wish, to bear
 поменя́ть	verb	to alter, to change; to exchange, to change
 забира́ть	verb	to take away, to seize, to collect; to capture, to take possession; to collect, to pick up; to arrest
@@ -306,7 +300,9 @@
 зака́нчивать	verb	to end, to finish, to conclude, to complete
 кла́ссный	adj	class (in education); awesome, super, top-class, cool, neat, nifty
 сни́ться	verb	to be dreamed [with dative ‘by someone’] (idiomatically translated by English dream with the dative object as the sub…; for one to dream [with dative ‘by someone’ and что ‘that ...’] (idiomatically translated by English dream with the da…
+сто́лько	adv	this much, this long; so much
 снято́й	adj	skim, skimmed: only used in снято́е молоко́ (“skim milk”)
+спеть	verb	to sing; to crow
 ле́ди	noun	lady (usually in British context; title of a woman of breeding and authority)
 леса́	noun	fishing line
 устро́иться	verb	to settle down, to get settled; to turn out right, to get fine, to be OK; to get a job somewhere
@@ -344,12 +340,13 @@
 пя́тить	verb	to push back, to cause to move back or back up; to stick out (chest, abdomen, lip, etc.); to move back, to back up
 обря́дник	noun	a ritualist, one who takes part in rituals; a book describing how rites are properly done
 нача́л	noun	Old Believer prayer
+дя́дя	noun	uncle
 уступи́ть	verb	to cede, to let have; to yield; to be inferior to
 постоя́ть	verb	to stand (for a while); to stand up; expresses a demand to stop or stop moving
 располо́женный	adj	disposed towards, sympathetic to; inclined
 сапо́г	noun	boot
 замести́тель	noun	substitute, replacement; deputy, assistant, vice-
-ухо́д	noun	care (treatment of those in need)
+ухо́д	noun	escape; withdrawal, resignation; death
 наста́ть	verb	to come, to begin (of time)
 конве́рт	noun	envelope (for mailing)
 батаре́я	noun	battery (electric power source consisting of electrochemical cells); battery (group of artillery pieces); battery (an array of similar things)
@@ -358,7 +355,6 @@
 носо́к	noun	sock; toe (of a boot, shoe or sock); toe (of a foot or hoof; especially the tip of the toe)
 чётко	adv	distinctly, clearly, audibly, legibly
 сиде́нье	noun	seat
-дя́дя	noun	man, uncle (an older man; also as a term of address); the man, boss (authority figure)
 мада́м	noun	madam (polite term of address to a woman)
 наве́рно	adv	probably, most likely; for sure, certainly
 спор	noun	dispute, controversy, argument, quarrel; bet, wager; argument
@@ -383,7 +379,6 @@
 п	noun	abbreviation of пара́граф (“paragraph”)
 за́втрашний	adj	tomorrow's
 монстр	noun	monster (a terrifying and dangerous creature); monster, fiend (an evil person)
-позади́	adv	behind
 сохрани́ться	verb	to remain intact, to last out; to be well preserved (of a person); passive of сохрани́ть
 смешно́	adv	in a funny manner/way, comically
 посчита́ть	verb	to calculate; to count; to think, to opine, to consider
@@ -405,6 +400,7 @@
 храни́ться	verb	passive of храни́ть
 опла́та	noun	payment (the act of paying)
 поспа́ть	verb	to sleep, to have some sleep
+коле́но	noun	knee; lap
 дое́хать	verb	to reach, to arrive (by horse or vehicle)
 па́уза	noun	pause, interval; rest; rest (pause of a specified length in a piece of music)
 широко́	adv	wide, widely, broadly
@@ -534,6 +530,7 @@
 оде́ться	verb	to dress (oneself); passive of оде́ть
 смотре́ться	verb	to look at oneself; to be acceptable to the eye, to look (well or bad); to produce an effect
 но́жка	noun	diminutive of нога́: small leg; trotter (food); leg
+лист	noun	sheet (thin, flat, inexpansible solid object); sheet, leaf, page (of a printed material, usually large and unbound); leaf (flat green organ of a plant)
 пройти́сь	verb	to (go for a) walk, to stroll; to go over; to scrutinize; to analyze.
 заде́ть	verb	to touch, to brush (against); to be caught, to hit, to strike; to touch (upon)
 предполага́ться	verb	to be planned; to be assumed, to be supposed; to be presumed, to be implied; passive of предполага́ть
@@ -549,7 +546,6 @@
 подтвержде́ние	noun	confirmation; corroboration
 вложи́ть	verb	to enclose, to insert, to put in; to sheathe; to embed; to invest, to deposit; to contribute
 писа́ться	verb	passive of писа́ть to spell, to be spelt; to be spelled
-спеть	verb	to sing; to crow
 романти́ческий	adj	romantic
 соедини́ть	verb	to unite, to join; to connect, to put through; to combine
 минима́льный	adj	minimal
@@ -564,6 +560,7 @@
 месте́чко	noun	diminutive of ме́сто; A small village or town on the territory of the former Polish–Lithuanian Commonwealth.; A shtetl, small Jewish village.
 перее́зд	noun	journey, passage, crossing; crossing, highway crossing, crossroads; resettlement, removal, moving, leaving (for)
 уложи́ть	verb	to lay; to pack up; to stow, to pile, to stack
+карье́р	noun	open-pit mine; quarry; sandpit
 сло́жно	adj	it is complicated, it is difficult
 сократи́ть	verb	to shorten, to curtail, to abridge, to abbreviate; to reduce, to cut, to curtail, to retrench; to dismiss, to discharge; to lay off
 попра́вка	noun	repairing, mending; correction, amendment; recovery (a return to normal health)
@@ -651,7 +648,7 @@
 корпора́ция	noun	corporation, company; association, organization (group of people with a common interest)
 изба́вить	verb	to rid, to save, to relieve
 зая́вка	noun	application, claim, request, demand
-помеша́ть	verb	to stir; to mix, to mix up, to mingle, to blend, (something for some time); to shuffle (playing cards)
+помеша́ть	verb	to disturb, to hinder, to impede
 психи́ческий	adj	mental, psychic
 подвезти́	verb	to bring; to give a lift (in a vehicle)
 извле́чь	verb	to extract, to elicit, to draw out
@@ -725,6 +722,7 @@
 объедини́ть	verb	to unite, to combine, to join, to amalgamate, to consolidate
 уда́чно	adv	fortunately, luckily
 непросто́й	adj	not simple, complex, complicated; not ordinary; not basic
+коле́но	noun	bend (in a river, etc.); figure, part, passage, turn (in music or dance); generation, branch
 че́й-то	pron	someone's (belonging to someone)
 копа́ть	verb	to dig; to dig up, to dig out
 призна́тельный	adj	grateful, appreciative, thankful
@@ -762,7 +760,6 @@
 а́ли	cconj	or
 попи́ть	verb	to drink (for a while or a little amount)
 мо́жет	adv	ellipsis of мо́жет быть: maybe, perhaps, possibly
-карье́р	noun	open-pit mine; quarry; sandpit
 погуля́ть	verb	to walk, to go for a walk, to stroll for a while; to have a time-off, to have a free time for a while; to make merry, to enjoy oneself, to carouse for a while
 ре́йтинг	noun	rating, ranking
 разногла́сие	noun	difference, disagreement, discord; discrepancy
@@ -828,7 +825,7 @@
 почему́-то	adv	for some reason, somewhy
 публи́чно	adv	openly, overtly, publicly, candidly, frankly
 призва́ть	verb	to call, to appeal, to summon; to call upon (to), to urge (to); to draft, to call out, to call up
-па́пка	noun	daddy
+па́пка	noun	folder (an organizer for storing papers); file (things stored in a folder); folder (directory or virtual container in a file system)
 босто́н	noun	high-grade woolen cloth; Boston (old card game); Boston (type of dance)
 ри́млянин	noun	Roman
 тя́жкий	adj	hard, grave; terrible, painful
@@ -860,7 +857,7 @@
 опозна́ть	verb	to recognize, to identify
 огонёк	noun	diminutive of ого́нь: light, spark; a condiment from shredded tomatoes, horseradish, garlic and salt
 устоя́ть	verb	to keep one's balance, to remain on one's feet, to stand one's ground, to stand fast; to resist, to withstand, to stand up (against)
-ухо́д	noun	escape; withdrawal, resignation; death
+ухо́д	noun	care (treatment of those in need)
 бра́тство	noun	brotherhood, fraternity
 взлома́ть	verb	to break open, to force, to burst in, to break (through); to crack
 ступа́ть	verb	to tread, to step on; to leave
@@ -957,6 +954,7 @@
 поре́зать	verb	to cut
 упомина́ние	noun	mention, mentioning; allusion; reference
 побли́же	adv	comparative degree of бли́зкий: closer, nearer; comparative degree of бли́зко: closer, nearer, more intimately
+всё	adj	to be finished doing something
 пан	noun	Polish landowner, feudal lord, or gentleman; sir, mister, gentleman, lord; Polack, a Polish person
 кла́ссно	adv	cool, awesome, fantastic
 зате́я	noun	enterprise, undertaking; piece of fun, fancy
@@ -1056,6 +1054,7 @@
 сук	noun	bough, limb, branch
 компле́кт	noun	set, suit, suite, complement; kit, outfit; series
 пища́ть	verb	to peep, to squeak (make a noise like a baby bird or mouse)
+позади́	adv	behind
 запа́хнуть	verb	to begin to smell, to emit a smell
 ма́ршал	noun	marshal
 подпи́санный	adj	signed
@@ -1149,7 +1148,6 @@
 престаре́лый	adj	aged, advanced in years
 отве́тный	adj	reciprocal, in return, in answer
 концентра́ция	noun	concentration
-всё	adj	to be finished doing something
 ниче́й	pron	nobody's (belonging to nobody (possessive form of nobody))
 пирс	noun	pier (raised platform built from the shore out over water)
 стака́нчик	noun	diminutive of стака́н: (small) drinking glass
@@ -1248,7 +1246,7 @@
 подда́ться	verb	to yield to, to give in, to fall for, to cave in; to hold back (in a game), to intentionally let the opponent win or take the upper hand; passive of подда́ть
 крис	noun	kris
 вы́рубить	verb	to cut down, to fell; to cut out; to make
-притвори́ться	verb	to shut, to close; passive of притвори́ть
+притвори́ться	verb	to pretend, to feign, to dissemble, to simulate, to sham
 раздева́ться	verb	to take off one’s clothes, to undress, to disrobe, to get undressed; to strip (down to one’s underwear); to take off one’s coat
 цара́пина	noun	scratch, abrasion
 пове́рх	adp	over
@@ -1294,7 +1292,7 @@
 повста́нец	noun	rebel, insurrectionist
 благотвори́тельность	noun	charity, philanthropy, welfare
 слыха́ть	verb	to hear of, to hear from
-стопа́	noun	foot; footstep; an old unit of length equal to 28.8 cm (whereas an English foot is 30.48 cm)
+стопа́	noun	ream (of paper); pile, heap, stack (of flat objects)
 сква́жина	noun	chink, crack, slit, gap, interstice, rift; pore, hole, aperture; borehole, drill hole
 вы́даться	verb	to protrude; to stand out; passive of вы́дать
 жела́ющий	noun	one who wishes, one who desires
@@ -1367,7 +1365,6 @@
 переводи́ться	verb	to transfer (to another place of work, study etc); to come to an end, to become extinct; passive of переводи́ть
 дво́йка	noun	two; two (out of five), poor; D mark, D grade; two, deuce
 переговори́ть	verb	to talk, to have a talk, to speak (to, with); to discuss, to cover; to talk down, to outtalk
-ай	intj	ouch! (it hurts!)
 говно́	noun	shit; shit, shithead, shitass, turd (worthless person); shit, crap, junk (worthless thing)
 заму́жество	noun	marriage (especially from a woman's perspective)
 взрывча́тка	noun	explosives, explosive material
@@ -1584,7 +1581,7 @@
 лук	noun	bow (weapon used for shooting arrows)
 лук	noun	appearance, clothing style, look
 закури́ть	verb	to start smoking, to light up; to become a smoker, to take up smoking; to smoke something through (e.g. make a room full of (cigarette) smoke)
-тур	noun	round; tour; turn (dance)
+тур	noun	aurochs; tur (a couple of species: West Caucasian goat (Capra caucasica) and East Caucasian goat (Capra cylindricornis))
 масси́в	noun	massif, mountain mass; array (any of various data structures)
 усмотре́ние	noun	discretion, judgement
 взлом	noun	break-in, breaking
@@ -1652,7 +1649,6 @@
 зану́да	noun	bore, spoilsport, pain in the ass; nerd
 косме́тика	noun	cosmetic (any substances applied to enhance the external color or texture of the skin)
 факс	noun	fax
-исте́чь	verb	to flow (out of); to shed, to pour forth
 наизна́нку	adv	inside out, on the wrong side
 механи́ческий	adj	mechanical (related to mechanics; done by machine); automatic (acting without conscious thought)
 подчине́ние	noun	submission, subjecting; subjection; subordination
@@ -1666,6 +1662,7 @@
 полови́нка	noun	diminutive of полови́на; leaf (of a door); half-size violin
 пи́ка	noun	lance, pike; a spade
 патру́льный	adj	patrol
+исте́чь	verb	to elapse, to run out, to expire, to fall due
 эль	noun	ale (English beer)
 подпи́ска	noun	subscription; collection; engagement, written undertaking
 конта́ктный	adj	contact; in direct contact; easy to establish contact with
@@ -1836,13 +1833,13 @@
 челове́чек	noun	diminutive of челове́к (little) man/person, little man
 тре́тье	noun	third course (meal), dessert; thirdly, used as во-вторы́х; the third (in dates)
 кончи́на	noun	death, demise
+то́т-то	pron	that (one); so and so (often duplicated after и)
 разреза́ть	verb	to cut off, to bisect
 теле́сный	adj	body; bodily, corporeal, corporal; pale pink
 ре	noun	D (musical note)
 уноси́ть	verb	to take away, to take off, to carry (away); to take (a life), to claim (a life)
 напива́ться	verb	to quench thirst; to get drunk
 ли́га	noun	league
-лист	noun	sheet (thin, flat, inexpansible solid object); sheet, leaf, page (of a printed material, usually large and unbound); leaf (flat green organ of a plant)
 убере́чь	verb	to safeguard (against), to guard (against), to keep (from), to preserve (from)
 купа́льник	noun	swimsuit, bathing suit, swimwear
 разбежа́ться	verb	to scatter; to take a run, to run up (before jumping, diving, etc)
@@ -1860,7 +1857,6 @@
 разоблачи́ть	verb	to disrobe, to divest, to unclothe, to undress; to disclose, to expose, to unmask, to lay bare, to denounce
 просто́рный	adj	spacious, roomy; loose (not fitting tightly)
 сопровожда́ться	verb	passive of сопровожда́ть
-то́т-то	pron	that (one); so and so (often duplicated after и)
 буржуа́зный	adj	bourgeois
 положи́тельно	adv	positively (in various senses)
 инициа́л	noun	initial (the first letter of a word or a name)
@@ -1888,7 +1884,7 @@
 экзоти́ческий	adj	exotic
 скепти́чески	adv	skeptically, cynically
 позволе́ние	noun	permission, leave
-притвори́ться	verb	to pretend, to feign, to dissemble, to simulate, to sham
+притвори́ться	verb	to shut, to close; passive of притвори́ть
 извраще́нец	noun	pervert
 армя́нский	adj	Armenian
 терро́р	noun	terror (terrorist activities)
@@ -1950,7 +1946,7 @@
 уси́лить	verb	to strengthen, to reinforce, to amplify
 припа́док	noun	seizure; fit, paroxysm; attack (medicine: sudden onset of a disease)
 бессле́дно	adv	without a trace, tracelessly, completely, utterly (of a disappearance)
-тур	noun	aurochs; tur (a couple of species: West Caucasian goat (Capra caucasica) and East Caucasian goat (Capra cylindricornis))
+тур	noun	round; tour; turn (dance)
 сложённый	adj	having a certain type of body
 пола́дить	verb	to come to an understanding (with), to get on (with)
 конфиденциа́льный	adj	confidential, private (meant to be kept secret within a certain circle)
@@ -1990,7 +1986,7 @@
 трибуна́л	noun	tribunal
 гости́ничный	adj	hotel
 сли́ться	verb	to flow together, to interflow; to merge, to fuse, to blend; passive of слить
-плани́рование	noun	planning
+плани́рование	noun	glide, gliding
 малы́шка	noun	little child; female equivalent of малы́ш: (very) little girl, baby girl
 потере́ть	verb	to rub
 тало́н	noun	coupon, ticket, card, voucher
@@ -2110,8 +2106,9 @@
 широко́	adj	neuter singular of широ́к (“too loose, too wide”)
 прибра́ть	verb	to put in order, to clean up, to tidy (up); to put away
 то́нко	adv	thinly (not thickly); subtly; delicately, finely (e.g. of produced workmanship)
-па́пка	noun	folder (an organizer for storing papers); file (things stored in a folder); folder (directory or virtual container in a file system)
+па́пка	noun	daddy
 пневмони́я	noun	pneumonia
+мех	noun	bellows; goatskin, wineskin, waterskin
 эмоциона́льно	adv	emotionally, with emotion
 прорва́ть	verb	to break through; to tear; to burst open
 лобово́й	adj	frontal, head-on; front
@@ -2150,7 +2147,6 @@
 злове́щий	adj	ominous, ill-boding, sinister
 гоня́ть	verb	to drive; to distill; to chase, to pursue
 зажа́ть	verb	to press, to squeeze, to clutch; to stop up, to block up, to plug up; to suppress, to stifle, to restrict
-спеть	verb	to ripen
 ла́зить	verb	to climb, to clamber; to creep
 зе́лье	noun	potion (a small portion or dose of a liquid which is medicinal, poisonous, or magical); gunpowder
 проверну́ть	verb	to drill a hole in, to perforate; to twist (something) through (something) (esp. meat through a meat grinder); to crank
@@ -2167,8 +2163,8 @@
 де́вственница	noun	female equivalent of де́вственник: female virgin
 я́ростно	adv	furiously; violently
 угоща́ться	verb	to partake in, to help oneself to; passive of угоща́ть
+стопа́	noun	foot; footstep; an old unit of length equal to 28.8 cm (whereas an English foot is 30.48 cm)
 стопа́	noun	foot, metrical foot, tonic foot (of a verse)
-стопа́	noun	ream (of paper); pile, heap, stack (of flat objects)
 стопа́	noun	goblet
 нача́льница	noun	female equivalent of нача́льник: female chief, boss, superior, master, principal, commander
 у́йма	noun	lots, heaps, a tremendous lot, masses
@@ -2209,6 +2205,8 @@
 смути́ть	verb	to confuse, to embarrass; to daunt, to dismay, to discomfort; to disturb, to trouble, to stir up
 отплати́ть	verb	to pay back, to recompense (with money); to pay back, to exact revenge
 надёжно	adv	reliably (in a reliable manner)
+ай	part	maybe, or
+ай	noun	I, i
 передозиро́вка	noun	overdose
 подво́х	noun	trick, catch
 согре́ться	verb	to warm (oneself), to get warm; passive of согре́ть
@@ -2366,7 +2364,7 @@
 похоро́нный	adj	funeral; funerary; somber, sad
 успокои́тельный	adj	soothing, calming, sedative
 выпла́чивать	verb	to pay, to disburse; to pay off, to pay in full
-засе́чь	verb	to notch; to plot on a map; to detect, to locate, to pinpoint
+засе́чь	verb	to whip to death, to flog to death
 оп	intj	An exclamation accompanying some energetic action (often unexpected), like a jump, sudden movement, etc.; An exclamation encouraging some energetic action.
 нестаби́льный	adj	unstable
 кры́ться	verb	to lie, to be, to be concealed; passive of кры́ть
@@ -2450,7 +2448,6 @@
 графи́ческий	adj	graphic, graphical
 ни́зший	adj	superlative degree of ни́зкий (“low”); the lowest, inferior; lower, subordinate
 воспринима́ться	verb	passive of воспринима́ть
-коле́но	noun	bend (in a river, etc.); figure, part, passage, turn (in music or dance); generation, branch
 шко́льница	noun	female equivalent of шко́льник: schoolgirl (girl attending school)
 на́прочь	adv	absolutely, altogether, without a trace
 заморо́зить	verb	to freeze
@@ -2487,13 +2484,13 @@
 прозва́ть	verb	to name someone/something as something, to make a name or a nickname (to someone or something); to nickname
 жва́чка	noun	rumination, chewing; cud
 склони́ть	verb	to bend, to incline, to decline; to convince someone to do something
-мех	noun	fur
 вцепи́ться	verb	to seize, to grasp, to clutch; to cling (of a sticky object); to not let go, to get attached emotionally, to hate to be separated (from)
 подтяну́ть	verb	to pull (to), to pull up (to), to haul up (to); to bring up, to move closer up (of troops, etc.); to tighten
 предсказу́емый	adj	predictable, foreseeable
 наре́зать	verb	to cut, to slice; to rifle, to thread; to get hurt (by cutting), to leave a painful impression on one's body
 магази́нчик	noun	diminutive of магази́н: (small) shop/store
 ки́та	noun	bunch, bouquet
+исте́чь	verb	to flow (out of); to shed, to pour forth
 светло́	adv	brightly; warmly, with kindness
 вкра́тце	adv	summarily, in a nutshell, briefly
 безрассу́дный	adj	reckless, thoughtless, rash
@@ -2522,7 +2519,6 @@
 откопа́ть	verb	to dig out; to exhume, to disinter, to disentomb; to dig up, to unearth, to find
 теки́ла	noun	tequila
 блефова́ть	verb	to bluff (also figuratively)
-исте́чь	verb	to elapse, to run out, to expire, to fall due
 раскла́д	noun	spread, layout, deal; state of affairs/things, the lie of the land, the lay of the land, ball game
 незна́ние	noun	ignorance, lack of knowledge
 за́нятость	noun	employment (rate, status), occupancy; being busy, pressure of work
@@ -2749,7 +2745,7 @@
 конструкти́вный	adj	constructive (helpful); construction, constructive
 взросле́ть	verb	to mature, to grow up
 предусмотре́ть	verb	to foresee, to envisage, to anticipate; to provide (for), to stipulate (for)
-рейд	noun	raid
+рейд	noun	roads, roadstead, anchorage
 осени́ть	verb	to overhang, to spread (above), to spread as a canopy (over); to dawn (upon)
 ре́ять	verb	to soar, to fly, to hover; to flutter, to fly (of a flag)
 злоумы́шленник	noun	malefactor, plotter, evildoer
@@ -2981,8 +2977,6 @@
 бли́нчик	noun	folded, stuffed pancake; endearing diminutive of блин: small pancake; small lens
 неве́домый	adj	unknown, unbeknown, unbeknownst; unfamiliar
 награжде́ние	noun	rewarding; decorating (with a prize, medal, etc.)
-ай	part	maybe, or
-ай	noun	I, i
 разруша́ться	verb	to go to ruin, to collapse; to fail, to fall to the ground; passive of разруша́ть
 дал	noun	abbreviation of декали́тр (“decaliter”)
 переключи́ться	verb	to switch, to switch over; to switch over (to); passive of переключи́ть
@@ -3373,7 +3367,7 @@
 по́стер	noun	poster
 стесни́тельный	adj	shy, coy (reserved); constrained, pinched, cramped
 раска́лываться	verb	to cleave, to split, to crack; to start talking, to tell/reveal/disclose the truth, to blab, to let it out, to spill the beans, to spill; passive of раска́лывать
-плани́рование	noun	glide, gliding
+плани́рование	noun	planning
 соа́втор	noun	coauthor (male or female)
 повы́ситься	verb	to rise, to go up, to increase; to advance, to improve, to heighten; to soar, to boom, to jump, to mount
 учи́тельский	adj	teaching, teacher; teacher's, teachers'
@@ -3461,7 +3455,7 @@
 протя́гивать	verb	to stretch, to extend; to hold / stretch / reach out; to extend; to delay, to drag out
 госсекрета́рь	noun	Secretary of State (in the US and other countries)
 помяну́ть	verb	to remember, to recall; to mention; to pray for the health living or the repose of the soul of the dead, to commemorate
-почём	adv	how much?; how much does it cost?
+почём	cconj	how
 возобнови́ться	verb	to recommence
 безрезульта́тно	adv	futilely, to no avail, in vain
 францу́зы	noun	French people, the French
@@ -3542,6 +3536,7 @@
 подви́жный	adj	mobile; lively, active; agile, nimble
 призёр	noun	prize-winner, awardee
 благоро́дно	adv	nobly, generously, selflessly; exceptionally
+спеть	verb	to ripen
 делика́тно	adv	politely, tactfully, nicefully; delicately
 домрабо́тница	noun	housekeeper
 аппети́тный	adj	appetizing; attractive, seductive (of a woman)
@@ -3745,7 +3740,7 @@
 лю́дный	adj	densely populated; crowded; well-traveled, full of passers-by (of a place)
 смуще́ние	noun	abashment, confusion, embarrassment
 искупа́ться	verb	to bathe, to take a bath
-засе́чь	verb	to whip to death, to flog to death
+засе́чь	verb	to notch; to plot on a map; to detect, to locate, to pinpoint
 насчита́ть	verb	to count; to number
 заграни́ца	noun	a foreign country or countries, or any territory outside homeland
 предлага́ться	verb	passive of предлага́ть
@@ -3796,7 +3791,7 @@
 вскри́кнуть	verb	to shout out loudly
 подогре́ть	verb	to warm up; to heat; to stir up, to rouse
 заруби́ть	verb	to kill with a sabre; to notch, to make an incision (on); to hew, to make a cut (in)
-бит	noun	bit (binary digit)
+бит	noun	beat (time unit of a piece); beat music; beat (short pause)
 подогна́ть	verb	to drive; to urge on, to hurry (someone); to fit, to adjust, to accommodate (to render fit or suitable)
 необду́манный	adj	rash, hasty; reckless, thoughtless, haphazard
 вчетверо́м	adv	four together
@@ -3819,7 +3814,7 @@
 великоле́пие	noun	splendour, magnificence
 размести́ться	verb	to take seats; to be quartered, to be housed, to be accommodated; passive of размести́ть
 инсцени́ровать	verb	to adapt (a literary work) for theater, to film or television; to stage (a literary work)
-коси́ть	verb	to mow, to cut; to mow down, to wipe out, to decimate
+коси́ть	verb	to twist, to slant (eyes, mouth); to squint, to look asquint; to evade, to elude, to dodge
 сги́нуть	verb	to disappear, to vanish
 самого́н	noun	homebrew, samogon, moonshine; any home-made distilled alcoholic beverage
 бато́нчик	noun	confectionery bar, bar of chocolate or other confectionery
@@ -3981,7 +3976,6 @@
 му́льтик	noun	animated cartoon, animated film
 инновацио́нный	adj	innovation; innovative, ground-breaking
 кра́тер	noun	crater
-мех	noun	bellows; goatskin, wineskin, waterskin
 совмести́ть	verb	to combine
 погро́м	noun	riot; pogrom, ethnic violence event; crushing defeat
 вибри́ровать	verb	to vibrate, to oscillate; to quaver; to shimmy
@@ -4095,7 +4089,7 @@
 ре́шка	noun	sieve; tails (the side of a coin not bearing a coat of arms)
 городи́шко	noun	townlet; burg; a (small) town
 гра́мотно	adv	correctly, grammatically; competently, skilfully
-хрено́вый	adj	horseradish
+хрено́вый	adj	worthless, bad, rotten, lousy, crappy
 жуткова́тый	adj	somewhat horrifying, somewhat creepy
 марсиа́нин	noun	Martian
 вертика́льно	adv	vertically (in a vertical direction or position)
@@ -4228,7 +4222,6 @@
 отплы́ть	verb	to swim away; to sail off
 переселе́нец	noun	migrant, settler, immigrant
 смотрово́й	adj	inspection; observation, lookout
-повали́ть	verb	to bring down, to topple, to overthrow
 уго́дник	noun	pleaser, someone who is always trying to please someone
 трактори́ст	noun	tractor driver
 вопию́щий	adj	flagrant, outrageous, egregious, appalling, crying
@@ -4289,6 +4282,7 @@
 приди́рчивый	adj	hypercritical, persnickety, nitpicky, faultfinding, quibbling
 выхлопно́й	adj	exhaust
 тег	noun	tag
+повали́ть	verb	(people) to begin to throng; (snow) to begin to fall heavily, to begin to fall in thick flakes; (smoke) to begin to b…
 прони́кнуться	verb	to be imbued (with), to imbue one's mind (with), to be filled (with); passive of прони́кнуть
 конте́нт	noun	content
 единомы́шленник	noun	like-minded person; associate; accomplice, adherent
@@ -4553,7 +4547,7 @@
 потора́пливаться	verb	make haste, hurry
 мере́щиться	verb	to seem (to), to appear (to)
 переспроси́ть	verb	to ask again, to repeat a question, to ask to repeat; to ask many people
-топи́ть	verb	to stoke (an oven); to heat
+топи́ть	verb	to sink; to drown (transitive); to support (a club or political party)
 неспроста́	adv	not without purpose, with some hidden design
 мальти́йский	adj	Maltese
 синдика́т	noun	syndicate, combine
@@ -4593,7 +4587,7 @@
 отделя́ться	verb	to separate, to get detached, to come off; to set up on one's own; passive of отделя́ть
 мразь	noun	scum, dregs, despicable person, despicable people
 прилега́ть	verb	to adjoin, to border; to fit snugly on, to fit closely; to cling to
-ты́кать	verb	to poke, to prod, to jab, to thrust
+ты́кать	verb	to thou, to thee and thou, to treat with familiarity
 сгнить	verb	to rot, to go bad, to putrefy, to decompose, to decay; teeth to become carious; water to stagnate
 автоно́мия	noun	autonomy
 плотоя́дный	adj	carnivorous; lecherous, lustful, predatory (of a smile, a look, etc.)
@@ -4655,7 +4649,7 @@
 вселя́ть	verb	to settle in (someone for a living), to take in (tenants); to instill (hope, horror, etc), to imbue, to inspire
 схва́тывать	verb	to grasp, to grab, to seize, to snap, to snatch, to catch, to catch hold of
 прове́ренный	adj	proved, proven, reliable, tried and true, tried and tested
-рейд	noun	roads, roadstead, anchorage
+рейд	noun	raid
 пробе́гать	verb	to spend some time running
 льво́вский	adj	Lviv, Lvov (city in Ukraine); Lvov (Russian surname, e.g. of Alexei Lvov, Russian composer); Lvovo, Lvovsky, Lvovskoye (name of several settlements in Russia)
 накле́ить	verb	to stick on, to paste on
@@ -4740,6 +4734,7 @@
 же́стовый	adj	related to gestures or hand signs, especially in discussing sign languages
 нахму́риться	verb	to frown; to gloom, to lour (of rain clouds); passive of нахму́рить
 клони́ться	verb	to bow, to bend; to tend (to), to be aimed (at); to come close
+мех	noun	fur
 сатири́ческий	adj	satirical
 замо́кнуть	verb	to get soaked; to stop leaking (due to swelling from moisture; of wooden vessels)
 несомне́нный	adj	doubtless, indubitable
@@ -5057,7 +5052,7 @@
 габари́т	noun	outline, periphery, perimeter; linear dimensions (such as length and width); position lamps
 парижа́нин	noun	Parisian
 соли́ст	noun	soloist, solo performer; lead vocalist, principal performer
-бит	noun	beat (time unit of a piece); beat music; beat (short pause)
+бит	noun	bit (binary digit)
 раздева́ть	verb	to undress (to remove someone’s clothing)
 манхэ́ттен	noun	Manhattan (Algonquian-Wakashan); manhattan (whiskey, vermouth, and bitters)
 настора́живать	verb	to alert, to put on guard
@@ -5116,6 +5111,7 @@
 озёрный	adj	lake; lacustrine
 колхо́зный	adj	kolkhoz
 ве́ровать	verb	to believe (in, especially to believe in God)
+ют	noun	quarter-deck
 декольте́	noun	décolletage, décolleté
 фронтово́й	adj	front; frontline
 отыгра́ться	verb	to win back money; to win again after a loss; to compensate
@@ -5204,7 +5200,7 @@
 аранжиро́вка	noun	arrangement
 целе́бный	adj	medicinal, salubrious, healthy
 заменя́ться	verb	passive of заменя́ть
-веща́ть	verb	to broadcast (to transmit a message or signal via radio waves or electronic means)
+веща́ть	verb	to prophesy, foretell; to lay down the law, to play the oracle
 подно́жка	noun	step, footboard; trip, back heel
 дослу́шать	verb	to listen to the whole/rest (of), to hear through/out, to sit out
 наперегонки́	adv	trying to overtake the opponent or one another; in a hurry, alternately ahead of each other
@@ -5306,6 +5302,7 @@
 парашюти́ст	noun	parachutist, parachuter
 дома́шка	noun	homework; home reading; house arrest
 норве́жский	noun	Norwegian language
+круп	noun	croup, crupper
 неуда́вшийся	adj	unsuccessful
 филармо́ния	noun	philharmonic society; philharmonic orchestra
 просочи́ться	verb	to percolate, to leak, to ooze, to seep out, to exudate, to soak, to trickle (through), to filter; to filter (into), to infiltrate (into)
@@ -5604,7 +5601,6 @@
 точь-в-то́чь	adv	exactly, spot on, right to a T; word for word
 по́лочка	noun	diminutive of по́лка
 перепо́нка	noun	membrane (enclosing or separating tissue); interdigital webbing
-переноси́ться	verb	to move, to travel, to go (very quickly); passive of переноси́ть
 поджа́рить	verb	to fry, to roast, to grill
 ро́вня	noun	match, equal, peer, compeer (attribute equaling or exceeding); coordinate
 замкну́ть	verb	to close (by connecting); to surround; to create a closed circuit, to short-circuit
@@ -5636,6 +5632,7 @@
 снасть	noun	tackle; rope, rigging
 беспроводно́й	adj	cordless, wireless
 жи́тельница	noun	female equivalent of жи́тель: female inhabitant, resident, occupant, dweller
+переноси́ться	verb	to be worn out, to be worn for too long; to stay for too long inside the mother's womb (of a fetus); passive of переноси́ть
 вы́игрышный	adj	winning, prize; advantageous
 сачо́к	noun	butterfly net, hand net, net (for butterflies, insects or small fish); loafer, idler, shirker
 инициати́вный	adj	initiative, having/taking the initiative, full of initiative
@@ -5866,7 +5863,7 @@
 непоро́чный	adj	vestal, chaste, pure
 закалённый	adj	physically strong, hardy, not sick; possessing endurance, able to endure unfavorable conditions
 нечести́вый	adj	impious, profane, ungodly, unholy, wicked
-почём	cconj	how
+почём	adv	how much?; how much does it cost?
 электропо́езд	noun	electric train
 подкрепи́ться	verb	to fortify oneself (with food or drink), to eat up, to drink up; passive of подкрепи́ть
 температу́рный	adj	temperature
@@ -5966,7 +5963,7 @@
 первопрохо́дец	noun	trailblazer, pioneer, pathfinder
 прикуси́ть	verb	to bite
 темноко́жий	adj	dark-skinned
-вка́лывать	verb	to stick (in, into); to inject (to), to give a shot (of)
+вка́лывать	verb	to work hard, to sweat (one's guts out)
 отчи́слить	verb	to deduct; to assign, to allot; to remit, to transfer
 ую́т	noun	cosiness, comfort
 ко́ми	noun	a Komi, a Zyrian (a member of a Finno-Ugric people who live in the northwest Urals); Komi (the Finno-Ugric language spoken by these people)
@@ -6262,7 +6259,7 @@
 припи́ска	noun	addition, postscript; registration; doctoring, distortions, doctored records
 магистрату́ра	noun	master's degree course, graduate programme; magistracy (the office, authority or collective body of magistrates); magistracy (in Ancient Rome)
 круши́ть	verb	to destroy, to shatter
-покупа́ться	verb	to sell; passive of покупа́ть (“to buy”)
+покупа́ться	verb	to have a bathe, to bathe, to have/take a bath; passive of покупа́ть (“to bathe”)
 неглу́пый	adj	sensible, clever enough
 лату́нь	noun	brass
 ско́ванный	adj	constrained
@@ -6434,7 +6431,7 @@
 пинце́т	noun	tweezers, pincers (small pincer-like instrument, usually made of metal, used for handling small objects)
 переня́ть	verb	to adopt, to imitate
 трепа́ть	verb	to scutch, to swingle; to pull about, to blow about, to flutter, to tousle; to wear out, to fray, to tear
-хрено́вый	adj	worthless, bad, rotten, lousy, crappy
+хрено́вый	adj	horseradish
 скунс	noun	skunk
 оце́ночный	adj	estimated, evaluative, ratable
 малочи́сленный	adj	scanty, few, not numerous; small
@@ -6581,7 +6578,6 @@
 саморо́док	noun	nugget (small chunk or clump); gifted person
 ра́лли	noun	rally (motor racing event); rally (public gathering for a cause)
 влить	verb	to pour; to instill
-загоня́ть	verb	to drive into; to hammer into; to herd into
 почита́тель	noun	admirer, worshipper
 восседа́ть	verb	to sit (in state, on a throne)
 боготвори́ть	verb	to worship, to deify, to idolize, to adore
@@ -6596,7 +6592,7 @@
 увекове́чить	verb	to immortalize (to perpetuate forever in the memory of someone's offspring, especially by praising or glorifying); to perpetuate, to make eternal and unchangeable (e.g. a custom)
 удира́ть	verb	to flee, to run for one's life
 несказа́нный	adj	ineffable, indescribable; very strong, exceptional, extraordinary
-ла́ма	noun	llama (South American mammal of the camel family, Llama glama)
+ла́ма	noun	lama
 поди́	verb	syncopic form of пойди́
 поди́	verb	maybe, would, possibly; just try
 равни́нный	adj	plain, plains (flat expanse of land); flat (of terrain), low (of relief)
@@ -6843,7 +6839,6 @@
 хозя́йский	adj	owner, landlord, master, boss; lordly; host
 высокоопла́чиваемый	adj	highly paid (in terms of jobs and careers)
 дво́йня	noun	twins
-ют	noun	quarter-deck
 фанта́ст	noun	dreamer, fantasist; visionary; science fiction writer
 слёзный	adj	tear (water from the eyes); lacrimal; teary, tearful; plaintive, sorrowful, tearful
 северя́нин	noun	northerner
@@ -7083,7 +7078,6 @@
 эксцентри́чный	adj	eccentric
 м-м	intj	uh, um (expressing hesitation in speech)
 задви́нуть	verb	to push (into), to slide (into) (e.g. curtains, drawer, etc.)
-тик	noun	tic (local and habitual convulsive motion)
 ворча́ние	noun	grumbling; growling, growl
 стациона́р	noun	hospital; permanent establishment
 целенапра́вленный	adj	purposeful, committed, dedicated
@@ -7422,6 +7416,7 @@
 ордина́рный	adj	ordinary
 нетривиа́льный	adj	nontrivial
 ты́квенный	adj	pumpkin
+загоня́ть	verb	to exhaust, to fatigue; to drive to exhaustion, to drive too hard (a horse)
 транс	noun	a transgender person
 ше́ршень	noun	hornet
 перепи́ть	verb	to drink too much (liquid); to drink too much alcohol, to overdrink; to drink (liquid) longer than anyone else
@@ -7559,7 +7554,7 @@
 оренбу́ргский	adj	Orenburg (city in Russia)
 отрече́ние	noun	renunciation; abdication
 дива́нный	adj	sofa, couch, divan; armchair (giving unqualified, uninformed advice or opinions)
-крести́ться	verb	to be baptized, to be christened; passive of крести́ть
+крести́ться	verb	to cross oneself; passive of крести́ть
 реми́кс	noun	remix
 ежедне́вник	noun	diary; calendar, organizer, agenda; daily (newspaper)
 вмести́тельный	adj	capacious, roomy, spacious
@@ -7593,7 +7588,6 @@
 подви́гнуть	verb	to rouse, to induce, to encourage
 опу́щенный	verb	punk, bitch (a passive homosexual male, or a man forced into a homosexual relationship, especially in prison)
 попа́хивать	verb	to smell slightly (of)
-но́рка	noun	diminutive of нора́
 скворе́чник	noun	birdhouse, nestbox
 устарева́ть	verb	to become obsolete, to become dated, to become out-of-date
 зелёнка	noun	brilliant green (dye and antiseptic); thickets used to hide from opponents; state certificate attesting to the right to real estate
@@ -7618,6 +7612,7 @@
 подве́ргнутый	adj	subjected (to), exposed (to)
 ма́сленица	noun	alternative letter-case form of Ма́сленица; Maslenitsa, Shrovetide, Butter Week, Crepe Week (the week before Lent, se…; feast, high life; butter churn
 ё	noun	The name of the Cyrillic script letter Ё.
+бу́хнуть	verb	to swell up, to swell
 прогла́тывать	verb	to swallow; to swallow, to bolt, to gulp down; (accept without protest) to swallow, to pocket
 отжима́ние	noun	push-up
 ли́рика	noun	lyric poetry; lyricism; sentimental talk, gas, hot air
@@ -7735,7 +7730,7 @@
 те́шить	verb	to amuse, to entertain; to comfort, to console; to please
 тво́рчески	adv	creatively; constructively
 ха́ки	noun	khaki (color); khaki (clothing)
-коси́ть	verb	to twist, to slant (eyes, mouth); to squint, to look asquint; to evade, to elude, to dodge
+коси́ть	verb	to mow, to cut; to mow down, to wipe out, to decimate
 отморо́зок	noun	thug, scumbag, monster (a person utterly lacking moral scruples, a criminal capable of barbaric violence)
 деко́р	noun	décor
 ре́гги	noun	reggae
@@ -7987,7 +7982,7 @@
 поме́шивать	verb	to stir slowly
 пра́отец	noun	ancestor, forefather (one from whom a person is descended)
 де́йство	noun	action
-венча́ться	verb	to be crowned (for kingdom); to be crowned (with); passive of венча́ть
+венча́ться	verb	to be married (in church), to get married (in church); passive of венча́ть
 углова́тый	adj	angular; awkward
 разня́ть	verb	to disjoint, to dismantle, to separate, to part, to pull apart
 нерабо́тающий	adj	idle, out of service/work; unemployed, out of work
@@ -7999,3 +7994,8 @@
 э́йфелев	adj	Eiffel (referring to Gustave Eiffel, French engineer, builder of the Eiffel Tower and Statue of Liberty)
 раду́шно	adv	cordially (in a friendly manner)
 распя́ть	verb	to crucify
+устоя́ться	verb	to settle, (milk) to cream; to become well-established, to take (final) shape; passive of устоя́ть
+правосла́вная	noun	female equivalent of правосла́вный: an Orthodox
+переве́сить	verb	to hang in a different place; to weigh again, to reweigh; to outweigh
+надво́дный	adj	above-water; surface
+растя́нутый	adj	stretched, prolonged, unnecessarily long

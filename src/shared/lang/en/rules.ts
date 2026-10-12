@@ -15,14 +15,15 @@ export function key(text: string): string {
 }
 
 /**
- * 宽松的键：再去掉附加符号（café → cafe）、连字符、撇号、点和空格（e-mail → email、o'clock → oclock、
- * don't → dont、U.S. → us、a lot → alot）。严格的键查不到时再用它。
- * 词尾的所有格 's、s' 留着：John's 不能变成 Johns（另一个词），交给 lemmaCandidates 去掉。
+ * 宽松的键：再去掉附加符号（café → cafe）、连字符、撇号和点（e-mail → email、o'clock → oclock、
+ * don't → dont、U.S. → us）。严格的键查不到时再用它。
+ * 空格留着：阅读器拿几个连着的词去对短语，去掉空格的话 may be 会对上 maybe、every day 对上 everyday。
+ * 词尾的所有格 's、s' 也留着：John's 不能变成 Johns（另一个词），交给 lemmaCandidates 去掉。
  */
 export function looseKey(text: string): string {
   const s = stripMarks(key(text))
   const tail = s.match(/(?:'s|s')$/)?.[0] ?? ''
-  return s.slice(0, s.length - tail.length).replace(/[-'.\s]/g, '') + tail
+  return s.slice(0, s.length - tail.length).replace(/[-'.]/g, '') + tail
 }
 
 // ───────────────────────── 切词 ─────────────────────────
@@ -228,6 +229,7 @@ function stems(stem: string): string[] {
  * plural、third-person singular present、past、past participle、present participle、comparative、
  * superlative；另有 possessive、contraction、negative、alternative（连字符的另一种写法）、
  * compound（复合词的中心词）、adverb（-ly 副词猜回形容词）。
+ * 只猜一个词：阅读器拿几个连着的词去对短语时也会问到这里，He doesn't 不能猜成 not。
  */
 export function lemmaCandidates(surface: string): LemmaGuess[] {
   const w = key(surface)
@@ -239,7 +241,7 @@ export function lemmaCandidates(surface: string): LemmaGuess[] {
     seen.add(k)
     out.push({ lemma, tags })
   }
-  if (!w) return out
+  if (!w || /\s/.test(w)) return out
 
   // 撇号在前的缩约（'em → them）
   if (LEADING_EXPANSIONS[w]) {

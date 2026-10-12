@@ -1,0 +1,77 @@
+# 多词词条的取舍（本软件自编，CC0）
+#
+# 阅读器会把正文里连着的几个词按词典里的多词词条并成一个词（parce que、à côté de、pomme de terre）。
+# 但有些多词词条只是几个普通词的组合，在正文里多半不是那个意思，并起来反倒错：
+#   sa mère「他的母亲」会被当成粗口感叹词，la ferme「农场」当成「闭嘴！」，je ne sais pas 吞掉 ne … pas。
+# 规则（scripts/data/fr/build.ts）：
+#   - 感叹词、短语（intj、phrase）里的多词词条默认不收，只收下面「keep」列的固定说法；
+#   - 别的词性默认收，下面「drop」列的不收。
+# 一行：keep | 词（不分词性）  或  drop | 词 | 词性
+
+# ───────── 感叹词、短语里留下的固定说法 ─────────
+keep | s'il vous plaît
+keep | s'il te plaît
+keep | au revoir
+keep | bonne nuit
+keep | bonne journée
+keep | bonne soirée
+keep | bonne chance
+keep | bon appétit
+keep | merci beaucoup
+keep | pas de problème
+keep | pas de souci
+keep | avec plaisir
+keep | eh bien
+keep | si seulement
+keep | peu importe
+keep | de rien
+keep | je vous en prie
+keep | tous les jours
+keep | non seulement
+keep | de plus
+keep | entre nous
+keep | à bientôt
+keep | à demain
+keep | à tout à l'heure
+keep | à plus tard
+keep | bien sûr
+keep | tout à fait
+keep | du tout
+keep | pas du tout
+keep | pas de quoi
+keep | rien à voir
+keep | en avant
+keep | au secours
+keep | bon voyage
+keep | joyeux anniversaire
+keep | bonne année
+keep | il y a
+
+# ───────── 别的词性里不收的（几个普通词凑成的，正文里多半不是这个意思） ─────────
+drop | à la | adp
+drop | pas de | adp
+drop | de tête | adp
+drop | pas que | sconj
+drop | une fois | sconj
+drop | dire que | sconj
+drop | fait que | sconj
+drop | le temps de | sconj
+drop | histoire de | sconj
+drop | que de | adv
+drop | un coup | adv
+drop | de deux | adv
+drop | quoi faire | adv
+drop | sur ce | adv
+drop | sa mère | adv
+drop | à moi | pron
+drop | de quoi | pron
+drop | pas mal | pron
+drop | et si | noun
+drop | être à | verb
+drop | venir avec | verb
+drop | faire avec | verb
+drop | faire sans | verb
+drop | dire quoi | verb
+drop | dire quelque chose | verb
+drop | ouvrir la porte | verb
+drop | aller au lit | verb

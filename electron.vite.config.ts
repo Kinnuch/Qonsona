@@ -3,7 +3,16 @@ import { svelte } from '@sveltejs/vite-plugin-svelte'
 import { resolve } from 'path'
 
 export default defineConfig({
-  main: {},
+  main: {
+    build: {
+      rollupOptions: {
+        input: {
+          index: resolve(__dirname, 'src/main/index.ts'),
+          'analysis-worker': resolve(__dirname, 'src/main/lang/analysis-worker.ts')
+        }
+      }
+    }
+  },
   preload: {},
   renderer: {
     resolve: {

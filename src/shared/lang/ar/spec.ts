@@ -1,6 +1,6 @@
 /**
  * 阿拉伯语（Arabic）：学习包的描述——叫什么、几套分级、有哪些能力。
- * 分析与依据见 docs/lang/ar.md；阶段一只开词典（lexicon），别的能力随各阶段打开。
+ * 分析与依据见 docs/lang/ar.md；阶段一开了词典，阶段二开阅读（课文、新闻）、语法、转写注音与词根页签，别的能力随各阶段打开。
  */
 import { cefrSystem } from '../levels'
 import type { LangSpec, LevelSystemDef, SourceRef } from '../types'
@@ -157,19 +157,19 @@ export const spec: LangSpec = {
   direction: 'rtl',
   levelSystems: [cefrSystem([FREQ_SOURCE]), actfl],
   features: {
-    texts: false,
+    texts: true,
     lexicon: true,
-    alphabet: null,
-    characters: null,
-    grammar: false,
-    inflection: false,
-    phrasebook: false,
-    idioms: false,
-    stories: false,
-    media: false,
-    exam: false,
-    ruby: null,
-    romanization: false,
+    alphabet: 'letters',
+    characters: 'roots',
+    grammar: true,
+    inflection: true,
+    phrasebook: true,
+    idioms: true,
+    stories: true,
+    media: true,
+    exam: true,
+    ruby: 'romanization',
+    romanization: true,
     speech: 'ar-SA'
   },
   intro: {

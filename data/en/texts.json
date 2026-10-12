@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "en-reading-A1",
+    "title": "A day at home",
+    "author": "Qonsona",
+    "source": "Original Qonsona graded reading",
+    "license": "MIT",
+    "topic": "story",
+    "level": "A1",
+    "text": "My name is Mei. I live in a small house with my sister. Our kitchen is bright. There is a table by the window. Every morning, I make tea. My sister eats bread and an apple.\n\nToday is Sunday. We do not go to work. We clean the house and cook lunch. In the afternoon, we walk to the park. We see two dogs and a big tree. We sit under the tree. My sister reads a book. I listen to the birds. We are happy."
+  },
+  {
+    "id": "en-reading-A2",
+    "title": "A change of plan",
+    "author": "Qonsona",
+    "source": "Original Qonsona graded reading",
+    "license": "MIT",
+    "topic": "story",
+    "level": "A2",
+    "text": "Last Saturday, Leo planned to visit a friend in another town. He bought a train ticket and packed a small bag. The weather was sunny when he left home, so he did not take an umbrella.\n\nAt the station, he saw a message: his train was an hour late. He called his friend and explained the problem. Then it began to rain. A woman beside him offered to share her umbrella. They talked about their journeys while they waited.\n\nLeo arrived in the afternoon. His friend was cooking lunch. They ate together and walked around the town after the rain stopped. Leo wanted to visit the museum, but it was already closed. They are going to visit it next month. The day was different from his plan, but he enjoyed it."
+  },
+  {
+    "id": "en-reading-B1",
+    "title": "A library for everyone",
+    "author": "Qonsona",
+    "source": "Original Qonsona graded reading",
+    "license": "MIT",
+    "topic": "story",
+    "level": "B1",
+    "text": "The library in our neighbourhood used to close at five o’clock. For people who worked during the day, that meant there was little chance to borrow books. Several residents asked whether it could stay open later.\n\nAt first, the council said there was not enough money to pay extra staff. A group of volunteers then suggested a small experiment: on Thursdays, they would help the librarian until eight. Volunteers could organise books and welcome visitors, but they would not replace trained staff or handle private records.\n\nThe experiment has now been running for three months. More people visit after work, and a conversation group has started in the reading room. Not everyone is satisfied. Some residents worry that unpaid work could become a permanent substitute for public funding.\n\nNext week, the council will review the results. If the later opening hours continue, the group wants the council to provide proper funding. The volunteers have shown that there is demand; now they hope the service will become reliable."
+  },
+  {
+    "id": "en-reading-B2",
+    "title": "Rethinking the daily journey",
+    "author": "Qonsona",
+    "source": "Original Qonsona graded reading",
+    "license": "MIT",
+    "topic": "essay",
+    "level": "B2",
+    "text": "When a city proposes to replace parking spaces with a bus lane, the debate often becomes a contest between drivers and cyclists. Yet this framing overlooks people whose choices are restricted by disability, irregular working hours or the absence of safe routes. A useful discussion should begin with the journeys that residents actually need to make.\n\nA bus lane may reduce delays, but its benefits depend on how frequently buses run. If services remain unreliable, commuters cannot simply abandon their cars. Equally, preserving every parking space may prevent improvements that would help a much larger number of passengers. Neither option can be evaluated in isolation.\n\nThe council could test the proposal temporarily and publish clear measures of success. Travel times, access to local shops and the experiences of disabled passengers should all be considered. Businesses should be consulted, although a prediction of lost customers is not the same as evidence that losses have occurred.\n\nHad previous transport plans included better monitoring, the city might already know which changes work. This time, collecting information before and after the trial would allow residents to challenge the conclusions. The aim should be a fair and dependable transport system, rather than a victory for one group."
+  },
+  {
+    "id": "en-reading-C1",
+    "title": "Evidence and public decisions",
+    "author": "Qonsona",
+    "source": "Original Qonsona graded reading",
+    "license": "MIT",
+    "topic": "essay",
+    "level": "C1",
+    "text": "Public debate frequently invokes evidence as though its mere presence could settle a policy dispute. Evidence is indispensable, but it does not select our priorities for us. A study may demonstrate that an intervention improves an average outcome while leaving unanswered whose circumstances improve, at whose expense and over what period.\n\nConsider a programme intended to reduce household energy use. Participants may consume less electricity because the programme helps them insulate their homes. Alternatively, consumption may fall because prices rise or because the winter is unusually mild. Unless these competing explanations are examined, attributing the entire change to the programme would overstate its effectiveness.\n\nEven a well-designed study cannot eliminate every uncertainty. Decision-makers therefore need to distinguish between what the findings establish and what they merely suggest. Rarely does a single number provide an adequate account of a complex intervention. Publishing assumptions, ranges of plausible effects and limitations can make the reasoning open to scrutiny.\n\nThat openness should not become an excuse for indefinite delay. Authorities must sometimes act before definitive evidence is available. What matters is that provisional decisions remain revisable, that monitoring is funded and that criteria for revision are specified in advance. Acknowledging uncertainty can strengthen accountability: it makes explicit the circumstances under which a policy ought to change."
+  },
+  {
+    "id": "en-reading-C2",
+    "title": "The limits of a useful metaphor",
+    "author": "Qonsona",
+    "source": "Original Qonsona graded reading",
+    "license": "MIT",
+    "topic": "essay",
+    "level": "C2",
+    "text": "To describe a city as an organism is to invite a particular kind of attention. Streets become arteries, parks become lungs, and neighbourhoods appear to perform specialised functions within a coherent whole. The metaphor illuminates interdependence; it may also conceal the choices through which that interdependence is organised.\n\nAn organism cannot ordinarily negotiate the allocation of resources among its organs. A city can, and ought to. Once a district is labelled diseased, intervention may seem as inevitable as surgery, while the people who live there are reduced to symptoms of a condition defined elsewhere. The language of recovery can thus lend an air of necessity to decisions that are in fact contestable.\n\nThis objection does not require us to discard the metaphor. Were all figurative language excluded from public reasoning, discussion would lose an important means of making unfamiliar relationships intelligible. The difficulty lies in treating a comparison as though it were an explanation. What a metaphor foregrounds should be set beside what it suppresses.\n\nA more responsible use would make the analogy provisional and identify where it breaks down. Cities sustain themselves through disagreement as well as coordination; their boundaries are administrative, economic and imaginative rather than merely biological. A policy could have been defended without invoking organic necessity, and that defence would then have had to confront questions of consent and distribution directly. Useful metaphors earn their place by clarifying those questions, not by rendering them invisible."
+  }
+]

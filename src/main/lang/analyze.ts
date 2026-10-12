@@ -15,6 +15,25 @@ const PHRASE_WORDS = 4
 /** 不算难度的词性：专名、数词、符号、感叹词 */
 const NO_LEVEL = new Set(['propn', 'num', 'symbol', 'intj'])
 
+/** News-list estimate: a bounded lexical sample, without ruby, phrase lookups or grammar scanning. */
+export function lexicalLevel(db: LexDb, text: string, maxWords = 400): string | null {
+  const { rules, spec } = LANGS[db.code]
+  const tokens =
+    rules.tokenize?.(text.slice(0, 12_000)) ?? segmentWords(text.slice(0, 12_000), spec.bcp47)
+  const levels: string[] = []
+  let words = 0
+  for (const token of tokens) {
+    if (token.kind !== 'word') continue
+    if (++words > maxWords) break
+    const hit = db.lookup(token.text)
+    if (hit?.lv && !NO_LEVEL.has(hit.pos)) levels.push(hit.lv)
+  }
+  return estimateLexLevel(
+    levels,
+    primarySystem(spec.levelSystems).levels.map((l) => l.id)
+  )
+}
+
 function toToken(raw: RawToken, hit: LookupHit | null, ruby?: string): LexToken {
   const t: LexToken = { text: raw.text, start: raw.start, end: raw.end, kind: raw.kind }
   if (hit) {
@@ -39,7 +58,13 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
   const rubyKind = spec.features.ruby
   const order = primarySystem(spec.levelSystems).levels.map((l) => l.id)
   const sentences: LexSentence[] = []
+  const grammarSentences: LexSentence[] = []
   const levels: string[] = []
+  const lookups = new Map<string, LookupHit | null>()
+  const lookup = (surface: string): LookupHit | null => {
+    if (!lookups.has(surface)) lookups.set(surface, db.lookup(surface))
+    return lookups.get(surface) ?? null
+  }
 
   for (const range of segmentSentences(text, locale, rules.noBreakAfter)) {
     const slice = text.slice(range.start, range.end)
@@ -49,6 +74,13 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
       end: r.end + range.start
     }))
     const tokens: LexToken[] = []
+    // 阅读词卡合并短语，但语法词序列仍需看到短语内部的词与形态标签。
+    grammarSentences.push({
+      start: range.start,
+      end: range.end,
+      para: range.para,
+      tokens: raws.map((r) => toToken(r, r.kind === 'word' ? lookup(r.text) : null))
+    })
     for (let i = 0; i < raws.length; i++) {
       const raw = raws[i]
       if (raw.kind !== 'word') {
@@ -65,7 +97,7 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
       for (let n = wordIdx.length; n >= 2; n--) {
         const last = raws[wordIdx[n - 1]]
         const phrase = text.slice(raw.start, last.end)
-        const hit = /\s/.test(phrase) ? db.lookup(phrase) : null
+        const hit = /\s/.test(phrase) ? lookup(phrase) : null
         if (hit) {
           merged = { end: wordIdx[n - 1], hit }
           break
@@ -88,7 +120,7 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
         i = merged.end
         continue
       }
-      const hit = db.lookup(raw.text)
+      const hit = lookup(raw.text)
       // 转写用对上的那一行的原文（带元音的），猜原形对上的转正文；IPA、标准发音用查词结果的读音
       const ruby =
         rubyKind === 'romanization'
@@ -102,10 +134,30 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
     sentences.push({ start: range.start, end: range.end, para: range.para, tokens })
   }
 
+  const hits = [
+    ...findGrammar(grammarSentences, mod.grammar ?? [], rules.key),
+    ...findGrammar(sentences, mod.grammar ?? [], rules.key)
+  ]
+  const unique = hits.filter(
+    (h, i) => !hits.slice(0, i).some((o) => o.id === h.id && o.start === h.start && o.end === h.end)
+  )
+  const grammar = unique
+    .filter(
+      (h) =>
+        !unique.some(
+          (o) =>
+            o.id !== h.id &&
+            o.sentence === h.sentence &&
+            o.start <= h.start &&
+            o.end >= h.end &&
+            o.end - o.start > h.end - h.start
+        )
+    )
+    .sort((a, b) => a.sentence - b.sentence || a.start - b.start || b.end - a.end)
   return {
     text,
     sentences,
-    grammar: findGrammar(sentences, mod.grammar ?? [], rules.key),
+    grammar,
     level: estimateLexLevel(levels, order)
   }
 }

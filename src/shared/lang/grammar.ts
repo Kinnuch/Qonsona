@@ -3,7 +3,34 @@
  * 按顺序对上一句里的词（标点、空白跳过），允许隔几个词（gap）、可有可无（optional）、
  * 只看不算的前后文（ctx）。一个更长的命中把它范围里别的语法点的短命中吞掉（日语的做法）。
  */
-import type { LexGrammarHit, LexGrammarPoint, LexSentence, LexToken, TokenTest } from './types'
+import type {
+  LangRules,
+  LexGrammarHit,
+  LexGrammarPoint,
+  LexSentence,
+  LexToken,
+  TokenTest
+} from './types'
+import { segmentWords } from './text'
+
+/** Keep authored examples recognisable alongside productive rules, without guessing unseen syntax. */
+export function addExamplePatterns(
+  points: LexGrammarPoint[],
+  rules: LangRules,
+  locale: string
+): void {
+  for (const point of points) {
+    const examples = point.examples.flatMap((ex) => {
+      if (!ex.hl) return []
+      const tokens = rules.tokenize?.(ex.hl) ?? segmentWords(ex.hl, locale)
+      const pattern = tokens
+        .filter((t) => t.kind === 'word' || t.kind === 'num')
+        .map((t) => ({ form: t.text }))
+      return pattern.length ? [pattern] : []
+    })
+    point.patterns = [...(point.patterns ?? []), ...examples]
+  }
+}
 
 const asList = <T>(v: T | T[] | undefined): T[] =>
   v === undefined ? [] : Array.isArray(v) ? v : [v]

@@ -1,0 +1,367 @@
+{
+  "checkedAt": "2026-10-12T08:16:11.113Z",
+  "code": "en",
+  "dictionary": {
+    "entries": 56187,
+    "examples": 114589,
+    "levels": {
+      "A1": 1184,
+      "A2": 1411,
+      "B1": 2768,
+      "B2": 4390,
+      "C1": 4320,
+      "C2": 30038
+    },
+    "lists": 54
+  },
+  "grammar": {
+    "points": 60,
+    "examples": 120,
+    "missed": []
+  },
+  "courses": [
+    {
+      "id": "alphabet",
+      "units": 1,
+      "lessons": 15
+    },
+    {
+      "id": "grammar",
+      "units": 6,
+      "lessons": 59
+    },
+    {
+      "id": "inflection",
+      "units": 6,
+      "lessons": 12
+    },
+    {
+      "id": "phrasebook",
+      "units": 6,
+      "lessons": 23
+    },
+    {
+      "id": "idioms",
+      "units": 6,
+      "lessons": 11
+    },
+    {
+      "id": "stories",
+      "units": 6,
+      "lessons": 6
+    }
+  ],
+  "texts": {
+    "count": 6,
+    "profiles": [
+      {
+        "id": "en-reading-A1",
+        "editorialLevel": "A1",
+        "lexicalLevel": "A1",
+        "wordTokens": 77,
+        "unknown": 0,
+        "grammarHits": 1
+      },
+      {
+        "id": "en-reading-A2",
+        "editorialLevel": "A2",
+        "lexicalLevel": "A1",
+        "wordTokens": 121,
+        "unknown": 0,
+        "grammarHits": 3
+      },
+      {
+        "id": "en-reading-B1",
+        "editorialLevel": "B1",
+        "lexicalLevel": "A2",
+        "wordTokens": 160,
+        "unknown": 0,
+        "grammarHits": 3
+      },
+      {
+        "id": "en-reading-B2",
+        "editorialLevel": "B2",
+        "lexicalLevel": "B1",
+        "wordTokens": 194,
+        "unknown": 0,
+        "grammarHits": 0
+      },
+      {
+        "id": "en-reading-C1",
+        "editorialLevel": "C1",
+        "lexicalLevel": "B1",
+        "wordTokens": 206,
+        "unknown": 1,
+        "grammarHits": 2
+      },
+      {
+        "id": "en-reading-C2",
+        "editorialLevel": "C2",
+        "lexicalLevel": "B2",
+        "wordTokens": 227,
+        "unknown": 0,
+        "grammarHits": 3
+      }
+    ]
+  },
+  "exams": [
+    {
+      "id": "en-cefr-review-A1",
+      "level": "A1",
+      "full": true
+    },
+    {
+      "id": "en-cefr-review-A2",
+      "level": "A2",
+      "full": true
+    },
+    {
+      "id": "en-cefr-review-B1",
+      "level": "B1",
+      "full": true
+    },
+    {
+      "id": "en-cefr-review-B2",
+      "level": "B2",
+      "full": true
+    },
+    {
+      "id": "en-cefr-review-C1",
+      "level": "C1",
+      "full": true
+    },
+    {
+      "id": "en-cefr-review-C2",
+      "level": "C2",
+      "full": true
+    }
+  ],
+  "primaryLevels": ["A1", "A2", "B1", "B2", "C1", "C2"],
+  "feedsCheckedAt": "2026-10-12T08:07:01.669Z",
+  "feeds": [
+    {
+      "id": "gv",
+      "url": "https://globalvoices.org/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 15,
+      "latest": "2026-10-12T06:39:35.000Z"
+    },
+    {
+      "id": "nasa",
+      "url": "https://www.nasa.gov/news-release/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-12T04:05:00.000Z"
+    },
+    {
+      "id": "conversation",
+      "url": "https://theconversation.com/global/articles.atom",
+      "ok": true,
+      "status": 200,
+      "entries": 50,
+      "latest": "2026-10-08T15:00:48.000Z"
+    },
+    {
+      "id": "wiki-featured",
+      "url": "https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=featured&feedformat=atom",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "id": "wiki-onthisday",
+      "url": "https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=onthisday&feedformat=atom",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-03T00:00:00.000Z"
+    },
+    {
+      "id": "voa-asitis",
+      "url": "https://learningenglish.voanews.com/api/zkm-ql-vomx-tpej-rqi",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2025-03-14T13:19:43.000Z"
+    },
+    {
+      "id": "voa-science",
+      "url": "https://learningenglish.voanews.com/api/zmg_pl-vomx-tpeymtm",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2025-03-17T22:05:00.000Z"
+    },
+    {
+      "id": "bbc-world",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 23,
+      "latest": "2026-10-11T21:36:40.000Z"
+    },
+    {
+      "id": "bbc-science",
+      "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 41,
+      "latest": "2026-10-12T05:24:10.000Z"
+    },
+    {
+      "id": "bbc-tech",
+      "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 21,
+      "latest": "2026-10-12T07:47:37.000Z"
+    },
+    {
+      "id": "npr",
+      "url": "https://feeds.npr.org/1001/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-12T06:41:57.000Z"
+    },
+    {
+      "id": "npr-science",
+      "url": "https://feeds.npr.org/1007/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-10T11:40:49.000Z"
+    },
+    {
+      "id": "guardian-world",
+      "url": "https://www.theguardian.com/world/rss",
+      "ok": true,
+      "status": 200,
+      "entries": 45,
+      "latest": "2026-10-09T21:36:18.000Z"
+    },
+    {
+      "id": "guardian-science",
+      "url": "https://www.theguardian.com/science/rss",
+      "ok": true,
+      "status": 200,
+      "entries": 27,
+      "latest": "2026-10-10T22:30:34.000Z"
+    },
+    {
+      "id": "nyt",
+      "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 15,
+      "latest": "2026-10-12T02:27:42.000Z"
+    },
+    {
+      "id": "cbc",
+      "url": "https://www.cbc.ca/webfeed/rss/rss-topstories",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2026-05-27T16:12:48.000Z"
+    },
+    {
+      "id": "abc-au",
+      "url": "https://www.abc.net.au/news/feed/51120/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 25,
+      "latest": "2026-10-12T08:00:01.000Z"
+    },
+    {
+      "id": "rte",
+      "url": "https://www.rte.ie/feeds/rss/?index=/news/",
+      "ok": true,
+      "status": 200,
+      "entries": 60,
+      "latest": "2026-10-12T05:16:19.000Z"
+    },
+    {
+      "id": "rnz",
+      "url": "https://www.rnz.co.nz/rss/national.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 47,
+      "latest": "2026-10-12T07:53:49.000Z"
+    },
+    {
+      "id": "sky",
+      "url": "https://feeds.skynews.com/feeds/rss/world.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 9,
+      "latest": "2026-10-11T10:08:00.000Z"
+    },
+    {
+      "id": "aljazeera",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 25,
+      "latest": "2026-10-12T07:27:14.000Z"
+    },
+    {
+      "id": "un-news",
+      "url": "https://news.un.org/feed/subscribe/en/news/all/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 30,
+      "latest": "2026-10-11T12:00:00.000Z"
+    },
+    {
+      "id": "the-hindu",
+      "url": "https://www.thehindu.com/news/national/feeder/default.rss",
+      "ok": true,
+      "status": 200,
+      "entries": 60,
+      "latest": "2026-10-12T08:03:06.000Z"
+    },
+    {
+      "id": "cna",
+      "url": "https://www.channelnewsasia.com/rssfeeds/8395986",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2026-10-12T07:57:00.000Z"
+    },
+    {
+      "id": "scmp",
+      "url": "https://www.scmp.com/rss/91/feed",
+      "ok": true,
+      "status": 200,
+      "entries": 50,
+      "latest": "2026-10-12T08:03:06.000Z"
+    },
+    {
+      "id": "cgtn",
+      "url": "https://www.cgtn.com/subscribe/rss/section/world.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 50,
+      "latest": "2026-10-11T13:50:03.000Z"
+    },
+    {
+      "id": "japantimes",
+      "url": "https://www.japantimes.co.jp/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 30,
+      "latest": "2026-10-12T07:58:00.000Z"
+    },
+    {
+      "id": "snexplores",
+      "url": "https://www.snexplores.org/feed",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2026-10-09T10:30:00.000Z"
+    }
+  ]
+}

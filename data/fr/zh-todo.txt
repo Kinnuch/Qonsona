@@ -1,32 +1,22 @@
 # 没有中文释义的常用词（按词频，前 8000 个）：词头	词性 性	英文释义（几个义项用 | 隔开）
+comme	part	like
 meilleur	adj	better | best
 près	adp	attached to, connects a person or an organisation delegated officially to a setting.
 aide	noun mf	aide (person)
 travers	noun m	outside (the external part of) | wide side (the side of which the width is measured) | border toll | oddity, irregularity of mind and mood, unfortunate disposition, defect of character
-je ne pense pas	phrase	I don't think so | I think not
 million	noun m	Nom de nombre cardinal. Mille fois mille, 10⁶.
 comme ça	adj	large, big
 avion	noun m	aeroplane
 quoi que ce soit	pron	anything (at all)
-que de	adv	how (modifier)
 avec	adv	too, also
-un coup	adv	used to soften an order | once, one time
-de quoi	pron	What is necessary to | something
-de quoi	intj	what was that
 moindre	adj	lesser | least
 au lit	adv	in bed
-au lit	intj	to bed! off to bed! sleepy time!
 plein	adp	in; all over; filling
 dîner	verb	to dine
-au travail	intj	get to work! let's get to work!
 fait	adj	done | cut out | mature or ripe | drunk
 tous les deux	pron	both
-à moi	pron	For non-idiomatic uses see à and moi | mine (adjectival sense)
-sa mère	adv	(so) fucking
-sa mère	intj	fuck!
 comment	intj	pardon?, sorry?, what? | An expression of surprise or anger.
 enfuir	verb	to escape (somewhere) | to flee
-et des	phrase	or thereabouts, and change, and a bit over
 trop de	adj	excessive, (an excess of) | too much | too many
 copine	noun f	Camarade, femme que l'on apprécie, amie.
 parfaitement	adv	perfectly
@@ -40,32 +30,23 @@ neuf	noun m	Ce qui est nouveau.
 véritable	adj	veritable
 faveur	noun f	favour
 oeuf	noun m	Variante typographique de œuf.
-sur ce	adv	thereupon, with this, on that note
-le temps de	sconj	by the time that
 de retour	adj	back
 vrai	noun m	truth
-quoi faire	adv	why, how come, what for
 à ce sujet	adv	about that, on this point, on this subject
-vous savez	intj	you know
 chaud	adv	Chaudement.
 sérieux	noun m	earnestness | seriousness
-ta mère	intj	your mom | fuck off!
 tamazight	noun m	the Tamazight family of languages
 là-dessus	adv	on this, here | thereupon, with this
 adieu	noun m	farewell
 entre nous	phrase	between ourselves, between you and me
 débrouiller	verb	to disentangle (threads) | to get by, to manage; to bootstrap
 cesse	noun f	end
-tu parles	intj	you must be joking!, yeah right! (expresses incredulity)
 tout ça	pron	all that
 point	adv	not
 en ville	adv	downtown | in town
 mien	adj	(of) mine, my own
-et si	noun	what if
 hors de	adp	out of, outside
 de plus en plus	adv	more and more (used to express a progressive increase)
-fait que	sconj	So, therefore, in that case
-de deux	adv	next, secondly, second
 afin de	adp	Dans le but de, dans l'objectif de, avec pour finalité de.
 au-delà	adv	Plus loin que. Un peu plus loin, de l'autre côté (par rapport à un point, un lieu exprimé), à l'extérieur.
 revoir	noun m	Action de voir à nouveau.
@@ -82,7 +63,6 @@ le mien	pron	mine
 à quel point	adv	how much (to what point, to what extent)
 miss	noun f	Mademoiselle en Angleterre ou dans le monde anglo-saxon.
 super	noun m	Supercarburant.
-être à	verb	to pertain to; to belong to; to be one's
 assis	adj	sat, sat down, seated
 tous deux	det	both
 tarder	verb	to tarry | to be slow to do something (tarder à faire quelque chose) | Used as an impersonal verb with de or que to express impatience.
@@ -112,11 +92,8 @@ heu	intj	Interjection qui, répétée, exprime le doute, une secrète pensée.
 eux-mêmes	pron	themselves
 réjouir	verb	to please; to delight | to rejoice, celebrate
 pas mal	adv	not badly (reasonably well)
-pas mal	pron	quite a bit, quite a few (a decent amount)
 glacé	adj	icy, frozen | glazed, glacé
 marrer	verb	to laugh; to be amused | to hoe (dig using a hoe)
-ça a été	phrase	was everything OK?, did it go well?
-de tête	adp	in one's head (only with one's mind or memory, with no external aid) | if memory serves; off the top of one's head
 ben	intj	Well; uh
 bible	noun f	bible (comprehensive text)
 quelconque	adj	indeterminate; some, any | nondescript, ordinary
@@ -138,14 +115,12 @@ drôle	noun m	rascal, scoundrel | child, kid, lad
 à pleurer	adv	extremely, to no end
 chut	intj	shush (a request of silence)
 taule	noun f	jail, clink | pad, crib
-non pas	intj	no
 ceux-là	pron	masculine plural of celui-là: those ones, the former
 avérer	verb	to uncover, to reveal | to prove (to be); to transpire
 associer	verb	to associate
 défiler	verb	to parade or march | to appear one after the other | to unfold; to happen | to scroll
 tien	adj	your; belonging to you (singular)
 tasse de thé	noun f	cup of tea (tea in a cup) | cup of tea, cup of joe (personal taste)
-qui parle	intj	look who's talking! you're one to talk! you can talk! says the one!
 nulle	pron	feminine singular of nul (“nobody”)
 musette	noun f	musette | bagpipe | haversack (small bag for provisions) | nosebag (round sack or bag to feed for a horse)
 lourd	adv	De la plus grande importance.
@@ -166,7 +141,6 @@ quant	noun m	Désignation de l’état caractérisé par différentes propriét�
 quant	noun m	Analyste financier chargé de créer des modèles mathématiques.
 visiblement	adv	visibly | apparently
 saleté	noun f	dirtiness, mess
-en route	intj	let's go
 pour autant	adv	even so
 girl	noun f	dancing girl
 diner	noun m	Restaurant sans prétention.
@@ -175,7 +149,6 @@ pyjama	noun m	pyjamas
 hommage	noun m	homage
 que je sache	adv	to the best of my knowledge, as far as I know
 toki pona	noun m	Toki Pona (language)
-ouvrir la porte	verb	to open the door | to open the door, to facilitate access
 surprenant	adj	surprising
 dépit	noun m	scorn
 revivre	verb	to live again; to relive | to relive (experience again)
@@ -187,7 +160,6 @@ vive	intj	Exclamation en l’honneur de quelqu’un, ou d’une chose dont on se
 innocence	noun f	innocence
 officiellement	adv	officially
 dans le coin	adv	nearby, around here
-rien à faire	phrase	I don't care, I don't give a fuck!
 man	noun m	Larve du hanneton.
 man	noun m	Douzième lettre de l’alphabet géorgien, ka.
 le tien	pron	yours; the one belonging to you (singular)
@@ -211,7 +183,6 @@ favori	adj	favo(u)rite
 contrairement	adv	contrarily, oppositely
 rien à voir	intj	that has nothing to do with it! not at all!
 au plus	adv	at most, tops, at the very most, at the outside
-faire sans	verb	to do without, to make do without something
 incroyable	noun m	During the revolutionary period in France, a young man who wore extravagant clothes and affected a particular speaking style
 de loin	adp	from far | by far, easily, hands down (without doubt)
 lover	verb	to coil (a rope or cord), to fake a line | to coil up, wind up; to curl up | to snuggle up to, to snuggle up against
@@ -230,7 +201,6 @@ fier	verb	to trust (someone), to rely (on someone)
 thomas	noun m	Pot de chambre.
 au fait	adj	au fait
 en personne	adj	personified, incarnate
-dire quoi	verb	to keep updated, to keep informed
 en état	adp	in shape
 environ	noun m	a surrounding area
 qualifier	verb	to qualify (of a sports team, etc.) (to compete successfully in some stage of a competition and become eligible for the next stage) | to characterize, to consider | to call, to label | to call oneself (usually undeservedly)
@@ -246,12 +216,10 @@ psy	noun f	Psytrance.
 beau	noun m	boyfriend
 archive	noun f	an item in an archive, a document kept for historical interest
 bien fait	adj	good-looking, attractive | good
-bien fait	intj	An exclamation that a bad thing happened to someone who deserved it.
 au fond	adv	deep down, in the end | deep down, at bottom, at heart
 mince	intj	drat!, darn! | wow!, blimey!
 bye	intj	bye
 admirable	adj	admirable
-comment cela	phrase	how so? what do you mean?
 pull	noun m	pullover
 guise	noun f	way
 au moment où	sconj	as, when, as soon as
@@ -265,7 +233,6 @@ promis	adj	Qui fait l’objet d'une promesse.
 merci	noun f	mercy | grace
 canon	adj	hot, sexy
 local	noun m	room
-à plus	intj	see you, later, laters
 en chemin	adp	on the road, on one's way, along the way
 critiquer	verb	to criticise
 distraction	noun f	distraction | entertainment
@@ -287,7 +254,6 @@ clin	noun m	Found only in the expression clin d’œil (“wink, instant”). | 
 complice	adj	kindred, close | complicit
 chargé	adj	busy
 passionner	verb	to impassionate, to motivate | to take an avid interest
-au pied	intj	to heel!
 de poids	adj	weighty, that carries weight
 à ce propos	adv	about that, on this point, on this subject
 ceux-ci	pron	masculine plural of celui-ci: these ones, the latter ones
@@ -363,8 +329,6 @@ damer	verb	to queen (transform a pawn into a queen, by advancing it to the oppon
 arrêté	adj	fixed, immovable, settled (ideas, opinion)
 jusqu'aux	other	jusque + aux
 ou bien	sconj	either (... or ...)
-ou bien	phrase	or what
-ou quoi	phrase	or what?
 convaincu	adj	convinced, sure | staunch, fervent, passionate
 touché	adj	Ému par quelque chose.
 tombé	adj	Déchu, qui n’a plus beaucoup de succès.
@@ -413,7 +377,6 @@ accroupi	adj	Dont la posture résulte de l’accroupissement, qui a les genoux r
 cinglé	noun m	nutter, nutcase, madman
 par là	adv	over there | by that, that way
 à la hauteur	adj	up to the task
-que tu crois	intj	not at all! far from it! you bet! not likely!
 la faire	verb	to fool
 ç'	pron	contraction of ce | contraction of ça
 comique	adj	comic
@@ -444,7 +407,6 @@ montée	noun f	climb (act of climbing/going up) | rise | a generic used in some 
 issu	adj	from, originating from
 à bout	adj	at the end of one's tether
 à l'avance	adp	in advance, beforehand; early
-après toi	phrase	after you
 faux	noun m	fabrication, forgery
 scandaleux	adj	scandalous (wrong, immoral, causing a scandal)
 dévisager	verb	to peer at (someone's face), stare at (the face of)
@@ -541,7 +503,6 @@ tirailleur	noun m	tirailleur
 réciproque	adj	reciprocal | reciprocal | converse | interchangeable
 signé	adj	Qui est pourvu d’une signature.
 faute de	adp	through lack of; for want of; because of a lack of
-ça ira	phrase	it will be all right, it will be ok | that's enough, that will do nicely, it will do just fine; no thank you
 avec le temps	adv	with time; over time; eventually
 au long de	adp	during; throughout
 dans l'air	adj	in the air, in the wind, in the offing
@@ -561,7 +522,6 @@ libéré	adj	freed, liberated, released (made free, set at liberty) | discharged
 lourdement	adv	heavily (to a large extent)
 gibier	noun m	game (wild animal hunted for food)
 joint	adj	Qui est joint.
-du vent	intj	hop it! shoo! begone! push off! be off with you!
 en jeu	adj	at stake, on the line
 shooter	verb	to shoot the ball forward in an attempt to place it in the opponent's goal | to shoot up, inject oneself with drugs
 pleurnicher	verb	to whine (to complain or protest in a childish manner or about trivial things)
@@ -581,10 +541,7 @@ communion	noun f	Communion; communion
 là-dessous	adv	Sous cela.
 partant	adj	leaving, ready to leave | down, up for, game, keen, available
 doux	adv	gently
-au diable	phrase	to hell with
-hors de question	intj	out of the question!
 si ce n'est	adp	except, if not
-oh non	intj	oh no!
 entendre parler	verb	to hear (of)
 de manière à	sconj	in order to
 gala	noun m	Fête fastueuse et souvent d’un caractère officiel.
@@ -609,7 +566,6 @@ sacrément	adv	bloody, incredibly, really
 crisper	verb	to tense, to tense up
 protégé	adj	protected
 faire la fête	verb	to party, have a party, live it up
-à table	phrase	dinner's ready!
 à l'œil	adv	for free, for nothing | by sight
 à l'abri	adv	sheltered, under cover | in a safe place
 repeindre	verb	to repaint
@@ -691,9 +647,7 @@ tué	noun m	Variante orthographique de tuyé.
 ninja	noun mf	Espion japonais. Dans les œuvres de fiction, ils et elles sont plus souvent représenté vêtu de noir, une cagoule masquant son visage, accomplissant des exploits physiques en combat, des acrobaties, et expert dans les…
 en garde	adv	of a ready defensive position | of a state of heightened attention
 en garde	adj	on guard
-en garde	intj	Part of the sequence En garde! Prêts? Allez!
 les vôtres	pron	plural of le vôtre; plural of la vôtre; yours (the ones belonging to you (plural))
-je ne dis pas	phrase	all right so far, OK, why not?, I can let it pass, that I can tolerate, ... is one thing (but...) (used to say that the first option is (barely) tolerable, but that the second is too much)
 à genoux	adp	on one's knees | on one's knees
 metteur	noun m	putter, placer (someone who puts or places) | director
 enfoiré	adj	prick | shitbag | shithead | shitprick
@@ -802,7 +756,6 @@ rendre compte	verb	to account for, to explain | to realize, to notice, to become
 à bout de	adp	out of, short of
 faire la différence	verb	to tell the difference between, to distinguish | to make a difference, to make a big difference
 comme prévu	adv	according to plan
-au boulot	intj	get to work! let's get to work!
 de table	adj	table
 dans la nature	adp	in the wind (at whereabouts unknown)
 coriace	adj	tough, leathery | tough, rugged
@@ -963,14 +916,10 @@ en un clin d'œil	adv	in the blink of an eye, in the twinkling of an eye, in no 
 faire plaisir	verb	to please, to do something nice for, to cheer up, to keep or make (someone) happy | to indulge oneself, to give oneself a treat
 pour cause de	adp	on account of, due to, because of
 rattraper le temps perdu	verb	to make up for lost time
-voyons voir	intj	let's see, let me see
 dans le pétrin	adp	in the soup, in a fix, in a pickle, in trouble
 en présence	adj	present; involved
-que diable	intj	for heaven's sake! for God's sake!
 à ton avis	adv	in your opinion
-à ton avis	phrase	what do you think? of course!
 de la part de	adp	coming from (someone) | from (someone) | on behalf of (someone)
-pas si vite	intj	not so fast! hold your horses!
 attrait	noun m	appeal, attraction
 présidentiel	adj	presidential
 bu	adj	Absorbé, en parlant d’un liquide ou de sentiment (les sentiments étaient autrefois considérés comme des humeurs, au sens propre de quelque chose d’humide).
@@ -1014,14 +963,12 @@ au pouvoir	adj	in power
 au sein de	adp	within, inside, in the midst
 de moins en moins	adv	less and less
 prêter attention	verb	to pay attention (to), to heed
-quel dommage	intj	what a shame! what a pity! too bad!
 à la perfection	adv	to a T, to perfection, to a nicety, pat (perfectly)
 à moins de	sconj	unless
 en dessous de	adp	below
 dans les temps	adp	in time, on time, on schedule (within the prescribed time limit)
 à force	adv	if one keeps doing something, if one goes on like that, eventually, over time
 du temps de	adp	in someone's day, in someone's time
-pas de ça	intj	none of that; stop that!
 dans un coin	adp	somewhere, in an indefinite or unknown place
 dégoûtant	noun m	Personne qui provoque de la répugnance, du dégoût, qui cause de la déception.
 maille	noun f	stitch | mesh, the gap between threads in cloth etc. | link (in chainmail etc.) | girth
@@ -1069,14 +1016,12 @@ marche arrière	noun f	reverse
 en travers	adv	across (it)
 suite à	adp	after; in the wake of
 en guise de	adp	by way of, as
-ma parole	intj	my word! (expression of surprise) | swear to God!
 à ce stade	adv	at this point, at this juncture, at this stage
 de mémoire	adv	from memory | if memory serves
 au point de	adp	to the point of, so much so that
 de première	adj	bigtime, total
 de tous les temps	adp	of all time, ever, in history
 bon vieux temps	noun m	good old days
-rien à foutre	phrase	I don't give a fuck!
 dans l'ordre	adp	in order, in sequence
 jubiler	verb	to be jubilant or ecstatic, to exult
 cowboy	noun m	post-1990 spelling of cow-boy
@@ -1181,7 +1126,6 @@ sans faute	adv	without fail, for sure, definitely
 en cause	adp	involved, implicated, party to
 en un sens	adv	in a way, kind of, sort of
 à cœur	adp	to the core, all the way through, thoroughly; in the core
-ce fut un plaisir	phrase	it was a pleasure
 gros poisson	noun m	big fish
 en la matière	adv	in this matter, in this field, in this area
 chaine	noun f	post-1990 spelling of chaîne
@@ -1246,14 +1190,13 @@ rousseur	noun f	redness, russet colour
 prime	adj	first
 yumi	noun m	yumi (Japanese longbow)
 faire froid	verb	to be cold
+buvant	adj	drinking
 sur la pointe des pieds	adv	on tiptoe (moving carefully; discreetly)
 en finir	verb	to put an end to something, usually something unpleasant | to get rid of someone, to kill someone | to commit suicide
 peur bleue	noun f	terror, strong fear
-non mais	intj	honestly! well, really! do you mind! (used to express indignation)
 de toujours	adj	lifelong, very old
 demander pardon	verb	to ask for forgiveness, to apologise to | to beg (someone's) pardon (to enquire whether one has heard something right)
 de fond	adj	in-depth | background | long-distance, endurance
-la honte	intj	what a disgrace! how disgraceful! | that's pathetic! how awful!
 à en juger par	adp	judging by, in light of, given
 à l'idée de	adp	at the thought of, at the idea of
 sur le pont	adp	on deck | at the ready; on duty, on deck
@@ -1437,7 +1380,6 @@ du diable	adj	a hell of a, hellish, huge
 de choc	adj	shock (relational)
 en présence de	adp	in the presence of, before (someone)
 à la dernière minute	adv	at the last minute
-loin de moi	phrase	far be it from me to …! (a disclaimer stating that a person would never do or think a certain thing)
 au chaud	adp	in the warm, warm as toast, warm and cosy
 de par	adv	by the will of; in the name of; by virtue of | on account of; thanks to
 damnation	noun f	damnation
@@ -1554,7 +1496,6 @@ del	noun m	Délire.
 fat	adj	conceited
 insouciance	noun f	insouciance, unconcern; carelessness, recklessness
 exaltation	noun f	exaltation
-prière de	phrase	please; used to make formal requests, especially in impersonal contexts such as signage
 file d'attente	noun f	queue
 du moins	adv	at least
 en direct	adv	directly | live (in real time)
@@ -1562,16 +1503,13 @@ au juste	adv	exactly, precisely
 mariage homosexuel	noun m	gay marriage | gay wedding
 de rêve	adj	dream; ideal; idealized
 sans problème	adv	easily
-comme quoi	phrase	it goes to show (this recent fact or result confirms what we always thought)
 pour ma part	adv	as for me
 à volonté	adp	ad libitum, at will
 tout au plus	adv	at most, tops, at the very most, at the outside
 au milieu de nulle part	adv	in the sticks, in the middle of nowhere
 gros chien	noun m	rich person | important person, bigshot, bigwig
-de grâce	intj	please, pray, for the love of God, for God's sake, I beg you
 les mains vides	adv	emptyhandedly
 à l'endroit	adv	the right way up | the right way out | knitwise
-et quelques	phrase	or thereabouts; and change, and a bit over
 honnête homme	noun m	gentleman, respectable man, decent man, good man
 aux commandes	adj	at the helm, in the driver's seat
 à l'air	adp	naked, uncovered, out
@@ -1747,13 +1685,11 @@ en béton	adj	watertight, rock solid
 rêve américain	noun m	American Dream
 en aucune manière	adv	under no circumstances, on no account; by no means
 faire comme si	verb	to pretend, to do as if
-mieux que rien	phrase	better than nothing
 rupture de stock	noun f	stockout
 à perpétuité	adj	lifelong, for life
 en lieu sûr	adv	in a secure location, in a safe place, safe
 et encore moins	adv	much less, let alone
 traité de paix	noun m	peace treaty
-bonnes vacances	intj	have a good holiday! enjoy your vacation!
 à profit	adv	at a profit
 en mal	adv	negatively, unfavorably
 par avance	adp	in advance; beforehand
@@ -1962,7 +1898,6 @@ bel et bien	adv	well and truly
 bouche bée	adv	open-mouthed, agape
 bouche bée	adj	open-mouthed
 point final	noun m	period, full stop
-point final	intj	period, full stop
 comme deux gouttes d'eau	adv	like two peas in a pod; exactly alike
 comme tout	adv	very, extremely, as all get-out
 sur le papier	adv	on paper, in theory
@@ -1975,14 +1910,12 @@ si bien que	sconj	so much so that
 à bout de souffle	adj	breathless, out of breath | on one's last legs
 à la rue	adj	on the street, without a home, homeless
 joconde	noun f	Mona Lisa
-pauvre de	phrase	poor old
 grand jour	noun m	big day (a day on which something significant happens)
 à dire la vérité	adv	to tell the truth, to be completely honest, to be completely frank
 mauvais garçon	noun m	bad boy (man of a rebellious nature, which tends to make him dangerous and/or attractive)
 nouvelles technologies	noun f	new technologies | digital technologies
 mort de faim	adj	on the prowl, super horny, thirsty, eager for sex, sexually frustrated
 être vivant	noun m	living being, living thing (something that lives, as opposed to being inanimate or dead)
-plutôt mourir	intj	not a chance! no way! not in a million years! absolutely not!
 un jour ou l'autre	adv	one day, one of these days
 sortir ensemble	verb	to go out (to have a romantic relationship with each other)
 dans les pommes	adj	unconscious
@@ -2189,17 +2122,14 @@ pour ne pas dire	sconj	not to say, if not
 les tiens	pron	masculine plural of le tien; yours
 tout au moins	adv	at the very least, at a minimum | in any case, at any rate, either way, anyway
 grasse matinée	noun f	sleep-in, lie-in (period spent lying in bed for longer than usual)
-ça va bien	phrase	I'm fine, I'm alright
 hors sujet	adj	off-topic
 cheveux blancs	noun m	silver-haired person
 croire sur parole	verb	to take someone's word for it, to take someone at their word
-ça alors	intj	well, I never! well blow me down! my goodness! my word!
 bonnes manières	noun f	good manners
 mot à mot	noun m	word-for-word translation, verbatim translation
 partie intégrante	noun f	part and parcel of
 à ravir	adv	beautifully, to a tee (perfectly)
 au large	adv	offshore, out to sea
-du calme	intj	quiet! calm down!
 dans le rouge	adj	in the red, overdrawn
 hors de propos	adj	beside the point, irrelevant, out of place
 perdre patience	verb	to lose patience, to lose one's patience
@@ -2313,6 +2243,7 @@ connivence	noun f	connivance
 surfeur	noun m	surfer (someone who rides waves) | surfer
 ratatiner	verb	to shrink, shrivel | to shrivel (up) | to badly damage, wreck, to destroy | to kill
 oscar	noun m	Récompense américaine du monde du cinéma créée en 1927 (nom déposé comme marque).
+mat'	noun m	morning
 muscu	noun f	bodybuilding
 effondré	adj	Extrêmement déçu, consterné.
 vidé	adj	Épuisé.
@@ -2440,12 +2371,10 @@ faire chaud	verb	to be hot (of the weather)
 de mieux en mieux	adv	better and better
 se passer de	verb	to do without, dispense with
 grec moderne	noun m	Modern Greek
-pile ou face	phrase	heads or tails ("tails or heads")
 pas japonais	noun m	stepping stone (stone used to cross something)
 de fait	adv	indeed
 en rang	adv	in a row (consecutively)
 à deux doigts	adv	by a hair's breadth
-bonne fête	intj	happy birthday | happy name day
 à votre service	adp	At your service
 mauvais perdant	noun m	sore loser, poor sport
 comme si de rien n'était	adv	as if it were nothing, as if nothing had happened
@@ -2459,7 +2388,6 @@ en l'honneur de	adp	in honour of | on the occasion of
 toucher un mot	verb	to have a word
 de un	adv	first, first up
 du moment que	sconj	as long as; provided (that)
-meilleurs vœux	intj	best wishes! happy New Year!
 sans relâche	adv	relentlessly, tirelessly
 à l'occasion de	adp	on the occasion of
 à pic	adv	at just the right moment, just at the right time, just when needed, in a timely fashion
@@ -2467,10 +2395,8 @@ sans relâche	adv	relentlessly, tirelessly
 à la demande	adp	on demand, on request, to order
 aux yeux de	adp	in the eyes of
 de long en large	adv	back and forth, to and fro
-bonne route	intj	safe travels!
 en profondeur	adv	in depth, completely, thoroughly, from top to bottom
 poste de travail	noun m	workstation (area for a single worker) | workstation (type of computer)
-tu peux parler	intj	look who's talking! you're one to talk! you can talk! says the one!
 au noir	adp	off the books, cash in hand, undeclared
 art abstrait	noun m	abstract art
 shanghaïen	adj	Shanghainese
@@ -2490,14 +2416,11 @@ en flèche	adj	sweptwing
 en flèche	adp	rapid; rapidly
 en temps de	adp	in times of
 maîtresse d'école	noun f	schoolmarm
-ça craint	phrase	It's lame; it sucks
-il faut le faire	phrase	it takes some beating! that's something! imagine that! that's impressive!
 en état d'ivresse	adj	under the influence, intoxicated, drunk
 jusqu'à l'os	adv	to the bone, to the core
 dans la mouise	adp	in the soup, in a fix, in a pickle, in trouble
 double vie	noun f	double life (existence or life that has two aspects, particularly when one of them is regarded as embarrassing, immoral, or unlawful and thus kept hidden from a person's family, friends, and work colleagues)
 dans le vent	adp	in vain (without result)
-si tu savais	intj	if you only knew
 sinistre	noun m	accident, incident | disaster
 garant	noun m	guarantor | surety
 plaidoyer	noun m	speech for the defence | plea
@@ -2831,7 +2754,7 @@ hystérique	noun mf	Personne qui témoigne d’une grande nervosité, d’une ex
 labour	noun m	cultivation, ploughing
 précieusement	adv	preciously; carefully
 singulièrement	adv	singularly | on one's own | alone (exclusive of others) | in particular, especially
-prompt rétablissement	intj	get well soon, a phrase expressing hope that the listener will soon recover from physical illness
+voyageant	adj	travel-hungry
 à juste titre	adv	justly, rightly (so), justifiably
 à base de	adp	-based; made up of; made out of
 mal à propos	adv	inappropriately
@@ -3168,7 +3091,6 @@ running	noun m	running shoe
 inter	noun f	Intervention.
 inter	noun mf	Avant placé entre un ailier et l’avant-centre.
 inter	noun mf	Intersexe.
-all right	intj	D’accord.
 oraison	noun f	oration | orison, meditative prayer
 répétitif	adj	repetitive
 plastic	noun m	plastic explosive
@@ -3326,7 +3248,6 @@ de pire en pire	adv	worse and worse
 se casser	verb	to get lost, go away, leave
 grec ancien	adj	Ancient Greek (language)
 prise de courant	noun f	outlet (wall-mounted socket)
-à la vôtre	intj	cheers (used as a toast to drinking)
 mal de gorge	noun m	sore throat
 sur le bout de la langue	adj	on the tip of one's tongue (known but not quite remembered)
 avoir du mal	verb	to have a hard time, to have difficulty
@@ -3336,7 +3257,6 @@ avant peu	adv	before long
 comme il se doit	adv	as expected
 en carton	adj	of poor quality | lacking sustenance; pathetic; bogus
 catherine	noun f	chamber pot
-à vos marques, prêts, partez	intj	on your mark, get set, go!
 passer à autre chose	verb	to move on
 sans compter	adp	to say nothing of, not to mention
 sans compter	adv	lavishly
@@ -3392,7 +3312,6 @@ sur le dos de	adp	at the expense of
 sommeil profond	noun m	deep sleep
 de haut rang	adj	high-ranking, high-level
 à la sauce	adp	a la, in the style or manner of
-là où ça fait mal	phrase	where the shoe pinches, wherein lies the rub
 oreille musicale	noun f	ear for music
 dans l'espoir de	sconj	in the hope of
 faire bien	verb	to look stylish
@@ -3400,7 +3319,6 @@ en sous-main	adv	in a hole-and-corner manner, on the sly
 compte à régler	noun m	account to settle
 pauvre con	noun m	jerk; loser
 nuit noire	noun f	total darkness
-le fait est que	phrase	the fact of the matter is that
 à sa façon	adp	in one's own way
 sans issue	adj	dead-end | dead-end, impossible, no-win
 à la folie	adv	passionately, madly
@@ -3948,19 +3866,16 @@ renter	verb	to endow
 communicateur	noun m	communicator (one who communicates)
 maîtrisé	adj	Dont on s’est rendu maître.
 au violon	adv	in the clink; in jail
-que dalle	phrase	sod all, naff all, jack shit (nothing)
 de passage	adj	passing through, passing by
 chute libre	noun f	freefall | freefall
 bête comme ses pieds	adj	Very stupid; dumb as an ox; dumb as a doorknob
 vieux jours	noun m	old age (of a person)
 boîte manuelle	noun f	boîte de vitesses manuelle — manual transmission
 qui ne risque rien n'a rien	proverb	God hates a coward; nothing ventured, nothing gained; no pain, no gain
-mais oui	intj	of course
 nom d'emprunt	noun m	pseudonym, alias
 casser les pieds	verb	to annoy
 avoir envie	verb	to want | to want, to desire (sexually) | to feel like, to want to | to feel an urge
 quitte à	adp	since, given that | at the risk of, however much | even if it means to
-à la tienne	intj	cheers, here's to you (used as a toast to drinking)
 à l'affût	adj	on the lookout
 dernier cri	noun m	the dernier cri, the very latest thing, the last word in something
 à bout portant	adv	at point-blank range, point blank
@@ -3977,7 +3892,6 @@ moyen de transport	noun m	means of transportation
 en trombe	adv	like a whirlwind, quickly and violently; brusquely
 à pas de géant	adv	by leaps and bounds
 plan de travail	noun m	work plan, schedule | worksurface
-il est quelle heure	phrase	what time is it?
 outaouais	adj	of Outaouais
 en proie à	adj	in the grip of; prey to; affected by
 au bout du rouleau	adj	exhausted, on one's last legs, at the end of one's tether | broke, ruined
@@ -3988,20 +3902,16 @@ file indienne	noun f	single file, Indian file
 yidiche	adj	post-1990 spelling of yiddish
 mal en point	adj	in a bad state, unwell, ailing, beleaguered
 sur le tas	adv	on-the-job, on the job
-de mal en pis	phrase	from bad to worse, worse and worse
 sur un coup de tête	adv	on a whim, rashly, impulsively, on impulse, on the spur of the moment
-pas trop tôt	phrase	about time!
 en connaissance de cause	adv	knowingly, knowing all the facts, with full knowledge of the facts, with one's eyes open
 tout haut	adv	aloud, out loud
 jusqu'à nouvel ordre	adv	until further notice
 partie de plaisir	noun f	cake walk, piece of cake, bed of roses
 douche froide	noun f	let-down, disappointment; rude awakening, cold shower
-bas les pattes	intj	hands off! paws off! mitts off!
 en cours de route	adv	in midstream, along the way, halfway through, partway through
 en chœur	adv	in chorus
 courir le risque	verb	to run the risk
 à bout de nerfs	adj	at the end of one's tether, at the end of one's rope, at one's wit's end
-aux armes	intj	to arms!
 de bon cœur	adv	with good grace, willingly, cheerfully, gladly
 faire la paix	verb	to make peace
 tirer parti	verb	to take advantage of, to make the most of, to cash in on, to turn to good account
@@ -4015,11 +3925,8 @@ premier degré	noun m	literal sense, literal meaning, face value
 au large de	adp	off the coast of
 tour de passe-passe	noun m	sleight of hand, fiddle, trick
 ticket de caisse	noun m	cashier's receipt, till receipt
-le plus clair de	phrase	most of, the greater part of
 en rester là	verb	to call it quits, to leave it at that, to stop
-haut les mains	intj	hands up! stick 'em up! reach for the sky!
 faire irruption	verb	to barge in, to burst in
-voilà tout	intj	that's all, there you have it
 faire aller	verb	to pull someone's leg, to fool, usually as a joke
 sang bleu	noun m	blue blood (noble or aristocratic ancestry)
 quoi qu'il en coûte	adv	whatever it costs, whatever the cost, whatever it takes
@@ -4037,15 +3944,11 @@ roi des oiseaux	noun m	king of birds (the eagle)
 bouteille à la mer	noun f	message in a bottle | desperate cry for help, SOS; hopeless attempt, last-ditch attempt
 strict minimum	noun m	bare minimum
 illico presto	adv	pronto, right away
-rien à branler	phrase	I don't give a fuck!
 tant que tu y es	adv	while you're at it
 au vol	adv	while an object is still moving through the air, in flight | on the fly
 à un moment donné	adv	at some point, at a certain point, at a given time; at one time or another
-tout ou rien	phrase	all or nothing
 en état de marche	adj	in working order, functional, working
-au plaisir	intj	see you!
 tête à tête	noun	dated spelling of tête-à-tête
-de quel droit	phrase	by what right …?
 à l'effet de	adp	in order to, for the purposes of
 homme d'action	noun m	man of action; go-getter
 par amour	adv	out of love
@@ -4056,7 +3959,6 @@ pain quotidien	noun m	daily bread (all those things, such as regular food and wa
 deuxième chance	noun f	second chance (opportunity to redeem oneself after a previous error or failure)
 coûter la vie	verb	to cost (someone) their life, to take (someone's) life, to claim (someone's) life, to cause (someone's) death
 à la hausse	adp	upwards
-je suis français	phrase	I am French
 en huit	adp	a week … (not of this week, but of next week)
 prendre la main	verb	to take the helm | to take control, to take over
 malade mental	noun m	madman, fool | mentally ill person
@@ -4068,10 +3970,8 @@ de fou	adp	like crazy; like hell
 famille nombreuse	noun f	large family
 staline	noun m	A glass of red wine.
 en attente	adj	pending | on hold
-va te faire voir	phrase	get lost!
 au black	adp	synonym of au noir (“off the books, cash in hand, undeclared”).
 magasin à un dollar	noun m	dollar store
-si vous saviez	intj	if you only knew
 historiquement	adv	historically
 vitrer	verb	to glaze, fit with glass, install a glass pane in
 samaritain	noun m	samaritan | Samaritan
@@ -4206,7 +4106,6 @@ intouchable	noun mf	pariah
 électriser	verb	to electrify (charge with electricity)
 libertin	noun m	libertine
 napper	verb	to cover (to cover something with sauce)
-mea culpa	intj	mea culpa
 mea culpa	noun m	Expression de reconnaissance de la faute qu’on a commise.
 loufoque	adj	crazy; wild, free
 sororité	noun f	sisterhood (state of being sisters)
@@ -4922,6 +4821,7 @@ fibrille	noun f	fibril
 gisant	adj	lying (in a horizontal position)
 entêté	noun m	Celui qui s’entête.
 a priori	adj	intuitively known, a priori
+flippant	adj	worrying; scary
 mot juste	noun m	exactly the right word or phrasing
 parker	verb	to park (a vehicle)
 à l'infini	adv	infinitely; endlessly
@@ -4931,7 +4831,6 @@ croissance exponentielle	noun f	exponential growth
 fête champêtre	noun f	fête champêtre
 ligne de conduite	noun f	a conduct; an attitude, a course of action, a line of thought, occupation or policy
 rapide comme l'éclair	adj	quick as a flash
-quelle horreur	intj	that's terrible, how horrible, isn't that awful
 jour pour jour	adv	to the day
 de plein fouet	adv	With a direct or harsh hit, harshly
 ossements	noun m	bones, denuded of flesh
@@ -4941,7 +4840,6 @@ par contumace	adv	in absentia (while not present)
 dans le courant de	adp	in the course of
 au fil de	adp	in the course of, over the course of
 patrice	noun m	patrician
-tout le plaisir est pour moi	phrase	the pleasure is all mine, my pleasure
 à cet effet	adv	to this end, to that end (therefore)
 sans conteste	adv	no doubt, without doubt, without question, hands down
 terre à terre	noun m	that which is concerned with practical day-to-day life | a pace of a horse
@@ -4955,13 +4853,10 @@ mise en garde	noun f	caution, admonition, warning; trigger warning
 en cloque	adj	knocked up, up the duff
 anticrénelage	noun m	anti-aliasing
 à l'œuvre	adj	at play, at work, in action, operating
-oh là là	intj	Expression of surprise. | Expression of sympathy or concern.
 à condition de	adp	subject to, under the condition of
-bordel de merde	intj	fucking hell
 bras dessus, bras dessous	adv	arm in arm
 avoir bon	verb	to be very happy; to be stoked, psyched | to be right
 à l'anglaise	adv	the English way, in the English fashion, manner, or custom | served with no sauce | served only with melted butter | coated by dipping in flour, egg, and breadcrumbs
-bonne matinée	intj	Have a good morning (a phrase uttered upon a farewell)
 dans le coup	adj	in the loop; fashionable, hip, with it
 adèle	noun f	fairy longhorn moth (of the genus Adela)
 67	adj	synonym of cishet
@@ -4985,12 +4880,9 @@ avoir de la gueule	verb	to look nice, great; to be impressive
 à grande échelle	adp	large-scale; on a large scale
 mauvaise foi	noun f	bad faith
 en trop	adp	in excess, left, extra, too much, too many | useless, disposable, unnecessary | not wanted, out of place, undesirable, disapproved of, at odds with one setting; (also) annoying, bothersome, embarrassing
-pas touche	intj	hands off! paws off! mitts off!
 jambe de bois	noun f	a peg-leg, a wooden leg | a knee blow to the thigh
-pour quoi faire	phrase	why? what for? to what end?
 au profit de	adp	to the benefit of, for the benefit of, in favour of; in aid of
 à la ronde	adv	around
-dis donc	intj	wow; my | so; listen up
 nuit et jour	adv	day and night (all the time, unceasingly)
 pas d'armes	noun m	passage of arms; joust; tilt; tourney
 de coutume	adj	customary, usual
@@ -5009,13 +4901,11 @@ mot magique	noun m	magic word | the use of "please" (s'il vous plaît / s'il te 
 tirer profit	verb	to take advantage of, to make the most of, to turn to good account
 faire montre	verb	to evince, to show, to demonstrate, to display
 de mise	adj	proper, appropriate, conventional; required, necessary
-cause toujours	phrase	carry on, keep going, keep talking, fascinating!
 à coup de	adp	alternative spelling of à coups de
 sans domicile fixe	noun m	a homeless person
 prise de position	noun f	stance, stand, statement
 mettre en garde	verb	to warn, to alert, to caution
 demain est un autre jour	proverb	tomorrow is another day
-bon lui semble	phrase	one sees fit
 bras cassé	noun m	a lame duck, a good-for-nothing, an incompetent person
 battre la chamade	verb	to beat wildly, to pound furiously
 aux normes	adj	conform to standards, up to standard, in order
@@ -5026,20 +4916,17 @@ de marbre	adj	impassive, cold, unmoved, stony-faced, expressionless
 seconde nature	noun f	second nature
 à plein régime	adv	at full capacity, flat-out, full-bore
 en beauté	adv	brilliantly, with a flourish
-au nom du ciel	intj	in heaven's name!
 de rien du tout	adj	tiny, paltry, insignificant
 échelle de corde	noun f	rope ladder
 de renom	adj	renowned
 sur la défensive	adj	on the defensive, on the back foot
 la nuit porte conseil	proverb	sleep on it! (it's better to examine things in the cold light of day)
-au temps pour moi	intj	my bad, my mistake, silly me, I stand corrected
 à vomir	adj	nauseating, disgusting, revolting
 face cachée	noun f	the hidden side of a celestial body | the hidden side, the hidden face (of something); the dark side (of something)
 en avance sur son temps	adj	ahead of one's time
 hors de prix	adj	outrageously expensive, prohibitively expensive, unaffordable
 colère noire	noun f	great anger, rage, fury
 passer le mot	verb	to spread the word
-ben voyons	intj	I'll bet! well, well! come on! yeah, right! what a coincidence! (used ironically to indicate disbelief of a statement) | come on! good grief! sheesh! (used to agree with another speaker's incredulity or dismay)
 contrôleur aérien	noun m	air traffic controller, ATC
 à l'antenne	adj	on the air, on air
 en rogne	adj	angry, mad
@@ -5050,7 +4937,6 @@ en aucune façon	adv	under no circumstances, on no account
 drogue douce	noun f	soft drug, recreational drug
 minute de silence	noun m	a moment of silence, minute's silence
 y passer	verb	to kick the bucket
-bien essayé	intj	nice try, good try
 à l'affiche	adj	showing, playing
 tas de ferraille	noun m	rustbucket, bucket of bolts (old, neglected vehicle)
 monsieur je-sais-tout	noun m	know-it-all
@@ -5064,7 +4950,6 @@ après réflexion	adv	on second thought; all things considered
 passer inaperçu	verb	to go unnoticed, to pass unnoticed, to escape notice
 du coin de l'œil	adp	out of the corner of one's eye
 peur du vide	noun f	acrophobia, fear of heights; vertigo
-quitte ou double	phrase	double or quits, double or nothing
 petits yeux	noun m	a tired look
 retour à la case départ	noun m	back to square one, back to the beginning
 à livre ouvert	adv	off the cuff, without preparation | in all transparency, with absolute transparency
@@ -5076,10 +4961,7 @@ attendu que	sconj	given that
 par miracle	adv	by some miracle, miraculously
 cas social	noun m	problem case | socially disadvantaged person | problem person; dropout | social misfit, socially awkward person; loser, sadcase
 rendre des comptes	verb	to be answerable, to be accountable, to account, to justify oneself
-dans ta gueule	intj	in your face! (an exclamation that a bad thing happened to someone who deserved it)
-force est	phrase	one must...
 cœur d'or	noun m	heart of gold, kindheartedness, goodheartedness
-marché conclu	intj	it's a deal! deal!
 à ce que je vois	adv	from what I can see, it looks to me like...
 wokisme	noun m	wokeism
 par définition	adv	by definition
@@ -5097,16 +4979,10 @@ dans le cadre de	adp	within the scope of, within the framework of, as part of
 sous l'effet de	adp	under the effect of, under the influence of
 de commun	adv	in common
 de source sûre	adv	from good hands, from a reliable source
-à toi de voir	phrase	it's up to you, it's your call, it's your choice, you decide
-qui va là	phrase	who goes there? (a sentry's challenge to an intruder)
 abri de jardin	noun m	garden shed
-quoi encore	intj	Indicates the speaker's impatience at being faced with the return of someone or something they believed settled: what now? now what? what is it now? what is it this time?
 dans les moindres détails	adv	in great detail, in minute detail, in every detail, down to the very last detail, down to the smallest detail, minutely
-œil pour œil	phrase	an eye for an eye
 à risque	adj	risky, high-risk, which places someone at risk
-à toi de jouer	phrase	it's your turn, it's your go | it's up to you now
 tant et plus	det	many, much
-va te faire enculer	intj	go fuck yourself!, fuck off!, get fucked!, fuck you!
 pompes funèbres	noun f	undertaker's, funeral home, funeral parlour
 à la pièce	adp	each, per piece, loose (not packaged) | on a piecework basis
 dans le cas de	adp	in the case of, when it comes to, as for, regarding, concerning
@@ -5120,7 +4996,6 @@ tête de liste	noun f	top of the list | chief candidate
 grande école	noun f	grande école
 dans le fond	adv	back there, in the back; in the background | when you look at it closely, all things considered; in effect, essentially, basically, fundamentally
 communauté européenne	noun f	European community
-vrai de vrai	intj	really (used when you want to emphasize that something is true)
 vrai de vrai	noun m	lout, bandit, thug | real (used to insist on the fact that something or someone has all the characteristics to be called in some way)
 marée montante	noun f	flood tide, rising tide
 de mauvais goût	adj	in bad taste
@@ -5133,12 +5008,9 @@ mauvaises manières	noun f	bad manners
 grand âge	noun m	extreme old age
 gros bras	noun m	heavy; butch person
 par moments	adv	sometimes
-sans plus	phrase	so-so, nothing to write home about
 se bourrer la gueule	verb	to get wasted, to get hammered, to get shitfaced
 chiffe molle	noun f	pansy
 troisième ligne	noun mf	back row
-ça mord	phrase	something is biting; is something biting?
-peu me chaut	intj	it matters not; it doesn't matter; I don't care; little matter
 ou sinon	sconj	otherwise, (or) else
 pouet	noun m	the sound of a horn, as from a car, clown, etc.
 pouet	adj	ugly, disgusting
@@ -5268,6 +5140,7 @@ opprobre	noun m	opprobrium, infamy
 sérénissime	adj	very serene | majestuous, very noble | qualifies the Republic of Venice
 ballot	adj	silly | regrettable
 go	noun f	girlfriend | girl, chick
+champ'	noun	champagne, champers
 inséminer	verb	to inseminate | to impregnate
 moiteur	noun f	wetness, dampness | sweat
 neutralisation	noun f	neutralisation
@@ -6215,7 +6088,6 @@ gaélique écossais	noun m	Scots Gaelic, Scottish Gaelic
 idée fixe	noun f	idée fixe
 chuis	other	I am, I'm
 par excellence	adj	par excellence, quintessential, ultimate
-à la bonne heure	intj	General expression of approval: splendid! that's the spirit! that's great!
 à la bonne heure	adv	at the right time | timely; opportunely; à propos
 cuillère en bois	noun f	wooden spoon (implement) | wooden spoon (prize for coming last)
 myope comme une taupe	adj	blind as a bat
@@ -6229,7 +6101,6 @@ pur et dur	adj	extreme, hard-line, uncompromising | archetypal, exemplary | pur 
 coup de pouce	noun m	helping hand
 sur le cul	adj	floored, flabbergasted, flummoxed
 à la pointe	adj	at the cutting edge, at the forefront
-bleu, blanc et rouge	phrase	the colors of the French flag | Montreal Canadiens ice hockey club | the colors of the American flag
 prou	adv	a lot; enough
 second degré	noun m	sense of irony, lack of seriousness; offbeat humour
 ladite	det	feminine singular of ledit
@@ -6243,9 +6114,7 @@ petit coin	noun m	loo (toilet)
 mycose	noun f	mycosis
 auberge espagnole	noun f	potlatch, potluck (shared meal consisting of whatever guests have brought) | hodgepodge; melting pot
 terre ferme	noun f	terra firma
-deux poids, deux mesures	phrase	double standard
 en tenue	adj	dressed (in a specified way) | in uniform
-à ta santé	intj	cheers lit. "to your health" (used as a toast to drinking)
 coup bas	noun m	blow below the belt, low blow (unfair or illegal blow that lands below the opponent’s waist) | low blow, cheap shot (any attack that is considered unfair or unscrupulous)
 du fil à retordre	noun m	a hard time, some difficulties
 ovovivipare	adj	ovoviparous
@@ -6271,7 +6140,6 @@ avec brio	adv	brilliantly | with verve; with panache
 flavien	adj	Flavian
 menu fretin	noun m	small fry
 à demi-mot	adv	half-spoken, in a way that is hinted at
-motus et bouche cousue	intj	mum's the word | one's lips are sealed
 astre du jour	noun m	the sun
 en marge de	adp	on the fringes of, outside the jurisdiction of
 appel d'offres	noun m	invitation to tender, request for tender(s), call for tender(s), request for proposal
@@ -6285,6 +6153,8 @@ avoir affaire à	verb	to have to deal with
 sous peine de	adp	or else, otherwise; on pain of
 langue de bois	noun f	wooden language, waffle (speech that is vague, pretentious or evasive) | cant (empty hypocritical talk)
 à la va-vite	adv	in a rushed manner, hastily and perfunctorily
+soulevant	adj	rousing
+toé	pron	you, thee: alternative form of toi
 crime passionnel	noun m	crime of passion, crime passionnel
 objet direct	noun m	direct object
 chambre forte	noun f	strongroom, vault
@@ -6298,11 +6168,10 @@ amazighophone	noun mf	Berberophone
 fleurdelisé	noun m	flag of Québec
 méthanique	adj	methanic
 devoir surveillé	noun m	test, examination
-faites vos jeux	phrase	place your bets, faites vos jeux (call made by the croupier)
 en pied	adj	full-length, en pied
 revers de la médaille	noun m	the flipside (a necessary consequence), the downside
-trois fois rien	phrase	next to nothing (very little)
 népète	noun f	nepeta
+çui	pron	contraction of celui
 tenir rigueur	verb	to blame, to hold (something) against (someone), to hold a grudge against
 sur le pouce	adp	on the go, on the run, on the hoof
 têtu comme une mule	adj	stubborn as a mule
@@ -6330,7 +6199,6 @@ foncedé	adj	very drunk, screwed up
 foncedé	noun m	stoner, druggie
 grand monde	pron	a lot of people
 grand monde	noun m	smart set, high society | adult
-bien à toi	intj	best, regards, all the best (used at the end of a casual letter)
 faire de la peine	verb	to upset, to hurt, to pain, to hurt (someone's) feelings | to look pitiful, to be pathetic [with à ‘to someone’] (idiomatically translated as English feel sorry for with subject and object reversed)
 en bonne et due forme	adp	in due form, in form, by the book, according to Hoyle
 petite bite	noun f	pansy, chickenshit (person with little courage or bravery)
@@ -6363,9 +6231,6 @@ en qualité de	adp	as, in one's capacity as
 voir venir	verb	to see coming | to wait and see how the wind is blowing
 dame blanche	noun f	a type of dessert resembling the sundae | a kind of female spirit or supernatural being, reported in the region of Lorraine and Normandy
 embarras du choix	noun m	embarrassment of riches (overabundance of possibilities, so that choosing becomes difficult)
-tu veux rire	intj	you gotta be joking! you must be kidding!
-vous voulez rire	intj	you gotta be joking! you must be kidding!
-si tu le dis	intj	if you say so
 se salir les mains	verb	to get one's hands dirty (to be personally involved in nefarious acts rather than using an intermediary)
 si ma mémoire est bonne	adv	if memory serves, if my memory serves me correctly
 de gré à gré	adv	by mutual agreement, by mutual consent; by private treaty, over-the-counter, out-of-court, amicably
@@ -6375,14 +6240,12 @@ dans toute sa splendeur	adv	in all one's glory, in all one's splendour
 à vif	adj	skinless, skinned, raw, bared | open | on edge, uptight
 au quotidien	adv	on a daily basis, daily, every day
 en long et en large	adv	in detail, in minute detail, at length, at great length
-du balai	intj	hop it! shoo! begone! push off! on your bike!
 de bon gré	adv	with good grace, willingly, cheerfully, gladly
 des vertes et des pas mûres	noun f	harsh words, shocking remarks; ugly sights; things that are difficult to digest
 comme on fait son lit on se couche	proverb	as you make your bed, so you must lie in it
 à raison	adv	with good reason, rightly, understandably
 par le biais de	adp	by way of, by means of, with | through, with the help of, thanks to
 au travers de	adp	by way of, by means of, with, using, through
-grands dieux	intj	good heavens! good grief! goodness me!
 en quantité	adp	in plenty, aplenty, galore, abundantly, in abundance, in quantity
 dans tous ses états	adj	in a flap, in a state, beside oneself, very agitated
 à l'impossible nul n'est tenu	proverb	nobody can be expected to achieve the impossible
@@ -6397,7 +6260,6 @@ sans queue ni tête	adj	nonsensical
 courte échelle	noun f	leg up
 couru d'avance	adj	foregone, predictable
 prendre de la hauteur	verb	to gain height, to go up | to get an overview, to get some distance, to take a step back, to put things into perspective
-du nerf	intj	go on! give it some welly! put some welly into it! buck up!
 à cœur ouvert	adj	open-heart
 à cœur ouvert	adv	frankly, open-heartedly, with an open heart
 à quai	adj	docked, at the quayside | standing at the platform
@@ -6417,14 +6279,11 @@ jusqu'au sang	adv	hard enough to draw blood, until you draw blood
 nouvelle vague	noun f	new wave, nouvelle vague
 tournée générale	noun f	round (an instance of buying drinks to everyone in a bar)
 à bon vin point d'enseigne	proverb	good wine needs no bush
-et puis quoi encore	intj	what more do you want – jam on it? oh yeah, and what else? anything else? is that all? (used ironically, when someone asks too much, with the meaning "not a chance I'm going to do that!")
 hausser le ton	verb	to raise one's voice
 point d'eau	noun m	water point, water source, watering place, watering hole
 fauché comme les blés	adj	broke, skint (lacking money; bankrupt)
 ouverture d'esprit	noun f	open-mindedness, broad-mindedness
-croix de bois, croix de fer, si je mens, je vais en enfer	phrase	cross my heart and hope to die
 chef de chœur	noun m	choirmaster
-minute papillon	intj	hold your horses! not so fast! hang on!
 drogue dure	noun f	hard drug
 aux côtés de	adp	next to, beside, alongside
 en puissance	adj	potential, possible; would-be, in the making; waiting to happen
@@ -6433,7 +6292,6 @@ centre d'intérêt	noun m	interest, area of interest, center of interest, field 
 à s'y méprendre	adv	exactly alike, like two peas in a pod
 cheveux en bataille	noun m	tousled hairs, dishevelled hairs, scruffy hairs, unkempt hairs, messy hairs
 prendre au mot	verb	to take someone literally, to take someone at their word
-au meurtre	intj	murder! murderer!
 sur écoute	adj	tapped, bugged
 langue de bœuf	noun f	oxtongue, beef tongue
 envoyer des fleurs	verb	to say nice things to, to compliment | to toot one's own horn, to blow one's own horn, to blow one's own trumpet, to pat oneself on the back
@@ -6447,7 +6305,6 @@ part du gâteau	noun f	piece of the pie, slice of the pie
 repris de justice	noun m	convict, offender (person with a criminal record, person who has been convicted of a crime by a judicial body in the past)
 en tout point	adv	in every respect, perfectly, totally, entirely
 haut placé	adj	high-ranking, high-level
-non peut-être	intj	of course, not maybe
 rien de rien	pron	nothing at all
 de son état	adp	by trade, by profession
 tirer sur la corde	verb	to abuse of a situation, to take advantage of someone, of a service that someone offers | to overdo it, to burn the candle at both ends, to push one's luck
@@ -6455,7 +6312,6 @@ pain aux raisins	noun m	pain aux raisins, raisin bread
 comme jamais	adv	like never before
 haut et fort	adv	loud and clear, loudly
 de bonne famille	adj	coming from a family that is considered to be respectable and with traditions
-ça te va bien	intj	look who's talking! you're one to talk! you can talk!
 tenir en échec	verb	to keep in check, to hold in check, to thwart
 tenir la cadence	verb	to keep up, to keep pace
 vie de chien	noun f	dog's life (miserable life)
@@ -6482,7 +6338,6 @@ tisser sa toile	verb	to scheme
 vieille mère	noun m	old female servant in China
 exception qui confirme la règle	noun f	exception that proves the rule
 fibre de carbone	noun f	carbon fiber
-rien à cirer	phrase	I don't give a damn!
 calme olympien	noun m	total composure
 bédave	verb	to smoke bhang
 par la même occasion	adv	at the same time, while one is at it
@@ -6490,7 +6345,6 @@ prendre ses désirs pour des réalités	verb	to engage in wishful thinking, to i
 site de rencontres	noun m	online dating website, dating site
 qui cherche trouve	proverb	seek and ye shall find
 de bouche	adj	catering; food | suitable for direct consumption, without conditioning or preparation
-à prendre ou à laisser	phrase	take it or leave it
 à supposer que	sconj	supposing that, assuming that
 dur en affaires	adj	uncompromising
 en vrai	adv	in real life | actually, in reality, in fact | to be honest, to tell the truth
@@ -6499,16 +6353,13 @@ reprendre contact	verb	to get back in touch; to re-engage
 faire marche	verb	to walk towards, to march to
 langue de vipère	noun f	serpent's tongue, tendency to speak maliciously | person with such a tendency, malicious gossip
 grande profondeur	noun f	deep end (part of a swimming pool with relatively deep water) | deep end (situation where expertise or experience is required)
-au dodo	intj	to bed! off to bed! sleepy time!
 grands airs	noun m	supercilious attitude
 avoir conscience	verb	to be aware of (something), to be aware that …, to know that …
 au carré	adp	with hospital corners | in which the hair is typically cut straight around the head at about jaw-level
-il ne manquait plus que ça	phrase	great, that's just what we needed; that takes the cake; that's the last thing we needed
 vaisseau du désert	noun m	ship of the desert (camel)
 âge de pierre	noun m	Stone Age (broad prehistoric period during which humans widely used stone for toolmaking) | Stone Age (any extremely primitive or undeveloped era)
 pension complète	noun f	full board, American plan
 comble de malheur	adv	to make matters worse, to add insult to injury, to top it all off, to crown it all
-je ne vous dis pas	phrase	and that's not the half of it!
 fin prêt	adj	all ready, good and ready, ready and waiting, all set
 entendre les mouches voler	verb	to be immersed in complete silence
 zone d'exclusion	noun f	exclusion zone
@@ -6516,22 +6367,16 @@ second plan	noun m	background; back burner, backseat
 sauf que	sconj	except, except that, but
 remettre à niveau	verb	to bring up to standard, to bring up to scratch; to brush up on (a skill or subject) | to brush up
 à votre avis	adv	in your opinion
-à votre avis	phrase	what do you think? of course!
 dans la mesure de	adp	according to, as far as … permits
 aller au ciel	verb	to go to heaven, to die
 début de la fin	noun m	beginning of the end
-mon petit doigt me dit	phrase	my gut tells me, my gut is telling me | something tells me, something is telling me
 à des fins de	adp	for the purpose of.
 dès lors que	sconj	from the moment that, since | since, given that
 dans le cas contraire	adv	otherwise, if not
-pieds et poings liés	phrase	bound hand and foot (with one's feet and hands bound) | stuck, unable to do anything, entirely at the mercy of someone else
 combat rapproché	noun m	close combat
 retour à la normale	noun m	return to normal, getting back to normal, return to a normal state of affairs; return to normality
 sept jours sur sept	adv	every day, all the time
 peine de prison	noun f	prison sentence
-qui voilà	phrase	look who's here!
-à vous de voir	phrase	it's up to you, it's your call, it's your choice, you decide
-ça tourne	intj	Rolling! (a verbal confirmation from the cameraman that they are recording)
 bruit de fond	noun m	background noise
 école de langue	noun f	language school
 à plein tube	adv	completely, to the max
@@ -6542,12 +6387,10 @@ sur son trente-et-un	adj	post-1990 spelling of sur son trente et un
 salle des fêtes	noun f	A function hall, a reception hall, a banquet hall, a party hall.
 pour bien faire	adv	ideally
 physique classique	noun f	classical physics
-ainsi va la vie	phrase	such is life, that's life
 prestataire de services	noun m	service provider (an organization that, or individual who, provides services)
 forêt amazonienne	noun f	the Amazon Rainforest (an enormous jungle covering the majority of northern South America, mostly in Brazil)
 poêle à bois	noun m	wood-burning stove, woodstove, wood burner, log-burner (heater or stove that burns wood for fuel)
 à la baisse	adp	downwards
-je suis française	phrase	I am French
 instinct de survie	noun m	survival instinct, instinct of self-preservation
 indétrônable	adj	undethronable
 pansexuel	adj	pansexual
@@ -6567,7 +6410,6 @@ pompe à vélo	noun f	bicycle pump
 dysphorie de genre	noun m	gender dysphoria
 faire connaître	verb	to introduce | to announce oneself, to declare oneself, to identify oneself, to reveal one's identity | to make a name for oneself
 maladie rare	noun f	rare disease
-le bruit court	phrase	rumour has it
 handicapé mental	noun m	mentally handicapped person
 handicapé mental	adj	mentally challenged, mentally handicapped
 en état d'alerte	adj	in a state of alert, on alert
@@ -7999,3 +7841,161 @@ strié	adj	striated | ribbed
 manille	noun f	manille | ring, bracelet (as worn by a slave or convict) | manilla
 crédence	noun f	sideboard, credenza
 racoleur	adj	sensationalist
+clairsemer	verb	to dwindle | to disperse, scatter | to thin out
+manipulable	adj	manipulable
+farineux	adj	floury, mealy
+scratch	noun m	Velcro
+quartet	noun m	quartet
+auriculaire	adj	auricular
+relocalisation	noun f	relocalization
+immanent	adj	immanent
+grippé	adj	Having the flu. (sickness)
+horticulteur	noun m	horticulturist
+vice-consul	noun m	vice-consul
+dévider	verb	to put (string) into a ball | to unwind, spool, reel | to recount, to reel off (a story)
+interdépendance	noun f	interdependence
+renfoncer	verb	to push in etc again
+prédication	noun f	predication | sermon
+encyclopédique	adj	encyclopedic
+ignition	noun f	ignition
+dopant	adj	boosting
+conne	noun f	bitch
+cancérologue	noun mf	oncologist
+isoloir	noun m	booth | voting booth
+validation	noun f	validation
+concoction	noun f	concoction (mixture)
+cuesta	noun f	cuesta
+anatomiquement	adv	anatomically
+vicié	adj	polluted, tainted; vitiated
+dissemblable	adj	dissimilar, unlike
+traçant	adj	that leaves a trace | creeping, growing horizontally near the soil surface
+reniement	noun m	disavowal, denial
+roturier	adj	common; not noble
+palpation	noun f	palpation
+inconséquence	noun f	inconsistency | thoughtlessness
+séant	noun m	sitting position | bottom; behind (of a person)
+escarbille	noun f	a small piece of unburned coal mixed with ashes | a speck of ember that escapes from a fire and floats in the air; floating ember
+piteusement	adv	piteously | miserably
+béatement	adv	blissfully
+tangent	adj	tangential | borderline
+seigneurial	adj	seigneurial
+servilité	noun f	servility
+souverainement	adv	thoroughly, royally, totally, intensely, utterly (extremely) | sovereignly
+lotir	verb	to parcel out (divide into lots)
+maint	det	many
+scandaleusement	adv	grossly, appallingly, scandalously
+poissonneux	adj	full of fish, abundant in fish, fishful
+sternal	adj	sternal
+gisant	noun m	recumbent statue, tomb effigy (relief or statue on the top of a tomb depicting the deceased lying in death)
+truchement	noun m	interpreter, translator | spokesperson | intermediary, means
+enfantement	noun m	childbirth
+inextinguible	adj	inextinguishable | unquenchable; uncontrollable, unstoppable
+insert	noun m	insert
+traineau	noun m	post-1990 spelling of traîneau
+photonique	adj	photonic
+péricardique	adj	pericardial
+interdimensionnel	adj	interdimensional
+mastoc	adj	beefy; hulky
+gadin	noun m	fall
+rationalisation	noun f	rationalisation
+appropriation	noun f	appropriation
+non-initié	noun m	uninitiated
+préservatif	adj	preservative (tending to preserve)
+blase	noun m	name | nose
+quêteur	noun m	quester, seeker
+vahiné	noun f	wahine (Polynesian woman)
+législature	noun f	legislature | term of office, for a legislative body
+piétaille	noun f	foot soldiers; infantry | pedestrians (in a group) | people of low rank or status
+embourgeoiser	verb	to become bourgeois | to gentrify
+désinfectant	adj	disinfectant
+complies	noun f	compline
+biroute	noun f	windsock
+insolemment	adv	insolently
+revancher	verb	to take revenge
+épargnant	noun m	a saver, someone who accumulates financial savings
+abracadabrant	adj	ludicrous, preposterous
+macchab	noun m	stiff, dead body
+fourrier	noun m	forager | quartermaster | harbinger
+cognement	noun m	knocking, pounding
+déboiser	verb	to deforest
+disparité	noun f	disparity
+misaine	noun f	fore | foresail
+habillage	noun m	dressing | lining | preparing (various types of food to be cooked) | skin (set of resources that modifies the appearance)
+identitaire	adj	identity; identitary
+pathétiquement	adv	pathetically
+effarement	noun m	alarm | bewilderment
+naturiste	adj	naturist
+moellon	noun m	rubblestone
+cortical	adj	cortical
+surrénal	adj	suprarenal
+ensabler	verb	to silt up | to strand (on a sandbank or beach)
+bordelais	adj	from Bordeaux
+pansu	adj	potbellied, paunchy
+friterie	noun f	chip shop, fish and chips takeaway | a restaurant that specializes in serving French fries
+chausseur	noun m	shoemaker
+informatif	adj	informative, instructive
+ovarien	adj	ovarian
+juridictionnel	adj	jurisdictional, judicial
+sans-gêne	noun m	sans gêne, shamelessness, brazenness, rudeness (lack of constraint)
+sans-gêne	noun mf	inconsiderate person, shameless person, brazen person, rude person
+tafiole	noun f	faggot, wimp
+rôtisserie	noun f	rotisserie | cooked meat shop or counter
+compensatoire	adj	compensatory
+polytechnicien	noun m	graduate of an École polytechnique
+flonflon	noun m	blare
+sympathisant	adj	sympathetic
+reinette	noun f	reinette (group of apple cultivars)
+grognard	noun m	a grumbler; one who grumbles | an old veteran soldier, specifically an old grenadier of the Imperial Guard (Grenadiers à pied de la Garde Impériale); an old complaining soldier
+paternalisme	noun m	paternalism
+liturgique	adj	liturgic, liturgical
+survivance	noun f	relic, remnant
+shimmy	noun m	shimmy (1920s dance)
+ramifier	verb	to ramify | to divide
+pétrolifère	adj	petroleum/oil; oil-producing
+franchiser	verb	to franchise
+ajourné	adj	adjourned, postponed
+gamba	noun f	large prawn
+paraguayen	adj	Paraguayan
+irisé	adj	iridescent
+retendre	verb	to re-tighten
+authentiquement	adv	authentically
+barème	noun m	scale (used to assess magnitude) | schedule (linking two types of measurement)
+chleuh	noun m	Tashelhit; one of the Berber languages | a German; a kraut | a Chleuh
+lavable	adj	washable
+inexprimé	adj	unspoken, unexpressed
+trappiste	noun f	Trappist beer
+caquètement	noun m	cackle; prattle
+dey	noun m	dey (ruler of the Regency of Algiers)
+sourcilleux	adj	fussy, finicky | beetle-browed
+kilométrique	adj	kilometric | very long, long as one's arm
+sauve-qui-peut	noun m	rout
+fidéicommis	noun m	fideicommissum | trust, living trust; trusteeship
+rentre-dedans	noun m	hitting on, chatting up
+grelottant	adj	shivering, trembling
+impassibilité	noun f	impassivity, impassiveness
+sacerdotal	adj	priestly
+tâcheron	noun m	tasker
+roadster	noun m	roadster (automobile)
+dépenaillé	adj	ragged, tattered
+fauconnier	noun m	falconer (a person who breeds or trains hawks)
+loose	noun f	bad luck; mediocrity, lameness.
+beagle	noun m	beagle (dog)
+jumping	noun m	show jumping (equestrian discipline) | a form of movement in which a body propels itself through the air
+fracturation	noun f	breaking, fracturing
+téléthon	noun m	telethon
+psychiquement	adv	psychically
+emballement	noun m	packing up; packaging
+tutélaire	adj	tutelary | guardian
+grippe-sou	noun m	a penny pincher, scrooge | a skinflint | Someone who likes sordid gains
+inique	adj	iniquitous, unjust
+madère	noun m	Madeira (wine)
+jeunet	adj	very young
+bau	noun m	crossbeam
+nutritionnel	adj	nutritional
+ordination	noun f	ordination
+fainéantise	noun f	idleness
+félonie	noun f	treachery, treason
+spectaculairement	adv	spectacularly, dramatically
+interné	adj	interned
+non-violent	adj	non-violent
+acter	verb	to enact | to note, to take into account

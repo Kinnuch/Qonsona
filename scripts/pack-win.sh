@@ -17,7 +17,8 @@ if [ -d resources/data ]; then
   mkdir -p "$OUT/resources/data"
   cp -r resources/data/. "$OUT/resources/data/"
 else
-  echo "注意：resources/data 不存在，打出来的包没有日语词典（先跑 npm run data:ja）"
+  echo "错误：缺少 resources/data；发布需要全部八语言的九个数据库（运行 node scripts/release/fetch-data.mjs 获取已验证的数据包）" >&2
+  exit 1
 fi
 # 主进程运行时 require 的依赖（electron-vite 把 dependencies 留在包外），连同它们各自的依赖一起拷
 node -e '

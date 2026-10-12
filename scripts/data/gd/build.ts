@@ -4,7 +4,8 @@
  * 然后校验：node scripts/data/run-ts.mjs scripts/lang/validate.ts gd
  *
  * 步骤：下载（.cache/data/gd/，已有的跳过）→ 维基词典词条整理（kaikki.ts）→ 中文释义与盖尔语释义（zh.ts）
- * → 三份语料的词频（freq.ts）→ 分级（levels.ts）→ Tatoeba 例句（examples.ts）→ 写库 → data/gd/zh-todo.txt。
+ * → 三份语料的词频（freq.ts）→ 分级（levels.ts）→ Tatoeba 例句（examples.ts）→ 写库（没有中文的义项按
+ * data/gd/zh-mt.jsonl 自动补，见 scripts/lang/mt.ts）。
  * 来源与许可见 sources.ts 与 docs/lang/gd.md。
  */
 import { writeFileSync } from 'node:fs'
@@ -16,10 +17,12 @@ import { readTatoeba } from './examples'
 import {
   FormIndex,
   WEIGHTS,
+  arcosgSentences,
   combine,
   countArcosg,
   countForms,
-  countWikiForms,
+  countPhraseKeys,
+  countWiki,
   readLearnGaelic
 } from './freq'
 import {
@@ -132,12 +135,28 @@ log(`多词条目里不单独成词的一段挂成词形：${parts} 个（mu dhe
 // ───────────────────────── 词频 ─────────────────────────
 
 const index = new FormIndex(entries)
-const arc = countArcosg([files.udTrain, files.udDev, files.udTest], index)
+const udFiles = [files.udTrain, files.udDev, files.udTest]
+const arc = countArcosg(udFiles, index)
 log(`ARCOSG：${arc.tokens} 词，${arc.unmatched} 个对不上词条`)
 const lg = countForms(readLearnGaelic(files.freqLearnGaelic), index, arc.counts)
 log(`LearnGaelic 词频表：${Math.round(lg.tokens)} 词，${Math.round(lg.unmatched)} 个对不上`)
-const wikiForms = countWikiForms(files.gdwiki, join(CACHE, 'gdwiki-forms.json'))
-const wiki = countForms(wikiForms, index, arc.counts)
+// 多词说法（a h-uile、sam bith、mu dheidhinn、an diugh……）的查词键 → 词条
+const phraseIndex = new Map<string, number[]>()
+entries.forEach((e, i) => {
+  for (const text of [e.data.w, ...(e.data.f ?? []).map(([f]) => f)]) {
+    const k = gdKey(text)
+    if (!k.includes(' ') || k.split(' ').length > 4) continue
+    const list = phraseIndex.get(k) ?? []
+    if (!list.includes(i)) list.push(i)
+    phraseIndex.set(k, list)
+  }
+})
+const wikiAll = countWiki(
+  files.gdwiki,
+  join(CACHE, 'gdwiki-counts.json'),
+  new Set(phraseIndex.keys())
+)
+const wiki = countForms(wikiAll.forms, index, arc.counts)
 log(`维基百科：${wiki.tokens} 词（出现 3 次以上的词形），${wiki.unmatched} 个对不上`)
 const score = combine(
   [
@@ -147,6 +166,24 @@ const score = combine(
   ],
   entries.length
 )
+// 多词说法的次数：词频表只有单词，按 ARCOSG 与维基百科两份数（权重按两份重新归一）
+{
+  const arcPhrases = new Map<string, number>()
+  for (const s of arcosgSentences(udFiles))
+    countPhraseKeys(s, new Set(phraseIndex.keys()), arcPhrases)
+  const wA = WEIGHTS.arcosg / (WEIGHTS.arcosg + WEIGHTS.wiki)
+  const wW = WEIGHTS.wiki / (WEIGHTS.arcosg + WEIGHTS.wiki)
+  let found = 0
+  for (const [k, ids] of phraseIndex) {
+    const pm =
+      ((arcPhrases.get(k) ?? 0) / arc.tokens) * 1e6 * wA +
+      ((wikiAll.phrases.get(k) ?? 0) / wikiAll.words) * 1e6 * wW
+    if (!pm) continue
+    found++
+    for (const i of ids) score[i] += pm / ids.length
+  }
+  log(`多词说法：${phraseIndex.size} 个，语料里出现过的 ${found} 个`)
+}
 const ranked = entries
   .map((e, i) => ({ i, s: score[i], len: e.data.w.length }))
   .filter((x) => x.s > 0)
@@ -269,19 +306,8 @@ log(
   `写好 ${out.file}：${(out.bytes / 1048576).toFixed(1)} MB，词条 ${out.entries}，查词键 ${out.forms}，例句 ${out.examples}（维基词典 ${wiktExamples}）`
 )
 
-// ───────────────────────── 要补中文的常用词 ─────────────────────────
-
-const todo = entries
-  .map((e, i) => ({ e, i }))
-  .filter(({ e, i }) => dbId[i] > 0 && rank[i] !== null && !e.data.s.some((s) => s.zh?.length))
-  .sort((a, b) => rank[a.i]! - rank[b.i]!)
-  .slice(0, 8000)
-  .map(
-    ({ e }) =>
-      `${e.data.w}\t${e.data.p[0]}\t${e.data.s.map((s) => (s.en ?? []).join('; ')).join(' | ')}`
-  )
-writeFileSync(join(ROOT, 'data', 'gd', 'zh-todo.txt'), todo.join('\n') + '\n')
-log(`zh-todo.txt：${todo.length} 个常用词还没有中文释义`)
+// 没有中文的常用词由主线统一补译（scripts/lang/mt.ts → data/gd/zh-mt.jsonl，写库时自动补上）。
+// 补译按「词头 + 词性 + 英文释义」对，所以英文释义的写法（kaikki.ts 的 splitGloss 等）不要再改
 
 // 对不上的语料词（补词、查规则用）
 writeFileSync(

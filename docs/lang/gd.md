@@ -1,5 +1,10 @@
 # 苏格兰盖尔语（gd，Gàidhlig）
 
+> 2026-10-12 进度更新：已接入阅读、语法词典、六类课程、本文练习、自测卷、字幕查词、录音与统计。
+> 当前 15,463 个词条、48 个语法点、96 个双语教学例句、6 篇读物、6 套自测卷。
+> 宽窄、弱化、介词代词、bi/is、动词从属式和动名词；可录音，无系统语音。
+> 下文的「阶段一」「要框架做的」为历史记录；现行范围、限制和下一阶段以 [多语言进度](../multilingual-progress.md) 为准。
+
 > **进度（2026-10-10）**：阶段一（资料、特点与词典数据）完成。规则模块与测试、数据管线、词典库（过校验）、
 > zh-todo、本文档都在分支 `lang/gd` 上。下一步是阶段二（阅读与新闻），见第七节。
 > 要用户拍板的事列在第八节「待定」，现在都按最稳妥的默认做法做了。
@@ -101,16 +106,16 @@
 
 ### 跟日语的做法哪里不一样
 
-| 方面 | 日语 | 盖尔语 |
-|---|---|---|
+| 方面     | 日语                                  | 盖尔语                                                                                                      |
+| -------- | ------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | 查词还原 | 去词尾（活用、助动词），kuromoji 分词 | **去词首音变**：去弱化的 h、去 t- / h- / n-、省音的 dh' m' b'，再加词尾与窄化；词形表里收维基词典的全部变形 |
-| 切词 | 分词器 | 自己写：撇号与连字符留在词里（a'、dh'fhalbh、t-uisge），引号不算 |
-| 注音 | 振假名 / 罗马字 | **IPA**（features.ruby = 'ipa'），不需要罗马化 |
-| 朗读 | Windows 日语语音 | **没有系统语音**：维基共享资源 / Lingua Libre 的真人录音（还很少）、IPA、用户自己录音 |
-| 字母课 | 五十音（逐个字） | **拼读规则课**（phonics）：宽窄、弱化、送气前置、长元音、插入元音 |
-| 分级 | JLPT 有官方等级与通行的分级词表 | 通行的是 CEFR（CLAG、SpeakGaelic 都按 CEFR），**没有官方词表**：A1 手挑 + 语料词频切分 |
-| 中文释义 | JMdict 英文释义翻译 + Tomoshi | **没有盖中词典**：中文维基词典（几百条）+ 词网对照（自动配对，标出来）+ 以后统一机器翻译 |
-| 例句 | Tatoeba 日中对照两万多句 | Tatoeba 盖尔语只有一千来句、质量参差，要挑贡献者；维基词典例句 |
+| 切词     | 分词器                                | 自己写：撇号与连字符留在词里（a'、dh'fhalbh、t-uisge），引号不算                                            |
+| 注音     | 振假名 / 罗马字                       | **IPA**（features.ruby = 'ipa'），不需要罗马化                                                              |
+| 朗读     | Windows 日语语音                      | **没有系统语音**：维基共享资源 / Lingua Libre 的真人录音（还很少）、IPA、用户自己录音                       |
+| 字母课   | 五十音（逐个字）                      | **拼读规则课**（phonics）：宽窄、弱化、送气前置、长元音、插入元音                                           |
+| 分级     | JLPT 有官方等级与通行的分级词表       | 通行的是 CEFR（CLAG、SpeakGaelic 都按 CEFR），**没有官方词表**：A1 手挑 + 语料词频切分                      |
+| 中文释义 | JMdict 英文释义翻译 + Tomoshi         | **没有盖中词典**：中文维基词典（几百条）+ 词网对照（自动配对，标出来）+ 以后统一机器翻译                    |
+| 例句     | Tatoeba 日中对照两万多句              | Tatoeba 盖尔语只有一千来句、质量参差，要挑贡献者；维基词典例句                                              |
 
 ## 二、规则模块（src/shared/lang/gd/）
 
@@ -135,21 +140,21 @@
 
 ### 词典数据用上的
 
-| 资料 | 许可 | 地址 | 取了什么 | 再分发 | 这台电脑 |
-|---|---|---|---|---|---|
-| 英文维基词典的盖尔语词条（kaikki.org / wiktextract，enwiktionary 2026-09-02 dump） | CC BY-SA 4.0 | https://kaikki.org/dictionary/Scottish%20Gaelic/ | 18,204 页：词条、英文释义、IPA（含方言）、变格变位与弱化表、例句 1,543 句、词源、录音地址 | 可（署名、相同方式共享） | 能下，29.3 MB 约 4 分钟 |
-| 中文维基词典「苏格兰盖尔语」（kaikki.org，zhwiktionary 2026-10-01） | CC BY-SA 4.0 | https://kaikki.org/zhwiktionary/ | 364 页里 264 个词条的中文释义（繁体 → 简体） | 可 | 能下，0.5 MB |
-| Unified Scottish Gaelic Wordnet v0.9（USGW） | CC BY-SA 3.0 | http://ukc.disi.unitn.it/index.php/gaelic/ | 10,139 个盖尔语词的同义词集（WordNet 2.1 编号）、8,936 条盖尔语释义；维基词典没收的 5,205 个词另成词条 | 可 | 能下（http），0.3 MB |
-| 由维基词典导出的盖尔语词网（OMW wn-wikt-gla） | CC BY-SA | https://github.com/omwn/omw-data/tree/main/wns/wikt | 6,670 个「词—同义词集（3.0）」 | 可 | 能下 |
-| Chinese Open Wordnet（OMW 数据） | WordNet 式许可（可再分发，保留版权声明） | https://github.com/omwn/omw-data/tree/main/wns/cow | 同义词集的中文词 → 词网对照的中文释义 | 可 | 能下，2.5 MB |
-| Princeton WordNet 3.0（OMW 数据）与 2.1→3.0 义项对照（WNsnsmap-3.0） | WordNet 3.0 许可 | https://wordnetcode.princeton.edu/3.0/ | 同义词集的英文词、英文词的义项序号；把 USGW 的 2.1 编号换成 3.0 | 可 | 能下 |
-| UD Scottish Gaelic ARCOSG（UD 仓库 master，2026-10） | CC BY-SA 4.0 | https://github.com/UniversalDependencies/UD_Scottish_Gaelic-ARCOSG | 8.6 万词、人工标的原形：词频（权重 0.45）、几个词条同形时分配次数 | 可（只用了统计） | 能下，5.9 MB |
-| GaelicFrequencyLists（LearnGaelic《Litir do Luchd-ionnsachaidh》与 Watch Gaelic 字幕统计） | MIT | https://github.com/innesmck/GaelicFrequencyLists | 前一万个词形的次数（共 131 万词）：词频（权重 0.35）。原文版权属 BBC / LearnGaelic，**只用统计数字** | 可（统计） | 能下 |
-| 盖尔语维基百科 Uicipeid（2026-10-01 dump） | CC BY-SA 4.0 | https://dumps.wikimedia.org/gdwiki/ | 条目正文（去掉模板、表格、小标题、列表）146 万词：词频（权重 0.20） | 可 | 能下，10 MB，**要断点续传**（中途断过） |
-| Tatoeba（盖尔语句子、盖英链接、英文句子、英中链接、中文句子） | CC BY 2.0 FR | https://downloads.tatoeba.org/exports/per_language/ | 1,052 句里收 642 句（见第四节「例句」）；英文翻译直接对应，161 句有经英文转接的中文翻译 | 可（署名） | 能下（英文句子 25 MB） |
-| 维基共享资源：Lingua Libre（Category:Lingua Libre pronunciation-gla，12 条）、维基词典挂的录音 | 多为 CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/Category:Lingua_Libre_pronunciation-gla | 23 条录音挂在 18 个词条上（mp3 转码地址，联网播放） | 可（署名） | 能连 API |
-| OpenCC 繁简对照表 | Apache 2.0 | https://github.com/BYVoid/OpenCC | TSPhrases、TSCharacters：中文维基词典的繁体释义转简体 | 可 | 能下 |
-| 自写：A1 基础词表（data/gd/core-a1.txt，472 个、14 个主题）、补充词条（data/gd/supplement.tsv，20 条 + 3 处拼法） | CC0 | 本仓库 | A1 分级、主题词本；维基词典与词网都没收的常用词 | 可 | — |
+| 资料                                                                                                              | 许可                                     | 地址                                                                       | 取了什么                                                                                               | 再分发                   | 这台电脑                                |
+| ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------ | --------------------------------------- |
+| 英文维基词典的盖尔语词条（kaikki.org / wiktextract，enwiktionary 2026-09-02 dump）                                | CC BY-SA 4.0                             | https://kaikki.org/dictionary/Scottish%20Gaelic/                           | 18,204 页：词条、英文释义、IPA（含方言）、变格变位与弱化表、例句 1,543 句、词源、录音地址              | 可（署名、相同方式共享） | 能下，29.3 MB 约 4 分钟                 |
+| 中文维基词典「苏格兰盖尔语」（kaikki.org，zhwiktionary 2026-10-01）                                               | CC BY-SA 4.0                             | https://kaikki.org/zhwiktionary/                                           | 364 页里 264 个词条的中文释义（繁体 → 简体）                                                           | 可                       | 能下，0.5 MB                            |
+| Unified Scottish Gaelic Wordnet v0.9（USGW）                                                                      | CC BY-SA 3.0                             | http://ukc.disi.unitn.it/index.php/gaelic/                                 | 10,139 个盖尔语词的同义词集（WordNet 2.1 编号）、8,936 条盖尔语释义；维基词典没收的 5,205 个词另成词条 | 可                       | 能下（http），0.3 MB                    |
+| 由维基词典导出的盖尔语词网（OMW wn-wikt-gla）                                                                     | CC BY-SA                                 | https://github.com/omwn/omw-data/tree/main/wns/wikt                        | 6,670 个「词—同义词集（3.0）」                                                                         | 可                       | 能下                                    |
+| Chinese Open Wordnet（OMW 数据）                                                                                  | WordNet 式许可（可再分发，保留版权声明） | https://github.com/omwn/omw-data/tree/main/wns/cow                         | 同义词集的中文词 → 词网对照的中文释义                                                                  | 可                       | 能下，2.5 MB                            |
+| Princeton WordNet 3.0（OMW 数据）与 2.1→3.0 义项对照（WNsnsmap-3.0）                                              | WordNet 3.0 许可                         | https://wordnetcode.princeton.edu/3.0/                                     | 同义词集的英文词、英文词的义项序号；把 USGW 的 2.1 编号换成 3.0                                        | 可                       | 能下                                    |
+| UD Scottish Gaelic ARCOSG（UD 仓库 master，2026-10）                                                              | CC BY-SA 4.0                             | https://github.com/UniversalDependencies/UD_Scottish_Gaelic-ARCOSG         | 8.6 万词、人工标的原形：词频（权重 0.45）、几个词条同形时分配次数                                      | 可（只用了统计）         | 能下，5.9 MB                            |
+| GaelicFrequencyLists（LearnGaelic《Litir do Luchd-ionnsachaidh》与 Watch Gaelic 字幕统计）                        | MIT                                      | https://github.com/innesmck/GaelicFrequencyLists                           | 前一万个词形的次数（共 131 万词）：词频（权重 0.35）。原文版权属 BBC / LearnGaelic，**只用统计数字**   | 可（统计）               | 能下                                    |
+| 盖尔语维基百科 Uicipeid（2026-10-01 dump）                                                                        | CC BY-SA 4.0                             | https://dumps.wikimedia.org/gdwiki/                                        | 条目正文（去掉模板、表格、小标题、列表）146 万词：词频（权重 0.20）                                    | 可                       | 能下，10 MB，**要断点续传**（中途断过） |
+| Tatoeba（盖尔语句子、盖英链接、英文句子、英中链接、中文句子）                                                     | CC BY 2.0 FR                             | https://downloads.tatoeba.org/exports/per_language/                        | 1,052 句里收 642 句（见第四节「例句」）；英文翻译直接对应，161 句有经英文转接的中文翻译                | 可（署名）               | 能下（英文句子 25 MB）                  |
+| 维基共享资源：Lingua Libre（Category:Lingua Libre pronunciation-gla，12 条）、维基词典挂的录音                    | 多为 CC BY-SA 4.0                        | https://commons.wikimedia.org/wiki/Category:Lingua_Libre_pronunciation-gla | 23 条录音挂在 18 个词条上（mp3 转码地址，联网播放）                                                    | 可（署名）               | 能连 API                                |
+| OpenCC 繁简对照表                                                                                                 | Apache 2.0                               | https://github.com/BYVoid/OpenCC                                           | TSPhrases、TSCharacters：中文维基词典的繁体释义转简体                                                  | 可                       | 能下                                    |
+| 自写：A1 基础词表（data/gd/core-a1.txt，472 个、14 个主题）、补充词条（data/gd/supplement.tsv，20 条 + 3 处拼法） | CC0                                      | 本仓库                                                                     | A1 分级、主题词本；维基词典与词网都没收的常用词                                                        | 可                       | —                                       |
 
 ### 分级的依据（参考，不入库）
 
@@ -164,20 +169,20 @@
 
 ### 后面阶段用的（调研过）
 
-| 资料 | 许可 | 地址 | 打算 | 这台电脑 |
-|---|---|---|---|---|
-| **BBC Naidheachdan RSS**（BBC 盖尔语新闻） | BBC 版权；使用条款第 15 条：个人可以把 BBC 新闻 RSS 原样放在自己的网站或账号上，不改动、注明 BBC 并放链接；商业用途要许可 | https://feeds.bbci.co.uk/naidheachdan/rss.xml | 阶段二：只收标题与导语（description），带原文链接，照 NHK 的做法 | 能取，19 条，盖尔语标题 + 一两句导语 |
-| Litir do Luchd-ionnsachaidh 播客（BBC Radio nan Gàidheal，每周一封「给学习者的信」） | BBC 版权 | https://podcasts.files.bbci.co.uk/b007jdd3.rss | 阶段二 / 六：列标题与链接，音频联网播放；文字稿在 LearnGaelic 网站（版权），只放链接 | 能取，995 集 |
-| Bòrd na Gàidhlig 新闻 | 版权（盖尔语委员会） | https://www.gaidhlig.scot/gd/feed/ | 阶段二：标题与导语 | 能取，10 条 |
-| Tog Blog（盖尔语博客汇集） | 各博客自有版权 | https://togblog.org/feed/ | 阶段二备选：标题与导语 | 能取 |
-| 盖尔语维基百科条目 | CC BY-SA 4.0 | https://gd.wikipedia.org/ | 阶段二：挑短而好读的条目做阅读材料（全文可收） | dump 已下 |
-| 维基文库「Gàidhlig」分类（约 59 页，多为诗） | 公有领域 | https://wikisource.org/wiki/Category:Gàidhlig | 阶段二：诗与短文 | 能连 API |
-| 古登堡计划的盖尔语书（4 本：Coinneach Odhar, Am Fiosaiche；Gearr-sgeoil air Sir Seoras Uilleam Ros；Caoidh airson cor na Gaidhealtachd…；The Princess' welcome to the Highlands） | 公有领域 | https://www.gutenberg.org/ebooks/28995 等 | 阶段二：故事、诗（旧拼写，要标明） | 能下目录 |
-| J. F. Campbell《Popular Tales of the West Highlands》（1890–93 版，含盖尔语原文） | 公有领域 | 英文维基文库 Index:Popular Tales of the West Highlands, Volume I–IV | 阶段四「故事」课：挑短的民间故事；要核对转录进度与旧拼写 | 能连 |
-| Nicolson《A Collection of Gaelic Proverbs and Familiar Phrases》（1881） | 公有领域 | archive.org 扫描本 | 阶段四惯用语课：谚语（要人工核对 OCR、换成现代拼写时注明） | 待取 |
-| MacBain《An Etymological Dictionary of the Gaelic Language》（1896 / 1911） | 公有领域 | 英文维基文库全文 | 以后补词源 | 能连 |
-| 盖尔语圣经（1807 / 1902 版） | 公有领域 | 待找可用的数字文本（1992 修订版有版权） | 备选的大段文本 | 未取 |
-| SQA Gaelic (Learners) 历年试卷与样卷 | SQA 版权 | https://www.sqa.org.uk/sqa/47415.html | 阶段五：只参考题型与结构，不照搬题目 | 能连 |
+| 资料                                                                                                                                                                              | 许可                                                                                                                      | 地址                                                                | 打算                                                                                 | 这台电脑                             |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------ |
+| **BBC Naidheachdan RSS**（BBC 盖尔语新闻）                                                                                                                                        | BBC 版权；使用条款第 15 条：个人可以把 BBC 新闻 RSS 原样放在自己的网站或账号上，不改动、注明 BBC 并放链接；商业用途要许可 | https://feeds.bbci.co.uk/naidheachdan/rss.xml                       | 阶段二：只收标题与导语（description），带原文链接，照 NHK 的做法                     | 能取，19 条，盖尔语标题 + 一两句导语 |
+| Litir do Luchd-ionnsachaidh 播客（BBC Radio nan Gàidheal，每周一封「给学习者的信」）                                                                                              | BBC 版权                                                                                                                  | https://podcasts.files.bbci.co.uk/b007jdd3.rss                      | 阶段二 / 六：列标题与链接，音频联网播放；文字稿在 LearnGaelic 网站（版权），只放链接 | 能取，995 集                         |
+| Bòrd na Gàidhlig 新闻                                                                                                                                                             | 版权（盖尔语委员会）                                                                                                      | https://www.gaidhlig.scot/gd/feed/                                  | 阶段二：标题与导语                                                                   | 能取，10 条                          |
+| Tog Blog（盖尔语博客汇集）                                                                                                                                                        | 各博客自有版权                                                                                                            | https://togblog.org/feed/                                           | 阶段二备选：标题与导语                                                               | 能取                                 |
+| 盖尔语维基百科条目                                                                                                                                                                | CC BY-SA 4.0                                                                                                              | https://gd.wikipedia.org/                                           | 阶段二：挑短而好读的条目做阅读材料（全文可收）                                       | dump 已下                            |
+| 维基文库「Gàidhlig」分类（约 59 页，多为诗）                                                                                                                                      | 公有领域                                                                                                                  | https://wikisource.org/wiki/Category:Gàidhlig                       | 阶段二：诗与短文                                                                     | 能连 API                             |
+| 古登堡计划的盖尔语书（4 本：Coinneach Odhar, Am Fiosaiche；Gearr-sgeoil air Sir Seoras Uilleam Ros；Caoidh airson cor na Gaidhealtachd…；The Princess' welcome to the Highlands） | 公有领域                                                                                                                  | https://www.gutenberg.org/ebooks/28995 等                           | 阶段二：故事、诗（旧拼写，要标明）                                                   | 能下目录                             |
+| J. F. Campbell《Popular Tales of the West Highlands》（1890–93 版，含盖尔语原文）                                                                                                 | 公有领域                                                                                                                  | 英文维基文库 Index:Popular Tales of the West Highlands, Volume I–IV | 阶段四「故事」课：挑短的民间故事；要核对转录进度与旧拼写                             | 能连                                 |
+| Nicolson《A Collection of Gaelic Proverbs and Familiar Phrases》（1881）                                                                                                          | 公有领域                                                                                                                  | archive.org 扫描本                                                  | 阶段四惯用语课：谚语（要人工核对 OCR、换成现代拼写时注明）                           | 待取                                 |
+| MacBain《An Etymological Dictionary of the Gaelic Language》（1896 / 1911）                                                                                                       | 公有领域                                                                                                                  | 英文维基文库全文                                                    | 以后补词源                                                                           | 能连                                 |
+| 盖尔语圣经（1807 / 1902 版）                                                                                                                                                      | 公有领域                                                                                                                  | 待找可用的数字文本（1992 修订版有版权）                             | 备选的大段文本                                                                       | 未取                                 |
+| SQA Gaelic (Learners) 历年试卷与样卷                                                                                                                                              | SQA 版权                                                                                                                  | https://www.sqa.org.uk/sqa/47415.html                               | 阶段五：只参考题型与结构，不照搬题目                                                 | 能连                                 |
 
 ### 放弃的、只做外部链接的
 
@@ -224,31 +229,31 @@
 
 ### 数字（2026-10-10 生成）
 
-| 项目 | 数 |
-|---|---|
-| 词条 | 15,401（维基词典 10,176、词网 5,205、补充 20） |
-| 查词键 | 87,376（严格键 + 宽松键） |
-| 有变形表的词条 | 12,120 |
-| 有 IPA | 3,776；方言读音 1,210 个词条；词形读音（x.formIpa）858 个词条 |
-| 录音 | 18 个词条、23 条 |
-| 有中文释义 | 3,778 个词条（中文维基词典 264，词网对照 3,516） |
-| 有盖尔语释义（mono） | 5,853 |
-| 有词频 | 5,740 |
-| 例句 | 2,185（维基词典 1,543；Tatoeba 642，其中 161 句有中文） |
-| 库大小 | 12.2 MB |
+| 项目                 | 数                                                            |
+| -------------------- | ------------------------------------------------------------- |
+| 词条                 | 15,401（维基词典 10,176、词网 5,205、补充 20）                |
+| 查词键               | 87,376（严格键 + 宽松键）                                     |
+| 有变形表的词条       | 12,120                                                        |
+| 有 IPA               | 3,776；方言读音 1,210 个词条；词形读音（x.formIpa）858 个词条 |
+| 录音                 | 18 个词条、23 条                                              |
+| 有中文释义           | 3,778 个词条（中文维基词典 264，词网对照 3,516）              |
+| 有盖尔语释义（mono） | 5,853                                                         |
+| 有词频               | 5,740                                                         |
+| 例句                 | 2,185（维基词典 1,543；Tatoeba 642，其中 161 句有中文）       |
+| 库大小               | 12.2 MB                                                       |
 
 各级有中文释义的比例：A1 45%、A2 40%、B1 33%、B2 30%、C1 25%、C2 22%。
 
 ### 词条的 x（盖尔语特有）
 
-| 键 | 内容 | 例 |
-|---|---|---|
-| `len` | 词头的弱化形 | bàta → bhàta |
-| `vn` | 动词的动名词 | rach → dol |
-| `vnOf` | 这个动名词是哪个动词的 | dèanamh → dèan |
-| `ety` | 词源（维基词典，英文，最多 400 字） | From Middle Irish bát … |
-| `ipaDialects` | 方言读音（文字列表：「IPA（地区）」） | /mɛ̃(h)/（Wester Ross, most of South Argyll） |
-| `formIpa` | 变形的读音（文字列表：「词形 IPA」，阅读器给变过的词注音用，按第一个空格拆开） | chù /ˈxuː/ |
+| 键            | 内容                                                                           | 例                                           |
+| ------------- | ------------------------------------------------------------------------------ | -------------------------------------------- |
+| `len`         | 词头的弱化形                                                                   | bàta → bhàta                                 |
+| `vn`          | 动词的动名词                                                                   | rach → dol                                   |
+| `vnOf`        | 这个动名词是哪个动词的                                                         | dèanamh → dèan                               |
+| `ety`         | 词源（维基词典，英文，最多 400 字）                                            | From Middle Irish bát …                      |
+| `ipaDialects` | 方言读音（文字列表：「IPA（地区）」）                                          | /mɛ̃(h)/（Wester Ross, most of South Argyll） |
+| `formIpa`     | 变形的读音（文字列表：「词形 IPA」，阅读器给变过的词注音用，按第一个空格拆开） | chù /ˈxuː/                                   |
 
 变形表的标签沿用维基词典的标签词；盖尔语多出的：lenition（弱化）、h-prothesis、t-prothesis、eclipsis（n- 前缀）、
 dependent / independent（从属式 / 独立式）、verbal-noun、emphatic（强调形，agamsa）、impersonal（无人称）。
@@ -282,14 +287,14 @@ dependent / independent（从属式 / 独立式）、verbal-noun、emphatic（�
 盖尔语学习界通行的就是 CEFR：LearnGaelic 按 CLAG（阿伯丁大学的盖尔语口语能力等级描述）分 Pre-A1、A1–C2，
 SpeakGaelic 的四级对应 A1–B2。各级说明（spec.ts）参照 CLAG 自评表与清单概括（不是原文），写了每一级要会的盖尔语说法：
 
-| 等级 | 能做什么（概括） | 对应 |
-|---|---|---|
-| A1 | 问候道谢（madainn mhath、tapadh leat）、介绍自己和家人、说有什么（tha cù agam）、进行体（tha mi a' dol）、数字与时间，一次三四个词 | SpeakGaelic 入门（Inntrigeadh，13 课、约 90–100 学时）；Speaking our Language 第 1–18 集 |
-| A2 | 讲家人、工作、爱好，讲过去（bha、chaidh），比较（nas fheàrr），系词说身份与喜好（Is e … a th' annam、Is toigh leam），邀请、道歉、约时间 | SpeakGaelic 基础（Bunaiteach，约 90–100 学时）；Speaking our Language 第 19–36 集；大致 SQA National 5 |
-| B1 | 不经准备地谈熟悉的话题，讲经历、打算和理由，用 gu bheil / nuair a 连成长句，将来时与条件式 | SpeakGaelic 中级（Eadar-mheadhanach，约 150–200 学时）；Speaking our Language 第 37–54 集、Litir Bheag；大致 SQA Higher |
-| B2 | 较广话题的详细讨论、利弊、假设（ged a、mura），轮到自己时连说两三句，看得懂 BBC 盖尔语新闻大意 | SpeakGaelic 高级（Adhartach，约 150–200 学时）；Watch Gaelic、An Là；大致 SQA Advanced Higher |
-| C1 | 复杂抽象话题，口语与正式文体切换，长句（属格链、被动、关系从句），能主导对话；读评论、现代小说与诗 | Litir do Luchd-ionnsachaidh、BBC 盖尔语节目 |
-| C2 | 几乎什么都懂，包括方言、老派文体、谚语；是很成功的学习者的水平，不等于母语者 | — |
+| 等级 | 能做什么（概括）                                                                                                                         | 对应                                                                                                                    |
+| ---- | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| A1   | 问候道谢（madainn mhath、tapadh leat）、介绍自己和家人、说有什么（tha cù agam）、进行体（tha mi a' dol）、数字与时间，一次三四个词       | SpeakGaelic 入门（Inntrigeadh，13 课、约 90–100 学时）；Speaking our Language 第 1–18 集                                |
+| A2   | 讲家人、工作、爱好，讲过去（bha、chaidh），比较（nas fheàrr），系词说身份与喜好（Is e … a th' annam、Is toigh leam），邀请、道歉、约时间 | SpeakGaelic 基础（Bunaiteach，约 90–100 学时）；Speaking our Language 第 19–36 集；大致 SQA National 5                  |
+| B1   | 不经准备地谈熟悉的话题，讲经历、打算和理由，用 gu bheil / nuair a 连成长句，将来时与条件式                                               | SpeakGaelic 中级（Eadar-mheadhanach，约 150–200 学时）；Speaking our Language 第 37–54 集、Litir Bheag；大致 SQA Higher |
+| B2   | 较广话题的详细讨论、利弊、假设（ged a、mura），轮到自己时连说两三句，看得懂 BBC 盖尔语新闻大意                                           | SpeakGaelic 高级（Adhartach，约 150–200 学时）；Watch Gaelic、An Là；大致 SQA Advanced Higher                           |
+| C1   | 复杂抽象话题，口语与正式文体切换，长句（属格链、被动、关系从句），能主导对话；读评论、现代小说与诗                                       | Litir do Luchd-ionnsachaidh、BBC 盖尔语节目                                                                             |
+| C2   | 几乎什么都懂，包括方言、老派文体、谚语；是很成功的学习者的水平，不等于母语者                                                             | —                                                                                                                       |
 
 ### 其他分级（只作说明，不挂词）
 

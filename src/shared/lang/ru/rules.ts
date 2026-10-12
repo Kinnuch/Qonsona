@@ -264,7 +264,8 @@ export function lemmaCandidates(surface: string): LemmaGuess[] {
     seen.add(lemma)
     out.push({ lemma, tags })
   }
-  if (!hasCyrillic(w)) return out
+  // 只猜一个词：阅读器拿几个词连起来查短语时（а у、в том）不能削掉词尾凑出别的词
+  if (!hasCyrillic(w) || /\s/.test(w)) return out
 
   // 连字符：去掉语气词（сказал-то → сказал），否则拆成几段
   if (w.includes('-')) {
@@ -458,28 +459,51 @@ const FROM_LATIN: [string, string][] = [
 const VOWELS = 'аеёиоуыэюя'
 
 /**
- * 拉丁字母拼的俄语（privet、spasibo、khorosho、zdravstvuyte、ščuka）→ 几种可能的西里尔写法，查词用。
- * y 在元音后当 й（moy → мой、novyy → новый），词首的 e 另给一个 э 的写法（eto → это）。
- * 含别的字符（西里尔字母、数字）给空数组。
+ * 有两种读法的拉丁拼法：[拼法, 西里尔字母, 罚分]，罚分高的排后面。
+ * ts 常是 ц，也常是 т + с（uchitsya = учится、detskiy = детский）；x 在学术转写里是 х，随手打的常是 кс（taksi / taxi）；
+ * 词首的 e 一般是 е，也可能是 э（eto = это）
+ */
+const ALT_LATIN: [string, string, number][] = [
+  ['ts', 'тс', 1],
+  ['x', 'кс', 2]
+]
+
+/** 最多给几种写法 */
+const MAX_LATIN = 6
+
+/**
+ * 拉丁字母拼的俄语（privet、spasibo、khorosho、zdravstvuyte、ščuka）→ 几种可能的西里尔写法，常见的在前，查词用。
+ * y 在元音后当 й（moy → мой、novyy → новый）。含别的字符（西里尔字母、数字）给空数组。
  */
 export function latinToCyrillic(text: string): string[] {
   const s = tidy(text).toLowerCase()
   if (!s || !/^[a-zšžčëèʹʺ'" -]+$/.test(s)) return []
-  let out = ''
-  for (let i = 0; i < s.length;) {
-    const hit = FROM_LATIN.find(([lat]) => s.startsWith(lat, i))
-    if (!hit) {
-      out += s[i++]
-      continue
+  const out: { text: string; cost: number }[] = []
+  const go = (i: number, acc: string, cost: number): void => {
+    if (out.length >= 32) return
+    if (i >= s.length) {
+      out.push({ text: acc, cost })
+      return
     }
-    const cyr = hit[0] === 'y' && out && VOWELS.includes(out.slice(-1)) ? 'й' : hit[1]
-    out += cyr
-    i += hit[0].length
+    const options: [string, string, number][] = []
+    const hit = FROM_LATIN.find(([lat]) => s.startsWith(lat, i))
+    if (!hit) options.push([s[i], s[i], 0])
+    else {
+      const cyr = hit[0] === 'y' && acc && VOWELS.includes(acc.slice(-1)) ? 'й' : hit[1]
+      options.push([hit[0], cyr, 0])
+      for (const [lat, alt, c] of ALT_LATIN) if (s.startsWith(lat, i)) options.push([lat, alt, c])
+      // 词首的 e：е，其次 э
+      if (hit[0] === 'e' && (i === 0 || /[\s-]/.test(s[i - 1]))) options.push(['e', 'э', 1])
+    }
+    for (const [lat, cyr, c] of options) go(i + lat.length, acc + cyr, cost + c)
   }
-  const res = [out]
-  const e = out.replace(/(^|[\s-])е/g, '$1э')
-  if (e !== out) res.push(e)
-  return res
+  go(0, '', 0)
+  const seen = new Set<string>()
+  return out
+    .sort((a, b) => a.cost - b.cost)
+    .map((x) => x.text)
+    .filter((t) => !seen.has(t) && !!seen.add(t))
+    .slice(0, MAX_LATIN)
 }
 
 export const rules: LangRules = {
@@ -488,5 +512,6 @@ export const rules: LangRules = {
   tokenize,
   lemmaCandidates,
   marks,
-  romanize
+  romanize,
+  fromLatin: latinToCyrillic
 }

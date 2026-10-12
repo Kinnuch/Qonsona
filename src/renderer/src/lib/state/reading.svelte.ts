@@ -141,6 +141,7 @@ class ReadingState {
     if (!cached) {
       const a = await platform.ja.analyze(this.article.body)
       this.#cache.set(id, a)
+      while (this.#cache.size > 12) this.#cache.delete(this.#cache.keys().next().value!)
       if (this.openId === id) this.analysis = a
     }
   }

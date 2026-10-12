@@ -11,31 +11,30 @@ import { CEFRJ, ECDICT, NGSL, OCTANOVE } from './sources'
 /** CEFR 各级在英语里对应的考试（接在通用说明后面） */
 const CEFR_EXAMS: Record<CefrLevel, { zh: string; en: string }> = {
   A1: {
-    zh: '大致是小学英语的水平；剑桥少儿英语 Movers；新托福 1 分。',
-    en: 'About primary-school English; Cambridge Young Learners Movers; TOEFL iBT (2026) band 1.'
+    zh: '入门能力等级；本软件检查卷不换算官方考试分数。',
+    en: 'An introductory proficiency level; app reviews do not convert to official exam scores.'
   },
   A2: {
-    zh: '剑桥 A2 Key（KET）；大致是中考的要求；新托福 2 分。',
-    en: 'Cambridge A2 Key (KET); roughly the zhongkao target; TOEFL iBT (2026) band 2.'
+    zh: '剑桥 A2 Key 的目标等级为 A2；本软件检查卷不等同于该考试。',
+    en: 'A2 Key targets A2; this app review is not equivalent to that exam.'
   },
   B1: {
-    zh: '剑桥 B1 Preliminary（PET）；高考、大学英语四级大致在这一级；雅思 4.0–5.0；新托福 3 分。',
-    en: 'Cambridge B1 Preliminary (PET); gaokao and CET-4 are roughly here; IELTS 4.0–5.0; TOEFL iBT (2026) band 3.'
+    zh: '剑桥 B1 Preliminary 的目标等级为 B1；中国考试词表独立列出，词表不能证明四技能能力。',
+    en: 'B1 Preliminary targets B1. Chinese exam word lists are separate and do not establish four-skill proficiency.'
   },
   B2: {
-    zh: '剑桥 B2 First（FCE）；大学英语六级、考研英语大致在这一级；雅思 5.5–6.5；新托福 4 分。',
-    en: 'Cambridge B2 First (FCE); CET-6 and the postgraduate entrance exam are roughly here; IELTS 5.5–6.5; TOEFL iBT (2026) band 4.'
+    zh: '剑桥 B2 First 的目标等级为 B2；本软件检查卷不预测雅思、托福或国内考试成绩。',
+    en: 'B2 First targets B2; app reviews do not predict IELTS, TOEFL or Chinese exam results.'
   },
   C1: {
-    zh: '剑桥 C1 Advanced（CAE）；雅思 7.0–8.0；新托福 5 分。',
-    en: 'Cambridge C1 Advanced (CAE); IELTS 7.0–8.0; TOEFL iBT (2026) band 5.'
+    zh: '剑桥 C1 Advanced 的目标等级为 C1；课程分级为编辑安排，不是能力认证。',
+    en: 'C1 Advanced targets C1; editorial course placement does not certify proficiency.'
   },
   C2: {
-    zh: '剑桥 C2 Proficiency（CPE）；雅思 8.5–9.0；新托福 6 分。',
-    en: 'Cambridge C2 Proficiency (CPE); IELTS 8.5–9.0; TOEFL iBT (2026) band 6.'
+    zh: '剑桥 C2 Proficiency 的目标等级为 C2；本软件没有官方分数或证书等价。',
+    en: 'C2 Proficiency targets C2; this app has no official score or certification equivalence.'
   }
 }
-
 /** 主分级：CEFR，说明里加上英语的考试 */
 const cefr: LevelSystemDef = {
   id: 'cefr',
@@ -250,17 +249,17 @@ export const spec: LangSpec = {
   direction: 'ltr',
   levelSystems: [cefr, cnExam, ngsl, collins],
   features: {
-    texts: false,
+    texts: true,
     lexicon: true,
-    alphabet: null,
+    alphabet: 'phonics',
     characters: null,
-    grammar: false,
-    inflection: false,
-    phrasebook: false,
-    idioms: false,
-    stories: false,
-    media: false,
-    exam: false,
+    grammar: true,
+    inflection: true,
+    phrasebook: true,
+    idioms: true,
+    stories: true,
+    media: true,
+    exam: true,
     ruby: null,
     romanization: false,
     speech: 'en-US'

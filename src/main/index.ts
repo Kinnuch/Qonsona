@@ -27,6 +27,10 @@ import { MediaLibrary, MEDIA_SCHEME } from './media'
 import { applyPendingRestore, createBackup, readBackup, scheduleRestore } from './backup'
 import { migrateLegacyData } from './migrate'
 import { registerLangIpc } from './lang/ipc'
+import { analysisClient } from './lang/analysis-client'
+import { registerDictionaryDaily } from './daily'
+import { articleMutationKey, pendingWrites } from './pending-writes'
+import { applyPendingTransfer, registerTransferIpc, setTransferResult } from './transfer'
 import { AUDIO_EXT as MEDIA_AUDIO, SUBTITLE_EXT, VIDEO_EXT, type MediaPatch } from '../shared/media'
 import { analysisLevel, cleanAozora, type ArticleInput, type NhkStatus } from '../shared/articles'
 import type { JaAnalysis } from '../shared/ja/reader'
@@ -191,6 +195,16 @@ function readWindowState(): WindowState {
 
 /** 主窗口（下载更新时往它推进度） */
 let mainWindow: BrowserWindow | null = null
+const readyToClose = new WeakSet<BrowserWindow>()
+const waitingToClose = new WeakSet<BrowserWindow>()
+const finishingClose = new WeakSet<BrowserWindow>()
+let quitRequested = false
+
+// A prevented BrowserWindow.close cancels the original app.quit. Preserve that intent
+// so a successful renderer/main save handshake also completes Cmd+Q on macOS.
+app.on('before-quit', () => {
+  quitRequested = true
+})
 
 function createWindow(): void {
   const ws = readWindowState()
@@ -225,7 +239,14 @@ function createWindow(): void {
     win.show()
   })
 
-  win.on('close', () => {
+  win.on('close', (event) => {
+    if (!readyToClose.has(win) && !win.webContents.isDestroyed() && !win.webContents.isLoading()) {
+      event.preventDefault()
+      if (!waitingToClose.has(win)) {
+        waitingToClose.add(win)
+        win.webContents.send('app:flush-before-close')
+      }
+    }
     const b = win.getNormalBounds()
     const state: WindowState = { ...b, maximized: win.isMaximized() }
     try {
@@ -254,6 +275,35 @@ function createWindow(): void {
 registerUpdater(() => mainWindow, userData)
 // 框架里各语言（英、法、韩、西、阿、俄、盖尔）的词典与录音
 registerLangIpc()
+registerDictionaryDaily(() => ja())
+ipcMain.handle('app:close-ready', async (event, saved = true) => {
+  const win = BrowserWindow.fromWebContents(event.sender)
+  if (!win || !waitingToClose.has(win)) return
+  if (!saved) {
+    waitingToClose.delete(win)
+    return
+  }
+  if (finishingClose.has(win)) return
+  finishingClose.add(win)
+  try {
+    await pendingWrites.drain({ retryFailed: true })
+    if (win.isDestroyed() || !waitingToClose.has(win)) return
+    waitingToClose.delete(win)
+    readyToClose.add(win)
+    const resumeQuit = quitRequested
+    // closed is emitted after this asynchronous IPC handler returns to Electron.
+    if (resumeQuit && process.platform === 'darwin')
+      win.once('closed', () => {
+        if (BrowserWindow.getAllWindows().length === 0) app.quit()
+      })
+    win.close()
+  } catch (error) {
+    waitingToClose.delete(win)
+    throw error
+  } finally {
+    finishingClose.delete(win)
+  }
+})
 
 ipcMain.handle('app:info', () => ({
   version: app.getVersion(),
@@ -536,14 +586,20 @@ const articles = (): ArticleStore =>
 ipcMain.handle('articles:list', () => articles().list())
 ipcMain.handle('articles:get', (_e, id: string) => articles().get(id))
 ipcMain.handle('articles:save', (_e, input: ArticleInput) =>
-  articles().save({ ...input, body: cleanAozora(String(input.body)) })
+  pendingWrites.run(articleMutationKey('ja', 'save', input), () =>
+    articles().save({ ...input, body: cleanAozora(String(input.body)) })
+  )
 )
-ipcMain.handle('articles:remove', (_e, id: string) => articles().remove(id))
+ipcMain.handle('articles:remove', (_e, id: string) =>
+  pendingWrites.run(articleMutationKey('ja', 'remove', id), () => articles().remove(id))
+)
 ipcMain.handle('articles:setTranslation', (_e, id: string, text: string) =>
-  articles().setTranslation(String(id), String(text ?? ''))
+  pendingWrites.run(articleMutationKey('ja', 'translation', String(id)), () =>
+    articles().setTranslation(String(id), String(text ?? ''))
+  )
 )
 ipcMain.handle('articles:markRead', (_e, id: string, read: boolean) =>
-  articles().markRead(id, !!read)
+  pendingWrites.run(articleMutationKey('ja', 'markRead', id), () => articles().markRead(id, !!read))
 )
 
 /** 挑一个文字文件导入：UTF-8 读不通（有替换字符）时按 Shift_JIS 读（青空文库的 txt） */
@@ -734,6 +790,7 @@ ipcMain.handle('backup:export', async (e) => {
   }
   const r = win ? await dialog.showSaveDialog(win, opts) : await dialog.showSaveDialog(opts)
   if (r.canceled || !r.filePath) return null
+  await pendingWrites.drain()
   const out = await createBackup(userData(), r.filePath, app.getVersion())
   return { path: r.filePath, ...out }
 })
@@ -789,6 +846,10 @@ app.whenReady().then(async () => {
     ok: false as const,
     reason: String(e)
   }))
+  setTransferResult(
+    await applyPendingTransfer(userData()).catch((error) => ({ error: String(error) }))
+  )
+  await registerTransferIpc()
   nativeTheme.themeSource = readPrefs().theme
   protocol.handle(MEDIA_SCHEME, (req) => media().serve(req))
 
@@ -819,6 +880,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('will-quit', () => {
+  analysisClient.dispose()
   speech.dispose()
   jaDict?.close()
 })

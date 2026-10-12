@@ -1,5 +1,5 @@
 /**
- * 苏格兰盖尔语的学习包描述：分级（CEFR 主分级 + SQA 说明）、能力开关（阶段一只开词典）。
+ * 苏格兰盖尔语的学习包描述：分级、真实能力开关与系统语音的区别。
  */
 import { describe, expect, it } from 'vitest'
 import gd from '../../../src/shared/lang/gd'
@@ -31,7 +31,7 @@ describe('盖尔语的学习包描述', () => {
     expect(sqa?.primary).toBeFalsy()
     for (const l of sqa?.levels ?? []) expect(sqa?.cefr?.[l.id]).toMatch(/^[ABC][12]$/)
   })
-  it('阶段一只开词典；注音用 IPA，没有系统语音', () => {
+  it('学习模块已接入；注音用 IPA，录音可用而系统语音为空', () => {
     const f = spec.features
     expect(f.lexicon).toBe(true)
     for (const k of [
@@ -44,8 +44,8 @@ describe('盖尔语的学习包描述', () => {
       'media',
       'exam'
     ] as const)
-      expect(f[k]).toBe(false)
-    expect(f.alphabet).toBeNull()
+      expect(f[k]).toBe(true)
+    expect(f.alphabet).toBe('phonics')
     expect(f.characters).toBeNull()
     expect(f.ruby).toBe('ipa')
     expect(f.romanization).toBe(false)

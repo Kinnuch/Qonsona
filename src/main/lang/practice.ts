@@ -17,6 +17,7 @@ import {
 } from '../../shared/exam'
 import type {
   LangModule,
+  LexAnalysis,
   LexExample,
   LexGrammarPoint,
   PracticeDb,
@@ -405,17 +406,28 @@ function sentenceQuestions(c: Ctx, n: number, listen: boolean): ExamQuestion[] {
   const speech = c.mod.spec.features.speech
   if (listen && !speech) return []
   const lang = c.mod.spec.bcp47
-  let list = c.db.sentences(c.level, 300).filter((e) => e.text.length >= 12 && e.text.length <= 160)
-  if (list.length < 8) list = c.db.sentences(null, 600).filter((e) => e.text.length >= 12)
+  // 韩文、阿语的完整短句不需要达到拉丁文字的字符数。
+  const minLength = c.mod.spec.code === 'ko' ? 4 : 6
+  let list = c.db
+    .sentences(c.level, 300)
+    .filter((e) => e.text.length >= minLength && e.text.length <= 160)
+  if (list.length < 8)
+    list = c.db
+      .sentences(null, 600)
+      .filter((e) => e.text.length >= minLength && e.text.length <= 160)
   const out: ExamQuestion[] = []
   const kind: PracticeKind = listen ? 'listen-sentence' : 'sentence'
   for (const ex of shuffled(list, c.rand)) {
     if (out.length >= n) break
     const mine = translationOf(ex)
-    const wrong = shuffled(list, c.rand)
-      .filter((x) => x.id !== ex.id && !sameText(translationOf(x), mine))
-      .slice(0, 3)
-      .map((x) => ({ text: translationOf(x) }))
+    const wrong: Choice[] = []
+    for (const x of shuffled(list, c.rand)) {
+      const text = translationOf(x)
+      if (x.id === ex.id || sameText(text, mine) || wrong.some((w) => sameText(w.text, text)))
+        continue
+      wrong.push({ text })
+      if (wrong.length === 3) break
+    }
     if (wrong.length < 3) continue
     out.push(
       question(kind, out.length, {
@@ -514,7 +526,13 @@ function grammarQuestions(c: Ctx, n: number, fill: boolean): ExamQuestion[] {
         })
       )
     } else {
-      const wrong = others.slice(0, 3).map((o) => ({ text: o.meaning as Text }))
+      const wrong: Choice[] = []
+      for (const o of others) {
+        if (sameText(o.meaning, g.meaning) || wrong.some((w) => sameText(w.text, o.meaning)))
+          continue
+        wrong.push({ text: o.meaning })
+        if (wrong.length === 3) break
+      }
       if (wrong.length < 3) continue
       out.push(
         question(kind, out.length, {
@@ -582,6 +600,89 @@ export function langPractice(
 }
 
 /** 一张模拟卷（LangModule.exams 里 id 对上的那张） */
+/** 本文练习：题面只取正文出现的词与语法，干扰项从同语言词库取。 */
+export function langArticlePractice(
+  db: LexDb,
+  analysis: LexAnalysis,
+  seed: number,
+  locale: string,
+  n = 10
+): ExamQuestion[] {
+  const mod = LANGS[db.code]
+  const pdb = practiceDb(db, seed)
+  const c: Ctx = { mod, db: pdb, locale, level: analysis.level, rand: pdb.rand }
+  const all = pool(c)
+  const words = new Map<number, PracticeWord>()
+  for (const sentence of analysis.sentences)
+    for (const t of sentence.tokens) {
+      if (!t.entry || !t.lemma || !t.pos || (!t.zh && !t.en) || SKIP_POS.has(t.pos)) continue
+      words.set(t.entry, {
+        id: t.entry,
+        w: t.lemma,
+        p: [t.pos],
+        lv: t.lv ?? null,
+        zh: t.zh ?? '',
+        en: t.en ?? '',
+        forms: []
+      })
+    }
+  const out: ExamQuestion[] = []
+  for (const w of shuffled([...words.values()], c.rand)) {
+    const wrong = wrongWords(c, w, all)
+    if (wrong.length < 3) continue
+    out.push(
+      question('word-meaning', out.length, {
+        ask: { zh: '选出本文中这个词的意思', en: 'Choose the meaning of this word from the text' },
+        prompt: { text: w.w, lang: mod.spec.bcp47 },
+        ...arrange(
+          { text: glossOf(w) },
+          wrong.map((x) => ({ text: glossOf(x) })),
+          c.rand
+        ),
+        explain: explainWord(c, w)
+      })
+    )
+    if (out.length >= n) break
+  }
+  const points = new Map((mod.grammar ?? []).map((g) => [g.id, g]))
+  const seen = new Set<string>()
+  const grammar: ExamQuestion[] = []
+  for (const hit of shuffled(analysis.grammar, c.rand)) {
+    const g = points.get(hit.id)
+    const sentence = analysis.sentences[hit.sentence]
+    if (!g || !sentence || seen.has(g.id)) continue
+    seen.add(g.id)
+    const wrong = shuffled([...points.values()], c.rand).filter(
+      (x) => x.id !== g.id && (!g.group || x.group !== g.group) && !sameText(x.meaning, g.meaning)
+    )
+    const choices: Choice[] = []
+    for (const x of wrong) {
+      if (!choices.some((a) => sameText(a.text, x.meaning))) choices.push({ text: x.meaning })
+      if (choices.length === 3) break
+    }
+    if (choices.length < 3) continue
+    grammar.push(
+      question('grammar-meaning', grammar.length, {
+        ask: {
+          zh: '本文标出的结构有什么作用？',
+          en: 'What does the marked structure do in this text?'
+        },
+        prompt: {
+          text: analysis.text.slice(sentence.start, sentence.end),
+          lang: mod.spec.bcp47,
+          mark: [hit.start - sentence.start, hit.end - sentence.start]
+        },
+        ...arrange({ text: g.meaning }, choices, c.rand),
+        explain: { lines: [g.name, g.meaning, ...(g.notes ? [g.notes] : [])] }
+      })
+    )
+    if (grammar.length >= 3) break
+  }
+  // 给语法留三个位置；最终题量按本文可用内容决定。
+  const combined = [...out.slice(0, Math.max(0, n - grammar.length)), ...grammar].slice(0, n)
+  return shuffled(combined, c.rand).map((q, i) => ({ ...q, id: `article-${i}` }))
+}
+
 export function langPaper(
   db: LexDb,
   examId: string,
@@ -606,6 +707,16 @@ export function langPaper(
       }))
     })
   }))
+  // 缺题时不能悄悄改变分项权重，也不能让空节进入考试页面。
+  if (
+    !sections.length ||
+    sections.some(
+      (s, i) =>
+        !s.questions.length ||
+        s.questions.length !== def.sections[i].parts.reduce((n, p) => n + p.n, 0)
+    )
+  )
+    return null
   return {
     id: `${db.code}-${def.id}-${seed}`,
     level: def.level,

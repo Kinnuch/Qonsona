@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.2.0 · 2026-10-12
+
+- Add daily words, sentences and grammar to the empty-query dictionary page for eight natural languages—Japanese, English, French, Korean, Spanish, Arabic, Russian and Scottish Gaelic—and imported Qonlang languages. Choose a date to revisit recommendations; the same language and date give stable results, with rotation the next day. Open entries, add words to a notebook, explore or pronounce sentences, and open grammar explanations or related lessons. Missing materials are reported separately. Qonlang candidates come only from visible content in the current local project.
+- Add an expandable inflection and forms panel, organizing recorded forms by actual tense, case, gender, number and other tags, with sources and explicit empty cells where records are missing. Japanese forms are generated for supported classes using JMdict word-class tags and existing conjugation rules. Dictionary records and rule outputs are labelled separately; complete paradigms are not claimed for every word.
+- Show Scottish Gaelic initial alternations with conditions, examples and sources, distinguishing recorded forms from rule outputs. Irish-style mutation tags retained from a source do not imply that those forms can be generated for Gaelic.
+- Fix sidebar height, course scrolling, misaligned form rows and home-page flicker. Narrow windows can reach the final lesson and sidebar settings.
+- Move long-text analysis into a worker and estimate news difficulty only from retained text, keeping dictionary clicks and module navigation responsive.
+- Add JSON export and import for notebooks and personal learning data, with previews, merging and automatic backups. Full ZIP backups still include study packs and recordings. Cross-computer transfer uses files; automatic cloud sync is not provided.
+- Configure daily limits, review intervals, mastery thresholds and rescheduling dates per language or list, plus relative frequencies for flashcards, meaning choices in both directions, spelling, readings, listening and example cloze. Questions target the current review word and use real data; unavailable types fall back to flashcards. Undo keeps scheduling and history consistent.
+- Wait for file writes and recordings before export or window close; rapid language switching no longer reads progress before saving finishes. Paginate paper history and large notebooks while retaining all data.
+- Connect graded grammar, reading, news, pronunciation and script lessons, inflection, conversation, idioms, language-specific practice and original study papers for the seven additional languages. See the multilingual progress record for actual coverage. Original study papers do not determine official exam scores or certificate levels.
+- Open stories in the appropriate language reader, practice vocabulary and grammar from the text, and return to the course. The English interface retains grammar usage explanations.
+- Fix grammar recognition inside dictionary phrases, duplicate translated choices, short Korean sentences, and reading/recording ownership while switching languages.
+- Reduce repeated example scans, import complete large vocabulary lists, and reject incomplete papers when data is insufficient.
+- Refresh Gaelic lookup indexes and apply existing Chinese translations while preserving entry and example IDs. Add multilingual content checks and Electron smoke coverage.
+
 ## 0.1.0 · 2026-10-09
 
 The first public release. Qonsona (formerly Qonlang Study) is a desktop app for learning languages: Japanese first (JLPT N5–N1), and the languages you build in Qonlang can be imported as study packs. There are no AI features — questions, example sentences and levels are all generated from the dictionaries and the project data.

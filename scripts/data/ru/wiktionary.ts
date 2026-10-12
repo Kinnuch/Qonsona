@@ -213,8 +213,10 @@ const KEEP_TAGS = new Set([
   'possessive'
 ])
 
-/** 标签排成固定的次序：时 / 式 → 主被动 → 分词 → 人称 → 格 → 性 → 数 → 有生 */
+/** 标签排成固定的次序：体 → 时 / 式 → 主被动 → 分词 → 人称 → 格 → 性 → 数 → 有生 */
 const TAG_ORDER = [
+  'imperfective',
+  'perfective',
   ...MOODS,
   'active',
   'passive',

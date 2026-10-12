@@ -1,0 +1,287 @@
+{
+  "checkedAt": "2026-10-12T08:16:11.113Z",
+  "code": "ar",
+  "dictionary": {
+    "entries": 26403,
+    "examples": 49728,
+    "levels": {
+      "A1": 750,
+      "A2": 1250,
+      "B1": 1500,
+      "B2": 1800,
+      "C1": 1700,
+      "C2": 2000
+    },
+    "lists": 17
+  },
+  "grammar": {
+    "points": 60,
+    "examples": 120,
+    "missed": []
+  },
+  "courses": [
+    {
+      "id": "alphabet",
+      "units": 2,
+      "lessons": 11
+    },
+    {
+      "id": "grammar",
+      "units": 6,
+      "lessons": 30
+    },
+    {
+      "id": "inflection",
+      "units": 1,
+      "lessons": 12
+    },
+    {
+      "id": "phrasebook",
+      "units": 11,
+      "lessons": 11
+    },
+    {
+      "id": "idioms",
+      "units": 2,
+      "lessons": 2
+    },
+    {
+      "id": "stories",
+      "units": 6,
+      "lessons": 6
+    }
+  ],
+  "texts": {
+    "count": 6,
+    "profiles": [
+      {
+        "id": "ar-original-A1",
+        "editorialLevel": "A1",
+        "lexicalLevel": "A1",
+        "wordTokens": 21,
+        "unknown": 0,
+        "grammarHits": 7
+      },
+      {
+        "id": "ar-original-A2",
+        "editorialLevel": "A2",
+        "lexicalLevel": "A1",
+        "wordTokens": 32,
+        "unknown": 0,
+        "grammarHits": 2
+      },
+      {
+        "id": "ar-original-B1",
+        "editorialLevel": "B1",
+        "lexicalLevel": "A1",
+        "wordTokens": 57,
+        "unknown": 0,
+        "grammarHits": 7
+      },
+      {
+        "id": "ar-original-B2",
+        "editorialLevel": "B2",
+        "lexicalLevel": "A2",
+        "wordTokens": 58,
+        "unknown": 0,
+        "grammarHits": 2
+      },
+      {
+        "id": "ar-original-C1",
+        "editorialLevel": "C1",
+        "lexicalLevel": "A2",
+        "wordTokens": 66,
+        "unknown": 0,
+        "grammarHits": 1
+      },
+      {
+        "id": "ar-original-C2",
+        "editorialLevel": "C2",
+        "lexicalLevel": "B1",
+        "wordTokens": 70,
+        "unknown": 1,
+        "grammarHits": 2
+      }
+    ]
+  },
+  "exams": [
+    {
+      "id": "ar-training-A1",
+      "level": "A1",
+      "full": true
+    },
+    {
+      "id": "ar-training-A2",
+      "level": "A2",
+      "full": true
+    },
+    {
+      "id": "ar-training-B1",
+      "level": "B1",
+      "full": true
+    },
+    {
+      "id": "ar-training-B2",
+      "level": "B2",
+      "full": true
+    },
+    {
+      "id": "ar-training-C1",
+      "level": "C1",
+      "full": true
+    },
+    {
+      "id": "ar-training-C2",
+      "level": "C2",
+      "full": true
+    }
+  ],
+  "primaryLevels": ["A1", "A2", "B1", "B2", "C1", "C2"],
+  "feedsCheckedAt": "2026-10-12T08:07:01.669Z",
+  "feeds": [
+    {
+      "id": "bbc",
+      "url": "https://feeds.bbci.co.uk/arabic/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 24,
+      "latest": "2026-10-12T08:06:40.000Z"
+    },
+    {
+      "id": "aljazeera",
+      "url": "https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9",
+      "ok": true,
+      "status": 200,
+      "entries": 25,
+      "latest": "2026-10-12T04:29:14.000Z"
+    },
+    {
+      "id": "france24",
+      "url": "https://www.france24.com/ar/rss",
+      "ok": true,
+      "status": 200,
+      "entries": 24,
+      "latest": "2026-10-12T06:58:55.000Z"
+    },
+    {
+      "id": "dw",
+      "url": "https://rss.dw.com/xml/rss-ar-all",
+      "ok": true,
+      "status": 200,
+      "entries": 55,
+      "latest": "2026-10-12T06:27:00.000Z"
+    },
+    {
+      "id": "cnn",
+      "url": "https://arabic.cnn.com/api/v1/rss/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2026-10-12T07:54:17.000Z"
+    },
+    {
+      "id": "euronews",
+      "url": "https://arabic.euronews.com/rss",
+      "ok": true,
+      "status": 200,
+      "entries": 50,
+      "latest": "2026-10-12T08:00:39.000Z"
+    },
+    {
+      "id": "skynews",
+      "url": "https://www.skynewsarabia.com/rss",
+      "ok": true,
+      "status": 200,
+      "entries": 66,
+      "latest": "2026-10-12T07:47:52.000Z"
+    },
+    {
+      "id": "rt",
+      "url": "https://arabic.rt.com/rss/",
+      "ok": true,
+      "status": 200,
+      "entries": 100,
+      "latest": "2026-10-12T08:04:53.000Z"
+    },
+    {
+      "id": "sputnik",
+      "url": "https://sarabic.ae/export/rss2/archive/index.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 100,
+      "latest": "2026-10-12T07:44:28.000Z"
+    },
+    {
+      "id": "aa",
+      "url": "https://www.aa.com.tr/ar/rss/default?cat=guncel",
+      "ok": true,
+      "status": 200,
+      "entries": 30,
+      "latest": "2026-10-12T07:53:59.000Z"
+    },
+    {
+      "id": "un",
+      "url": "https://news.un.org/feed/subscribe/ar/news/all/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 30,
+      "latest": "2026-10-11T12:00:00.000Z"
+    },
+    {
+      "id": "alquds",
+      "url": "https://www.alquds.co.uk/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-12T07:51:27.000Z"
+    },
+    {
+      "id": "youm7",
+      "url": "https://www.youm7.com/rss/SectionRss?SectionID=65",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": null
+    },
+    {
+      "id": "annahar",
+      "url": "https://www.annaharar.com/rss",
+      "ok": true,
+      "status": 200,
+      "entries": 50,
+      "latest": "2026-10-12T08:02:00.000Z"
+    },
+    {
+      "id": "sana",
+      "url": "https://sana.sy/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-12T08:05:17.000Z"
+    },
+    {
+      "id": "hespress",
+      "url": "https://www.hespress.com/feed",
+      "ok": true,
+      "status": 200,
+      "entries": 12,
+      "latest": "2026-10-12T07:40:17.000Z"
+    },
+    {
+      "id": "mosaique",
+      "url": "https://www.mosaiquefm.net/ar/rss",
+      "ok": true,
+      "status": 200,
+      "entries": 40,
+      "latest": "2026-10-12T07:40:00.000Z"
+    },
+    {
+      "id": "globalvoices",
+      "url": "https://ar.globalvoices.org/feed/",
+      "ok": true,
+      "status": 200,
+      "entries": 10,
+      "latest": "2026-10-06T20:37:00.000Z"
+    }
+  ]
+}

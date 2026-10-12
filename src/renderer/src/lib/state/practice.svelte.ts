@@ -7,10 +7,10 @@
  * 交卷后判分（JLPT 的换算办法，仅供参考），整张卷子连同答案存进记录，随时回看解析。
  */
 import { platform } from '$lib/platform'
+import { serializedWrites } from './persistence'
 import { t, pick } from '$lib/i18n/index.svelte'
 import { shuffled, rng } from '$shared/course'
 import {
-  MAX_EXAMS,
   countDay,
   emptyPracticeLog,
   normalizePracticeLog,
@@ -98,6 +98,7 @@ class PracticeState {
   busy = $state(false)
   #timer: ReturnType<typeof setTimeout> | undefined
   #loading: Promise<void> | null = null
+  #loadEpoch = 0
 
   /** 这门语言的等级（日语 N5–N1，千语集语言是按词频分的级） */
   levels = $derived.by<Level[]>(() => {
@@ -166,7 +167,8 @@ class PracticeState {
   load(packId: string | null): Promise<void> {
     if (packId === this.packId && (this.log || this.#loading))
       return this.#loading ?? Promise.resolve()
-    this.flush()
+    const saved = this.flush()
+    const epoch = ++this.#loadEpoch
     this.packId = packId
     this.log = null
     this.run = null
@@ -174,13 +176,19 @@ class PracticeState {
     // 日语默认 N5；千语集与框架语言默认「全部」
     this.level = packId === 'ja' ? 'N5' : null
     this.langKinds = []
-    if (!packId) return Promise.resolve()
+    if (!packId) {
+      this.#loading = null
+      return saved
+    }
     this.#loading = (async () => {
+      await saved
+      await serializedWrites.wait(`practice:${packId}`)
+      if (epoch !== this.#loadEpoch) return
       if (langModule(packId))
         platform.lang
           .practiceKinds(packId)
           .then((k) => {
-            if (this.packId === packId) this.langKinds = k
+            if (epoch === this.#loadEpoch) this.langKinds = k
           })
           .catch(() => {})
       const text = await platform.practice.load(packId).catch(() => null)
@@ -190,8 +198,10 @@ class PracticeState {
       } catch {
         raw = null
       }
-      if (this.packId === packId) this.log = raw ? normalizePracticeLog(raw) : emptyPracticeLog()
-    })().finally(() => (this.#loading = null))
+      if (epoch === this.#loadEpoch) this.log = raw ? normalizePracticeLog(raw) : emptyPracticeLog()
+    })().finally(() => {
+      if (epoch === this.#loadEpoch) this.#loading = null
+    })
     return this.#loading
   }
 
@@ -199,16 +209,23 @@ class PracticeState {
     if (!this.log) return
     this.log = { ...this.log }
     clearTimeout(this.#timer)
-    this.#timer = setTimeout(() => this.flush(), SAVE_DELAY)
+    this.#timer = setTimeout(() => {
+      void this.flush().catch(() => {})
+    }, SAVE_DELAY)
   }
 
-  flush(): void {
+  flush(): Promise<void> {
     clearTimeout(this.#timer)
     this.#timer = undefined
-    if (this.log && this.packId)
-      void platform.practice
-        .save(this.packId, JSON.stringify(this.log))
-        .catch((e) => ui.toast(String(e), 'error', 8000))
+    if (!this.log || !this.packId) return Promise.resolve()
+    const packId = this.packId
+    const content = JSON.stringify(this.log)
+    return serializedWrites
+      .enqueue(`practice:${packId}`, () => platform.practice.save(packId, content))
+      .catch((e) => {
+        ui.toast(String(e), 'error', 8000)
+        throw e
+      })
   }
 
   // ── 出题 ──
@@ -314,13 +331,15 @@ class PracticeState {
     title: string,
     ctx: Omit<ArticleRef, 'id' | 'title'> = {}
   ): Promise<boolean> {
-    if (this.busy || !this.isJa) return false
+    if (this.busy || !(this.isJa || this.fw)) return false
     this.busy = true
     try {
       await this.load(packs.active?.id ?? null)
-      const questions = await platform.ja
-        .articlePractice(id, Date.now() >>> 0, this.canListen)
-        .catch(() => [])
+      const questions = await (
+        this.fw && this.packId
+          ? platform.lang.articlePractice(this.packId, id, Date.now() >>> 0, i18n.locale)
+          : platform.ja.articlePractice(id, Date.now() >>> 0, this.canListen)
+      ).catch(() => [])
       if (!questions.length) {
         ui.toast(t('practice.articleEmpty'))
         return false
@@ -356,7 +375,7 @@ class PracticeState {
               .paper(this.packId, level, Date.now() >>> 0, i18n.locale)
               .catch(() => null)
           : await platform.ja.paper(this.#jaLevel(level), Date.now() >>> 0).catch(() => null)
-      if (!paper) {
+      if (!paper || !paper.sections.length || paper.sections.some((s) => !s.questions.length)) {
         ui.toast(
           t('practice.exam.unavailable', { lang: packs.active ? pick(packs.active.name) : '' }),
           'error',
@@ -399,6 +418,7 @@ class PracticeState {
 
   /** 这一节做完（或时间到了）：进下一节；最后一节交卷 */
   endSection(): void {
+    if (ui.closing) return
     const run = this.run
     if (run?.mode !== 'exam') return
     const next = run.section + 1
@@ -426,7 +446,7 @@ class PracticeState {
       answers: run.answers,
       outcome
     }
-    this.log.exams = [...this.log.exams, record].slice(-MAX_EXAMS)
+    this.log.exams = [...this.log.exams, record]
     countDay(this.log, dayKey(now), outcome.total, outcome.right)
     this.#changed()
     this.run = null

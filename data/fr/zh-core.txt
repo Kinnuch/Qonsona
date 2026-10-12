@@ -169,7 +169,6 @@ mal | adv | badly | 不好；坏；糟糕地
 près | adv | near | 近；附近
 là-haut | adv | up there | 在上面；在那上头
 même pas | adv | not even | 甚至不；连……都不
-même pas | intj | no, not even | 才不呢；连……都没有
 du tout | intj | not at all | 一点也不；根本不
 tout à fait | intj | certainly, definitely | 完全正确；当然
 eh | intj | signifying indifference or surprise | 嗯；嘿；哎（表示惊讶或不在意）
@@ -177,7 +176,6 @@ tiens | intj | used to show uncertainty | 嗯，你知道（口语）
 tiens | intj | used to show surprise | 咦；哟（表示惊讶）
 tiens | intj | used to show emphasis | （加强语气）
 tiens | intj | said when giving something | 给你；拿着
-je ne sais pas | phrase | I don't know | 我不知道
 
 # ───────── 介词 ─────────
 à | adp | to (destination) | 到；去（aller à Paris 去巴黎）
@@ -262,10 +260,10 @@ hors | adp | apart from | 除了
 parce | adp | only used in parce que | （只用在 parce que 里：因为）
 à côté | adp | beside, next to | 在旁边
 à côté | adp | next door | 隔壁
-à la | adp | a la, in the style | ……式的（à la française 法国式的）
 voilà | adp | it has been, ago | 已经……了（voilà deux ans 已经两年了）
 voici | adp | ago | ……以前
-il y a | adp | ago | ……以前（il y a deux ans 两年前）
+il y a | phrase | there is, there are | 有；存在（il y a un chat 有一只猫）
+il y a | phrase | ago | ……以前（il y a deux ans 两年前）
 
 # ───────── 连词 ─────────
 et | cconj | and | 和；与；并且
@@ -289,8 +287,6 @@ comme | sconj | because, as, since | 因为；由于
 quand | sconj | when (at the time that) | 当……的时候
 quand | sconj | whenever | 每当
 lorsqu' | sconj | apocopic form of lorsque | 当……的时候（lorsque 在元音前的省音形式）
-pas que | sconj | not that | 不是说……
-une fois | sconj | once, as soon as | 一旦；……之后
 est-ce que | part | Used to introduce a yes-or-no question | ……吗（引导一般疑问句：est-ce que tu viens ? 你来吗？）
 est-ce que | part | Used after a preposed interrogative | （放在疑问词后：où est-ce que tu vas ? 你去哪儿？）
 

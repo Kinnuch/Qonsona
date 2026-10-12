@@ -1,0 +1,173 @@
+{
+  "checkedAt": "2026-10-12T08:16:11.113Z",
+  "code": "ko",
+  "dictionary": {
+    "entries": 68687,
+    "examples": 163962,
+    "levels": {
+      "1": 958,
+      "2": 1619,
+      "3": 3903,
+      "4": 5186,
+      "5": 7076,
+      "6": 7696
+    },
+    "lists": 98
+  },
+  "grammar": {
+    "points": 66,
+    "examples": 132,
+    "missed": []
+  },
+  "courses": [
+    {
+      "id": "alphabet",
+      "units": 2,
+      "lessons": 12
+    },
+    {
+      "id": "grammar",
+      "units": 6,
+      "lessons": 35
+    },
+    {
+      "id": "inflection",
+      "units": 1,
+      "lessons": 10
+    },
+    {
+      "id": "phrasebook",
+      "units": 11,
+      "lessons": 11
+    },
+    {
+      "id": "idioms",
+      "units": 2,
+      "lessons": 2
+    },
+    {
+      "id": "stories",
+      "units": 6,
+      "lessons": 6
+    }
+  ],
+  "texts": {
+    "count": 6,
+    "profiles": [
+      {
+        "id": "ko-original-1",
+        "editorialLevel": "1",
+        "lexicalLevel": "1",
+        "wordTokens": 19,
+        "unknown": 0,
+        "grammarHits": 8
+      },
+      {
+        "id": "ko-original-2",
+        "editorialLevel": "2",
+        "lexicalLevel": "1",
+        "wordTokens": 28,
+        "unknown": 0,
+        "grammarHits": 1
+      },
+      {
+        "id": "ko-original-3",
+        "editorialLevel": "3",
+        "lexicalLevel": "2",
+        "wordTokens": 46,
+        "unknown": 0,
+        "grammarHits": 1
+      },
+      {
+        "id": "ko-original-4",
+        "editorialLevel": "4",
+        "lexicalLevel": "3",
+        "wordTokens": 48,
+        "unknown": 0,
+        "grammarHits": 2
+      },
+      {
+        "id": "ko-original-5",
+        "editorialLevel": "5",
+        "lexicalLevel": "3",
+        "wordTokens": 44,
+        "unknown": 0,
+        "grammarHits": 3
+      },
+      {
+        "id": "ko-original-6",
+        "editorialLevel": "6",
+        "lexicalLevel": "4",
+        "wordTokens": 58,
+        "unknown": 0,
+        "grammarHits": 1
+      }
+    ]
+  },
+  "exams": [
+    {
+      "id": "ko-training-1",
+      "level": "1",
+      "full": true
+    },
+    {
+      "id": "ko-training-2",
+      "level": "2",
+      "full": true
+    },
+    {
+      "id": "ko-training-3",
+      "level": "3",
+      "full": true
+    },
+    {
+      "id": "ko-training-4",
+      "level": "4",
+      "full": true
+    },
+    {
+      "id": "ko-training-5",
+      "level": "5",
+      "full": true
+    },
+    {
+      "id": "ko-training-6",
+      "level": "6",
+      "full": true
+    }
+  ],
+  "primaryLevels": ["1", "2", "3", "4", "5", "6"],
+  "feedsCheckedAt": "2026-10-12T08:15:58.344Z",
+  "feeds": [
+    {
+      "id": "kbs",
+      "url": "https://world.kbs.co.kr/rss/rss_enternews.htm?lang=k",
+      "ok": true,
+      "status": 200,
+      "entries": 20,
+      "latest": "2026-10-12T00:00:00.000Z"
+    },
+    {
+      "id": "hankyoreh",
+      "url": "https://www.hani.co.kr/rss/",
+      "ok": true,
+      "status": 200,
+      "entries": 30,
+      "latest": null
+    },
+    {
+      "id": "khan",
+      "url": "https://www.khan.co.kr/rss/rssdata/total_news.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 50,
+      "latest": "2026-10-12T08:11:00.000Z"
+    },
+    {
+      "id": "donga",
+      "url": "https://rss.donga.com/total.xml",
+      "ok": false,
+      "error": "TimeoutError: The operation was aborted due to timeout"
+    }
+  ]
+}

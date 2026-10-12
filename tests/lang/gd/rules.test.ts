@@ -38,10 +38,17 @@ describe('宽松键', () => {
     expect(gdLooseKey('Gàidhlig')).toBe('gaidhlig')
     expect(gdLooseKey('Mór')).toBe(gdLooseKey('mòr'))
   })
-  it('新旧拼写的连写、分写对得上', () => {
-    expect(gdLooseKey('an-diugh')).toBe(gdLooseKey('an diugh'))
-    expect(gdLooseKey('a-nis')).toBe(gdLooseKey('a nis'))
-    expect(gdLooseKey("dh'fhalbh")).toBe(gdLooseKey("dh' fhalbh"))
+  it('去掉连字符（连写的对得上）', () => {
+    expect(gdLooseKey('an-diugh')).toBe(gdLooseKey('andiugh'))
+  })
+  it('撇号留着：省音形不撞别的词', () => {
+    expect(gdLooseKey("m'athair")).not.toBe(gdLooseKey('màthair'))
+    expect(gdLooseKey('dhol')).not.toBe(gdLooseKey("dh'òl"))
+  })
+  it('空格留着：几个词连起来的短语不会撞上单词', () => {
+    expect(gdLooseKey("anns a'")).not.toBe(gdLooseKey('annsa'))
+    expect(gdLooseKey('Is e')).not.toBe(gdLooseKey('ise'))
+    expect(gdLooseKey("a th'")).not.toBe(gdLooseKey('àth'))
   })
 })
 
@@ -158,6 +165,18 @@ describe('猜原形', () => {
   })
   it('带前缀的复合词：ro-mhath → math', () => {
     expect(lemmas('ro-mhath')).toContain('math')
+  })
+  it('复合词：后一半的弱化、luchd- 是 neach- 的复数', () => {
+    expect(lemmas('deireadh-sheachdain')).toContain('deireadh-seachdain')
+    expect(lemmas('sgoil-shamhraidh')).toContain('sgoil-samhraidh')
+    expect(lemmaCandidatesGd('luchd-teagaisg')[0]).toEqual({
+      lemma: 'neach-teagaisg',
+      tags: ['plural']
+    })
+  })
+  it('带空格的（阅读器对短语用）不猜', () => {
+    expect(lemmas('na h-òrain')).toEqual([])
+    expect(lemmas('tha mi')).toEqual([])
   })
   it('不把自己当原形，结果不重复', () => {
     for (const w of ['bhàta', "dh'fhalbh", 'balaich', 't-uisge']) {

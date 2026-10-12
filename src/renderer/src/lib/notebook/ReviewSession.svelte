@@ -14,6 +14,11 @@
   import { langModule } from '$shared/lang/registry'
   import type { LexEntryView } from '$shared/lang/views'
   import Pronounce from '$lib/ui/Pronounce.svelte'
+  import ReviewQuestion from './ReviewQuestion.svelte'
+  import { reviewExample, type ReviewExample } from '$shared/review-question'
+  import { audio } from '$lib/state/audio.svelte'
+  import { onDestroy } from 'svelte'
+  onDestroy(() => audio.stop())
 
   const GRADES: { q: Grade; id: 'forgot' | 'unsure' | 'known' }[] = [
     { q: 0, id: 'forgot' },
@@ -27,31 +32,62 @@
   const answeredId = $derived(GRADES.find((g) => g.q === answered)?.id ?? 'known')
   /** 按词本过闪卡时，排了期还没到期的是抽查：认识不改排期 */
   const spot = $derived(!!card && s?.mode === 'drill' && isSpot(card))
-  const hints = $derived(card ? preview(card, spot) : null)
+  const hints = $derived(
+    card
+      ? preview(card, spot, Date.now(), notebook.cardPlan.masterDays, notebook.cardPlan.ladder)
+      : null
+  )
+  const question = $derived(s?.question.question ?? null)
 
   // 日语：背面的词条详情（例句）
   const entryId = $derived(card ? jaEntryId(card.key) : null)
   let entry = $state<EntryView | null>(null)
+  let jaLoading = $state(false)
+  let jaEpoch = 0
   $effect(() => {
     const id = entryId
+    const epoch = ++jaEpoch
     entry = null
+    jaLoading = id !== null
     if (id !== null)
-      platform.ja.entry(id).then((e) => {
-        if (entryId === id) entry = e
-      })
+      platform.ja
+        .entry(id)
+        .then((e) => {
+          if (entryId === id && epoch === jaEpoch) entry = e
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (entryId === id && epoch === jaEpoch) jaLoading = false
+        })
+    return () => {
+      jaEpoch++
+    }
   })
   // 框架语言（英、法、韩……）：背面取词条的例句
   const lang = $derived(packs.active ? langModule(packs.active.id) : null)
   const lexId = $derived(card && lang ? lexEntryId(card.key) : null)
   let lexEntry = $state<LexEntryView | null>(null)
+  let lexLoading = $state(false)
+  let lexEpoch = 0
   $effect(() => {
     const id = lexId
     const code = lang?.spec.code
+    const epoch = ++lexEpoch
     lexEntry = null
+    lexLoading = id !== null && !!code
     if (id !== null && code)
-      platform.lang.entry(code, id).then((e) => {
-        if (lexId === id) lexEntry = e
-      })
+      platform.lang
+        .entry(code, id)
+        .then((e) => {
+          if (lexId === id && lang?.spec.code === code && epoch === lexEpoch) lexEntry = e
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (lexId === id && lang?.spec.code === code && epoch === lexEpoch) lexLoading = false
+        })
+    return () => {
+      lexEpoch++
+    }
   })
   const lexExample = $derived(
     lexEntry
@@ -104,6 +140,51 @@
     return t('notebook.years', { n: Math.round((days / 365) * 10) / 10 })
   }
 
+  $effect(() => {
+    if (!s || !card || s.done || s.questionPrepared) return
+    const tasks = Object.entries(notebook.cardPlan.weights).some(
+      ([kind, weight]) => kind !== 'flashcard' && weight > 0
+    )
+    if (tasks && (jaLoading || lexLoading)) return
+    const forms = [
+      card.front,
+      ...(entry?.kanji.map((f) => f.text) ?? []),
+      ...(entry?.kana.map((f) => f.text) ?? []),
+      ...(lexEntry?.forms.map((f) => f.form) ?? []),
+      ...(lexEntry?.d ? [lexEntry.d] : [])
+    ]
+    const examples: ReviewExample[] = []
+    for (const ex of entry?.senses.flatMap((x) => x.examples) ?? []) {
+      const found = reviewExample(
+        ex.ja,
+        forms,
+        (i18n.locale === 'zh' ? ex.zh : ex.en) ?? ex.en ?? undefined
+      )
+      if (found) examples.push(found)
+    }
+    for (const ex of lexEntry
+      ? [...lexEntry.senses.flatMap((x) => x.examples), ...lexEntry.examples]
+      : []) {
+      const found = reviewExample(
+        ex.text,
+        forms,
+        (i18n.locale === 'zh' ? ex.zh : ex.en) ?? ex.en ?? undefined
+      )
+      if (found) examples.push(found)
+    }
+    if (project && language && item?.lexeme)
+      for (const phrase of project.phrasebook.filter((p) => p.languageId === language.id)) {
+        const found = reviewExample(phrase.text, forms, pick(phrase.translation))
+        if (found) examples.push(found)
+      }
+    notebook.prepareQuestion({
+      locale: i18n.locale,
+      canListen: !!say && audio.canSay(say),
+      examples,
+      forms
+    })
+  })
+
   function onkey(e: KeyboardEvent): void {
     const target = e.target as HTMLElement
     if (target.closest('input, textarea, select')) return
@@ -111,7 +192,7 @@
       if (e.key === 'Escape') notebook.exit()
       return
     }
-    if (answered === null && ['1', '2', '3'].includes(e.key)) {
+    if (answered === null && s.questionPrepared && !question && ['1', '2', '3'].includes(e.key)) {
       e.preventDefault()
       notebook.grade(GRADES[Number(e.key) - 1].q)
     } else if (answered !== null && (e.key === ' ' || e.key === 'Enter')) {
@@ -124,7 +205,7 @@
   }
 
   const title = $derived(
-    s?.mode === 'drill' && s.listId
+    s?.listId
       ? t('notebook.session.drillOf', { list: notebook.listName(s.listId) })
       : t('notebook.session.review')
   )
@@ -180,41 +261,67 @@
       </div>
     {:else if card}
       <div class="card flash" data-card={card.key}>
-        {#if spot}<span class="chip spot" title={t('notebook.session.spotHint')}
-            >{t('notebook.session.spot')}</span
-          >{/if}
-        <p class="front" lang={packs.active?.bcp47} class:data={entryId === null}>{card.front}</p>
+        {#if question}
+          {#key `${card.key}/${s.i}/${s.questionEpoch}`}
+            <ReviewQuestion
+              {question}
+              {say}
+              answered={answered !== null}
+              onanswer={(correct) => notebook.grade(correct ? 5 : 0)}
+            />
+          {/key}
+        {:else if !s.questionPrepared}
+          <p class="muted">
+            {i18n.locale === 'zh'
+              ? '正在准备当前词的复习题…'
+              : 'Preparing this word’s review task…'}
+          </p>
+        {:else}
+          {#if spot}<span class="chip spot" title={t('notebook.session.spotHint')}
+              >{t('notebook.session.spot')}</span
+            >{/if}
+          <p class="front" lang={packs.active?.bcp47} class:data={entryId === null}>{card.front}</p>
 
-        {#if answered !== null}
-          <div class="back" data-back>
-            <div class="row center">
-              {#if card.reading && card.reading !== card.front}
-                <span
-                  class="reading"
-                  class:data={entryId === null}
-                  lang={entryId !== null ? 'ja' : undefined}
-                  >{entryId === null ? `[${card.reading}]` : card.reading}</span
-                >
-              {/if}
-              {#if say}<Pronounce item={say} />{/if}
-            </div>
-            {#if scriptText && script}
-              <p class="script" style={fontFamilyCss(script)}>{scriptText}</p>
-            {/if}
-            <p class="meaning">{meaning(card.meaning)}</p>
-            {#if example}
-              <div class="example">
-                <p lang={example.lang} dir="auto">{example.text}</p>
-                <p class="muted">
-                  {(i18n.locale === 'zh' ? example.zh : example.en) ?? example.en ?? ''}
-                </p>
+          {#if answered !== null}
+            <div class="back" data-back>
+              <div class="row center">
+                {#if card.reading && card.reading !== card.front}
+                  <span
+                    class="reading"
+                    class:data={entryId === null}
+                    lang={entryId !== null ? 'ja' : undefined}
+                    >{entryId === null ? `[${card.reading}]` : card.reading}</span
+                  >
+                {/if}
+                {#if say}<Pronounce item={say} />{/if}
               </div>
-            {/if}
-          </div>
+              {#if scriptText && script}
+                <p class="script" style={fontFamilyCss(script)}>{scriptText}</p>
+              {/if}
+              <p class="meaning">{meaning(card.meaning)}</p>
+              {#if example}
+                <div class="example">
+                  <p lang={example.lang} dir="auto">{example.text}</p>
+                  <p class="muted">
+                    {(i18n.locale === 'zh' ? example.zh : example.en) ?? example.en ?? ''}
+                  </p>
+                </div>
+              {/if}
+            </div>
+          {/if}
         {/if}
       </div>
 
-      {#if answered === null}
+      {#if s.question.fallback && !question}<p class="muted" data-review-fallback>
+          {s.question.fallbackReason === 'disabled'
+            ? i18n.locale === 'zh'
+              ? '全部题型频次为0；本轮使用闪卡，未启用练习题。'
+              : 'All task weights are zero. This round uses flashcards; practice tasks remain disabled.'
+            : i18n.locale === 'zh'
+              ? '所选题型缺少足够释义、读音、可播放音频或当前词真实例句，本词改用闪卡；频次为0的题型仍不出题。'
+              : 'Enabled tasks lack sufficient meanings, readings, playable audio or real examples of this word. This word uses a flashcard; zero-weight tasks remain disabled.'}
+        </p>{/if}
+      {#if answered === null && s.questionPrepared && !question}
         <div class="grades">
           {#each GRADES as g, k (g.q)}
             <button class="btn grade {g.id}" data-grade={g.q} onclick={() => notebook.grade(g.q)}>
@@ -223,7 +330,7 @@
             </button>
           {/each}
         </div>
-      {:else}
+      {:else if answered !== null}
         <div class="grades">
           <span class="chip graded {answeredId}">{t(`notebook.grades.${answeredId}`)}</span>
           <button class="btn primary next" data-next onclick={() => notebook.next()}

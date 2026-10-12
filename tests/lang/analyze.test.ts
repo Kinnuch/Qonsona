@@ -55,6 +55,31 @@ afterAll(() => {
 })
 
 describe('阅读分析', () => {
+  it('短语词卡合并后仍能认出内部语法词序列，命中不重复', () => {
+    const saved = LANGS.fr.grammar
+    LANGS.fr.grammar = [
+      {
+        id: 'test-cause',
+        level: 'A1',
+        name: { zh: '因为', en: 'because' },
+        form: { zh: 'parce que', en: 'parce que' },
+        meaning: { zh: '原因', en: 'reason' },
+        examples: [],
+        patterns: [[{ form: 'parce' }, { form: 'que' }], [{ lemma: 'parce que' }]]
+      }
+    ]
+    try {
+      const text = 'Il mange parce que il a faim.'
+      const a = analyzeLex(db, text)
+      expect(a.sentences[0].tokens.some((t) => t.lemma === 'parce que')).toBe(true)
+      const start = text.indexOf('parce que')
+      expect(a.grammar).toEqual([
+        { id: 'test-cause', sentence: 0, start, end: start + 'parce que'.length }
+      ])
+    } finally {
+      LANGS.fr.grammar = saved
+    }
+  })
   it('分句、对词条、变形找回原形、短语合并', () => {
     const a = analyzeLex(db, 'Il a bien mangé, parce que il a faim.\n\nPomme.')
     expect(a.sentences.map((s) => s.para)).toEqual([0, 1])

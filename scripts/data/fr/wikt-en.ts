@@ -376,7 +376,7 @@ const MAX_EXAMPLE = 120
 
 export async function loadEnWikt(): Promise<EnWikt> {
   const file = join(CACHE, DOWNLOADS.enwikt.file)
-  return cached('enwikt', 7, [file], async () => {
+  return cached('enwikt', 8, [file], async () => {
     log('读英文维基词典的法语词条…')
     const byKey = new Map<string, Draft>()
     const pointers: Pointer[] = []
@@ -437,7 +437,8 @@ export async function loadEnWikt(): Promise<EnWikt> {
           continue
         }
         if (IPA_CHARS.test(f.form) || f.form === '-' || f.form === '—') continue
-        if (pos === 'verb' && / /.test(f.form) && !/^(?:me|te|se|s'|m'|t')/.test(f.form)) continue
+        // 动词变形表里带空格的（复合时态、me suis 这类代词式）不要：阅读器会把几个词并成一个
+        if (pos === 'verb' && / /.test(f.form)) continue
         const ft = formTags(tags)
         if (tags.includes('canonical') && frKey(f.form) === d.k) continue
         if (!d.f.some((x) => x[0] === f.form && x.slice(1).join(' ') === ft.join(' ')))

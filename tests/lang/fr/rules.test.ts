@@ -4,6 +4,7 @@
 import { describe, expect, it } from 'vitest'
 import { frKey, frLooseKey, lemmaCandidates, tokenize } from '../../../src/shared/lang/fr/rules'
 import fr from '../../../src/shared/lang/fr'
+import { segmentSentences } from '../../../src/shared/lang/text'
 
 /** 只看词（去掉空白），标点照留 */
 const words = (text: string): string[] =>
@@ -28,7 +29,10 @@ describe('查词键', () => {
     expect(frLooseKey('Lætitia')).toBe('laetitia')
     expect(frLooseKey('garçon')).toBe('garcon')
     expect(frLooseKey('porte-monnaie')).toBe('porte monnaie')
-    expect(frLooseKey('est-ce que')).toBe('est ce que')
+    // 带空格的多词说法不去重音（a jamais ≠ à jamais）
+    expect(frLooseKey('est-ce que')).toBe('est-ce que')
+    expect(frLooseKey('à jamais')).toBe('à jamais')
+    expect(frLooseKey('lève-tôt')).toBe('leve tot')
     expect(frLooseKey('-ment')).toBe('-ment')
     expect(frLooseKey("aujourd'hui")).toBe("aujourd'hui")
   })
@@ -168,5 +172,72 @@ describe('猜原形', () => {
         expect(g.lemma).not.toBe(frKey(w))
         expect(g.lemma.length).toBeGreaterThan(0)
       }
+  })
+})
+
+describe('分句', () => {
+  const split = (text: string): string[] =>
+    segmentSentences(text, 'fr', fr.rules.noBreakAfter).map((s) => text.slice(s.start, s.end))
+  it('称呼、纪年、页码、单字母缩写后面不断开', () => {
+    expect(split('M. Dupont est arrivé. Mme Durand aussi.')).toEqual([
+      'M. Dupont est arrivé.',
+      'Mme Durand aussi.'
+    ])
+    expect(split('MM. Durand et Petit sont là.')).toEqual(['MM. Durand et Petit sont là.'])
+    expect(split('Il est né en 50 av. J.-C. à Rome. Puis il est mort.')).toEqual([
+      'Il est né en 50 av. J.-C. à Rome.',
+      'Puis il est mort.'
+    ])
+    expect(split('Voir le chap. 3 et la p. 12. Merci.')).toEqual([
+      'Voir le chap. 3 et la p. 12.',
+      'Merci.'
+    ])
+    expect(split('J. K. Rowling écrit. Fin.')).toEqual(['J. K. Rowling écrit.', 'Fin.'])
+  })
+  it('对话：引号没合上时，! ? 后面不断开', () => {
+    expect(split('« Viens ! » dit-il. Elle refuse.')).toEqual([
+      '« Viens ! » dit-il.',
+      'Elle refuse.'
+    ])
+    expect(split('« Tu viens ? » demanda-t-elle.')).toEqual(['« Tu viens ? » demanda-t-elle.'])
+  })
+  it('真的句末照常断开', () => {
+    expect(split('Il pleut. Nous restons ici !  Et toi ?')).toEqual([
+      'Il pleut.',
+      'Nous restons ici !',
+      'Et toi ?'
+    ])
+    expect(split('Des pommes, des poires, etc. Ensuite nous partons.')).toEqual([
+      'Des pommes, des poires, etc.',
+      'Ensuite nous partons.'
+    ])
+  })
+})
+
+describe('新闻里常见的写法', () => {
+  it('连着写的钟点当一个数', () => {
+    const t = tokenize('à 16h00, puis 8h30 et 8h ; 18 h 00')
+    expect(t.filter((x) => x.kind === 'num').map((x) => x.text)).toEqual([
+      '16h00',
+      '8h30',
+      '8h',
+      '18',
+      '00'
+    ])
+    expect(t.filter((x) => x.kind === 'word').map((x) => x.text)).toEqual(['à', 'puis', 'et', 'h'])
+  })
+  it('带前缀、连字符的复合词：去掉前缀、取前半', () => {
+    expect(lemmas('ex-président')).toContain('président')
+    expect(lemmas('co-pilote')).toEqual(expect.arrayContaining(['copilote', 'pilote']))
+    expect(lemmas('anti-corruption')).toContain('corruption')
+    expect(lemmas('ville-clé')).toContain('ville')
+    expect(lemmas('bleu-blanc-rouge')).toContain('bleu')
+    expect(lemmas('ex-présidentes')).toContain('président')
+  })
+  it('连写的前缀放在最后猜', () => {
+    const l = lemmas('postélectorale')
+    expect(l).toContain('électoral')
+    expect(l.indexOf('électorale')).toBeGreaterThan(l.indexOf('postélectoral'))
+    expect(lemmas('superaliment')).toContain('aliment')
   })
 })

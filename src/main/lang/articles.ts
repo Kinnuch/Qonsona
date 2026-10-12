@@ -6,7 +6,7 @@
  *   userData/articles/<代码>/state.json       读完的时间、算好的难度
  *   userData/articles/<代码>/translations/<id>.txt  自己贴的译文（双语对照）
  */
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { existsSync, promises as fs } from 'node:fs'
 import { join } from 'node:path'
 import type { LangCode, LexText, NewsSource } from '../../shared/lang/types'
@@ -34,6 +34,7 @@ interface State {
 
 export class LangArticleStore {
   #state: State | null = null
+  #stateWrite: Promise<void> = Promise.resolve()
   #news: { checkedAt: string | null; items: StoredNews[] } | null = null
 
   constructor(
@@ -42,22 +43,35 @@ export class LangArticleStore {
     readonly builtin: LexText[],
     readonly sources: NewsSource[],
     /** 估难度（主分级的等级）；分析不了时 null */
-    readonly levelOf: (text: string) => string | null
+    readonly levelOf: (text: string) => string | null | Promise<string | null>
   ) {}
 
   async #loadState(): Promise<State> {
     if (this.#state) return this.#state
     try {
-      this.#state = JSON.parse(await fs.readFile(join(this.dir, 'state.json'), 'utf8'))
+      // A later initial read must not replace the first object after a caller mutated it.
+      const state = JSON.parse(await fs.readFile(join(this.dir, 'state.json'), 'utf8')) as State
+      this.#state ??= state
     } catch {
-      this.#state = { read: {}, levels: {} }
+      this.#state ??= { read: {}, levels: {} }
     }
     return this.#state!
   }
 
-  async #saveState(): Promise<void> {
-    await fs.mkdir(this.dir, { recursive: true })
-    await fs.writeFile(join(this.dir, 'state.json'), JSON.stringify(this.#state), 'utf8')
+  #saveState(): Promise<void> {
+    const content = JSON.stringify(this.#state)
+    const file = join(this.dir, 'state.json')
+    // Serialize just the short disk commit, never the analysis preceding it. User writes
+    // still return this promise to the external shutdown/export mutation barrier.
+    const write = this.#stateWrite
+      .catch(() => {})
+      .then(async () => {
+        await fs.mkdir(this.dir, { recursive: true })
+        await fs.writeFile(file + '.tmp', content, 'utf8')
+        await fs.rename(file + '.tmp', file)
+      })
+    this.#stateWrite = write
+    return write
   }
 
   async #loadNews(): Promise<{ checkedAt: string | null; items: StoredNews[] }> {
@@ -125,7 +139,7 @@ export class LangArticleStore {
       let level = a.level
       if (level === null && a.source !== 'builtin') {
         if (!(a.id in state.levels)) {
-          state.levels[a.id] = this.levelOf(a.body)
+          state.levels[a.id] = await this.levelOf(a.body)
           changed = true
         }
         level = state.levels[a.id]
@@ -159,11 +173,16 @@ export class LangArticleStore {
     } catch {
       // 没有译文
     }
-    return { ...a, readAt: state.read[id] ?? null, translation }
+    return {
+      ...a,
+      level: a.level ?? state.levels[id] ?? null,
+      readAt: state.read[id] ?? null,
+      translation
+    }
   }
 
   async save(input: LangArticleInput): Promise<LangArticleMeta> {
-    const id = `u-${Date.now().toString(36)}`
+    const id = `u-${Date.now().toString(36)}-${randomUUID().slice(0, 8)}`
     const body = input.body.replace(/\r\n?/g, '\n').trim()
     const a: LangArticle = {
       id,
@@ -174,13 +193,17 @@ export class LangArticleStore {
       url: input.url,
       topic: input.topic?.trim() || undefined,
       chars: body.length,
-      level: this.levelOf(body),
+      // Commit the original text before optional lexical work. list() profiles null levels
+      // on demand, so an analysis-worker backlog cannot put imported prose at risk.
+      level: null,
       addedAt: new Date().toISOString(),
       readAt: null,
       body
     }
     await fs.mkdir(join(this.dir, 'user'), { recursive: true })
-    await fs.writeFile(join(this.dir, 'user', `${id}.json`), JSON.stringify(a), 'utf8')
+    const file = join(this.dir, 'user', `${id}.json`)
+    await fs.writeFile(file + '.tmp', JSON.stringify(a), 'utf8')
+    await fs.rename(file + '.tmp', file)
     const { body: _body, ...meta } = a
     void _body
     return meta
@@ -241,7 +264,8 @@ export class LangArticleStore {
           origin: s.name,
           license: s.licenseName,
           chars: it.body.length,
-          level: s.level ?? this.levelOf(it.body),
+          // Bound the retained news first; discarded feed items never need analysis.
+          level: s.level ?? null,
           publishedAt: it.publishedAt ?? now.toISOString(),
           addedAt: now.toISOString(),
           excerpt: it.excerpt,
@@ -258,6 +282,9 @@ export class LangArticleStore {
       news.items = [...read, ...unread]
         .slice(0, NEWS_MAX)
         .sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
+    }
+    for (const article of news.items) {
+      if (article.level === null) article.level = await this.levelOf(article.body)
     }
     news.checkedAt = now.toISOString()
     await fs.mkdir(this.dir, { recursive: true })

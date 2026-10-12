@@ -5,6 +5,7 @@
   import { X, ArrowRight, RotateCcw } from '@lucide/svelte'
   import { practice, type PracticeRun } from '$lib/state/practice.svelte'
   import { reading } from '$lib/state/reading.svelte'
+  import { langReading } from '$lib/state/langReading.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { t, pick } from '$lib/i18n/index.svelte'
   import ExamPrompt from './ExamPrompt.svelte'
@@ -21,7 +22,7 @@
     run.level ? pick(practice.levels.find((l) => l.id === run.level)?.name) : t('practice.all')
   )
   const title = $derived(
-    `${t(`practice.kinds.${run.kind}.name`)} · ${run.article ? run.article.title : levelName}`
+    `${run.kind.startsWith('custom:') ? pick(practice.fw?.practice?.find((k) => k.id === run.kind.slice(7))?.name) : t(`practice.kinds.${run.kind}.name`)} · ${run.article ? run.article.title : levelName}`
   )
 
   /** 本文练习做完：回到那篇文章（阅读器的「返回」照旧回首页、课程或文章列表） */
@@ -30,7 +31,10 @@
     practice.home()
     if (!a) return
     ui.go('reading')
-    await reading.open(a.id, a.from ?? null)
+    if (practice.fw) {
+      await langReading.ensure(practice.fw.spec.code)
+      await langReading.open(a.id, a.from ?? null)
+    } else await reading.open(a.id, a.from ?? null)
   }
 
   /** 故事课的本文练习做完：回到课程（停在那一课） */

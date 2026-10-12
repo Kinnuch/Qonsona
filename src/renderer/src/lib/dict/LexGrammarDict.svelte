@@ -7,13 +7,14 @@
   import { primarySystem } from '$shared/lang/levels'
   import type { LangCode, LexGrammarPoint } from '$shared/lang/types'
   import Pronounce from '$lib/ui/Pronounce.svelte'
+  import { untrack } from 'svelte'
 
   let { code, query }: { code: string; query: string } = $props()
 
   const mod = $derived(LANGS[code as LangCode])
   const spec = $derived(mod.spec)
   const levels = $derived(primarySystem(spec.levelSystems).levels)
-  const memo = $derived(dictState.of(code))
+  const memo = dictState.of(untrack(() => code))
   const points = $derived(mod.grammar ?? [])
   let level = $state<string | null>(null)
 

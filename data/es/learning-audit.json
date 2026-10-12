@@ -1,0 +1,167 @@
+{
+  "checkedAt": "2026-10-12T08:16:11.113Z",
+  "code": "es",
+  "dictionary": {
+    "entries": 116703,
+    "examples": 57401,
+    "levels": {
+      "A1": 1197,
+      "A2": 1550,
+      "B1": 2000,
+      "B2": 2440,
+      "C1": 3911,
+      "C2": 6968
+    },
+    "lists": 43
+  },
+  "grammar": {
+    "points": 72,
+    "examples": 144,
+    "missed": []
+  },
+  "courses": [
+    {
+      "id": "grammar",
+      "units": 6,
+      "lessons": 26
+    },
+    {
+      "id": "alphabet",
+      "units": 1,
+      "lessons": 4
+    },
+    {
+      "id": "inflection",
+      "units": 1,
+      "lessons": 4
+    },
+    {
+      "id": "phrasebook",
+      "units": 1,
+      "lessons": 4
+    },
+    {
+      "id": "idioms",
+      "units": 1,
+      "lessons": 2
+    },
+    {
+      "id": "stories",
+      "units": 6,
+      "lessons": 6
+    }
+  ],
+  "texts": {
+    "count": 6,
+    "profiles": [
+      {
+        "id": "es-reading-a1",
+        "editorialLevel": "A1",
+        "lexicalLevel": "A1",
+        "wordTokens": 56,
+        "unknown": 0,
+        "grammarHits": 3
+      },
+      {
+        "id": "es-reading-a2",
+        "editorialLevel": "A2",
+        "lexicalLevel": "A1",
+        "wordTokens": 71,
+        "unknown": 0,
+        "grammarHits": 4
+      },
+      {
+        "id": "es-reading-b1",
+        "editorialLevel": "B1",
+        "lexicalLevel": "A1",
+        "wordTokens": 81,
+        "unknown": 0,
+        "grammarHits": 0
+      },
+      {
+        "id": "es-reading-b2",
+        "editorialLevel": "B2",
+        "lexicalLevel": "B1",
+        "wordTokens": 88,
+        "unknown": 0,
+        "grammarHits": 0
+      },
+      {
+        "id": "es-reading-c1",
+        "editorialLevel": "C1",
+        "lexicalLevel": "A2",
+        "wordTokens": 104,
+        "unknown": 0,
+        "grammarHits": 0
+      },
+      {
+        "id": "es-reading-c2",
+        "editorialLevel": "C2",
+        "lexicalLevel": "B1",
+        "wordTokens": 139,
+        "unknown": 0,
+        "grammarHits": 2
+      }
+    ]
+  },
+  "exams": [
+    {
+      "id": "es-study-A1",
+      "level": "A1",
+      "full": true
+    },
+    {
+      "id": "es-study-A2",
+      "level": "A2",
+      "full": true
+    },
+    {
+      "id": "es-study-B1",
+      "level": "B1",
+      "full": true
+    },
+    {
+      "id": "es-study-B2",
+      "level": "B2",
+      "full": true
+    },
+    {
+      "id": "es-study-C1",
+      "level": "C1",
+      "full": true
+    },
+    {
+      "id": "es-study-C2",
+      "level": "C2",
+      "full": true
+    }
+  ],
+  "primaryLevels": ["A1", "A2", "B1", "B2", "C1", "C2"],
+  "feedsCheckedAt": "2026-10-12T08:15:58.344Z",
+  "feeds": [
+    {
+      "id": "elpais",
+      "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/portada",
+      "ok": true,
+      "status": 200,
+      "entries": 139,
+      "latest": "2026-10-12T03:30:01.000Z"
+    },
+    {
+      "id": "rtve",
+      "url": "https://www.rtve.es/rss/temas_noticias.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 40,
+      "latest": "2022-06-09T23:05:00.000Z"
+    },
+    {
+      "id": "bbc-mundo",
+      "url": "https://feeds.bbci.co.uk/mundo/rss.xml",
+      "ok": true,
+      "status": 200,
+      "entries": 33,
+      "latest": "2026-10-12T02:02:06.000Z"
+    }
+  ]
+}

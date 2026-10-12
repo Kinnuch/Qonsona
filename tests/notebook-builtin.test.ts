@@ -4,18 +4,41 @@
  */
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { parseProject } from '$qon/core/serialize'
 import type { Project } from '$qon/core/model'
 import { builtinLists } from '$lib/notebook/builtin'
 import { frequencyLevels } from '$lib/packs/qonlang/levels'
 import { packFromQonlang } from '$lib/packs/qonlang/convert'
 import { JAPANESE } from '$lib/packs/builtin'
+import { LANG_PACKS } from '$lib/packs/builtin'
+import { platform } from '$lib/platform'
 
 const load = (): Project =>
   parseProject(readFileSync(resolve(__dirname, 'fixtures/qonlang/Aelith.laim.json'), 'utf8'))
 const zh = (t: Record<string, string> | undefined): string => t?.zh ?? t?.en ?? ''
 const labels = { favorite: '作者收藏', tag: (tag: string) => `标签：${tag}` }
+
+it('高级内置词本导入全部词条，不能静默截断到默认 5000 词', async () => {
+  const spy = vi.spyOn(platform.lang, 'list').mockResolvedValue([])
+  try {
+    const lists = builtinLists(
+      LANG_PACKS.find((p) => p.id === 'en')!,
+      null,
+      null,
+      null,
+      new Set(),
+      zh,
+      labels,
+      {},
+      [{ name: 'cefr:C2', count: 30038 }]
+    )
+    await lists.find((l) => l.source === 'lex-cefr:C2')!.load()
+    expect(spy).toHaveBeenCalledWith('en', 'cefr:C2', 30038)
+  } finally {
+    spy.mockRestore()
+  }
+})
 
 describe('千语集语言的内置词本', () => {
   it('作者收藏、各级、各标签；卡的键是 lexeme-<id>，卡面有读音与释义', async () => {

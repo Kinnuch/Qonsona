@@ -29,9 +29,15 @@ export function frKey(text: string): string {
   )
 }
 
-/** 宽松键：再去掉重音与变音符号、拆开 œ æ、词中的连字符当空格 */
+/**
+ * 宽松键：再去掉重音与变音符号、拆开 œ æ、词中的连字符当空格。
+ * 带空格的多词说法不去重音：a jamais ≠ à jamais、ou bien ≠ où bien——阅读器拿连着的几个词去查多词词条，
+ * 去了重音会把「il n'a jamais」并成 à jamais
+ */
 export function frLooseKey(text: string): string {
-  return stripMarks(frKey(text))
+  const k = frKey(text)
+  if (/\s/.test(k)) return k
+  return stripMarks(k)
     .replace(/œ/g, 'oe')
     .replace(/æ/g, 'ae')
     .replace(/(?<=\S)-(?=\S)/g, ' ')
@@ -157,6 +163,8 @@ function keepsTrailingApostrophe(run: string): boolean {
 /** 数字：1 000 000（千位用空格、不换行空格隔开）、3,14；1er、2e、XXIe 之类的序数后缀算在一起 */
 const NUMBER = /\d{1,3}(?:[ \u00a0\u202f]\d{3}(?!\d))+(?:,\d+)?|\d+(?:[.,]\d+)*/y
 const ORDINAL_SUFFIX = /(?:ères?|ers?|res?|èmes?|es?|ᵉʳ|ʳᵉ|ᵉ)(?![\p{L}\p{M}\p{N}])/uy
+/** 钟点：16h00、8h、8h30（h 后面跟着分钟）；连着写的时间当一个数 */
+const CLOCK = /h(?:\d{2})?(?![\p{L}\p{M}\p{N}])/uy
 
 /**
  * 切词：词、数字、标点、空白各成一段，首尾相接覆盖全文。
@@ -182,7 +190,8 @@ export function tokenize(text: string): RawToken[] {
       const m = NUMBER.exec(text)!
       let j = i + m[0].length
       ORDINAL_SUFFIX.lastIndex = j
-      const suf = ORDINAL_SUFFIX.exec(text)
+      CLOCK.lastIndex = j
+      const suf = ORDINAL_SUFFIX.exec(text) ?? (/^\d{1,2}$/.test(m[0]) ? CLOCK.exec(text) : null)
       if (suf) j += suf[0].length
       else if (j < text.length && LETTER.test(text[j])) {
         // 数字后面直接连着字母的（3D、4x4、MP3 以外的）当一个词
@@ -526,6 +535,8 @@ export function lemmaCandidates(surface: string): LemmaGuess[] {
     add(irr[0], [irr[1]])
     return out
   }
+  // 连字符复合词（词典里没有整个词时）
+  if (!hy && !LEXICALIZED.has(word)) for (const g of compoundCandidates(word)) add(g.lemma, g.tags)
   // 只对像法语词的（全是字母）再往下猜
   if (!/^[\p{L}\p{M}]+$/u.test(word) || word.length < 3) return out
 
@@ -570,12 +581,99 @@ export function lemmaCandidates(surface: string): LemmaGuess[] {
     add(stem, ['adverb'])
     nominal(stem, ['adverb'])
   }
+
+  // 连写的构词前缀（postélectorale、superaliment、ultraviolence）：去掉前缀再猜，放在最后
+  const pre = GLUED_PREFIX.exec(word)
+  if (pre) {
+    add(pre[2], ['prefix'])
+    for (const g of lemmaCandidates(pre[2])) add(g.lemma, ['prefix', ...g.tags])
+  }
   return out
 }
+
+/** 新闻里常见、词典收不全的构词前缀（连字符的 ex-、co-、anti- 见 HYPHEN_PREFIX） */
+const GLUED_PREFIX =
+  /^(post|pré|anti|super|hyper|ultra|micro|macro|multi|mini|méga|néo|auto|extra|inter|intra|contre|pseudo|quasi|semi|sur|sous|télé|vidéo|cyber|éco|bio)(\p{L}{4,})$/u
+const HYPHEN_PREFIX =
+  /^(ex|co|anti|post|pré|pro|non|néo|semi|demi|mi|mini|maxi|super|hyper|ultra|extra|inter|intra|multi|micro|macro|méga|auto|bio|éco|euro|vice|sous|contre|pseudo|quasi|centre|grand|petit|arrière|avant|après|nord|sud)-(.+)$/u
+
+/**
+ * 词典里没有的连字符复合词：ex-président → président、co-pilote → copilote / pilote、ville-clé → ville、
+ * bleu-blanc-rouge → bleu
+ */
+function compoundCandidates(word: string): LemmaGuess[] {
+  const out: LemmaGuess[] = []
+  if (!/^[\p{L}\p{M}'-]+$/u.test(word) || !word.includes('-')) return out
+  const parts = word.split('-').filter(Boolean)
+  if (parts.length < 2) return out
+  const pre = HYPHEN_PREFIX.exec(word)
+  if (pre) {
+    out.push({ lemma: pre[1] + pre[2], tags: ['compound'] })
+    out.push({ lemma: pre[2], tags: ['compound'] })
+    for (const g of lemmaCandidates(pre[2]))
+      out.push({ lemma: g.lemma, tags: ['compound', ...g.tags] })
+  }
+  out.push({ lemma: parts[0], tags: ['compound'] })
+  for (const g of lemmaCandidates(parts[0]))
+    out.push({ lemma: g.lemma, tags: ['compound', ...g.tags] })
+  return out
+}
+
+// ───────────────────────── 分句 ─────────────────────────
+
+/**
+ * 句末是这些缩写时不断开（Intl.Segmenter 在缩写的点后面、下一个词大写或是数字时会断）：
+ * 称呼（M.、MM.、Mme、Mlle、Dr、Me……）、av. / apr. J.-C.、p. 12、chap.、n°、单个大写字母的缩写（J. K. Rowling）。
+ * etc.、ex. 不在里面：它们后面跟着大写字母时多半真是句子结束
+ */
+const ABBREVIATIONS = [
+  'M',
+  'MM',
+  'Mme',
+  'Mmes',
+  'Mlle',
+  'Mlles',
+  'Mgr',
+  'Me',
+  'Dr',
+  'Pr',
+  'St',
+  'Ste',
+  'Sts',
+  'Stes',
+  'av',
+  'apr',
+  'cf',
+  'Cf',
+  'chap',
+  'vol',
+  'fig',
+  'p',
+  'pp',
+  'art',
+  'éd',
+  'coll',
+  'env',
+  'n°',
+  'no',
+  'tél',
+  'réf',
+  '\\p{Lu}'
+]
+
+/**
+ * 不在这里断句：句末是缩写的点；或者对话里引号还没合上就遇到 ! ? …（« Viens ! » dit-il. 要算一句，
+ * Intl.Segmenter 会把后引号切到下一句开头）
+ */
+export const noBreakAfter = new RegExp(
+  `(?:(?:^|[\\s(«"'’\\-])(?:${ABBREVIATIONS.join('|')})\\.|«[^»]*[!?…])$`,
+  'u'
+)
 
 export const rules: LangRules = {
   key: frKey,
   looseKey: frLooseKey,
   tokenize,
-  lemmaCandidates
+  lemmaCandidates,
+  noBreakAfter
 }

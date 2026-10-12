@@ -1,11 +1,28 @@
 # Qonsona
 
-学语言的桌面软件。先做日语（JLPT N5–N1）：词典、阅读、课程、生词本与间隔复习、练习与模拟卷、视听；
-在[千语集（Qonlang）](https://github.com/Kinnuch/Qonlang)里造的语言，导出学习包后也能导进来学。
+学语言的桌面软件。支持日语（JLPT N5–N1）、英语、法语、韩语、西班牙语、阿拉伯语、俄语与苏格兰盖尔语，
+以及在[千语集（Qonlang）](https://github.com/Kinnuch/Qonlang)里造的语言。提供词典、阅读、课程、生词本与间隔复习、练习与训练卷、视听和统计。
 没有 AI 功能，题目、例句、分级都由词典和项目数据生成。原名 Qonlang Study。
 
-_A desktop app for learning languages — Japanese first (JLPT N5–N1), plus the conlangs you build in
-[Qonlang](https://github.com/Kinnuch/Qonlang). Chinese and English interface. Formerly Qonlang Study._
+_A desktop language-learning app for Japanese, English, French, Korean, Spanish, Arabic, Russian,
+Scottish Gaelic and the conlangs you build in [Qonlang](https://github.com/Kinnuch/Qonlang).
+Chinese and English interface. Formerly Qonlang Study._
+
+0.2.0 接入七门新增语言的开放词典与词形还原、分级阅读与新闻、发音/语法/变形/会话/惯用语/阅读课程、
+语言特色练习、分级训练卷和字幕查词。实际教材覆盖与验收见 [多语言记录](docs/multilingual-progress.md)。
+七门语言的训练卷是本软件自编的学习检查，未包含官方考试的全部技能与题型，不用于判定官方分数或证书等级。
+
+## 词典每日推荐与词形
+
+打开词典并保持查询框为空，可看到词汇、句子、语法三类每日推荐，选择日期回看，点击进入词条或讲解，
+也可加入生词本、朗读/查询句子或进入对应课程。输入查询后推荐收起。推荐使用真实资料，缺少某类资料时会说明。
+词条中的屈折/词形按钮展开已有词形、形态标签与来源；规则生成结果单独标明，缺项不会补猜。
+盖尔语还提供有条件说明的词首音变。具体范围见 [词典使用说明](docs/dictionary.md)。
+
+_Leave the dictionary query empty to see daily words, sentences and grammar; choose a date to revisit them.
+Open entries or explanations, add words to a notebook, explore sentences or enter related lessons.
+The forms button shows recorded forms and their sources, with rule outputs labelled separately and missing data left explicit.
+See the [dictionary guide](docs/dictionary.md) for details._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。
@@ -30,6 +47,17 @@ _A desktop app for learning languages — Japanese first (JLPT N5–N1), plus th
 `%APPDATA%\qonlang-study` 里的学习数据拷过来，原来的目录不动，确认没问题后可以自己删掉；
 旧的 Qonlang Study 可以在「设置 → 应用」里卸载。
 
+## 跨电脑转移与复习计划
+
+生词本页可导出当前语言或选中的词本；设置页可导出所有个人学习数据。把 JSON 文件复制到另一台电脑，
+导入后先检查预览，再确认合并并重启。课程进度、试卷历史、学习时长、自定义阅读与译文随个人数据一起转移。
+录音和学习包使用设置中的完整 ZIP 备份；外部音视频文件需另外复制。合并规则、恢复备份与范围见 [转移说明](docs/transfer.md)。
+
+在生词本点击「复习计划与题型」，可按语言或单个词本调整每日新词数、复习上限、间隔阶梯、掌握阈值和顺序。
+各题型填 0 关闭，其他数值表示相对频次，例如词义 3、拼写 1，约每四题有三题词义和一题拼写。
+支持闪卡、看词选义、看义选词、拼写、读音、听词和例句填空；题目只使用当前复习词的真实数据。
+可从指定日期重排已学习卡的到期时间，保留复习历史；只修改计划不会自动移动原有到期日期。
+
 ## 千语集的语言
 
 在千语集里点击「设置 → 数据 → 导出学习包」，设置好课程、不给学习者看的内容、个别词的级别、作者录音，
@@ -41,17 +69,17 @@ _A desktop app for learning languages — Japanese first (JLPT N5–N1), plus th
 
 程序代码按 [MIT](LICENSE) 许可。日语数据来自下面这些开放资源（软件里「设置 → 数据来源与许可」也列着）：
 
-| 数据 | 许可 | 作者 |
-|---|---|---|
-| [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html)（经 jmdict-simplified）、[KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) | CC BY-SA 4.0 | Electronic Dictionary Research and Development Group |
-| [KanjiVG](https://kanjivg.tagaini.net/)（笔顺、手写查字） | CC BY-SA 3.0 | Ulrich Apel |
-| [JLPT 词汇分级](https://www.tanos.co.uk/jlpt/) | CC BY（原表）/ CC BY-SA 4.0（对到 JMdict） | Jonathan Waller；stephenmk |
-| [kanji-data](https://github.com/davidluzgouveia/kanji-data)（汉字的新 JLPT 等级） | MIT | David Gouveia |
-| [Tatoeba](https://tatoeba.org/) 例句 | CC BY 2.0 FR | Tatoeba contributors |
-| [Tomoshi 开放数据](https://github.com/tomoshi-app/tomoshi-dict-data)（中文释义、例句翻译、中日同形词、自他动词） | CC BY-SA 4.0 | Y1Z |
-| 日语、中文[维基词典](https://kaikki.org/)的释义（kaikki.org / wiktextract 抽取） | CC BY-SA 4.0 / 3.0 | Wiktionary 贡献者；Tatu Ylonen |
-| [kuromoji.js](https://github.com/takuyaa/kuromoji.js) 与 IPADIC（分词、读音） | Apache 2.0；IPADIC 许可 | Takuya Asano；NAIST |
-| [青空文库](https://www.aozora.gr.jp/)的公有领域作品（内置文章、民间故事） | 公有领域 | 青空文库及各篇的输入、校对者 |
+| 数据                                                                                                                                             | 许可                                       | 作者                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ---------------------------------------------------- |
+| [JMdict](https://www.edrdg.org/jmdict/j_jmdict.html)（经 jmdict-simplified）、[KANJIDIC2](https://www.edrdg.org/wiki/index.php/KANJIDIC_Project) | CC BY-SA 4.0                               | Electronic Dictionary Research and Development Group |
+| [KanjiVG](https://kanjivg.tagaini.net/)（笔顺、手写查字）                                                                                        | CC BY-SA 3.0                               | Ulrich Apel                                          |
+| [JLPT 词汇分级](https://www.tanos.co.uk/jlpt/)                                                                                                   | CC BY（原表）/ CC BY-SA 4.0（对到 JMdict） | Jonathan Waller；stephenmk                           |
+| [kanji-data](https://github.com/davidluzgouveia/kanji-data)（汉字的新 JLPT 等级）                                                                | MIT                                        | David Gouveia                                        |
+| [Tatoeba](https://tatoeba.org/) 例句                                                                                                             | CC BY 2.0 FR                               | Tatoeba contributors                                 |
+| [Tomoshi 开放数据](https://github.com/tomoshi-app/tomoshi-dict-data)（中文释义、例句翻译、中日同形词、自他动词）                                 | CC BY-SA 4.0                               | Y1Z                                                  |
+| 日语、中文[维基词典](https://kaikki.org/)的释义（kaikki.org / wiktextract 抽取）                                                                 | CC BY-SA 4.0 / 3.0                         | Wiktionary 贡献者；Tatu Ylonen                       |
+| [kuromoji.js](https://github.com/takuyaa/kuromoji.js) 与 IPADIC（分词、读音）                                                                    | Apache 2.0；IPADIC 许可                    | Takuya Asano；NAIST                                  |
+| [青空文库](https://www.aozora.gr.jp/)的公有领域作品（内置文章、民间故事）                                                                        | 公有领域                                   | 青空文库及各篇的输入、校对者                         |
 
 常用词与 JLPT 词的中文释义由 JMdict 的英文释义翻译而来（未经人工逐条校对，随 JMdict 按 CC BY-SA 4.0）。
 NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文要登录 NHK ONE，软件不绕过。
@@ -82,6 +110,12 @@ npm run dev          # 或者双击 dev.cmd（不经过 PowerShell）
 npm run typecheck
 npm run lint
 npx vitest run
+npm run smoke:languages  # 先构建，再走七门语言的阅读、课程、下一课、故事跳转、训练卷与统计
+npm run smoke:layout     # 五种窗口尺寸、实际滚轮、课程C2末尾、变形表与词典表格
+npm run smoke:responsiveness # 120新闻和长文分析期间的点击/查词，以及首页连续稳定性
+npm run smoke:review     # 真实词卡各题型、频次设置、撤回、排期和立即原生关窗保存
+npm run smoke:transfer   # JSON导出、预览、合并重启、重复导入幂等
+npm run smoke:save       # 录音和正文保存中立即原生关窗、正常重启后保留
 npx electron-vite build && npm run smoke   # 起真的 Electron 把界面走一遍（视听会先录一段测试视频），截图在 dist/smoke/
                                           # 调试端口默认 9361，被别的程序占着时 SMOKE_PORT=9381 npm run smoke
 ```

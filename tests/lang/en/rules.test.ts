@@ -27,13 +27,15 @@ describe('查词键', () => {
     expect(key('e‐mail')).toBe('e-mail')
     expect(key('London')).toBe('london')
   })
-  it('宽松键去掉附加符号、连字符、撇号、点和空格', () => {
+  it('宽松键去掉附加符号、连字符、撇号和点', () => {
     expect(looseKey('café')).toBe('cafe')
     expect(looseKey('naïve')).toBe('naive')
     expect(looseKey('e-mail')).toBe('email')
     expect(looseKey("o'clock")).toBe('oclock')
     expect(looseKey('U.S.')).toBe('us')
-    expect(looseKey('a lot')).toBe('alot')
+    // 空格留着：几个词连着对短语时 may be 不能对上 maybe
+    expect(looseKey('a lot')).toBe('a lot')
+    expect(looseKey('may be')).toBe('may be')
     expect(looseKey("don't")).toBe('dont')
   })
   it("宽松键留着词尾的所有格（John's 不能变成另一个词 Johns）", () => {
@@ -213,6 +215,9 @@ describe('猜原形', () => {
     expect(lemmaCandidates("someone's")[0].tags).toEqual(['possessive'])
   })
   it('猜不出的不乱猜', () => {
+    // 几个词连在一起的不猜（阅读器对短语时会问到）
+    expect(lemmaCandidates("He doesn't")).toEqual([])
+    expect(lemmaCandidates('the dogs')).toEqual([])
     expect(lemmaCandidates('xq')).toEqual([])
     expect(lemmaCandidates('')).toEqual([])
     expect(lemmas('dog')).toEqual([])

@@ -160,7 +160,7 @@ describe('文件', () => {
 })
 
 describe('媒体库分语言', () => {
-  it('加文件时记下哪门语言；不写的算日语；同一个文件换一门语言再加就归过去', async () => {
+  it('同一文件在不同语言分别保留字幕和进度；同语言重复导入沿用记录', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'qonsona-media-'))
     try {
       const a = join(dir, 'a.mp4')
@@ -172,13 +172,17 @@ describe('媒体库分语言', () => {
       expect(fr?.lang).toBe('fr')
       const ja = await lib.add(b)
       expect(ja?.lang).toBeUndefined()
+      await lib.update(fr!.id, { position: 42, offset: 1 })
       const ko = await lib.add(a, 'ko')
-      expect(ko).toMatchObject({ id: fr!.id, lang: 'ko' })
+      expect(ko?.id).not.toBe(fr!.id)
+      expect(ko).toMatchObject({ lang: 'ko', position: 0, offset: 0 })
+      expect(await lib.add(a, 'fr')).toMatchObject({ id: fr!.id, position: 42, offset: 1 })
       // 存进文件，重新打开还在
       const again = await new MediaLibrary(join(dir, 'lib')).list()
       expect(again.map((x) => [x.title, x.lang])).toEqual([
-        ['a', 'ko'],
-        ['b', undefined]
+        ['a', 'fr'],
+        ['b', undefined],
+        ['a', 'ko']
       ])
     } finally {
       rmSync(dir, { recursive: true, force: true })

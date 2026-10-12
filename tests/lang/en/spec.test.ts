@@ -34,13 +34,24 @@ describe('英语的 spec', () => {
       }
     }
     // CEFR 的说明里写着对应的英语考试
-    expect(spec.levelSystems[0].levels.find((l) => l.id === 'B2')!.desc!.zh).toContain('六级')
+    expect(spec.levelSystems[0].levels.find((l) => l.id === 'B2')!.desc!.zh).toContain('B2 First')
   })
-  it('阶段一只开词典', () => {
+  it('阅读、六类课程与练习接入', () => {
     const on = Object.entries(spec.features)
       .filter(([k, v]) => v === true && k !== 'romanization')
       .map(([k]) => k)
-    expect(on).toEqual(['lexicon'])
+    expect(on).toEqual([
+      'texts',
+      'lexicon',
+      'grammar',
+      'inflection',
+      'phrasebook',
+      'idioms',
+      'stories',
+      'media',
+      'exam'
+    ])
+    expect(spec.features.alphabet).toBe('phonics')
     expect(spec.features.speech).toBe('en-US')
   })
 })

@@ -43,16 +43,22 @@
       {#each rows as r (r.base.base)}
         <tr>
           <td class="base">
-            <span class="w" class:data={!lang} {lang}>{r.base.base}</span>
-            {#if r.base.baseReading}<span class="faint" {lang}>{r.base.baseReading}</span>{/if}
-            {#if r.base.meaning}<span class="faint m">{txt(r.base.meaning)}</span>{/if}
+            <div class="cell-stack">
+              <span class="w" class:data={!lang} {lang}>{r.base.base}</span>
+              {#if r.base.baseReading}<span class="faint" {lang}>{r.base.baseReading}</span>{/if}
+              {#if r.base.meaning}<span class="faint m">{txt(r.base.meaning)}</span>{/if}
+            </div>
           </td>
           {#each r.cells as c, i (i)}
             <td data-cell>
               {#if c}
-                <span class="w" class:data={!lang} {lang}>{c.form}</span>
-                {#if c.formReading}<span class="faint" {lang}>{c.formReading}</span>{/if}
-                {#if sayable(c.say)}<Pronounce item={sayable(c.say)!} />{/if}
+                <div class="cell-stack">
+                  <div class="form-line">
+                    <span class="w" class:data={!lang} {lang}>{c.form}</span>
+                    {#if sayable(c.say)}<Pronounce item={sayable(c.say)!} />{/if}
+                  </div>
+                  {#if c.formReading}<span class="faint" {lang}>{c.formReading}</span>{/if}
+                </div>
               {/if}
             </td>
           {/each}
@@ -73,9 +79,13 @@
 
 <style>
   .wrap {
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
   }
   .forms {
+    /* Cells must retain table-cell display so all columns share each row's height. */
     border-collapse: collapse;
     width: 100%;
     background: var(--bg-elev);
@@ -84,6 +94,7 @@
   }
   th,
   td {
+    min-width: 120px;
     padding: 8px 12px;
     text-align: start;
     vertical-align: top;
@@ -101,10 +112,15 @@
   td :global(.pron) {
     vertical-align: middle;
   }
-  .base {
+  .cell-stack {
     display: flex;
     flex-direction: column;
     gap: 2px;
+  }
+  .form-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
   .w {
     font-size: 17px;

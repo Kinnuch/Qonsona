@@ -3,7 +3,7 @@
  *
  * - A1：手挑的基础词表（data/gd/core-a1.txt，按 CLAG A1 清单与入门课的主题挑的）＋最常用的虚词
  *   （限定词、介词、代词、小品词、连词里词频前 150 的）。
- * - A2–C2：其余的词按合并词频（freq.ts）排，累计切到下面的词数。专名、词缀、字母、短语、谚语不按词频分级
+ * - A2–C2：其余的词按合并词频（freq.ts）排，累计切到下面的词数（多词说法按它在语料里连着出现的次数）。专名、词缀、字母、谚语不按词频分级
  *   （核心词表里的除外）；只有古旧、已废义项的词最低放到 C1。
  *
  * 累计词数参照常见的 CEFR 词汇量估计（A1 约 500–600、A2 约 1,200–1,500、B1 约 2,500、B2 约 4,000），
@@ -63,7 +63,7 @@ export function resolveCore(
   return [best]
 }
 
-const NO_FREQ_LEVEL = new Set(['propn', 'affix', 'symbol', 'phrase', 'proverb', 'idiom', 'other'])
+const NO_FREQ_LEVEL = new Set(['propn', 'affix', 'symbol', 'proverb', 'idiom', 'other'])
 const OLD = new Set(['archaic', 'obsolete', 'dated', 'historical'])
 
 export interface LevelResult {

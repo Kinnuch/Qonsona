@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "gd-reading-a1",
+    "title": "Mo thaigh",
+    "text": "Tha mi aig an taigh. Tha mo thaigh beag. Tha cù agam agus tha cat aig mo phiuthar. Tha an cù mòr. Tha an cat beag. Tha leabhar air a’ bhòrd. Tha mi a’ leughadh. Tha mo phiuthar ag obair. Tha i anns an sgoil. Tha sinn toilichte. Tha e fuar an-diugh.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "A1"
+  },
+  {
+    "id": "gd-reading-a2",
+    "title": "Latha sa bhaile",
+    "text": "Bha mi anns a’ bhaile an-dè. Bha mo charaid còmhla rium. Cha robh e fliuch, ach bha e fuar. Chaidh sinn dhan bhùth. Cheannaich mi aran agus bainne. Bha an duine anns a’ bhùth càirdeil. An uair sin chaidh sinn dhan phàirc. Bha clann a’ cluich ann. Thill sinn dhachaigh feasgar. Bha mi sgìth, ach bha an latha math.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "A2"
+  },
+  {
+    "id": "gd-reading-b1",
+    "title": "Ag ionnsachadh còmhla",
+    "text": "Tha mi ag ionnsachadh Gàidhlig le mo charaid. Tha sinn a’ bruidhinn gach latha. Tha mi a’ smaoineachadh gu bheil sin feumail. Bidh sinn anns an leabharlann a-màireach. Tha leabhraichean Gàidhlig ann agus tha an t-àite sàmhach. Tha an leabhar ùr nas fheàrr na an seann leabhar. Cha bhi sinn ann fad an latha. Tha obair againn feasgar. Tha fios agam nach eil ionnsachadh furasta, ach tha mi toilichte gu bheil caraid agam.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "B1"
+  },
+  {
+    "id": "gd-reading-b2",
+    "title": "Plana airson na sgoile",
+    "text": "Tha na pàrantan a’ bruidhinn mu phlana ùr airson na sgoile. Tha iad airson gum bi barrachd chothroman aig a’ chloinn Gàidhlig a chleachdadh. Tha tidsear a tha ag obair anns an sgoil a’ cuideachadh. Tha iad air seòmar ùr ullachadh. Mura bi e fliuch, thèid a’ chlann dhan ghàrradh cuideachd. Ged a tha an sgoil beag, tha mòran bheachdan aig na pàrantan. Chan eil airgead gu leòr aca fhathast. Tha iad an dòchas gum bi daoine eile deònach cuideachadh.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "B2"
+  },
+  {
+    "id": "gd-reading-c1",
+    "title": "An leabharlann ùr",
+    "text": "Chaidh an leabharlann ùr fhosgladh anns a’ bhaile. Chaidh an togalach a thogail faisg air an sgoil. Tha doras na sgoile ri fhaicinn bhon uinneig. ’S e Màiri a tha os cionn a’ phròiseict. Tha i ag ràdh gu bheil an leabharlann airson a h-uile duine, chan ann airson oileanaich a-mhàin. Bha cuid de na daoine draghail mu chosgais an togalaich. Ach tha iad a-nis a’ faicinn gu bheil clann agus inbhich a’ cleachdadh an àite. Tha an leabharlann a’ toirt cothrom dhaibh coinneachadh agus ionnsachadh còmhla. Feumar barrachd obrach a dhèanamh fhathast, gu h-àraidh airson daoine nach urrainn siubhal dhan bhaile.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "C1"
+  },
+  {
+    "id": "gd-reading-c2",
+    "title": "Cànan agus coimhearsnachd",
+    "text": "Tha cànan beò nuair a bhios daoine ga chleachdadh. Chan eil e gu leòr leabhraichean a chur air sgeilp no faclan a sgrìobhadh air soidhne. Tha feum air cothroman airson bruidhinn, èisteachd agus ionnsachadh. Tha mise a’ smaoineachadh gu bheil àite cudromach aig an sgoil; air an làimh eile, tha àite cudromach aig an teaghlach cuideachd. Ma bhios a’ chlann a’ cluinntinn Gàidhlig anns an sgoil a-mhàin, bidh e doirbh dhaibh a cleachdadh aig an taigh. Mar sin, feumar taic a thoirt do phàrantan agus do dhaoine eile anns a’ choimhearsnachd. Chan eil aon fhreagairt ann airson gach àite. Tha feumalachdan eadar-dhealaichte aig bailtean agus eileanan. Tha e cudromach èisteachd ri daoine mus tèid plana ùr a dhèanamh. Chan e àireamh nan leabhraichean a-mhàin a tha cudromach, ach na cothroman a tha aig daoine an cànan a chleachdadh gach latha.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "C2"
+  }
+]

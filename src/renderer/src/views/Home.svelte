@@ -2,7 +2,7 @@
   // 首页只放新闻：中间是上下滑的新闻（日语是 NHK 新闻、自己导入的与内置的文章；千语集语言是它的课文），
   // 滑到哪篇那篇占满版面，点击即可阅读。功能放在底栏（今日复习、下一课、练习、全部文章），
   // 这门语言的介绍、样例与内容在右边拉出来的「关于」一栏
-  import { onMount } from 'svelte'
+  import { onMount, untrack } from 'svelte'
   import {
     Info,
     NotebookPen,
@@ -45,7 +45,11 @@
   /** 框架里的语言（英、法、韩……）：首页一打开就读文章列表，顺便取一次新闻 */
   const lang = $derived(pack ? langModule(pack.id) : null)
   $effect(() => {
-    if (lang && pack?.features.texts) void langReading.ensure(lang.spec.code)
+    const code = lang?.spec.code
+    if (code && pack?.features.texts)
+      untrack(() => {
+        void langReading.ensure(code)
+      })
   })
 
   // ── 新闻 ──
@@ -159,6 +163,8 @@
   /** 点了一篇：打开那篇文章 / 课文；阅读器里点「返回」回到首页的这一篇 */
   function open(key: string): void {
     if (!pack) return
+    // A background news refresh may replace the item at the same active index.
+    reading.newsAt[pack.id] = key
     if (pack.kind === 'qonlang') {
       const lang = project?.languages.find((l) => l.id === langId)
       if (!lang) return

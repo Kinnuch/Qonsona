@@ -109,20 +109,22 @@
       {/if}
     </div>
 
-    <div class="group">
-      {#each learn as id (id)}
-        {@render navItem(id)}
-      {/each}
-    </div>
-    <div class="grow"></div>
-    <div class="group">
-      {#each SYSTEM_MODULES as id (id)}
-        {@render navItem(id)}
-      {/each}
+    <div class="nav-sections" data-nav-scroll>
+      <div class="group">
+        {#each learn as id (id)}
+          {@render navItem(id)}
+        {/each}
+      </div>
+      <div class="grow"></div>
+      <div class="group">
+        {#each SYSTEM_MODULES as id (id)}
+          {@render navItem(id)}
+        {/each}
+      </div>
     </div>
   </nav>
 
-  <main class="main">
+  <main class="main" data-main-scroll>
     <!-- 页面出错时显示错误卡片，同时打到控制台（冒烟测试靠它发现崩溃） -->
     <svelte:boundary onerror={(e) => console.error(e)}>
       {#key ui.section + '|' + (packs.active?.id ?? '')}
@@ -163,8 +165,12 @@
 <style>
   .shell {
     display: grid;
-    grid-template-columns: var(--nav-w) 1fr;
+    grid-template-columns: var(--nav-w) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
     height: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
   }
   .nav {
     display: flex;
@@ -174,6 +180,19 @@
     background: var(--bg-sunken);
     border-inline-end: 1px solid var(--border);
     min-height: 0;
+    min-width: 0;
+  }
+  .nav-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+  .nav-sections > .group {
+    flex-shrink: 0;
   }
   .group {
     display: flex;
@@ -206,6 +225,7 @@
   }
   .switcher {
     position: relative;
+    flex-shrink: 0;
   }
   .current {
     width: 100%;
@@ -249,6 +269,8 @@
     top: calc(100% + 4px);
     inset-inline: 0;
     min-width: 220px;
+    max-height: min(70vh, 480px);
+    overflow-y: auto;
     padding: 4px;
     background: var(--bg-elev);
     border: 1px solid var(--border);
@@ -277,8 +299,11 @@
     background: var(--border);
   }
   .main {
-    overflow-y: auto;
+    overflow: auto;
     min-width: 0;
+    min-height: 0;
+    scrollbar-gutter: stable;
+    overscroll-behavior: contain;
   }
   .crash {
     border-color: var(--danger);
@@ -286,5 +311,22 @@
     flex-direction: column;
     gap: 12px;
     align-items: flex-start;
+  }
+  @media (max-width: 800px) {
+    .shell {
+      grid-template-columns: 176px minmax(0, 1fr);
+    }
+    .nav {
+      padding-inline: 8px;
+    }
+  }
+  @media (max-width: 600px) {
+    .shell {
+      grid-template-columns: 160px minmax(0, 1fr);
+    }
+    .nav-item {
+      gap: 8px;
+      padding-inline: 8px;
+    }
   }
 </style>

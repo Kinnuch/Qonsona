@@ -1,3 +1,5 @@
+import type { TransferScope, TransferPreview, TransferResult } from '$shared/transfer'
+import type { DictionaryDaily } from '$shared/dictionary-daily'
 /**
  * 渲染层跟主进程打交道的唯一入口。文件读写、偏好、学习包目录都走这里。
  */
@@ -107,6 +109,28 @@ function invoke<T>(channel: string, ...args: unknown[]): Promise<T> {
 }
 
 export const platform = {
+  dictionary: {
+    daily: (packId: string, date: string) =>
+      invoke<DictionaryDaily>('dictionary:daily', packId, date)
+  },
+  lifecycle: {
+    onCloseRequest: (cb: () => void): void => window.qstudy?.on('app:flush-before-close', cb),
+    closeReady: (saved = true) => invoke<void>('app:close-ready', saved)
+  },
+  transfer: {
+    export: (scope: TransferScope, packId?: string, listId?: string) =>
+      invoke<{ path: string; files: number; bytes: number } | null>(
+        'transfer:export',
+        scope,
+        packId,
+        listId
+      ),
+    pick: (scope: TransferScope, packId?: string) =>
+      invoke<TransferPreview | null>('transfer:pick', scope, packId),
+    cancel: (token: string) => invoke<void>('transfer:cancel', token),
+    apply: (token: string) => invoke<void>('transfer:apply', token),
+    result: () => invoke<TransferResult | { error: string } | null>('transfer:result')
+  },
   info: () => invoke<AppInfo>('app:info'),
   checkUpdate: () => invoke<UpdateCheck>('app:checkUpdate'),
   /** 下载安装包（装过的 Windows 版先试增量）；version 给了才试增量 */
@@ -242,6 +266,8 @@ export const platform = {
       custom?: string
     ) => invoke<ExamQuestion[]>('lang:practice', code, kind, level, n, seed, locale, custom),
     /** 模拟卷（LangModule.exams 里的一张） */
+    articlePractice: (code: string, id: string, seed: number, locale: string) =>
+      invoke<ExamQuestion[]>('lang:articlePractice', code, id, seed, locale),
     paper: (code: string, examId: string, seed: number, locale: string) =>
       invoke<ExamPaper | null>('lang:paper', code, examId, seed, locale),
     /** 取新闻（一小时最多一次，force 除外） */

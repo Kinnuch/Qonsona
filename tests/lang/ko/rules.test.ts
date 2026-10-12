@@ -78,7 +78,7 @@ describe('学习包描述', () => {
     expect(ko.spec.levelSystems.map((s) => s.id)).toEqual(['topik', 'kstd', 'krdict', 'nikl2003'])
     for (const s of ko.spec.levelSystems) expect(s.sources.length).toBeGreaterThan(0)
   })
-  it('阶段一只开词典', () => {
+  it('词典、课程与学习模块已接入', () => {
     const f = ko.spec.features
     expect(f.lexicon).toBe(true)
     expect([
@@ -90,7 +90,7 @@ describe('学习包描述', () => {
       f.stories,
       f.media,
       f.exam
-    ]).toEqual(Array(8).fill(false))
+    ]).toEqual(Array(8).fill(true))
   })
   it('规则都在', () => {
     expect(ko.rules.romanize?.('한국어')).toBe('hangugeo')

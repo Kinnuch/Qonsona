@@ -29,8 +29,8 @@ function section(file) {
 
 const zh = section('CHANGELOG.md')
 const en = section('CHANGELOG.en.md')
-if (!zh && !en) {
-  console.error(`两份更新日志里都找不到 ${version} 这一版`)
+if (!zh || !en) {
+  console.error(`发布 ${version} 必须同时提供中文和英文更新日志`)
   process.exit(1)
 }
 const parts = []

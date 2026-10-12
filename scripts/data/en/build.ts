@@ -68,6 +68,19 @@ import { POSSESSIVES, PhraseCounter, REFLEXIVES, phrasePattern } from './phrases
 import { loadSentences, qualityOrder, sentenceTokens, type Sentence } from './tatoeba'
 import { WIKT_POS, loadKaikki, type KaikkiWord } from './kaikki'
 
+/** 词组里的 one's、oneself 在句子里是 my / his……、myself / himself…… */
+const POSS_WORDS = ['my', 'your', 'his', 'her', 'its', 'our', 'their']
+const REFL_WORDS = [
+  'myself',
+  'yourself',
+  'himself',
+  'herself',
+  'itself',
+  'ourselves',
+  'yourselves',
+  'themselves'
+]
+
 const t0 = Date.now()
 const log = (m: string): void => console.log(`[${((Date.now() - t0) / 1000).toFixed(1)}s] ${m}`)
 
@@ -787,18 +800,40 @@ for (const r of rows) {
   if (/^(a|an|the|to)\s+\S+$/i.test(r.word)) continue
   const pat = phrasePattern(r.word, lemmaOf)
   if (!pat) continue
-  // 同一个样子只要一条（释义长的那条）
+  // 同一个样子只要一条：写的是原形的优先（have to，不要 had to），再挑释义长的
   const prev = phraseRows.get(pat.key)
-  if (prev && prev.translation.length >= r.translation.length) continue
+  const base = (x: EcdictRow): boolean => key(x.word.split(/s+/)[0]) === pat.key.split(' ')[0]
+  if (
+    prev &&
+    (base(prev)
+      ? !base(r) || prev.translation.length >= r.translation.length
+      : !base(r) && prev.translation.length >= r.translation.length)
+  )
+    continue
   phraseRows.set(pat.key, r)
   patterns.set(pat.key, pat)
 }
 log(`词组候选：${phraseRows.size} 个`)
+if (process.env.DEBUG_PHRASE)
+  for (const k of process.env.DEBUG_PHRASE.split(','))
+    console.log(
+      'DEBUG',
+      k,
+      '→',
+      phraseRows.get(k)?.word,
+      '| lemmaOf(had)=',
+      lemmaOf('had'),
+      '| lemmaOf(have)=',
+      lemmaOf('have')
+    )
 const counter = new PhraseCounter([...patterns.values()].filter((p) => !!p))
 
 /** 例句：每个单词最多 6 句，词组 3 句；按句子的先后挑，有中文的在前 */
 const EX_PER_WORD = 6
 const quota = new Map<Built, number[]>()
+/** 每个原形出现几次、一共多少个词（算词组的共现强度用） */
+const lemmaTf = new Map<string, number>()
+let tokenTotal = 0
 for (let i = 0; i < sentences.length; i++) {
   const s = sentences[i]
   const toks = sentenceTokens(s.text)
@@ -820,6 +855,8 @@ for (let i = 0; i < sentences.length; i++) {
     if (b) linked.add(b)
   }
   counter.add(i, lemmas, slots)
+  for (const l of lemmas) lemmaTf.set(l, (lemmaTf.get(l) ?? 0) + 1)
+  tokenTotal += lemmas.length
   for (const b of linked) {
     const q = quota.get(b) ?? []
     if (q.length < EX_PER_WORD) {
@@ -843,18 +880,42 @@ function compositional(pkey: string): boolean {
   if (PERSONAL.has(t[0]) || PERSONAL.has(t[t.length - 1])) return true
   return t.length === 2 && AUX_FIRST.has(t[0]) && !(t[1] === 'to' && t[0] !== 'be')
 }
+/**
+ * 共现强度（PMI，以 2 为底）：词组实际出现的次数，比这几个词碰巧挨在一起的期望次数（总词数 × 各词的频率之积）
+ * 高多少倍。逐字组合的（in this、and how、work for、built in）只比碰巧多一点，固定说法（such as、
+ * at least、give up、look at）高得多。几个词的按词数平摊（除以词数减一）。
+ */
+const PMI_MIN = 2.5
+/** 情态一类的固定说法：组成词太常见，共现强度算出来偏低，照收 */
+const KEEP_PHRASES = new Set(['have to', 'have get to', 'have good', 'would rather', 'ought to'])
+function pmi(pkey: string, count: number): number {
+  let logExpected = Math.log2(tokenTotal)
+  let n = 0
+  for (const w of pkey.split(' ')) {
+    if (w.startsWith('<')) continue
+    logExpected += Math.log2(Math.max(1, lemmaTf.get(w) ?? 1) / tokenTotal)
+    n++
+  }
+  return (Math.log2(Math.max(1, count)) - logExpected) / Math.max(1, n - 1)
+}
 interface PhraseBuilt extends Built {
   count: number
   pkey: string
 }
 const phrases: PhraseBuilt[] = []
 let chunks = 0
+let weak = 0
 for (const [pkey, r] of phraseRows) {
   const count = counter.counts.get(pkey) ?? 0
   const listed = profileOf(r.word).length > 0
   if (count < MIN_PHRASE && !listed) continue
-  if (!listed && compositional(pkey)) {
+  const keep = listed || KEEP_PHRASES.has(pkey)
+  if (!keep && compositional(pkey)) {
     chunks++
+    continue
+  }
+  if (!keep && pmi(pkey, count) < PMI_MIN) {
+    weak++
     continue
   }
   // 维基词典说主要意思是粗俗、冒犯的词组也不收
@@ -865,7 +926,17 @@ for (const [pkey, r] of phraseRows) {
   phrases.push({ ...b, count, pkey })
 }
 phrases.sort((a, b) => b.count - a.count)
-log(`词组：${phrases.length} 个（逐字组合的 ${chunks} 个不收）`)
+// 调试：DEBUG_PHRASES=1 时把每个候选词组的出现次数与共现强度写到缓存里
+if (process.env.DEBUG_PHRASES)
+  writeFileSync(
+    join(cacheDir('en'), 'phrase-pmi.json'),
+    JSON.stringify(
+      [...phraseRows.keys()]
+        .map((k) => [k, counter.counts.get(k) ?? 0, pmi(k, counter.counts.get(k) ?? 0)])
+        .filter((x) => (x[1] as number) >= MIN_PHRASE)
+    )
+  )
+log(`词组：${phrases.length} 个（逐字组合的 ${chunks} 个、共现不够强的 ${weak} 个不收）`)
 
 // 词组的等级：只用分级词表（CEFR-J 里有 according to、ice cream 这类）。没列的词组不按组成词推：
 // 推出来的大都是 A1、A2，会把 A2 词表撑到上万条（give up 的难处不在组成词）
@@ -1077,15 +1148,26 @@ for (const b of all) {
 log(`写了 ${all.length} 条（IPA ${withIpa}、录音 ${withAudio}）`)
 
 function phraseForms(b: Built): [string, ...string[]][] {
-  // 动词开头的词组：给动词的变形（give up → gave up、given up……）；ice cream 这种名词不算
-  if (!b.p.some((p) => p === 'phrase' || p === 'verb' || p === 'idiom')) return []
   const words = b.w.split(/\s+/)
+  // one's / oneself 换成句子里实际的写法：make up one's mind → make up my mind
+  const slot = words.findIndex((w) => /^one['’]s$/i.test(w) || /^oneself$/i.test(w))
+  const fill = slot < 0 ? [] : /^oneself$/i.test(words[slot]) ? REFL_WORDS : POSS_WORDS
+  const variants: string[][] = [
+    words,
+    ...fill.map((f) => words.map((w, i) => (i === slot ? f : w)))
+  ]
+  const out: [string, ...string[]][] = variants.slice(1).map((ws) => [ws.join(' ')])
+  // 动词开头的词组：给动词的变形（give up → gave up、given up……）；ice cream 这种名词不算
+  if (!b.p.some((p) => p === 'phrase' || p === 'verb' || p === 'idiom')) return out
   const head = tokenEntry.get(key(words[0]))
-  if (!head || !head.p.includes('verb') || key(head.w) !== key(words[0])) return []
-  const rest = words.slice(1).join(' ')
-  return (formsOf.get(head) ?? [])
-    .filter(([, ...tags]) => !tags.includes('plural') && !tags.includes('comparative'))
-    .map(([form, ...tags]) => [`${form} ${rest}`, ...tags] as [string, ...string[]])
+  if (!head || !head.p.includes('verb') || key(head.w) !== key(words[0])) return out
+  const verbForms = (formsOf.get(head) ?? []).filter(
+    ([, ...tags]) => !tags.includes('plural') && !tags.includes('comparative')
+  )
+  for (const ws of variants)
+    for (const [form, ...tags] of verbForms)
+      out.push([[form, ...ws.slice(1)].join(' '), ...tags] as [string, ...string[]])
+  return out
 }
 
 /**

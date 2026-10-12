@@ -11,9 +11,11 @@
     Minus,
     Plus,
     BookmarkPlus,
-    Languages
+    Languages,
+    PenLine
   } from '@lucide/svelte'
   import { langReading, type LangSideTab } from '$lib/state/langReading.svelte'
+  import { practice } from '$lib/state/practice.svelte'
   import { audio } from '$lib/state/audio.svelte'
   import { notebook } from '$lib/state/notebook.svelte'
   import { dictState } from '$lib/dict/state.svelte'
@@ -274,6 +276,18 @@
             ><Plus size={14} /></button
           >
         </div>
+        <button
+          class="btn"
+          data-article-practice
+          disabled={!analysis || practice.busy}
+          onclick={async () => {
+            if (
+              article &&
+              (await practice.startArticle(article.id, article.title, { from: langReading.backTo }))
+            )
+              ui.go('practice')
+          }}><PenLine size={14} />{t('courses.text.practice')}</button
+        >
         {#if speaking}
           <button class="btn" data-stop-reading onclick={stopReading}
             ><Square size={14} />{t('reading.stop')}</button
@@ -337,8 +351,11 @@
         {:else}
           {#each paragraphs as para, pi (pi)}
             <p class="para">
-              {#each para as si (si)}
+              {#each para as si, sentenceIndex (si)}
                 {@const s = analysis.sentences[si]}
+                {#if sentenceIndex > 0}{display(
+                    analysis.text.slice(analysis.sentences[para[sentenceIndex - 1]].end, s.start)
+                  )}{/if}
                 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
                 <span
                   class="sentence"

@@ -145,3 +145,43 @@ export function loadZhCore(root: string): Map<string, CoreGloss[]> {
   }
   return out
 }
+
+/** data/fr/phrases.txt：感叹词、短语里要留的多词说法；别的词性里不收的多词词条（键|词性） */
+export function loadPhraseRules(root: string): { keep: Set<string>; drop: Set<string> } {
+  const keep = new Set<string>()
+  const drop = new Set<string>()
+  const text = readFileSync(join(root, 'data', 'fr', 'phrases.txt'), 'utf8')
+  for (const line of text.split(/\r?\n/)) {
+    if (!line.trim() || line.startsWith('#')) continue
+    const [kind, w, pos] = line.split(' | ').map((x) => x.trim())
+    if (kind === 'keep' && w) keep.add(frKey(w))
+    else if (kind === 'drop' && w && pos) drop.add(`${frKey(w)}|${pos}`)
+    else throw new Error(`phrases.txt 这行不对：${line}`)
+  }
+  return { keep, drop }
+}
+
+export interface ExtraSense {
+  pos: PosTag
+  newPos?: PosTag
+  en: string
+  zh: string[]
+}
+
+/** data/fr/senses-extra.txt：维基词典漏了的常用义项（「键|词性」→ 义项） */
+export function loadExtraSenses(root: string): Map<string, ExtraSense> {
+  const out = new Map<string, ExtraSense>()
+  const text = readFileSync(join(root, 'data', 'fr', 'senses-extra.txt'), 'utf8')
+  for (const line of text.split(/\r?\n/)) {
+    if (!line.trim() || line.startsWith('#')) continue
+    const [w, pos, newPos, en, zh] = line.split(' | ').map((x) => x.trim())
+    if (!zh) throw new Error(`senses-extra.txt 这行不对：${line}`)
+    out.set(`${frKey(w)}|${pos}`, {
+      pos: pos as PosTag,
+      ...(newPos && newPos !== '-' ? { newPos: newPos as PosTag } : {}),
+      en,
+      zh: zh.split('；').map((x) => x.trim())
+    })
+  }
+  return out
+}

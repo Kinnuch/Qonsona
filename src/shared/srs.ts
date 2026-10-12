@@ -77,7 +77,8 @@ export function grade<T extends SrsFields>(
   c: T,
   q: Grade,
   now = Date.now(),
-  masterDays = MASTER_DAYS
+  masterDays = MASTER_DAYS,
+  ladder: readonly number[] = LADDER
 ): T {
   remember(c, q, now)
   if (q === 0) {
@@ -96,11 +97,11 @@ export function grade<T extends SrsFields>(
   if (q === 3) {
     // 有印象：说明原来的间隔长了，退回阶梯底部，而不是从原来的间隔往上加
     c.reps = Math.min(c.reps, 1) + 1
-    days = LADDER[c.reps - 1]
+    days = ladder[Math.min(c.reps - 1, ladder.length - 1)]
   } else {
     c.reps += 1
     days =
-      c.reps <= LADDER.length ? LADDER[c.reps - 1] : Math.max(1, Math.round((c.ivl || 1) * c.ease))
+      c.reps <= ladder.length ? ladder[c.reps - 1] : Math.max(1, Math.round((c.ivl || 1) * c.ease))
   }
   days = Math.max(1, fuzz(c.key, days))
   c.ivl = days
@@ -116,9 +117,10 @@ export function spotGrade<T extends SrsFields>(
   c: T,
   q: Grade,
   now = Date.now(),
-  masterDays = MASTER_DAYS
+  masterDays = MASTER_DAYS,
+  ladder: readonly number[] = LADDER
 ): T {
-  if (q !== 5) return grade(c, q, now, masterDays)
+  if (q !== 5) return grade(c, q, now, masterDays, ladder)
   remember(c, q, now)
   return c
 }
@@ -128,10 +130,16 @@ export const isSpot = (c: SrsFields, now = Date.now()): boolean =>
   c.state !== STATE.NEW && c.state !== STATE.LEARNING && c.due > endOfDay(now)
 
 /** 三个按钮各会排到几天后（按钮下面的提示）；0 是「稍后重来」 */
-export function preview(c: SrsFields, spot = false, now = Date.now()): Record<Grade, number> {
+export function preview(
+  c: SrsFields,
+  spot = false,
+  now = Date.now(),
+  masterDays = MASTER_DAYS,
+  ladder: readonly number[] = LADDER
+): Record<Grade, number> {
   const snap = (q: Grade): number => {
     const copy = structuredClone(c)
-    ;(spot ? spotGrade : grade)(copy, q, now)
+    ;(spot ? spotGrade : grade)(copy, q, now, masterDays, ladder)
     return q === 5 && spot ? Math.max(0, Math.round((copy.due - now) / DAY)) : copy.ivl
   }
   return { 0: 0, 3: snap(3), 5: snap(5) }

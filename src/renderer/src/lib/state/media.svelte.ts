@@ -7,6 +7,7 @@ import { platform } from '$lib/platform'
 import { t } from '$lib/i18n/index.svelte'
 import { parseSubtitles, type Cue, type MediaItem, type MediaPatch } from '$shared/media'
 import { ui } from './ui.svelte'
+import { serializedWrites } from './persistence'
 import { packs } from './packs.svelte'
 
 export type MediaView = { page: 'library' } | { page: 'player'; id: string }
@@ -89,7 +90,7 @@ class MediaState {
   }
 
   async open(id: string): Promise<void> {
-    this.flushPosition()
+    void this.flushPosition().catch(() => {})
     this.view = { page: 'player', id }
     this.primary = []
     this.secondary = []
@@ -97,7 +98,7 @@ class MediaState {
   }
 
   library(): void {
-    this.flushPosition()
+    void this.flushPosition().catch(() => {})
     this.view = { page: 'library' }
     void this.load()
   }
@@ -191,18 +192,25 @@ class MediaState {
       patch: { position, duration, playedAt: new Date().toISOString() }
     }
     if (!this.#positionTimer)
-      this.#positionTimer = setTimeout(() => this.flushPosition(), POSITION_DELAY)
+      this.#positionTimer = setTimeout(() => {
+        void this.flushPosition().catch(() => {})
+      }, POSITION_DELAY)
   }
 
-  flushPosition(): void {
+  flushPosition(): Promise<void> {
     clearTimeout(this.#positionTimer)
     this.#positionTimer = undefined
     const p = this.#pending
     this.#pending = null
-    if (!p) return
+    if (!p) return Promise.resolve()
     const it = this.items.find((x) => x.id === p.id)
     if (it) this.#put({ ...it, ...p.patch })
-    void platform.media.update(p.id, p.patch).catch(() => {})
+    return serializedWrites
+      .enqueue('media', () => platform.media.update(p.id, p.patch))
+      .catch((e) => {
+        if (!this.#pending) this.#pending = p
+        throw e
+      })
   }
 }
 

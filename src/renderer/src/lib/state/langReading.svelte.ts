@@ -41,6 +41,8 @@ class LangReadingState {
   loading = $state(false)
   news = $state.raw<LangNewsStatus | null>(null)
   refreshing = $state(false)
+  #loads = new Map<string, Promise<void>>()
+  #refreshes = new Set<string>()
 
   #memo = $state<Record<string, Memo>>({})
   /** 当前语言的筛选与打开的文章（ensure() 先建好；$derived 里不能新建状态） */
@@ -87,8 +89,10 @@ class LangReadingState {
       this.article = null
       this.analysis = null
       this.news = null
+      this.refreshing = this.#refreshes.has(code)
     }
-    if (!this.loaded && !this.loading) await this.load()
+    if (!this.loaded) await this.load()
+    if (this.code !== code) return
     void this.refreshNews(false)
     const id = this.memo.openId
     if (id && this.article?.id !== id) await this.open(id, this.backTo)
@@ -97,21 +101,29 @@ class LangReadingState {
   async load(): Promise<void> {
     const code = this.code
     if (!code) return
+    const pending = this.#loads.get(code)
+    if (pending) return pending
     this.loading = true
-    try {
-      const list = await platform.lang.articles.list(code)
-      if (this.code === code) {
-        this.articles = list
-        this.loaded = true
+    const request = (async () => {
+      try {
+        const list = await platform.lang.articles.list(code)
+        if (this.code === code) {
+          this.articles = list
+          this.loaded = true
+        }
+      } finally {
+        this.#loads.delete(code)
+        if (this.code === code) this.loading = false
       }
-    } finally {
-      this.loading = false
-    }
+    })()
+    this.#loads.set(code, request)
+    return request
   }
 
   async refreshNews(force: boolean): Promise<void> {
     const code = this.code
-    if (!code || this.refreshing) return
+    if (!code || this.#refreshes.has(code)) return
+    this.#refreshes.add(code)
     this.refreshing = true
     try {
       const r = await platform.lang.news(code, force)
@@ -122,7 +134,8 @@ class LangReadingState {
     } catch {
       // 取不到就算了，列表里还有内置的与自己导入的
     } finally {
-      this.refreshing = false
+      this.#refreshes.delete(code)
+      if (this.code === code) this.refreshing = false
     }
   }
 
@@ -143,8 +156,11 @@ class LangReadingState {
     this.analysis = cached ?? null
     if (cached) return
     const r = await platform.lang.analyze(code, a.body)
-    if (r) this.#cache.set(`${code}:${id}`, r)
-    if (this.memo.openId === id) this.analysis = r
+    if (r) {
+      this.#cache.set(`${code}:${id}`, r)
+      while (this.#cache.size > 12) this.#cache.delete(this.#cache.keys().next().value!)
+    }
+    if (this.code === code && this.memo.openId === id) this.analysis = r
   }
 
   back(): void {

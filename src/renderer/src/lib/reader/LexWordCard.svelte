@@ -44,15 +44,16 @@
   {#if token.entry}
     <div class="head">
       <strong lang={spec.bcp47} dir={spec.direction}>{token.lemma ?? token.text}</strong>
-      {#if spec.features.speech}
-        <Pronounce
-          item={{
-            key: lexKey(token.entry),
-            text: token.lemma ?? token.text,
-            lang: spec.features.speech
-          }}
-        />
-      {/if}
+      <Pronounce
+        item={{
+          key: lexKey(token.entry),
+          ...(spec.features.speech
+            ? { text: token.lemma ?? token.text, lang: spec.features.speech }
+            : spec.features.ruby === 'ipa' && token.ruby
+              ? { ipa: token.ruby }
+              : {})
+        }}
+      />
       {#if token.pos}<span class="faint">{posLabel(token.pos, L)}</span>{/if}
       {#if levelName}<span class="chip">{levelName}</span>{/if}
     </div>

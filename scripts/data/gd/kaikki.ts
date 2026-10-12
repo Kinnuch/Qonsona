@@ -273,7 +273,26 @@ export function splitGloss(gloss: string): string[] {
 
 // ───────────────────────── 变形表 ─────────────────────────
 
-const PRONOUNS = new Set(['mi', 'thu', 'tu', 'e', 'i', 'sinn', 'sibh', 'iad'])
+/** 变位表里跟在动词后的人称代词（系词表里还有弱化的 mhi、强调的 mise……） */
+const PRONOUNS = new Set([
+  'mi',
+  'mhi',
+  'thu',
+  'tu',
+  'e',
+  'i',
+  'sinn',
+  'sibh',
+  'iad',
+  'mise',
+  'thusa',
+  'tusa',
+  'esan',
+  'ise',
+  'sinne',
+  'sibhse',
+  'iadsan'
+])
 /** 短语形前头的虚词：冠词、否定与疑问小品词、比较级的 nas / as、过去时的 do */
 const LEADING = new Set([
   'an',
@@ -321,18 +340,38 @@ export function cleanForm(raw: string, tags: string[]): { form: string; tags: st
   if (!text || text === '-' || /[()[\]{}<>=|/\\0-9"“”]/.test(text)) return null
   let words = text.split(' ')
   if (words.length > 1) {
-    // 前头的冠词、小品词，后头的人称代词都去掉
-    while (words.length > 1 && LEADING.has(words[0].toLowerCase())) words = words.slice(1)
+    // 先去后头的人称代词，再去前头的冠词、小品词（bu mhi → bu，不能先去 bu 剩下 mhi）
     while (words.length > 1 && PRONOUNS.has(words[words.length - 1].toLowerCase()))
       words = words.slice(0, -1)
+    while (words.length > 1 && LEADING.has(words[0].toLowerCase())) words = words.slice(1)
   }
   // 还剩几个词的：最多三个词的短语留着（ceart gu leòr），长的是表头说明
   if (words.length > 3) return null
-  // 只剩一个人称代词：是「tha e / i」被拆开留下的
-  if (words.length === 1 && PRONOUNS.has(words[0].toLowerCase()) && !tags.includes('emphatic'))
+  // 只剩一个人称代词：变位表里「tha e / i」「bithidh e / i」被拆开留下的（标着时态、式）；
+  // 代词自己的表（mi 的强调形 mise）不在此列
+  if (
+    words.length === 1 &&
+    PRONOUNS.has(words[0].toLowerCase()) &&
+    (tags.some((t) => VERB_TAGS.has(t)) || !tags.includes('emphatic'))
+  )
     return null
   return { form: words.join(' '), tags: [...tags, ...extra] }
 }
+
+/** 动词变位表的标签（时、式、独立 / 从属） */
+const VERB_TAGS = new Set([
+  'present',
+  'past',
+  'future',
+  'conditional',
+  'imperative',
+  'independent',
+  'dependent',
+  'interrogative',
+  'negative',
+  'impersonal',
+  'relative'
+])
 
 /** 名词变格类别（III masculine noun → III） */
 function cleanClass(raw: string): string | null {
@@ -350,6 +389,33 @@ export function readKaikki(file: string): KEntry[] {
 }
 
 const isFormSense = (s: KSense): boolean => !!(s.form_of?.length || s.alt_of?.length)
+
+/** 粘进 form_of 目标里的英文释义尾巴（aig at him） */
+const EN_TAIL = new Set([
+  'at',
+  'him',
+  'her',
+  'it',
+  'them',
+  'me',
+  'you',
+  'us',
+  'of',
+  'to',
+  'for',
+  'with',
+  'from',
+  'by',
+  'on',
+  'in',
+  'the',
+  'about',
+  'over',
+  'under',
+  'upon',
+  'into',
+  'out'
+])
 
 /** 释义里只用文字写着「某词的某形式」的（维基词典没用模板）：认出来补成 form_of */
 const TEXT_FORM_RE =
@@ -490,9 +556,11 @@ export function buildEntries(raw: KEntry[]): { entries: GdEntry[]; stats: Kaikki
   const resolve = (word: string, depth = 0): GdEntry[] => {
     const hit = byWord.get(gdKey(word))
     if (hit?.length) return hit
-    // wiktextract 偶尔把释义的后半截粘进目标词（aige 的目标成了「aig at him」）：取第一个词再试
-    const first = word.trim().split(/\s+/)[0]
-    if (first !== word.trim() && byWord.get(gdKey(first))?.length) return byWord.get(gdKey(first))!
+    // wiktextract 偶尔把英文释义的后半截粘进目标词（aige 的目标成了「aig at him」）：后面都是英文虚词时
+    // 取第一个词再试；「an Giblean」「an t-Ollamh」这种带冠词的盖尔语目标不能这么拆
+    const [first, ...tail] = word.trim().split(/\s+/)
+    if (tail.length && tail.every((w) => EN_TAIL.has(w)) && byWord.get(gdKey(first))?.length)
+      return byWord.get(gdKey(first))!
     if (depth >= 3) return []
     const k = formOnly.get(gdKey(word))
     const next = k?.senses.flatMap((s) => [...(s.form_of ?? []), ...(s.alt_of ?? [])]) ?? []
@@ -510,13 +578,9 @@ export function buildEntries(raw: KEntry[]): { entries: GdEntry[]; stats: Kaikki
       const same = cands.filter((c) => want.includes(c.kpos))
       for (const c of same.length ? same : cands) {
         addForm(c, k.word, tags)
-        // 这一页的 IPA 是这个词形的读音（chunnaic、bhàta），阅读器注音要用
+        // 这一页的 IPA 是这个词形的读音（chunnaic、bhàta）：记进 fi，阅读器给这个形注音、变形表里显示
         const ipa = k.sounds?.map((x) => cleanIpa(x.ipa)).find(Boolean)
-        if (ipa && gdKey(k.word) !== gdKey(c.data.w)) {
-          const x = (c.data.x ??= {})
-          const fi = ((x.formIpa as Record<string, string>) ??= {})
-          fi[gdKey(k.word)] ??= ipa
-        }
+        if (ipa && gdKey(k.word) !== gdKey(c.data.w)) (c.data.fi ??= {})[k.word] ??= ipa
         for (const snd of k.sounds ?? []) {
           const au = audioOf(snd)
           if (au) {
@@ -554,10 +618,79 @@ export function buildEntries(raw: KEntry[]): { entries: GdEntry[]; stats: Kaikki
     byWord.get(key)!.push(e)
   }
 
+  untangle(entries, byWord)
   // 收尾：变形表去重、弱化形（x.len）、动名词（x.vn）
   for (const e of entries) finishEntry(e)
   stats.entries = entries.length
   return { entries, stats }
+}
+
+/** 系词自己的形式（别的词头也有这几个写法时照样留给系词） */
+const COPULA_FORMS = new Set(['is', 'bu', "b'", "'s"])
+/** 虚词的 kaikki 词性 */
+const FUNCTION_KPOS = new Set(['article', 'det', 'particle', 'prep', 'conj', 'pron'])
+/** 人称代词（不带强调的）：只能是代词自己的词形 */
+const BASIC_PRONOUNS = new Set(['mi', 'mhi', 'thu', 'tu', 'e', 'i', 'sinn', 'sibh', 'iad'])
+/** 动词前的小品词（chan e、nach e 拆剩的）：不当 bi 的变形 */
+const PARTICLES = new Set([
+  'cha',
+  'chan',
+  'nach',
+  'an',
+  'am',
+  'gun',
+  'gum',
+  'gu',
+  'mura',
+  'mur',
+  'ma',
+  'mas',
+  'a'
+])
+
+/**
+ * 维基词典的几处互相抄了一份的变形表：
+ * - 系词 is 的页面带着 bi 的整张变位表（tha、bha、bidh……），bi 的表里又有系词的 is、bu：各归各的，
+ *   不然正文里的 Is 会被认成 bi；系词表里拆出来、又是别的词头的（an、cha、nach）也不留，免得抢了冠词、否定小品词；
+ * - 介词 an「在」的表里有「在我的」nam、「在他的」na……，这些另有词条，留在介词表里会让 na（冠词）被认成介词
+ */
+function untangle(entries: GdEntry[], byWord: Map<string, GdEntry[]>): void {
+  // nach、cha、an（疑问系词）、thathar 的页面也套了系词与 bi 的变位模板，表是抄来的：整张不要
+  for (const w of ['nach', 'cha', 'chan', 'an', 'thathar'])
+    for (const e of byWord.get(w) ?? []) if (e.kpos === 'verb') delete e.data.f
+  const bi = byWord.get('bi')?.find((e) => e.kpos === 'verb')
+  const cop = byWord.get('is')?.find((e) => e.kpos === 'verb')
+  /** 这个写法是不是别的虚词的词头（冠词、小品词、介词、连词、代词、限定词） */
+  const otherFunctionWord = (k: string, self: GdEntry): boolean =>
+    (byWord.get(k) ?? []).some((o) => o !== self && FUNCTION_KPOS.has(o.kpos))
+  if (bi?.data.f && cop?.data.f) {
+    const biForms = new Set(bi.data.f.map(([f]) => gdKey(f)))
+    cop.data.f = cop.data.f.filter(([f]) => {
+      const k = gdKey(f)
+      if (COPULA_FORMS.has(k)) return true
+      return !biForms.has(k) && !otherFunctionWord(k, cop)
+    })
+    // bi 的表里系词拆剩的 an、cha（an e?、cha mhi）也是别的虚词：不留，免得正文的 An、Cha 被认成 bi
+    bi.data.f = bi.data.f.filter(([f]) => {
+      const k = gdKey(f)
+      return !COPULA_FORMS.has(k) && !PARTICLES.has(k) && !otherFunctionWord(k, bi)
+    })
+  }
+  for (const e of entries) {
+    if (e.kpos !== 'prep' || !e.data.f) continue
+    e.data.f = e.data.f.filter(
+      ([f, ...t]) =>
+        !(t.includes('possessive') && (byWord.get(gdKey(f)) ?? []).some((o) => o !== e))
+    )
+  }
+  // 实词的「别的写法」撞上虚词词头的（arsa 的 as）：正文里几乎都是那个虚词，不留
+  for (const e of entries) {
+    if (FUNCTION_KPOS.has(e.kpos) || !e.data.f) continue
+    e.data.f = e.data.f.filter(
+      ([f, ...t]) => !(t.includes('alternative') && otherFunctionWord(gdKey(f), e))
+    )
+    if (!e.data.f.length) delete e.data.f
+  }
 }
 
 /** 「某词的某形式」要并进哪种词性的原形 */
@@ -657,7 +790,13 @@ function makeEntry(k: KEntry, senses: KSense[], stats: KaikkiStats): GdEntry {
     }
     if (raw.includes('canonical') || raw.includes('error-unknown-tag')) continue
     const cleaned = cleanForm(kf.form, normTags(raw))
-    if (!cleaned) {
+    // 变位表拆剩的人称代词（bithidh e / i 的 i）与动词前的小品词（chan abair 的 chan）不是这个词的形
+    const bare = cleaned?.form.toLowerCase() ?? ''
+    if (
+      !cleaned ||
+      (k.pos !== 'pron' && BASIC_PRONOUNS.has(bare)) ||
+      (k.pos === 'verb' && PARTICLES.has(bare))
+    ) {
       stats.formsDropped++
       continue
     }
@@ -701,11 +840,7 @@ export function refoldOrphans(entries: GdEntry[]): number {
     for (const t of targets) {
       addForm(t, o.data.w, o.orphan.tags)
       const ipa = o.data.ipa?.[0]
-      if (ipa) {
-        const x = (t.data.x ??= {})
-        const fi = (x.formIpa ??= {}) as Record<string, string>
-        fi[gdKey(o.data.w)] ??= ipa
-      }
+      if (ipa) (t.data.fi ??= {})[o.data.w] ??= ipa
     }
     entries.splice(i, 1)
     n++
@@ -741,6 +876,16 @@ export function addPhraseParts(entries: GdEntry[]): number {
   }
   let added = 0
   for (const e of entries) {
+    // 旧拼写把 a-nis、an-diugh、am-bliadhna 分开写（a nis、an diugh）：分写的也收成词形，阅读器对短语时认得
+    const spaced = /^(a|an|am)-(\p{L}.*)$/u.exec(e.data.w)
+    if (spaced) {
+      const v = `${spaced[1]} ${spaced[2]}`
+      if (!known.has(gdKey(v))) {
+        ;(e.data.f ??= []).push([v, 'alternative'])
+        known.add(gdKey(v))
+        added++
+      }
+    }
     if (!PHRASAL_POS.has(e.kpos)) continue
     const parts = gdKey(e.data.w)
       .split(/[\s-]+/)
@@ -756,14 +901,33 @@ export function addPhraseParts(entries: GdEntry[]): number {
   return added
 }
 
-/** 收尾：变形表去掉跟词头一样又没有标签的项；弱化形、动名词、录音来源 */
+/**
+ * 跟词头一样、标签只说它就是原形（不定指 / 定指、主格、单数、阳性 / 阴性……）的那几行不要：
+ * 不然查原形时阅读器会说「也可能是 不定指·主格·单数」，还会因此不给原形注音。
+ * 属格、与格、呼格、将来时从属式……跟词头同形的照留（bàta 的属格单数也是 bàta，值得知道）
+ */
+const BASE_TAGS = new Set([
+  'indefinite',
+  'definite',
+  'nominative',
+  'singular',
+  'masculine',
+  'feminine',
+  'positive'
+])
+
+/** 收尾：变形表去掉跟词头一样、没有新信息的项；读音表；弱化形、动名词、录音来源 */
 export function finishEntry(e: GdEntry): void {
   const d = e.data
   const head = gdKey(d.w)
   if (d.f) {
-    d.f = d.f.filter(([form, ...tags]) => !(gdKey(form) === head && tags.length === 0))
+    d.f = d.f.filter(
+      ([form, ...tags]) => !(gdKey(form) === head && tags.every((t) => BASE_TAGS.has(t)))
+    )
     if (!d.f.length) delete d.f
   }
+  // 原形自己也进读音表：查原形时要是还对上别的几行（属格也是这个形），阅读器按 fi 注音
+  if (d.ipa?.length) (d.fi ??= {})[d.w] ??= d.ipa[0]
   // 弱化形：变形表里有的用表里的，没有的按规则算（名词、形容词、动词、专名、数词）
   const len = d.f?.find(([, ...t]) => t.length === 1 && t[0] === 'lenition')?.[0]
   const x = (d.x ??= {})
@@ -774,7 +938,14 @@ export function finishEntry(e: GdEntry): void {
   }
   // 动名词
   const vn = d.f?.find(([, ...t]) => t.includes('verbal-noun'))?.[0]
-  if (vn && d.p[0] === 'verb') x.vn = vn
+  if (vn && d.p[0] === 'verb') {
+    x.vn = vn
+    // a dhol、a dhèanamh：「去做」的 a 让动名词弱化。表里补上，免得被猜成别的词
+    if (canLenite(vn)) {
+      const lv = lenite(vn)
+      if (!d.f!.some(([f]) => gdKey(f) === gdKey(lv))) d.f!.push([lv, 'verbal-noun', 'lenition'])
+    }
+  }
   if (d.au?.length && !d.src?.includes('commons')) d.src = [...(d.src ?? []), 'commons']
   if (!Object.keys(x).length) delete d.x
   // 词首音变（弱化、加 t- / h- / n-）排在变形表前头：阅读器一个词形对上几行时取第一行的标签，
@@ -788,15 +959,12 @@ export function finishEntry(e: GdEntry): void {
 }
 
 /**
- * 写库前把 x 里给程序用的结构换成界面直接能显示的文字（界面对不认得的键原样显示，对象会显示成 JSON）：
- * formIpa { chunnaic: '/…/' } → ['chunnaic /…/']；ipaDialects [[ipa, 注]] → ['ipa（注）']。
- * 阅读器要按词形取读音时，按第一个空格拆开即可
+ * 写库前把 x 里给程序用的结构换成界面直接能显示的文字：ipaDialects [[ipa, 注]] → ['ipa（注）']。
+ * 变形的读音放在词条的 fi（{ 词形: IPA }），不在 x 里
  */
 export function presentX(data: LexEntryData): void {
   const x = data.x
   if (!x) return
-  if (x.formIpa && !Array.isArray(x.formIpa))
-    x.formIpa = Object.entries(x.formIpa as Record<string, string>).map(([f, ipa]) => `${f} ${ipa}`)
   if (Array.isArray(x.ipaDialects))
     x.ipaDialects = (x.ipaDialects as unknown[]).map((d) =>
       Array.isArray(d) ? `${d[0]}（${d[1]}）` : String(d)

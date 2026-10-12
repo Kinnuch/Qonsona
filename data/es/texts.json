@@ -1,1 +1,62 @@
-[]
+[
+  {
+    "id": "es-reading-a1",
+    "title": "Un día en casa",
+    "text": "Me llamo Ana. Vivo en una casa pequeña. Mi hermana vive conmigo. Por la mañana preparo café y pan. Después estudio español. Tengo un libro y un cuaderno. Mi hermana trabaja en una escuela. Por la tarde vamos al parque. El parque está cerca de casa. Allí hablamos y caminamos. Por la noche cenamos juntas. Estoy cansada, pero estoy contenta.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "A1"
+  },
+  {
+    "id": "es-reading-a2",
+    "title": "El viaje del sábado",
+    "text": "El sábado pasado viajé con mi hermano a una ciudad cercana. Antes vivíamos allí y queríamos ver a nuestros amigos. Compramos los billetes el viernes. Cuando llegamos, hacía frío y llovía un poco. Fuimos al mercado, donde compré fruta y queso. Después comimos en un restaurante pequeño. El camarero nos recomendó una sopa. Por la tarde visitamos el museo. No tuvimos tiempo para verlo todo, así que vamos a volver el próximo mes.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "A2"
+  },
+  {
+    "id": "es-reading-b1",
+    "title": "Una biblioteca para el barrio",
+    "text": "En nuestro barrio había un edificio vacío. Algunos vecinos propusieron convertirlo en biblioteca. Al principio no sabíamos cómo conseguir los libros, pero una profesora organizó una campaña. Ya hemos recibido cientos de ejemplares. Espero que más personas participen, porque todavía necesitamos ayuda para ordenar las estanterías. La semana que viene abriremos una sala para los niños. Si el proyecto funciona, habrá también talleres de lectura. Lo más importante no es tener un local bonito, sino crear un lugar donde podamos aprender juntos.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "B1"
+  },
+  {
+    "id": "es-reading-b2",
+    "title": "Moverse por la ciudad",
+    "text": "El ayuntamiento quiere reducir el tráfico en el centro. Para que los vecinos utilicen menos el coche, propone ampliar la red de autobuses y construir carriles para bicicletas. Aunque la medida sea costosa, podría mejorar la calidad del aire. Algunos comerciantes temen perder clientes. Otros creen que las calles tranquilas atraerán a más visitantes. Si hubiera un servicio frecuente y accesible, muchas personas cambiarían sus hábitos. Sin embargo, no basta con prohibir el tráfico: hay que escuchar a quienes trabajan de noche o viven lejos. La solución deberá combinar diferentes medios de transporte.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "B2"
+  },
+  {
+    "id": "es-reading-c1",
+    "title": "La memoria y los archivos",
+    "text": "Un archivo no conserva simplemente el pasado: selecciona las huellas a partir de las cuales una sociedad lo interpreta. Si quienes reunieron los documentos hubieran concedido mayor atención a las voces marginadas, nuestra imagen de ciertos acontecimientos sería distinta. No es que todos los testimonios tengan el mismo valor probatorio, sino que la ausencia de una voz también necesita explicación. Digitalizar los fondos facilita el acceso, aunque no elimina las desigualdades entre investigadores. Conviene distinguir la preservación material de la interpretación histórica. La primera protege un objeto; la segunda plantea preguntas que pueden cambiar con cada generación. Reconocer esa diferencia permite discutir sin confundir una revisión argumentada con una falsificación.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "C1"
+  },
+  {
+    "id": "es-reading-c2",
+    "title": "Los límites de una promesa tecnológica",
+    "text": "Según las declaraciones difundidas durante la presentación, la nueva herramienta resolvería buena parte de los problemas administrativos. El condicional resulta aquí significativo: reproduce una promesa cuya eficacia todavía no se ha demostrado. Pase lo que pase con el proyecto, su evaluación debería partir de criterios públicos y de comparaciones verificables. Apenas hubo concluido la presentación, surgieron preguntas sobre el coste de mantenimiento y la responsabilidad por los errores. Sería ingenuo suponer que la velocidad equivale siempre a una mejora. Una decisión rápida puede ser opaca; una decisión lenta puede ser arbitraria. Lo relevante es explicar qué información se utiliza, quién puede impugnar el resultado y cómo se corrige una equivocación. Cuanto más ambiciosa sea la promesa, mayor deberá ser la exigencia de transparencia. Esa cautela no impide innovar: permite que la innovación responda a necesidades concretas y que sus beneficios no se den por supuestos.",
+    "source": "Qonsona original teaching text",
+    "license": "MIT",
+    "author": "Qonsona",
+    "topic": "story",
+    "level": "C2"
+  }
+]

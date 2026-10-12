@@ -16,6 +16,8 @@ export interface DictMemo {
   /** 「语法」页签（日语）：选中的语法点、按等级筛（null 是全部） */
   grammar: string | null
   grammarLevel: number | null
+  /** 当前词条的屈折面板是否展开 */
+  inflection: boolean
 }
 
 function newMemo(): DictMemo {
@@ -26,7 +28,8 @@ function newMemo(): DictMemo {
     char: null,
     history: [],
     grammar: null,
-    grammarLevel: null
+    grammarLevel: null,
+    inflection: false
   })
   return memo
 }
@@ -34,7 +37,7 @@ function newMemo(): DictMemo {
 class DictState {
   /**
    * 每门语言一份记录：记录本身是响应式的，表不是（一门语言的记录建好就不换）。
-   * 这样第一次取的时候新建不算「改状态」，在 $derived 里取也行（框架语言的词典按 code 取）
+   * 初始化仍在组件创建时完成，避免在派生值求值期间创建可变状态。
    */
   #byPack = new Map<string, DictMemo>()
 

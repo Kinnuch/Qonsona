@@ -11,6 +11,7 @@
   import { LANGS } from '$shared/lang/registry'
   import { updates } from '$lib/state/updates.svelte'
   import { flushAll } from '$lib/state/persist'
+  import NotebookTransfer from '$lib/notebook/NotebookTransfer.svelte'
 
   let info = $state<AppInfo | null>(null)
   let sources = $state<DictSource[]>([])
@@ -63,9 +64,8 @@
   async function exportBackup(): Promise<void> {
     backupBusy = true
     try {
-      // 先把还没存盘的改动存掉，稍等它们写完
-      flushAll()
-      await new Promise((r) => setTimeout(r, 300))
+      // 等待实际写盘完成后再导出
+      await flushAll()
       const r = await platform.backup.export()
       if (r)
         backupResult = t('settings.backup.exported', {
@@ -94,7 +94,10 @@
       t('settings.backup.restoreOk'),
       true
     )
-    if (ok) await platform.backup.restore(r.path)
+    if (ok) {
+      await flushAll()
+      await platform.backup.restore(r.path)
+    }
   }
 
   const engineDate = $derived(
@@ -263,6 +266,7 @@
     </div>
     {#if backupResult}<p class="muted path-note" data-backup-result>{backupResult}</p>{/if}
     <p class="faint">{t('settings.backup.help')}</p>
+    <NotebookTransfer scope="personal" />
   </section>
 
   <section class="card group">

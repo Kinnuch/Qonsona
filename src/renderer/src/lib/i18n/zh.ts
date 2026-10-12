@@ -214,6 +214,9 @@ export default {
     symbol: '「{s}」'
   },
   dict: {
+    inflection: '屈折',
+    hideInflection: '收起屈折',
+    inflectionEmpty: '当前词条没有提供屈折形式。',
     placeholder: '输入日语、假名、罗马字、中文或英文',
     placeholderQon: '输入单词、词形、读音或释义',
     tabs: { words: '词汇', characters: '字', sentences: '例句', grammar: '语法' },

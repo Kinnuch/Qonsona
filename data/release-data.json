@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "version": "0.2.0",
+  "asset": "qonsona-data-0.2.0.zip",
+  "bytes": 357738494,
+  "sha256": "e0fce231b320cd747d1f09f8eec3eb02215e2424319e01259fbaaaccb7156d25",
+  "files": [
+    {
+      "path": "ja/dict.sqlite",
+      "bytes": 94203904,
+      "sha256": "b6f7bb7f8222fae9555e6839c1699dc2351e1139421023255e8d5dcd337653e9"
+    },
+    {
+      "path": "ja/wikt.sqlite",
+      "bytes": 20942848,
+      "sha256": "bef9b3979dfafeb485da851d8340c8baceee6986653f447231c0011c4f477cd2"
+    },
+    {
+      "path": "en/dict.sqlite",
+      "bytes": 58093568,
+      "sha256": "260060b8ecb45db5f2cdc3c6fa103e7aba7fb5ab8f12f96a7eb54266bb7f97bb"
+    },
+    {
+      "path": "fr/dict.sqlite",
+      "bytes": 108511232,
+      "sha256": "e6c6863fd8bf42993a5daae10004d68974b5660d9a613abecce0788a68cfb4ba"
+    },
+    {
+      "path": "ko/dict.sqlite",
+      "bytes": 105160704,
+      "sha256": "7999adbcaad574fa6bd9fa896e1c6ceeb4911d33f42bd08c5acb40f116084142"
+    },
+    {
+      "path": "es/dict.sqlite",
+      "bytes": 117264384,
+      "sha256": "6d4e0cde75886c6c4a40f8f44342401c4fdb69fd3c26993cf980e7e3ebbfe21d"
+    },
+    {
+      "path": "ar/dict.sqlite",
+      "bytes": 102936576,
+      "sha256": "50fda074ff508e7e4ff5ecec2520a46db9f77798ff716e680f59e935ed04f05d"
+    },
+    {
+      "path": "ru/dict.sqlite",
+      "bytes": 111464448,
+      "sha256": "55f7a6c82f98e630de94562a2f3a80d0568906703e58f053fd1dc0b18dfd1961"
+    },
+    {
+      "path": "gd/dict.sqlite",
+      "bytes": 13447168,
+      "sha256": "fa2ccb3bd52c9459ea0fda2cda2d0b4128493b21ceed932e59204e8ecc7e5e04"
+    }
+  ]
+}

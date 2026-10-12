@@ -3,6 +3,12 @@
   // 词形、读音、文字写法都用千语集自己的引擎算，跟作者在千语集里看到的一样。
   import { onMount } from 'svelte'
   import { Search } from '@lucide/svelte'
+  import { ui } from '$lib/state/ui.svelte'
+  import { qonDailyPool } from './daily-qonlang'
+  import DictionaryDaily from './DictionaryDaily.svelte'
+  import type { DailyWord, DailySentence, DailyGrammar } from '$shared/dictionary-daily'
+  import { courses } from '$lib/state/courses.svelte'
+
   import { packs } from '$lib/state/packs.svelte'
   import { t, pick, i18n } from '$lib/i18n/index.svelte'
   import { dictState, type DictTab } from './state.svelte'
@@ -55,6 +61,11 @@
     const ids = hits.map((h) => h.id)
     if (!memo.selected || !ids.includes(memo.selected)) memo.selected = ids[0] ?? null
   })
+  $effect(() => {
+    void memo.selected
+    memo.inflection = false
+  })
+  const dailyPool = $derived(qonDailyPool(project, language, packs.hidden, packs.levels))
   const lexeme = $derived(project.lexemes.find((l) => l.id === memo.selected) ?? null)
   const hit = $derived(hits.find((h) => h.id === memo.selected) ?? null)
 
@@ -101,8 +112,33 @@
   )
 
   function lookup(id: string): void {
+    const target = project.lexemes.find(
+      (l) => l.id === id && l.languageId === language.id && !packs.hidden.has(l.id)
+    )
+    if (!target) return
+    memo.query = target.lemma
     memo.tab = 'words'
     memo.selected = id
+    dictState.remember(packId, target.lemma)
+  }
+  function onword(word: DailyWord): void {
+    memo.tab = 'words'
+    memo.query = word.front
+    memo.selected = word.id
+    dictState.remember(packId, word.front)
+  }
+  function onsentence(sentence: DailySentence): void {
+    memo.query = sentence.text
+    memo.tab = 'sentences'
+  }
+  function ongrammar(grammar: DailyGrammar): void {
+    oncourse(grammar)
+  }
+  function oncourse(grammar: DailyGrammar): void {
+    if (grammar.lessonId) {
+      courses.openLesson('grammar', grammar.lessonId)
+      ui.go('courses')
+    }
   }
 </script>
 
@@ -137,7 +173,30 @@
     </div>
   </header>
 
-  {#if memo.tab === 'words'}
+  {#if memo.tab === 'words' && !memo.query.trim()}
+    <div class="discoveries">
+      <DictionaryDaily
+        {packId}
+        localPool={dailyPool}
+        {onword}
+        {onsentence}
+        {ongrammar}
+        {oncourse}
+      />
+      {#if memo.history.length}<section class="daily-history">
+          <h3>{t('dict.history')}</h3>
+          <div>
+            {#each memo.history as q (q)}<button
+                class="chip"
+                onclick={() => {
+                  memo.query = q
+                  memo.tab = 'words'
+                }}>{q}</button
+              >{/each}
+          </div>
+        </section>{/if}
+    </div>
+  {:else if memo.tab === 'words'}
     <div class="panes">
       <ul class="list" data-hit-list>
         {#each hits as h (h.id)}
@@ -170,6 +229,13 @@
           <header class="head">
             <span class="headword data">{lexeme.lemma}</span>
             <Pronounce item={{ key: `lexeme-${lexeme.id}`, ipa }} />
+            <button
+              class="btn small"
+              data-inflection-toggle
+              aria-expanded={memo.inflection}
+              onclick={() => (memo.inflection = !memo.inflection)}
+              >{memo.inflection ? t('dict.hideInflection') : t('dict.inflection')}</button
+            >
             <AddToNotebook
               key={`lexeme-${lexeme.id}`}
               make={() => qonFromLexeme(language, lexeme!)}
@@ -191,6 +257,31 @@
               </p>{/if}
           {/each}
 
+          {#if memo.inflection}
+            <section class="block" data-inflection-panel data-forms>
+              <h3>{t('dict.inflection')}</h3>
+              {#if Object.values(lexeme.forms).some((f) => f.surface)}
+                <div class="table-scroll" data-dict-forms-scroll>
+                  <table class="forms">
+                    <tbody>
+                      {#each Object.entries(lexeme.forms).filter(([, f]) => f.surface) as [slot, f] (slot)}
+                        <tr>
+                          <th>{slotLabel(slot)}</th>
+                          <td class="data">{f.surface}</td>
+                          <td
+                            ><Pronounce
+                              item={{ ipa: f.ipa || spellingIpa(language, f.surface) }}
+                            /></td
+                          >
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {:else}<p class="muted">{t('dict.inflectionEmpty')}</p>{/if}
+            </section>
+          {/if}
+
           <ol class="senses">
             {#each lexeme.senses as s (s.id)}
               <li>
@@ -208,25 +299,6 @@
               </li>
             {/each}
           </ol>
-
-          {#if Object.values(lexeme.forms).some((f) => f.surface)}
-            <section class="block">
-              <h3>{t('dict.qon.forms')}</h3>
-              <table class="forms">
-                <tbody>
-                  {#each Object.entries(lexeme.forms).filter(([, f]) => f.surface) as [slot, f] (slot)}
-                    <tr>
-                      <th>{slotLabel(slot)}</th>
-                      <td class="data">{f.surface}</td>
-                      <td
-                        ><Pronounce item={{ ipa: f.ipa || spellingIpa(language, f.surface) }} /></td
-                      >
-                    </tr>
-                  {/each}
-                </tbody>
-              </table>
-            </section>
-          {/if}
 
           {#if lexeme.etymology.sources.length || lexeme.etymology.stages.length || lexeme.etymology.notes}
             <section class="block">
@@ -373,15 +445,18 @@
           {#if morpheme.allomorphs.length}
             <section class="block">
               <h3>{t('dict.qon.allomorphs')}</h3>
-              <table class="forms">
-                <tbody>
-                  {#each morpheme.allomorphs as a, i (i)}
-                    <tr
-                      ><td class="data">{a.form}</td><td class="faint mono">{a.environment}</td></tr
-                    >
-                  {/each}
-                </tbody>
-              </table>
+              <div class="table-scroll" data-dict-forms-scroll>
+                <table class="forms">
+                  <tbody>
+                    {#each morpheme.allomorphs as a, i (i)}
+                      <tr
+                        ><td class="data">{a.form}</td><td class="faint mono">{a.environment}</td
+                        ></tr
+                      >
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
             </section>
           {/if}
           {#if morpheme.notes}<p class="notes">{morpheme.notes}</p>{/if}
@@ -437,6 +512,20 @@
 </div>
 
 <style>
+  .discoveries {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .daily-history {
+    padding-block: 18px;
+  }
+  .daily-history div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
   .dict {
     display: flex;
     flex-direction: column;

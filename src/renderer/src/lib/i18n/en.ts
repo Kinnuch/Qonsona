@@ -219,6 +219,9 @@ export default {
     symbol: '“{s}”'
   },
   dict: {
+    inflection: 'Inflection',
+    hideInflection: 'Hide inflection',
+    inflectionEmpty: 'No inflection forms are provided for this entry.',
     placeholder: 'Type Japanese, kana, romaji, Chinese or English',
     placeholderQon: 'Type a word, a form, a pronunciation or a meaning',
     tabs: { words: 'Words', characters: 'Characters', sentences: 'Sentences', grammar: 'Grammar' },

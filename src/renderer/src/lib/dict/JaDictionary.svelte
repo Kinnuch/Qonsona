@@ -14,6 +14,11 @@
   import StrokeOrder from '$lib/ui/StrokeOrder.svelte'
   import AddToNotebook from '$lib/notebook/AddToNotebook.svelte'
   import { jaFromEntry, jaKey } from '$lib/notebook/cards'
+  import JaInflection from './JaInflection.svelte'
+  import { ui } from '$lib/state/ui.svelte'
+  import DictionaryDaily from './DictionaryDaily.svelte'
+  import type { DailyWord, DailySentence, DailyGrammar } from '$shared/dictionary-daily'
+  import { courses } from '$lib/state/courses.svelte'
   import JaGrammarDict from './JaGrammarDict.svelte'
   import HandwritingPad from './HandwritingPad.svelte'
 
@@ -74,6 +79,7 @@
 
   $effect(() => {
     const id = memo.selected
+    memo.inflection = false
     if (!available || !id) {
       entry = null
       wikt = []
@@ -147,6 +153,26 @@
     return [{ text: sentence, hit: false }]
   }
   const L = $derived(i18n.locale)
+  function onword(word: DailyWord): void {
+    lookup(word.front)
+    memo.selected = String(word.entryId ?? word.id)
+  }
+  function onsentence(sentence: DailySentence): void {
+    memo.query = sentence.text
+    memo.tab = 'sentences'
+  }
+  function ongrammar(grammar: DailyGrammar): void {
+    memo.query = ''
+    memo.grammar = grammar.id
+    memo.grammarLevel = null
+    memo.tab = 'grammar'
+  }
+  function oncourse(grammar: DailyGrammar): void {
+    if (grammar.lessonId) {
+      courses.openLesson('grammar', grammar.lessonId)
+      ui.go('courses')
+    }
+  }
 </script>
 
 {#snippet exampleView(ex: ExampleView, words: string[])}
@@ -216,7 +242,18 @@
     />
   {/if}
 
-  {#if available === false}
+  {#if memo.tab === 'words' && !memo.query.trim()}
+    <div class="discoveries">
+      <DictionaryDaily packId="ja" {onword} {onsentence} {ongrammar} {oncourse} />
+      {#if memo.history.length}<section class="daily-history">
+          <h3>{t('dict.history')}</h3>
+          <div>
+            {#each memo.history as q (q)}<button class="chip" onclick={() => lookup(q)}>{q}</button
+              >{/each}
+          </div>
+        </section>{/if}
+    </div>
+  {:else if available === false}
     <p class="card note">{t('dict.noData')}</p>
   {:else if memo.tab === 'words'}
     <div class="panes">
@@ -286,6 +323,13 @@
             <Pronounce item={{ key: `entry-${entry.id}`, text: entry.reading, lang: 'ja-JP' }} />
             {#if entry.jlpt}<span class="chip on">JLPT N{entry.jlpt}</span>{/if}
             {#if entry.common}<span class="chip">{t('dict.common')}</span>{/if}
+            <button
+              class="btn small"
+              data-inflection-toggle
+              aria-expanded={memo.inflection}
+              onclick={() => (memo.inflection = !memo.inflection)}
+              >{memo.inflection ? t('dict.hideInflection') : t('dict.inflection')}</button
+            >
             <span class="head-grow"></span>
             <AddToNotebook key={jaKey(entry.id)} make={() => jaFromEntry(entry!)} />
           </header>
@@ -298,6 +342,8 @@
               })}
             </p>
           {/if}
+
+          {#if memo.inflection}{#key entry.id}<JaInflection {entry} />{/key}{/if}
 
           <ol class="senses">
             {#each entry.senses as s, i (i)}
@@ -536,6 +582,20 @@
 </div>
 
 <style>
+  .discoveries {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+  .daily-history {
+    padding-block: 18px;
+  }
+  .daily-history div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
   .dict {
     display: flex;
     flex-direction: column;

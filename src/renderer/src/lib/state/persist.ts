@@ -6,12 +6,18 @@ import { courses } from './courses.svelte'
 import { practice } from './practice.svelte'
 import { media } from './media.svelte'
 import { activity } from './activity.svelte'
+import { serializedWrites } from './persistence'
+import { audio } from './audio.svelte'
 
-export function flushAll(): void {
-  notebook.flush()
-  courses.flush()
-  practice.flush()
-  media.flushPosition()
+export async function flushAll(): Promise<void> {
+  await audio.flushRecording()
   activity.tick()
-  activity.flush()
+  await Promise.all([
+    notebook.flush(),
+    courses.flush(),
+    practice.flush(),
+    media.flushPosition(),
+    activity.flush()
+  ])
+  await serializedWrites.drain()
 }

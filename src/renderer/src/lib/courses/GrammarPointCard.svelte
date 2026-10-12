@@ -8,7 +8,7 @@
   import Pronounce from '$lib/ui/Pronounce.svelte'
   import JaSentence from './JaSentence.svelte'
   import PlainSentence from './PlainSentence.svelte'
-  import { meanings, translation } from './view'
+  import { meanings, translation, txt } from './view'
 
   let {
     g,
@@ -37,8 +37,9 @@
   </header>
   <p class="form">
     <span class="chip">{t('courses.learn.form')}</span>
-    <span lang={ja ? 'ja' : undefined}>{g.form}</span>
+    <span {lang} dir="auto">{g.form}</span>
   </p>
+  {#if g.notes}<p class="muted" data-grammar-notes>{txt(g.notes)}</p>{/if}
   <h3>{t('courses.learn.examplesTitle')}</h3>
   <ul class="examples">
     {#each g.examples as ex, i (i)}

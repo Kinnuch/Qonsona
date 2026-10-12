@@ -6,6 +6,7 @@
  */
 import { langModule } from '$shared/lang/registry'
 import { platform } from '$lib/platform'
+import { serializedWrites } from './persistence'
 import { t, pick, i18n } from '$lib/i18n/index.svelte'
 import {
   emptyProgress,
@@ -94,6 +95,7 @@ class CoursesState {
   conjugables = $state.raw<ConjugableWord[] | null>(null)
   #timer: ReturnType<typeof setTimeout> | undefined
   #loading: Promise<void> | null = null
+  #loadEpoch = 0
 
   /** 正在学的这门语言有的课（学习包没有的块不出；没有内容的课不出） */
   list = $derived.by<Course[]>(() => {
@@ -162,13 +164,20 @@ class CoursesState {
   load(packId: string | null): Promise<void> {
     if (packId === this.packId && (this.progress || this.#loading))
       return this.#loading ?? Promise.resolve()
-    this.flush()
+    const saved = this.flush()
+    const epoch = ++this.#loadEpoch
     this.packId = packId
     this.progress = null
     this.view = { page: 'home' }
     this.quiz = null
-    if (!packId) return Promise.resolve()
+    if (!packId) {
+      this.#loading = null
+      return saved
+    }
     this.#loading = (async () => {
+      await saved
+      await serializedWrites.wait(`courses:${packId}`)
+      if (epoch !== this.#loadEpoch) return
       const [text, data, words] = await Promise.all([
         platform.course.load(packId).catch(() => null),
         packId === 'ja' && !this.grammarData
@@ -184,11 +193,13 @@ class CoursesState {
       } catch {
         raw = null
       }
-      if (this.packId !== packId) return
+      if (epoch !== this.#loadEpoch) return
       this.grammarData = data
       this.conjugables = words
       this.progress = raw ? normalizeProgress(raw) : emptyProgress()
-    })().finally(() => (this.#loading = null))
+    })().finally(() => {
+      if (epoch === this.#loadEpoch) this.#loading = null
+    })
     return this.#loading
   }
 
@@ -197,16 +208,23 @@ class CoursesState {
     if (!this.progress) return
     this.progress = { ...this.progress }
     clearTimeout(this.#timer)
-    this.#timer = setTimeout(() => this.flush(), SAVE_DELAY)
+    this.#timer = setTimeout(() => {
+      void this.flush().catch(() => {})
+    }, SAVE_DELAY)
   }
 
-  flush(): void {
+  flush(): Promise<void> {
     clearTimeout(this.#timer)
     this.#timer = undefined
-    if (this.progress && this.packId)
-      void platform.course
-        .save(this.packId, JSON.stringify(this.progress))
-        .catch((e) => ui.toast(String(e), 'error', 8000))
+    if (!this.progress || !this.packId) return Promise.resolve()
+    const packId = this.packId
+    const content = JSON.stringify(this.progress)
+    return serializedWrites
+      .enqueue(`courses:${packId}`, () => platform.course.save(packId, content))
+      .catch((e) => {
+        ui.toast(String(e), 'error', 8000)
+        throw e
+      })
   }
 
   // ── 走到哪一步 ──

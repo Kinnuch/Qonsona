@@ -102,6 +102,45 @@ export class LexDb {
     this.#db.close()
   }
 
+  /** 每日推荐候选：按主等级有界读取，不调用解压整级词表的练习接口。 */
+  dailyPool(): { words: PracticeWord[]; sentences: LexExample[] } {
+    const levels = primarySystem(this.lang.spec.levelSystems).levels.map((l) => l.id)
+    const words: PracticeWord[] = []
+    for (const level of [...levels, null]) {
+      const rows = (level
+        ? this.#stmt(
+            'SELECT id,w,p,fr,lv,data FROM entry WHERE lv=? ORDER BY fr IS NULL,fr,id LIMIT 64'
+          ).all(level)
+        : this.#stmt(
+            'SELECT id,w,p,fr,lv,data FROM entry WHERE lv IS NULL ORDER BY fr IS NULL,fr,id LIMIT 32'
+          ).all()) as unknown as Row[]
+      for (const r of rows) {
+        const d = unpackEntry(r.data)
+        const gloss = firstGloss(d)
+        if (!gloss.en && !gloss.zh) continue
+        words.push({
+          id: Number(r.id),
+          w: d.w,
+          d: d.d,
+          p: d.p,
+          g: d.g,
+          lv: r.lv,
+          zh: gloss.zh,
+          en: gloss.en,
+          forms: [],
+          ipa: d.ipa?.[0],
+          rom: d.rom
+        })
+      }
+    }
+    const sentences = (
+      this.#stmt(
+        'SELECT id,text,en,zh,zs,src,lv FROM example WHERE length(text) BETWEEN 8 AND 500 AND (length(en)>0 OR length(zh)>0) ORDER BY id LIMIT 384'
+      ).all() as unknown as LexExample[]
+    ).map((s) => ({ ...s, id: Number(s.id) }))
+    return { words, sentences }
+  }
+
   #meta(): Map<string, string> {
     try {
       return new Map(
@@ -730,8 +769,8 @@ export class LexDb {
     const rows = (level
       ? this.#stmt(
           `SELECT x.id, x.text, x.en, x.zh, x.zs, x.src, x.lv FROM example x
-             WHERE (x.zh IS NOT NULL OR x.en IS NOT NULL) AND (x.lv = ? OR (x.lv IS NULL AND EXISTS (
-               SELECT 1 FROM example_entry j JOIN entry e ON e.id = j.entry WHERE j.example = x.id AND e.lv = ?)))
+             WHERE (x.zh IS NOT NULL OR x.en IS NOT NULL) AND (x.lv = ? OR (x.lv IS NULL AND x.id IN (
+               SELECT j.example FROM example_entry j JOIN entry e ON e.id = j.entry WHERE e.lv = ?)))
              ORDER BY length(x.text) LIMIT ?`
         ).all(level, level, limit)
       : this.#stmt(

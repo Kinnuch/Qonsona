@@ -137,7 +137,8 @@ function langBuiltinLists(
 ): BuiltinList[] {
   const count = new Map(lists.map((l) => [l.name, l]))
   const load = (name: string) => async (): Promise<CardInput[]> =>
-    (await platform.lang.list(code, name)).map(lexFromItem)
+    // 完整导入该词本：高级分级与考试词表可能超过默认的 5000 词。
+    (await platform.lang.list(code, name, count.get(name)?.count)).map(lexFromItem)
   const out: BuiltinList[] = []
   for (const sys of [...systems].sort((a, b) => Number(!!b.primary) - Number(!!a.primary)))
     for (const lv of sys.levels) {

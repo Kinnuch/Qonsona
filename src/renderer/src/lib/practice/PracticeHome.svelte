@@ -8,6 +8,7 @@
   import { txt } from '$lib/courses/view'
   import { dayKey } from '$shared/srs'
   import type { PracticeKind } from '$shared/exam'
+  import { EXAM_HISTORY_PAGE } from '$shared/exam'
   import { paperShape } from '$shared/ja/exam'
 
   const LISTEN: PracticeKind[] = ['listen-sentence', 'listen-word']
@@ -16,6 +17,11 @@
   )
   const today = $derived(practice.log?.days[dayKey()] ?? { answered: 0, right: 0 })
   const history = $derived([...(practice.log?.exams ?? [])].reverse())
+  let historyPage = $state(0)
+  const pageCount = $derived(Math.max(1, Math.ceil(history.length / EXAM_HISTORY_PAGE)))
+  const shownHistory = $derived(
+    history.slice(historyPage * EXAM_HISTORY_PAGE, (historyPage + 1) * EXAM_HISTORY_PAGE)
+  )
 
   const blocked = (k: RunKind): boolean => LISTEN.includes(k as PracticeKind) && !practice.canListen
 
@@ -160,7 +166,7 @@
       {#if history.length}
         <h3>{t('practice.exam.history')}</h3>
         <ul class="history">
-          {#each history as r (r.id)}
+          {#each shownHistory as r (r.id)}
             <li>
               <button class="row-btn" data-record={r.id} onclick={() => practice.openRecord(r.id)}>
                 <span class="faint">{date(r.at)}</span>
@@ -181,6 +187,19 @@
             </li>
           {/each}
         </ul>
+        {#if pageCount > 1}
+          <div class="controls" data-exam-history-pages>
+            <button class="btn" disabled={historyPage === 0} onclick={() => historyPage--}
+              >{i18n.locale === 'zh' ? '上一页' : 'Previous'}</button
+            >
+            <span>{historyPage + 1} / {pageCount} · {history.length}</span>
+            <button
+              class="btn"
+              disabled={historyPage + 1 >= pageCount}
+              onclick={() => historyPage++}>{i18n.locale === 'zh' ? '下一页' : 'Next'}</button
+            >
+          </div>
+        {/if}
       {/if}
     </section>
   {/if}

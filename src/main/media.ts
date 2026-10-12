@@ -92,19 +92,15 @@ export class MediaLibrary {
   }
 
   /**
-   * 加进库里（同一个文件再加一次就是原来那一条，归到这次的语言）；不认识的格式返回 null。
+   * 同一语言重复加入同一个文件沿用原记录；不同语言独立保存字幕、进度与播放设置。
    * lang 是它归哪门语言（学习包 id），不给时算日语
    */
   async add(path: string, lang?: string): Promise<MediaItem | null> {
     const kind = mediaKind(path)
     if (!kind || !existsSync(path)) return null
     const items = await this.#load()
-    const hit = items.find((x) => x.path === path)
+    const hit = items.find((x) => x.path === path && (x.lang ?? 'ja') === (lang ?? 'ja'))
     if (hit) {
-      if (lang && (hit.lang ?? 'ja') !== lang) {
-        hit.lang = lang
-        await this.#save()
-      }
       return { ...hit, exists: true }
     }
     const item: MediaItem = {
