@@ -3,7 +3,7 @@
  */
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { spec } from '../../../src/shared/lang/en/spec'
 import { primarySystem } from '../../../src/shared/lang/levels'
 import { CEFR_LEVELS } from '../../../src/shared/lang/types'
@@ -58,7 +58,11 @@ describe('英语的 spec', () => {
 
 const file = join('resources', 'data', 'en', 'dict.sqlite')
 describe.skipIf(!existsSync(file))('英语词典库（有 resources/data/en/dict.sqlite 时）', () => {
-  const db = new LexDb('en', file)
+  let db: LexDb
+  beforeAll(() => {
+    db = new LexDb('en', file)
+  })
+  afterAll(() => db?.close())
   it('变形、缩约、所有格、英美拼写都查得到', () => {
     expect(db.lookup('went')).toMatchObject({ lemma: 'go', tags: ['past'] })
     expect(db.lookup('mice')).toMatchObject({ lemma: 'mouse', tags: ['plural'] })

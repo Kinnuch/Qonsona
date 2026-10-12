@@ -4,7 +4,7 @@
  */
 import { existsSync } from 'node:fs'
 import { join } from 'node:path'
-import { describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { align, bag, cleanItem, pickSimplified, splitZh } from '../../../scripts/data/fr/align'
 import { placeLabel, mapPos } from '../../../scripts/data/fr/wikt-en'
 import { splitByPos, toSimplified } from '../../../scripts/data/fr/zh-sources'
@@ -164,7 +164,11 @@ describe('分级', () => {
 
 const dictFile = join(process.cwd(), 'resources', 'data', 'fr', 'dict.sqlite')
 describe.skipIf(!existsSync(dictFile))('建好的法语词典（resources/data/fr/dict.sqlite）', () => {
-  const db = new LexDb('fr', dictFile)
+  let db: LexDb
+  beforeAll(() => {
+    db = new LexDb('fr', dictFile)
+  })
+  afterAll(() => db?.close())
   it('词头、变形、去重音、猜原形都查得到', () => {
     expect(db.ok).toBe(true)
     expect(db.search('chat').hits[0]).toMatchObject({ w: 'chat', match: 'exact' })
@@ -194,7 +198,11 @@ describe.skipIf(!existsSync(dictFile))('建好的法语词典（resources/data/f
 })
 
 describe.skipIf(!existsSync(dictFile))('变形的读音与几种可能（fi、alt）', () => {
-  const db = new LexDb('fr', dictFile)
+  let db: LexDb
+  beforeAll(() => {
+    db = new LexDb('fr', dictFile)
+  })
+  afterAll(() => db?.close())
   it('变过形的词注这个形的读音', () => {
     expect(db.lookup('mangent')?.ipa).toBe('/mɑ̃ʒ/')
     expect(db.lookup('chevaux')?.ipa).toMatch(/ʃə\.?vo/)
