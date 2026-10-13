@@ -4,6 +4,7 @@
  * 词典里收了带空格的短语（parce que、a lot of）的，最长四个词连起来先对短语。
  */
 import { LANGS } from '../../shared/lang/registry'
+import { arVocalizedSurface } from '../../shared/lang/ar/reading'
 import { primarySystem } from '../../shared/lang/levels'
 import { estimateLexLevel, findGrammar } from '../../shared/lang/grammar'
 import { segmentSentences, segmentWords } from '../../shared/lang/text'
@@ -124,7 +125,12 @@ export function analyzeLex(db: LexDb, text: string): LexAnalysis {
       // 转写用对上的那一行的原文（带元音的），猜原形对上的转正文；IPA、标准发音用查词结果的读音
       const ruby =
         rubyKind === 'romanization'
-          ? rules.romanize?.(hit?.form ?? raw.text)
+          ? db.code === 'ar'
+            ? (() => {
+                const f = arVocalizedSurface(raw.text, hit?.form, hit?.tags ?? [])
+                return f ? rules.romanize?.(f) : undefined
+              })()
+            : rules.romanize?.(hit?.form ?? raw.text)
           : rubyKind === 'ipa' || rubyKind === 'pronunciation'
             ? hit?.ipa
             : undefined

@@ -54,7 +54,7 @@
   }
 
   function done(): void {
-    courses.textDone(course.id, lesson.id, 1)
+    if (!passed) courses.textDone(course.id, lesson.id, 1)
     courses.open(course.id)
   }
 </script>

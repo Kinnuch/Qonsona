@@ -1,0 +1,36 @@
+{
+  "code": "sjn",
+  "source": "https://eldamo.org/content/data-model/eldamo-data.xml",
+  "license": "CC BY 4.0",
+  "version": "0.8.13",
+  "sha256": "4e561d4dfc15919d300adcb3ef8cb93298cb0b6fe0291f8fd1bef93abeea7979",
+  "counts": {
+    "late": 2126,
+    "neo": 1610,
+    "middle": 1943,
+    "early": 4471
+  },
+  "documentaryAliases": 1980,
+  "entriesWithDocumentaryAliases": 1473,
+  "stats": {
+    "file": "resources/data/sjn/dict.sqlite",
+    "bytes": 6139904,
+    "entries": 10150,
+    "forms": 16418,
+    "examples": 49,
+    "lists": {
+      "eldarin-study:L1": 18,
+      "eldarin-study:L2": 16,
+      "eldarin-study:L3": 15,
+      "x:eldamo-period:early": 4471,
+      "x:eldamo-period:late": 2126,
+      "x:eldamo-period:middle": 1943,
+      "x:eldamo-period:neo": 1610
+    }
+  },
+  "curatedRequested": 52,
+  "curatedMatched": 49,
+  "unmatchedCore": ["in", "guren", "ammen"],
+  "originalExamples": 49,
+  "texts": 3
+}

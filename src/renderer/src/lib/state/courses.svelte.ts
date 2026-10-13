@@ -7,6 +7,9 @@
 import { langModule } from '$shared/lang/registry'
 import { platform } from '$lib/platform'
 import { serializedWrites } from './persistence'
+import { activity } from './activity.svelte'
+import { StudyRequestGate, type StudyRequest } from '$shared/study-request'
+import { lessonHasLearningContent, completionViewMatches } from '$shared/lesson-completion'
 import { t, pick, i18n } from '$lib/i18n/index.svelte'
 import {
   emptyProgress,
@@ -63,6 +66,7 @@ export type CourseView =
   | { page: 'quiz' }
 
 export interface QuizRun {
+  packId: string
   kind: 'lesson' | 'test' | 'practice'
   course: string
   /** 课 id / 单元 id；练薄弱项是空串 */
@@ -96,6 +100,7 @@ class CoursesState {
   #timer: ReturnType<typeof setTimeout> | undefined
   #loading: Promise<void> | null = null
   #loadEpoch = 0
+  #starts = new StudyRequestGate()
 
   /** 正在学的这门语言有的课（学习包没有的块不出；没有内容的课不出） */
   list = $derived.by<Course[]>(() => {
@@ -166,6 +171,7 @@ class CoursesState {
       return this.#loading ?? Promise.resolve()
     const saved = this.flush()
     const epoch = ++this.#loadEpoch
+    this.#starts.cancel()
     this.packId = packId
     this.progress = null
     this.view = { page: 'home' }
@@ -230,14 +236,17 @@ class CoursesState {
   // ── 走到哪一步 ──
 
   open(course: string): void {
+    this.#starts.cancel()
     this.view = { page: 'course', course }
   }
 
   openLesson(course: string, lesson: string): void {
+    this.#starts.cancel()
     this.view = { page: 'lesson', course, lesson, step: 0 }
   }
 
   home(): void {
+    this.#starts.cancel()
     this.view = { page: 'home' }
   }
 
@@ -249,11 +258,49 @@ class CoursesState {
     this.#changed()
   }
 
+  canCompleteLesson(courseId: string, lessonId: string): boolean {
+    if (
+      !this.progress ||
+      !completionViewMatches(
+        this.packId,
+        packs.active?.id ?? null,
+        ui.section,
+        this.view,
+        courseId,
+        lessonId
+      )
+    )
+      return false
+    const c = this.course(courseId),
+      ref = c && findLesson(c, lessonId)
+    return (
+      !!c &&
+      !!ref &&
+      lessonHasLearningContent(
+        c,
+        ref.lesson,
+        (id) => packs.project?.docs.find((doc) => doc.id === id)?.markdown
+      )
+    )
+  }
+
+  /** Explicit learner completion only; never called by mount/effects or merely opening a lesson. */
+  completeLesson(courseId: string, lessonId: string): boolean {
+    if (!this.canCompleteLesson(courseId, lessonId)) return false
+    const c = this.course(courseId)!,
+      pack = this.packId!
+    markLearned(this.progress!, c, lessonId)
+    activity.complete('courses', `${courseId}/${lessonId}`, pack)
+    this.#changed()
+    return true
+  }
+
   /** 故事课：这一篇的本文练习做完了（score 是答对的比例）；读完直接点「学完了」时 score 给 1 */
   textDone(courseId: string, lessonId: string, score: number): void {
     const c = this.course(courseId)
     if (!c || !this.progress) return
     recordText(this.progress, c, lessonId, score)
+    activity.complete('courses', `${courseId}/${lessonId}`, this.packId ?? undefined)
     this.#changed()
   }
 
@@ -346,34 +393,53 @@ class CoursesState {
 
   // ── 一轮练习 ──
 
+  #acceptStart(request: StudyRequest): boolean {
+    return (
+      !ui.closing &&
+      request.packId === packs.active?.id &&
+      this.#starts.accepts(request, this.packId, this.#loadEpoch)
+    )
+  }
   async startLesson(courseId: string, lessonId: string): Promise<void> {
-    const c = this.course(courseId)
-    const ref = c && findLesson(c, lessonId)
+    if (!this.packId || this.packId !== packs.active?.id || !this.progress) return
+    const c = this.course(courseId),
+      ref = c && findLesson(c, lessonId)
     if (!c || !ref) return
+    const request = this.#starts.begin(this.packId, this.#loadEpoch),
+      listen = this.#canListen(c)
+    const words = await this.spellWords(c, ref.lesson)
+    if (!this.#acceptStart(request)) return
     const questions = lessonQuiz(c, ref.lesson, poolUpTo(c, lessonId), {
       seed: Date.now() >>> 0,
-      words: await this.spellWords(c, ref.lesson),
-      listen: this.#canListen(c)
+      words,
+      listen
     })
     this.#run('lesson', c, lessonId, questions)
   }
 
   async startTest(courseId: string, unitId: string): Promise<void> {
-    const c = this.course(courseId)
-    const unit = c?.units.find((u) => u.id === unitId)
-    if (!c || !unit) return
-    const last = unit.lessons[unit.lessons.length - 1]
-    const keys = unitItems(unit)
+    if (!this.packId || this.packId !== packs.active?.id || !this.progress) return
+    const c = this.course(courseId),
+      unit = c?.units.find((u) => u.id === unitId)
+    if (!c || !unit || !unit.lessons.length) return
+    const last = unit.lessons[unit.lessons.length - 1],
+      keys = unitItems(unit)
+    const request = this.#starts.begin(this.packId, this.#loadEpoch),
+      listen = this.#canListen(c)
+    const words = await this.spellWords(c, last, keys)
+    if (!this.#acceptStart(request)) return
     const questions = testQuiz(c, keys, poolUpTo(c, last.id), {
       seed: Date.now() >>> 0,
-      words: await this.spellWords(c, last, keys),
-      listen: this.#canListen(c)
+      words,
+      listen
     })
     this.#run('test', c, unitId, questions)
   }
 
   /** 练薄弱项：答错最多的几个，每个考两三道；成绩不计入课程 */
   async startPractice(courseId: string): Promise<void> {
+    if (!this.packId || this.packId !== packs.active?.id || !this.progress) return
+    this.#starts.cancel()
     const c = this.course(courseId)
     if (!c || !this.progress) return
     const keys = weakItems(c, this.progress, 8)
@@ -400,6 +466,7 @@ class CoursesState {
       return
     }
     this.quiz = {
+      packId: this.packId!,
       kind,
       course: c.id,
       target,
@@ -422,7 +489,15 @@ class CoursesState {
     const run = this.quiz
     const q = this.question
     const c = run && this.course(run.course)
-    if (!run || !q || !c || run.given !== null) return
+    if (
+      !run ||
+      !q ||
+      !c ||
+      run.given !== null ||
+      run.packId !== this.packId ||
+      run.packId !== packs.active?.id
+    )
+      return
     const right = isRight(c, q, given)
     this.quiz = {
       ...run,
@@ -433,7 +508,8 @@ class CoursesState {
 
   next(): void {
     const run = this.quiz
-    if (!run || run.given === null) return
+    if (!run || run.given === null || run.packId !== this.packId || run.packId !== packs.active?.id)
+      return
     const i = run.i + 1
     if (i < run.questions.length) {
       this.quiz = { ...run, i, given: null }
@@ -447,11 +523,20 @@ class CoursesState {
       else result = { score: recordPractice(this.progress, c, run.answers), passed: true }
       this.#changed()
     }
+    if (run.answers.length)
+      activity.complete(
+        'courses',
+        run.kind === 'lesson'
+          ? `${run.course}/${run.target}`
+          : `${run.course}/${run.kind}/${run.target}`,
+        run.packId
+      )
     this.quiz = { ...run, i, given: null, done: true, result }
   }
 
   /** 结束这一轮（中途退出不记成绩），回到来的那一页 */
   exit(): void {
+    this.#starts.cancel()
     const run = this.quiz
     this.quiz = null
     if (!run) return this.home()

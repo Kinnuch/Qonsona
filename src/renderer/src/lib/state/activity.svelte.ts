@@ -9,6 +9,15 @@ import { dayKey } from '$shared/srs'
 import { packs } from './packs.svelte'
 import { ui } from './ui.svelte'
 import { media } from './media.svelte'
+import {
+  emptyRewards,
+  completeReward,
+  addRewardInterval,
+  rewardIntervalEnd,
+  REWARD_MODULES,
+  type CompletionKind
+} from '$shared/rewards'
+import { i18n } from '$lib/i18n/index.svelte'
 
 const TICK = 15_000
 /** 这么久没动鼠标键盘就算走开了 */
@@ -17,7 +26,9 @@ const SAVE_EVERY = 60_000
 
 class Activity {
   log = $state.raw<ActivityLog | null>(null)
-  #lastInput = Date.now()
+  #lastInput = 0
+  recentUnlocks = $state<string[]>([])
+  #pending: { kind: CompletionKind; id: string; packId: string; at: number }[] = []
   #last = Date.now()
   #dirty = false
   #lastSave = Date.now()
@@ -36,6 +47,10 @@ class Activity {
     } catch {
       this.log = emptyActivity()
     }
+    this.log.rewards ??= emptyRewards()
+    for (const e of this.#pending) this.complete(e.kind, e.id, e.packId, e.at)
+    this.#pending = []
+    this.#last = Date.now()
     const touch = (): void => void (this.#lastInput = Date.now())
     for (const ev of ['pointerdown', 'pointermove', 'keydown', 'wheel'])
       window.addEventListener(ev, touch, { passive: true, capture: true })
@@ -43,7 +58,6 @@ class Activity {
     document.addEventListener('visibilitychange', () => this.tick())
     window.addEventListener('blur', () => this.tick())
     window.addEventListener('focus', () => {
-      touch()
       this.tick()
     })
     setInterval(() => this.tick(), TICK)
@@ -58,6 +72,17 @@ class Activity {
     const dt = Math.min(now - this.#last, TICK * 2)
     if (this.log && this.#pack && this.#wasActive && dt > 0) {
       addSeconds(this.log, dayKey(now), this.#pack, this.#section, dt / 1000)
+      if (this.log.rewards && REWARD_MODULES.has(this.#section)) {
+        const end = rewardIntervalEnd(
+          this.#section,
+          now - dt,
+          now,
+          this.#lastInput,
+          this.#wasActive,
+          IDLE
+        )
+        if (end !== null) this.announce(addRewardInterval(this.log.rewards, now - dt, end))
+      }
       this.log = { ...this.log }
       this.#dirty = true
     }
@@ -65,10 +90,41 @@ class Activity {
     this.#pack = packs.active?.id ?? null
     this.#section = ui.section
     this.#wasActive =
+      REWARD_MODULES.has(this.#section) &&
       document.visibilityState === 'visible' &&
       document.hasFocus() &&
       (now - this.#lastInput < IDLE || media.playing)
     if (this.#dirty && now - this.#lastSave >= SAVE_EVERY) void this.flush().catch(() => {})
+  }
+
+  complete(
+    kind: CompletionKind,
+    id: string,
+    packId = packs.active?.id ?? '',
+    at = Date.now()
+  ): void {
+    if (!packId || !id.trim()) return
+    if (!this.log) {
+      this.#pending.push({ kind, id, packId, at })
+      return
+    }
+    this.log.rewards ??= emptyRewards(at)
+    this.announce(completeReward(this.log.rewards, kind, id, packId, at))
+    this.log = { ...this.log }
+    this.#dirty = true
+    void this.flush().catch((error) => ui.toast(String(error), 'error'))
+  }
+
+  private announce(ids: string[]): void {
+    if (!ids.length) return
+    this.recentUnlocks = [...this.recentUnlocks, ...ids]
+    ui.toast(
+      i18n.locale === 'zh'
+        ? `已解锁 ${ids.length} 枚学习伙伴，可在「收集」中查看。`
+        : `Unlocked ${ids.length} learning companions. View them in Collection.`,
+      'info',
+      6000
+    )
   }
 
   flush(): Promise<void> {

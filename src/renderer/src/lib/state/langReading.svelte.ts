@@ -34,7 +34,7 @@ const emptyMemo = (): Memo => ({
   openId: null
 })
 
-class LangReadingState {
+export class LangReadingState {
   code = $state<string | null>(null)
   articles = $state.raw<LangArticleMeta[]>([])
   loaded = $state(false)
@@ -43,6 +43,10 @@ class LangReadingState {
   refreshing = $state(false)
   #loads = new Map<string, Promise<void>>()
   #refreshes = new Set<string>()
+  #generation = 0
+  #current(code: string, generation: number): boolean {
+    return this.code === code && this.#generation === generation
+  }
 
   #memo = $state<Record<string, Memo>>({})
   /** 当前语言的筛选与打开的文章（ensure() 先建好；$derived 里不能新建状态） */
@@ -84,6 +88,7 @@ class LangReadingState {
   async ensure(code: string): Promise<void> {
     if (!this.#memo[code]) this.#memo[code] = emptyMemo()
     if (this.code !== code) {
+      this.#generation++
       this.code = code
       this.loaded = false
       this.article = null
@@ -91,8 +96,9 @@ class LangReadingState {
       this.news = null
       this.refreshing = this.#refreshes.has(code)
     }
+    const generation = this.#generation
     if (!this.loaded) await this.load()
-    if (this.code !== code) return
+    if (!this.#current(code, generation)) return
     void this.refreshNews(false)
     const id = this.memo.openId
     if (id && this.article?.id !== id) await this.open(id, this.backTo)
@@ -101,19 +107,24 @@ class LangReadingState {
   async load(): Promise<void> {
     const code = this.code
     if (!code) return
+    const generation = this.#generation
     const pending = this.#loads.get(code)
-    if (pending) return pending
+    if (pending) {
+      await pending
+      if (this.#current(code, generation) && !this.loaded) await this.load()
+      return
+    }
     this.loading = true
     const request = (async () => {
       try {
         const list = await platform.lang.articles.list(code)
-        if (this.code === code) {
+        if (this.#current(code, generation)) {
           this.articles = list
           this.loaded = true
         }
       } finally {
         this.#loads.delete(code)
-        if (this.code === code) this.loading = false
+        if (this.#current(code, generation)) this.loading = false
       }
     })()
     this.#loads.set(code, request)
@@ -123,13 +134,15 @@ class LangReadingState {
   async refreshNews(force: boolean): Promise<void> {
     const code = this.code
     if (!code || this.#refreshes.has(code)) return
+    const generation = this.#generation
     this.#refreshes.add(code)
     this.refreshing = true
     try {
       const r = await platform.lang.news(code, force)
-      if (this.code !== code) return
+      if (!this.#current(code, generation)) return
       if (r && !r.skipped) this.news = r
       if (r?.added) await this.load()
+      if (!this.#current(code, generation)) return
       if (force && r && !r.ok && r.sources.length) ui.toast(t('langReading.newsFailed'), 'error')
     } catch {
       // 取不到就算了，列表里还有内置的与自己导入的
@@ -142,11 +155,12 @@ class LangReadingState {
   async open(id: string, backTo: 'home' | 'course' | null = null): Promise<void> {
     const code = this.code
     if (!code) return
+    const generation = this.#generation
     this.memo.openId = id
     this.backTo = backTo
     this.grammarFocus = null
     const a = await platform.lang.articles.get(code, id)
-    if (this.code !== code || this.memo.openId !== id) return
+    if (!this.#current(code, generation) || this.memo.openId !== id) return
     this.article = a
     if (!a) {
       this.memo.openId = null
@@ -160,7 +174,7 @@ class LangReadingState {
       this.#cache.set(`${code}:${id}`, r)
       while (this.#cache.size > 12) this.#cache.delete(this.#cache.keys().next().value!)
     }
-    if (this.code === code && this.memo.openId === id) this.analysis = r
+    if (this.#current(code, generation) && this.memo.openId === id) this.analysis = r
   }
 
   back(): void {
@@ -174,16 +188,22 @@ class LangReadingState {
   }
 
   async setRead(id: string, read: boolean): Promise<void> {
-    if (!this.code) return
-    await platform.lang.articles.markRead(this.code, id, read)
+    const code = this.code,
+      generation = this.#generation
+    if (!code) return
+    await platform.lang.articles.markRead(code, id, read)
+    if (!this.#current(code, generation)) return
     const at = read ? new Date().toISOString() : null
     this.articles = this.articles.map((a) => (a.id === id ? { ...a, readAt: at } : a))
     if (this.article?.id === id) this.article = { ...this.article, readAt: at }
   }
 
   async setTranslation(id: string, text: string): Promise<void> {
-    if (!this.code) return
-    await platform.lang.articles.setTranslation(this.code, id, text)
+    const code = this.code,
+      generation = this.#generation
+    if (!code) return
+    await platform.lang.articles.setTranslation(code, id, text)
+    if (!this.#current(code, generation)) return
     const translated = !!text.trim()
     this.articles = this.articles.map((a) => (a.id === id ? { ...a, translated } : a))
     if (this.article?.id === id)
@@ -192,15 +212,20 @@ class LangReadingState {
   }
 
   async save(input: LangArticleInput): Promise<LangArticleMeta | null> {
-    if (!this.code) return null
-    const meta = await platform.lang.articles.save(this.code, input)
-    await this.load()
+    const code = this.code,
+      generation = this.#generation
+    if (!code) return null
+    const meta = await platform.lang.articles.save(code, input)
+    if (this.#current(code, generation)) await this.load()
     return meta
   }
 
   async remove(id: string): Promise<void> {
-    if (!this.code) return
-    await platform.lang.articles.remove(this.code, id)
+    const code = this.code,
+      generation = this.#generation
+    if (!code) return
+    await platform.lang.articles.remove(code, id)
+    if (!this.#current(code, generation)) return
     if (this.memo.openId === id) this.back()
     await this.load()
   }

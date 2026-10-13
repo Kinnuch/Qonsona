@@ -1,0 +1,986 @@
+{
+  "sounds": [
+    ["a", "short a", "a", "短元音，不弱化为英语schwa。"],
+    ["e / ë", "short e", "e", "词尾ë发音；分音符不是长音。"],
+    ["i", "short i", "i", "稳定的前高元音。"],
+    ["o", "short o", "o", "保持纯元音。"],
+    ["u", "short u", "u", "保持纯元音。"],
+    ["á", "long a", "aː", "锐音符表示长度。"],
+    ["é", "long e", "eː", "长短区别保留。"],
+    ["í", "long i", "iː", "长短区别保留。"],
+    ["ó", "long o", "oː", "长短区别保留。"],
+    ["ú", "long u", "uː", "长短区别保留。"],
+    ["c / k", "hard k", "k", "c不按英语读s。"],
+    ["qu", "kw", "kʷ", "唇化软腭音。"],
+    ["r", "trilled r", "r", "避免英语近音r。"],
+    ["y", "consonantal y", "j", "与辛达语的元音y不同。"],
+    ["ng", "ng-g", "ŋɡ", "词内ng常含g；不要机械删g。"],
+    ["ty", "palatalized t", "tʲ", "近似说明，方言和分析有差异。"],
+    ["ny", "palatalized n", "nʲ", "不是英语ny两个独立音。"],
+    ["hr", "voiceless r", "r̥", "较保守读法；时代变化另查。"],
+    ["hl", "voiceless l", "l̥", "较保守读法；时代变化另查。"],
+    ["ai", "ai diphthong", "ai̯", "双元音一个音节。"],
+    ["au", "au diphthong", "au̯", "双元音一个音节。"],
+    ["oi", "oi diphthong", "oi̯", "双元音一个音节。"],
+    ["ui", "ui diphthong", "ui̯", "双元音一个音节。"],
+    ["ss", "long s", "sː", "双写辅音保留长度。"]
+  ],
+  "grammar": [
+    {
+      "id": "article",
+      "level": "L1",
+      "name": {
+        "zh": "定冠词",
+        "en": "i + noun"
+      },
+      "form": {
+        "zh": "i + noun",
+        "en": "i + noun"
+      },
+      "meaning": {
+        "zh": "i 指已知或特定对象，单复数均可用。",
+        "en": "i identifies a definite referent in either number."
+      },
+      "examples": [
+        {
+          "text": "I elen síla.",
+          "hl": "I elen",
+          "zh": "那颗星正在发光。",
+          "en": "The star is shining."
+        },
+        {
+          "text": "I aiwë lóra.",
+          "hl": "I aiwë",
+          "zh": "那只鸟正在睡觉。",
+          "en": "The bird is sleeping."
+        }
+      ]
+    },
+    {
+      "id": "indefinite",
+      "level": "L1",
+      "name": {
+        "zh": "无不定冠词",
+        "en": "unmarked noun"
+      },
+      "form": {
+        "zh": "unmarked noun",
+        "en": "unmarked noun"
+      },
+      "meaning": {
+        "zh": "没有相当于英语 a/an 的独立不定冠词。",
+        "en": "An indefinite noun needs no equivalent of a/an."
+      },
+      "examples": [
+        {
+          "text": "Elen síla.",
+          "hl": "Elen",
+          "zh": "一颗星正在发光。",
+          "en": "A star is shining."
+        },
+        {
+          "text": "Aiwë lóra.",
+          "hl": "Aiwë",
+          "zh": "一只鸟正在睡觉。",
+          "en": "A bird is sleeping."
+        }
+      ]
+    },
+    {
+      "id": "plural-r",
+      "level": "L1",
+      "name": {
+        "zh": "元音词普通复数",
+        "en": "alda → aldar"
+      },
+      "form": {
+        "zh": "alda → aldar",
+        "en": "alda → aldar"
+      },
+      "meaning": {
+        "zh": "许多以 a/o/u 结尾的名词普通复数加 r，不适用于所有名词。",
+        "en": "Many a/o/u nouns take plural -r; this is not universal."
+      },
+      "examples": [
+        {
+          "text": "Aldar túlar.",
+          "hl": "Aldar",
+          "zh": "树木正在来。（想象练习）",
+          "en": "Trees are coming (an imaginary exercise)."
+        },
+        {
+          "text": "I orcor túlar.",
+          "hl": "orcor",
+          "zh": "那些兽人正在来。",
+          "en": "The orcs are coming."
+        }
+      ]
+    },
+    {
+      "id": "plural-i",
+      "level": "L1",
+      "name": {
+        "zh": "辅音词普通复数",
+        "en": "elen → eleni"
+      },
+      "form": {
+        "zh": "elen → eleni",
+        "en": "elen → eleni"
+      },
+      "meaning": {
+        "zh": "许多辅音结尾名词加 i；应核对实际词干。",
+        "en": "Many consonantal nouns add -i; check the actual stem."
+      },
+      "examples": [
+        {
+          "text": "Eleni sílar.",
+          "hl": "Eleni",
+          "zh": "星星正在发光。",
+          "en": "Stars are shining."
+        },
+        {
+          "text": "I atani túlar.",
+          "hl": "atani",
+          "zh": "那些人类正在来。",
+          "en": "The humans are coming."
+        }
+      ]
+    },
+    {
+      "id": "plural-e",
+      "level": "L1",
+      "name": {
+        "zh": "e名词复数",
+        "en": "aiwë → aiwi"
+      },
+      "form": {
+        "zh": "aiwë → aiwi",
+        "en": "aiwë → aiwi"
+      },
+      "meaning": {
+        "zh": "许多 e 名词以 i 替换词尾；-ië/-lë 有例外。",
+        "en": "Many e-nouns replace final e with i; -ië/-lë nouns can differ."
+      },
+      "examples": [
+        {
+          "text": "Aiwi lórar.",
+          "hl": "Aiwi",
+          "zh": "鸟儿正在睡觉。",
+          "en": "Birds are sleeping."
+        },
+        {
+          "text": "I lassi lantar.",
+          "hl": "lassi",
+          "zh": "那些叶子正在落下。",
+          "en": "The leaves are falling."
+        }
+      ]
+    },
+    {
+      "id": "adjective",
+      "level": "L1",
+      "name": {
+        "zh": "形容词位置",
+        "en": "adjective + noun"
+      },
+      "form": {
+        "zh": "adjective + noun",
+        "en": "adjective + noun"
+      },
+      "meaning": {
+        "zh": "常见中性词序把修饰形容词放在名词前。",
+        "en": "Attributive adjectives often precede the noun in neutral prose."
+      },
+      "examples": [
+        {
+          "text": "I laica alda ná alta.",
+          "hl": "laica alda",
+          "zh": "那棵绿树很大。",
+          "en": "The green tree is large."
+        },
+        {
+          "text": "I vanya elen síla.",
+          "hl": "vanya elen",
+          "zh": "那颗美丽的星正在发光。",
+          "en": "The beautiful star is shining."
+        }
+      ]
+    },
+    {
+      "id": "aorist",
+      "level": "L1",
+      "name": {
+        "zh": "基本动词不定时",
+        "en": "mat- → matë"
+      },
+      "form": {
+        "zh": "mat- → matë",
+        "en": "mat- → matë"
+      },
+      "meaning": {
+        "zh": "不定时常表示习惯或一般事实，不能一律当过去时。",
+        "en": "The aorist commonly expresses habits or general facts, not past time."
+      },
+      "examples": [
+        {
+          "text": "I elda matë.",
+          "hl": "matë",
+          "zh": "那个精灵吃东西。",
+          "en": "The elf eats."
+        },
+        {
+          "text": "I atan tirë.",
+          "hl": "tirë",
+          "zh": "那个人类观看。",
+          "en": "The human watches."
+        }
+      ]
+    },
+    {
+      "id": "present",
+      "level": "L1",
+      "name": {
+        "zh": "延续中的动作",
+        "en": "sil- → síla"
+      },
+      "form": {
+        "zh": "sil- → síla",
+        "en": "sil- → síla"
+      },
+      "meaning": {
+        "zh": "常用现在时在基本动词中延长词根元音并加 a。",
+        "en": "A basic verb’s continuative present commonly lengthens the root vowel and adds a."
+      },
+      "examples": [
+        {
+          "text": "I elen síla.",
+          "hl": "síla",
+          "zh": "那颗星正在发光。",
+          "en": "The star is shining."
+        },
+        {
+          "text": "I elda túla.",
+          "hl": "túla",
+          "zh": "那个精灵正在来。",
+          "en": "The elf is coming."
+        }
+      ]
+    },
+    {
+      "id": "first-person",
+      "level": "L2",
+      "name": {
+        "zh": "第一人称词尾",
+        "en": "-n / -nyë"
+      },
+      "form": {
+        "zh": "-n / -nyë",
+        "en": "-n / -nyë"
+      },
+      "meaning": {
+        "zh": "主语可由动词后缀表示，基本动词不定时加后缀时 e 变 i。",
+        "en": "A subject suffix marks I; basic aorist e becomes i before it."
+      },
+      "examples": [
+        {
+          "text": "Matin.",
+          "hl": "Matin",
+          "zh": "我吃东西。",
+          "en": "I eat."
+        },
+        {
+          "text": "Tirin.",
+          "hl": "Tirin",
+          "zh": "我观看。",
+          "en": "I watch."
+        }
+      ]
+    },
+    {
+      "id": "plural-verb",
+      "level": "L2",
+      "name": {
+        "zh": "复数主语的一致",
+        "en": "verb + r"
+      },
+      "form": {
+        "zh": "verb + r",
+        "en": "verb + r"
+      },
+      "meaning": {
+        "zh": "显式复数主语常对应带 r 的动词形式。",
+        "en": "An explicit plural subject commonly takes a verbal plural -r."
+      },
+      "examples": [
+        {
+          "text": "I eldar mátar.",
+          "hl": "mátar",
+          "zh": "那些精灵正在吃。",
+          "en": "The elves are eating."
+        },
+        {
+          "text": "I eleni sílar.",
+          "hl": "sílar",
+          "zh": "那些星正在发光。",
+          "en": "The stars are shining."
+        }
+      ]
+    },
+    {
+      "id": "future",
+      "level": "L2",
+      "name": {
+        "zh": "将来时",
+        "en": "mat- → matuva"
+      },
+      "form": {
+        "zh": "mat- → matuva",
+        "en": "mat- → matuva"
+      },
+      "meaning": {
+        "zh": "本课的常用动词用 uva 表将来；不据此泛造全部不规则词。",
+        "en": "The selected verbs form a future in -uva; irregular paradigms need separate evidence."
+      },
+      "examples": [
+        {
+          "text": "I elda matuva.",
+          "hl": "matuva",
+          "zh": "那个精灵将吃东西。",
+          "en": "The elf will eat."
+        },
+        {
+          "text": "I atan tuluva.",
+          "hl": "tuluva",
+          "zh": "那个人类将来。",
+          "en": "The human will come."
+        }
+      ]
+    },
+    {
+      "id": "imperative",
+      "level": "L2",
+      "name": {
+        "zh": "命令小品词",
+        "en": "á + verb"
+      },
+      "form": {
+        "zh": "á + verb",
+        "en": "á + verb"
+      },
+      "meaning": {
+        "zh": "á 用于命令，基本动词常配无主语后缀的不定时。",
+        "en": "á introduces a command, commonly with an unsuffixed aorist."
+      },
+      "examples": [
+        {
+          "text": "Á tirë i elen!",
+          "hl": "Á tirë",
+          "zh": "看那颗星！",
+          "en": "Watch the star!"
+        },
+        {
+          "text": "Á matë!",
+          "hl": "Á matë",
+          "zh": "吃吧！",
+          "en": "Eat!"
+        }
+      ]
+    },
+    {
+      "id": "allative",
+      "level": "L2",
+      "name": {
+        "zh": "趋向格",
+        "en": "cöa → coanna"
+      },
+      "form": {
+        "zh": "cöa → coanna",
+        "en": "cöa → coanna"
+      },
+      "meaning": {
+        "zh": "nna 表朝向；连接元音和复数形式需另查。",
+        "en": "The allative -nna marks motion toward; stem and plural changes need checking."
+      },
+      "examples": [
+        {
+          "text": "I elda túla i coanna.",
+          "hl": "coanna",
+          "zh": "那个精灵正在向那所房子来。",
+          "en": "The elf is coming to the house."
+        },
+        {
+          "text": "I atan túla i ostonna.",
+          "hl": "ostonna",
+          "zh": "那个人类正在向那座要塞来。",
+          "en": "The human is coming to the fortress."
+        }
+      ]
+    },
+    {
+      "id": "locative",
+      "level": "L2",
+      "name": {
+        "zh": "处所格",
+        "en": "cöa → coassë"
+      },
+      "form": {
+        "zh": "cöa → coassë",
+        "en": "cöa → coassë"
+      },
+      "meaning": {
+        "zh": "ssë 表在某地，不能把所有汉语的在机械替换。",
+        "en": "The locative -ssë marks location, not every meaning of English in/at."
+      },
+      "examples": [
+        {
+          "text": "I elda ná i coassë.",
+          "hl": "coassë",
+          "zh": "那个精灵在那所房子里。",
+          "en": "The elf is in the house."
+        },
+        {
+          "text": "I atan ná i ostossë.",
+          "hl": "ostossë",
+          "zh": "那个人类在那座要塞里。",
+          "en": "The human is in the fortress."
+        }
+      ]
+    },
+    {
+      "id": "ablative",
+      "level": "L2",
+      "name": {
+        "zh": "离向格",
+        "en": "cöa → coallo"
+      },
+      "form": {
+        "zh": "cöa → coallo",
+        "en": "cöa → coallo"
+      },
+      "meaning": {
+        "zh": "llo 表从某处离开或来源。",
+        "en": "The ablative -llo marks motion or origin from a place."
+      },
+      "examples": [
+        {
+          "text": "I elda túla i coallo.",
+          "hl": "coallo",
+          "zh": "那个精灵正从那所房子来。",
+          "en": "The elf is coming from the house."
+        },
+        {
+          "text": "I atan túla i ostollo.",
+          "hl": "ostollo",
+          "zh": "那个人类正从那座要塞来。",
+          "en": "The human is coming from the fortress."
+        }
+      ]
+    },
+    {
+      "id": "dative",
+      "level": "L2",
+      "name": {
+        "zh": "与格",
+        "en": "elda → eldan"
+      },
+      "form": {
+        "zh": "elda → eldan",
+        "en": "elda → eldan"
+      },
+      "meaning": {
+        "zh": "n 表受益者或间接宾语；辅音词常需连接元音。",
+        "en": "The dative -n marks a recipient/beneficiary; consonantal nouns often need a joining vowel."
+      },
+      "examples": [
+        {
+          "text": "Antan i eldan.",
+          "hl": "eldan",
+          "zh": "我给予那个精灵。",
+          "en": "I give to the elf."
+        },
+        {
+          "text": "Antan i atanen.",
+          "hl": "atanen",
+          "zh": "我给予那个人类。",
+          "en": "I give to the human."
+        }
+      ]
+    },
+    {
+      "id": "genitive",
+      "level": "L3",
+      "name": {
+        "zh": "属格关系",
+        "en": "alda → aldo"
+      },
+      "form": {
+        "zh": "alda → aldo",
+        "en": "alda → aldo"
+      },
+      "meaning": {
+        "zh": "o 常表来源或关系；词尾 a/o 的处理与其他词不同。",
+        "en": "Genitive -o often expresses origin or relationship; final a/o behave differently."
+      },
+      "examples": [
+        {
+          "text": "I lassi aldo lantar.",
+          "hl": "aldo",
+          "zh": "一棵树的那些叶子正在落下。",
+          "en": "The leaves of a tree are falling."
+        },
+        {
+          "text": "I lambë eldo ná vanya.",
+          "hl": "eldo",
+          "zh": "一个精灵的语言很美。",
+          "en": "The language of an elf is beautiful."
+        }
+      ]
+    },
+    {
+      "id": "possessive-case",
+      "level": "L3",
+      "name": {
+        "zh": "所有格",
+        "en": "elda → eldava"
+      },
+      "form": {
+        "zh": "elda → eldava",
+        "en": "elda → eldava"
+      },
+      "meaning": {
+        "zh": "va/wa 常表拥有或性质，与属格不完全同义。",
+        "en": "Possessive -va/-wa commonly expresses ownership or character, not every genitive relation."
+      },
+      "examples": [
+        {
+          "text": "I cöa eldava ná alta.",
+          "hl": "eldava",
+          "zh": "一个精灵的房子很大。",
+          "en": "An elf’s house is large."
+        },
+        {
+          "text": "I macil atanwa ná alta.",
+          "hl": "atanwa",
+          "zh": "一个人类的剑很大。",
+          "en": "A human’s sword is large."
+        }
+      ]
+    },
+    {
+      "id": "possessive-suffix",
+      "level": "L3",
+      "name": {
+        "zh": "我的物品",
+        "en": "-nya"
+      },
+      "form": {
+        "zh": "-nya",
+        "en": "-nya"
+      },
+      "meaning": {
+        "zh": "nya 是第一人称所有后缀，辅音词可能需要插入元音。",
+        "en": "-nya is the first-person possessive suffix; consonantal stems can require a vowel."
+      },
+      "examples": [
+        {
+          "text": "Coanya ná alta.",
+          "hl": "Coanya",
+          "zh": "我的房子很大。",
+          "en": "My house is large."
+        },
+        {
+          "text": "Macilinya ná alta.",
+          "hl": "Macilinya",
+          "zh": "我的剑很大。",
+          "en": "My sword is large."
+        }
+      ]
+    },
+    {
+      "id": "past-derived",
+      "level": "L3",
+      "name": {
+        "zh": "派生动词过去时",
+        "en": "anta- → antanë"
+      },
+      "form": {
+        "zh": "anta- → antanë",
+        "en": "anta- → antanë"
+      },
+      "meaning": {
+        "zh": "常见派生动词用 në 过去时；词干类别存在例外。",
+        "en": "Many derived verbs use past -në, with class-specific exceptions."
+      },
+      "examples": [
+        {
+          "text": "I elda antanë i macil.",
+          "hl": "antanë",
+          "zh": "那个精灵给出了那把剑。",
+          "en": "The elf gave the sword."
+        },
+        {
+          "text": "I atan ortanë i macil.",
+          "hl": "ortanë",
+          "zh": "那个人类举起了那把剑。",
+          "en": "The human raised the sword."
+        }
+      ]
+    },
+    {
+      "id": "past-basic",
+      "level": "L3",
+      "name": {
+        "zh": "基本动词鼻音过去时",
+        "en": "mat- → mantë"
+      },
+      "form": {
+        "zh": "mat- → mantë",
+        "en": "mat- → mantë"
+      },
+      "meaning": {
+        "zh": "部分基本动词过去式有鼻音插入；并非所有词都同规则。",
+        "en": "Some basic verbs have a nasal-infixed past; this is not a universal conjugation rule."
+      },
+      "examples": [
+        {
+          "text": "I elda mantë.",
+          "hl": "mantë",
+          "zh": "那个精灵吃过了。",
+          "en": "The elf ate."
+        },
+        {
+          "text": "I atan quentë.",
+          "hl": "quentë",
+          "zh": "那个人类说过了。",
+          "en": "The human spoke."
+        }
+      ]
+    },
+    {
+      "id": "perfect",
+      "level": "L3",
+      "name": {
+        "zh": "完成时",
+        "en": "tul- → utúlië"
+      },
+      "form": {
+        "zh": "tul- → utúlië",
+        "en": "tul- → utúlië"
+      },
+      "meaning": {
+        "zh": "常见完成时含前加词根元音、长元音与 ië，变化随词类。",
+        "en": "A common perfect pattern uses an augment, a long root vowel and -ië; classes vary."
+      },
+      "examples": [
+        {
+          "text": "I elda utúlië.",
+          "hl": "utúlië",
+          "zh": "那个精灵已经来了。",
+          "en": "The elf has come."
+        },
+        {
+          "text": "I atan amátië.",
+          "hl": "amátië",
+          "zh": "那个人类已经吃过。",
+          "en": "The human has eaten."
+        }
+      ]
+    },
+    {
+      "id": "and",
+      "level": "L3",
+      "name": {
+        "zh": "并列连词",
+        "en": "ar"
+      },
+      "form": {
+        "zh": "ar",
+        "en": "ar"
+      },
+      "meaning": {
+        "zh": "ar 连接词、短语或分句。",
+        "en": "ar coordinates words, phrases or clauses."
+      },
+      "examples": [
+        {
+          "text": "I elda ar i atan túlar.",
+          "hl": "ar",
+          "zh": "那个精灵和那个人类正在来。",
+          "en": "The elf and the human are coming."
+        },
+        {
+          "text": "I aiwi ar i eldar lórar.",
+          "hl": "ar",
+          "zh": "那些鸟和那些精灵正在睡觉。",
+          "en": "The birds and the elves are sleeping."
+        }
+      ]
+    },
+    {
+      "id": "relative",
+      "level": "L3",
+      "name": {
+        "zh": "关系词",
+        "en": "i + clause"
+      },
+      "form": {
+        "zh": "i + clause",
+        "en": "i + clause"
+      },
+      "meaning": {
+        "zh": "i 也可作关系词；不能仅凭一个 i 就认定是冠词。",
+        "en": "i also introduces relative clauses; an isolated i is not necessarily an article."
+      },
+      "examples": [
+        {
+          "text": "I elda i túla ná vanya.",
+          "hl": "i túla",
+          "zh": "正在来的那个精灵很美。",
+          "en": "The elf who is coming is beautiful."
+        },
+        {
+          "text": "I atan i máta ná alta.",
+          "hl": "i máta",
+          "zh": "正在吃的那个人类很大。",
+          "en": "The human who is eating is large."
+        }
+      ]
+    }
+  ],
+  "forms": [
+    {
+      "key": "plural-r",
+      "title": {
+        "zh": "普通复数：Elda",
+        "en": "plural-r"
+      },
+      "examples": [
+        {
+          "base": "Elda",
+          "form": "Eldar",
+          "meaning": "精灵（复数）",
+          "wrong": ["Eldi", "Eldas"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "plural-i",
+      "title": {
+        "zh": "普通复数：elen",
+        "en": "plural-i"
+      },
+      "examples": [
+        {
+          "base": "elen",
+          "form": "eleni",
+          "meaning": "星（复数）",
+          "wrong": ["elenr", "elens"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "stem-ner",
+      "title": {
+        "zh": "词干变化：nér",
+        "en": "stem-ner"
+      },
+      "examples": [
+        {
+          "base": "nér",
+          "form": "neri",
+          "meaning": "男性（复数）",
+          "wrong": ["nérr", "nérs"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "stem-nis",
+      "title": {
+        "zh": "词干变化：nís",
+        "en": "stem-nis"
+      },
+      "examples": [
+        {
+          "base": "nís",
+          "form": "nissi",
+          "meaning": "女性（复数）",
+          "wrong": ["nísr", "níss"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "past-mat",
+      "title": {
+        "zh": "核对的过去式",
+        "en": "past-mat"
+      },
+      "examples": [
+        {
+          "base": "mat-",
+          "form": "mantë",
+          "meaning": "吃过",
+          "wrong": ["matnë", "matúva"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "future-tul",
+      "title": {
+        "zh": "核对的将来式",
+        "en": "future-tul"
+      },
+      "examples": [
+        {
+          "base": "tul-",
+          "form": "tuluva",
+          "meaning": "将来",
+          "wrong": ["tulë", "tullë"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "perfect-tul",
+      "title": {
+        "zh": "核对的完成式",
+        "en": "perfect-tul"
+      },
+      "examples": [
+        {
+          "base": "tul-",
+          "form": "utúlië",
+          "meaning": "已经来",
+          "wrong": ["tulnë", "tulúva"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "genitive-plural",
+      "title": {
+        "zh": "复数属格",
+        "en": "genitive-plural"
+      },
+      "examples": [
+        {
+          "base": "alda",
+          "form": "aldaron",
+          "meaning": "树木的",
+          "wrong": ["aldas", "aldava"],
+          "say": null
+        }
+      ]
+    }
+  ],
+  "phrases": [
+    {
+      "key": "watch",
+      "text": "Á tirë i elen!",
+      "meaning": {
+        "zh": "看那颗星！",
+        "en": "Watch the star!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "eat",
+      "text": "Á matë!",
+      "meaning": {
+        "zh": "吃吧！",
+        "en": "Eat!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "come",
+      "text": "Á tulë!",
+      "meaning": {
+        "zh": "来吧！",
+        "en": "Come!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "speak",
+      "text": "Á quetë!",
+      "meaning": {
+        "zh": "说吧！",
+        "en": "Speak!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "i-see",
+      "text": "Cenin i elen.",
+      "meaning": {
+        "zh": "我看见那颗星。",
+        "en": "I see the star."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "i-eat",
+      "text": "Matin.",
+      "meaning": {
+        "zh": "我吃东西。",
+        "en": "I eat."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "at-home",
+      "text": "Nán i coassë.",
+      "meaning": {
+        "zh": "我在那所房子里。",
+        "en": "I am in the house."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "my-home",
+      "text": "Coanya ná alta.",
+      "meaning": {
+        "zh": "我的房子很大。",
+        "en": "My house is large."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    }
+  ]
+}

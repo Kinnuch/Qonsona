@@ -8,7 +8,8 @@ import {
   Clapperboard,
   ChartColumn,
   Languages,
-  Settings
+  Settings,
+  Sparkles
 } from '@lucide/svelte'
 import type { ModuleId } from '$lib/packs/types'
 
@@ -22,6 +23,7 @@ export const MODULE_ICONS: Record<ModuleId, typeof House> = {
   practice: ListChecks,
   media: Clapperboard,
   stats: ChartColumn,
+  collection: Sparkles,
   packs: Languages,
   settings: Settings
 }

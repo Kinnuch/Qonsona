@@ -13,6 +13,7 @@
   import { genderLabel, posLabel, tagLabel, tagsLabel } from '$shared/lang/tags'
   import { foldWithMap } from '$shared/lang/text'
   import LexInflection from './LexInflection.svelte'
+  import LexEldamoSource from './LexEldamoSource.svelte'
   import DictionaryDaily from './DictionaryDaily.svelte'
   import type { DailyWord, DailySentence, DailyGrammar } from '$shared/dictionary-daily'
   import { courses } from '$lib/state/courses.svelte'
@@ -172,7 +173,12 @@
   /** 语言特有的信息：认得的键用说明，不认得的照原样 */
   const extras = $derived(
     Object.entries(entry?.x ?? {}).filter(
-      ([, v]) => v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && !v.length)
+      ([k, v]) =>
+        k !== 'eldamo' &&
+        v !== null &&
+        v !== undefined &&
+        v !== '' &&
+        !(Array.isArray(v) && !v.length)
     )
   )
   const extraLabel = (k: string): string => {
@@ -492,6 +498,7 @@
             </section>
           {/if}
 
+          <LexEldamoSource {entry} />
           {#if entry.sources.length}
             <p class="faint source">
               {t('dict.lex.sources')}{entry.sources

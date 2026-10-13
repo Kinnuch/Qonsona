@@ -7,3 +7,4 @@ tsconfig.*.json
 .cache
 resources/data
 src/renderer/src/vendor
+resources/speech/espeak

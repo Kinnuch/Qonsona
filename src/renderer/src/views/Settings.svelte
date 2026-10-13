@@ -34,13 +34,10 @@
 
   const THEMES: Prefs['theme'][] = ['system', 'light', 'dark']
   /** 试听用的一小段 IPA：常见辅音元音都有 */
-  const TEST_IPA = 'ˈsala ˈmiron ˌtekʊ'
+  const TEST_IPA = 'ˈra ˈɹa ˈɾa'
   // 自动时实际会用哪个声音（设置里挑的声音被删掉时也走这里）
   const autoVoice = $derived(
-    (audio.voices.find((v) => v.culture.startsWith('en')) ?? audio.voices[0])?.name.replace(
-      /^Microsoft /,
-      ''
-    ) ?? ''
+    audio.voices.some((v) => v.engine === 'ipa') ? t('settings.offlineIpa') : ''
   )
   // 「立即检查更新」：点过之后才在按钮旁边写结果（后台自动检查的结果不写，免得一打开设置就冒出一句）
   let checkedNow = $state(false)
@@ -145,12 +142,14 @@
       {#if audio.voices.length}
         <select
           data-setting="ipaVoice"
-          value={ui.prefs.ipaVoice}
+          value={audio.voices.some((v) => v.engine === 'ipa' && v.name === ui.prefs.ipaVoice)
+            ? ui.prefs.ipaVoice
+            : ''}
           onchange={(e) => ui.setPrefs({ ipaVoice: e.currentTarget.value })}
         >
           <option value="">{t('settings.auto', { name: autoVoice })}</option>
-          {#each audio.voices as v (v.name)}
-            <option value={v.name}>{v.name.replace(/^Microsoft /, '')} · {v.culture}</option>
+          {#each audio.voices.filter((v) => v.engine === 'ipa') as v (v.name)}
+            <option value={v.name}>{t('settings.offlineIpa')}</option>
           {/each}
         </select>
         <button class="btn" data-test-voice onclick={() => audio.say({ ipa: TEST_IPA })}>

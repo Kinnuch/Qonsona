@@ -27,6 +27,8 @@
   import AddToNotebook from '$lib/notebook/AddToNotebook.svelte'
   import { qonFromLexeme } from '$lib/notebook/cards'
   import { notebook } from '$lib/state/notebook.svelte'
+  import ReaderCompletion from './ReaderCompletion.svelte'
+  import { articleVocabulary } from '$shared/article-quiz'
 
   let { project, language }: { project: Project; language: Language } = $props()
 
@@ -101,9 +103,36 @@
   }
   const lines = $derived(text ? linesOf(text) : [])
   const doc = $derived(text?.docId ? project.docs.find((d) => d.id === text.docId) : undefined)
+  const docText = $derived.by(() => {
+    if (!doc?.markdown) return ''
+    const html = mdToHtml(doc.markdown, { resolve: docLinkResolver(project) })
+    const parsed = new DOMParser().parseFromString(html, 'text/html')
+    return [...parsed.body.children]
+      .map((e) => e.textContent?.trim() ?? '')
+      .filter(Boolean)
+      .join('\n\n')
+  })
   const newWords = $derived(
     (text?.lexemeIds ?? []).map((id) => project.lexemes.find((l) => l.id === id)).filter((l) => !!l)
   )
+  const quizVocabulary = $derived.by(() => {
+    const pool = project.lexemes
+      .filter((l) => l.languageId === language.id && !packs.hidden.has(l.id))
+      .map((l) => ({
+        id: l.id,
+        word: l.lemma,
+        meaning: l.senses.find((s) => Object.values(s.definition).some(Boolean))?.definition ?? {},
+        evidence: ''
+      }))
+    const byId = new Map(pool.map((w) => [w.id, w]))
+    const source = lines.flatMap((line) =>
+      line.pieces.flatMap((piece) => {
+        const w = byId.get(piece.lexemeId ?? '')
+        return w ? [{ ...w, evidence: line.text }] : []
+      })
+    )
+    return articleVocabulary(source, pool)
+  })
 
   // ── 点词：词卡 ──
   let pop = $state<{ lexemeId: string | null; surface: string; x: number; y: number } | null>(null)
@@ -333,6 +362,19 @@
         {#if !doc?.markdown.trim()}<p class="card muted">{t('reading.qon.noLines')}</p>{/if}
       {/each}
     </div>
+    {#key text.key}<ReaderCompletion
+        {packId}
+        material={{
+          id: text.key,
+          body: lines.length ? lines.map((l) => l.text).join('\n\n') : docText,
+          translation:
+            lines.length && lines.every((l) => l.translation.trim())
+              ? lines.map((l) => l.translation).join('\n\n')
+              : undefined,
+          lang: packs.active?.bcp47
+        }}
+        vocabulary={quizVocabulary}
+      />{/key}
   {/if}
 </div>
 

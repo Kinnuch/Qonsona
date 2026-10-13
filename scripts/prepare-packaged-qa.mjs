@@ -44,7 +44,10 @@ for (const folder of ['build', 'resources']) {
   if (existsSync(join(root, folder)))
     cpSync(join(root, folder), join(staging, folder), {
       recursive: true,
-      filter: (source) => resolve(source) !== resolve(root, 'resources/data')
+      filter: (source) =>
+        !['resources/data', 'resources/speech'].some(
+          (path) => resolve(source) === resolve(root, path)
+        )
     })
 }
 const graph = []
@@ -104,6 +107,7 @@ writeFileSync(
 )
 const resources = join(runtime, 'resources')
 mkdirSync(resources, { recursive: true })
+cpSync(join(root, 'resources/speech'), join(resources, 'speech'), { recursive: true })
 const appAsar = join(resources, 'app.asar')
 await asar.createPackage(staging, appAsar)
 const defaultApp = join(resources, 'default_app.asar')

@@ -25,6 +25,7 @@ import type {
 } from '../../shared/lang/types'
 import type { LexDb } from './lexdb'
 import { analyzeLex } from './analyze'
+import { makeArticleQuiz, type ArticleQuizInput } from '../../shared/article-quiz'
 
 /** 通用题型（练习页按这个顺序列） */
 export const LEX_KINDS: PracticeKind[] = [
@@ -606,7 +607,8 @@ export function langArticlePractice(
   analysis: LexAnalysis,
   seed: number,
   locale: string,
-  n = 10
+  n = 10,
+  article?: Omit<ArticleQuizInput, 'vocabulary' | 'seed'>
 ): ExamQuestion[] {
   const mod = LANGS[db.code]
   const pdb = practiceDb(db, seed)
@@ -639,7 +641,21 @@ export function langArticlePractice(
           wrong.map((x) => ({ text: glossOf(x) })),
           c.rand
         ),
-        explain: explainWord(c, w)
+        explain: {
+          ...explainWord(c, w),
+          lines: [
+            ...explainWord(c, w).lines,
+            ...analysis.sentences
+              .filter((s) => s.tokens.some((t) => t.entry === w.id))
+              .slice(0, 1)
+              .map((s) =>
+                both(
+                  `原文依据：${analysis.text.slice(s.start, s.end)}`,
+                  `Source evidence: ${analysis.text.slice(s.start, s.end)}`
+                )
+              )
+          ]
+        }
       })
     )
     if (out.length >= n) break
@@ -680,7 +696,14 @@ export function langArticlePractice(
   }
   // 给语法留三个位置；最终题量按本文可用内容决定。
   const combined = [...out.slice(0, Math.max(0, n - grammar.length)), ...grammar].slice(0, n)
-  return shuffled(combined, c.rand).map((q, i) => ({ ...q, id: `article-${i}` }))
+  const reading = makeArticleQuiz({
+    id: article?.id ?? 'article',
+    body: analysis.text,
+    ...article,
+    lang: mod.spec.bcp47,
+    seed
+  }).questions
+  return [...shuffled(combined, c.rand).map((q, i) => ({ ...q, id: `article-${i}` })), ...reading]
 }
 
 export function langPaper(

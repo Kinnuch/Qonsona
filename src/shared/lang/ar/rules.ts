@@ -378,6 +378,9 @@ export function affixGuesses(b: string): LemmaGuess[] {
  * 只剥附着词的候选保留原文的元音符号（查词键会去掉，界面可以拿来比对）。
  */
 export function arLemmaCandidates(surface: string): LemmaGuess[] {
+  // 附着词与词缀只属于一个正字法词；跨词去掉空白会把 في تعزيز 误当变位。
+  // 真正的多词词条仍由词典精确查询处理。
+  if (/\s/u.test(surface.trim())) return []
   const cs = clusters(surface).filter((c) => ARABIC_LETTER.test(c.b))
   if (cs.length < 3) return []
   const seen = new Set<string>([arKey(join(cs))])
@@ -677,6 +680,14 @@ export const rules: LangRules = {
   looseKey: arLooseKey,
   tokenize: arTokenize,
   lemmaCandidates: arLemmaCandidates,
+  guessFits: (g, row) => {
+    if (g.tags.includes('definite') || g.tags.includes('accusative'))
+      return (
+        !['verb', 'aux'].includes(row.pos) ||
+        row.tags.some((t) => t === 'participle' || t === 'verbal-noun')
+      )
+    return true
+  },
   marks: AR_MARKS,
   romanize: arRomanize
 }

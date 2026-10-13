@@ -144,7 +144,7 @@ export async function buildTransfer(
         )
     }
   } else {
-    for (const category of ['notebook', 'courses', 'practice'])
+    for (const category of ['notebook', 'courses', 'practice', 'article-quizzes'])
       for (const name of await list(join(userData, category)))
         if (name.endsWith('.json')) await include(`${category}/${name}`)
     await include('stats.json')
@@ -162,6 +162,12 @@ export async function buildTransfer(
     }
     const stats = files.find((f) => f.path === 'stats.json')?.content as
       { days?: Record<string, { packs: Record<string, unknown> }> } | undefined
+    const rewardDays = (
+      files.find((f) => f.path === 'stats.json')?.content as
+        { rewards?: { days: Record<string, { completions: { packId: string }[] }> } } | undefined
+    )?.rewards?.days
+    for (const day of Object.values(rewardDays ?? {}))
+      for (const event of day.completions) ids.add(event.packId)
     for (const day of Object.values(stats?.days ?? {}))
       for (const id of Object.keys(day.packs)) ids.add(id)
   }
@@ -219,6 +225,7 @@ function empty(kind: string): unknown {
   if (kind === 'courses') return emptyProgress()
   if (kind === 'practice') return emptyPracticeLog()
   if (kind === 'stats') return emptyActivity()
+  if (kind === 'article-quizzes') return {}
   return undefined
 }
 /** 验证现有文件后合并；不能让损坏的本机文件被静默覆盖。 */
@@ -234,6 +241,11 @@ async function plan(
     if (old !== undefined) {
       if (p.kind === 'stats') {
         const ids = new Set(packs.map((pack) => pack.id))
+        const rewardDays = (
+          old as { rewards?: { days: Record<string, { completions: { packId: string }[] }> } }
+        ).rewards?.days
+        for (const d of Object.values(rewardDays ?? {}))
+          for (const c of d.completions) ids.add(c.packId)
         const days = (old as { days?: Record<string, { packs: Record<string, unknown> }> }).days
         for (const day of Object.values(days ?? {}))
           for (const id of Object.keys(day.packs)) ids.add(id)

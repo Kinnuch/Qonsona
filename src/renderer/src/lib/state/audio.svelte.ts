@@ -1,5 +1,5 @@
 /**
- * 发音：自己的录音优先，其次是学习包里的作者录音，都没有时用系统语音读（人造语言读 IPA，自然语言读文字）。
+ * 发音：自己的录音优先，其次作者录音，再用对应语言的系统/离线语音或独立 IPA 音素合成。
  * 录音按「学习包 + 条目键」存（lexeme-<id>、phrase-<id>、sentence-<id>），
  * 千语集来的包用的是千语集里的 id，重新导入项目录音还在。
  */
@@ -7,6 +7,7 @@ import { platform, type Voice } from '$lib/platform'
 import { t } from '$lib/i18n/index.svelte'
 import { ui } from './ui.svelte'
 import { serializedWrites } from './persistence'
+import { ipaPhones } from '$shared/ipa-phones'
 
 /** 一个能发音的条目 */
 export interface Sayable {
@@ -73,11 +74,11 @@ class AudioState {
     return 'tts'
   }
 
-  /** 读 IPA 用的声音：设置里挑过的 → 英语声音（辅音最全）→ 随便一个 */
+  /** IPA 只选显式音素引擎，旧的英语系统声音偏好不再用于音标。 */
   ipaVoice(): string {
     const pref = ui.prefs.ipaVoice
-    if (pref && this.voices.some((v) => v.name === pref)) return pref
-    return (this.voices.find((v) => v.culture.startsWith('en')) ?? this.voices[0])?.name ?? ''
+    if (pref && this.voices.some((v) => v.name === pref && v.engine === 'ipa')) return pref
+    return this.voices.find((v) => v.engine === 'ipa')?.name ?? ''
   }
 
   /** 读某种语言文字的声音：语言代码对得上的第一个 */
@@ -89,7 +90,8 @@ class AudioState {
   /** 这个条目能不能出声（有录音，或者有能读它的语音） */
   canSay(item: Sayable): boolean {
     if (this.sourceOf(item) !== 'tts') return true
-    if (item.ipa?.trim()) return this.voices.length > 0
+    if (item.ipa?.trim())
+      return !ipaPhones(item.ipa).unsupported.length && this.voices.some((v) => v.engine === 'ipa')
     return !!(item.text?.trim() && item.lang && this.textVoice(item.lang))
   }
 
@@ -111,6 +113,10 @@ class AudioState {
       ? { content: item.ipa, ipa: true, voice: this.ipaVoice(), rate }
       : { content: item.text ?? '', ipa: false, voice: this.textVoice(item.lang ?? '') ?? '', rate }
     if (!req.content.trim()) return
+    if (!req.ipa && !req.voice) {
+      ui.toast(t('audio.languageVoiceMissing', { lang: item.lang ?? '' }), 'error', 6000)
+      return
+    }
     const r = await platform.speak(req)
     if (epoch !== this.#playEpoch) return
     // 单独的附加符号（鼻化 ◌̃ 这类）前面垫一个 ◌，不然看不见

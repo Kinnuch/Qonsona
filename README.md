@@ -8,6 +8,14 @@ _A desktop language-learning app for Japanese, English, French, Korean, Spanish,
 Scottish Gaelic and the conlangs you build in [Qonlang](https://github.com/Kinnuch/Qonlang).
 Chinese and English interface. Formerly Qonlang Study._
 
+**当前开发/测试版（尚未发布）**另提供默认昆雅语（Quenya，qya）与辛达语（Sindarin，sjn）学习包，
+包含 Eldamo 开放词库、来源与时期说明、原创 Neo 教学和内部 L1–L3 自测。两门精灵语及本轮离线语音、
+收集与阅读完成练习不属于已发布的 0.2.0 下载包。覆盖及限制见[昆雅语](docs/lang/qya.md)、[辛达语](docs/lang/sjn.md)。
+
+_The unreleased development/test build adds default Quenya and Sindarin packs with an Eldamo lexicon,
+period-aware sources, original Neo teaching and internal L1–L3 reviews. These packs and the new offline speech,
+collection and reading-completion features are not included in the published 0.2.0 downloads._
+
 0.2.0 接入七门新增语言的开放词典与词形还原、分级阅读与新闻、发音/语法/变形/会话/惯用语/阅读课程、
 语言特色练习、分级训练卷和字幕查词。实际教材覆盖与验收见 [多语言记录](docs/multilingual-progress.md)。
 七门语言的训练卷是本软件自编的学习检查，未包含官方考试的全部技能与题型，不用于判定官方分数或证书等级。
@@ -23,6 +31,27 @@ _Leave the dictionary query empty to see daily words, sentences and grammar; cho
 Open entries or explanations, add words to a notebook, explore sentences or enter related lessons.
 The forms button shows recorded forms and their sources, with rule outputs labelled separately and missing data left explicit.
 See the [dictionary guide](docs/dictionary.md) for details._
+
+## 开发版离线朗读、阅读完成与收集
+
+开发版加入离线 eSpeak-NG 音素合成：自然语言文本按所选语言发音，昆雅语和辛达语使用相应语言规则，
+千语集语言和拼读音素可按 IPA 朗读，不再把 IPA 硬套英语拼写。支持范围之外的 IPA 会明确提示，
+不支持的符号或无匹配语言声音会明确提示。合成音色仍是近似发音，不替代作者录音、自然语流或语言专家校对。
+Windows 仍可使用已安装的系统语音。离线引擎的代码路径也支持 macOS；本轮未在本机验收 macOS，
+不把跨平台代码可用当作已完成 macOS 验收。
+
+文章底部的“阅读完成 → 词汇与阅读练习”保留已读标记，并从本文真实词汇、原文信息定位/顺序以及可对齐译文出题；
+缺少对齐译文时不猜句意，材料不足时少出或不出题。答案、完成状态及历史随文章指纹保存和转移。
+新闻节选只代表读完软件保存的标题与导语，不表示读过来源全文。
+
+收集页有跨语言共享的十二枚学习伙伴。当天实际完成阅读、练习、课程或有作答的复习，并累计有效学习
+5、15、30 分钟，可在三个门槛各解锁下一枚。有效时间要求窗口在前台且近期有操作；不因启动或后台播放自动发奖。
+旧统计不追溯发奖，收藏与进度随备份和个人数据转移保留。详细规则见[收集说明](docs/collection.md)。
+
+_Development builds add offline language/IPA synthesis, persistent reading-completion tasks and twelve shared learning companions.
+Synthetic speech approximates pronunciation and reports unsupported IPA. Windows system voices remain available;
+the offline macOS code path has not been locally validated. Reading tasks use actual source evidence and aligned translations,
+with explicit limits for excerpts and insufficient material. Collection rewards require a real completion and active foreground study._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。
@@ -67,7 +96,8 @@ See the [dictionary guide](docs/dictionary.md) for details._
 
 ## 数据来源与许可
 
-程序代码按 [MIT](LICENSE) 许可。日语数据来自下面这些开放资源（软件里「设置 → 数据来源与许可」也列着）：
+Qonsona 主程序按 [MIT](LICENSE) 许可；独立语音进程与第三方引擎的 GPL-3.0 范围另列于下，整个包并非全部 MIT。
+日语数据来自下面这些开放资源（软件里「设置 → 数据来源与许可」也列着）：
 
 | 数据                                                                                                                                             | 许可                                       | 作者                                                 |
 | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------ | ---------------------------------------------------- |
@@ -84,6 +114,13 @@ See the [dictionary guide](docs/dictionary.md) for details._
 常用词与 JLPT 词的中文释义由 JMdict 的英文释义翻译而来（未经人工逐条校对，随 JMdict 按 CC BY-SA 4.0）。
 NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文要登录 NHK ONE，软件不绕过。
 
+开发版精灵语词汇改编自 [Eldamo](https://eldamo.org/) 的开放 XML（Paul Strack，CC BY 4.0），
+保留原词条链接、文献编号和早期/中期/晚期/Neo 标记。[Elfdict](https://www.elfdict.com/about)提供交叉检索外链，
+没有整站打包。原创学习说明与短句按 MIT；没有复制 Tolkien 或其他教材的长篇文本、网页字体或录音。
+离线语音的独立引擎是 [eSpeak-NG / Echogarden Emscripten 编译](https://github.com/echogarden-project/espeak-ng-emscripten)，
+`resources/speech/espeak/` 引擎按 GPL-3.0，`resources/speech/runner.mjs` 也按 GPL-3.0；
+引擎原始 `COPYING` 与 `README.md` 原样保留。本轮只做本地开发/测试，没有分发新的 Release。
+
 ## 开发
 
 - 大纲与已定的事：[docs/outline.md](docs/outline.md)
@@ -91,6 +128,19 @@ NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文�
 - 第一个公开版本之前的开发记录：[docs/milestones.md](docs/milestones.md)
 
 程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
+
+精灵语开发构建需另外生成两库：已发布 `data/release-data.json` 的 0.2.0 清单只包含旧八门语言的九个数据库，
+`fetch-data.mjs` 不会从这个历史资产凭空取到昆雅语或辛达语。
+
+```sh
+node scripts/release/fetch-data.mjs  # 需要 GITHUB_TOKEN；按历史清单验证并下载旧九库
+node scripts/data/run-ts.mjs scripts/data/eldarin/build.ts --download  # Eldamo XML → qya/sjn 两库
+node scripts/data/run-ts.mjs scripts/lang/validate.ts qya
+node scripts/data/run-ts.mjs scripts/lang/validate.ts sjn
+```
+
+新数据包的构建清单包含十一库，并有逐文件大小与 SHA-256 校验；仅历史 0.2.0 的完整九库集合保留下载兼容。
+下一次正式发布须使用新的版本化数据清单，不重写或替换已发布的 0.2.0 清单及资产。
 
 ```sh
 npm install --registry=https://registry.npmmirror.com   # Electron 二进制另设 ELECTRON_MIRROR
@@ -146,8 +196,10 @@ macOS 的 dmg 只能在 macOS 上打（`npm run build:mac`），平时交给 Git
 `Qonsona-<版本>-mac-x64.dmg`、`Qonsona-<版本>-mac-arm64.dmg`。Release 的说明由 `node scripts/release-notes.mjs <版本>`
 从 `CHANGELOG.md` 与 `CHANGELOG.en.md` 里摘中英两段。
 
-- 词典数据库（`resources/data/ja/`）不入库：CI 从草稿 Release「build-data」里的 `ja-data.zip` 取。
-  重新生成了词典数据就把这个 zip 换掉（`scripts/release/upload-data.mjs`）。
+- 词典数据库（`resources/data/<语言>/`）不入库：CI 从草稿 Release「build-data」取
+  `data/release-data.json` 指定的 `qonsona-data-<版本>.zip`，核对整包及逐文件大小、SHA-256 后解压。
+  新数据用新的版本号准备/上传（`scripts/release/prepare-data.mjs`、`scripts/release/upload-data.mjs`）；
+  不替换旧版清单或旧版 ZIP。开发版的新增精灵语库还需按上面的 Eldamo 管线生成。
 - 软件内更新问的是 GitHub 上 `Kinnuch/Qonsona` 的 Release（仓库名写在 `src/main/update.ts`、
   `electron-builder.yml` 的 publish、`scripts/pack-win.sh` 写的 app-update.yml 三处，改名时一起改）。
 - 装过的 Windows 版先试增量：拿上次安装时存下的安装包（`%LOCALAPPDATA%\qonsona-updater\installer.exe`）

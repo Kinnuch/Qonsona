@@ -29,6 +29,7 @@ import { migrateLegacyData } from './migrate'
 import { registerLangIpc } from './lang/ipc'
 import { analysisClient } from './lang/analysis-client'
 import { registerDictionaryDaily } from './daily'
+import { registerArticleQuizIpc } from './article-quiz'
 import { articleMutationKey, pendingWrites } from './pending-writes'
 import { applyPendingTransfer, registerTransferIpc, setTransferResult } from './transfer'
 import { AUDIO_EXT as MEDIA_AUDIO, SUBTITLE_EXT, VIDEO_EXT, type MediaPatch } from '../shared/media'
@@ -68,7 +69,7 @@ interface Prefs {
   theme: 'system' | 'light' | 'dark'
   /** 正在学的语言（学习包 id）；null 表示还没选 */
   activePackId: string | null
-  /** 读 IPA 用哪个系统声音；空着自动挑 */
+  /** IPA 音素引擎偏好；旧系统声音名不再参与音标朗读。 */
   ipaVoice: string
   /** 朗读语速，-10 … 10 */
   speechRate: number
@@ -123,7 +124,10 @@ const packsDir = (): string => join(userData(), 'packs')
 const recordingsDir = (): string => join(userData(), 'recordings')
 
 /** 合成出来的朗读按内容缓存在这里，删了也没关系 */
-const speech = new Speech(join(userData(), 'tts-cache'))
+const speech = new Speech(
+  join(userData(), 'tts-cache'),
+  app.isPackaged ? join(process.resourcesPath, 'speech') : join(__dirname, '../../resources/speech')
+)
 
 const AUDIO_EXT: Record<string, string> = {
   webm: 'audio/webm',
@@ -276,6 +280,7 @@ registerUpdater(() => mainWindow, userData)
 // 框架里各语言（英、法、韩、西、阿、俄、盖尔）的词典与录音
 registerLangIpc()
 registerDictionaryDaily(() => ja())
+registerArticleQuizIpc()
 ipcMain.handle('app:close-ready', async (event, saved = true) => {
   const win = BrowserWindow.fromWebContents(event.sender)
   if (!win || !waitingToClose.has(win)) return
@@ -521,7 +526,7 @@ ipcMain.handle('ja:articlePractice', async (_e, id: string, seed: number, listen
   const a = await articles().get(String(id))
   if (!a || !ja()) return []
   const analysis = await analyzer.analyze(a.body, lookup)
-  return exams.article(analysis, a.level, Number(seed) || 1, !!listen)
+  return exams.article(analysis, a.level, Number(seed) || 1, !!listen, a)
 })
 
 // ── 生词本、课程进度、练习记录：每门语言一个文件 userData/<notebook|courses|practice>/<包 id>.json ──

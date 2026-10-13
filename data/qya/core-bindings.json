@@ -1,0 +1,366 @@
+[
+  {
+    "w": "elen",
+    "id": "1319998893",
+    "pos": "noun",
+    "gloss": "star",
+    "period": "late"
+  },
+  {
+    "w": "Elda",
+    "id": "3583944535",
+    "pos": "noun",
+    "gloss": "Elf",
+    "period": "late"
+  },
+  {
+    "w": "atan",
+    "id": "2915116991",
+    "pos": "noun",
+    "gloss": "Man",
+    "period": "late"
+  },
+  {
+    "w": "alda",
+    "id": "539805327",
+    "pos": "noun",
+    "gloss": "tree",
+    "period": "late"
+  },
+  {
+    "w": "aiwë",
+    "id": "1137358351",
+    "pos": "noun",
+    "gloss": "bird",
+    "period": "late"
+  },
+  {
+    "w": "orco",
+    "id": "412479267",
+    "pos": "noun",
+    "gloss": "Orc",
+    "period": "late"
+  },
+  {
+    "w": "lassë",
+    "id": "240504201",
+    "pos": "noun",
+    "gloss": "leaf",
+    "period": "late"
+  },
+  {
+    "w": "macil",
+    "id": "2503579977",
+    "pos": "noun",
+    "gloss": "sword",
+    "period": "late"
+  },
+  {
+    "w": "cöa",
+    "id": "3431724583",
+    "pos": "noun",
+    "gloss": "house",
+    "period": "late"
+  },
+  {
+    "w": "osto",
+    "id": "3860062497",
+    "pos": "noun",
+    "gloss": "fortress",
+    "period": "late"
+  },
+  {
+    "w": "i",
+    "id": "1717330255",
+    "pos": "det",
+    "gloss": "the",
+    "period": "late"
+  },
+  {
+    "w": "ar",
+    "id": "1174557919",
+    "pos": "cconj",
+    "gloss": "and",
+    "period": "late"
+  },
+  {
+    "w": "sil-",
+    "id": "2448984617",
+    "pos": "verb",
+    "gloss": "shine",
+    "period": "late"
+  },
+  {
+    "w": "tul-",
+    "id": "2588932767",
+    "pos": "verb",
+    "gloss": "come",
+    "period": "late"
+  },
+  {
+    "w": "mat-",
+    "id": "342927741",
+    "pos": "verb",
+    "gloss": "eat",
+    "period": "late"
+  },
+  {
+    "w": "tir-",
+    "id": "2692213205",
+    "pos": "verb",
+    "gloss": "watch",
+    "period": "late"
+  },
+  {
+    "w": "lor-",
+    "id": "2603256449",
+    "pos": "verb",
+    "gloss": "sleep",
+    "period": "middle"
+  },
+  {
+    "w": "cen-",
+    "id": "2601362111",
+    "pos": "verb",
+    "gloss": "see",
+    "period": "late"
+  },
+  {
+    "w": "vanya",
+    "id": "1127545279",
+    "pos": "adj",
+    "gloss": "beautiful",
+    "period": "late"
+  },
+  {
+    "w": "alta",
+    "id": "891436159",
+    "pos": "adj",
+    "gloss": "large",
+    "period": "middle"
+  },
+  {
+    "w": "laica",
+    "id": "189424363",
+    "pos": "adj",
+    "gloss": "green",
+    "period": "late"
+  },
+  {
+    "w": "nér",
+    "id": "807152383",
+    "pos": "noun",
+    "gloss": "male",
+    "period": "late"
+  },
+  {
+    "w": "nís",
+    "id": "75962847",
+    "pos": "noun",
+    "gloss": "woman",
+    "period": "late"
+  },
+  {
+    "w": "quëtta",
+    "id": "106071007",
+    "pos": "noun",
+    "gloss": "word",
+    "period": "late"
+  },
+  {
+    "w": "lambë",
+    "id": "1468650059",
+    "pos": "noun",
+    "gloss": "language",
+    "period": "late"
+  },
+  {
+    "w": "taurë",
+    "id": "3090473943",
+    "pos": "noun",
+    "gloss": "forest",
+    "period": "late"
+  },
+  {
+    "w": "ná-",
+    "id": "2562596025",
+    "pos": "verb",
+    "gloss": "be",
+    "period": "late"
+  },
+  {
+    "w": "anta-",
+    "id": "101426213",
+    "pos": "verb",
+    "gloss": "give",
+    "period": "late"
+  },
+  {
+    "w": "quet-",
+    "id": "2355375457",
+    "pos": "verb",
+    "gloss": "speak",
+    "period": "late"
+  },
+  {
+    "w": "orta-",
+    "id": "617970291",
+    "pos": "verb",
+    "gloss": "raise",
+    "period": "late"
+  },
+  {
+    "w": "á",
+    "id": "3322232159",
+    "pos": "part",
+    "gloss": "imperative",
+    "period": "late"
+  },
+  {
+    "w": "ni",
+    "id": "3864516415",
+    "pos": "pron",
+    "gloss": "me",
+    "period": "late"
+  },
+  {
+    "w": "lyë",
+    "id": "3847913077",
+    "pos": "pron",
+    "gloss": "polite",
+    "period": "late"
+  },
+  {
+    "w": "tyë",
+    "id": "2273184159",
+    "pos": "pron",
+    "gloss": "familiar",
+    "period": "late"
+  },
+  {
+    "w": "sírë",
+    "id": "920363027",
+    "pos": "noun",
+    "gloss": "river",
+    "period": "middle"
+  },
+  {
+    "w": "lómë",
+    "id": "2401626913",
+    "pos": "noun",
+    "gloss": "night",
+    "period": "late"
+  },
+  {
+    "w": "Anar",
+    "id": "2475504767",
+    "pos": "noun",
+    "gloss": "Sun",
+    "period": "late"
+  },
+  {
+    "w": "Isil",
+    "id": "863158895",
+    "pos": "noun",
+    "gloss": "Moon",
+    "period": "late"
+  },
+  {
+    "w": "ambar",
+    "id": "4273482913",
+    "pos": "noun",
+    "gloss": "World",
+    "period": "late"
+  },
+  {
+    "w": "corma",
+    "id": "3681532269",
+    "pos": "noun",
+    "gloss": "ring",
+    "period": "late"
+  },
+  {
+    "w": "atar",
+    "id": "4270658761",
+    "pos": "noun",
+    "gloss": "father",
+    "period": "late"
+  },
+  {
+    "w": "amil",
+    "id": "2856358783",
+    "pos": "noun",
+    "gloss": "mother",
+    "period": "middle"
+  },
+  {
+    "w": "mel-",
+    "id": "1131725613",
+    "pos": "verb",
+    "gloss": "love",
+    "period": "late"
+  },
+  {
+    "w": "nauco",
+    "id": "234493503",
+    "pos": "noun",
+    "gloss": "dwarf",
+    "period": "late"
+  },
+  {
+    "w": "suila-",
+    "id": "886418575",
+    "pos": "verb",
+    "gloss": "greet",
+    "period": "neo"
+  },
+  {
+    "w": "hlar-",
+    "id": "2821188799",
+    "pos": "verb",
+    "gloss": "hear",
+    "period": "late"
+  },
+  {
+    "w": "hir-",
+    "id": "2780755521",
+    "pos": "verb",
+    "gloss": "find",
+    "period": "late"
+  },
+  {
+    "w": "yul-",
+    "id": "2194110599",
+    "pos": "verb",
+    "gloss": "drink",
+    "period": "late"
+  },
+  {
+    "w": "sina",
+    "id": "2249532397",
+    "pos": "adj",
+    "gloss": "this",
+    "period": "late"
+  },
+  {
+    "w": "man",
+    "id": "2560163767",
+    "pos": "pron",
+    "gloss": "who",
+    "period": "late"
+  },
+  {
+    "w": "um-",
+    "id": "695438879",
+    "pos": "verb",
+    "gloss": "not be",
+    "period": "middle"
+  },
+  {
+    "w": "namárië",
+    "id": "2466400815",
+    "pos": "intj",
+    "gloss": "farewell",
+    "period": "late"
+  }
+]

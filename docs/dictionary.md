@@ -30,6 +30,10 @@ Qonlang recommendations are generated from the current language’s visible loca
 
 ## 屈折、变形与缺项 / Forms and missing data
 
+开发/测试版的阿语阅读会从同键词头和已记录词形恢复元音，并优先保留正文显式标音。词缀分析只作用于一个书写词，避免将多个词误合并为变位。未标元音的正文可能对应多个合法读法，当前注音属于词典推定；未知词或无法对齐的变形不显示猜造的读音。读音提示中也标明这一限制。
+
+In the development/test build, Arabic reading restores vowels from a matching headword or recorded form and preserves explicit marks in the text. Affix analysis applies to one written word, preventing words from being merged into a fictitious inflection. Unvocalized text can have several valid readings: ruby is a dictionary-based suggestion, not full contextual diacritization. Unknown words and unaligned forms receive no invented reading, and the ruby tooltip explains this limit.
+
 在词条中点击屈折/词形按钮展开面板。七门新增自然语言按该词实际保存的标签组织词形：例如动词的时态、语气、人称，名词的格、数、性等；并非每种语言或每个词都具备这些维度。阿拉伯语保留从右向左的文字方向。宽表可横向滚动。
 
 Open the forms button in an entry. The seven additional natural languages organize forms using the entry’s actual tags, such as tense, mood and person for verbs, or case, number and gender for nouns. These dimensions are not present for every language or word. Arabic retains right-to-left text direction; wide tables scroll horizontally.

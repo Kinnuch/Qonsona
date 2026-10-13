@@ -152,6 +152,7 @@ export type ModuleId =
   | 'practice'
   | 'media'
   | 'stats'
+  | 'collection'
   | 'packs'
   | 'settings'
 

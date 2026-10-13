@@ -89,6 +89,7 @@ export interface AppInfo {
 }
 
 export interface Voice {
+  engine?: 'system' | 'offline' | 'ipa'
   name: string
   /** BCP-47，如 en-US、ja-JP */
   culture: string

@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased · 2026-10-13 development/test build
+
+- Add default Quenya and Sindarin packs with 13,596 and 10,150 Eldamo lexical records, retaining source references, per-entry links, historical periods and Neo/reconstruction/rejection notices. Each has 24 grammar points, 48 original bilingual examples, phonics/checked-form/short-expression courses, three original readings and internal L1–L3 reviews. These are not official grades, complete Tengwar/Cirth courses or fully Chinese-translated lexicons.
+- Add an independent offline eSpeak-NG engine for language text and IPA phones; Elvish pronunciation does not use English spelling as a substitute. Unsupported IPA and missing language voices are reported. Windows system voices remain available; the offline macOS code path has not been locally validated. Synthetic speech approximates pronunciation and is not an original or author recording. The independent runner and engine use GPL-3.0, retaining original licence and documentation.
+- Correct right alignment of Arabic home headlines, cross-word merging and same-key form selection. Reading restores recorded vowels while preserving explicit marks: في displays fī and التواصل displays at-tawāṣul. Unvocalized text can still have multiple dictionary readings; missing vowels or forms are not fabricated without evidence.
+- Add reading-completion vocabulary and source-reading tasks with persistent answers, completion and history. Without aligned translation, tasks use source evidence and sequence. Excerpts and insufficient material have explicit limits rather than invented filler questions. Personal-data transfer and backups retain this progress.
+- Add twelve learning companions shared across languages. A real completion plus 5, 15 or 30 minutes of active foreground study unlocks the next companion at each daily threshold. Background playback, app startup and old statistics do not retroactively earn rewards; unlocked companions persist and repeated imports do not issue duplicate rewards.
+- Prepare and validate new data bundles for ten built-in languages and eleven databases. The published 0.2.0 nine-database manifest and remote assets remain unchanged, with historical verification/download compatibility.
+
 ## 0.2.0 · 2026-10-12
 
 - Add daily words, sentences and grammar to the empty-query dictionary page for eight natural languages—Japanese, English, French, Korean, Spanish, Arabic, Russian and Scottish Gaelic—and imported Qonlang languages. Choose a date to revisit recommendations; the same language and date give stable results, with rotation the next day. Open entries, add words to a notebook, explore or pronounce sentences, and open grammar explanations or related lessons. Missing materials are reported separately. Qonlang candidates come only from visible content in the current local project.

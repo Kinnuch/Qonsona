@@ -4,7 +4,7 @@ import { createReadStream, readFileSync, statSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, normalize, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { DATA_FILES } from './data-bundle.mjs'
+import { DATA_FILES, dataFilesForManifest } from './data-bundle.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 if (process.argv.length !== 3)
@@ -27,13 +27,12 @@ if (
 )
   throw new Error('Release dictionary manifest format/version mismatch')
 const files = new Map(manifest.files.map((file) => [file.path, file]))
-if (
-  manifest.files.length !== DATA_FILES.length ||
-  files.size !== DATA_FILES.length ||
-  DATA_FILES.some((file) => !files.has(file))
-)
-  throw new Error('Release dictionary manifest must contain exactly all nine required databases')
-for (const path of DATA_FILES) {
+const required = dataFilesForManifest(manifest)
+if (required.length !== DATA_FILES.length)
+  console.log(
+    'Historical 0.2.0 manifest: verify the original nine databases. New release manifests require eleven.'
+  )
+for (const path of required) {
   const file = join(resources, 'data', ...path.split('/'))
   const info = files.get(path)
   if (!Number.isSafeInteger(info.bytes) || info.bytes <= 0 || !/^[a-f0-9]{64}$/.test(info.sha256))
@@ -84,5 +83,5 @@ const kuromojiFiles = [
 ]
 for (const name of kuromojiFiles) nonempty(`node_modules/kuromoji/dict/${name}.dat.gz`)
 console.log(
-  `PASS ${metadata.name}@${metadata.version}: nine verified databases, ${chunks.length} main chunks, worker, renderer/preload, ${kuromojiFiles.length} kuromoji dictionaries; ${resources}`
+  `PASS ${metadata.name}@${metadata.version}: ${required.length} verified databases, ${chunks.length} main chunks, worker, renderer/preload, ${kuromojiFiles.length} kuromoji dictionaries; ${resources}`
 )

@@ -1,0 +1,262 @@
+[
+  {
+    "w": "adan",
+    "zh": "人类",
+    "level": "L1"
+  },
+  {
+    "w": "edhel",
+    "zh": "精灵",
+    "level": "L1"
+  },
+  {
+    "w": "aran",
+    "zh": "国王",
+    "level": "L1"
+  },
+  {
+    "w": "bereth",
+    "zh": "女王",
+    "level": "L1"
+  },
+  {
+    "w": "galadh",
+    "zh": "树",
+    "level": "L1"
+  },
+  {
+    "w": "mellon",
+    "zh": "朋友",
+    "level": "L1"
+  },
+  {
+    "w": "elen",
+    "zh": "星",
+    "level": "L1"
+  },
+  {
+    "w": "gail",
+    "zh": "银色火花",
+    "level": "L1"
+  },
+  {
+    "w": "beleg",
+    "zh": "强大的",
+    "level": "L1"
+  },
+  {
+    "w": "bain",
+    "zh": "美丽的",
+    "level": "L1"
+  },
+  {
+    "w": "tol-",
+    "zh": "来",
+    "level": "L1"
+  },
+  {
+    "w": "tir-",
+    "zh": "观看",
+    "level": "L1"
+  },
+  {
+    "w": "cen-",
+    "zh": "看见",
+    "level": "L1"
+  },
+  {
+    "w": "ped-",
+    "zh": "说",
+    "level": "L1"
+  },
+  {
+    "w": "i",
+    "zh": "定冠词（随实际词形变数）",
+    "level": "L1"
+  },
+  {
+    "w": "in",
+    "zh": "定冠词（复数）",
+    "level": "L1"
+  },
+  {
+    "w": "a",
+    "zh": "和",
+    "level": "L1"
+  },
+  {
+    "w": "paur",
+    "zh": "拳头",
+    "level": "L1"
+  },
+  {
+    "w": "perian",
+    "zh": "霍比特人",
+    "level": "L1"
+  },
+  {
+    "w": "tâl",
+    "zh": "脚",
+    "level": "L2"
+  },
+  {
+    "w": "dû",
+    "zh": "夜",
+    "level": "L2"
+  },
+  {
+    "w": "draug",
+    "zh": "狼",
+    "level": "L2"
+  },
+  {
+    "w": "gaer",
+    "zh": "海",
+    "level": "L2"
+  },
+  {
+    "w": "mallorn",
+    "zh": "黄金树",
+    "level": "L2"
+  },
+  {
+    "w": "hên",
+    "zh": "孩子",
+    "level": "L2"
+  },
+  {
+    "w": "taur",
+    "zh": "森林",
+    "level": "L2"
+  },
+  {
+    "w": "caran",
+    "zh": "红色的",
+    "level": "L2"
+  },
+  {
+    "w": "caun",
+    "zh": "王子",
+    "level": "L2"
+  },
+  {
+    "w": "certh",
+    "zh": "符文",
+    "level": "L2"
+  },
+  {
+    "w": "dôr",
+    "zh": "国土",
+    "level": "L2"
+  },
+  {
+    "w": "orod",
+    "zh": "山",
+    "level": "L2"
+  },
+  {
+    "w": "amon",
+    "zh": "丘陵",
+    "level": "L2"
+  },
+  {
+    "w": "naug",
+    "zh": "矮人",
+    "level": "L2"
+  },
+  {
+    "w": "thôn",
+    "zh": "松树",
+    "level": "L2"
+  },
+  {
+    "w": "lhûg",
+    "zh": "蛇",
+    "level": "L2"
+  },
+  {
+    "w": "nín",
+    "zh": "我的",
+    "level": "L3"
+  },
+  {
+    "w": "lín",
+    "zh": "你的（敬称）",
+    "level": "L3"
+  },
+  {
+    "w": "sîdh",
+    "zh": "和平",
+    "level": "L3"
+  },
+  {
+    "w": "anna-",
+    "zh": "给予",
+    "level": "L3"
+  },
+  {
+    "w": "car-",
+    "zh": "做",
+    "level": "L3"
+  },
+  {
+    "w": "nor-",
+    "zh": "跑",
+    "level": "L3"
+  },
+  {
+    "w": "narn",
+    "zh": "故事",
+    "level": "L3"
+  },
+  {
+    "w": "parf",
+    "zh": "书",
+    "level": "L3"
+  },
+  {
+    "w": "sigil",
+    "zh": "匕首",
+    "level": "L3"
+  },
+  {
+    "w": "tegil",
+    "zh": "笔",
+    "level": "L3"
+  },
+  {
+    "w": "Gondor",
+    "zh": "刚铎",
+    "level": "L3"
+  },
+  {
+    "w": "Doriath",
+    "zh": "多瑞亚斯",
+    "level": "L3"
+  },
+  {
+    "w": "guren",
+    "zh": "我的心",
+    "level": "L3"
+  },
+  {
+    "w": "le",
+    "zh": "你（敬称）",
+    "level": "L3"
+  },
+  {
+    "w": "nin",
+    "zh": "我（宾语）",
+    "level": "L3"
+  },
+  {
+    "w": "men",
+    "zh": "我们（宾语）",
+    "level": "L3"
+  },
+  {
+    "w": "ammen",
+    "zh": "给我们",
+    "level": "L3"
+  }
+]

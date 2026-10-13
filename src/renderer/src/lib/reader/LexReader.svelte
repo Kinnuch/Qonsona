@@ -28,6 +28,8 @@
   import { alignParagraphs } from '$shared/articles'
   import type { LangCode, LexGrammarPoint, LexToken } from '$shared/lang/types'
   import LexWordCard from './LexWordCard.svelte'
+  import ReaderCompletion from './ReaderCompletion.svelte'
+  import { activity } from '$lib/state/activity.svelte'
 
   let { code }: { code: string } = $props()
 
@@ -39,6 +41,23 @@
   const article = $derived(langReading.article)
   const analysis = $derived(langReading.analysis)
   const L = $derived(i18n.locale)
+  async function markArticleRead(): Promise<void> {
+    const id = article?.id,
+      ownerCode = code
+    if (!id) return
+    try {
+      await langReading.setRead(id, true)
+    } catch {
+      ui.toast(
+        L === 'zh'
+          ? '保存阅读完成状态失败，请重试'
+          : 'Could not save reading completion; please retry',
+        'error'
+      )
+      return
+    }
+    activity.complete('reading', id, ownerCode)
+  }
 
   /** 按段落排好的句子 */
   const paragraphs = $derived.by(() => {
@@ -374,7 +393,11 @@
                         tabindex="-1"
                         onclick={(e) => openWord(w, e.currentTarget)}
                         >{#if langReading.ruby && w.ruby}<ruby
-                            >{display(w.text)}<rt>{w.ruby}</rt></ruby
+                            title={code === 'ar' && w.ruby !== w.text
+                              ? L === 'zh'
+                                ? '词典推定读音；不带元音的文本可能有多种读法'
+                                : 'Dictionary-inferred reading; unvocalized text may have multiple readings'
+                              : undefined}>{display(w.text)}<rt>{w.ruby}</rt></ruby
                           >{:else}{display(w.text)}{/if}</span
                       >{/if}
                   {/each}
@@ -406,10 +429,7 @@
               ><Check size={14} />{t('reading.markUnread')}</button
             >
           {:else}
-            <button
-              class="btn primary"
-              data-mark-read
-              onclick={() => langReading.setRead(article.id, true)}
+            <button class="btn primary" data-mark-read onclick={markArticleRead}
               ><Check size={14} />{t('reading.markRead')}</button
             >
           {/if}
@@ -424,6 +444,18 @@
             >
           {/if}
         </footer>
+        {#key article.id}<ReaderCompletion
+            packId={code}
+            material={{
+              id: article.id,
+              body: article.body,
+              translation: article.translation,
+              excerpt: article.excerpt,
+              lang: spec.bcp47
+            }}
+            markRead={() => langReading.setRead(article.id, true)}
+            loadVocabulary={() => platform.lang.articlePractice(code, article.id, 1729, L)}
+          />{/key}
       </article>
     </div>
 

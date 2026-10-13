@@ -1,5 +1,5 @@
 /**
- * 内置自然语言的通用框架：英语、法语、韩语、西班牙语、阿拉伯语、俄语、苏格兰盖尔语。
+ * 内置学习语言的通用框架：英、法、韩、西、阿、俄、盖尔，以及昆雅语和辛达语。
  *
  * 日语先做、自成一套（src/shared/ja、src/main/dict.ts……）；这一套照日语的做法抽出来，
  * 程序本体只认这里的形状，各语言按自己的特点往里填（规则、数据、课程、题型）。
@@ -12,9 +12,9 @@
 export type LocalizedText = Record<string, string>
 
 /** 这套框架里的语言（日语不在里面，另有一套） */
-export type LangCode = 'en' | 'fr' | 'ko' | 'es' | 'ar' | 'ru' | 'gd'
+export type LangCode = 'en' | 'fr' | 'ko' | 'es' | 'ar' | 'ru' | 'gd' | 'qya' | 'sjn'
 
-export const LANG_CODES: LangCode[] = ['en', 'fr', 'ko', 'es', 'ar', 'ru', 'gd']
+export const LANG_CODES: LangCode[] = ['en', 'fr', 'ko', 'es', 'ar', 'ru', 'gd', 'qya', 'sjn']
 
 // ───────────────────────── 来源与许可 ─────────────────────────
 

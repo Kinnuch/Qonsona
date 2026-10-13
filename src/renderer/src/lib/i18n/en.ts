@@ -20,8 +20,40 @@ export default {
     practice: 'Practice',
     media: 'Media',
     stats: 'Progress',
+    collection: 'Collection',
     packs: 'Languages',
     settings: 'Settings'
+  },
+  collection: {
+    eyebrow: 'Small steps, kept close',
+    title: 'Learning companion collection',
+    today: 'Today’s learning progress',
+    checked: 'Today’s learning has left a mark.',
+    invitation: 'Let a little learning light up a companion.',
+    subtitle:
+      'Check in by finishing an article, practice, course or review. Build active learning time today to welcome companions into your collection.',
+    start: 'Continue learning',
+    todayDone: 'Checked in today',
+    todayPending: 'Finish something to check in',
+    minutes: 'min',
+    completeFirst: 'Finish a learning activity before time goals unlock companions.',
+    remaining: 'About {n} more active minutes to the next companion.',
+    dayComplete: 'Today’s three goals are complete. Continue tomorrow.',
+    gallery: 'Little collection, lasting journey',
+    companions: 'Twelve learning companions',
+    dawn: 'First steps',
+    journey: 'Further journeys',
+    collected: 'Collected',
+    locked: 'Locked',
+    unlockedAt: 'Joined on {day} when you reached the {n}-minute goal.',
+    permanent: 'Kept permanently, shared across languages',
+    goal: 'After checking in, reach 5, 15 and 30 minutes each day to unlock the next companion.',
+    sequence: 'Reach {n} more time goals to unlock this companion in collection order.',
+    journal: 'Learning footprints',
+    rules:
+      'Only foreground learning time with recent interaction counts. Collection, Home and Settings do not count, and idle playback earns no rewards. Daily goals are granted once; historical statistics do not grant rewards. The latest 31 check-in days are shown below; all records are retained.',
+    noDays: 'Your first check-in awaits today’s completed learning.',
+    daysTotal: '{n} check-in days retained in total.'
   },
   switcher: {
     label: 'Learning',
@@ -199,13 +231,17 @@ export default {
     }
   },
   audio: {
+    unsupportedIpa:
+      'Synthesis does not support these IPA symbols: {symbols}. Recordings can still play.',
+    languageVoiceMissing:
+      'No matching voice for {lang}. Use your own recording or the author’s recording.',
     playRecording: 'Play my recording',
     playAuthor: "Play the author's recording",
     author: "Author's recording",
     authorHint:
       'The author recorded this in Qonlang and it came with the study pack. Record your own to replace it.',
     removeBodyAuthor: "The author's recording will be played instead.",
-    playSynth: 'Read aloud with a system voice',
+    playSynth: 'Synthesized pronunciation',
     record: 'Record',
     stopRecording: 'Stop and save the recording',
     importFile: 'Use an audio file as the recording',
@@ -895,13 +931,14 @@ export default {
     about: 'About',
     version: 'Version {v}',
     speech: 'Reading aloud',
-    ipaVoice: 'Voice for IPA',
+    ipaVoice: 'IPA pronunciation',
+    offlineIpa: 'Offline phoneme synthesis',
     auto: 'Automatic ({name})',
     noVoice: 'No system voice found',
     rate: 'Speed',
     test: 'Listen',
     speechHelp:
-      'Every built-in Windows voice can read IPA; sounds foreign to the voice are approximated. Tone marks cannot be read and are skipped. Your own recordings always take priority.',
+      'Offline phoneme synthesis distinguishes the trill /r/, approximant /ɹ/ and tap /ɾ/. Unsupported symbols are reported; synthesized audio does not replace a human example. Text is read in its language, with your own recordings taking priority.',
     review: 'Review',
     newPerDay: 'New words per day',
     reviewCap: 'Most reviews per day',

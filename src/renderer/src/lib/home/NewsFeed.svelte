@@ -25,7 +25,7 @@
   // 快捷键：↑ ↓（或 PageUp / PageDown、K / J）换一篇，回车打开，Home / End 到头、到尾
   import { onMount, untrack } from 'svelte'
   import { ArrowRight, Check } from '@lucide/svelte'
-  import { t } from '$lib/i18n/index.svelte'
+  import { t, i18n } from '$lib/i18n/index.svelte'
 
   let {
     items,
@@ -236,13 +236,31 @@
             <span class="grow"></span>
             {#if it.date}<span class="date">{it.date}</span>{/if}
           </div>
-          <h2 class="title" class:data={it.titleData} lang={it.titleLang}>{it.title}</h2>
+          <h2
+            class="title"
+            class:data={it.titleData}
+            lang={it.titleLang}
+            dir={it.titleLang?.split('-')[0] === 'ar' ? 'rtl' : 'auto'}
+          >
+            {it.title}
+          </h2>
           <span class="divider" aria-hidden="true"></span>
           {#if it.lead}
-            <p class="lead" class:data={it.leadData} lang={it.leadLang}>{it.lead}</p>
+            <p
+              class="lead"
+              class:data={it.leadData}
+              lang={it.leadLang}
+              dir={it.leadLang?.split('-')[0] === 'ar' ? 'rtl' : 'auto'}
+            >
+              {it.lead}
+            </p>
           {/if}
           <div class="foot">
-            <span class="open">{t('home.news.open')}<ArrowRight size={16} /></span>
+            <span class="open" data-news-read-then-quiz
+              >{i18n.locale === 'zh'
+                ? '打开阅读 · 读完后练习'
+                : 'Open to read · tasks after reading'}<ArrowRight size={16} /></span
+            >
             {#if it.level}<span class="lv">{it.level}</span>{/if}
             {#if it.read}<span class="read"><Check size={14} />{t('home.news.read')}</span>{/if}
           </div>
@@ -400,6 +418,11 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     transition: color 0.2s;
+  }
+  .title[dir='rtl'],
+  .lead[dir='rtl'] {
+    text-align: right;
+    align-self: flex-end;
   }
   .slide.on .story:hover .title {
     color: var(--accent-text);

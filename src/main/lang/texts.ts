@@ -10,6 +10,8 @@ import es from '../../../data/es/texts.json'
 import ar from '../../../data/ar/texts.json'
 import ru from '../../../data/ru/texts.json'
 import gd from '../../../data/gd/texts.json'
+import qya from '../../../data/qya/texts.json'
+import sjn from '../../../data/sjn/texts.json'
 
 export const LANG_TEXTS: Record<LangCode, LexText[]> = {
   en: en as LexText[],
@@ -18,5 +20,7 @@ export const LANG_TEXTS: Record<LangCode, LexText[]> = {
   es: es as LexText[],
   ar: ar as LexText[],
   ru: ru as LexText[],
-  gd: gd as LexText[]
+  gd: gd as LexText[],
+  qya: qya as LexText[],
+  sjn: sjn as LexText[]
 }

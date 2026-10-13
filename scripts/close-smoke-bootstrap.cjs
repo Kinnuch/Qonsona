@@ -8,7 +8,7 @@ const root = resolve(__dirname, '..')
 const profile = resolve(app.commandLine.getSwitchValue('user-data-dir'))
 if (
   !profile.startsWith(resolve(tmpdir()) + sep) ||
-  !/^qonsona-(save-close|review-feedback)-/.test(basename(profile))
+  !/^qonsona-(save-close|review-feedback|collection)-/.test(basename(profile))
 )
   throw new Error('Native close smoke requires its own temporary profile')
 app.getAppPath = () => root
@@ -19,10 +19,19 @@ app.whenReady().then(() => {
   const timer = setInterval(() => {
     if (!existsSync(controlFile)) return
     const command = JSON.parse(readFileSync(controlFile, 'utf8'))
-    if (!command.close || command.id === previous) return
+    if (command.id === previous) return
     const windows = BrowserWindow.getAllWindows()
     if (!windows.length) return
     previous = command.id
+    if (command.focus) {
+      for (const win of windows) {
+        win.show()
+        win.focus()
+        win.webContents.focus()
+      }
+      return
+    }
+    if (!command.close) return
     let prevented = false
     for (const win of windows) {
       win.once('close', (event) => {

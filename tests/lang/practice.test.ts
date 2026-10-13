@@ -649,8 +649,29 @@ describe('本文练习', () => {
       analysis.sentences.flatMap((s) => s.tokens.map((w) => `lex-${w.entry}`))
     )
     for (const q of qs) {
-      expect(q.choices).toHaveLength(4)
-      expect(new Set(q.choices.map((c) => textOf(c.text))).size).toBe(4)
+      if (q.id.startsWith('reading-')) {
+        expect(q.kind).toBe('sentence')
+        expect(q.section).toBe('reading')
+        expect(q.choices.length).toBeGreaterThanOrEqual(2)
+        expect(q.choices.length).toBeLessThanOrEqual(4)
+        expect(new Set(q.choices.map((c) => textOf(c.text))).size).toBe(q.choices.length)
+        expect(Number.isInteger(q.answer)).toBe(true)
+        expect(q.answer).toBeGreaterThanOrEqual(0)
+        expect(q.answer).toBeLessThan(q.choices.length)
+        expect(analysis.text).toContain(textOf(q.choices[q.answer].text))
+        const evidence = q.explain.lines[0]
+        expect(typeof evidence).toBe('object')
+        if (typeof evidence !== 'string') {
+          expect(evidence.zh).toMatch(/^原文依据：/)
+          expect(evidence.en).toMatch(/^Evidence in the supplied text: /)
+          for (const piece of evidence.zh.replace(/^原文依据：/, '').split('\n'))
+            expect(analysis.text).toContain(piece)
+        }
+      } else {
+        expect(['word-meaning', 'grammar-meaning']).toContain(q.kind)
+        expect(q.choices).toHaveLength(4)
+        expect(new Set(q.choices.map((c) => textOf(c.text))).size).toBe(4)
+      }
       if (q.kind === 'word-meaning') expect(entries.has(q.explain.card!)).toBe(true)
       if (q.kind === 'grammar-meaning') {
         expect(analysis.text).toContain(q.prompt.text)

@@ -28,6 +28,8 @@
   import { dictState } from '$lib/dict/state.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { platform } from '$lib/platform'
+  import ReaderCompletion from './ReaderCompletion.svelte'
+  import { activity } from '$lib/state/activity.svelte'
 
   const RUBY: RubyMode[] = ['furigana', 'romaji', 'none']
   const SIDE: SideTab[] = ['vocab', 'grammar']
@@ -72,6 +74,22 @@
     if (speaking) stopReading()
     if (await practice.startArticle(article.id, article.title, { from: reading.backTo }))
       ui.go('practice')
+  }
+  async function markArticleRead(): Promise<void> {
+    const id = article?.id
+    if (!id) return
+    try {
+      await reading.setRead(id, true)
+    } catch {
+      ui.toast(
+        i18n.locale === 'zh'
+          ? '保存阅读完成状态失败，请重试'
+          : 'Could not save reading completion; please retry',
+        'error'
+      )
+      return
+    }
+    activity.complete('reading', id, 'ja')
   }
 
   async function saveTranslation(text: string): Promise<void> {
@@ -380,10 +398,7 @@
               ><Check size={14} />{t('reading.markUnread')}</button
             >
           {:else}
-            <button
-              class="btn primary"
-              data-mark-read
-              onclick={() => reading.setRead(article.id, true)}
+            <button class="btn primary" data-mark-read onclick={markArticleRead}
               ><Check size={14} />{t('reading.markRead')}</button
             >
           {/if}
@@ -407,6 +422,18 @@
             </details>
           {/if}
         </footer>
+        {#key article.id}<ReaderCompletion
+            packId="ja"
+            material={{
+              id: article.id,
+              body: article.body,
+              translation: article.translation,
+              excerpt: article.excerpt,
+              lang: 'ja'
+            }}
+            markRead={() => reading.setRead(article.id, true)}
+            loadVocabulary={() => platform.ja.articlePractice(article.id, 1729, false)}
+          />{/key}
       </article>
     </div>
 

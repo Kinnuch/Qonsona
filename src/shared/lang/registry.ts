@@ -10,8 +10,10 @@ import es from './es'
 import ar from './ar'
 import ru from './ru'
 import gd from './gd'
+import qya from './qya'
+import sjn from './sjn'
 
-export const LANGS: Record<LangCode, LangModule> = { en, fr, ko, es, ar, ru, gd }
+export const LANGS: Record<LangCode, LangModule> = { en, fr, ko, es, ar, ru, gd, qya, sjn }
 
 export function isLangCode(code: string): code is LangCode {
   return (LANG_CODES as string[]).includes(code)

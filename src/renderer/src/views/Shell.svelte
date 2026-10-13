@@ -16,6 +16,7 @@
   import Practice from './Practice.svelte'
   import Media from './Media.svelte'
   import Stats from './Stats.svelte'
+  import Collection from './Collection.svelte'
 
   const learn = $derived(visibleModules(packs.active))
   /** 有说明的模块（鼠标移到导航上显示） */
@@ -146,6 +147,8 @@
           <Practice />
         {:else if ui.section === 'media'}
           <Media />
+        {:else if ui.section === 'collection'}
+          <Collection />
         {:else if ui.section === 'stats'}
           <Stats />
         {/if}

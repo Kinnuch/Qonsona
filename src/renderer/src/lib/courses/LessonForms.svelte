@@ -3,6 +3,7 @@
   import { onMount, untrack } from 'svelte'
   import { PenLine } from '@lucide/svelte'
   import { courses } from '$lib/state/courses.svelte'
+  import CompleteLesson from './CompleteLesson.svelte'
   import { packs } from '$lib/state/packs.svelte'
   import { t } from '$lib/i18n/index.svelte'
   import type { Course, CourseLesson, FormExample } from '$shared/course'
@@ -69,6 +70,7 @@
 </div>
 
 <div class="end">
+  <CompleteLesson courseId={course.id} lessonId={lesson.id} />
   <button
     class="btn primary"
     data-quiz-here
@@ -136,5 +138,7 @@
   .end {
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 </style>

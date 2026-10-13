@@ -40,6 +40,7 @@ import {
   type ReviewQuestionResult
 } from '$shared/review-question'
 import { serializedWrites } from './persistence'
+import { activity } from './activity.svelte'
 import { ui } from './ui.svelte'
 
 const SAVE_DELAY = 400
@@ -382,6 +383,8 @@ class NotebookState {
     const s = this.session
     if (!s || s.answered === null) return
     const i = s.i + 1
+    if (i >= s.queue.length && s.queue.length && s.undo.length)
+      activity.complete('review', `${s.mode}/${s.listId ?? 'all'}`, this.packId ?? undefined)
     this.session = {
       ...s,
       i,

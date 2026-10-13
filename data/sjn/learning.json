@@ -1,0 +1,991 @@
+{
+  "sounds": [
+    ["a", "a", "a", "短元音不读schwa。"],
+    ["e", "e", "e", "纯元音。"],
+    ["i", "i", "i", "词首元音前i可读j，另看语境。"],
+    ["o", "o", "o", "纯元音。"],
+    ["u", "u", "u", "纯元音。"],
+    ["y", "front rounded vowel", "y", "像法语u，不是英语辅音y。"],
+    ["á", "long a", "aː", "锐音符表示普通长元音，与单音节超长â区别。"],
+    ["é", "long e", "eː", "普通长元音。"],
+    ["í", "long i", "iː", "普通长元音，例如nín。"],
+    ["ó", "long o", "oː", "普通长元音，不把tól当作tôl的文献别名。"],
+    ["ú", "long u", "uː", "普通长元音。"],
+    ["â", "overlong a", "aː", "扬抑符表示单音节中的超长元音；IPA和合成音仅近似。"],
+    ["ê", "overlong e", "eː", "单音节超长元音；IPA和合成音仅近似。"],
+    ["î", "overlong i", "iː", "单音节超长元音；与普通长í区分。"],
+    ["ô", "overlong o", "oː", "单音节超长元音，如tôl；与普通长ó区分。"],
+    ["û", "overlong u", "uː", "单音节超长元音；IPA和合成音仅近似。"],
+    ["c", "hard k", "k", "c总是k。"],
+    ["ch", "velar fricative", "x", "像苏格兰loch，不是英语church。"],
+    ["th", "voiceless th", "θ", "与dh严格区别。"],
+    ["dh", "voiced dh", "ð", "像英语this中的th。"],
+    ["ph", "f", "f", "记录p的鼻音变化；词内ph可长读。"],
+    ["f (final)", "final v", "v", "词尾f通常读v；词中环境另查。"],
+    ["lh", "voiceless lateral", "ɬ", "像威尔士ll。"],
+    ["rh", "voiceless r", "r̥", "清r。"],
+    ["hw", "voiceless w", "ʍ", "清w。"],
+    ["ae", "ae diphthong", "ai̯", "单音节双元音，质量解释有差异。"],
+    ["oe", "oe diphthong", "oi̯", "与单独o/e的连读区别。"],
+    ["ai", "ai diphthong", "ai̯", "双元音。"],
+    ["au", "au diphthong", "au̯", "双元音。"]
+  ],
+  "grammar": [
+    {
+      "id": "article",
+      "level": "L1",
+      "name": {
+        "zh": "单数定冠词",
+        "en": "i + singular"
+      },
+      "form": {
+        "zh": "i + singular",
+        "en": "i + singular"
+      },
+      "meaning": {
+        "zh": "此课采用常见 i 体系；1969 CEA另有 e(n)，不要混用。",
+        "en": "This course uses the common i system; the 1969 CEA e(n) system is an alternative."
+      },
+      "examples": [
+        {
+          "text": "I adan tôl.",
+          "hl": "I adan",
+          "zh": "那个人类正在来。",
+          "en": "The human is coming."
+        },
+        {
+          "text": "I edhel tôl.",
+          "hl": "I edhel",
+          "zh": "那个精灵正在来。",
+          "en": "The elf is coming."
+        }
+      ]
+    },
+    {
+      "id": "indefinite",
+      "level": "L1",
+      "name": {
+        "zh": "没有不定冠词",
+        "en": "unmarked noun"
+      },
+      "form": {
+        "zh": "unmarked noun",
+        "en": "unmarked noun"
+      },
+      "meaning": {
+        "zh": "不定名词不需要英语 a/an 的对应词。",
+        "en": "An indefinite noun has no equivalent of English a/an."
+      },
+      "examples": [
+        {
+          "text": "Adan tôl.",
+          "hl": "Adan",
+          "zh": "一个人类正在来。",
+          "en": "A human is coming."
+        },
+        {
+          "text": "Edhel tôl.",
+          "hl": "Edhel",
+          "zh": "一个精灵正在来。",
+          "en": "An elf is coming."
+        }
+      ]
+    },
+    {
+      "id": "plural-article",
+      "level": "L1",
+      "name": {
+        "zh": "复数定冠词",
+        "en": "in + vowel-initial plural"
+      },
+      "form": {
+        "zh": "in + vowel-initial plural",
+        "en": "in + vowel-initial plural"
+      },
+      "meaning": {
+        "zh": "元音前保留 in；辅音前鼻音变化另学。",
+        "en": "in is retained before vowel-initial plurals; nasal mutation before consonants is separate."
+      },
+      "examples": [
+        {
+          "text": "In edain.",
+          "hl": "In edain",
+          "zh": "那些人类。",
+          "en": "The humans."
+        },
+        {
+          "text": "In edhil.",
+          "hl": "In edhil",
+          "zh": "那些精灵。",
+          "en": "The elves."
+        }
+      ]
+    },
+    {
+      "id": "plural-adan",
+      "level": "L1",
+      "name": {
+        "zh": "多音节名词复数",
+        "en": "adan → edain"
+      },
+      "form": {
+        "zh": "adan → edain",
+        "en": "adan → edain"
+      },
+      "meaning": {
+        "zh": "复数常涉及元音变换而非加 s；这里只学习核对词例。",
+        "en": "Plurals commonly change vowels rather than add s; learn checked examples."
+      },
+      "examples": [
+        {
+          "text": "Edain.",
+          "hl": "Edain",
+          "zh": "人类们。",
+          "en": "Humans."
+        },
+        {
+          "text": "Erain.",
+          "hl": "Erain",
+          "zh": "国王们。",
+          "en": "Kings."
+        }
+      ]
+    },
+    {
+      "id": "plural-e",
+      "level": "L1",
+      "name": {
+        "zh": "词尾元音变换",
+        "en": "certh → cirth"
+      },
+      "form": {
+        "zh": "certh → cirth",
+        "en": "certh → cirth"
+      },
+      "meaning": {
+        "zh": "复数变化取决于位置和词的历史；不可简单全局替换。",
+        "en": "Plural vowel changes depend on position and history; do not use a global replacement."
+      },
+      "examples": [
+        {
+          "text": "Cirth.",
+          "hl": "Cirth",
+          "zh": "符文们（词形练习）。",
+          "en": "Runes (a form exercise)."
+        },
+        {
+          "text": "Berith.",
+          "hl": "Berith",
+          "zh": "女王们（词形练习）。",
+          "en": "Queens (a form exercise)."
+        }
+      ]
+    },
+    {
+      "id": "soft-p",
+      "level": "L1",
+      "name": {
+        "zh": "p的软变化",
+        "en": "p → b"
+      },
+      "form": {
+        "zh": "p → b",
+        "en": "p → b"
+      },
+      "meaning": {
+        "zh": "单数冠词等环境能把 p 变 b；需先认原形。",
+        "en": "The singular article and other environments can soften p to b."
+      },
+      "examples": [
+        {
+          "text": "I baur.",
+          "hl": "baur",
+          "zh": "那个拳头。",
+          "en": "The fist."
+        },
+        {
+          "text": "I berian tôl.",
+          "hl": "berian",
+          "zh": "那个霍比特人正在来。",
+          "en": "The hobbit is coming."
+        }
+      ]
+    },
+    {
+      "id": "soft-b",
+      "level": "L1",
+      "name": {
+        "zh": "b的软变化",
+        "en": "b → v"
+      },
+      "form": {
+        "zh": "b → v",
+        "en": "b → v"
+      },
+      "meaning": {
+        "zh": "普通 b 的软变化为 v；古鼻化辅音是另一类。",
+        "en": "Ordinary initial b softens to v; ancient nasalized stops form another class."
+      },
+      "examples": [
+        {
+          "text": "I vereth tôl.",
+          "hl": "vereth",
+          "zh": "那位女王正在来。",
+          "en": "The queen is coming."
+        },
+        {
+          "text": "I adan veleg tôl.",
+          "hl": "veleg",
+          "zh": "那个强大的人类正在来。",
+          "en": "The mighty human is coming."
+        }
+      ]
+    },
+    {
+      "id": "soft-c",
+      "level": "L1",
+      "name": {
+        "zh": "c的软变化",
+        "en": "c → g"
+      },
+      "form": {
+        "zh": "c → g",
+        "en": "c → g"
+      },
+      "meaning": {
+        "zh": "c 总读 k，软变化的拼写为 g。",
+        "en": "c is always /k/ and its soft mutation is written g."
+      },
+      "examples": [
+        {
+          "text": "I adan garan tôl.",
+          "hl": "garan",
+          "zh": "那个红色的人类正在来。",
+          "en": "The red human is coming."
+        },
+        {
+          "text": "I gaun tôl.",
+          "hl": "gaun",
+          "zh": "那位王子正在来。",
+          "en": "The prince is coming."
+        }
+      ]
+    },
+    {
+      "id": "soft-d",
+      "level": "L2",
+      "name": {
+        "zh": "d的软变化",
+        "en": "d → dh"
+      },
+      "form": {
+        "zh": "d → dh",
+        "en": "d → dh"
+      },
+      "meaning": {
+        "zh": "普通 d 软变化为 dh；dôr的古nd词干不能套此规则。",
+        "en": "Ordinary d softens to dh; dôr from ancient nd needs a different treatment."
+      },
+      "examples": [
+        {
+          "text": "I dhû.",
+          "hl": "dhû",
+          "zh": "那夜晚。",
+          "en": "The night."
+        },
+        {
+          "text": "I dhraug tôl.",
+          "hl": "dhraug",
+          "zh": "那只狼正在来。",
+          "en": "The wolf is coming."
+        }
+      ]
+    },
+    {
+      "id": "soft-g",
+      "level": "L2",
+      "name": {
+        "zh": "g的消失",
+        "en": "g → ∅"
+      },
+      "form": {
+        "zh": "g → ∅",
+        "en": "g → ∅"
+      },
+      "meaning": {
+        "zh": "g 的软变化通常失去首音；撇号可用于提示。",
+        "en": "Soft mutation commonly removes initial g; an apostrophe may indicate the loss."
+      },
+      "examples": [
+        {
+          "text": "I ’aladh.",
+          "hl": "’aladh",
+          "zh": "那棵树。",
+          "en": "The tree."
+        },
+        {
+          "text": "I ’aer.",
+          "hl": "’aer",
+          "zh": "那片海。",
+          "en": "The sea."
+        }
+      ]
+    },
+    {
+      "id": "soft-m",
+      "level": "L2",
+      "name": {
+        "zh": "m的软变化",
+        "en": "m → v"
+      },
+      "form": {
+        "zh": "m → v",
+        "en": "m → v"
+      },
+      "meaning": {
+        "zh": "m 的软变化在常用转写中写 v；历史转写有变体。",
+        "en": "Softened m is commonly transcribed v; documentary spellings can differ."
+      },
+      "examples": [
+        {
+          "text": "I vellon tôl.",
+          "hl": "vellon",
+          "zh": "那个朋友正在来。",
+          "en": "The friend is coming."
+        },
+        {
+          "text": "I vallorn.",
+          "hl": "vallorn",
+          "zh": "那棵黄金树。",
+          "en": "The golden tree."
+        }
+      ]
+    },
+    {
+      "id": "nasal-p",
+      "level": "L2",
+      "name": {
+        "zh": "p的鼻音变化",
+        "en": "p → ph"
+      },
+      "form": {
+        "zh": "p → ph",
+        "en": "p → ph"
+      },
+      "meaning": {
+        "zh": "复数冠词可诱发鼻音变化，n 常消失但其效果保留。",
+        "en": "The plural article can cause nasal mutation, often losing its written n."
+      },
+      "examples": [
+        {
+          "text": "I Pheriain.",
+          "hl": "Pheriain",
+          "zh": "那些霍比特人。",
+          "en": "The hobbits."
+        },
+        {
+          "text": "I phoer.",
+          "hl": "phoer",
+          "zh": "那些拳头。",
+          "en": "The fists."
+        }
+      ]
+    },
+    {
+      "id": "nasal-t",
+      "level": "L2",
+      "name": {
+        "zh": "t的鼻音变化",
+        "en": "t → th"
+      },
+      "form": {
+        "zh": "t → th",
+        "en": "t → th"
+      },
+      "meaning": {
+        "zh": "鼻音变化不同于软变化；不要把 th 读成 dh。",
+        "en": "Nasal t becomes th, unlike soft t; th is not voiced dh."
+      },
+      "examples": [
+        {
+          "text": "I thail.",
+          "hl": "thail",
+          "zh": "那些脚。",
+          "en": "The feet."
+        },
+        {
+          "text": "I thail bain.",
+          "hl": "thail",
+          "zh": "那些脚很美。",
+          "en": "The feet are beautiful."
+        }
+      ]
+    },
+    {
+      "id": "adjective",
+      "level": "L2",
+      "name": {
+        "zh": "后置形容词",
+        "en": "noun + lenited adjective"
+      },
+      "form": {
+        "zh": "noun + lenited adjective",
+        "en": "noun + lenited adjective"
+      },
+      "meaning": {
+        "zh": "形容词常在名词后，并经历软变化。",
+        "en": "Attributive adjectives commonly follow the noun and undergo soft mutation."
+      },
+      "examples": [
+        {
+          "text": "I adan veleg tôl.",
+          "hl": "adan veleg",
+          "zh": "那个强大的人类正在来。",
+          "en": "The mighty human is coming."
+        },
+        {
+          "text": "I edhel vain tôl.",
+          "hl": "edhel vain",
+          "zh": "那个美丽的精灵正在来。",
+          "en": "The beautiful elf is coming."
+        }
+      ]
+    },
+    {
+      "id": "adjective-plural",
+      "level": "L2",
+      "name": {
+        "zh": "形容词数的一致",
+        "en": "beleg → belig → velig"
+      },
+      "form": {
+        "zh": "beleg → belig → velig",
+        "en": "beleg → belig → velig"
+      },
+      "meaning": {
+        "zh": "后置复数形容词可同时经历元音与首辅音变化。",
+        "en": "A plural adjective can combine vowel affection and initial lenition."
+      },
+      "examples": [
+        {
+          "text": "In edain velig.",
+          "hl": "velig",
+          "zh": "那些强大的人类。",
+          "en": "The mighty humans."
+        },
+        {
+          "text": "In edhil vain.",
+          "hl": "vain",
+          "zh": "那些美丽的精灵。",
+          "en": "The beautiful elves."
+        }
+      ]
+    },
+    {
+      "id": "first-person",
+      "level": "L2",
+      "name": {
+        "zh": "基本动词第一人称",
+        "en": "tir- → tirin"
+      },
+      "form": {
+        "zh": "tir- → tirin",
+        "en": "tir- → tirin"
+      },
+      "meaning": {
+        "zh": "常用主语词尾 n，某些词根元音发生内部i变换。",
+        "en": "First-person -n attaches to basic verbs, sometimes with internal i-affection."
+      },
+      "examples": [
+        {
+          "text": "Tirin.",
+          "hl": "Tirin",
+          "zh": "我观看。",
+          "en": "I watch."
+        },
+        {
+          "text": "Cenin.",
+          "hl": "Cenin",
+          "zh": "我看见。",
+          "en": "I see."
+        }
+      ]
+    },
+    {
+      "id": "imperative",
+      "level": "L3",
+      "name": {
+        "zh": "命令形式",
+        "en": "ped- → pedo"
+      },
+      "form": {
+        "zh": "ped- → pedo",
+        "en": "ped- → pedo"
+      },
+      "meaning": {
+        "zh": "常用命令形式以 o 结尾；只使用核对的例词。",
+        "en": "Common imperative forms end in o; use individually checked verbs."
+      },
+      "examples": [
+        {
+          "text": "Pedo!",
+          "hl": "Pedo",
+          "zh": "说吧！",
+          "en": "Speak!"
+        },
+        {
+          "text": "Tolo!",
+          "hl": "Tolo",
+          "zh": "来吧！",
+          "en": "Come!"
+        }
+      ]
+    },
+    {
+      "id": "gerund",
+      "level": "L3",
+      "name": {
+        "zh": "动名词",
+        "en": "cen- → cened"
+      },
+      "form": {
+        "zh": "cen- → cened",
+        "en": "cen- → cened"
+      },
+      "meaning": {
+        "zh": "动名词可用作动作名称；词类变化与不定式分析有争议。",
+        "en": "Verbal nouns name an activity; infinitival use and class details remain debated."
+      },
+      "examples": [
+        {
+          "text": "Cened.",
+          "hl": "Cened",
+          "zh": "看见（动作名称）。",
+          "en": "Seeing (the activity)."
+        },
+        {
+          "text": "Tired.",
+          "hl": "Tired",
+          "zh": "观看（动作名称）。",
+          "en": "Watching (the activity)."
+        }
+      ]
+    },
+    {
+      "id": "zero-copula",
+      "level": "L3",
+      "name": {
+        "zh": "省略系词",
+        "en": "noun + adjective"
+      },
+      "form": {
+        "zh": "noun + adjective",
+        "en": "noun + adjective"
+      },
+      "meaning": {
+        "zh": "现在时状态句常不表达是；分清修饰词和表语语境。",
+        "en": "Present copular statements often omit be; context separates predicate from attributive use."
+      },
+      "examples": [
+        {
+          "text": "I adan beleg.",
+          "hl": "beleg",
+          "zh": "那个人类是强大的。",
+          "en": "The human is mighty."
+        },
+        {
+          "text": "I edhel bain.",
+          "hl": "bain",
+          "zh": "那个精灵是美丽的。",
+          "en": "The elf is beautiful."
+        }
+      ]
+    },
+    {
+      "id": "genitive",
+      "level": "L3",
+      "name": {
+        "zh": "并置属关系",
+        "en": "noun + noun"
+      },
+      "form": {
+        "zh": "noun + noun",
+        "en": "noun + noun"
+      },
+      "meaning": {
+        "zh": "两个名词并置可表属关系，不是所有地方都用 en。",
+        "en": "Noun juxtaposition can express a genitive relation; en is not universal."
+      },
+      "examples": [
+        {
+          "text": "I aran Gondor.",
+          "hl": "aran Gondor",
+          "zh": "刚铎的那位国王。",
+          "en": "The king of Gondor."
+        },
+        {
+          "text": "I aran Doriath.",
+          "hl": "aran Doriath",
+          "zh": "多瑞亚斯的那位国王。",
+          "en": "The king of Doriath."
+        }
+      ]
+    },
+    {
+      "id": "possessive",
+      "level": "L3",
+      "name": {
+        "zh": "后置所有词",
+        "en": "i + noun + nín"
+      },
+      "form": {
+        "zh": "i + noun + nín",
+        "en": "i + noun + nín"
+      },
+      "meaning": {
+        "zh": "此教学体系用定冠词、名词、后置所有词表示我的。",
+        "en": "This teaching convention uses an article, noun and postposed possessive for my."
+      },
+      "examples": [
+        {
+          "text": "I vellon nín tôl.",
+          "hl": "nín",
+          "zh": "我的朋友正在来。",
+          "en": "My friend is coming."
+        },
+        {
+          "text": "I ’aladh nín.",
+          "hl": "nín",
+          "zh": "我的树。",
+          "en": "My tree."
+        }
+      ]
+    },
+    {
+      "id": "and",
+      "level": "L3",
+      "name": {
+        "zh": "并列连词",
+        "en": "a"
+      },
+      "form": {
+        "zh": "a",
+        "en": "a"
+      },
+      "meaning": {
+        "zh": "a 可连接词或分句，后续变化随历史分析不同需核对。",
+        "en": "a coordinates words or clauses; following mutations need historical/contextual checking."
+      },
+      "examples": [
+        {
+          "text": "I adan a i edhel.",
+          "hl": "a i edhel",
+          "zh": "那个人类和那个精灵。",
+          "en": "The human and the elf."
+        },
+        {
+          "text": "I aran a i vereth.",
+          "hl": "a i vereth",
+          "zh": "那位国王和那位女王。",
+          "en": "The king and the queen."
+        }
+      ]
+    },
+    {
+      "id": "ancient-nd",
+      "level": "L3",
+      "name": {
+        "zh": "古nd词的软变化",
+        "en": "dôr [nd-] → nôr"
+      },
+      "form": {
+        "zh": "dôr [nd-] → nôr",
+        "en": "dôr [nd-] → nôr"
+      },
+      "meaning": {
+        "zh": "古鼻化首辅音决定现代变化，不能只看现代词头 d。",
+        "en": "Ancient nasalized initials determine mutation; modern d alone is insufficient."
+      },
+      "examples": [
+        {
+          "text": "I nôr.",
+          "hl": "nôr",
+          "zh": "那片国土。",
+          "en": "The land."
+        },
+        {
+          "text": "I nôr beleg.",
+          "hl": "nôr",
+          "zh": "那片国土是强大的。",
+          "en": "The land is mighty."
+        }
+      ]
+    },
+    {
+      "id": "cea",
+      "level": "L3",
+      "name": {
+        "zh": "1969冠词体系辨读",
+        "en": "e(n) versus i"
+      },
+      "form": {
+        "zh": "e(n) versus i",
+        "en": "e(n) versus i"
+      },
+      "meaning": {
+        "zh": "这里只辨读1969 CEA的另一体系，不在一般例句混入。",
+        "en": "Recognize the alternate 1969 CEA article system without mixing it into the other exercises."
+      },
+      "examples": [
+        {
+          "text": "En adan.",
+          "hl": "En adan",
+          "zh": "那个人类。（1969 CEA体系）",
+          "en": "The human (1969 CEA convention)."
+        },
+        {
+          "text": "E dâl.",
+          "hl": "E dâl",
+          "zh": "那只脚。（1969 CEA体系）",
+          "en": "The foot (1969 CEA convention)."
+        }
+      ]
+    }
+  ],
+  "forms": [
+    {
+      "key": "plural-adan",
+      "title": {
+        "zh": "普通复数：adan",
+        "en": "plural-adan"
+      },
+      "examples": [
+        {
+          "base": "adan",
+          "form": "edain",
+          "meaning": "人类（复数）",
+          "wrong": ["adans", "adanr"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "plural-aran",
+      "title": {
+        "zh": "普通复数：aran",
+        "en": "plural-aran"
+      },
+      "examples": [
+        {
+          "base": "aran",
+          "form": "erain",
+          "meaning": "国王（复数）",
+          "wrong": ["arans", "aranr"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "plural-edhel",
+      "title": {
+        "zh": "普通复数：edhel",
+        "en": "plural-edhel"
+      },
+      "examples": [
+        {
+          "base": "edhel",
+          "form": "edhil",
+          "meaning": "精灵（复数）",
+          "wrong": ["edhels", "edhelr"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "plural-mellon",
+      "title": {
+        "zh": "普通复数：mellon",
+        "en": "plural-mellon"
+      },
+      "examples": [
+        {
+          "base": "mellon",
+          "form": "mellyn",
+          "meaning": "朋友（复数）",
+          "wrong": ["mellons", "mellonr"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "lenition-mellon",
+      "title": {
+        "zh": "词典见证的软变化",
+        "en": "lenition-mellon"
+      },
+      "examples": [
+        {
+          "base": "mellon",
+          "form": "vellon",
+          "meaning": "朋友（软变化）",
+          "wrong": ["bellon", "dhellon"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "imperative-ped",
+      "title": {
+        "zh": "核对的命令式",
+        "en": "imperative-ped"
+      },
+      "examples": [
+        {
+          "base": "ped-",
+          "form": "pedo",
+          "meaning": "说吧",
+          "wrong": ["peds", "pedr"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "imperative-tol",
+      "title": {
+        "zh": "核对的命令式",
+        "en": "imperative-tol"
+      },
+      "examples": [
+        {
+          "base": "tol-",
+          "form": "tolo",
+          "meaning": "来吧",
+          "wrong": ["tols", "tolr"],
+          "say": null
+        }
+      ]
+    },
+    {
+      "key": "gerund-cen",
+      "title": {
+        "zh": "词典见证的动名词",
+        "en": "gerund-cen"
+      },
+      "examples": [
+        {
+          "base": "cen-",
+          "form": "cened",
+          "meaning": "看见",
+          "wrong": ["cens", "cenr"],
+          "say": null
+        }
+      ]
+    }
+  ],
+  "phrases": [
+    {
+      "key": "speak",
+      "text": "Pedo!",
+      "meaning": {
+        "zh": "说吧！",
+        "en": "Speak!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "come",
+      "text": "Tolo!",
+      "meaning": {
+        "zh": "来吧！",
+        "en": "Come!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "watch",
+      "text": "Tiro!",
+      "meaning": {
+        "zh": "看吧！",
+        "en": "Watch!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "see",
+      "text": "Ceno!",
+      "meaning": {
+        "zh": "看见吧！",
+        "en": "See!"
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "i-watch",
+      "text": "Tirin.",
+      "meaning": {
+        "zh": "我观看。",
+        "en": "I watch."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "i-see",
+      "text": "Cenin.",
+      "meaning": {
+        "zh": "我看见。",
+        "en": "I see."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "my-friend",
+      "text": "I vellon nín tôl.",
+      "meaning": {
+        "zh": "我的朋友正在来。",
+        "en": "My friend is coming."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    },
+    {
+      "key": "elf",
+      "text": "I edhel bain.",
+      "meaning": {
+        "zh": "那个精灵很美。",
+        "en": "The elf is beautiful."
+      },
+      "say": null,
+      "note": {
+        "zh": "原创 Neo 教学表达，不是托尔金原文引句。",
+        "en": "Original Neo practice expression, not a Tolkien quotation."
+      }
+    }
+  ]
+}

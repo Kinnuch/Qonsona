@@ -1,0 +1,345 @@
+[
+  {
+    "w": "adan",
+    "id": "753238821",
+    "pos": "noun",
+    "gloss": "Man",
+    "period": "late"
+  },
+  {
+    "w": "edhel",
+    "id": "311394245",
+    "pos": "noun",
+    "gloss": "Elf",
+    "period": "late"
+  },
+  {
+    "w": "aran",
+    "id": "658710813",
+    "pos": "noun",
+    "gloss": "king",
+    "period": "late"
+  },
+  {
+    "w": "bereth",
+    "id": "3107467887",
+    "pos": "noun",
+    "gloss": "queen",
+    "period": "late"
+  },
+  {
+    "w": "galadh",
+    "id": "3005081253",
+    "pos": "noun",
+    "gloss": "tree",
+    "period": "late"
+  },
+  {
+    "w": "mellon",
+    "id": "2964964287",
+    "pos": "noun",
+    "gloss": "friend",
+    "period": "late"
+  },
+  {
+    "w": "elen",
+    "id": "308881645",
+    "pos": "noun",
+    "gloss": "star",
+    "period": "late"
+  },
+  {
+    "w": "gail",
+    "id": "1042453401",
+    "pos": "noun",
+    "gloss": "silver spark",
+    "period": "late"
+  },
+  {
+    "w": "beleg",
+    "id": "3202359171",
+    "pos": "adj",
+    "gloss": "mighty",
+    "period": "late"
+  },
+  {
+    "w": "bain",
+    "id": "627780085",
+    "pos": "adj",
+    "gloss": "beautiful",
+    "period": "late"
+  },
+  {
+    "w": "tol-",
+    "id": "2756894593",
+    "pos": "verb",
+    "gloss": "come",
+    "period": "late"
+  },
+  {
+    "w": "tir-",
+    "id": "1681096947",
+    "pos": "verb",
+    "gloss": "watch",
+    "period": "late"
+  },
+  {
+    "w": "cen-",
+    "id": "1590244863",
+    "pos": "verb",
+    "gloss": "see",
+    "period": "late"
+  },
+  {
+    "w": "ped-",
+    "id": "599418975",
+    "pos": "verb",
+    "gloss": "speak",
+    "period": "late"
+  },
+  {
+    "w": "i",
+    "id": "1324303307",
+    "pos": "det",
+    "gloss": "the",
+    "period": "late"
+  },
+  {
+    "w": "a",
+    "id": "2814200763",
+    "pos": "cconj",
+    "gloss": "and",
+    "period": "late"
+  },
+  {
+    "w": "paur",
+    "id": "3702347683",
+    "pos": "noun",
+    "gloss": "fist",
+    "period": "late"
+  },
+  {
+    "w": "perian",
+    "id": "1951238637",
+    "pos": "noun",
+    "gloss": "Hobbit",
+    "period": "late"
+  },
+  {
+    "w": "tâl",
+    "id": "2760610079",
+    "pos": "noun",
+    "gloss": "foot",
+    "period": "late"
+  },
+  {
+    "w": "dû",
+    "id": "3071271425",
+    "pos": "noun",
+    "gloss": "night",
+    "period": "late"
+  },
+  {
+    "w": "draug",
+    "id": "3706525889",
+    "pos": "noun",
+    "gloss": "wolf",
+    "period": "late"
+  },
+  {
+    "w": "gaer",
+    "id": "209405349",
+    "pos": "noun",
+    "gloss": "sea",
+    "period": "late"
+  },
+  {
+    "w": "mallorn",
+    "id": "3764144369",
+    "pos": "noun",
+    "gloss": "gold tree",
+    "period": "late"
+  },
+  {
+    "w": "hên",
+    "id": "1512724021",
+    "pos": "noun",
+    "gloss": "child",
+    "period": "late"
+  },
+  {
+    "w": "taur",
+    "id": "809570117",
+    "pos": "noun",
+    "gloss": "forest",
+    "period": "late"
+  },
+  {
+    "w": "caran",
+    "id": "1187250489",
+    "pos": "adj",
+    "gloss": "red",
+    "period": "late"
+  },
+  {
+    "w": "caun",
+    "id": "3713703897",
+    "pos": "noun",
+    "gloss": "prince",
+    "period": "late"
+  },
+  {
+    "w": "certh",
+    "id": "285722173",
+    "pos": "noun",
+    "gloss": "rune",
+    "period": "late"
+  },
+  {
+    "w": "dôr",
+    "id": "3950740861",
+    "pos": "noun",
+    "gloss": "land",
+    "period": "late"
+  },
+  {
+    "w": "orod",
+    "id": "1491591289",
+    "pos": "noun",
+    "gloss": "mountain",
+    "period": "late"
+  },
+  {
+    "w": "amon",
+    "id": "2107077031",
+    "pos": "noun",
+    "gloss": "hill",
+    "period": "late"
+  },
+  {
+    "w": "naug",
+    "id": "1009966641",
+    "pos": "noun",
+    "gloss": "dwarf",
+    "period": "late"
+  },
+  {
+    "w": "thôn",
+    "id": "3440531627",
+    "pos": "noun",
+    "gloss": "pine-tree",
+    "period": "late"
+  },
+  {
+    "w": "lhûg",
+    "id": "1553114487",
+    "pos": "noun",
+    "gloss": "snake",
+    "period": "late"
+  },
+  {
+    "w": "nín",
+    "id": "191574293",
+    "pos": "pron",
+    "gloss": "my",
+    "period": "late"
+  },
+  {
+    "w": "lín",
+    "id": "3806423637",
+    "pos": "pron",
+    "gloss": "thy",
+    "period": "late"
+  },
+  {
+    "w": "sîdh",
+    "id": "3611902743",
+    "pos": "noun",
+    "gloss": "peace",
+    "period": "middle"
+  },
+  {
+    "w": "anna-",
+    "id": "1272131327",
+    "pos": "verb",
+    "gloss": "give",
+    "period": "late"
+  },
+  {
+    "w": "car-",
+    "id": "3736354243",
+    "pos": "verb",
+    "gloss": "make",
+    "period": "late"
+  },
+  {
+    "w": "nor-",
+    "id": "2693935519",
+    "pos": "verb",
+    "gloss": "run",
+    "period": "late"
+  },
+  {
+    "w": "narn",
+    "id": "1452341695",
+    "pos": "noun",
+    "gloss": "tale",
+    "period": "late"
+  },
+  {
+    "w": "parf",
+    "id": "3623380215",
+    "pos": "noun",
+    "gloss": "book",
+    "period": "middle"
+  },
+  {
+    "w": "sigil",
+    "id": "591904143",
+    "pos": "noun",
+    "gloss": "dagger",
+    "period": "middle"
+  },
+  {
+    "w": "tegil",
+    "id": "1465361483",
+    "pos": "noun",
+    "gloss": "pen",
+    "period": "late"
+  },
+  {
+    "w": "Gondor",
+    "id": "1558964765",
+    "pos": "propn",
+    "gloss": "Stone-land",
+    "period": "late"
+  },
+  {
+    "w": "Doriath",
+    "id": "907533057",
+    "pos": "propn",
+    "gloss": "Land of the Fence",
+    "period": "late"
+  },
+  {
+    "w": "le",
+    "id": "1581961535",
+    "pos": "pron",
+    "gloss": "polite",
+    "period": "late"
+  },
+  {
+    "w": "nin",
+    "id": "2068694825",
+    "pos": "pron",
+    "gloss": "me",
+    "period": "late"
+  },
+  {
+    "w": "men",
+    "id": "2968542933",
+    "pos": "pron",
+    "gloss": "us",
+    "period": "late"
+  }
+]

@@ -8,6 +8,8 @@
  */
 import { platform } from '$lib/platform'
 import { serializedWrites } from './persistence'
+import { activity } from './activity.svelte'
+import { StudyRequestGate, type StudyRequest } from '$shared/study-request'
 import { t, pick } from '$lib/i18n/index.svelte'
 import { shuffled, rng } from '$shared/course'
 import {
@@ -49,6 +51,7 @@ export type PracticeView =
   | { page: 'record'; id: string }
 
 export interface PracticeRun {
+  packId: string
   mode: 'practice'
   kind: RunKind
   /** 等级 id（N5、L1）；千语集语言选「全部」时是 null */
@@ -64,6 +67,7 @@ export interface PracticeRun {
 }
 
 export interface ExamRun {
+  packId: string
   mode: 'exam'
   paper: ExamPaper
   /** 正在做第几节、这一节的第几题 */
@@ -99,6 +103,7 @@ class PracticeState {
   #timer: ReturnType<typeof setTimeout> | undefined
   #loading: Promise<void> | null = null
   #loadEpoch = 0
+  #starts = new StudyRequestGate()
 
   /** 这门语言的等级（日语 N5–N1，千语集语言是按词频分的级） */
   levels = $derived.by<Level[]>(() => {
@@ -169,6 +174,8 @@ class PracticeState {
       return this.#loading ?? Promise.resolve()
     const saved = this.flush()
     const epoch = ++this.#loadEpoch
+    this.#starts.cancel()
+    this.busy = false
     this.packId = packId
     this.log = null
     this.run = null
@@ -250,9 +257,18 @@ class PracticeState {
     return x ? qonPractice(x, kind as PracticeKind, n, seed) : []
   }
 
+  #acceptStart(request: StudyRequest): boolean {
+    return (
+      request.packId === packs.active?.id &&
+      this.#starts.accepts(request, this.packId, this.#loadEpoch)
+    )
+  }
+
   /** 开始一组练习（本文练习另走 startArticle） */
   async start(kind: Exclude<RunKind, 'article'>): Promise<void> {
-    if (this.busy) return
+    if (this.busy || !this.packId || this.packId !== packs.active?.id || !this.log) return
+    const request = this.#starts.begin(this.packId, this.#loadEpoch),
+      level = this.level
     this.busy = true
     try {
       const n = this.count
@@ -267,14 +283,16 @@ class PracticeState {
         const parts = await Promise.all(kinds.map((k, i) => this.#questions(k, each, seed + i)))
         questions = shuffled(parts.flat(), rng(seed)).slice(0, n)
       } else questions = await this.#questions(kind, n, seed)
+      if (!this.#acceptStart(request) || ui.closing) return
       if (!questions.length) {
         ui.toast(t('practice.empty'))
         return
       }
       this.run = {
+        packId: request.packId!,
         mode: 'practice',
         kind,
-        level: this.level,
+        level,
         questions,
         i: 0,
         given: null,
@@ -283,14 +301,21 @@ class PracticeState {
       }
       this.view = { page: 'run' }
     } finally {
-      this.busy = false
+      if (this.#acceptStart(request)) this.busy = false
     }
   }
 
   /** 练习：选了一项，马上看对错与解析 */
   answer(choice: number): void {
     const run = this.run
-    if (run?.mode !== 'practice' || run.done || run.given !== null) return
+    if (
+      run?.mode !== 'practice' ||
+      run.done ||
+      run.given !== null ||
+      run.packId !== this.packId ||
+      run.packId !== packs.active?.id
+    )
+      return
     const q = run.questions[run.i]
     this.run = { ...run, given: choice, answers: [...run.answers, choice] }
     if (this.log) {
@@ -301,10 +326,22 @@ class PracticeState {
 
   next(): void {
     const run = this.run
-    if (run?.mode !== 'practice' || run.given === null) return
+    if (
+      run?.mode !== 'practice' ||
+      run.given === null ||
+      run.packId !== this.packId ||
+      run.packId !== packs.active?.id
+    )
+      return
     const i = run.i + 1
     const done = i >= run.questions.length
     this.run = { ...run, i, given: null, done }
+    if (done && run.answers.length)
+      activity.complete(
+        'practice',
+        run.article?.id ?? `${run.kind}/${run.level ?? 'all'}`,
+        run.packId
+      )
     // 故事课的本文练习：做完记进课程进度（答对八成过关）
     const a = run.article
     if (done && a?.course && a.lesson) {
@@ -331,20 +368,26 @@ class PracticeState {
     title: string,
     ctx: Omit<ArticleRef, 'id' | 'title'> = {}
   ): Promise<boolean> {
-    if (this.busy || !(this.isJa || this.fw)) return false
+    const pack = packs.active?.id ?? null
+    if (this.busy || !pack || !(this.isJa || this.fw)) return false
+    const loading = this.load(pack)
+    const request = this.#starts.begin(pack, this.#loadEpoch)
     this.busy = true
     try {
-      await this.load(packs.active?.id ?? null)
+      await loading
+      if (!this.#acceptStart(request) || ui.closing) return false
       const questions = await (
-        this.fw && this.packId
-          ? platform.lang.articlePractice(this.packId, id, Date.now() >>> 0, i18n.locale)
+        this.fw
+          ? platform.lang.articlePractice(pack, id, Date.now() >>> 0, i18n.locale)
           : platform.ja.articlePractice(id, Date.now() >>> 0, this.canListen)
       ).catch(() => [])
+      if (!this.#acceptStart(request) || ui.closing) return false
       if (!questions.length) {
         ui.toast(t('practice.articleEmpty'))
         return false
       }
       this.run = {
+        packId: pack,
         mode: 'practice',
         kind: 'article',
         level: null,
@@ -358,14 +401,22 @@ class PracticeState {
       this.view = { page: 'run' }
       return true
     } finally {
-      this.busy = false
+      if (this.#acceptStart(request)) this.busy = false
     }
   }
 
   // ── 模拟卷 ──
 
   async startExam(level: string): Promise<void> {
-    if (this.busy || !(this.isJa || this.fw)) return
+    if (
+      this.busy ||
+      !this.packId ||
+      this.packId !== packs.active?.id ||
+      !this.log ||
+      !(this.isJa || this.fw)
+    )
+      return
+    const request = this.#starts.begin(this.packId, this.#loadEpoch)
     this.busy = true
     try {
       // 框架语言：level 是模拟卷的 id
@@ -375,6 +426,7 @@ class PracticeState {
               .paper(this.packId, level, Date.now() >>> 0, i18n.locale)
               .catch(() => null)
           : await platform.ja.paper(this.#jaLevel(level), Date.now() >>> 0).catch(() => null)
+      if (!this.#acceptStart(request) || ui.closing) return
       if (!paper || !paper.sections.length || paper.sections.some((s) => !s.questions.length)) {
         ui.toast(
           t('practice.exam.unavailable', { lang: packs.active ? pick(packs.active.name) : '' }),
@@ -385,6 +437,7 @@ class PracticeState {
       }
       const now = Date.now()
       this.run = {
+        packId: request.packId!,
         mode: 'exam',
         paper,
         section: 0,
@@ -395,14 +448,15 @@ class PracticeState {
       }
       this.view = { page: 'run' }
     } finally {
-      this.busy = false
+      if (this.#acceptStart(request)) this.busy = false
     }
   }
 
   /** 模拟卷：选一项（这一节结束前可以改） */
   choose(choice: number): void {
     const run = this.run
-    if (run?.mode !== 'exam') return
+    if (run?.mode !== 'exam' || run.packId !== this.packId || run.packId !== packs.active?.id)
+      return
     const answers = run.answers.map((a) => [...a])
     answers[run.section][run.i] = choice
     this.run = { ...run, answers }
@@ -411,7 +465,8 @@ class PracticeState {
   /** 翻到这一节的第 i 题 */
   goto(i: number): void {
     const run = this.run
-    if (run?.mode !== 'exam') return
+    if (run?.mode !== 'exam' || run.packId !== this.packId || run.packId !== packs.active?.id)
+      return
     const n = run.paper.sections[run.section].questions.length
     if (i >= 0 && i < n) this.run = { ...run, i }
   }
@@ -420,7 +475,8 @@ class PracticeState {
   endSection(): void {
     if (ui.closing) return
     const run = this.run
-    if (run?.mode !== 'exam') return
+    if (run?.mode !== 'exam' || run.packId !== this.packId || run.packId !== packs.active?.id)
+      return
     const next = run.section + 1
     if (next >= run.paper.sections.length) return this.submit()
     this.run = {
@@ -434,7 +490,13 @@ class PracticeState {
   /** 交卷：判分，整张卷子连同答案存进记录，然后看成绩与解析 */
   submit(): void {
     const run = this.run
-    if (run?.mode !== 'exam' || !this.log) return
+    if (
+      run?.mode !== 'exam' ||
+      !this.log ||
+      run.packId !== this.packId ||
+      run.packId !== packs.active?.id
+    )
+      return
     const outcome = scorePaper(run.paper, run.answers)
     const now = Date.now()
     const record: ExamRecord = {
@@ -446,6 +508,8 @@ class PracticeState {
       answers: run.answers,
       outcome
     }
+    if (run.answers.some((section) => section.some((answer) => answer !== null)))
+      activity.complete('practice', `exam/${record.id}`, run.packId)
     this.log.exams = [...this.log.exams, record]
     countDay(this.log, dayKey(now), outcome.total, outcome.right)
     this.#changed()
@@ -458,6 +522,8 @@ class PracticeState {
   }
 
   openRecord(id: string): void {
+    this.#starts.cancel()
+    this.busy = false
     this.view = { page: 'record', id }
   }
 
@@ -470,6 +536,8 @@ class PracticeState {
 
   /** 结束（练习中途退出不留成绩，已经答的题照样计入每天的题数） */
   home(): void {
+    this.#starts.cancel()
+    this.busy = false
     this.run = null
     this.view = { page: 'home' }
   }

@@ -1,23 +1,19 @@
 /**
- * 朗读：调 Windows 自带的 SAPI 语音（System.Speech），离线可用。
- *
- * 两种读法：
- * - 按文字读（日语这类有系统语音的语言）；
- * - 按 IPA 读（人造语言）：PromptBuilder.AppendTextWithPronunciation 接受 IPA，
- *   任何一个 SAPI 声音都能读，只是外语的音会被近似成这个声音会发的音。
- *
- * 常驻一个 PowerShell 进程，一行 JSON 进、一行 JSON 出（每次都起 PowerShell 要一秒左右）。
- * 合成结果按「声音 + 语速 + 内容」缓存成 WAV，同一个词第二次读不再合成。
+ * 文字朗读优先使用对应语言的 Windows SAPI，另提供离线 eSpeak NG 语音。
+ * IPA 统一交给独立音素进程，不由系统语音按英语近似或丢弃不认识的音。
+ * 两个合成进程均隐藏运行；系统文字朗读缓存 WAV，离线音素朗读返回 PCM WAV。
  */
 import { spawn, type ChildProcessWithoutNullStreams } from 'child_process'
 import { createHash } from 'crypto'
 import { existsSync, promises as fs } from 'fs'
 import { join } from 'path'
+import { PhoneticSpeech } from './phonetic-speech'
 
 export interface Voice {
   name: string
   culture: string
   gender: string
+  engine?: 'system' | 'offline' | 'ipa'
 }
 
 export interface SpeakRequest {
@@ -61,7 +57,7 @@ while ($null -ne ($line = $in.ReadLine())) {
       foreach ($w in $req.words) {
         if (-not $first) { $pb.AppendBreak([System.Speech.Synthesis.PromptBreak]::ExtraSmall) }
         $first = $false
-        if ($req.ipa) { $pb.AppendTextWithPronunciation('x', $w) } else { $pb.AppendText($w) }
+        $pb.AppendText($w)
       }
       $pb.EndVoice()
       $s.SetOutputToWaveFile($req.out)
@@ -142,10 +138,16 @@ export class Speech {
   #seq = 0
   #buf = ''
 
-  constructor(private cacheDir: string) {}
+  #phonetic: PhoneticSpeech
+  constructor(
+    private cacheDir: string,
+    runtimeDir = join(__dirname, '../../resources/speech')
+  ) {
+    this.#phonetic = new PhoneticSpeech(runtimeDir)
+  }
 
   get available(): boolean {
-    return process.platform === 'win32'
+    return process.platform === 'win32' || this.#phonetic.available
   }
 
   #start(): ChildProcessWithoutNullStreams {
@@ -194,20 +196,45 @@ export class Speech {
   }
 
   async voices(): Promise<Voice[]> {
-    if (!this.available) return []
-    const r = await this.#call({ op: 'voices' })
-    return r.ok ? (r.voices ?? []) : []
+    const native =
+      process.platform === 'win32' ? await this.#call({ op: 'voices' }) : { ok: false, voices: [] }
+    const result = this.#phonetic.available
+      ? await this.#phonetic.call({ op: 'voices' })
+      : { ok: false, voices: [] }
+    const offline: Voice[] =
+      result.voices
+        ?.map<Voice>((v) => ({
+          name: 'espeak:' + v.identifier,
+          culture: v.languages.sort((a, b) => a.priority - b.priority)[0]?.name ?? 'und',
+          gender: 'Neutral',
+          engine: 'offline'
+        }))
+        .filter((v) => !v.name.startsWith('espeak:qonsona-ipa-')) ?? []
+    if (result.ok)
+      offline.unshift({
+        name: 'espeak:ipa',
+        culture: 'und-fonipa',
+        gender: 'Neutral',
+        engine: 'ipa'
+      })
+    return [...(native.ok ? (native.voices ?? []) : []), ...offline]
   }
 
   async speak(req: SpeakRequest): Promise<SpeakResult> {
-    if (!this.available) return { wav: null, dropped: [], error: 'unsupported platform' }
-    const dropped = new Set<string>()
-    let content = req.content.normalize('NFC')
-    if (req.ipa) {
-      const p = prepareIpa(content)
-      content = p.text
-      for (const d of p.dropped) dropped.add(d)
+    if (
+      typeof req?.content !== 'string' ||
+      typeof req.voice !== 'string' ||
+      typeof req.ipa !== 'boolean' ||
+      req.content.length > 50000 ||
+      !Number.isFinite(req.rate)
+    )
+      return { wav: null, dropped: [], error: 'Invalid speech request' }
+    if (req.ipa || req.voice.startsWith('espeak:')) {
+      return this.#phonetic.speak(req.content, req.ipa, req.voice.slice(7), req.rate)
     }
+    if (process.platform !== 'win32')
+      return { wav: null, dropped: [], error: 'unsupported platform' }
+    const content = req.content.normalize('NFC')
     const key = createHash('sha1')
       .update(JSON.stringify([req.voice, req.rate, req.ipa, content]))
       .digest('hex')
@@ -215,41 +242,25 @@ export class Speech {
     const meta = file + '.json'
     if (existsSync(file) && existsSync(meta)) {
       const prev = JSON.parse(await fs.readFile(meta, 'utf8')) as { dropped: string[] }
-      return { wav: await fs.readFile(file), dropped: [...new Set([...dropped, ...prev.dropped])] }
+      return { wav: await fs.readFile(file), dropped: prev.dropped }
     }
     await fs.mkdir(this.cacheDir, { recursive: true })
-    // IPA 按空白分词，每个词单独给出读音，词之间停顿一下
-    let words = req.ipa ? content.split(/\s+/).filter(Boolean) : [content]
-    for (let tries = 0; tries < 20; tries++) {
-      if (!words.length) return { wav: null, dropped: [...dropped], error: 'nothing to speak' }
-      const r = await this.#call({
-        op: 'speak',
-        words,
-        ipa: req.ipa,
-        voice: req.voice,
-        rate: Math.max(-10, Math.min(10, Math.round(req.rate))),
-        out: file
-      })
-      if (r.ok) {
-        await fs.writeFile(meta, JSON.stringify({ dropped: [...dropped] }))
-        return { wav: await fs.readFile(file), dropped: [...dropped] }
-      }
-      // 「音素“X”无效」：拿掉这个符号再试（系统语音的音素表里没有它）
-      const bad = req.ipa ? invalidPhoneme(r.error ?? '', words.join(' ')) : null
-      if (!bad) return { wav: null, dropped: [...dropped], error: r.error }
-      // 带附加符号的合成字母（ã、é）先拆成字母 + 附加符号再读：读不出的最多是附加符号，元音还在
-      const parts = bad.normalize('NFD')
-      if (parts !== bad) {
-        words = words.map((w) => w.split(bad).join(parts))
-        continue
-      }
-      dropped.add(bad)
-      words = words.map((w) => w.split(bad).join('')).filter(Boolean)
-    }
-    return { wav: null, dropped: [...dropped], error: 'too many unsupported symbols' }
+    if (!content.trim()) return { wav: null, dropped: [], error: 'nothing to speak' }
+    const result = await this.#call({
+      op: 'speak',
+      words: [content],
+      ipa: false,
+      voice: req.voice,
+      rate: Math.max(-10, Math.min(10, Math.round(req.rate))),
+      out: file
+    })
+    if (!result.ok) return { wav: null, dropped: [], error: result.error }
+    await fs.writeFile(meta, JSON.stringify({ dropped: [] }))
+    return { wav: await fs.readFile(file), dropped: [] }
   }
 
   dispose(): void {
+    this.#phonetic.dispose()
     this.#proc?.kill()
     this.#proc = null
   }

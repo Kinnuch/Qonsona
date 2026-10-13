@@ -4,6 +4,7 @@
   import { audio, type Sayable } from '$lib/state/audio.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { t } from '$lib/i18n/index.svelte'
+  import { ipaPhones } from '$shared/ipa-phones'
 
   let { item }: { item: Sayable } = $props()
 
@@ -13,6 +14,7 @@
   const hasAuthor = $derived(!!item.key && audio.authored.has(item.key))
   const recordingThis = $derived(!!item.key && audio.recording === item.key)
   const canSay = $derived(audio.canSay(item))
+  const unsupported = $derived(item.ipa ? ipaPhones(item.ipa).unsupported : [])
 
   async function removeRecording(): Promise<void> {
     if (!item.key) return
@@ -34,13 +36,17 @@
     data-playing={audio.playing === id ? '' : undefined}
     class:on={audio.playing === id}
     disabled={!canSay}
-    title={t(
-      source === 'recording'
-        ? 'audio.playRecording'
-        : source === 'author'
-          ? 'audio.playAuthor'
-          : 'audio.playSynth'
-    )}
+    title={!canSay && unsupported.length
+      ? t('audio.unsupportedIpa', {
+          symbols: unsupported.map((s) => (/^\p{M}/u.test(s) ? '◌' + s : s)).join(' ')
+        })
+      : t(
+          source === 'recording'
+            ? 'audio.playRecording'
+            : source === 'author'
+              ? 'audio.playAuthor'
+              : 'audio.playSynth'
+        )}
     onclick={() => (audio.playing === id ? audio.stop() : audio.say(item))}
   >
     <Volume2 size={16} />

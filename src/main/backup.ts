@@ -14,6 +14,7 @@ import { strFromU8, strToU8, unzipSync, zipSync, type Zippable } from 'fflate'
 export const BACKUP_ENTRIES = [
   'prefs.json',
   'stats.json',
+  'article-quizzes',
   'packs',
   'notebook',
   'courses',

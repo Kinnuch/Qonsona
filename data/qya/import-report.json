@@ -1,0 +1,36 @@
+{
+  "code": "qya",
+  "source": "https://eldamo.org/content/data-model/eldamo-data.xml",
+  "license": "CC BY 4.0",
+  "version": "0.8.13",
+  "sha256": "4e561d4dfc15919d300adcb3ef8cb93298cb0b6fe0291f8fd1bef93abeea7979",
+  "counts": {
+    "late": 3290,
+    "neo": 3389,
+    "middle": 2717,
+    "early": 4200
+  },
+  "documentaryAliases": 2639,
+  "entriesWithDocumentaryAliases": 1941,
+  "stats": {
+    "file": "resources/data/qya/dict.sqlite",
+    "bytes": 8794112,
+    "entries": 13596,
+    "forms": 28608,
+    "examples": 51,
+    "lists": {
+      "eldarin-study:L1": 21,
+      "eldarin-study:L2": 17,
+      "eldarin-study:L3": 14,
+      "x:eldamo-period:early": 4200,
+      "x:eldamo-period:late": 3290,
+      "x:eldamo-period:middle": 2717,
+      "x:eldamo-period:neo": 3389
+    }
+  },
+  "curatedRequested": 52,
+  "curatedMatched": 52,
+  "unmatchedCore": [],
+  "originalExamples": 51,
+  "texts": 3
+}

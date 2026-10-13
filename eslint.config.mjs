@@ -5,7 +5,16 @@ import eslintPluginSvelte from 'eslint-plugin-svelte'
 
 export default defineConfig(
   // vendor/qonlang 是千语集引擎的原样快照，按千语集自己的规矩检查过，这里不再管
-  { ignores: ['**/node_modules', '**/dist', '**/out', '.cache/**', 'src/renderer/src/vendor/**'] },
+  {
+    ignores: [
+      '**/node_modules',
+      '**/dist',
+      '**/out',
+      '.cache/**',
+      'src/renderer/src/vendor/**',
+      'resources/speech/espeak/**'
+    ]
+  },
   tseslint.configs.recommended,
   eslintPluginSvelte.configs['flat/recommended'],
   {
@@ -26,7 +35,7 @@ export default defineConfig(
     }
   },
   {
-    files: ['tests/**', 'scripts/**'],
+    files: ['tests/**', 'scripts/**', 'resources/speech/runner.mjs'],
     rules: { '@typescript-eslint/explicit-function-return-type': 'off' }
   },
   eslintConfigPrettier

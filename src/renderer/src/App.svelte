@@ -21,9 +21,10 @@
   onMount(async () => {
     await ui.load()
     await packs.load()
+    // 学习界面可点击之前加载统计，完成事件才能进入关窗保存屏障。
+    await activity.start()
     ready = true
     void audio.loadVoices()
-    void activity.start()
     // 这次启动时用备份恢复过：说一声
     const restored = await platform.backup.restored().catch(() => null)
     if (restored?.ok) ui.toast(t('settings.backup.restored', { n: restored.files }), 'info', 8000)

@@ -15,6 +15,7 @@ import type { JaAnalysis } from '../shared/ja/reader'
 import { jaGrammarCourse, type GrammarExampleData } from '../shared/ja/grammar-course'
 import levelSentences from '../../data/ja/level-sentences.json'
 import grammarExamples from '../../data/ja/grammar-examples.json'
+import { makeArticleQuiz, type ArticleQuizInput } from '../shared/article-quiz'
 
 export class JaExams {
   #dict: () => JapaneseDict | null
@@ -56,7 +57,8 @@ export class JaExams {
     analysis: JaAnalysis,
     level: number | null,
     seed: number,
-    listen: boolean
+    listen: boolean,
+    article?: Omit<ArticleQuizInput, 'vocabulary' | 'seed'>
   ): ExamQuestion[] {
     const dict = this.#dict()
     const d = this.#data(level ?? 3)
@@ -64,9 +66,31 @@ export class JaExams {
     const ids = analysis.sentences.flatMap((s) =>
       s.words.map((w) => w.entryId).filter((id): id is number => !!id)
     )
-    return jaArticlePractice(
+    const vocab = jaArticlePractice(
       { analysis, words: dict.examWordsOf(ids), pool: d.words, listen },
       seed
-    )
+    ).map((q) => {
+      const entry = Number(q.explain.card?.replace(/^ja-/, ''))
+      const evidence = analysis.sentences.find((s) => s.words.some((w) => w.entryId === entry))
+      if (!evidence) return q
+      const text = analysis.text.slice(evidence.start, evidence.end)
+      return {
+        ...q,
+        explain: {
+          ...q.explain,
+          lines: [...q.explain.lines, { zh: `原文依据：${text}`, en: `Source evidence: ${text}` }]
+        }
+      }
+    })
+    return [
+      ...vocab,
+      ...makeArticleQuiz({
+        id: article?.id ?? 'article',
+        body: analysis.text,
+        ...article,
+        lang: 'ja',
+        seed
+      }).questions
+    ]
   }
 }

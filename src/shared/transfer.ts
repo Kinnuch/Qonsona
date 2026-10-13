@@ -4,6 +4,12 @@ import type { Notebook } from './notebook'
 import type { CourseProgress } from './course'
 import type { PracticeLog } from './exam'
 import type { ActivityLog } from './stats'
+import { isRewards, mergeRewards } from './rewards'
+import {
+  isArticleQuizProgress,
+  mergeArticleQuizProgress,
+  type ArticleQuizProgress
+} from './article-quiz'
 
 export type TransferScope = 'notebook' | 'personal'
 export interface TransferPack {
@@ -377,6 +383,11 @@ function validatePractice(x: unknown): void {
 function validateStats(x: unknown, packs: Set<string>): void {
   const r = object(x)
   version(r)
+  if (r.rewards !== undefined) {
+    if (!isRewards(r.rewards)) fail('invalid collection progress')
+    for (const d of Object.values(r.rewards.days))
+      for (const c of d.completions) if (!packs.has(c.packId)) fail('collection language missing')
+  }
   for (const [day, value] of Object.entries(object(r.days))) {
     date(day)
     for (const [pack, mods] of Object.entries(object(object(value).packs))) {
@@ -390,7 +401,7 @@ function validateStats(x: unknown, packs: Set<string>): void {
 }
 export function transferPath(path: string): { kind: string; pack: string; id?: string } | null {
   if (path === 'stats.json') return { kind: 'stats', pack: '*' }
-  let m = /^(notebook|courses|practice)\/([A-Za-z0-9_-]+)\.json$/.exec(path)
+  let m = /^(notebook|courses|practice|article-quizzes)\/([A-Za-z0-9_-]+)\.json$/.exec(path)
   if (m && validTransferId(m[2])) return { kind: m[1], pack: m[2] }
   m = /^articles\/(?:([a-z]{2})\/)?state\.json$/.exec(path)
   if (m && (!m[1] || (BUILTIN.has(m[1]) && m[1] !== 'ja')))
@@ -458,7 +469,12 @@ export function validateTransfer(raw: unknown): TransferBundle {
     else if (p.kind === 'courses') validateCourses(f.content)
     else if (p.kind === 'practice') validatePractice(f.content)
     else if (p.kind === 'stats') validateStats(f.content, packs)
-    else if (p.kind === 'translation') text(f.content)
+    else if (p.kind === 'article-quizzes') {
+      for (const [id, progress] of Object.entries(object(f.content))) {
+        recordKey(id)
+        if (!isArticleQuizProgress(progress)) fail('invalid article quiz progress')
+      }
+    } else if (p.kind === 'translation') text(f.content)
     else if (p.kind === 'article-state') {
       const state = object(f.content)
       for (const [id, at] of Object.entries(object(state.read))) {
@@ -603,6 +619,8 @@ export function mergePractice(a: PracticeLog, b: PracticeLog): PracticeLog {
 }
 export function mergeStats(a: ActivityLog, b: ActivityLog): ActivityLog {
   const out = structuredClone(a)
+  if (a.rewards && b.rewards) out.rewards = mergeRewards(a.rewards, b.rewards)
+  else if (b.rewards) out.rewards = structuredClone(b.rewards)
   for (const [day, data] of Object.entries(b.days)) {
     const old = (out.days[day] ??= { packs: {} })
     for (const [pack, mods] of Object.entries(data.packs))
@@ -617,6 +635,12 @@ export function mergeTransferFile(path: string, local: unknown, incoming: unknow
   if (kind === 'courses') return mergeCourses(local as CourseProgress, incoming as CourseProgress)
   if (kind === 'practice') return mergePractice(local as PracticeLog, incoming as PracticeLog)
   if (kind === 'stats') return mergeStats(local as ActivityLog, incoming as ActivityLog)
+  if (kind === 'article-quizzes') {
+    const out = structuredClone(local) as Record<string, ArticleQuizProgress>
+    for (const [id, p] of Object.entries(incoming as Record<string, ArticleQuizProgress>))
+      out[id] = out[id] ? mergeArticleQuizProgress(out[id], p) : structuredClone(p)
+    return out
+  }
   if (kind === 'article-state') {
     const a = local as { read: Record<string, string>; levels: Record<string, unknown> }
     const b = incoming as typeof a

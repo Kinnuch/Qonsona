@@ -29,6 +29,7 @@ import type {
   LexWordItem
 } from '../../shared/lang/views'
 import { SCHEMA_VERSION, enGlossKey, unpackEntry } from './lexdb-schema'
+import { arKey, hasVowelMarks, normalizeArabic } from '../../shared/lang/ar/rules'
 
 const ORDER: LexMatch[] = ['exact', 'form', 'loose', 'guess', 'latin', 'gloss', 'prefix']
 
@@ -356,7 +357,21 @@ export class LexDb {
     const rules = this.lang.rules
     const key = rules.key(surface)
     if (!key) return null
-    if (this.#lookups.has(key)) return this.#lookups.get(key)!
+    const cacheKey = this.code === 'ar' ? normalizeArabic(surface) : key
+    if (this.#lookups.has(cacheKey)) return this.#lookups.get(cacheKey)!
+    // Eldamo preserves homographs from several historical languages. Prefer the
+    // reviewed teaching identity, then late/Neo material, without altering other DBs.
+    const eldarinOrder =
+      this.code === 'qya' || this.code === 'sjn'
+        ? `e.lv IS NULL,
+           CASE WHEN (' ' || f.tags || ' ') LIKE '% lemma %' THEN 0
+                WHEN (' ' || f.tags || ' ') LIKE '% documentary-variant %' THEN 2 ELSE 1 END,
+           CASE
+           WHEN EXISTS (SELECT 1 FROM list l WHERE l.entry=e.id AND l.name='x:eldamo-period:late') THEN 0
+           WHEN EXISTS (SELECT 1 FROM list l WHERE l.entry=e.id AND l.name='x:eldamo-period:neo') THEN 1
+           WHEN EXISTS (SELECT 1 FROM list l WHERE l.entry=e.id AND l.name='x:eldamo-period:middle') THEN 2
+           ELSE 3 END, `
+        : ''
     const rows = (
       k: string,
       loose: 0 | 1
@@ -372,8 +387,15 @@ export class LexDb {
       (
         this.#stmt(
           `SELECT f.entry, f.form, f.tags, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
-         WHERE f.key = ? AND f.loose = ? ORDER BY e.fr IS NULL, e.fr, length(e.w), length(f.form) DESC LIMIT 1`
-        ).all(k, loose) as {
+         WHERE f.key = ? AND f.loose = ? ORDER BY ${eldarinOrder}CASE WHEN ? = 1 AND f.form = ? THEN 0 ELSE 1 END, e.fr IS NULL, e.fr,
+         CASE WHEN ? = 1 AND (' ' || f.tags || ' ') LIKE '% lemma %' THEN 0 ELSE 1 END, length(e.w), length(f.form) DESC LIMIT 1`
+        ).all(
+          k,
+          loose,
+          this.code === 'ar' && hasVowelMarks(surface) ? 1 : 0,
+          normalizeArabic(surface),
+          this.code === 'ar' ? 1 : 0
+        ) as {
           entry: number
           form: string
           tags: string
@@ -410,6 +432,15 @@ export class LexDb {
       const g = firstGloss(d)
       const split = (t: string): string[] => (t ? t.split(' ').filter((x) => x !== 'lemma') : [])
       const isLemma = !tags && found.tags.split(' ').includes('lemma')
+      // 部分词库把带元音的 d 写法也收为普通 form；优先原形后需从同键词头恢复元音。
+      const form =
+        this.code === 'ar' &&
+        isLemma &&
+        !hasVowelMarks(found.form) &&
+        d.d &&
+        arKey(d.d) === arKey(found.form)
+          ? d.d
+          : found.form
       // 同一个词形在这个词条里的别的几行（标签不同的）
       const alt: string[][] = []
       if (!tags) {
@@ -440,7 +471,7 @@ export class LexDb {
         tags: tags ?? split(found.tags),
         ...(alt.length ? { alt } : {}),
         ...(others.length ? { others } : {}),
-        ...(tags ? {} : { form: found.form }),
+        ...(tags && this.code !== 'ar' ? {} : { form }),
         lv: found.lv,
         zh: g.zh,
         en: g.en,
@@ -448,7 +479,7 @@ export class LexDb {
       }
     }
     if (this.#lookups.size > 20000) this.#lookups.clear()
-    this.#lookups.set(key, hit)
+    this.#lookups.set(cacheKey, hit)
     return hit
   }
 
@@ -466,8 +497,8 @@ export class LexDb {
     return (
       this.#stmt(
         `SELECT f.entry, f.form, f.tags, e.p, e.lv, e.data FROM form f JOIN entry e ON e.id = f.entry
-         WHERE f.key = ? AND f.loose = 0 ORDER BY e.fr IS NULL, e.fr, length(e.w), length(f.form) DESC LIMIT 30`
-      ).all(k) as {
+         WHERE f.key = ? AND f.loose = 0 ORDER BY e.fr IS NULL, e.fr, CASE WHEN ? = 1 AND (' ' || f.tags || ' ') LIKE '% lemma %' THEN 0 ELSE 1 END, length(e.w), length(f.form) DESC LIMIT 30`
+      ).all(k, this.code === 'ar' ? 1 : 0) as {
         entry: number
         form: string
         tags: string

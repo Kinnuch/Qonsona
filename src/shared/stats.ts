@@ -6,6 +6,7 @@
  * 存在 userData/stats.json（所有语言一个文件）。
  */
 import { dayKey } from './srs'
+import { isRewards, type Rewards } from './rewards'
 
 export interface DayActivity {
   /** 学习包 id → 模块 → 秒数 */
@@ -14,6 +15,7 @@ export interface DayActivity {
 
 export interface ActivityLog {
   version: 1
+  rewards?: Rewards
   days: Record<string, DayActivity>
 }
 
@@ -21,6 +23,8 @@ export const emptyActivity = (): ActivityLog => ({ version: 1, days: {} })
 
 export function normalizeActivity(raw: unknown): ActivityLog {
   const log = emptyActivity()
+  const rewards = (raw as Partial<ActivityLog> | null)?.rewards
+  if (isRewards(rewards)) log.rewards = structuredClone(rewards)
   const days = (raw as Partial<ActivityLog> | null)?.days
   if (!days || typeof days !== 'object') return log
   for (const [day, d] of Object.entries(days)) {

@@ -6,7 +6,7 @@
   import { t } from '$lib/i18n/index.svelte'
   import { mdToHtml } from '$qon/core/markdown'
   import { docLinkResolver } from '$lib/packs/qonlang/reading'
-  import { lessonState, type Course, type CourseLesson } from '$shared/course'
+  import { type Course, type CourseLesson } from '$shared/course'
 
   let { course, lesson }: { course: Course; lesson: CourseLesson } = $props()
 
@@ -18,11 +18,9 @@
   const html = $derived(
     doc && project ? mdToHtml(doc.markdown, { resolve: docLinkResolver(project) }) : ''
   )
-  const passed = $derived(lessonState(courses.progress!, course, lesson.id) === 'passed')
 
   function done(): void {
-    courses.learned(course.id, lesson.id)
-    courses.open(course.id)
+    if (courses.completeLesson(course.id, lesson.id)) courses.open(course.id)
   }
 </script>
 
@@ -32,8 +30,11 @@
 {/if}
 
 <div class="end">
-  <button class="btn primary" data-doc-done onclick={done}
-    ><Check size={14} />{passed ? t('courses.learn.back') : t('courses.learn.finish')}</button
+  <button
+    class="btn primary"
+    data-doc-done
+    disabled={!courses.canCompleteLesson(course.id, lesson.id)}
+    onclick={done}><Check size={14} />{t('courses.learn.finish')}</button
   >
 </div>
 

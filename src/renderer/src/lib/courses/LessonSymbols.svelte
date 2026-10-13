@@ -4,6 +4,7 @@
   import { untrack } from 'svelte'
   import { ArrowLeft, ArrowRight, PenLine } from '@lucide/svelte'
   import { courses } from '$lib/state/courses.svelte'
+  import CompleteLesson from './CompleteLesson.svelte'
   import { packs } from '$lib/state/packs.svelte'
   import { platform } from '$lib/platform'
   import { t } from '$lib/i18n/index.svelte'
@@ -147,6 +148,7 @@
       >{t('courses.learn.next')}<ArrowRight size={14} /></button
     >
   {:else}
+    <CompleteLesson courseId={course.id} lessonId={lesson.id} />
     <button
       class="btn primary"
       data-quiz-here
@@ -286,6 +288,7 @@
   }
   .nav {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px;

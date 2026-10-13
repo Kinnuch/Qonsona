@@ -213,7 +213,12 @@ export function registerLangIpc(): void {
       const file = langDataFile(db.code)
       if (!file) return []
       const analysis = await analysisClient.request(db.code, file, article.body, 'analyze')
-      return langArticlePractice(db, analysis, Number(seed) >>> 0, String(locale))
+      return langArticlePractice(db, analysis, Number(seed) >>> 0, String(locale), 10, {
+        id: article.id,
+        body: article.body,
+        translation: article.translation,
+        excerpt: article.excerpt
+      })
     }
   )
   ipcMain.handle('lang:practiceKinds', (_e, code: string): PracticeKind[] => {
