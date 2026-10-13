@@ -95,7 +95,8 @@ linux:
   category: Education
   maintainer: Kinnuch
   synopsis: Learn languages with Qonsona
-  artifactName: Qonsona-${version}-linux-${arch}.${ext}
+  # 本仓库只发布 Linux x64；${arch} 会被 AppImage/deb 分别改写成 x86_64/amd64。
+  artifactName: Qonsona-${version}-linux-x64.${ext}
   target:
     - target: AppImage
       arch: [x64]

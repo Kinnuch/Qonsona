@@ -1,0 +1,147 @@
+# 只为已存在的正式 Release 补齐 Linux 包；从原标签构建，不修改原标签或其他平台资产。
+name: Repair Linux release assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing public release tag
+        required: true
+        type: string
+        default: v0.4.0
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-linux-repair-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  linux:
+    runs-on: ubuntu-22.04
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag }}
+      CSC_IDENTITY_AUTO_DISCOVERY: false
+      VITE_QON_TEST_MODE: ''
+      QON_TEST_MODE: ''
+      ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+    steps:
+      - name: Validate tag input
+        shell: bash
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.-]+)?$ ]]
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Require original tag and existing public release
+        id: guard
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { appendFileSync, readFileSync } from 'node:fs'
+          import { execFileSync } from 'node:child_process'
+          import { api, REPO } from './scripts/release/github.mjs'
+          const tag = process.env.RELEASE_TAG
+          const version = JSON.parse(readFileSync('package.json', 'utf8')).version
+          if (!/^v\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?$/.test(tag || '') || tag !== `v${version}`)
+            throw new Error('Release tag must match package version')
+          const commit = execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim()
+          if (tag === 'v0.4.0' && commit !== '7af7ceae20a24d8327266e4dd5ba32d7b87a8cf6')
+            throw new Error('The original 0.4.0 source commit must remain unchanged')
+          let object = (await (await api(`/repos/${REPO}/git/ref/tags/${tag}`)).json()).object
+          for (let depth = 0; object?.type === 'tag' && depth < 8; depth++)
+            object = (await (await api(`/repos/${REPO}/git/tags/${object.sha}`)).json()).object
+          if (object?.type !== 'commit' || object.sha !== commit)
+            throw new Error('Existing tag must point to the checked-out source')
+          const release = await (await api(`/repos/${REPO}/releases/tags/${tag}`)).json()
+          if (release.tag_name !== tag || release.draft || release.prerelease || !release.html_url)
+            throw new Error('An existing public formal release is required')
+          if (tag === 'v0.4.0' && release.id !== 411811580)
+            throw new Error('The original 0.4.0 release must remain unchanged')
+          const names = [
+            `Qonsona-${version}-setup.exe`, `Qonsona-${version}-setup.exe.blockmap`, 'latest.yml',
+            `Qonsona-${version}-mac-x64.dmg`, `Qonsona-${version}-mac-arm64.dmg`
+          ]
+          const protectedAssets = names.map(name => {
+            const asset = release.assets.find(asset => asset.name === name)
+            if (!asset || asset.state !== 'uploaded' || asset.size <= 0 || !/^sha256:[a-f0-9]{64}$/.test(asset.digest || ''))
+              throw new Error('Existing Windows/macOS assets must already be complete')
+            return { id: asset.id, name: asset.name, size: asset.size, digest: asset.digest }
+          })
+          appendFileSync(process.env.GITHUB_OUTPUT, `release_id=${release.id}\nprotected_assets=${JSON.stringify(protectedAssets)}\n`)
+          console.log(`Verified existing release ${release.id} from ${commit}; preserving five Windows/macOS assets`)
+          NODE
+      - run: npm ci
+      - name: Linux runtime dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libgtk-3-0
+      - name: Dictionary data
+        run: node scripts/release/fetch-data.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Validate original source and service
+        run: |
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run server:test
+      - name: Build original Linux source with stable x64 asset names
+        shell: bash
+        run: |
+          npx electron-vite build
+          npx electron-builder --linux --x64 --config.linux.artifactName='Qonsona-${version}-linux-x64.${ext}' --publish never
+      - name: Check Linux package and native CPU inference
+        run: |
+          node scripts/release/check-package.mjs dist/linux-unpacked/resources linux x64
+          ELECTRON_RUN_AS_NODE=1 dist/linux-unpacked/qonsona scripts/runtime-neural-check.mjs dist/linux-unpacked/resources/app.asar x64
+          version=$(node -p 'require("./package.json").version')
+          test -s "dist/Qonsona-$version-linux-x64.AppImage"
+          test -s "dist/Qonsona-$version-linux-x64.deb"
+          dpkg-deb --info "dist/Qonsona-$version-linux-x64.deb"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-repair-${{ inputs.release_tag }}
+          path: |
+            dist/*-linux-x64.AppImage
+            dist/*-linux-x64.deb
+          if-no-files-found: error
+      - name: Recheck existing release and protected assets before upload
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EXPECTED_RELEASE_ID: ${{ steps.guard.outputs.release_id }}
+          PROTECTED_ASSETS: ${{ steps.guard.outputs.protected_assets }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs'
+          import { api, REPO } from './scripts/release/github.mjs'
+          const tag = process.env.RELEASE_TAG
+          const version = JSON.parse(readFileSync('package.json', 'utf8')).version
+          if (!/^v\d+\.\d+\.\d+(?:-[A-Za-z0-9.-]+)?$/.test(tag || '') || tag !== `v${version}`)
+            throw new Error('Release tag must match package version')
+          const release = await (await api(`/repos/${REPO}/releases/tags/${tag}`)).json()
+          if (String(release.id) !== process.env.EXPECTED_RELEASE_ID || release.tag_name !== tag || release.draft || release.prerelease)
+            throw new Error('Existing public release changed while building; refusing upload')
+          for (const expected of JSON.parse(process.env.PROTECTED_ASSETS)) {
+            const asset = release.assets.find(asset => asset.name === expected.name)
+            if (!asset || asset.state !== 'uploaded' || asset.id !== expected.id || asset.size !== expected.size || asset.digest !== expected.digest)
+              throw new Error('A protected Windows/macOS asset changed; refusing upload')
+          }
+          console.log(`Reverified release ${release.id}; Windows/macOS assets unchanged`)
+          NODE
+      - name: Add only the two missing Linux assets
+        if: success() && steps.guard.outputs.release_id != ''
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.release_tag }}
+          files: |
+            dist/*-linux-x64.AppImage
+            dist/*-linux-x64.deb
+          fail_on_unmatched_files: true
+          overwrite_files: false
