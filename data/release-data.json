@@ -1,9 +1,9 @@
 {
   "format": 1,
-  "version": "0.2.0",
-  "asset": "qonsona-data-0.2.0.zip",
-  "bytes": 357738494,
-  "sha256": "e0fce231b320cd747d1f09f8eec3eb02215e2424319e01259fbaaaccb7156d25",
+  "version": "0.3.0",
+  "asset": "qonsona-data-0.3.0.zip",
+  "bytes": 368069979,
+  "sha256": "23042f0643e583137afe68dcaf57e7be9a131490d2c6c1a113ba1a7b125d727c",
   "files": [
     {
       "path": "ja/dict.sqlite",
@@ -49,6 +49,16 @@
       "path": "gd/dict.sqlite",
       "bytes": 13447168,
       "sha256": "fa2ccb3bd52c9459ea0fda2cda2d0b4128493b21ceed932e59204e8ecc7e5e04"
+    },
+    {
+      "path": "qya/dict.sqlite",
+      "bytes": 8794112,
+      "sha256": "8337df5bfed8876b0951c38f9c90d49c6b6e8c481d8db65ae182fcf79a580280"
+    },
+    {
+      "path": "sjn/dict.sqlite",
+      "bytes": 6139904,
+      "sha256": "f956d6a71dc28ad8acfce04862f0ab06f1ab88f589d272339b0dfdba42f1c437"
     }
   ]
 }

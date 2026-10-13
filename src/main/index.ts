@@ -71,6 +71,8 @@ interface Prefs {
   activePackId: string | null
   /** IPA 音素引擎偏好；旧系统声音名不再参与音标朗读。 */
   ipaVoice: string
+  textVoiceMode: 'neural' | 'system' | 'offline'
+  textVoices: Record<string, string>
   /** 朗读语速，-10 … 10 */
   speechRate: number
   /** 阅读页自动取 NHK News Web Easy 的文章（取不到时用内置与自己导入的） */
@@ -90,6 +92,8 @@ const DEFAULT_PREFS: Prefs = {
   theme: 'system',
   activePackId: 'ja',
   ipaVoice: '',
+  textVoiceMode: 'neural',
+  textVoices: {},
   speechRate: 0,
   nhkEasy: true,
   newPerDay: 20,
@@ -126,7 +130,10 @@ const recordingsDir = (): string => join(userData(), 'recordings')
 /** 合成出来的朗读按内容缓存在这里，删了也没关系 */
 const speech = new Speech(
   join(userData(), 'tts-cache'),
-  app.isPackaged ? join(process.resourcesPath, 'speech') : join(__dirname, '../../resources/speech')
+  app.isPackaged
+    ? join(process.resourcesPath, 'speech')
+    : join(__dirname, '../../resources/speech'),
+  app.getAppPath()
 )
 
 const AUDIO_EXT: Record<string, string> = {
@@ -164,7 +171,23 @@ function readJson<T>(file: string, fallback: T): T {
 }
 
 function readPrefs(): Prefs {
-  return readJson(prefsFile(), DEFAULT_PREFS)
+  return normalizeSpeechPrefs(readJson(prefsFile(), DEFAULT_PREFS))
+}
+
+function normalizeSpeechPrefs(prefs: Prefs): Prefs {
+  const mode = ['neural', 'system', 'offline'].includes(prefs.textVoiceMode)
+    ? prefs.textVoiceMode
+    : 'neural'
+  const choices =
+    prefs.textVoices && typeof prefs.textVoices === 'object' && !Array.isArray(prefs.textVoices)
+      ? Object.fromEntries(
+          Object.entries(prefs.textVoices).filter(
+            ([lang, voice]) =>
+              /^[a-z]{2,3}$/.test(lang) && typeof voice === 'string' && voice.length < 200
+          )
+        )
+      : {}
+  return { ...prefs, textVoiceMode: mode, textVoices: choices }
 }
 
 /** 包 id 只许字母数字和连字符，免得拼路径时跑出包目录 */
@@ -324,7 +347,7 @@ ipcMain.handle('app:openDataDir', async () => {
 ipcMain.handle('prefs:get', () => readPrefs())
 
 ipcMain.handle('prefs:set', async (_e, patch: Partial<Prefs>) => {
-  const next = { ...readPrefs(), ...patch }
+  const next = normalizeSpeechPrefs({ ...readPrefs(), ...patch })
   await fs.mkdir(userData(), { recursive: true })
   await fs.writeFile(prefsFile(), JSON.stringify(next, null, 2))
   return next
@@ -634,6 +657,11 @@ ipcMain.handle('nhk:refresh', async () => {
 // ── 朗读 ──
 
 ipcMain.handle('speech:voices', () => speech.voices())
+ipcMain.handle('speech:stop', () => speech.stop())
+ipcMain.handle('neural:status', () => speech.neural.status())
+ipcMain.handle('neural:install', () => speech.neural.install())
+ipcMain.handle('neural:cancel', () => speech.neural.cancel())
+ipcMain.handle('neural:remove', () => speech.neural.remove())
 
 ipcMain.handle('speech:speak', async (_e, req: SpeakRequest) => {
   const r = await speech.speak(req)

@@ -12,6 +12,83 @@
   import { updates } from '$lib/state/updates.svelte'
   import { flushAll } from '$lib/state/persist'
   import NotebookTransfer from '$lib/notebook/NotebookTransfer.svelte'
+  import type { NeuralStatus } from '$shared/neural-speech'
+
+  let neural = $state<NeuralStatus | null>(null)
+  let neuralBusy = $state(false)
+  let neuralError = $state('')
+  const TEXT_LANGS = ['en', 'fr', 'es', 'ja', 'ar', 'ko', 'ru', 'gd', 'qya', 'sjn']
+  let previewLanguage = $state(
+    TEXT_LANGS.includes(ui.prefs.activePackId ?? '') ? ui.prefs.activePackId! : 'en'
+  )
+  const PREVIEWS: Record<string, string> = {
+    en: 'The sun is shining today.',
+    fr: 'Bonjour, comment allez-vous ?',
+    es: 'Buenos días, ¿cómo estás?',
+    ja: 'こんにちは。今日はいい天気ですね。',
+    ar: 'مَرْحَبًا. كَيْفَ حَالُكَ؟',
+    ko: '안녕하세요. 오늘 날씨가 좋아요.',
+    ru: 'Здравствуйте. Сегодня хорошая погода.'
+  }
+  const textOptions = $derived(
+    audio.voices.filter((v) => {
+      if (v.culture.toLowerCase().split('-')[0] !== previewLanguage) return false
+      const engine = v.engine ?? 'system'
+      const hasNeural = audio.voices.some(
+        (voice) =>
+          voice.engine === 'neural' && voice.culture.toLowerCase().split('-')[0] === previewLanguage
+      )
+      return (
+        engine === ui.prefs.textVoiceMode ||
+        (ui.prefs.textVoiceMode === 'neural' && !hasNeural && engine === 'system')
+      )
+    })
+  )
+  onMount(() => {
+    let disposed = false,
+      checking = false
+    const check = async (): Promise<void> => {
+      if (checking) return
+      checking = true
+      try {
+        const status = await platform.neural.status()
+        if (disposed) return
+        const changed = neural?.installed !== status.installed
+        neural = status
+        if (changed) await audio.loadVoices()
+      } catch (error) {
+        if (!disposed) neuralError = String(error)
+      } finally {
+        checking = false
+      }
+    }
+    void check()
+    const timer = setInterval(() => {
+      void check()
+    }, 500)
+    return () => {
+      disposed = true
+      clearInterval(timer)
+    }
+  })
+  async function changeNeural(action: 'install' | 'cancel' | 'remove'): Promise<void> {
+    neuralBusy = true
+    neuralError = ''
+    try {
+      if (action === 'cancel') {
+        await platform.neural.cancel()
+        neural = await platform.neural.status()
+      } else neural = await platform.neural[action]()
+      await audio.loadVoices()
+    } catch (error) {
+      neuralError = String(error)
+    } finally {
+      neuralBusy = false
+    }
+  }
+  function chooseTextVoice(name: string): void {
+    void ui.setPrefs({ textVoices: { ...ui.prefs.textVoices, [previewLanguage]: name } })
+  }
 
   let info = $state<AppInfo | null>(null)
   let sources = $state<DictSource[]>([])
@@ -137,6 +214,107 @@
 
   <section class="card group">
     <h3>{t('settings.speech')}</h3>
+    <label class="row">
+      <span>{t('settings.textVoiceMode')}</span>
+      <select
+        data-setting="textVoiceMode"
+        value={ui.prefs.textVoiceMode}
+        onchange={(e) =>
+          ui.setPrefs({ textVoiceMode: e.currentTarget.value as Prefs['textVoiceMode'] })}
+      >
+        {#each ['neural', 'system', 'offline'] as mode (mode)}<option value={mode}
+            >{t(`settings.voiceModes.${mode}`)}</option
+          >{/each}
+      </select>
+    </label>
+    <div data-neural-status>
+      <strong>{t('settings.neuralTitle')}</strong>
+      <p class="faint">{t('settings.neuralHelp')}</p>
+      <p class="faint" data-neural-license>
+        {t('settings.neuralDisclosure')}
+        <a
+          href="https://huggingface.co/supertone-oss-archive/supertonic-3"
+          target="_blank"
+          rel="noreferrer">{t('settings.neuralSource')}</a
+        >
+        ·
+        <a
+          href="https://huggingface.co/supertone-oss-archive/supertonic-3/blob/aafc6e32416a594460b32413efc49d7fe4ce6d46/LICENSE"
+          target="_blank"
+          rel="noreferrer">OpenRAIL-M</a
+        >
+      </p>
+      {#if !neural}<p>{t('common.loading')}</p>
+      {:else if !neural.supported}<p>{t('settings.neuralUnsupported')}</p>
+      {:else if neural.downloading}
+        <p>
+          {t('settings.neuralProgress', {
+            received: (neural.received / 1048576).toFixed(1),
+            total: neural.total ? (neural.total / 1048576).toFixed(1) : '?'
+          })}
+        </p>
+        <progress
+          max={neural.total || 1}
+          value={neural.total ? neural.received : undefined}
+          aria-label={t('settings.neuralTitle')}
+        ></progress>
+        <button class="btn" data-neural-cancel onclick={() => changeNeural('cancel')}
+          >{t('settings.neuralCancel')}</button
+        >
+      {:else if neural.installed}<p>{t('settings.neuralInstalled')}</p>
+        <button
+          class="btn"
+          data-neural-remove
+          disabled={neuralBusy}
+          onclick={() => changeNeural('remove')}>{t('settings.neuralRemove')}</button
+        >
+      {:else}<p>{t('settings.neuralMissing')}</p>
+        <button
+          class="btn primary"
+          data-neural-install
+          disabled={neuralBusy}
+          onclick={() => changeNeural('install')}>{t('settings.neuralDownload')}</button
+        >
+      {/if}
+      {#if neuralError || neural?.error}<p role="alert">{neuralError || neural?.error}</p>{/if}
+    </div>
+    <label class="row"
+      ><span>{t('settings.voiceLanguage')}</span>
+      <select data-setting="voiceLanguage" bind:value={previewLanguage}
+        >{#each TEXT_LANGS as lang (lang)}<option value={lang}
+            >{lang === 'ja'
+              ? i18n.locale === 'zh'
+                ? '日语'
+                : 'Japanese'
+              : pick(LANGS[lang as keyof typeof LANGS].spec.name)}</option
+          >{/each}</select
+      >
+    </label>
+    <label class="row"
+      ><span>{t('settings.textVoice')}</span>
+      <select
+        data-setting="textVoice"
+        value={textOptions.some((v) => v.name === ui.prefs.textVoices[previewLanguage])
+          ? ui.prefs.textVoices[previewLanguage]
+          : ''}
+        onchange={(e) => chooseTextVoice(e.currentTarget.value)}
+      >
+        <option value="">{t('settings.voiceAutomatic')}</option>
+        {#each textOptions as v (v.name)}<option value={v.name}
+            >{v.label ?? v.name} · {v.gender}</option
+          >{/each}
+      </select>
+      <button
+        class="btn"
+        data-test-text-voice
+        disabled={!PREVIEWS[previewLanguage] || !audio.textVoice(previewLanguage)}
+        onclick={() => audio.say({ text: PREVIEWS[previewLanguage], lang: previewLanguage })}
+        >{t('settings.test')}</button
+      >
+    </label>
+    {#if !audio.textVoice(previewLanguage)}<p class="faint">
+        {t('settings.voiceUnavailable')}
+      </p>{/if}
     <label class="row">
       <span>{t('settings.ipaVoice')}</span>
       {#if audio.voices.length}

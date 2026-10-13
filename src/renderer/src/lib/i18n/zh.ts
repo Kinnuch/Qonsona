@@ -227,6 +227,8 @@ export default {
     }
   },
   audio: {
+    preparing: '正在准备音频，点击取消',
+    ipaApproximation: '此语言没有可用的原文语音；播放离线音素近似。真人录音优先。',
     unsupportedIpa: '合成朗读暂不支持这些音标：{symbols}；有录音时可播放录音。',
     languageVoiceMissing: '没有找到 {lang} 的合成语音，请使用自己的录音或作者录音。',
     playRecording: '播放我的录音',
@@ -881,14 +883,37 @@ export default {
     about: '关于',
     version: '版本 {v}',
     speech: '朗读',
+    textVoiceMode: '原文语音',
+    voiceModes: {
+      neural: '自然神经语音（无安装包时用系统语音）',
+      system: '系统语音',
+      offline: '机械离线语音（eSpeak）'
+    },
+    neuralTitle: '离线自然语音包',
+    neuralDisclosure:
+      '输出为人工合成语音，并非真人录音。模型按 OpenRAIL-M 许可提供（MIT 仅适用于官方示例代码）。',
+    neuralSource: 'Supertonic 3 官方模型与来源',
+    neuralHelp:
+      '下载后无需联网朗读。支持英语、法语、西班牙语、日语、阿拉伯语、韩语和俄语等语言。盖尔语、昆雅语、辛达林语暂不支持自然语音，可用录音或离线音素近似。语音包大小以下载进度为准。',
+    neuralDownload: '下载自然语音包',
+    neuralCancel: '取消下载',
+    neuralRemove: '移除语音包',
+    neuralInstalled: '已安装，可离线使用',
+    neuralMissing: '尚未安装',
+    neuralUnsupported: '此平台暂不支持离线自然语音',
+    neuralProgress: '正在下载：{received} / {total} MB',
+    voiceLanguage: '试听语言',
+    textVoice: '声音',
+    voiceAutomatic: '自动选择',
+    voiceUnavailable: '当前模式没有此语言的声音',
     ipaVoice: '音标朗读',
-    offlineIpa: '离线音素合成',
+    offlineIpa: '离线音素合成（机械近似）',
     auto: '自动（{name}）',
     noVoice: '没有找到系统语音',
     rate: '语速',
     test: '试听',
     speechHelp:
-      '音标使用离线音素合成，区分 /r/ 颤音、/ɹ/ 近音和 /ɾ/ 闪音；不支持的符号会提示，合成音不代替真人示范。原文按对应语言朗读，自己的录音总是优先。',
+      '自然语言原文优先用对应语言的声音；未安装自然语音包时仅回退系统语音，机械语音须明确选择。纯音标使用离线音素合成，区分 /r/、/ɹ/、/ɾ/；不支持的符号会提示。合成音不代替真人示范，自己的录音总是优先。',
     review: '复习',
     newPerDay: '每天学几个新词',
     reviewCap: '每天最多复习几个',

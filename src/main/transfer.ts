@@ -13,6 +13,7 @@ import {
   validateTransfer,
   validTransferId,
   TRANSFER_MAX_BYTES,
+  BUILTIN_TRANSFER_IDS,
   type TransferBundle,
   type TransferCount,
   type TransferPack,
@@ -26,7 +27,7 @@ export function setTransferResult(result: TransferResult | { error: string } | n
   transferResult = result
 }
 const PENDING = 'transfer-pending.json'
-const BUILTIN = ['ja', 'en', 'fr', 'ko', 'es', 'ar', 'ru', 'gd']
+const BUILTIN = BUILTIN_TRANSFER_IDS
 async function read(path: string): Promise<unknown | undefined> {
   try {
     return JSON.parse(await fs.readFile(path, 'utf8'))

@@ -1,6 +1,6 @@
 {
   "name": "qonsona",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Qonsona — learn Japanese, English, French, Korean, Spanish, Arabic, Russian, Scottish Gaelic, Quenya, Sindarin and your Qonlang languages.",
   "homepage": "https://github.com/Kinnuch/Qonsona",
   "main": "./out/main/index.js",
@@ -45,7 +45,8 @@
     "@electron-toolkit/utils": "^4.0.0",
     "@lucide/svelte": "^1.42.0",
     "electron-updater": "^6.8.9",
-    "kuromoji": "^0.1.2"
+    "kuromoji": "^0.1.2",
+    "onnxruntime-node": "1.21.0"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",

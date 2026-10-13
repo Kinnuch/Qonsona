@@ -19,31 +19,17 @@ if [ -d resources/data ]; then
   mkdir -p "$OUT/resources/data"
   cp -r resources/data/. "$OUT/resources/data/"
 else
-  echo "错误：缺少 resources/data；发布需要全部八语言的九个数据库（运行 node scripts/release/fetch-data.mjs 获取已验证的数据包）" >&2
+  echo "错误：缺少 resources/data；发布需要全部十一项数据库（运行 node scripts/release/fetch-data.mjs 获取已验证的数据包）" >&2
   exit 1
 fi
 # 主进程运行时 require 的依赖（electron-vite 把 dependencies 留在包外），连同它们各自的依赖一起拷
-node -e '
-const fs = require("fs"), path = require("path")
-const seen = new Set()
-const walk = (n) => {
-  if (seen.has(n)) return
-  seen.add(n)
-  const pj = require(path.resolve("node_modules", n, "package.json"))
-  for (const d of Object.keys(pj.dependencies || {})) walk(d)
-}
-walk("@electron-toolkit/utils")
-walk("kuromoji")
-walk("electron-updater")
-for (const n of seen)
-  fs.cpSync(path.join("node_modules", n), path.join("dist/app-stage/node_modules", n), { recursive: true })
-console.log("runtime deps: " + [...seen].join(" "))'
+node scripts/release/pack-runtime.mjs copy dist/app-stage
 node -e '
 const p = require("./package.json");
 require("fs").writeFileSync("dist/app-stage/package.json", JSON.stringify({
   name: p.name, productName: process.env.PRODUCT_NAME || "Qonsona", version: p.version, description: p.description,
   main: p.main, author: "Kinnuch", license: "MIT", private: true }, null, 2));'
-npx --yes @electron/asar pack dist/app-stage "$OUT/resources/app.asar"
+node scripts/release/pack-runtime.mjs asar dist/app-stage "$OUT/resources/app.asar"
 rm -f "$OUT/resources/default_app.asar"
 # 应用内增量更新读这个文件（electron-builder 自己打包时会生成同样一份；--prepackaged 不会，所以这里写）。
 # 仓库名跟 src/main/update.ts、electron-builder.yml 的 publish 一致

@@ -12,7 +12,9 @@ export default defineConfig(
       '**/out',
       '.cache/**',
       'src/renderer/src/vendor/**',
-      'resources/speech/espeak/**'
+      'resources/speech/espeak/**',
+      // Adapted upstream MIT inference code; retain original attribution and license.
+      'resources/speech/supertonic/**'
     ]
   },
   tseslint.configs.recommended,

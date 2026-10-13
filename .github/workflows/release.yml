@@ -64,6 +64,7 @@ jobs:
         shell: bash
         run: |
           node scripts/release/check-package.mjs dist/win-unpacked/resources
+          ELECTRON_RUN_AS_NODE=1 dist/win-unpacked/Qonsona.exe scripts/runtime-neural-check.mjs dist/win-unpacked/resources/app.asar x64
           cat dist/win-unpacked/resources/app-update.yml
           grep -q '^repo: Qonsona' dist/win-unpacked/resources/app-update.yml
           cat dist/latest.yml
@@ -72,10 +73,17 @@ jobs:
         run: |
           for app in dist/mac/Qonsona.app dist/mac-arm64/Qonsona.app; do
             echo "== $app"
-            node scripts/release/check-package.mjs "$app/Contents/Resources"
+            arch=x64
+            if [[ "$app" == *mac-arm64* ]]; then arch=arm64; fi
+            node scripts/release/check-package.mjs "$app/Contents/Resources" darwin "$arch"
             plutil -extract CFBundleShortVersionString raw "$app/Contents/Info.plist"
             plutil -extract NSMicrophoneUsageDescription raw "$app/Contents/Info.plist"
           done
+          # Both DMGs receive binary/layout checks; only the host architecture is executed.
+          # This gate does not claim x64 execution on an arm64 host without Rosetta.
+          if [[ "$(uname -m)" == arm64 ]]; then app=dist/mac-arm64/Qonsona.app; arch=arm64;
+          else app=dist/mac/Qonsona.app; arch=x64; fi
+          ELECTRON_RUN_AS_NODE=1 "$app/Contents/MacOS/Qonsona" scripts/runtime-neural-check.mjs "$app/Contents/Resources/app.asar" "$arch"
       - name: List outputs
         shell: bash
         run: ls -la dist | grep -v '^d'

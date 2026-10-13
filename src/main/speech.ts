@@ -8,12 +8,14 @@ import { createHash } from 'crypto'
 import { existsSync, promises as fs } from 'fs'
 import { join } from 'path'
 import { PhoneticSpeech } from './phonetic-speech'
+import { NeuralSpeech } from './neural-speech'
 
 export interface Voice {
   name: string
   culture: string
   gender: string
-  engine?: 'system' | 'offline' | 'ipa'
+  engine?: 'system' | 'offline' | 'ipa' | 'neural'
+  label?: string
 }
 
 export interface SpeakRequest {
@@ -130,6 +132,7 @@ export function invalidPhoneme(error: string, content: string): string | null {
 
 interface Pending {
   resolve: (v: { ok: boolean; error?: string; voices?: Voice[] }) => void
+  timer: ReturnType<typeof setTimeout>
 }
 
 export class Speech {
@@ -137,17 +140,28 @@ export class Speech {
   #pending = new Map<number, Pending>()
   #seq = 0
   #buf = ''
+  #epoch = 0
+  #disposed = false
+  #discovery = new Map<ChildProcessWithoutNullStreams, () => void>()
+  #discovering: Promise<Voice[]> | null = null
+  #staticVoices: { at: number; voices: Voice[] } | null = null
 
   #phonetic: PhoneticSpeech
+  #voicePhonetic: PhoneticSpeech
+  readonly neural: NeuralSpeech
   constructor(
     private cacheDir: string,
-    runtimeDir = join(__dirname, '../../resources/speech')
+    runtimeDir = join(__dirname, '../../resources/speech'),
+    appRoot = join(__dirname, '../..'),
+    modelRoot = join(cacheDir, '..', 'speech-models')
   ) {
     this.#phonetic = new PhoneticSpeech(runtimeDir)
+    this.#voicePhonetic = new PhoneticSpeech(runtimeDir)
+    this.neural = new NeuralSpeech(modelRoot, runtimeDir, appRoot)
   }
 
   get available(): boolean {
-    return process.platform === 'win32' || this.#phonetic.available
+    return process.platform === 'win32' || this.#phonetic.available || this.neural.supported
   }
 
   #start(): ChildProcessWithoutNullStreams {
@@ -158,8 +172,10 @@ export class Speech {
       ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-EncodedCommand', encoded],
       { windowsHide: true }
     )
+    this.#buf = ''
     proc.stdout.setEncoding('utf8')
     proc.stdout.on('data', (chunk: string) => {
+      if (this.#proc !== proc) return
       this.#buf += chunk
       let nl: number
       while ((nl = this.#buf.indexOf('\n')) >= 0) {
@@ -168,7 +184,11 @@ export class Speech {
         if (!line) continue
         try {
           const msg = JSON.parse(line)
-          this.#pending.get(msg.id)?.resolve(msg)
+          const pending = this.#pending.get(msg.id)
+          if (pending) {
+            clearTimeout(pending.timer)
+            pending.resolve(msg)
+          }
           this.#pending.delete(msg.id)
         } catch {
           // PowerShell 偶尔吐出的非 JSON 行（警告之类）不管
@@ -176,13 +196,17 @@ export class Speech {
       }
     })
     const fail = (): void => {
-      for (const p of this.#pending.values())
+      if (this.#proc !== proc) return
+      for (const p of this.#pending.values()) {
+        clearTimeout(p.timer)
         p.resolve({ ok: false, error: 'speech helper exited' })
+      }
       this.#pending.clear()
       this.#proc = null
     }
     proc.on('exit', fail)
     proc.on('error', fail)
+    proc.stdin.on('error', fail)
     this.#proc = proc
     return proc
   }
@@ -190,24 +214,83 @@ export class Speech {
   #call(req: Record<string, unknown>): Promise<{ ok: boolean; error?: string; voices?: Voice[] }> {
     const id = ++this.#seq
     return new Promise((resolve) => {
-      this.#pending.set(id, { resolve })
-      this.#start().stdin.write(JSON.stringify({ ...req, id }) + '\n', 'utf8')
+      const timer = setTimeout(() => this.stop(), 90000)
+      this.#pending.set(id, { resolve, timer })
+      this.#start().stdin.write(JSON.stringify({ ...req, id }) + '\n', 'utf8', (error) => {
+        if (error && this.#pending.has(id)) this.stop()
+      })
     })
   }
 
-  async voices(): Promise<Voice[]> {
-    const native =
-      process.platform === 'win32' ? await this.#call({ op: 'voices' }) : { ok: false, voices: [] }
-    const result = this.#phonetic.available
-      ? await this.#phonetic.call({ op: 'voices' })
-      : { ok: false, voices: [] }
+  /** Discovery never shares a process or cancellation queue with speech. */
+  #nativeVoices(): Promise<{ ok: boolean; voices?: Voice[] }> {
+    if (process.platform !== 'win32' || this.#disposed) return Promise.resolve({ ok: false })
+    return new Promise((resolve) => {
+      const encoded = Buffer.from(HELPER, 'utf16le').toString('base64')
+      const proc = spawn(
+        'powershell.exe',
+        ['-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'Bypass', '-EncodedCommand', encoded],
+        { windowsHide: true }
+      )
+      let settled = false,
+        buffer = ''
+      const finish = (result: { ok: boolean; voices?: Voice[] }): void => {
+        if (settled) return
+        settled = true
+        clearTimeout(timer)
+        this.#discovery.delete(proc)
+        proc.kill()
+        resolve(result)
+      }
+      const timer = setTimeout(() => finish({ ok: false }), 30000)
+      this.#discovery.set(proc, () => finish({ ok: false }))
+      proc.stdout.setEncoding('utf8')
+      proc.stdout.on('data', (chunk: string) => {
+        buffer += chunk
+        if (buffer.length > 1024 * 1024) {
+          finish({ ok: false })
+          return
+        }
+        for (let end = buffer.indexOf('\n'); end >= 0; end = buffer.indexOf('\n')) {
+          const line = buffer.slice(0, end).trim()
+          buffer = buffer.slice(end + 1)
+          try {
+            const result = JSON.parse(line)
+            if (result.id === 1 && typeof result.ok === 'boolean') finish(result)
+          } catch {
+            /* PowerShell startup diagnostic. */
+          }
+        }
+      })
+      proc.stderr.resume()
+      proc.on('error', () => finish({ ok: false }))
+      proc.on('exit', () => finish({ ok: false }))
+      proc.stdin.on('error', () => finish({ ok: false }))
+      // EOF closes the one-shot helper after it answers this single discovery request.
+      proc.stdin.end(
+        JSON.stringify({ id: 1, op: 'voices' }) + '\n',
+        'utf8',
+        (error?: Error | null) => {
+          if (error) finish({ ok: false })
+        }
+      )
+    })
+  }
+
+  async #discoverVoices(): Promise<Voice[]> {
+    const [native, result] = await Promise.all([
+      this.#nativeVoices(),
+      this.#voicePhonetic.available
+        ? this.#voicePhonetic.call({ op: 'voices' })
+        : Promise.resolve({ ok: false, voices: [] })
+    ])
     const offline: Voice[] =
       result.voices
         ?.map<Voice>((v) => ({
           name: 'espeak:' + v.identifier,
           culture: v.languages.sort((a, b) => a.priority - b.priority)[0]?.name ?? 'und',
           gender: 'Neutral',
-          engine: 'offline'
+          engine: 'offline' as const
         }))
         .filter((v) => !v.name.startsWith('espeak:qonsona-ipa-')) ?? []
     if (result.ok)
@@ -217,10 +300,37 @@ export class Speech {
         gender: 'Neutral',
         engine: 'ipa'
       })
-    return [...(native.ok ? (native.voices ?? []) : []), ...offline]
+    const voices = [...(native.ok ? (native.voices ?? []) : []), ...offline]
+    if (
+      !this.#disposed &&
+      (process.platform !== 'win32' || native.ok) &&
+      (!this.#voicePhonetic.available || result.ok)
+    )
+      this.#staticVoices = { at: Date.now(), voices }
+    return voices
+  }
+
+  async voices(): Promise<Voice[]> {
+    if (this.#disposed) return []
+    let voices =
+      this.#staticVoices && Date.now() - this.#staticVoices.at < 60000
+        ? this.#staticVoices.voices
+        : null
+    if (!voices) {
+      if (!this.#discovering)
+        this.#discovering = this.#discoverVoices().finally(() => {
+          this.#discovering = null
+        })
+      voices = await this.#discovering
+    }
+    if (this.#disposed) return []
+    return [...(await this.neural.voices()), ...voices.map((voice) => ({ ...voice }))]
   }
 
   async speak(req: SpeakRequest): Promise<SpeakResult> {
+    const epoch = this.#epoch
+    const cancelled = (): SpeakResult => ({ wav: null, dropped: [], error: 'Speech cancelled' })
+    if (this.#disposed) return cancelled()
     if (
       typeof req?.content !== 'string' ||
       typeof req.voice !== 'string' ||
@@ -229,8 +339,15 @@ export class Speech {
       !Number.isFinite(req.rate)
     )
       return { wav: null, dropped: [], error: 'Invalid speech request' }
+    if (req.voice.startsWith('neural:')) {
+      if (req.ipa)
+        return { wav: null, dropped: [], error: 'Neural text voices do not support IPA input' }
+      const result = await this.neural.speak(req.content, req.voice, req.rate)
+      return epoch === this.#epoch ? result : cancelled()
+    }
     if (req.ipa || req.voice.startsWith('espeak:')) {
-      return this.#phonetic.speak(req.content, req.ipa, req.voice.slice(7), req.rate)
+      const result = await this.#phonetic.speak(req.content, req.ipa, req.voice.slice(7), req.rate)
+      return epoch === this.#epoch ? result : cancelled()
     }
     if (process.platform !== 'win32')
       return { wav: null, dropped: [], error: 'unsupported platform' }
@@ -242,9 +359,12 @@ export class Speech {
     const meta = file + '.json'
     if (existsSync(file) && existsSync(meta)) {
       const prev = JSON.parse(await fs.readFile(meta, 'utf8')) as { dropped: string[] }
-      return { wav: await fs.readFile(file), dropped: prev.dropped }
+      if (epoch !== this.#epoch) return cancelled()
+      const wav = await fs.readFile(file)
+      return epoch === this.#epoch ? { wav, dropped: prev.dropped } : cancelled()
     }
     await fs.mkdir(this.cacheDir, { recursive: true })
+    if (epoch !== this.#epoch) return cancelled()
     if (!content.trim()) return { wav: null, dropped: [], error: 'nothing to speak' }
     const result = await this.#call({
       op: 'speak',
@@ -254,14 +374,34 @@ export class Speech {
       rate: Math.max(-10, Math.min(10, Math.round(req.rate))),
       out: file
     })
+    if (epoch !== this.#epoch) return cancelled()
     if (!result.ok) return { wav: null, dropped: [], error: result.error }
     await fs.writeFile(meta, JSON.stringify({ dropped: [] }))
-    return { wav: await fs.readFile(file), dropped: [] }
+    if (epoch !== this.#epoch) return cancelled()
+    const wav = await fs.readFile(file)
+    return epoch === this.#epoch ? { wav, dropped: [] } : cancelled()
+  }
+
+  stop(): void {
+    this.#epoch++
+    this.neural.stop()
+    this.#phonetic.dispose()
+    const proc = this.#proc
+    this.#proc = null
+    for (const pending of this.#pending.values()) {
+      clearTimeout(pending.timer)
+      pending.resolve({ ok: false, error: 'Speech cancelled' })
+    }
+    this.#pending.clear()
+    proc?.kill()
   }
 
   dispose(): void {
-    this.#phonetic.dispose()
-    this.#proc?.kill()
-    this.#proc = null
+    this.#disposed = true
+    this.#staticVoices = null
+    for (const finish of this.#discovery.values()) finish()
+    this.#voicePhonetic.dispose()
+    this.neural.dispose()
+    this.stop()
   }
 }

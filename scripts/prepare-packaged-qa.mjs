@@ -1,3 +1,4 @@
+import { copyRuntimeDependencies, NATIVE_ASAR_OPTIONS } from './release/runtime-dependencies.mjs'
 /** Build first. Creates a new local ASAR fixture; never downloads or reuses a release directory. */
 import { createRequire } from 'node:module'
 import {
@@ -19,7 +20,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const require = createRequire(join(root, 'package.json'))
 const asar = require('@electron/asar')
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
-const expectedVersion = process.env.PROBE_VERSION || '0.2.0'
+const expectedVersion = process.env.PROBE_VERSION || pkg.version
 if (pkg.version !== expectedVersion)
   throw new Error(`Build version ${pkg.version}; expected ${expectedVersion}`)
 for (const path of [
@@ -50,49 +51,7 @@ for (const folder of ['build', 'resources']) {
         )
     })
 }
-const graph = []
-function packageRoot(name, from) {
-  const resolver = createRequire(join(from, 'package.json'))
-  let path
-  try {
-    path = dirname(resolver.resolve(`${name}/package.json`))
-  } catch {
-    path = dirname(resolver.resolve(name))
-  }
-  while (true) {
-    const candidate = join(path, 'package.json')
-    if (existsSync(candidate) && JSON.parse(readFileSync(candidate, 'utf8')).name === name)
-      return realpathSync(path)
-    const parent = dirname(path)
-    if (parent === path) throw new Error(`Cannot locate runtime package ${name}`)
-    path = parent
-  }
-}
-function copyDependency(name, from, targetParent, ancestors = new Set()) {
-  const source = packageRoot(name, from)
-  if (ancestors.has(source)) return // Node will resolve the already copied ancestor.
-  const target = join(targetParent, 'node_modules', name)
-  if (existsSync(target)) return
-  mkdirSync(dirname(target), { recursive: true })
-  cpSync(source, target, {
-    recursive: true,
-    filter: (path) => resolve(path) !== join(source, 'node_modules')
-  })
-  const metadata = JSON.parse(readFileSync(join(source, 'package.json'), 'utf8'))
-  graph.push({ name, version: metadata.version, source, target })
-  const chain = new Set([...ancestors, source])
-  for (const dependency of Object.keys(metadata.dependencies || {}))
-    copyDependency(dependency, source, target, chain)
-  for (const dependency of Object.keys(metadata.optionalDependencies || {})) {
-    try {
-      packageRoot(dependency, source)
-    } catch {
-      continue
-    }
-    copyDependency(dependency, source, target, chain)
-  }
-}
-for (const name of Object.keys(pkg.dependencies || {})) copyDependency(name, root, staging)
+const graph = copyRuntimeDependencies(root, staging)
 writeFileSync(
   join(staging, 'package.json'),
   JSON.stringify(
@@ -109,7 +68,7 @@ const resources = join(runtime, 'resources')
 mkdirSync(resources, { recursive: true })
 cpSync(join(root, 'resources/speech'), join(resources, 'speech'), { recursive: true })
 const appAsar = join(resources, 'app.asar')
-await asar.createPackage(staging, appAsar)
+await asar.createPackageWithOptions(staging, appAsar, NATIVE_ASAR_OPTIONS)
 const defaultApp = join(resources, 'default_app.asar')
 if (existsSync(defaultApp)) unlinkSync(defaultApp) // Only this newly copied runtime.
 const data = realpathSync(join(root, 'resources/data'))

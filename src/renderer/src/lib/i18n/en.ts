@@ -231,6 +231,9 @@ export default {
     }
   },
   audio: {
+    preparing: 'Preparing audio; click to cancel',
+    ipaApproximation:
+      'No text voice is available for this language. Plays an offline phoneme approximation; recordings take priority.',
     unsupportedIpa:
       'Synthesis does not support these IPA symbols: {symbols}. Recordings can still play.',
     languageVoiceMissing:
@@ -931,14 +934,37 @@ export default {
     about: 'About',
     version: 'Version {v}',
     speech: 'Reading aloud',
+    textVoiceMode: 'Text voice',
+    voiceModes: {
+      neural: 'Natural neural voice (system fallback when not installed)',
+      system: 'System voice',
+      offline: 'Mechanical offline voice (eSpeak)'
+    },
+    neuralTitle: 'Offline natural voice pack',
+    neuralDisclosure:
+      'Output is artificially synthesized speech, not a human recording. Model weights use OpenRAIL-M (MIT applies only to the official sample code).',
+    neuralSource: 'Official Supertonic 3 model and source',
+    neuralHelp:
+      'After downloading, speech runs offline. Supports English, French, Spanish, Japanese, Arabic, Korean, Russian and other languages. Natural voices for Gaelic, Quenya and Sindarin are not available; use recordings or offline phoneme approximations. Download progress shows the pack size.',
+    neuralDownload: 'Download natural voice pack',
+    neuralCancel: 'Cancel download',
+    neuralRemove: 'Remove voice pack',
+    neuralInstalled: 'Installed; available offline',
+    neuralMissing: 'Not installed',
+    neuralUnsupported: 'Offline natural speech is not supported on this platform',
+    neuralProgress: 'Downloading: {received} / {total} MB',
+    voiceLanguage: 'Preview language',
+    textVoice: 'Voice',
+    voiceAutomatic: 'Choose automatically',
+    voiceUnavailable: 'No voice for this language in the selected mode',
     ipaVoice: 'IPA pronunciation',
-    offlineIpa: 'Offline phoneme synthesis',
+    offlineIpa: 'Offline phoneme synthesis (mechanical approximation)',
     auto: 'Automatic ({name})',
     noVoice: 'No system voice found',
     rate: 'Speed',
     test: 'Listen',
     speechHelp:
-      'Offline phoneme synthesis distinguishes the trill /r/, approximant /ɹ/ and tap /ɾ/. Unsupported symbols are reported; synthesized audio does not replace a human example. Text is read in its language, with your own recordings taking priority.',
+      'Text uses a matching language voice. Without the natural voice pack, only system voices are used as fallback; mechanical voices require an explicit choice. Pure IPA uses offline phoneme synthesis, distinguishing /r/, /ɹ/ and /ɾ/. Unsupported symbols are reported. Synthesis does not replace human examples; your recordings take priority.',
     review: 'Review',
     newPerDay: 'New words per day',
     reviewCap: 'Most reviews per day',

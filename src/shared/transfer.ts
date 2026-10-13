@@ -1,4 +1,5 @@
 import { isNotebookReviewSettings } from './review-settings'
+import { LANG_CODES } from './lang/types'
 /** 可携带的个人学习数据：只收学习记录和文字，不接受任意磁盘路径。 */
 import type { Notebook } from './notebook'
 import type { CourseProgress } from './course'
@@ -56,7 +57,9 @@ export interface TransferResult {
   saved: string
 }
 export const TRANSFER_MAX_BYTES = 32 * 1024 * 1024
-const BUILTIN = new Set(['ja', 'en', 'fr', 'ko', 'es', 'ar', 'ru', 'gd'])
+/** Same language list as the registry, without importing language content into transfer validators. */
+export const BUILTIN_TRANSFER_IDS: readonly string[] = ['ja', ...LANG_CODES]
+const BUILTIN = new Set(BUILTIN_TRANSFER_IDS)
 const RESERVED = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])$/i
 export function validTransferId(id: unknown): id is string {
   return typeof id === 'string' && /^[A-Za-z0-9][A-Za-z0-9_-]{0,79}$/.test(id) && !RESERVED.test(id)
@@ -403,10 +406,10 @@ export function transferPath(path: string): { kind: string; pack: string; id?: s
   if (path === 'stats.json') return { kind: 'stats', pack: '*' }
   let m = /^(notebook|courses|practice|article-quizzes)\/([A-Za-z0-9_-]+)\.json$/.exec(path)
   if (m && validTransferId(m[2])) return { kind: m[1], pack: m[2] }
-  m = /^articles\/(?:([a-z]{2})\/)?state\.json$/.exec(path)
+  m = /^articles\/(?:([a-z]+)\/)?state\.json$/.exec(path)
   if (m && (!m[1] || (BUILTIN.has(m[1]) && m[1] !== 'ja')))
     return { kind: 'article-state', pack: m[1] ?? 'ja' }
-  m = /^articles\/(?:([a-z]{2})\/user\/)?([A-Za-z0-9_-]+)\.json$/.exec(path)
+  m = /^articles\/(?:([a-z]+)\/user\/)?([A-Za-z0-9_-]+)\.json$/.exec(path)
   if (
     m &&
     validTransferId(m[2]) &&
@@ -414,7 +417,7 @@ export function transferPath(path: string): { kind: string; pack: string; id?: s
     (!m[1] || (BUILTIN.has(m[1]) && m[1] !== 'ja'))
   )
     return { kind: 'article', pack: m[1] ?? 'ja', id: m[2] }
-  m = /^articles\/(?:([a-z]{2})\/)?translations\/([A-Za-z0-9_-]+)\.txt$/.exec(path)
+  m = /^articles\/(?:([a-z]+)\/)?translations\/([A-Za-z0-9_-]+)\.txt$/.exec(path)
   if (m && validTransferId(m[2]) && (!m[1] || (BUILTIN.has(m[1]) && m[1] !== 'ja')))
     return { kind: 'translation', pack: m[1] ?? 'ja', id: m[2] }
   return null

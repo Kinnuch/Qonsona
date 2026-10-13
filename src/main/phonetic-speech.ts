@@ -63,6 +63,7 @@ export class PhoneticSpeech {
     }
     child.stderr.resume()
     child.on('error', fail)
+    child.stdin.on('error', fail)
     child.on('exit', fail)
     return child
   }

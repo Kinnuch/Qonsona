@@ -8,6 +8,7 @@ import { t } from '$lib/i18n/index.svelte'
 import { ui } from './ui.svelte'
 import { serializedWrites } from './persistence'
 import { ipaPhones } from '$shared/ipa-phones'
+import { selectTextVoice } from '$lib/audio-policy'
 
 /** 一个能发音的条目 */
 export interface Sayable {
@@ -20,7 +21,7 @@ export interface Sayable {
   lang?: string
 }
 
-class AudioState {
+export class AudioState {
   voices = $state.raw<Voice[]>([])
   /** 系统语音列表读完了没有（没读完时别说「没有语音」） */
   voicesLoaded = $state(false)
@@ -30,6 +31,7 @@ class AudioState {
   authored = $state.raw<Set<string>>(new Set())
   /** 正在放的条目键（界面上显示「正在读」） */
   playing = $state<string | null>(null)
+  pending = $state<string | null>(null)
   /** 正在录的条目键 */
   recording = $state<string | null>(null)
   #packId: string | null = null
@@ -41,11 +43,16 @@ class AudioState {
   #micPending = false
   #recordingsPending = new Set<Promise<void>>()
   #playEpoch = 0
+  #voiceEpoch = 0
 
   async loadVoices(): Promise<void> {
+    const epoch = ++this.#voiceEpoch
     try {
-      this.voices = await platform.voices()
+      const voices = await platform.voices()
+      if (epoch !== this.#voiceEpoch) return
+      this.voices = voices
     } catch {
+      if (epoch !== this.#voiceEpoch) return
       this.voices = []
     }
     this.voicesLoaded = true
@@ -83,55 +90,75 @@ class AudioState {
 
   /** 读某种语言文字的声音：语言代码对得上的第一个 */
   textVoice(lang: string): string | null {
-    const base = lang.split('-')[0].toLowerCase()
-    return this.voices.find((v) => v.culture.toLowerCase().split('-')[0] === base)?.name ?? null
+    return selectTextVoice(this.voices, lang, ui.prefs)?.name ?? null
+  }
+
+  usesIpaApproximation(item: Sayable): boolean {
+    return !!(item.text?.trim() && item.lang && item.ipa?.trim() && !this.textVoice(item.lang))
   }
 
   /** 这个条目能不能出声（有录音，或者有能读它的语音） */
   canSay(item: Sayable): boolean {
     if (this.sourceOf(item) !== 'tts') return true
+    if (item.text?.trim() && item.lang && this.textVoice(item.lang)) return true
     if (item.ipa?.trim())
       return !ipaPhones(item.ipa).unsupported.length && this.voices.some((v) => v.engine === 'ipa')
     return !!(item.text?.trim() && item.lang && this.textVoice(item.lang))
   }
 
   async say(item: Sayable, opts: { synthOnly?: boolean } = {}): Promise<void> {
-    this.stop()
+    const stopped = this.stop()
     const epoch = this.#playEpoch
     const id = item.key ?? item.ipa ?? item.text ?? ''
-    const source = this.sourceOf(item)
-    if (!opts.synthOnly && item.key && this.#packId && source !== 'tts') {
-      const rec =
-        source === 'recording'
-          ? await platform.getRecording(this.#packId, item.key)
-          : await platform.getPackAudio(this.#packId, item.key)
+    this.pending = id
+    try {
+      await stopped
       if (epoch !== this.#playEpoch) return
-      if (rec) return this.#play(id, new Blob([rec.bytes as BlobPart], { type: rec.mime }))
+      const source = this.sourceOf(item)
+      if (!opts.synthOnly && item.key && this.#packId && source !== 'tts') {
+        const rec =
+          source === 'recording'
+            ? await platform.getRecording(this.#packId, item.key)
+            : await platform.getPackAudio(this.#packId, item.key)
+        if (epoch !== this.#playEpoch) return
+        if (rec) {
+          this.pending = null
+          return this.#play(id, new Blob([rec.bytes as BlobPart], { type: rec.mime }))
+        }
+      }
+      const rate = ui.prefs.speechRate
+      const textVoice = item.text?.trim() && item.lang ? this.textVoice(item.lang) : null
+      const req =
+        item.ipa?.trim() && !textVoice
+          ? { content: item.ipa, ipa: true, voice: this.ipaVoice(), rate }
+          : { content: item.text ?? '', ipa: false, voice: textVoice ?? '', rate }
+      if (!req.content.trim()) return
+      if (!req.ipa && !req.voice) {
+        ui.toast(t('audio.languageVoiceMissing', { lang: item.lang ?? '' }), 'error', 6000)
+        return
+      }
+      const r = await platform.speak(req)
+      if (epoch !== this.#playEpoch) return
+      this.pending = null
+      // 单独的附加符号（鼻化 ◌̃ 这类）前面垫一个 ◌，不然看不见
+      const shown = (s: string): string => (/^\p{M}/u.test(s) ? '◌' + s : s)
+      if (r.dropped.length)
+        ui.toast(
+          t('audio.dropped', {
+            symbols: r.dropped.map((s) => t('audio.symbol', { s: shown(s) })).join('')
+          })
+        )
+      if (!r.wav) {
+        ui.toast(t('audio.failed', { error: r.error ?? '' }), 'error', 6000)
+        return
+      }
+      return this.#play(id, new Blob([r.wav as BlobPart], { type: 'audio/wav' }))
+    } catch (error) {
+      if (epoch === this.#playEpoch)
+        ui.toast(t('audio.failed', { error: String(error) }), 'error', 6000)
+    } finally {
+      if (epoch === this.#playEpoch) this.pending = null
     }
-    const rate = ui.prefs.speechRate
-    const req = item.ipa?.trim()
-      ? { content: item.ipa, ipa: true, voice: this.ipaVoice(), rate }
-      : { content: item.text ?? '', ipa: false, voice: this.textVoice(item.lang ?? '') ?? '', rate }
-    if (!req.content.trim()) return
-    if (!req.ipa && !req.voice) {
-      ui.toast(t('audio.languageVoiceMissing', { lang: item.lang ?? '' }), 'error', 6000)
-      return
-    }
-    const r = await platform.speak(req)
-    if (epoch !== this.#playEpoch) return
-    // 单独的附加符号（鼻化 ◌̃ 这类）前面垫一个 ◌，不然看不见
-    const shown = (s: string): string => (/^\p{M}/u.test(s) ? '◌' + s : s)
-    if (r.dropped.length)
-      ui.toast(
-        t('audio.dropped', {
-          symbols: r.dropped.map((s) => t('audio.symbol', { s: shown(s) })).join('')
-        })
-      )
-    if (!r.wav) {
-      ui.toast(t('audio.failed', { error: r.error ?? '' }), 'error', 6000)
-      return
-    }
-    return this.#play(id, new Blob([r.wav as BlobPart], { type: 'audio/wav' }))
   }
 
   #play(id: string, blob: Blob): Promise<void> {
@@ -156,8 +183,9 @@ class AudioState {
     })
   }
 
-  stop(): void {
+  stop(): Promise<void> {
     this.#playEpoch++
+    this.pending = null
     this.#player?.pause()
     // 停下的那一段也算结束（连读整篇时靠它往下走或收尾）
     const finish = this.#finish
@@ -165,6 +193,9 @@ class AudioState {
     finish?.()
     this.#player = null
     this.playing = null
+    return platform.stopSpeech().catch(() => {
+      /* Already stopped locally; a shutdown bridge may be gone. */
+    })
   }
 
   async startRecording(key: string): Promise<void> {

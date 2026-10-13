@@ -2,19 +2,19 @@
 
 学语言的桌面软件。支持日语（JLPT N5–N1）、英语、法语、韩语、西班牙语、阿拉伯语、俄语与苏格兰盖尔语，
 以及在[千语集（Qonlang）](https://github.com/Kinnuch/Qonlang)里造的语言。提供词典、阅读、课程、生词本与间隔复习、练习与训练卷、视听和统计。
-没有 AI 功能，题目、例句、分级都由词典和项目数据生成。原名 Qonlang Study。
+题目、例句、分级都由词典和项目数据生成；自然语音使用可下载的本地神经模型。原名 Qonlang Study。
 
 _A desktop language-learning app for Japanese, English, French, Korean, Spanish, Arabic, Russian,
 Scottish Gaelic and the conlangs you build in [Qonlang](https://github.com/Kinnuch/Qonlang).
 Chinese and English interface. Formerly Qonlang Study._
 
-**当前开发/测试版（尚未发布）**另提供默认昆雅语（Quenya，qya）与辛达语（Sindarin，sjn）学习包，
-包含 Eldamo 开放词库、来源与时期说明、原创 Neo 教学和内部 L1–L3 自测。两门精灵语及本轮离线语音、
-收集与阅读完成练习不属于已发布的 0.2.0 下载包。覆盖及限制见[昆雅语](docs/lang/qya.md)、[辛达语](docs/lang/sjn.md)。
+**0.3.0**另提供默认昆雅语（Quenya，qya）与辛达语（Sindarin，sjn）学习包，
+包含 Eldamo 开放词库、来源与时期说明、原创 Neo 教学和内部 L1–L3 自测，以及离线自然语音、
+收集与阅读完成练习。覆盖及限制见[昆雅语](docs/lang/qya.md)、[辛达语](docs/lang/sjn.md)。
 
-_The unreleased development/test build adds default Quenya and Sindarin packs with an Eldamo lexicon,
-period-aware sources, original Neo teaching and internal L1–L3 reviews. These packs and the new offline speech,
-collection and reading-completion features are not included in the published 0.2.0 downloads._
+_Version 0.3.0 adds default Quenya and Sindarin packs with an Eldamo lexicon,
+period-aware sources, original Neo teaching and internal L1–L3 reviews, alongside offline neural speech,
+collection and reading-completion features._
 
 0.2.0 接入七门新增语言的开放词典与词形还原、分级阅读与新闻、发音/语法/变形/会话/惯用语/阅读课程、
 语言特色练习、分级训练卷和字幕查词。实际教材覆盖与验收见 [多语言记录](docs/multilingual-progress.md)。
@@ -32,13 +32,17 @@ Open entries or explanations, add words to a notebook, explore sentences or ente
 The forms button shows recorded forms and their sources, with rule outputs labelled separately and missing data left explicit.
 See the [dictionary guide](docs/dictionary.md) for details._
 
-## 开发版离线朗读、阅读完成与收集
+## 离线朗读、阅读完成与收集
 
-开发版加入离线 eSpeak-NG 音素合成：自然语言文本按所选语言发音，昆雅语和辛达语使用相应语言规则，
-千语集语言和拼读音素可按 IPA 朗读，不再把 IPA 硬套英语拼写。支持范围之外的 IPA 会明确提示，
-不支持的符号或无匹配语言声音会明确提示。合成音色仍是近似发音，不替代作者录音、自然语流或语言专家校对。
-Windows 仍可使用已安装的系统语音。离线引擎的代码路径也支持 macOS；本轮未在本机验收 macOS，
-不把跨平台代码可用当作已完成 macOS 验收。
+在「设置 → 朗读」点击「下载自然语音包」，下载经过校验的 Supertonic 3 模型，之后原文在本机合成，
+无需网络、API 密钥或显卡，文字和录音不上传。模型支持英语、法语、西班牙语、日语、阿拉伯语、韩语、俄语等
+31 门语言，可选择四个男女声音与语速。未下载时可使用对应语言的系统声音；eSpeak 机械文本声音须明确选择。
+模型文件不放进学习数据备份，另一台电脑需重新下载。来源、许可证及安装方式见[语音说明](docs/speech.md)。
+
+此模型按原文朗读，不是通用 IPA 引擎，也不支持盖尔语、昆雅语或辛达语。纯音标保留独立的 eSpeak-NG
+音素近似，不再把 IPA 硬套英语拼写，不支持的符号会明确提示。自己的录音和学习包作者录音始终优先。
+神经语音仍是合成音，音素合成仍有机械感，都不能代替真人示范或语言专家校对。Windows 在本机验收；
+macOS 安装包核对原生运行库和架构，未做本机听音验收。
 
 文章底部的“阅读完成 → 词汇与阅读练习”保留已读标记，并从本文真实词汇、原文信息定位/顺序以及可对齐译文出题；
 缺少对齐译文时不猜句意，材料不足时少出或不出题。答案、完成状态及历史随文章指纹保存和转移。
@@ -48,9 +52,10 @@ Windows 仍可使用已安装的系统语音。离线引擎的代码路径也支
 5、15、30 分钟，可在三个门槛各解锁下一枚。有效时间要求窗口在前台且近期有操作；不因启动或后台播放自动发奖。
 旧统计不追溯发奖，收藏与进度随备份和个人数据转移保留。详细规则见[收集说明](docs/collection.md)。
 
-_Development builds add offline language/IPA synthesis, persistent reading-completion tasks and twelve shared learning companions.
-Synthetic speech approximates pronunciation and reports unsupported IPA. Windows system voices remain available;
-the offline macOS code path has not been locally validated. Reading tasks use actual source evidence and aligned translations,
+_Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
+It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
+Personal/author recordings remain first choice; IPA uses the separate phonetic approximation with explicit unsupported-symbol errors.
+See the [speech guide](docs/speech.md) for model licences and limits. Reading tasks use actual source evidence and aligned translations,
 with explicit limits for excerpts and insufficient material. Collection rewards require a real completion and active foreground study._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；

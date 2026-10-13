@@ -14,6 +14,8 @@
   const hasAuthor = $derived(!!item.key && audio.authored.has(item.key))
   const recordingThis = $derived(!!item.key && audio.recording === item.key)
   const canSay = $derived(audio.canSay(item))
+  const pending = $derived(audio.pending === id)
+  const approximate = $derived(source === 'tts' && audio.usesIpaApproximation(item))
   const unsupported = $derived(item.ipa ? ipaPhones(item.ipa).unsupported : [])
 
   async function removeRecording(): Promise<void> {
@@ -34,22 +36,30 @@
     data-pronounce
     data-source={source}
     data-playing={audio.playing === id ? '' : undefined}
+    data-pending={pending ? '' : undefined}
+    aria-busy={pending}
     class:on={audio.playing === id}
     disabled={!canSay}
     title={!canSay && unsupported.length
       ? t('audio.unsupportedIpa', {
           symbols: unsupported.map((s) => (/^\p{M}/u.test(s) ? '◌' + s : s)).join(' ')
         })
-      : t(
-          source === 'recording'
-            ? 'audio.playRecording'
-            : source === 'author'
-              ? 'audio.playAuthor'
-              : 'audio.playSynth'
-        )}
-    onclick={() => (audio.playing === id ? audio.stop() : audio.say(item))}
+      : pending
+        ? t('audio.preparing')
+        : approximate
+          ? t('audio.ipaApproximation')
+          : !canSay && item.lang
+            ? t('audio.languageVoiceMissing', { lang: item.lang })
+            : t(
+                source === 'recording'
+                  ? 'audio.playRecording'
+                  : source === 'author'
+                    ? 'audio.playAuthor'
+                    : 'audio.playSynth'
+              )}
+    onclick={() => (audio.playing === id || pending ? audio.stop() : audio.say(item))}
   >
-    <Volume2 size={16} />
+    {#if pending}<CircleStop size={16} />{:else}<Volume2 size={16} />{/if}
   </button>
   {#if item.key}
     <button

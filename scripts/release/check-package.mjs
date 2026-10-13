@@ -5,15 +5,22 @@ import { createRequire } from 'node:module'
 import { dirname, join, normalize, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { DATA_FILES, dataFilesForManifest } from './data-bundle.mjs'
+import { checkNeuralPackage } from './neural-package.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
-if (process.argv.length !== 3)
-  throw new Error('Usage: node scripts/release/check-package.mjs <Resources directory>')
+if (process.argv.length < 3 || process.argv.length > 5)
+  throw new Error(
+    'Usage: node scripts/release/check-package.mjs <Resources directory> [platform] [arch]'
+  )
 const resources = resolve(process.argv[2])
 const expected = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
 const manifest = JSON.parse(readFileSync(join(root, 'data/release-data.json'), 'utf8'))
 const asar = createRequire(join(root, 'package.json'))('@electron/asar')
 const archive = join(resources, 'app.asar')
+console.log(
+  'PASS native runtime layout',
+  checkNeuralPackage(resources, asar, process.argv[3], process.argv[4])
+)
 const entryPath = (path) => join(...path.split('/')) // ASAR API uses host path.sep.
 const metadata = JSON.parse(asar.extractFile(archive, 'package.json').toString())
 if (metadata.name !== expected.name || metadata.version !== expected.version)

@@ -1,5 +1,6 @@
 import type { TransferScope, TransferPreview, TransferResult } from '$shared/transfer'
 import type { DictionaryDaily } from '$shared/dictionary-daily'
+import type { NeuralStatus } from '$shared/neural-speech'
 /**
  * 渲染层跟主进程打交道的唯一入口。文件读写、偏好、学习包目录都走这里。
  */
@@ -51,6 +52,8 @@ export interface Prefs {
   activePackId: string | null
   /** 读 IPA 用哪个系统声音；空着自动挑 */
   ipaVoice: string
+  textVoiceMode: 'neural' | 'system' | 'offline'
+  textVoices: Record<string, string>
   /** 朗读语速，-10 … 10 */
   speechRate: number
   /** 阅读页自动取 NHK News Web Easy 的文章（取不到时用内置与自己导入的） */
@@ -71,6 +74,8 @@ export const DEFAULT_PREFS: Prefs = {
   theme: 'system',
   activePackId: 'ja',
   ipaVoice: '',
+  textVoiceMode: 'neural',
+  textVoices: {},
   speechRate: 0,
   nhkEasy: true,
   newPerDay: 20,
@@ -89,7 +94,8 @@ export interface AppInfo {
 }
 
 export interface Voice {
-  engine?: 'system' | 'offline' | 'ipa'
+  engine?: 'system' | 'offline' | 'ipa' | 'neural'
+  label?: string
   name: string
   /** BCP-47，如 en-US、ja-JP */
   culture: string
@@ -110,6 +116,12 @@ function invoke<T>(channel: string, ...args: unknown[]): Promise<T> {
 }
 
 export const platform = {
+  neural: {
+    status: () => invoke<NeuralStatus>('neural:status'),
+    install: () => invoke<NeuralStatus>('neural:install'),
+    cancel: () => invoke<void>('neural:cancel'),
+    remove: () => invoke<NeuralStatus>('neural:remove')
+  },
   dictionary: {
     daily: (packId: string, date: string) =>
       invoke<DictionaryDaily>('dictionary:daily', packId, date)
@@ -165,6 +177,7 @@ export const platform = {
   removePack: (id: string) => invoke<void>('packs:remove', id),
   pickQonlang: () => invoke<{ name: string; content: string } | null>('qonlang:pick'),
   voices: () => invoke<Voice[]>('speech:voices'),
+  stopSpeech: () => invoke<void>('speech:stop'),
   speak: (req: { content: string; ipa: boolean; voice: string; rate: number }) =>
     invoke<SpeakResult>('speech:speak', req),
   listRecordings: (packId: string) => invoke<string[]>('rec:list', packId),

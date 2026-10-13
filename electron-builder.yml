@@ -23,6 +23,9 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+  # Loader, common API, native binding and sibling DLL/dylib stay together.
+  - '**/node_modules/onnxruntime-node/**'
+  - '**/node_modules/onnxruntime-common/**'
 # 词典数据库（npm run data:ja、wiktionary-ja.mjs 生成）：SQLite 读不了 asar 里的文件，
 # 打包后在 process.resourcesPath/data/ja/（src/main/index.ts 的 jaDictPath）
 extraResources:
