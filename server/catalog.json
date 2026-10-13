@@ -6,8 +6,8 @@
     "cell": 0,
     "speciesId": "cat",
     "name": {
-      "zh": "晨光",
-      "en": "Dawn"
+      "zh": "晨光猫",
+      "en": "Dawn Cat"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -23,8 +23,8 @@
     "cell": 1,
     "speciesId": "cat",
     "name": {
-      "zh": "墨羽",
-      "en": "Inkwing"
+      "zh": "墨羽猫",
+      "en": "Inkwing Cat"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -40,8 +40,8 @@
     "cell": 2,
     "speciesId": "cat",
     "name": {
-      "zh": "金砂",
-      "en": "Goldsand"
+      "zh": "金砂猫",
+      "en": "Goldsand Cat"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -55,10 +55,10 @@
     "tier": "R",
     "sheet": 0,
     "cell": 3,
-    "speciesId": "cat",
+    "speciesId": "dog",
     "name": {
-      "zh": "银芽",
-      "en": "Silverbud"
+      "zh": "银芽狗",
+      "en": "Silverbud Dog"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -72,10 +72,10 @@
     "tier": "R",
     "sheet": 0,
     "cell": 4,
-    "speciesId": "cat",
+    "speciesId": "dog",
     "name": {
-      "zh": "月影",
-      "en": "Moonshade"
+      "zh": "月影狗",
+      "en": "Moonshadow Dog"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -89,10 +89,10 @@
     "tier": "R",
     "sheet": 0,
     "cell": 5,
-    "speciesId": "cat",
+    "speciesId": "frog",
     "name": {
-      "zh": "星团",
-      "en": "Starcluster"
+      "zh": "星团蛙",
+      "en": "Starcluster Frog"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -108,8 +108,8 @@
     "cell": 0,
     "speciesId": "cat",
     "name": {
-      "zh": "晨光",
-      "en": "Dawn"
+      "zh": "晨露猫",
+      "en": "Dewlight Cat"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -125,8 +125,8 @@
     "cell": 1,
     "speciesId": "cat",
     "name": {
-      "zh": "墨羽",
-      "en": "Inkwing"
+      "zh": "夜墨猫",
+      "en": "Nightink Cat"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -142,8 +142,8 @@
     "cell": 2,
     "speciesId": "cat",
     "name": {
-      "zh": "金砂",
-      "en": "Goldsand"
+      "zh": "麦金猫",
+      "en": "Wheatgold Cat"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -157,10 +157,10 @@
     "tier": "SSR",
     "sheet": 1,
     "cell": 3,
-    "speciesId": "cat",
+    "speciesId": "dog",
     "name": {
-      "zh": "银芽",
-      "en": "Silverbud"
+      "zh": "霜芽狗",
+      "en": "Frostbud Dog"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -174,10 +174,10 @@
     "tier": "SSR",
     "sheet": 1,
     "cell": 4,
-    "speciesId": "cat",
+    "speciesId": "dog",
     "name": {
-      "zh": "月影",
-      "en": "Moonshade"
+      "zh": "月眠狗",
+      "en": "Moonrest Dog"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -191,10 +191,10 @@
     "tier": "SSR",
     "sheet": 1,
     "cell": 5,
-    "speciesId": "cat",
+    "speciesId": "frog",
     "name": {
-      "zh": "星团",
-      "en": "Starcluster"
+      "zh": "星露蛙",
+      "en": "Stardew Frog"
     },
     "introducedAt": "2026-10-12",
     "biography": {
@@ -208,10 +208,10 @@
     "tier": "A",
     "sheet": 2,
     "cell": 0,
-    "speciesId": "mist",
+    "speciesId": "dragon",
     "name": {
-      "zh": "白色精灵01",
-      "en": "White Spirit 01"
+      "zh": "霜翼龙",
+      "en": "Frostwing Dragon"
     },
     "introducedAt": "2026-10-13",
     "sprite": {
@@ -233,10 +233,10 @@
     "tier": "R",
     "sheet": 2,
     "cell": 1,
-    "speciesId": "mist",
+    "speciesId": "dragon",
     "name": {
-      "zh": "白色精灵02",
-      "en": "White Spirit 02"
+      "zh": "云岚龙",
+      "en": "Cloudmist Dragon"
     },
     "introducedAt": "2026-10-13",
     "sprite": {
@@ -258,10 +258,10 @@
     "tier": "SR",
     "sheet": 2,
     "cell": 2,
-    "speciesId": "mist",
+    "speciesId": "dragon",
     "name": {
-      "zh": "白色精灵03",
-      "en": "White Spirit 03"
+      "zh": "雪团龙",
+      "en": "Snowball Dragon"
     },
     "introducedAt": "2026-10-13",
     "sprite": {
@@ -283,10 +283,10 @@
     "tier": "A",
     "sheet": 2,
     "cell": 3,
-    "speciesId": "pink",
+    "speciesId": "bird",
     "name": {
-      "zh": "粉色精灵01",
-      "en": "Pink Spirit 01"
+      "zh": "绯歌鸟",
+      "en": "Rose Songbird"
     },
     "introducedAt": "2026-10-13",
     "sprite": {
@@ -308,10 +308,10 @@
     "tier": "R",
     "sheet": 2,
     "cell": 4,
-    "speciesId": "mist",
+    "speciesId": "dragon",
     "name": {
-      "zh": "白色精灵04",
-      "en": "White Spirit 04"
+      "zh": "逐风龙",
+      "en": "Windrunner Dragon"
     },
     "introducedAt": "2026-10-13",
     "sprite": {
@@ -333,10 +333,10 @@
     "tier": "SR",
     "sheet": 2,
     "cell": 5,
-    "speciesId": "mist",
+    "speciesId": "dragon",
     "name": {
-      "zh": "白色精灵05",
-      "en": "White Spirit 05"
+      "zh": "月弦龙",
+      "en": "Moonarc Dragon"
     },
     "introducedAt": "2026-10-13",
     "sprite": {
@@ -358,10 +358,10 @@
     "tier": "SSR",
     "sheet": 2,
     "cell": 6,
-    "speciesId": "mist",
+    "speciesId": "dragon",
     "name": {
-      "zh": "白色精灵06",
-      "en": "White Spirit 06"
+      "zh": "星眠龙",
+      "en": "Starrest Dragon"
     },
     "introducedAt": "2026-10-13",
     "sprite": {
@@ -383,10 +383,10 @@
     "tier": "SSR",
     "sheet": 2,
     "cell": 7,
-    "speciesId": "mist",
+    "speciesId": "dragon",
     "name": {
-      "zh": "白色精灵07",
-      "en": "White Spirit 07"
+      "zh": "银芽龙",
+      "en": "Silverbud Dragon"
     },
     "introducedAt": "2026-10-13",
     "sprite": {

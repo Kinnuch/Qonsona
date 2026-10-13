@@ -64,10 +64,16 @@ export function pickInstaller(assets: ReleaseAsset[], target: InstallerTarget): 
       find((n) => n.endsWith(`-mac-${target.arch}.dmg`)),
       false
     )
-  return make(
-    find((n) => n.endsWith('.appimage')),
-    false
-  )
+  if (target.platform === 'linux')
+    return make(
+      find((n) => n.endsWith(`-linux-${target.arch}.appimage`)) ??
+        // 历史无架构名的 Linux 包只用于 x64，不能让 arm64 下载错误架构。
+        (target.arch === 'x64'
+          ? find((n) => /^qonsona-\d+(?:\.\d+)+(?:-[\w.]+)?\.appimage$/.test(n))
+          : undefined),
+      false
+    )
+  return null
 }
 
 /**
@@ -116,7 +122,12 @@ export function installerCandidates(
   if (target.platform === 'win32') return [{ name: `${ARTIFACT}-${version}-setup.exe`, auto: true }]
   if (target.platform === 'darwin')
     return [{ name: `${ARTIFACT}-${version}-mac-${target.arch}.dmg`, auto: false }]
-  return [{ name: `${ARTIFACT}-${version}.AppImage`, auto: false }]
+  if (target.platform === 'linux')
+    return [
+      { name: `${ARTIFACT}-${version}-linux-${target.arch}.AppImage`, auto: false },
+      ...(target.arch === 'x64' ? [{ name: `${ARTIFACT}-${version}.AppImage`, auto: false }] : [])
+    ]
+  return []
 }
 
 /** 「0.4.1」这类版本号比大小；只比数字段（0.4.1-local 不比 0.4.1 新） */

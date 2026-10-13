@@ -81,7 +81,7 @@
   </div>
   <p class="intro">
     {tr(
-      '本期所有可相遇的语言精灵都陈列于此。中央聚光展位为本期传颂精灵，传颂轮完一整轮后再重新随机排序。',
+      '本期所有可相遇的语言伙伴都陈列于此。中央聚光展位为本期传颂伙伴，传颂轮完一整轮后再重新随机排序。',
       'Every companion available in this pool is exhibited here. The central spotlight presents this week’s Legend; all Legends appear once before the next shuffled cycle.'
     )}
   </p>
@@ -95,7 +95,7 @@
       tabindex="0"
       role="region"
       aria-label={tr(
-        '本期全部语言精灵，左右滚动浏览',
+        '本期全部语言伙伴，左右滚动浏览',
         'All companions in this pool; scroll left and right'
       )}
       onkeydown={(event) => {
@@ -151,7 +151,7 @@
     <span
       >{entries.length}
       {tr(
-        '位本期精灵 · 左右滑动或使用方向键',
+        '位本期伙伴 · 左右滑动或使用方向键',
         'companions this week · swipe or use arrow keys'
       )}</span
     >

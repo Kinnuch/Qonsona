@@ -14,7 +14,7 @@
   </h3>
   <p class="muted">
     {i18n.locale === 'zh'
-      ? '旧纪念已冻结，不再按旧版时间门槛发放语言精灵。未取得的新语言精灵请通过账号商店或寻访获得。'
+      ? '旧纪念已冻结，不再按旧版时间门槛发放语言伙伴。未取得的新语言伙伴请通过账号商店或寻访获得。'
       : 'Earlier memorials are frozen. The old time thresholds no longer grant language companions. Obtain new companions through the account shop or discovery.'}
   </p>
   <div class="grid">

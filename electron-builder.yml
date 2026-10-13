@@ -87,4 +87,19 @@ dmg:
       type: link
       path: /Applications
 
+# ── Linux ──
+# x64 在 Ubuntu 22.04 的 CI 主机上实际运行神经语音探针；不把未执行的 arm64 包算成发布产物。
+linux:
+  executableName: qonsona
+  icon: build/icon.png
+  category: Education
+  maintainer: Kinnuch
+  synopsis: Learn languages with Qonsona
+  artifactName: Qonsona-${version}-linux-${arch}.${ext}
+  target:
+    - target: AppImage
+      arch: [x64]
+    - target: deb
+      arch: [x64]
+
 npmRebuild: false

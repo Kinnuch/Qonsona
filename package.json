@@ -1,6 +1,6 @@
 {
   "name": "qonsona",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Qonsona — learn Japanese, English, French, Korean, Spanish, Arabic, Russian, Scottish Gaelic, Quenya, Sindarin and your Qonlang languages.",
   "homepage": "https://github.com/Kinnuch/Qonsona",
   "main": "./out/main/index.js",
@@ -41,7 +41,8 @@
     "smoke:daily": "node scripts/smoke-dictionary-daily.mjs",
     "smoke:inflection": "node scripts/smoke-dictionary-inflection.mjs",
     "smoke:packaged": "node scripts/smoke-packaged.mjs",
-    "prepare:packaged-qa": "node scripts/prepare-packaged-qa.mjs"
+    "prepare:packaged-qa": "node scripts/prepare-packaged-qa.mjs",
+    "build:linux": "electron-vite build && electron-builder --linux --x64 --publish never"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",

@@ -6,6 +6,7 @@ import { dirname, join, normalize, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { DATA_FILES, dataFilesForManifest } from './data-bundle.mjs'
 import { checkNeuralPackage } from './neural-package.mjs'
+import { checkProductionRenderer, checkSpeechResources } from './package-policy.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..')
 if (process.argv.length < 3 || process.argv.length > 5)
@@ -17,6 +18,8 @@ const expected = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
 const manifest = JSON.parse(readFileSync(join(root, 'data/release-data.json'), 'utf8'))
 const asar = createRequire(join(root, 'package.json'))('@electron/asar')
 const archive = join(resources, 'app.asar')
+console.log('PASS speech resources', checkSpeechResources(resources))
+console.log('PASS production renderer', checkProductionRenderer(archive, asar))
 console.log(
   'PASS native runtime layout',
   checkNeuralPackage(resources, asar, process.argv[3], process.argv[4])

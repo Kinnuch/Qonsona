@@ -8,7 +8,14 @@ import { tmpdir } from 'node:os'
 import { DatabaseSync } from 'node:sqlite'
 import { Service } from '../service.mjs'
 import { Store } from '../store.mjs'
-import { CATALOG, catalogFor, shopFor, monthlyCharacter, discountedCharacter } from '../catalog.mjs'
+import {
+  CATALOG,
+  catalogFor,
+  speciesFor,
+  shopFor,
+  monthlyCharacter,
+  discountedCharacter
+} from '../catalog.mjs'
 import {
   newState,
   activity,
@@ -69,8 +76,11 @@ test('catalog preserves original identifiers, rect boundaries, blank author biog
       assert.ok(character.sprite.y + character.sprite.height <= character.sprite.sheetHeight)
     }
   }
-  assert.equal(CATALOG.filter((character) => character.speciesId === 'cat').length, 12)
-  assert.equal(CATALOG.filter((character) => character.speciesId === 'mist').length, 7)
+  assert.equal(CATALOG.filter((character) => character.speciesId === 'cat').length, 6)
+  assert.equal(CATALOG.filter((character) => character.speciesId === 'dog').length, 4)
+  assert.equal(CATALOG.filter((character) => character.speciesId === 'bird').length, 1)
+  assert.equal(CATALOG.filter((character) => character.speciesId === 'frog').length, 2)
+  assert.equal(CATALOG.filter((character) => character.speciesId === 'dragon').length, 7)
   const state = newState()
   state.characters['monthly-2026-09'] = { count: 1 }
   const catalog = catalogFor(state, '2026-10-13')
@@ -90,6 +100,142 @@ test('catalog preserves original identifiers, rect boundaries, blank author biog
       (result) => !result.id.startsWith('monthly-')
     )
   )
+})
+
+test('five author-confirmed series classify every partner exactly once, including historical monthly birds', () => {
+  const state = newState()
+  state.characters['monthly-2026-09'] = { count: 1 }
+  const catalog = catalogFor(state, '2026-10-13')
+  const expected = {
+    cat: [1, 2, 3, 7, 8, 9],
+    dog: [4, 5, 10, 11],
+    bird: [16],
+    frog: [6, 12],
+    dragon: [13, 14, 15, 17, 18, 19, 20]
+  }
+  const groups = speciesFor(catalog)
+  assert.deepEqual(groups.map((group) => group.id).sort(), Object.keys(expected).sort())
+  for (const [speciesId, ids] of Object.entries(expected)) {
+    const actual = groups.find((group) => group.id === speciesId)
+    assert.deepEqual(
+      actual.characterIds.filter((id) => !id.startsWith('monthly-')),
+      ids.map((id) => `companion-${id}`)
+    )
+  }
+  assert.deepEqual(groups.find((group) => group.id === 'bird').characterIds, [
+    'companion-16',
+    'monthly-2026-09',
+    'monthly-2026-10'
+  ])
+  const memberships = groups.flatMap((group) => group.characterIds)
+  assert.equal(new Set(memberships).size, catalog.length)
+  assert.equal(memberships.length, catalog.length)
+  assert.deepEqual(memberships.toSorted(), catalog.map((character) => character.id).toSorted())
+  const suffixes = { cat: '猫', dog: '狗', bird: '鸟', frog: '蛙', dragon: '龙' }
+  for (const character of catalog) {
+    assert.ok(character.name.zh.endsWith(suffixes[character.speciesId]))
+    assert.ok(character.name.en)
+  }
+  assert.equal(new Set(CATALOG.map((character) => character.name.zh)).size, CATALOG.length)
+  assert.equal(monthlyCharacter('2026-09').name.zh, '2026-09 月度·澄空鸟')
+})
+
+test('classification update reads legacy ownership, XP, home, balances, pity and receipts without rewriting user state', () => {
+  const directory = mkdtempSync(join(tmpdir(), 'qon-partner-classification-'))
+  const file = join(directory, 'old.sqlite')
+  cleanup.push(() => rmSync(directory, { recursive: true, force: true }))
+  const now = Date.parse('2026-10-13T12:00:00+08:00')
+  const state = newState()
+  state.revision = 42
+  state.balances = { points: 1234, tickets: { learning: 56, support: 7 }, echoes: 891 }
+  state.pity = { sinceSSR: 41, sinceHigh: 7 }
+  for (const id of ['companion-5', 'companion-16', 'companion-19', 'monthly-2026-09'])
+    state.characters[id] = { id, count: 3, source: 'draw', firstAt: 1 }
+  state.legacy = { 'legacy-fixture': { id: 'legacy-fixture', count: 2 } }
+  state.companion = {
+    currentId: 'companion-5',
+    progress: {
+      'companion-5': {
+        characterId: 'companion-5',
+        xp: 725,
+        gifts: ['keepsake-1', 'keepsake-2', 'keepsake-3']
+      }
+    }
+  }
+  state.inventory = { makeup: 2, decorations: ['decoration:glow'], homeSkins: ['room-placeholder'] }
+  state.home = {
+    revision: 8,
+    skinId: 'room-placeholder',
+    placements: [
+      { characterId: 'companion-5', x: 0.2, y: 0.7 },
+      { characterId: 'companion-16', x: 0.6, y: 0.8 },
+      { characterId: 'monthly-2026-09', x: 0.7, y: 0.5 }
+    ],
+    furniture: []
+  }
+  const frozenState = JSON.stringify(state)
+  const db = new DatabaseSync(file)
+  db.exec(
+    'CREATE TABLE users(id TEXT PRIMARY KEY,username TEXT NOT NULL UNIQUE,display_name TEXT NOT NULL,public_id TEXT NOT NULL UNIQUE,password_hash TEXT NOT NULL,public_collection INTEGER NOT NULL DEFAULT 0,public_time INTEGER NOT NULL DEFAULT 0,created_at INTEGER NOT NULL,state TEXT NOT NULL)'
+  )
+  db.prepare('INSERT INTO users VALUES(?,?,?,?,?,?,?,?,?)').run(
+    'old-partner-id',
+    'old_partner_user',
+    'Old Partner',
+    randomUUID(),
+    'test-only-hash',
+    0,
+    0,
+    1,
+    frozenState
+  )
+  db.close()
+  let store = new Store(file)
+  try {
+    const receipt = JSON.stringify({ results: [{ id: 'companion-5', tier: 'R' }] })
+    store.db
+      .prepare('INSERT INTO requests VALUES(?,?,?,?,?)')
+      .run('old-partner-id', 'old-request-id', 'fixture-hash', receipt, 1)
+    for (let pass = 0; pass < 2; pass++) {
+      const snapshot = store.snapshot('old-partner-id', now)
+      assert.deepEqual(snapshot.characters, Object.values(state.characters))
+      assert.deepEqual(snapshot.legacy, Object.values(state.legacy))
+      assert.deepEqual(snapshot.balances, state.balances)
+      assert.deepEqual(snapshot.pity, state.pity)
+      assert.deepEqual(snapshot.inventory, state.inventory)
+      assert.deepEqual(snapshot.home, state.home)
+      assert.equal(snapshot.companion.currentId, 'companion-5')
+      assert.deepEqual(snapshot.companion.progress, Object.values(state.companion.progress))
+      assert.equal(
+        snapshot.catalog.find((character) => character.id === 'companion-5').speciesId,
+        'dog'
+      )
+      assert.equal(
+        snapshot.catalog.find((character) => character.id === 'companion-16').speciesId,
+        'bird'
+      )
+      assert.equal(
+        snapshot.catalog.find((character) => character.id === 'companion-19').speciesId,
+        'dragon'
+      )
+      assert.equal(
+        snapshot.catalog.find((character) => character.id === 'monthly-2026-09').speciesId,
+        'bird'
+      )
+      assert.equal(store.user('old-partner-id').state, frozenState)
+      assert.equal(
+        store.db.prepare('SELECT response FROM requests WHERE request_id=?').get('old-request-id')
+          .response,
+        receipt
+      )
+      if (!pass) {
+        store.close()
+        store = new Store(file)
+      }
+    }
+  } finally {
+    store.close()
+  }
 })
 
 test('one stable daily A/R half-price offer is shared by devices and purchase validates server price atomically', async () => {

@@ -109,7 +109,7 @@
           <p lang="zh-CN">{message.zh}</p>
           {#if message.xp > 0}<small>+{message.xp} XP</small>{/if}
           {#if message.gifts.length}<small
-              >{tr('收到了新的精灵收藏品！', 'A new companion keepsake arrived!')}</small
+              >{tr('收到了新的伙伴收藏品！', 'A new companion keepsake arrived!')}</small
             >{/if}
           {#if !message.lang || (audio.voicesLoaded && !audio.textVoice(message.lang))}<small
               class="muted"
@@ -123,7 +123,7 @@
       <button
         class="drag-handle"
         data-companion-drag
-        aria-label={tr('拖动精灵；也可用方向键移动', 'Drag companion; arrow keys also move it')}
+        aria-label={tr('拖动伙伴；也可用方向键移动', 'Drag companion; arrow keys also move it')}
         title={tr('拖动或按方向键移动', 'Drag or use arrow keys')}
         onpointerdown={startDrag}
         onpointermove={moveDrag}
@@ -136,7 +136,7 @@
         data-companion-options
         aria-expanded={options}
         onclick={() => (options = !options)}
-        title={tr('语言精灵设置', 'Companion settings')}
+        title={tr('语言伙伴设置', 'Companion settings')}
         ><CompanionSprite {character} width={82} /></button
       >
       <div class="caption">
@@ -178,7 +178,7 @@
             onclick={() => {
               options = false
               ui.go('collection')
-            }}><BookOpen size={13} />{tr('查看精灵图鉴', 'Open collection')}</button
+            }}><BookOpen size={13} />{tr('查看伙伴图鉴', 'Open collection')}</button
           >
         </div>
       {/if}

@@ -14,6 +14,16 @@ export function binaryArch(file, platform) {
     if (data.readUInt32LE(0) !== 0xfeedfacf) throw new Error(`Not 64-bit Mach-O: ${file}`)
     return { 0x01000007: 'x64', 0x0100000c: 'arm64' }[data.readUInt32LE(4)]
   }
+  if (platform === 'linux') {
+    if (
+      data.length < 20 ||
+      data.toString('ascii', 0, 4) !== '\x7fELF' ||
+      data[4] !== 2 ||
+      data[5] !== 1
+    )
+      throw new Error(`Not 64-bit little-endian ELF: ${file}`)
+    return { 62: 'x64', 183: 'arm64' }[data.readUInt16LE(18)]
+  }
   throw new Error(`Unsupported release platform ${platform}`)
 }
 
@@ -57,7 +67,18 @@ export function checkNeuralPackage(
   const files =
     platform === 'win32'
       ? ['onnxruntime_binding.node', 'onnxruntime.dll', 'DirectML.dll']
-      : ['onnxruntime_binding.node', 'libonnxruntime.1.21.0.dylib']
+      : platform === 'darwin'
+        ? ['onnxruntime_binding.node', 'libonnxruntime.1.21.0.dylib']
+        : platform === 'linux'
+          ? [
+              'onnxruntime_binding.node',
+              'libonnxruntime.so.1',
+              'libonnxruntime.so.1.21.0',
+              ...(arch === 'x64' ? ['libonnxruntime_providers_shared.so'] : [])
+            ]
+          : (() => {
+              throw new Error(`Unsupported release platform ${platform}`)
+            })()
   for (const file of files) {
     const entry = join(folder, file)
     const absolute = join(resources, 'app.asar.unpacked', entry)

@@ -82,7 +82,9 @@ function check(name, ok, detail) {
   if (!ok) throw new Error(name)
 }
 try {
-  const expected = process.env.PROBE_VERSION || '0.2.0'
+  const expected =
+    process.env.PROBE_VERSION ||
+    JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).version
   check('ASAR metadata version', packagedMetadata.version === expected, packagedMetadata.version)
   let page
   for (let i = 0; i < 200 && !page; i++) {

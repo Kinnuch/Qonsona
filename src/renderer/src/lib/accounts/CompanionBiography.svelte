@@ -73,7 +73,7 @@
   </div>
   <p class="hint">
     {tr(
-      '答对一题，留下成长的一页。抵达书签时，将收到这位语言精灵的小礼物。',
+      '答对一题，留下成长的一页。抵达书签时，将收到这位语言伙伴的小礼物。',
       'Each correct answer adds a page of growth. At each book marker, this companion gives you a small gift.'
     )}
   </p>

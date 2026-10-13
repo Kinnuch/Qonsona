@@ -1,6 +1,7 @@
 /* eslint @typescript-eslint/explicit-function-return-type: "off" -- Plain Node server module. */
 import { createHash } from 'node:crypto'
 import configuration from './catalog.json' with { type: 'json' }
+import species from './species.json' with { type: 'json' }
 
 /** Author-editable names, exterior-based species and empty biography fields live in catalog.json. */
 export const CATALOG = configuration
@@ -10,8 +11,8 @@ export function monthlyCharacter(month) {
     tier: 'SSR',
     sheet: 2,
     cell: 8,
-    speciesId: 'blue',
-    name: { zh: `${month} 月度精灵`, en: `${month} Monthly Spirit` },
+    speciesId: 'bird',
+    name: { zh: `${month} 月度·澄空鸟`, en: `${month} Monthly Azurebird` },
     special: 'monthly',
     month,
     sprite: { x: 337, y: 54, width: 22, height: 18, sheetWidth: 393, sheetHeight: 160 },
@@ -34,15 +35,9 @@ export function characterFor(id) {
   )
 }
 export function speciesFor(catalog) {
-  const names = {
-    cat: { zh: '猫形精灵', en: 'Cat Spirits' },
-    mist: { zh: '白色精灵', en: 'White Spirits' },
-    pink: { zh: '粉色精灵', en: 'Pink Spirits' },
-    blue: { zh: '蓝色精灵', en: 'Blue Spirits' }
-  }
-  return [...new Set(catalog.map((character) => character.speciesId))].map((id) => ({
+  return species.map(({ id, name }) => ({
     id,
-    name: names[id] || { zh: id, en: id },
+    name,
     characterIds: catalog
       .filter((character) => character.speciesId === id)
       .map((character) => character.id)

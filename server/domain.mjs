@@ -360,7 +360,7 @@ export function makeup(state, body, now) {
 export const COMPANION_MILESTONES = [100, 300, 700, 1500, 3000].map((xp, index) => ({
   xp,
   id: `keepsake-${index + 1}`,
-  name: { zh: `精灵收藏品 ${index + 1}`, en: `Spirit Keepsake ${index + 1}` }
+  name: { zh: `伙伴收藏品 ${index + 1}`, en: `Companion Keepsake ${index + 1}` }
 }))
 export function companionState(state) {
   state.companion ??= { currentId: null, progress: {} }

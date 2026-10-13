@@ -113,7 +113,7 @@
         ? [
             {
               id: 'companions',
-              name: { zh: '语言精灵', en: 'Language companions' },
+              name: { zh: '语言伙伴', en: 'Language companions' },
               characterIds: s.catalog.map((c) => c.id)
             }
           ]
@@ -536,7 +536,7 @@
                   <button class="btn primary" data-gallery-featured onclick={openFeatured}
                     >{slide === 1
                       ? tr('前往兑换', 'Visit shop')
-                      : tr('查看语言精灵', 'View companion')}<ArrowUpRight size={15} /></button
+                      : tr('查看语言伙伴', 'View companion')}<ArrowUpRight size={15} /></button
                   >
                 {:else}<p class="muted hero-empty">
                     {slide === 0
@@ -599,7 +599,7 @@
           <h2>
             {currentGroup
               ? currentGroup.name[i18n.locale]
-              : tr('语言精灵图鉴', 'Companion catalog')}
+              : tr('语言伙伴图鉴', 'Companion catalog')}
           </h2>
         </div>
         <span>{s.characters.length} / {s.catalog.length} {tr('已珍藏', 'collected')}</span>
@@ -681,7 +681,7 @@
                 {chosen.special === 'monthly'
                   ? tr('月度纪念', 'Monthly memorial')
                   : tier(chosen.tier)} · {currentGroup?.name[i18n.locale] ??
-                  tr('语言精灵', 'Language companion')}
+                  tr('语言伙伴', 'Language companion')}
               </p>
               <h2>{name(chosen)}</h2>
               <p>
@@ -692,7 +692,7 @@
                     )
                   : tr(
                       chosen.special === 'monthly'
-                        ? '完成整月的每日任务，即可珍藏这位语言精灵。'
+                        ? '完成整月的每日任务，即可珍藏这位语言伙伴。'
                         : '通过寻访相遇；初识与相知也可在商店直接兑换。',
                       chosen.special === 'monthly'
                         ? 'Complete the daily tasks for an entire calendar month to collect this companion.'
@@ -714,7 +714,7 @@
                     '正在一起成长',
                     'Growing together'
                   )}{:else}<Sparkles size={15} />{owned
-                    ? tr('选择为养成精灵', 'Choose as your companion')
+                    ? tr('选择为养成伙伴', 'Choose as your companion')
                     : tr('珍藏后可选择养成', 'Collect to choose this companion')}{/if}
               </button>
             </div>
@@ -736,7 +736,7 @@
             <h3>{tr('把每一天，都写进这一页。', 'A page for every day.')}</h3>
             <p class="muted">
               {tr(
-                '连续完成本月每天的三项任务，收藏本月专属语言精灵。续页笺不计入月度进度。',
+                '连续完成本月每天的三项任务，收藏本月专属语言伙伴。续页笺不计入月度进度。',
                 'Complete all three daily tasks on every day of this calendar month to collect its exclusive companion. Makeup slips do not count.'
               )}
             </p>
@@ -895,13 +895,13 @@
             ><ArrowLeft size={15} />{tr('返回灵墨商店', 'Back to Ink shop')}</button
           >
           <span aria-hidden="true">/</span><span
-            >{tier(shopTier)} · {tr('语言精灵', 'Language companions')}</span
+            >{tier(shopTier)} · {tr('语言伙伴', 'Language companions')}</span
           >
         </nav>
         <div class="section-head">
           <div>
             <p class="eyebrow">CHOOSE YOUR COMPANION</p>
-            <h2>{tr(`${tier(shopTier)}语言精灵`, `${tier(shopTier)} companions`)}</h2>
+            <h2>{tr(`${tier(shopTier)}语言伙伴`, `${tier(shopTier)} companions`)}</h2>
           </div>
           <span>{tr('挑选一位新的伙伴', 'Choose a new companion')}</span>
         </div>
@@ -936,7 +936,7 @@
                   />{/each}
               </div>
               <p class="eyebrow">{tier(quality)}</p>
-              <h3>{tr(`兑换${tier(quality)}语言精灵`, `Redeem ${tier(quality)} companions`)}</h3>
+              <h3>{tr(`兑换${tier(quality)}语言伙伴`, `Redeem ${tier(quality)} companions`)}</h3>
               <span class="shop-tier-link"
                 >{tr('进入挑选', 'Choose a companion')}<ArrowUpRight size={16} /></span
               >

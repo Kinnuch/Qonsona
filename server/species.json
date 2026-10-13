@@ -1,0 +1,7 @@
+[
+  { "id": "cat", "name": { "zh": "灵动猫", "en": "Playful Cats" } },
+  { "id": "dog", "name": { "zh": "逐风狗", "en": "Roaming Dogs" } },
+  { "id": "bird", "name": { "zh": "鸣诗鸟", "en": "Songbirds" } },
+  { "id": "frog", "name": { "zh": "听雨蛙", "en": "Rain Frogs" } },
+  { "id": "dragon", "name": { "zh": "星辉龙", "en": "Starlight Dragons" } }
+]

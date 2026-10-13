@@ -4,7 +4,13 @@ import { copyRuntimeDependencies, NATIVE_ASAR_OPTIONS } from './runtime-dependen
 
 const [mode, target, archive] = process.argv.slice(2)
 if (mode === 'copy' && target) {
-  console.log(JSON.stringify(copyRuntimeDependencies(process.cwd(), resolve(target))))
+  const graph = copyRuntimeDependencies(process.cwd(), resolve(target))
+  console.log(
+    JSON.stringify({
+      copiedRuntimePackages: graph.length,
+      neuralRuntime: graph.find((item) => item.name === 'onnxruntime-node')?.version || null
+    })
+  )
 } else if (mode === 'asar' && target && archive) {
   const asar = createRequire(resolve('package.json'))('@electron/asar')
   await asar.createPackageWithOptions(resolve(target), resolve(archive), NATIVE_ASAR_OPTIONS)

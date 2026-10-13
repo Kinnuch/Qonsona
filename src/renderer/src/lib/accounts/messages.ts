@@ -9,7 +9,7 @@ export const accountZh = {
   publicCollection: '加入收藏排行榜',
   publicTime: '加入学习时长排行榜',
   privacyHelp:
-    '新账号默认参与排行，可选择全球或好友范围，也可关闭参榜。榜单只显示昵称、公开编号、养成精灵和所选统计。',
+    '新账号默认参与排行，可选择全球或好友范围，也可关闭参榜。榜单只显示昵称、公开编号、养成伙伴和所选统计。',
   authMode: '账号操作',
   login: '登录',
   register: '注册',

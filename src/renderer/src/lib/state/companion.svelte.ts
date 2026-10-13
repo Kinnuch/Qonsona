@@ -140,7 +140,7 @@ export class CompanionState {
       xp: 0,
       gifts: []
     }
-    ui.toast('语言精灵提醒：已经学习 45 分钟，休息一下吧。', 'info', 8000)
+    ui.toast('语言伙伴提醒：已经学习 45 分钟，休息一下吧。', 'info', 8000)
   }
   dismiss(): void {
     this.message = null

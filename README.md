@@ -48,25 +48,29 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 缺少对齐译文时不猜句意，材料不足时少出或不出题。答案、完成状态及历史随文章指纹保存和转移。
 新闻节选只代表读完软件保存的标题与导语，不表示读过来源全文。
 
-未发布测试版收藏须登录 Qonsona / Qonlang 共享账号，服务器同步灵墨、语言精灵、道具和寻访保底。
-学习时间与每日任意/指定板块任务获得灵墨；商店兑换初识/相知语言精灵、寻访笺与续页笺，高档语言精灵通过寻访获得。
+0.4.0 的收藏系统使用 Qonsona / Qonlang 共享账号，服务器同步灵墨、语言伙伴、道具和寻访保底。
+学习时间与每日任意/指定板块任务获得灵墨；商店兑换初识/相知语言伙伴、寻访笺与续页笺，高档语言伙伴通过寻访获得。
 传颂基础概率 0.6%，20 次珍遇保底、90 次传颂保底，学习/支持券共用保底。旧版已解锁伙伴保留为纪念。
-新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成精灵。当前只有模拟支持订单，真实收款关闭。
-收藏测试另有每七天轮换的寻访画廊：每期一只聚光传颂，轮完再重新随机，保底跨期延续；
-精灵商店使用独立档位挑选页，家园提供可摆放并云端保存多只已收藏精灵的像素室内占位。
-家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；精灵保持原始像素大小，答对题目的鼓励会轮换。
-公网域名正在 ICP 备案，独立客户端通过加密 SSH 通道连接服务器测试。规则与入口见[收集说明](docs/collection.md)。
+新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成伙伴。当前只有模拟支持订单，真实收款关闭。
+收藏另有每七天轮换的寻访画廊：每期一只聚光传颂，轮完再重新随机，保底跨期延续；
+伙伴商店使用独立档位挑选页，家园提供可摆放并云端保存多只已收藏伙伴的像素室内占位。
+家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；伙伴保持原始像素大小，答对题目的鼓励会轮换。
+语言伙伴分为灵动猫、逐风狗、鸣诗鸟、听雨蛙、星辉龙五个系列，图鉴先选系列再展开每只伙伴。
+个体编号、已有收藏与养成记录保持不变；作者介绍保留空白框架。系列与介绍配置见[收藏说明](docs/collection.md#画廊伙伴系列与作者介绍)。
+公网账号入口仍等待 ICP 备案及 HTTPS，不表示安装后已能公网登录。独立测试通过加密 SSH 通道连接服务器验证，本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
 
 _Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
 Personal/author recordings remain first choice; IPA uses the separate phonetic approximation with explicit unsupported-symbol errors.
 See the [speech guide](docs/speech.md) for model licences and limits. Reading tasks use actual source evidence and aligned translations,
-with explicit limits for excerpts and insufficient material. The unreleased collection test uses shared Qonlang/Qonsona accounts,
+with explicit limits for excerpts and insufficient material. Version 0.4.0 collection uses shared Qonlang/Qonsona accounts,
 server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6% base SSR, hard pity 90).
 Leaderboard participation is optional. Support orders are simulated; real payments remain disabled.
 Weekly discovery galleries feature one Legend per seven-day period, with no repeats until the full cycle ends and shared pity retained.
 Tier shops have separate selection pages. The placeholder pixel home saves owned companion placements to the account.
 Furniture and paid room skins are not yet offered; 1000 echoes exchange for one learning ticket. Artwork stays at source size and encouragement varies.
+Language Companions are grouped into Playful Cats, Roaming Dogs, Songbirds, Rain Frogs and Starlight Dragons.
+Existing companion IDs, collections and upbringing records are retained; biography fields remain blank for the author.
 Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunnel to the actual server._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
@@ -85,7 +89,11 @@ Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunn
     在下方找到 Qonsona 被阻止的提示，点击「仍要打开」并输入密码即可。
   - 提示「已损坏，无法打开」时，请在终端执行 `xattr -cr /Applications/Qonsona.app`，之后照常双击打开。
 
-  朗读用的系统语音暂时只有 Windows 版有；macOS 上自己的录音、作者录音照常能放。
+- **Linux x64**：可下载 `Qonsona-<版本>-linux-x64.AppImage`，赋予执行权限后运行；Debian / Ubuntu 可使用同版本 `.deb` 安装包。自然语音使用随包提供的 CPU 运行库，不要求 CUDA。
+
+_Linux x64 installers are available as AppImage and Debian packages. Make the AppImage executable before running it. Local neural speech uses the bundled CPU runtime; CUDA is not required._
+
+朗读用的系统语音暂时只有 Windows 版有；macOS 上自己的录音、作者录音照常能放。
 
 数据目录：Windows 在 `%APPDATA%\qonsona`，macOS 在 `~/Library/Application Support/qonsona`
 （「设置 → 数据」里可以打开、导出备份、从备份恢复）。装过 Qonlang Study 的，第一次打开 Qonsona 会把
@@ -135,7 +143,7 @@ NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文�
 没有整站打包。原创学习说明与短句按 MIT；没有复制 Tolkien 或其他教材的长篇文本、网页字体或录音。
 离线语音的独立引擎是 [eSpeak-NG / Echogarden Emscripten 编译](https://github.com/echogarden-project/espeak-ng-emscripten)，
 `resources/speech/espeak/` 引擎按 GPL-3.0，`resources/speech/runner.mjs` 也按 GPL-3.0；
-引擎原始 `COPYING` 与 `README.md` 原样保留。本轮只做本地开发/测试，没有分发新的 Release。
+引擎原始 `COPYING` 与 `README.md` 原样保留，独立语音进程与引擎的许可证随安装包提供。
 
 ## 开发
 
@@ -145,18 +153,17 @@ NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文�
 
 程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
 
-精灵语开发构建需另外生成两库：已发布 `data/release-data.json` 的 0.2.0 清单只包含旧八门语言的九个数据库，
-`fetch-data.mjs` 不会从这个历史资产凭空取到昆雅语或辛达语。
+`data/release-data.json` 使用 0.4.0 的版本化数据包 `qonsona-data-0.4.0.zip`，包含十一库及逐文件大小与 SHA-256 校验。
+开发时可下载清单指定的完整数据包；需要重建精灵语词库时，再执行 Eldamo 管线。
 
 ```sh
-node scripts/release/fetch-data.mjs  # 需要 GITHUB_TOKEN；按历史清单验证并下载旧九库
+node scripts/release/fetch-data.mjs  # 需要 GITHUB_TOKEN；按当前清单验证并下载十一库
 node scripts/data/run-ts.mjs scripts/data/eldarin/build.ts --download  # Eldamo XML → qya/sjn 两库
 node scripts/data/run-ts.mjs scripts/lang/validate.ts qya
 node scripts/data/run-ts.mjs scripts/lang/validate.ts sjn
 ```
 
-新数据包的构建清单包含十一库，并有逐文件大小与 SHA-256 校验；仅历史 0.2.0 的完整九库集合保留下载兼容。
-下一次正式发布须使用新的版本化数据清单，不重写或替换已发布的 0.2.0 清单及资产。
+历史 0.2.0 的完整九库集合保留下载兼容。之后的数据包使用新的版本号，不重写或替换已经发布的清单与资产。
 
 ```sh
 npm install --registry=https://registry.npmmirror.com   # Electron 二进制另设 ELECTRON_MIRROR
@@ -207,15 +214,15 @@ macOS 的 dmg 只能在 macOS 上打（`npm run build:mac`），平时交给 Git
 
 ## 发布与软件内更新
 
-推送 `v<版本号>` 标签后，[.github/workflows/release.yml](.github/workflows/release.yml) 在 Windows 与 macOS 上
-各打一遍，产物挂到同名 Release：`Qonsona-<版本>-setup.exe`、同名的 `.blockmap`、`latest.yml`、
-`Qonsona-<版本>-mac-x64.dmg`、`Qonsona-<版本>-mac-arm64.dmg`。Release 的说明由 `node scripts/release-notes.mjs <版本>`
+推送 `v<版本号>` 标签后，[.github/workflows/release.yml](.github/workflows/release.yml) 在 Windows、macOS 与 Linux 上
+构建，产物挂到同名 Release：`Qonsona-<版本>-setup.exe`、同名的 `.blockmap`、`latest.yml`、
+`Qonsona-<版本>-mac-x64.dmg`、`Qonsona-<版本>-mac-arm64.dmg`，以及 Linux x64 的 `.AppImage`、`.deb` 与更新清单。Release 的说明由 `node scripts/release-notes.mjs <版本>`
 从 `CHANGELOG.md` 与 `CHANGELOG.en.md` 里摘中英两段。
 
 - 词典数据库（`resources/data/<语言>/`）不入库：CI 从草稿 Release「build-data」取
   `data/release-data.json` 指定的 `qonsona-data-<版本>.zip`，核对整包及逐文件大小、SHA-256 后解压。
   新数据用新的版本号准备/上传（`scripts/release/prepare-data.mjs`、`scripts/release/upload-data.mjs`）；
-  不替换旧版清单或旧版 ZIP。开发版的新增精灵语库还需按上面的 Eldamo 管线生成。
+  不替换旧版清单或旧版 ZIP。需要重建精灵语库时，使用上面的 Eldamo 管线。
 - 软件内更新问的是 GitHub 上 `Kinnuch/Qonsona` 的 Release（仓库名写在 `src/main/update.ts`、
   `electron-builder.yml` 的 publish、`scripts/pack-win.sh` 写的 app-update.yml 三处，改名时一起改）。
 - 装过的 Windows 版先试增量：拿上次安装时存下的安装包（`%LOCALAPPDATA%\qonsona-updater\installer.exe`）

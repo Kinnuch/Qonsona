@@ -36,6 +36,14 @@ const pe = (arch: 'x64' | 'arm64'): Buffer => {
   data.writeUInt16LE(arch === 'x64' ? 0x8664 : 0xaa64, 132)
   return data
 }
+const elf = (arch: 'x64' | 'arm64'): Buffer => {
+  const data = Buffer.alloc(64)
+  data.write('\x7fELF')
+  data[4] = 2
+  data[5] = 1
+  data.writeUInt16LE(arch === 'x64' ? 62 : 183, 18)
+  return data
+}
 const fixture = (root: string, nested = false): void => {
   pkg(join(root, 'node_modules/onnxruntime-node'), 'onnxruntime-node', '1.21.0')
   write(root, 'node_modules/onnxruntime-node/dist/index.js', 'module.exports = {}')
@@ -131,5 +139,48 @@ describe('neural release packaging', () => {
     const broken = join(root, 'invalid')
     writeFileSync(broken, Buffer.alloc(32))
     expect(() => binaryArch(broken, 'darwin')).toThrow('Mach-O')
+  })
+  it('recognizes 64-bit ELF architectures and rejects 32-bit or wrong-endian binaries', () => {
+    const root = temp()
+    for (const arch of ['x64', 'arm64'] as const) {
+      const file = join(root, arch)
+      writeFileSync(file, elf(arch))
+      expect(binaryArch(file, 'linux')).toBe(arch)
+    }
+    const broken = join(root, 'invalid'),
+      data = elf('x64')
+    data[4] = 1
+    writeFileSync(broken, data)
+    expect(() => binaryArch(broken, 'linux')).toThrow('ELF')
+    data[4] = 2
+    data[5] = 2
+    writeFileSync(broken, data)
+    expect(() => binaryArch(broken, 'linux')).toThrow('ELF')
+  })
+  it('validates Linux CPU native files and rejects a mismatched sibling runtime', async () => {
+    const source = temp(),
+      resources = temp(),
+      folder = 'node_modules/onnxruntime-node/bin/napi-v3/linux/x64'
+    fixture(source)
+    for (const file of [
+      'onnxruntime_binding.node',
+      'libonnxruntime.so.1',
+      'libonnxruntime.so.1.21.0',
+      'libonnxruntime_providers_shared.so'
+    ])
+      write(source, `${folder}/${file}`, elf('x64'))
+    await asar.createPackageWithOptions(source, join(resources, 'app.asar'), NATIVE_ASAR_OPTIONS)
+    expect(checkNeuralPackage(resources, asar, 'linux', 'x64')).toMatchObject({
+      platform: 'linux',
+      arch: 'x64',
+      nativeFiles: 4
+    })
+    writeFileSync(
+      join(resources, 'app.asar.unpacked', folder, 'libonnxruntime.so.1.21.0'),
+      elf('arm64')
+    )
+    expect(() => checkNeuralPackage(resources, asar, 'linux', 'x64')).toThrow(
+      'architecture mismatch'
+    )
   })
 })

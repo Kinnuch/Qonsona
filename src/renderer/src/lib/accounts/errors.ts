@@ -8,16 +8,16 @@ const errors: Record<string, [string, string]> = {
     'Another device changed your home. Refresh before saving.'
   ],
   INVALID_HOME_SKIN: ['请选择已有的家园风格。', 'Choose an available home style.'],
-  INVALID_HOME_POSITION: ['请将精灵放在家园范围内。', 'Place companions inside the home.'],
+  INVALID_HOME_POSITION: ['请将伙伴放在家园范围内。', 'Place companions inside the home.'],
   PENDING_RECOVERY: [
     '上一次操作结果尚未确认，请先重新连接恢复。',
     'Reconnect to recover the previous operation before continuing.'
   ],
   COMPANION_CHANGED: [
-    '另一台设备已更换养成精灵，请刷新后再确认。',
+    '另一台设备已更换养成伙伴，请刷新后再确认。',
     'Another device changed your companion. Refresh before confirming.'
   ],
-  CHARACTER_NOT_OWNED: ['请先获得这只语言精灵。', 'Collect this language companion first.'],
+  CHARACTER_NOT_OWNED: ['请先获得这只语言伙伴。', 'Collect this language companion first.'],
   SHOP_PRICE_CHANGED: [
     '价格已经更新，请刷新商店并重新确认。',
     'The price changed. Refresh the shop and confirm again.'
@@ -34,9 +34,9 @@ const errors: Record<string, [string, string]> = {
     'The pending invitation limit has been reached.'
   ],
   NOT_FRIENDS: ['目前不是好友。', 'You are not currently friends.'],
-  COMPANION_NOT_OWNED: ['请先获得这只语言精灵。', 'Collect this language companion first.'],
+  COMPANION_NOT_OWNED: ['请先获得这只语言伙伴。', 'Collect this language companion first.'],
   COMPANION_NOT_SELECTED: [
-    '请先在图鉴选择一只养成精灵。',
+    '请先在图鉴选择一只养成伙伴。',
     'Select a companion in the catalog first.'
   ],
   DAILY_ANSWER_LIMIT: [

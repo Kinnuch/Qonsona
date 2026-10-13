@@ -1,4 +1,4 @@
-# 打 tag（v0.1.0 这种）或手动触发时，同时在 Windows 与 macOS 上出安装包。
+# 打 tag（v0.1.0 这种）或手动触发时，同时在 Windows、macOS 与 Linux 上出安装包。
 # 打 tag 时每个平台的 job 直接把自己的产物挂到同名 GitHub Release（几个 job 各自追加）。
 # 版本号带「-」的（v0.2.0-beta.1）标成预发布：正式版用户的检查更新只看 releases/latest，收不到测试版。
 # 词典数据库不入库：先从草稿 Release「build-data」取（scripts/release/fetch-data.mjs）。
@@ -31,21 +31,42 @@ jobs:
             files: |
               dist/*-mac-x64.dmg
               dist/*-mac-arm64.dmg
+          - os: ubuntu-22.04
+            artifact: linux
+            files: |
+              dist/*-linux-x64.AppImage
+              dist/*-linux-x64.deb
     runs-on: ${{ matrix.os }}
     env:
       # 没有签名证书：跳过 macOS 签名与公证
       CSC_IDENTITY_AUTO_DISCOVERY: false
+      # 正式打包不得保留隔离测试的词典领券入口。
+      VITE_QON_TEST_MODE: ''
+      QON_TEST_MODE: ''
+      # 只随包分发 CPU 推理；不下载几 GB 的 CUDA 库。
+      ONNXRUNTIME_NODE_INSTALL_CUDA: 'skip'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
+      - name: Linux runtime dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libnss3 libatk1.0-0 libatk-bridge2.0-0 libx11-xcb1 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libgtk-3-0
       - name: Dictionary data
         run: node scripts/release/fetch-data.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Validate source and service
+        run: |
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run server:test
       # Windows 跟本机一样：pack-win.sh 拼出免安装版，再用 --prepackaged 打 NSIS 安装包
       - name: Build (Windows)
         if: runner.os == 'Windows'
@@ -58,6 +79,11 @@ jobs:
         run: |
           npx electron-vite build
           npx electron-builder --mac --publish never
+      - name: Build (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          npx electron-vite build
+          npx electron-builder --linux --x64 --publish never
       # 核对打出来的程序：词典数据、程序包名（决定数据目录）、更新仓库、麦克风用途说明，缺了就失败
       - name: Check package (Windows)
         if: runner.os == 'Windows'
@@ -84,6 +110,13 @@ jobs:
           if [[ "$(uname -m)" == arm64 ]]; then app=dist/mac-arm64/Qonsona.app; arch=arm64;
           else app=dist/mac/Qonsona.app; arch=x64; fi
           ELECTRON_RUN_AS_NODE=1 "$app/Contents/MacOS/Qonsona" scripts/runtime-neural-check.mjs "$app/Contents/Resources/app.asar" "$arch"
+      - name: Check package (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          node scripts/release/check-package.mjs dist/linux-unpacked/resources linux x64
+          ELECTRON_RUN_AS_NODE=1 dist/linux-unpacked/qonsona scripts/runtime-neural-check.mjs dist/linux-unpacked/resources/app.asar x64
+          test -s dist/Qonsona-$(node -p 'require("./package.json").version')-linux-x64.AppImage
+          dpkg-deb --info dist/*-linux-x64.deb
       - name: List outputs
         shell: bash
         run: ls -la dist | grep -v '^d'

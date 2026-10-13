@@ -1,7 +1,7 @@
 export function ledgerName(kind: string, locale: string): string {
   const labels: [string, string, string][] = [
-    ['companion/select', '选择养成精灵', 'Companion selected'],
-    ['companion/answer', '语言精灵成长', 'Companion growth'],
+    ['companion/select', '选择养成伙伴', 'Companion selected'],
+    ['companion/answer', '语言伙伴成长', 'Companion growth'],
     ['friends/request', '发送好友邀请', 'Friend invitation sent'],
     ['friends/respond', '处理好友邀请', 'Friend invitation handled'],
     ['friends/remove', '删除好友', 'Friend removed'],

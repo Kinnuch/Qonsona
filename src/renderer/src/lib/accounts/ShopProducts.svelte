@@ -52,7 +52,7 @@
       </p>
       <p class="description">
         {item.type === 'character'
-          ? tr('直接珍藏这一位语言精灵。', 'Collect this language companion directly.')
+          ? tr('直接珍藏这一位语言伙伴。', 'Collect this language companion directly.')
           : item.type === 'ticket'
             ? tr(
                 '兑换一张学习寻访笺，用于一次寻访。',

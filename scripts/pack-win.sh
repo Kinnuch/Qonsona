@@ -5,8 +5,21 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 unset ELECTRON_RUN_AS_NODE || true
+unset VITE_QON_TEST_MODE QON_TEST_MODE || true
 npx electron-vite build
 OUT="${OUT:-dist/win-unpacked}"
+# OUT 可以避开用户仍在运行的旧包；递归清理前先约束为当前仓库的 dist 子目录。
+node --input-type=module - "$OUT" <<'JS'
+import { resolve, relative, isAbsolute } from 'node:path'
+const root = resolve('dist')
+for (const candidate of [process.argv[2], 'dist/app-stage']) {
+  const target = resolve(candidate), path = relative(root, target)
+  if (!path || path === '..' || path.startsWith('..' + '/') || path.startsWith('..' + '\\') || isAbsolute(path))
+    throw new Error('All cleanup targets must be child directories of this checkout dist/')
+}
+if (resolve(process.argv[2]) === resolve('dist/app-stage'))
+  throw new Error('OUT must differ from the temporary app-stage directory')
+JS
 rm -rf "$OUT" dist/app-stage
 mkdir -p "$OUT" dist/app-stage/node_modules dist/app-stage/resources
 cp -r node_modules/electron/dist/. "$OUT/"

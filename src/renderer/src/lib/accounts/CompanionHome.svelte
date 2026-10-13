@@ -148,13 +148,13 @@
   <header>
     <div>
       <p class="eyebrow">A PLACE TO COME HOME TO</p>
-      <h2>{tr('语言精灵的家园', 'A home for your companions')}</h2>
+      <h2>{tr('语言伙伴的家园', 'A home for your companions')}</h2>
     </div>
     <span><Home size={14} />{tr('像素室内 · 占位皮肤', 'Pixel interior · placeholder skin')}</span>
   </header>
   <p class="intro">
     {tr(
-      '把已经收藏的语言精灵邀请进来，拖动调整位置，再保存到账号。此处先提供室内占位，后续可换上你绘制的皮肤和家具。',
+      '把已经收藏的语言伙伴邀请进来，拖动调整位置，再保存到账号。此处先提供室内占位，后续可换上你绘制的皮肤和家具。',
       'Invite collected companions, drag them into place, then save to your account. This room is a placeholder for future hand-drawn skins and furniture.'
     )}
   </p>
@@ -173,7 +173,7 @@
           data-home-room
           data-home-skin={skinId}
           aria-label={tr(
-            '像素家园，精灵可拖拽或用方向键移动',
+            '像素家园，伙伴可拖拽或用方向键移动',
             'Pixel home; drag companions or move them with arrow keys'
           )}
         >
@@ -271,11 +271,11 @@
           </div>{/if}
       </div>
       <aside class="invite">
-        <p class="eyebrow">{tr('邀请语言精灵', 'INVITE COMPANIONS')}</p>
+        <p class="eyebrow">{tr('邀请语言伙伴', 'INVITE COMPANIONS')}</p>
         <h3>{tr('一起住进来', 'Make yourselves at home')}</h3>
         <p class="hint">
           {tr(
-            '每种精灵可放置一只；移出不会失去馆藏。',
+            '每种伙伴可放置一只；移出不会失去馆藏。',
             'Place one of each companion type. Removing one keeps your collection intact.'
           )}
         </p>
@@ -295,7 +295,7 @@
             >
           {:else}<p class="hint">
               {tr(
-                '珍藏第一位语言精灵后，即可邀请入住。',
+                '珍藏第一位语言伙伴后，即可邀请入住。',
                 'Collect your first companion to invite them home.'
               )}
             </p>{/each}

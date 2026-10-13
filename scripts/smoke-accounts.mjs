@@ -300,7 +300,7 @@ try {
       document.querySelector('[data-corridor-left]') && document.querySelector('[data-corridor-right]')`)
   )
   check(
-    'gallery spirits are never enlarged beyond their original source dimensions',
+    'gallery companions are never enlarged beyond their original source dimensions',
     await evaluate(`return Array.from(document.querySelectorAll('[data-companion-sprite]')).every(e=>{
       const r=e.getBoundingClientRect();return r.width<=Number(e.dataset.sourceWidth)+1 && r.height<=Number(e.dataset.sourceHeight)+1
     })`)

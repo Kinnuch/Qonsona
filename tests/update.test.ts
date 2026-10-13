@@ -51,6 +51,29 @@ describe('挑安装包', () => {
     expect(sha256FromDigest('md5:abc')).toBeNull()
     expect(sha256FromDigest(`sha256:${HEX.toUpperCase()}`)).toBe(HEX)
   })
+  it('Linux 只选本机架构的 AppImage，不下载其它架构或不认识的系统包', () => {
+    const files = [
+      asset('Qonsona-0.5.0-linux-arm64.AppImage'),
+      asset('Qonsona-0.5.0-linux-x64.AppImage'),
+      asset('Qonsona-0.5.0-linux-x64.deb')
+    ]
+    expect(pickInstaller(files, { platform: 'linux', arch: 'x64' })).toMatchObject({
+      name: 'Qonsona-0.5.0-linux-x64.AppImage',
+      auto: false
+    })
+    expect(pickInstaller(files, { platform: 'linux', arch: 'arm64' })?.name).toBe(
+      'Qonsona-0.5.0-linux-arm64.AppImage'
+    )
+    expect(pickInstaller(files.slice(0, 1), { platform: 'linux', arch: 'x64' })).toBeNull()
+    expect(pickInstaller(files, { platform: 'unknown', arch: 'x64' })).toBeNull()
+  })
+  it('历史无架构 AppImage 仅作为 x64 的兼容候选', () => {
+    const files = [asset('Qonsona-0.5.0.AppImage')]
+    expect(pickInstaller(files, { platform: 'linux', arch: 'x64' })?.name).toBe(
+      'Qonsona-0.5.0.AppImage'
+    )
+    expect(pickInstaller(files, { platform: 'linux', arch: 'arm64' })).toBeNull()
+  })
 })
 
 describe('版本号', () => {
@@ -97,6 +120,13 @@ describe('接口问不到时', () => {
     ])
     expect(installerCandidates('1.2.3', { platform: 'darwin', arch: 'arm64' })).toEqual([
       { name: 'Qonsona-1.2.3-mac-arm64.dmg', auto: false }
+    ])
+    expect(installerCandidates('1.2.3', { platform: 'linux', arch: 'x64' })).toEqual([
+      { name: 'Qonsona-1.2.3-linux-x64.AppImage', auto: false },
+      { name: 'Qonsona-1.2.3.AppImage', auto: false }
+    ])
+    expect(installerCandidates('1.2.3', { platform: 'linux', arch: 'arm64' })).toEqual([
+      { name: 'Qonsona-1.2.3-linux-arm64.AppImage', auto: false }
     ])
   })
 })

@@ -9,14 +9,17 @@ on:
 jobs:
   check:
     runs-on: windows-latest
+    env:
+      ONNXRUNTIME_NODE_INSTALL_CUDA: 'skip'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck
       - run: npx vitest run
+      - run: npm run server:test
       - run: npx electron-vite build
