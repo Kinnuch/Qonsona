@@ -1,6 +1,8 @@
 // 界面文案原文。en.ts 必须跟这里同构（tests/i18n.test.ts 检查）。
 // 口吻：说完整的句子，专业、有指引作用；界面上的名称加「」。
+import { accountZh } from '../accounts/messages'
 export default {
+  account: accountZh,
   app: {
     name: 'Qonsona',
     tagline: '学任何一门语言，包括你在千语集里造的语言'
@@ -21,7 +23,8 @@ export default {
     practice: '练习',
     media: '视听',
     stats: '统计',
-    collection: '收集',
+    collection: '收藏',
+    leaderboards: '排行榜',
     packs: '语言',
     settings: '设置'
   },

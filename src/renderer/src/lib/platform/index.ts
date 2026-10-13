@@ -1,6 +1,12 @@
 import type { TransferScope, TransferPreview, TransferResult } from '$shared/transfer'
 import type { DictionaryDaily } from '$shared/dictionary-daily'
 import type { NeuralStatus } from '$shared/neural-speech'
+import type {
+  AccountAction,
+  AccountPayloads,
+  AccountResponses,
+  AccountSession
+} from '$shared/account'
 /**
  * 渲染层跟主进程打交道的唯一入口。文件读写、偏好、学习包目录都走这里。
  */
@@ -116,6 +122,11 @@ function invoke<T>(channel: string, ...args: unknown[]): Promise<T> {
 }
 
 export const platform = {
+  account: {
+    session: () => invoke<AccountSession>('account:session'),
+    request: <A extends AccountAction>(action: A, payload: AccountPayloads[A]) =>
+      invoke<AccountResponses[A]>('account:request', action, payload)
+  },
   neural: {
     status: () => invoke<NeuralStatus>('neural:status'),
     install: () => invoke<NeuralStatus>('neural:install'),

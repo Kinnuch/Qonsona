@@ -48,15 +48,20 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 缺少对齐译文时不猜句意，材料不足时少出或不出题。答案、完成状态及历史随文章指纹保存和转移。
 新闻节选只代表读完软件保存的标题与导语，不表示读过来源全文。
 
-收集页有跨语言共享的十二枚学习伙伴。当天实际完成阅读、练习、课程或有作答的复习，并累计有效学习
-5、15、30 分钟，可在三个门槛各解锁下一枚。有效时间要求窗口在前台且近期有操作；不因启动或后台播放自动发奖。
-旧统计不追溯发奖，收藏与进度随备份和个人数据转移保留。详细规则见[收集说明](docs/collection.md)。
+未发布测试版收藏须登录 Qonsona / Qonlang 共享账号，服务器同步灵墨、语灵、道具和寻访保底。
+学习时间与每日任意/指定板块任务获得灵墨；商店兑换初识/相知语灵、寻访笺与续页笺，高档语灵通过寻访获得。
+传颂基础概率 0.6%，20 次珍遇保底、90 次传颂保底，学习/支持券共用保底。旧版已解锁伙伴保留为纪念。
+排行榜默认不公开，可分别参与收藏、总时长和每语言时长榜。当前只有模拟支持订单，真实收款关闭。
+公网域名正在 ICP 备案，独立客户端通过加密 SSH 通道连接服务器测试。规则与入口见[收集说明](docs/collection.md)。
 
 _Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
 Personal/author recordings remain first choice; IPA uses the separate phonetic approximation with explicit unsupported-symbol errors.
 See the [speech guide](docs/speech.md) for model licences and limits. Reading tasks use actual source evidence and aligned translations,
-with explicit limits for excerpts and insufficient material. Collection rewards require a real completion and active foreground study._
+with explicit limits for excerpts and insufficient material. The unreleased collection test uses shared Qonlang/Qonsona accounts,
+server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6% base SSR, hard pity 90).
+Leaderboard participation is optional. Support orders are simulated; real payments remain disabled.
+Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunnel to the actual server._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。

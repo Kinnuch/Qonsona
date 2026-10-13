@@ -2,6 +2,7 @@
   // 日语词典：查词（写法、假名、罗马字、变形、中英文释义）、汉字（笔顺、音训、字义）、例句、语法（N5–N1）；
   // 查询框旁边可以打开手写板，按笔画认字
   import { onMount } from 'svelte'
+  import { dictionaryTestGrant } from '$lib/accounts/test-grant'
   import { Search, PenTool } from '@lucide/svelte'
   import { platform, type WiktDefinition } from '$lib/platform'
   import { t, i18n } from '$lib/i18n/index.svelte'
@@ -206,7 +207,12 @@
         placeholder={t('dict.placeholder')}
         value={memo.query}
         oninput={(e) => (memo.query = e.currentTarget.value)}
-        onkeydown={(e) => e.key === 'Enter' && dictState.remember(PACK, memo.query)}
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            dictState.remember(PACK, memo.query)
+            void dictionaryTestGrant?.(memo.query)
+          }
+        }}
       />
       <button
         class="pen"

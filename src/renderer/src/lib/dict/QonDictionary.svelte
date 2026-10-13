@@ -2,6 +2,7 @@
   // 千语集语言的词典：词条（自造文字、读音、义项、屈折形、词源、例句）、语素、例句。
   // 词形、读音、文字写法都用千语集自己的引擎算，跟作者在千语集里看到的一样。
   import { onMount } from 'svelte'
+  import { dictionaryTestGrant } from '$lib/accounts/test-grant'
   import { Search } from '@lucide/svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { qonDailyPool } from './daily-qonlang'
@@ -153,7 +154,12 @@
         placeholder={t('dict.placeholderQon')}
         value={memo.query}
         oninput={(e) => (memo.query = e.currentTarget.value)}
-        onkeydown={(e) => e.key === 'Enter' && dictState.remember(packId, memo.query)}
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            dictState.remember(packId, memo.query)
+            void dictionaryTestGrant?.(memo.query)
+          }
+        }}
       />
     </label>
     <div class="seg" role="tablist">

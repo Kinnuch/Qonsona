@@ -153,6 +153,7 @@ export type ModuleId =
   | 'media'
   | 'stats'
   | 'collection'
+  | 'leaderboards'
   | 'packs'
   | 'settings'
 

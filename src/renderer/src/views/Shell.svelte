@@ -17,6 +17,7 @@
   import Media from './Media.svelte'
   import Stats from './Stats.svelte'
   import Collection from './Collection.svelte'
+  import Leaderboards from './Leaderboards.svelte'
 
   const learn = $derived(visibleModules(packs.active))
   /** 有说明的模块（鼠标移到导航上显示） */
@@ -128,7 +129,7 @@
   <main class="main" data-main-scroll>
     <!-- 页面出错时显示错误卡片，同时打到控制台（冒烟测试靠它发现崩溃） -->
     <svelte:boundary onerror={(e) => console.error(e)}>
-      {#key ui.section + '|' + (packs.active?.id ?? '')}
+      {#key ui.section + '|' + (ui.section === 'collection' || ui.section === 'leaderboards' ? 'account' : (packs.active?.id ?? ''))}
         {#if ui.section === 'home'}
           <Home />
         {:else if ui.section === 'packs'}
@@ -149,6 +150,8 @@
           <Media />
         {:else if ui.section === 'collection'}
           <Collection />
+        {:else if ui.section === 'leaderboards'}
+          <Leaderboards />
         {:else if ui.section === 'stats'}
           <Stats />
         {/if}

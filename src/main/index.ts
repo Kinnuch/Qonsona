@@ -32,6 +32,7 @@ import { registerDictionaryDaily } from './daily'
 import { registerArticleQuizIpc } from './article-quiz'
 import { articleMutationKey, pendingWrites } from './pending-writes'
 import { applyPendingTransfer, registerTransferIpc, setTransferResult } from './transfer'
+import { registerAccountIpc } from './account'
 import { AUDIO_EXT as MEDIA_AUDIO, SUBTITLE_EXT, VIDEO_EXT, type MediaPatch } from '../shared/media'
 import { analysisLevel, cleanAozora, type ArticleInput, type NhkStatus } from '../shared/articles'
 import type { JaAnalysis } from '../shared/ja/reader'
@@ -883,6 +884,7 @@ app.whenReady().then(async () => {
     await applyPendingTransfer(userData()).catch((error) => ({ error: String(error) }))
   )
   await registerTransferIpc()
+  registerAccountIpc()
   nativeTheme.themeSource = readPrefs().theme
   protocol.handle(MEDIA_SCHEME, (req) => media().serve(req))
 

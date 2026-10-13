@@ -1,0 +1,7 @@
+/data/
+/logs/
+.env
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.secret

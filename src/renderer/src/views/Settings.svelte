@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
+  import AccountPanel from '$lib/accounts/AccountPanel.svelte'
   import { FolderOpen, Volume2, Download, Upload } from '@lucide/svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { audio } from '$lib/state/audio.svelte'
@@ -182,6 +183,7 @@
 <div class="page">
   <header class="page-head"><h1>{t('settings.title')}</h1></header>
 
+  <AccountPanel />
   <section class="card group">
     <h3>{t('settings.interface')}</h3>
     <label class="row">

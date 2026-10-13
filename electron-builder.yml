@@ -4,6 +4,7 @@ copyright: Copyright © 2026 Kinnuch · MIT
 directories:
   buildResources: build
 files:
+  - '!server/**'
   - '!**/.vscode/*'
   - '!src/*'
   - '!tests/*'

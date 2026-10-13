@@ -1,0 +1,17 @@
+# Add to the existing HTTPS kinnuch.cn server block, preserving all other services.
+# Define limit_req_zone $binary_remote_addr zone=qon_api:10m rate=10r/s;
+# in the http{} context once. TLS certificates are configured by the operator.
+location ^~ /qon-api/v1/admin/ {
+    deny all;
+}
+location /qon-api/ {
+    client_max_body_size 32k;
+    limit_req zone=qon_api burst=20 nodelay;
+    proxy_pass http://127.0.0.1:8787/;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header Connection "";
+    proxy_read_timeout 20s;
+}

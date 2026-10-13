@@ -9,7 +9,8 @@ import {
   ChartColumn,
   Languages,
   Settings,
-  Sparkles
+  Sparkles,
+  Trophy
 } from '@lucide/svelte'
 import type { ModuleId } from '$lib/packs/types'
 
@@ -24,6 +25,7 @@ export const MODULE_ICONS: Record<ModuleId, typeof House> = {
   media: Clapperboard,
   stats: ChartColumn,
   collection: Sparkles,
+  leaderboards: Trophy,
   packs: Languages,
   settings: Settings
 }

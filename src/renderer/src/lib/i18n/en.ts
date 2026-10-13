@@ -1,5 +1,7 @@
 // English UI text. Must mirror zh.ts key for key (checked by tests/i18n.test.ts).
+import { accountEn } from '../accounts/messages'
 export default {
+  account: accountEn,
   app: {
     name: 'Qonsona',
     tagline: 'Learn any language — including the ones you build in Qonlang'
@@ -21,6 +23,7 @@ export default {
     media: 'Media',
     stats: 'Progress',
     collection: 'Collection',
+    leaderboards: 'Rankings',
     packs: 'Languages',
     settings: 'Settings'
   },

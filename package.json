@@ -10,6 +10,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "server:start": "node server/index.mjs",
+    "server:test": "node --test server/tests/*.test.mjs",
     "format": "prettier --plugin prettier-plugin-svelte --write .",
     "lint": "eslint --cache .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
@@ -21,6 +23,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "smoke": "node scripts/smoke.mjs",
+    "smoke:accounts": "node scripts/smoke-accounts.mjs",
     "smoke:languages": "node scripts/smoke-languages.mjs",
     "smoke:layout": "node scripts/smoke-layout.mjs",
     "smoke:responsiveness": "node scripts/smoke-responsiveness.mjs",

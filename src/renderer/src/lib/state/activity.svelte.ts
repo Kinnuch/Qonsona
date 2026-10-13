@@ -11,13 +11,13 @@ import { ui } from './ui.svelte'
 import { media } from './media.svelte'
 import {
   emptyRewards,
-  completeReward,
-  addRewardInterval,
   rewardIntervalEnd,
   REWARD_MODULES,
   type CompletionKind
 } from '$shared/rewards'
-import { i18n } from '$lib/i18n/index.svelte'
+import { recordLocalCompletion, recordLocalInterval } from '$lib/accounts/local-records'
+import { account } from './account.svelte'
+import { LANG_CODES } from '$shared/lang/types'
 
 const TICK = 15_000
 /** 这么久没动鼠标键盘就算走开了 */
@@ -81,7 +81,12 @@ class Activity {
           this.#wasActive,
           IDLE
         )
-        if (end !== null) this.announce(addRewardInterval(this.log.rewards, now - dt, end))
+        if (end !== null) recordLocalInterval(this.log.rewards, now - dt, end)
+        if (end !== null)
+          void account.reportActivity({
+            language: this.accountLanguage(this.#pack),
+            seconds: Math.min(60, Math.floor((end - (now - dt)) / 1000))
+          })
       }
       this.log = { ...this.log }
       this.#dirty = true
@@ -109,22 +114,19 @@ class Activity {
       return
     }
     this.log.rewards ??= emptyRewards(at)
-    this.announce(completeReward(this.log.rewards, kind, id, packId, at))
+    recordLocalCompletion(this.log.rewards, kind, id, packId, at)
+    void account.reportActivity({
+      language: this.accountLanguage(packId),
+      seconds: 0,
+      completion: { kind, id }
+    })
     this.log = { ...this.log }
     this.#dirty = true
     void this.flush().catch((error) => ui.toast(String(error), 'error'))
   }
 
-  private announce(ids: string[]): void {
-    if (!ids.length) return
-    this.recentUnlocks = [...this.recentUnlocks, ...ids]
-    ui.toast(
-      i18n.locale === 'zh'
-        ? `已解锁 ${ids.length} 枚学习伙伴，可在「收集」中查看。`
-        : `Unlocked ${ids.length} learning companions. View them in Collection.`,
-      'info',
-      6000
-    )
+  private accountLanguage(id: string): string {
+    return id === 'ja' || (LANG_CODES as string[]).includes(id) ? id : `qonlang:${id}`
   }
 
   flush(): Promise<void> {

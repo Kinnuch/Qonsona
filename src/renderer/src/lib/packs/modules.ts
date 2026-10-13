@@ -13,11 +13,13 @@ export const LEARN_MODULES: ModuleId[] = [
   'notebook',
   'practice',
   'media',
+  'collection',
+  'leaderboards',
   'stats'
 ]
 
 /** 下面一组：跟学哪门语言无关的 */
-export const SYSTEM_MODULES: ModuleId[] = ['collection', 'packs', 'settings']
+export const SYSTEM_MODULES: ModuleId[] = ['packs', 'settings']
 
 /** 课程里的几块：有哪块就出哪块 */
 export type CourseSection =
@@ -46,7 +48,8 @@ export function dictionaryTabs(f: PackFeatures): DictionaryTab[] {
 }
 
 export function moduleVisible(id: ModuleId, pack: PackManifest | null): boolean {
-  if (id === 'packs' || id === 'settings' || id === 'collection') return true
+  if (id === 'packs' || id === 'settings' || id === 'collection' || id === 'leaderboards')
+    return true
   // 一门语言都没有时只留首页（引导去添加语言）
   if (!pack) return id === 'home'
   const f = pack.features

@@ -2,6 +2,7 @@
   // 框架里各语言（英、法、韩、西、阿、俄、苏格兰盖尔）的词典：查词（词头、变形、去掉变音符号、猜原形、
   // 中英文释义）与例句。数据在主进程的 SQLite（src/main/lang/lexdb.ts），各语言的规则在 src/shared/lang/<代码>/
   import { onMount, untrack } from 'svelte'
+  import { dictionaryTestGrant } from '$lib/accounts/test-grant'
   import { Search, Volume2, Keyboard } from '@lucide/svelte'
   import { platform } from '$lib/platform'
   import { t, i18n, pick } from '$lib/i18n/index.svelte'
@@ -295,7 +296,12 @@
         placeholder={t('dict.lex.placeholder', { lang: pick(spec.name) })}
         value={memo.query}
         oninput={(e) => (memo.query = e.currentTarget.value)}
-        onkeydown={(e) => e.key === 'Enter' && dictState.remember(code, memo.query)}
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            dictState.remember(code, memo.query)
+            void dictionaryTestGrant?.(memo.query)
+          }
+        }}
       />
     </label>
     {#if mod.keyboard?.length}

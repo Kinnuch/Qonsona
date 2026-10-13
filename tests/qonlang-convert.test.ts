@@ -59,6 +59,8 @@ describe('读千语集项目', () => {
       'dictionary',
       'notebook',
       'practice',
+      'collection',
+      'leaderboards',
       'stats'
     ])
     expect(courseSections(pack.features)).toEqual([
@@ -124,8 +126,8 @@ describe('读千语集项目', () => {
     expect(safeColor(undefined)).toBe('#0e9f8a')
   })
 
-  it('没有语言时只留首页', () => {
-    expect(visibleModules(null)).toEqual(['home'])
+  it('没有语言时仍可进入首页与全局账号收藏', () => {
+    expect(visibleModules(null)).toEqual(['home', 'collection', 'leaderboards'])
     expect(moduleVisible('settings', null)).toBe(true)
     expect(moduleVisible('packs', null)).toBe(true)
   })

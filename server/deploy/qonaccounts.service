@@ -1,0 +1,24 @@
+[Unit]
+Description=Qonlang and Qonsona shared accounts ledger
+After=network.target
+
+[Service]
+Type=simple
+User=qonaccounts
+Group=qonaccounts
+WorkingDirectory=/opt/qonaccounts
+EnvironmentFile=/etc/qonaccounts.env
+ExecStart=/usr/bin/node /opt/qonaccounts/index.mjs
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=20
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/qonaccounts
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target
