@@ -41,9 +41,10 @@ token = registered.token
 const login = await request('POST', '/auth/login', { username, password }, null)
 token2 = login.token
 assert.equal(login.user.id, registered.user.id)
-const gift = await request('POST', '/test/grant', {})
+const giftRequest = { requestId: randomUUID() }
+const gift = await request('POST', '/test/grant', giftRequest)
 assert.equal(gift.snapshot.balances.tickets.learning, 100)
-const giftReplay = await request('POST', '/test/grant', {})
+const giftReplay = await request('POST', '/test/grant', giftRequest)
 assert.equal(giftReplay.snapshot.balances.tickets.learning, 100)
 const drawPayload = { requestId: randomUUID(), source: 'learning', count: 10 }
 const draw = await request('POST', '/draw', drawPayload)
@@ -95,7 +96,7 @@ console.log(
     checks: [
       'register-login',
       'same-account-two-sessions',
-      '100-test-grant-once',
+      '100-test-grant-idempotent',
       'draw-idempotency',
       'cross-device-balance',
       'opt-in-leaderboard',

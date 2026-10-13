@@ -9,6 +9,7 @@
 import { platform } from '$lib/platform'
 import { serializedWrites } from './persistence'
 import { activity } from './activity.svelte'
+import { companion } from './companion.svelte'
 import { StudyRequestGate, type StudyRequest } from '$shared/study-request'
 import { t, pick } from '$lib/i18n/index.svelte'
 import { shuffled, rng } from '$shared/course'
@@ -317,7 +318,9 @@ class PracticeState {
     )
       return
     const q = run.questions[run.i]
+    if (!Number.isInteger(choice) || choice < 0 || choice >= q.choices.length) return
     this.run = { ...run, given: choice, answers: [...run.answers, choice] }
+    if (choice === q.answer) companion.correct(run.packId, companion.answerId(run.questions, run.i))
     if (this.log) {
       countDay(this.log, dayKey(), 1, choice === q.answer ? 1 : 0)
       this.#changed()
@@ -498,6 +501,12 @@ class PracticeState {
     )
       return
     const outcome = scorePaper(run.paper, run.answers)
+    for (const [sectionIndex, section] of run.paper.sections.entries()) {
+      for (const [questionIndex, question] of section.questions.entries()) {
+        if (run.answers[sectionIndex]?.[questionIndex] === question.answer)
+          companion.correct(run.packId, companion.answerId(section.questions, questionIndex))
+      }
+    }
     const now = Date.now()
     const record: ExamRecord = {
       id: String(now),

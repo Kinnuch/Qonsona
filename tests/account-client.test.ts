@@ -159,6 +159,41 @@ async function fixture(packaged = false, testMode = true) {
 }
 
 describe('account main-process gateway', () => {
+  it('blocks a new state-dependent transaction until the unknown request is recovered', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-test-password' })
+    const payload = {
+      requestId: 'draw-uncertain-before-select',
+      source: 'learning' as const,
+      count: 1 as const
+    }
+    f.loseDraw()
+    await expect(f.client.request('draw', payload)).rejects.toThrow('SERVICE_UNAVAILABLE')
+    await expect(
+      f.client.request('selectCompanion', {
+        requestId: 'select-new-after-failed-draw',
+        characterId: 'companion-2'
+      })
+    ).rejects.toThrow('PENDING_RECOVERY')
+    expect(f.calls.some((c) => c.path.endsWith('/companion/select'))).toBe(false)
+    await f.client.session()
+    expect(
+      JSON.parse(await fs.readFile(join(f.options.directory, 'account-pending.json'), 'utf8'))
+    ).toEqual({})
+  })
+  it('clears a definitive daily XP limit instead of replaying it tomorrow', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-test-password' })
+    f.malformedDraw(JSON.stringify({ error: { code: 'DAILY_ANSWER_LIMIT' } }), 429)
+    await expect(
+      f.client.request('draw', { requestId: 'daily-limit-rejected', source: 'learning', count: 1 })
+    ).rejects.toThrow('DAILY_ANSWER_LIMIT')
+    expect(
+      JSON.parse(await fs.readFile(join(f.options.directory, 'account-pending.json'), 'utf8'))
+    ).toEqual({})
+    await f.client.session()
+    expect(f.calls.filter((c) => c.path.endsWith('/draw'))).toHaveLength(1)
+  })
   it.each([401, 429])(
     'preserves pending replay on a %s with an empty error object',
     async (status) => {
@@ -287,7 +322,9 @@ describe('account main-process gateway', () => {
     const f = await fixture(true)
     await f.client.request('login', { username: 'learner', password: 'long-test-password' })
     expect((await f.client.session()).server.testcap).toBe(false)
-    await expect(f.client.request('testGrant', {})).rejects.toThrow('TEST_DISABLED')
+    await expect(
+      f.client.request('testGrant', { requestId: 'prod-grant-blocked' })
+    ).rejects.toThrow('TEST_DISABLED')
     expect(f.calls.some((c) => c.path.endsWith('/test/grant'))).toBe(false)
   })
   it('recovers an uncertain draw across process restart with its original request ID', async () => {

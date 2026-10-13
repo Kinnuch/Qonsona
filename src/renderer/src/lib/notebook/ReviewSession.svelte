@@ -267,7 +267,7 @@
               {question}
               {say}
               answered={answered !== null}
-              onanswer={(correct) => notebook.grade(correct ? 5 : 0)}
+              onanswer={(correct) => notebook.grade(correct ? 5 : 0, true)}
             />
           {/key}
         {:else if !s.questionPrepared}

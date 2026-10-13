@@ -12,6 +12,7 @@
     type ArticleQuizProgress
   } from '$shared/article-quiz'
   import { activity } from '$lib/state/activity.svelte'
+  import { companion } from '$lib/state/companion.svelte'
   import { i18n } from '$lib/i18n/index.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import type { ExamQuestion } from '$shared/exam'
@@ -129,6 +130,8 @@
     )
       return
     const owner = scope
+    if (choice === q.answer && quiz)
+      companion.correct(owner.packId, companion.answerId(quiz.questions, current))
     busy = true
     progress = { ...progress, answers: [...progress.answers, choice] }
     try {

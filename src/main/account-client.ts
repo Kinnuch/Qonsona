@@ -16,7 +16,13 @@ const DURABLE = new Set<AccountAction>([
   'useItem',
   'createSupportOrder',
   'configureTasks',
-  'importLegacy'
+  'importLegacy',
+  'testGrant',
+  'selectCompanion',
+  'companionAnswer',
+  'requestFriend',
+  'respondFriend',
+  'removeFriend'
 ])
 const ROUTES: Record<AccountAction, [string, string]> = {
   register: ['POST', '/auth/register'],
@@ -34,6 +40,12 @@ const ROUTES: Record<AccountAction, [string, string]> = {
   supportOrders: ['GET', '/support/orders'],
   configureTasks: ['POST', '/tasks/configure'],
   importLegacy: ['POST', '/collection/legacy'],
+  friends: ['GET', '/friends'],
+  requestFriend: ['POST', '/friends/request'],
+  respondFriend: ['POST', '/friends/respond'],
+  removeFriend: ['POST', '/friends/remove'],
+  selectCompanion: ['POST', '/companion/select'],
+  companionAnswer: ['POST', '/companion/answer'],
   testGrant: ['POST', '/test/grant']
 }
 
@@ -191,7 +203,11 @@ export class AccountClient {
       const error = data.error as { code?: string; message?: string } | undefined
       if (response.status === 401 && !path.startsWith('/auth/login'))
         throw new Error('UNAUTHORIZED: Please sign in again')
-      if (response.status === 429) throw new Error('RATE_LIMITED: Please retry later')
+      if (response.status === 429) {
+        if (error?.code === 'DAILY_ANSWER_LIMIT' || error?.code === 'DAILY_EVENT_LIMIT')
+          throw new Error(`${error.code}: Daily learning reward limit reached`)
+        throw new Error('RATE_LIMITED: Please retry later')
+      }
       if (response.status >= 500)
         throw new Error(`SERVICE_UNAVAILABLE: ${error?.code ?? 'Account service error'}`)
       if (!error || typeof error.code !== 'string' || !/^[A-Z][A-Z0-9_]+$/.test(error.code))
@@ -220,6 +236,7 @@ export class AccountClient {
       const value = payload as AccountPayloads['leaderboards']
       const query = new URLSearchParams({ kind: value.kind, limit: String(value.limit ?? 20) })
       if (value.language) query.set('language', value.language)
+      if (value.scope) query.set('scope', value.scope)
       path += '?' + query.toString()
     }
     const data = await this.#http(route[0], path, payload)
@@ -321,6 +338,15 @@ export class AccountClient {
         if (!this.#identity) throw new Error('UNAUTHORIZED: Please sign in')
         if (typeof id !== 'string' || !/^[a-zA-Z0-9:_-]{8,120}$/.test(id))
           throw new Error('INVALID_REQUEST_ID')
+        if (
+          Object.entries(this.#pending).some(
+            ([pendingId, pending]) =>
+              pendingId !== id &&
+              pending.userId === this.#identity!.user.id &&
+              pending.base === this.base
+          )
+        )
+          throw new Error('PENDING_RECOVERY: Reconnect to recover the previous transaction first')
         const existing = this.#pending[id]
         if (
           existing &&

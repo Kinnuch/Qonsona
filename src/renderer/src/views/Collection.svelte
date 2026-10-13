@@ -1,6 +1,20 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { RefreshCw, X } from '@lucide/svelte'
+  import {
+    RefreshCw,
+    X,
+    ArrowUpRight,
+    ArrowLeft,
+    ArrowRight,
+    BookOpen,
+    Feather,
+    Sparkles,
+    Ticket,
+    CalendarDays,
+    Frame,
+    Check
+  } from '@lucide/svelte'
+  import { fly } from 'svelte/transition'
   import { account } from '$lib/state/account.svelte'
   import { activity } from '$lib/state/activity.svelte'
   import { ui } from '$lib/state/ui.svelte'
@@ -8,6 +22,8 @@
   import { moduleVisible } from '$lib/packs/modules'
   import { i18n } from '$lib/i18n/index.svelte'
   import AccountPanel from '$lib/accounts/AccountPanel.svelte'
+  import CompanionSprite from '$lib/accounts/CompanionSprite.svelte'
+  import CompanionBiography from '$lib/accounts/CompanionBiography.svelte'
   import { accountError } from '$lib/accounts/errors'
   import { ledgerName, orderStatus } from '$lib/accounts/presentation'
   import LegacyCollection from './LegacyCollection.svelte'
@@ -16,9 +32,6 @@
   import type { AccountCharacter, AccountShopItem, SupportOrder } from '$shared/account'
   import type { CompletionKind } from '$shared/rewards'
   import type { ModuleId } from '$lib/packs/types'
-  import dawn from '../assets/collection/companions-dawn.png'
-  import journey from '../assets/collection/companions-journey.png'
-  const sheets = [dawn, journey]
   const tr = (zh: string, en: string): string => (i18n.locale === 'zh' ? zh : en)
   const name = (c: AccountCharacter): string => c.name[i18n.locale]
   const tier = (t: string): string =>
@@ -28,9 +41,16 @@
       SR: tr('珍遇', 'Rare encounter'),
       SSR: tr('传颂', 'Legend')
     })[t] ?? t
-  const pos = (cell: number): string => `${(cell % 3) * 50}% ${Math.floor(cell / 3) * 100}%`
   let tab = $state('gallery'),
     selected = $state('')
+  let speciesId = $state(''),
+    shopTier = $state('')
+  let slide = $state(0),
+    slideDirection = $state(1),
+    hoverPause = $state(false),
+    focusPause = $state(false),
+    reducedMotion = $state(false)
+  const slideTypes = ['new', 'discount', 'popular'] as const
   let source = $state<'learning' | 'support'>('learning'),
     makeupDay = $state('')
   let orders = $state.raw<SupportOrder[]>([]),
@@ -78,6 +98,31 @@
   const online = $derived(!!account.session?.server.online && !account.busy)
   const chosen = $derived(s?.catalog.find((c) => c.id === selected) ?? s?.catalog[0])
   const owned = $derived(s?.characters.find((c) => c.id === chosen?.id))
+  const featured = $derived(s?.gallery?.find((g) => g.type === slideTypes[slide]))
+  const featuredCharacter = $derived(s?.catalog.find((c) => c.id === featured?.characterId))
+  const groups = $derived(
+    s?.species ??
+      (s
+        ? [
+            {
+              id: 'companions',
+              name: { zh: '语言精灵', en: 'Language companions' },
+              characterIds: s.catalog.map((c) => c.id)
+            }
+          ]
+        : [])
+  )
+  const currentGroup = $derived(groups.find((g) => g.id === speciesId))
+  const groupMembers = $derived(
+    s?.catalog.filter((c) => currentGroup?.characterIds.includes(c.id)) ?? []
+  )
+  const heroTitle = $derived(
+    slide === 0
+      ? tr('今日新增的馆藏', 'Today’s new acquisitions')
+      : slide === 1
+        ? tr('今日半价的相遇', 'Today’s half-price encounter')
+        : tr('人气传颂馆藏', 'Popular legendary companion')
+  )
   const probabilities = $derived(s ? nextProbabilities(s) : null)
   $effect(() => {
     if (s && editingDay !== s.day) {
@@ -101,7 +146,36 @@
   ]
   onMount(() => {
     void account.ensure()
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const updateMotion = (): void => {
+      reducedMotion = media.matches
+    }
+    updateMotion()
+    media.addEventListener('change', updateMotion)
+    const interval = window.setInterval(() => {
+      if (!hoverPause && !focusPause && !reducedMotion && !document.hidden)
+        changeSlide((slide + 1) % 3)
+    }, 5000)
+    return () => {
+      window.clearInterval(interval)
+      media.removeEventListener('change', updateMotion)
+    }
   })
+  function changeSlide(next: number): void {
+    slideDirection = next === (slide + 1) % 3 ? 1 : -1
+    slide = next
+  }
+  function openFeatured(): void {
+    if (!featuredCharacter) return
+    if (slideTypes[slide] === 'discount') {
+      tab = 'shop'
+      shopTier = featuredCharacter.tier
+    } else {
+      tab = 'gallery'
+      speciesId = groups.find((g) => g.characterIds.includes(featuredCharacter.id))?.id ?? ''
+      selected = featuredCharacter.id
+    }
+  }
   function taskName(kind: string): string {
     return (
       {
@@ -154,7 +228,13 @@
         `消费 ${item.price} ${currency}；当前 ${balance}，完成后 ${balance - item.price}。`,
         `Spend ${item.price} ${currency}; current ${balance}, remaining ${balance - item.price}.`
       ),
-      action: () => account.mutate('purchase', { requestId, itemId: item.id, quantity: 1 })
+      action: () =>
+        account.mutate('purchase', {
+          requestId,
+          itemId: item.id,
+          quantity: 1,
+          expectedPrice: item.price
+        })
     }
   }
   function askDraw(count: 1 | 10): void {
@@ -268,8 +348,8 @@
 >
   <header class="page-head">
     <div>
-      <p class="eyebrow">QONSONA · COLLECTION</p>
-      <h1>{tr('书房收藏馆', 'The study gallery')}</h1>
+      <p class="eyebrow">THE COLLECTION ROOM</p>
+      <h1>{tr('收藏', 'Collection')}</h1>
     </div>
     <button
       class="btn ghost"
@@ -286,34 +366,18 @@
     </p>
     <AccountPanel />
   {:else}
-    <section class="hero">
-      <div class="portrait">
-        <span
-          class="sprite large"
-          style:background-image={`url("${sheets[chosen?.sheet ?? 0]}")`}
-          style:background-position={pos(chosen?.cell ?? 0)}
-        ></span>
-      </div>
-      <div>
-        <p class="eyebrow">{s.day} · {account.session.user.nickname}</p>
-        <h2>{chosen ? name(chosen) : tr('与学习同行', 'Companions to your learning')}</h2>
-        <p>
-          {tr(
-            '让每一次真正完成的学习留下印记。两种寻访笺共用同一保底，余韵只用于装饰。',
-            'Leave a mark with each completed learning activity. Both ticket sources share guarantees; echoes buy decorations only.'
-          )}
-        </p>
-        <div class="wallet" data-wallet>
-          <span>{tr('灵墨', 'Ink')} <b data-points>{s.balances.points}</b></span><span
-            >{tr('学习笺', 'Learning tickets')}
-            <b data-learning-tickets>{s.balances.tickets.learning}</b></span
-          ><span
-            >{tr('支持笺', 'Support tickets')}
-            <b data-support-tickets>{s.balances.tickets.support}</b></span
-          ><span>{tr('余韵', 'Echoes')} <b>{s.balances.echoes}</b></span>
-        </div>
-      </div>
-    </section>
+    <div class="wallet" data-wallet>
+      <span><Feather size={16} />{tr('灵墨', 'Ink')} <b data-points>{s.balances.points}</b></span>
+      <span
+        ><Ticket size={16} />{tr('学习笺', 'Learning tickets')}
+        <b data-learning-tickets>{s.balances.tickets.learning}</b></span
+      >
+      <span
+        >{tr('支持寻访笺', 'Support tickets')}
+        <b data-support-tickets>{s.balances.tickets.support}</b></span
+      >
+      <span>{tr('余韵', 'Echoes')} <b>{s.balances.echoes}</b></span>
+    </div>
     {#if !account.session.server.online}<div class="notice" role="status">
         {tr(
           '离线只读：本地学习可继续，暂不能消费、寻访或修改余额。重新连接后再试。',
@@ -348,64 +412,297 @@
         >{/each}
     </nav>
     {#if tab === 'gallery'}
+      <section
+        class="hero"
+        data-gallery-hero
+        aria-roledescription={tr('画廊轮播', 'Gallery carousel')}
+        aria-label={tr('今日馆藏', 'Today in the gallery')}
+        onmouseenter={() => (hoverPause = true)}
+        onmouseleave={() => (hoverPause = false)}
+        onfocusin={() => (focusPause = true)}
+        onfocusout={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node)) focusPause = false
+        }}
+      >
+        <div class="hero-viewport">
+          {#key slide}
+            <div
+              class="hero-slide"
+              data-gallery-slide={slideTypes[slide]}
+              data-gallery-type={slideTypes[slide]}
+              in:fly={{
+                x: reducedMotion ? 0 : slideDirection * 35,
+                duration: reducedMotion ? 0 : 260
+              }}
+            >
+              <div class="portrait framed">
+                <div class="gold-frame" aria-hidden="true"></div>
+                <div class="frame-art">
+                  {#if featuredCharacter}<CompanionSprite
+                      character={featuredCharacter}
+                      width={146}
+                    />{:else}<BookOpen size={56} strokeWidth={1} />{/if}
+                </div>
+                <div class="frame-label">
+                  {featuredCharacter
+                    ? name(featuredCharacter)
+                    : tr('留给下一次相遇', 'A place for the next encounter')}
+                </div>
+              </div>
+              <div class="hero-copy">
+                <p class="eyebrow">{heroTitle} · {s.day}</p>
+                <h2>
+                  {slide === 0
+                    ? tr('在微小进步里，\n遇见新的伙伴。', 'Small steps.\nNew companions.')
+                    : slide === 1
+                      ? tr(
+                          '留一页心动，\n珍藏今日相遇。',
+                          'A page to remember.\nToday’s special encounter.'
+                        )
+                      : tr(
+                          '一路相伴，\n让珍贵被看见。',
+                          'A companion for the journey.\nA legend to treasure.'
+                        )}
+                </h2>
+                {#if featuredCharacter}
+                  <p class="hero-caption">
+                    <span>{name(featuredCharacter)}</span><span
+                      class="tier-badge"
+                      data-tier={featuredCharacter.tier}
+                      >{featuredCharacter.special === 'monthly'
+                        ? tr('月度纪念', 'Monthly memorial')
+                        : tier(featuredCharacter.tier)}</span
+                    >
+                    {#if slide === 1}<span class="discount-badge">−50%</span>{/if}
+                  </p>
+                  {#if slide === 1 && featured?.price !== undefined}<p class="hero-price">
+                      <del>{featured.originalPrice}</del> <strong>{featured.price}</strong>
+                      {tr('灵墨', 'Ink')}
+                    </p>{/if}
+                  {#if slide === 2}<p class="muted">
+                      {tr(
+                        `${featured?.ownerCount ?? 0} 位学习者珍藏`,
+                        `Collected by ${featured?.ownerCount ?? 0} learners`
+                      )}
+                    </p>{/if}
+                  <button class="btn primary" data-gallery-featured onclick={openFeatured}
+                    >{slide === 1
+                      ? tr('前往兑换', 'Visit shop')
+                      : tr('查看语言精灵', 'View companion')}<ArrowUpRight size={15} /></button
+                  >
+                {:else}<p class="muted hero-empty">
+                    {slide === 0
+                      ? tr(
+                          '今天还没有新增馆藏。完成学习，再开启一场寻访。',
+                          'No new acquisitions today. Keep learning, then discover a new companion.'
+                        )
+                      : tr(
+                          '馆藏正在更新，请稍后刷新。',
+                          'The gallery is being updated. Refresh in a moment.'
+                        )}
+                  </p>
+                  <button class="btn" onclick={() => (tab = 'tasks')}
+                    >{tr('今日任务', 'Today’s tasks')}<ArrowUpRight size={15} /></button
+                  >{/if}
+              </div>
+            </div>
+          {/key}
+        </div>
+        <div class="carousel-controls">
+          <button
+            class="btn carousel-arrow"
+            aria-label={tr('上一张', 'Previous slide')}
+            onclick={() => changeSlide((slide + 2) % 3)}><ArrowLeft size={16} /></button
+          >
+          <div class="dots" aria-label={tr('选择画廊图片', 'Choose a gallery slide')}>
+            {#each slideTypes as type, index (type)}<button
+                data-hero-dot={index}
+                data-gallery-dot={index}
+                class:active={slide === index}
+                aria-label={[
+                  tr('今日新增', 'Today’s new acquisitions'),
+                  tr('今日半价', 'Today’s discount'),
+                  tr('人气传颂', 'Popular legend')
+                ][index]}
+                aria-current={slide === index ? 'true' : undefined}
+                onkeydown={(event) => {
+                  if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+                    event.preventDefault()
+                    const next = (slide + (event.key === 'ArrowRight' ? 1 : 2)) % 3
+                    changeSlide(next)
+                    document
+                      .querySelector<HTMLButtonElement>(`[data-gallery-dot="${next}"]`)
+                      ?.focus()
+                  }
+                }}
+                onclick={() => changeSlide(index)}
+              ></button>{/each}
+          </div>
+          <button
+            class="btn carousel-arrow"
+            aria-label={tr('下一张', 'Next slide')}
+            onclick={() => changeSlide((slide + 1) % 3)}><ArrowRight size={16} /></button
+          >
+        </div>
+      </section>
       <div class="section-head">
-        <h2>{tr('馆藏图鉴', 'Collection catalog')}</h2>
-        <span>{s.characters.length} / {s.catalog.length}</span>
+        <div>
+          <p class="eyebrow">{tr('小小收藏，长长旅程', 'Small treasures, a long journey')}</p>
+          <h2>
+            {currentGroup
+              ? currentGroup.name[i18n.locale]
+              : tr('语言精灵图鉴', 'Companion catalog')}
+          </h2>
+        </div>
+        <span>{s.characters.length} / {s.catalog.length} {tr('已珍藏', 'collected')}</span>
       </div>
-      <div class="grid">
-        {#each s.catalog as c (c.id)}{@const entry = s.characters.find((o) => o.id === c.id)}<button
-            class="card companion"
-            class:owned={!!entry}
-            data-character={c.id}
-            aria-pressed={selected === c.id}
-            onclick={() => (selected = c.id)}
-            ><span
-              class="sprite"
-              class:locked={!entry}
-              style:background-image={`url("${sheets[c.sheet]}")`}
-              style:background-position={pos(c.cell)}
-            ></span><strong>{name(c)}</strong><span class="tier">{tier(c.tier)}</span><small
-              >{entry
-                ? `${tr('已收藏', 'Collected')} ×${entry.count}`
-                : tr('尚未相遇', 'Not yet encountered')}</small
-            ></button
-          >{/each}
-      </div>
+      {#if !currentGroup}<div class="grid species-grid">
+          {#each groups as group (group.id)}
+            {@const members = s.catalog.filter((c) => group.characterIds.includes(c.id))}
+            {@const collected = members.filter((c) =>
+              s.characters.some((o) => o.id === c.id)
+            ).length}
+            <button
+              class="card species-card"
+              data-species={group.id}
+              onclick={() => {
+                speciesId = group.id
+                selected = ''
+              }}
+            >
+              <div class="species-preview">
+                {#each members.slice(0, 3) as c (c.id)}<CompanionSprite
+                    character={c}
+                    width={72}
+                  />{/each}
+              </div>
+              <div class="species-label">
+                <strong>{group.name[i18n.locale]}</strong><ArrowUpRight size={16} />
+              </div>
+              <small>{collected} / {members.length} {tr('已珍藏', 'collected')}</small>
+              <div class="species-progress">
+                <span style:width={`${members.length ? (collected / members.length) * 100 : 0}%`}
+                ></span>
+              </div>
+            </button>
+          {/each}
+        </div>{:else}
+        <button
+          class="btn ghost back"
+          data-species-back
+          onclick={() => {
+            speciesId = ''
+            selected = ''
+          }}><ArrowLeft size={15} />{tr('全部物种', 'All species')}</button
+        >
+        <div class="grid specimen-grid" data-species-entries={currentGroup.id}>
+          {#each groupMembers as c (c.id)}{@const entry = s.characters.find(
+              (o) => o.id === c.id
+            )}<button
+              class="card companion"
+              class:owned={!!entry}
+              data-character={c.id}
+              data-entry={c.id}
+              aria-pressed={selected === c.id}
+              onclick={() => (selected = c.id)}
+              ><div class="specimen-art">
+                <CompanionSprite character={c} width={116} locked={!entry} />
+              </div>
+              <strong>{name(c)}</strong><span class="tier-badge" data-tier={c.tier}
+                >{c.special === 'monthly' ? tr('月度纪念', 'Monthly memorial') : tier(c.tier)}</span
+              ><small
+                >{entry
+                  ? `${tr('已收藏', 'Collected')} ×${entry.count}`
+                  : tr('尚未相遇', 'Not yet encountered')}</small
+              ></button
+            >{/each}
+        </div>
+      {/if}
       {#if selected && chosen}<section class="card detail" data-character-detail>
           <button
             class="btn ghost close"
             aria-label={tr('关闭详情', 'Close details')}
             onclick={() => (selected = '')}><X size={16} /></button
           >
-          <div class="portrait">
-            <span
-              class="sprite large"
-              style:background-image={`url("${sheets[chosen.sheet]}")`}
-              style:background-position={pos(chosen.cell)}
-            ></span>
+          <div class="detail-header">
+            <div class="portrait detail-portrait">
+              <CompanionSprite character={chosen} width={164} />
+            </div>
+            <div class="detail-intro">
+              <p class="eyebrow">
+                {chosen.special === 'monthly'
+                  ? tr('月度纪念', 'Monthly memorial')
+                  : tier(chosen.tier)} · {currentGroup?.name[i18n.locale] ??
+                  tr('语言精灵', 'Language companion')}
+              </p>
+              <h2>{name(chosen)}</h2>
+              <p>
+                {owned
+                  ? tr(
+                      `共相遇 ${owned.count} 次；首次 ${new Date(owned.firstAt).toLocaleString('zh-CN')}`,
+                      `Encountered ${owned.count} times; first ${new Date(owned.firstAt).toLocaleString('en')}`
+                    )
+                  : tr(
+                      chosen.special === 'monthly'
+                        ? '完成整月的每日任务，即可珍藏这位语言精灵。'
+                        : '通过寻访相遇；初识与相知也可在商店直接兑换。',
+                      chosen.special === 'monthly'
+                        ? 'Complete the daily tasks for an entire calendar month to collect this companion.'
+                        : 'Meet through discovery; Acquaintance and Affinity are also available directly in the shop.'
+                    )}
+              </p>
+              <button
+                class="btn primary"
+                data-companion-select={chosen.id}
+                disabled={!online || !owned || s.companion?.currentId === chosen.id}
+                onclick={() =>
+                  account.mutate('selectCompanion', {
+                    requestId: crypto.randomUUID(),
+                    characterId: chosen.id,
+                    expectedCurrentId: s.companion?.currentId ?? null
+                  })}
+              >
+                {#if s.companion?.currentId === chosen.id}<Check size={15} />{tr(
+                    '正在一起成长',
+                    'Growing together'
+                  )}{:else}<Sparkles size={15} />{owned
+                    ? tr('选择为养成精灵', 'Choose as your companion')
+                    : tr('珍藏后可选择养成', 'Collect to choose this companion')}{/if}
+              </button>
+            </div>
+          </div>
+          <CompanionBiography character={chosen} companion={s.companion} />
+        </section>{/if}
+      {#if s.monthly}
+        {@const monthlyCharacter = s.catalog.find((c) => c.id === s.monthly?.rewardId)}
+        <section class="card monthly" data-monthly-collection>
+          <div class="monthly-art">
+            {#if monthlyCharacter}<CompanionSprite
+                character={monthlyCharacter}
+                width={90}
+                locked={!s.monthly.claimed}
+              />{:else}<CalendarDays size={36} />{/if}
           </div>
           <div>
-            <p class="eyebrow">{tier(chosen.tier)} · {chosen.id}</p>
-            <h2>{name(chosen)}</h2>
-            <p>
-              {owned
-                ? tr(
-                    `共相遇 ${owned.count} 次；首次 ${new Date(owned.firstAt).toLocaleString('zh-CN')}`,
-                    `Encountered ${owned.count} times; first ${new Date(owned.firstAt).toLocaleString('en')}`
-                  )
-                : tr(
-                    '通过寻访相遇；初识与相知也可在商店直接兑换。',
-                    'Meet through discovery; Acquaintance and Affinity are also available directly in the shop.'
-                  )}
-            </p>
+            <p class="eyebrow">{s.monthly.month} · {tr('月度限定纪念', 'Monthly memorial')}</p>
+            <h3>{tr('把每一天，都写进这一页。', 'A page for every day.')}</h3>
             <p class="muted">
               {tr(
-                '当前为原有伙伴测试池，重复相遇只增加余韵，不增加图鉴种类。',
-                'The current pool uses existing companions. Duplicates grant echoes without increasing unique collection count.'
+                '连续完成本月每天的三项任务，收藏本月专属语言精灵。续页笺不计入月度进度。',
+                'Complete all three daily tasks on every day of this calendar month to collect its exclusive companion. Makeup slips do not count.'
               )}
             </p>
+            <progress max={s.monthly.requiredDays} value={s.monthly.completedDays.length}
+            ></progress>
+            <small
+              >{s.monthly.completedDays.length} / {s.monthly.requiredDays}
+              {tr('天', 'days')} · {s.monthly.claimed
+                ? tr('已珍藏', 'Collected')
+                : tr('达标后自动赠送', 'Awarded automatically upon completion')}</small
+            >
           </div>
-        </section>{/if}
+        </section>
+      {/if}
       <details class="card memorial">
         <summary
           >{tr(
@@ -429,11 +726,7 @@
         <div class="grid">
           {#each s.legacy as old (old.id)}{@const c = s.catalog.find((c) => c.id === old.id)}
             <div class="card companion">
-              {#if c}<span
-                  class="sprite"
-                  style:background-image={`url("${sheets[c.sheet]}")`}
-                  style:background-position={pos(c.cell)}
-                ></span><strong>{name(c)}</strong>{/if}<small
+              {#if c}<CompanionSprite character={c} /><strong>{name(c)}</strong>{/if}<small
                 >{old.day} · {old.minutes} {tr('分钟', 'minutes')}</small
               >
             </div>{/each}
@@ -546,13 +839,64 @@
         </p>
       </section>
     {:else if tab === 'shop'}
-      <h2>{tr('灵墨商店', 'Ink shop')}</h2>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">THE LITTLE EMPORIUM</p>
+          <h2>{tr('灵墨商店', 'Ink shop')}</h2>
+        </div>
+        <span>{tr('用学习，珍藏相遇', 'Treasures earned through learning')}</span>
+      </div>
+      <div class="grid shop-tiers">
+        {#each ['A', 'R'] as quality (quality)}
+          {@const available = s.catalog.filter(
+            (c) => c.tier === quality && c.special !== 'monthly'
+          )}
+          <button
+            class="card shop-tier"
+            class:on={shopTier === quality}
+            data-shop-tier={quality}
+            onclick={() => (shopTier = shopTier === quality ? '' : quality)}
+          >
+            <div class="shop-tier-art">
+              {#each available.slice(0, 3) as c (c.id)}<CompanionSprite
+                  character={c}
+                  width={64}
+                />{/each}
+            </div>
+            <p class="eyebrow">{tier(quality)}</p>
+            <h3>{tr(`兑换${tier(quality)}语言精灵`, `Redeem ${tier(quality)} companions`)}</h3>
+            <span class="shop-tier-link"
+              >{tr('挑选一位新的伙伴', 'Choose a new companion')}<ArrowUpRight size={16} /></span
+            >
+          </button>
+        {/each}
+      </div>
+      {#if shopTier}<div class="section-head shop-section">
+          <h3>{tier(shopTier)} · {tr('语言精灵', 'Language companions')}</h3>
+          <button class="btn ghost" onclick={() => (shopTier = '')}
+            >{tr('收起', 'Collapse')}<X size={14} /></button
+          >
+        </div>{/if}
       <div class="grid">
-        {#each s.shop as item (item.id)}{@const balance =
+        {#each s.shop.filter((item) => item.type !== 'character' || item.tier === shopTier) as item (item.id)}{@const balance =
             item.currency === 'points' ? s.balances.points : s.balances.echoes}{@const already =
             (item.type === 'character' && s.characters.some((c) => c.id === item.characterId)) ||
             (item.type === 'decoration' && s.inventory.decorations?.includes(item.id))}
-          <section class="card">
+          {@const character = s.catalog.find((c) => c.id === item.characterId)}
+          <section class="card shop-product" class:discounted={!!item.discount}>
+            <div class="product-art">
+              {#if character}<CompanionSprite
+                  {character}
+                  width={106}
+                />{:else if item.type === 'ticket'}<Ticket
+                  size={46}
+                  strokeWidth={1.2}
+                />{:else if item.type === 'makeup'}<CalendarDays
+                  size={46}
+                  strokeWidth={1.2}
+                />{:else}<Frame size={46} strokeWidth={1.2} />{/if}
+              {#if item.discount}<span class="discount-badge product-discount">−50%</span>{/if}
+            </div>
             <p class="eyebrow">
               {item.currency === 'echoes'
                 ? tr('装饰专用', 'Decoration only')
@@ -560,6 +904,9 @@
             </p>
             <h3>{shopName(item)}</h3>
             <p class="big">
+              {#if item.originalPrice && item.originalPrice !== item.price}<del
+                  >{item.originalPrice}</del
+                >{/if}
               {item.price}
               <small>{item.currency === 'points' ? tr('灵墨', 'Ink') : tr('余韵', 'Echoes')}</small>
             </p>
@@ -576,7 +923,7 @@
                         '装饰馆藏，不兑换积分或寻访笺。',
                         'Decorates your gallery; cannot become points or tickets.'
                       )
-                    : tr('直接获得这一位伙伴。', 'Acquire this companion directly.')}
+                    : tr('直接珍藏这一位语言精灵。', 'Collect this language companion directly.')}
             </p>
             <button
               class="btn primary"
@@ -712,11 +1059,10 @@
                 (c) => c.id === result.id
               )}
               <div class="card companion" data-draw-result={i}>
-                {#if c}<span
-                    class="sprite"
-                    style:background-image={`url("${sheets[c.sheet]}")`}
-                    style:background-position={pos(c.cell)}
-                  ></span><strong>{name(c)}</strong>{/if}<span>{tier(result.tier)}</span><small
+                {#if c}<div class="specimen-art"><CompanionSprite character={c} width={116} /></div>
+                  <strong>{name(c)}</strong>{/if}<span class="tier-badge" data-tier={result.tier}
+                  >{tier(result.tier)}</span
+                ><small
                   >{result.duplicate
                     ? tr(`重复 · +${result.echoes} 余韵`, `Duplicate · +${result.echoes} echoes`)
                     : tr('初次相遇', 'First encounter')}</small
@@ -811,30 +1157,184 @@
     box-shadow: inset 0 0 20px color-mix(in srgb, var(--accent) 10%, transparent);
   }
   .collection {
+    --gallery-paper: #f7f6ef;
+    --gallery-sage: #becda0;
+    --gallery-ink: #56663c;
+    --gallery-gold: #b59d67;
+    --gallery-border: #d9ddcd;
+    --gallery-mat: #30372b;
+    --gallery-mat-ink: #d0dcba;
     max-width: 1240px;
     padding-bottom: 50px;
+  }
+  :global([data-theme='dark']) .collection {
+    --gallery-paper: #252920;
+    --gallery-sage: #b8c99a;
+    --gallery-ink: #c0d0a5;
+    --gallery-gold: #b5a073;
+    --gallery-border: #414937;
+  }
+  .page-head {
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-size: 32px;
+    letter-spacing: 0.02em;
+    margin-top: 7px;
+  }
+  .collection .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 40px;
+    padding: 10px 17px;
+    border-radius: 11px;
+    border: 1px solid var(--gallery-border);
+    background: transparent;
+    color: var(--text);
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 1.4;
+    transition:
+      background 0.18s,
+      border-color 0.18s;
+  }
+  .collection .btn:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--gallery-sage) 16%, transparent);
+    border-color: var(--gallery-sage);
+  }
+  .collection .btn.primary {
+    background: var(--gallery-sage);
+    border-color: var(--gallery-sage);
+    color: #253019;
+  }
+  .collection .btn.primary:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--gallery-sage) 86%, white);
+  }
+  .collection .btn.ghost {
+    border-color: transparent;
+    color: var(--text-2);
+  }
+  .collection .btn:focus-visible,
+  .species-card:focus-visible,
+  .shop-tier:focus-visible,
+  .companion:focus-visible,
+  .dots button:focus-visible {
+    outline: 2px solid var(--gallery-ink);
+    outline-offset: 4px;
   }
   .eyebrow {
     font-size: 11px;
     letter-spacing: 0.12em;
-    color: var(--accent);
+    color: var(--gallery-ink);
     font-weight: 600;
   }
   .hero {
-    display: grid;
-    grid-template-columns: 210px minmax(0, 1fr);
-    gap: 32px;
-    align-items: center;
-    padding: 32px;
-    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    padding: 29px 34px 14px;
+    border: 1px solid var(--gallery-border);
     border-radius: 22px;
     background:
       radial-gradient(
         ellipse at 0 0,
-        color-mix(in srgb, var(--accent) 15%, transparent),
+        color-mix(in srgb, var(--gallery-sage) 14%, transparent),
         transparent 70%
       ),
-      var(--bg-elev);
+      var(--gallery-paper);
+  }
+  .hero-viewport {
+    min-height: 280px;
+  }
+  .hero-slide {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 42px;
+    align-items: center;
+  }
+  .hero-copy {
+    padding: 8px 0;
+    min-width: 0;
+  }
+  .hero-copy h2 {
+    white-space: pre-line;
+    font-size: clamp(24px, 2.8vw, 34px);
+    line-height: 1.42;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    margin: 13px 0 16px;
+  }
+  .hero-copy .btn {
+    margin-top: 10px;
+  }
+  .hero-caption {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+  }
+  .hero-empty {
+    max-width: 400px;
+    min-height: 44px;
+  }
+  .hero-price {
+    margin: 8px 0;
+  }
+  .hero-price strong {
+    font-size: 24px;
+    margin: 0 8px;
+    color: var(--text);
+  }
+  del {
+    font-size: 13px;
+    color: var(--text-3);
+    font-weight: 400;
+    margin-right: 6px;
+  }
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .collection .carousel-arrow {
+    min-height: 30px;
+    width: 32px;
+    padding: 6px;
+    border-color: transparent;
+  }
+  .dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .dots button {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+  .dots button::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-3);
+    opacity: 0.4;
+    transition: width 0.2s;
+  }
+  .dots button.active::after {
+    width: 18px;
+    border-radius: 6px;
+    opacity: 1;
+    background: var(--gallery-ink);
   }
   h2 {
     font-size: 25px;
@@ -852,60 +1352,96 @@
   .portrait {
     display: grid;
     place-items: center;
-    background: color-mix(in srgb, var(--accent) 8%, var(--bg-sunken));
+    background: var(--gallery-mat);
     border-radius: 18px;
     padding: 12px;
   }
-  .sprite {
-    display: block;
-    width: 126px;
-    aspect-ratio: 42/39;
-    background-size: 300% 200%;
-    background-repeat: no-repeat;
-    image-rendering: pixelated;
-    max-width: 100%;
-    filter: drop-shadow(0 5px 6px #31475322);
+  .framed {
+    width: 210px;
+    height: 255px;
+    position: relative;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
   }
-  .large {
-    width: 168px;
+  .gold-frame {
+    position: absolute;
+    inset: 0;
+    border: 9px solid var(--gallery-gold);
+    transform: rotate(3deg);
+    background: var(--gallery-mat);
+    box-shadow:
+      inset 0 0 0 8px color-mix(in srgb, var(--gallery-sage) 13%, var(--bg-sunken)),
+      0 6px 18px #0000000a;
   }
-  .locked {
-    filter: grayscale(1);
-    opacity: 0.4;
+  .frame-art {
+    position: relative;
+    display: grid;
+    place-items: center;
+    margin-top: 8px;
+    color: var(--gallery-mat-ink);
+  }
+  .frame-label {
+    position: absolute;
+    bottom: 23px;
+    text-align: center;
+    left: 18px;
+    right: 18px;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--gallery-mat-ink);
   }
   .wallet {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 18px;
+    align-items: center;
+    gap: 24px;
+    margin-top: 0;
+    margin-bottom: 20px;
   }
   .wallet > span {
-    border: 1px solid var(--border);
-    background: var(--bg-elev);
-    border-radius: 9px;
-    padding: 8px 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-2);
+    padding: 5px 0;
     font-size: 12px;
   }
   .wallet b {
-    font-size: 20px;
-    margin-inline-start: 8px;
+    font-size: 21px;
+    color: var(--text);
     font-variant-numeric: tabular-nums;
   }
   .tabs {
     display: flex;
-    gap: 7px;
+    gap: 10px;
     flex-wrap: wrap;
-    margin: 25px 0;
+    margin: 0 0 27px;
+    border-bottom: 1px solid var(--gallery-border);
+    padding-bottom: 15px;
   }
   .tabs .on {
-    background: var(--accent);
-    color: var(--accent-contrast);
-    border-color: var(--accent);
+    background: var(--gallery-sage);
+    color: #253019;
+    border-color: var(--gallery-sage);
   }
   .section-head {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
+    margin: 29px 0 16px;
+  }
+  .section-head .eyebrow {
+    margin: 0;
+  }
+  .section-head h2 {
+    margin: 8px 0 0;
+  }
+  .section-head > span {
+    font-size: 12px;
+    color: var(--text-2);
+    white-space: nowrap;
   }
   .grid {
     display: grid;
@@ -913,12 +1449,73 @@
     gap: 15px;
   }
   .card {
-    background: var(--bg-elev);
-    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--gallery-paper) 25%, var(--bg-elev));
+    border: 1px solid var(--gallery-border);
     border-radius: 16px;
     padding: 22px;
     min-width: 0;
     margin-bottom: 18px;
+  }
+  .species-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .species-card {
+    cursor: pointer;
+    color: var(--text);
+    text-align: start;
+    padding: 20px;
+    transition:
+      border-color 0.18s,
+      background 0.18s;
+  }
+  .species-card:hover {
+    border-color: var(--gallery-gold);
+    background: var(--gallery-paper);
+  }
+  .species-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-height: 115px;
+    background: var(--gallery-mat);
+    border-radius: 11px;
+    margin-bottom: 18px;
+  }
+  .species-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .species-label strong {
+    font-size: 17px;
+    font-weight: 600;
+  }
+  .species-progress {
+    height: 3px;
+    border-radius: 8px;
+    background: var(--gallery-border);
+    margin-top: 14px;
+    overflow: hidden;
+  }
+  .species-progress > span {
+    display: block;
+    height: 100%;
+    background: var(--gallery-sage);
+  }
+  .back {
+    margin-bottom: 15px;
+  }
+  .specimen-art {
+    min-height: 123px;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    margin-bottom: 6px;
+    background: var(--gallery-mat);
+    border-radius: 10px;
   }
   .grid .card {
     margin: 0;
@@ -933,23 +1530,149 @@
     cursor: pointer;
   }
   .companion.owned {
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    border-color: color-mix(in srgb, var(--gallery-gold) 55%, var(--gallery-border));
   }
-  .tier,
   small {
     color: var(--text-3);
     font-size: 12px;
   }
+  .tier-badge {
+    display: inline-flex;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--gallery-sage) 15%, transparent);
+    color: var(--gallery-ink);
+  }
+  .tier-badge[data-tier='SR'] {
+    background: color-mix(in srgb, #9386ad 16%, transparent);
+    color: color-mix(in srgb, #9386ad 78%, var(--text));
+  }
+  .tier-badge[data-tier='SSR'] {
+    background: color-mix(in srgb, var(--gallery-gold) 15%, transparent);
+    color: color-mix(in srgb, var(--gallery-gold) 80%, var(--text));
+  }
+  .discount-badge {
+    font-size: 11px;
+    border-radius: 6px;
+    padding: 4px 8px;
+    background: #b7553d;
+    color: #fff;
+    font-weight: 600;
+  }
   .detail {
-    display: flex;
-    gap: 25px;
-    align-items: center;
+    display: block;
     position: relative;
     margin-top: 25px;
   }
-  .detail > div:last-child {
+  .detail-header {
+    display: grid;
+    grid-template-columns: 195px minmax(0, 1fr);
+    gap: 30px;
+    align-items: center;
+  }
+  .detail-portrait {
+    min-height: 220px;
+    border: 1px solid var(--gallery-border);
+    border-radius: 13px;
+  }
+  .detail-intro {
+    padding-right: 20px;
     min-width: 0;
-    flex: 1;
+  }
+  .detail-intro .btn {
+    margin-top: 8px;
+  }
+  .monthly {
+    display: grid;
+    grid-template-columns: 105px minmax(0, 1fr);
+    gap: 25px;
+    align-items: center;
+    margin-top: 26px;
+    background: var(--gallery-paper);
+  }
+  .monthly-art {
+    display: grid;
+    place-items: center;
+  }
+  .monthly h3 {
+    margin: 10px 0;
+  }
+  .monthly progress {
+    margin: 4px 0 9px;
+  }
+  .grid.shop-tiers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-bottom: 24px;
+  }
+  .shop-tier {
+    text-align: left;
+    color: var(--text);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .shop-tier.on {
+    border-color: var(--gallery-ink);
+    background: var(--gallery-paper);
+  }
+  .shop-tier-art {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 0 20px;
+    background: var(--gallery-mat);
+    border-radius: 11px;
+    margin-bottom: 19px;
+  }
+  .shop-tier h3 {
+    font-size: 19px;
+    margin: 9px 0 16px;
+  }
+  .shop-tier-link {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 12px;
+    color: var(--gallery-ink);
+  }
+  .shop-product {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .shop-product h3 {
+    font-size: 16px;
+    margin: 6px 0;
+  }
+  .shop-product .big {
+    font-size: 26px;
+    margin: 12px 0;
+  }
+  .shop-product .btn {
+    margin-top: auto;
+    width: 100%;
+  }
+  .shop-product .muted {
+    margin: 0 0 18px;
+  }
+  .product-art {
+    position: relative;
+    width: 100%;
+    display: grid;
+    place-items: center;
+    min-height: 124px;
+    margin-bottom: 12px;
+    background: var(--gallery-mat);
+    border-radius: 11px;
+    color: var(--gallery-mat-ink);
+  }
+  .product-discount {
+    position: absolute;
+    top: 9px;
+    right: 9px;
   }
   .close {
     position: absolute;
@@ -991,7 +1714,7 @@
   }
   progress {
     width: 100%;
-    accent-color: var(--accent);
+    accent-color: var(--gallery-ink);
   }
   .tasks {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1057,8 +1780,22 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
     .hero {
-      padding: 25px;
-      grid-template-columns: 168px minmax(0, 1fr);
+      padding: 25px 25px 12px;
+    }
+    .hero-slide {
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 30px;
+    }
+    .framed {
+      width: 180px;
+      height: 240px;
+    }
+    .species-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .species-preview {
+      flex-wrap: wrap;
+      gap: 0;
     }
   }
   @media (max-width: 736px) {
@@ -1067,15 +1804,49 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .hero {
+      padding: 25px 22px 12px;
+    }
+    .hero-slide {
       grid-template-columns: minmax(0, 1fr);
-      gap: 15px;
-      padding: 20px;
+      gap: 22px;
     }
-    .hero .portrait {
-      justify-self: start;
+    .framed {
+      justify-self: center;
+      width: 190px;
+      height: 245px;
     }
-    .detail {
-      flex-wrap: wrap;
+    .hero-copy {
+      text-align: center;
+      padding: 0;
+    }
+    .hero-caption {
+      justify-content: center;
+    }
+    .hero-copy h2 {
+      font-size: 28px;
+    }
+    .hero-empty {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-viewport {
+      min-height: 500px;
+    }
+    .detail-header {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 20px;
+    }
+    .detail-portrait {
+      max-width: 220px;
+      width: 100%;
+      justify-self: center;
+    }
+    .detail-intro {
+      padding: 0;
+    }
+    .monthly {
+      grid-template-columns: 70px minmax(0, 1fr);
+      gap: 18px;
     }
     .card {
       padding: 17px;
@@ -1084,7 +1855,7 @@
       gap: 8px;
     }
     .wallet > span {
-      padding: 7px;
+      padding: 5px 8px 5px 0;
     }
     .wallet b {
       font-size: 17px;
@@ -1094,17 +1865,29 @@
     .tasks {
       grid-template-columns: minmax(0, 1fr);
     }
-    .sprite {
-      width: 100px;
-    }
-    .large {
-      width: 150px;
-    }
     .grid {
       gap: 9px;
     }
     .companion {
       padding: 15px 8px;
+    }
+    .species-grid,
+    .grid.shop-tiers {
+      grid-template-columns: 1fr;
+    }
+    .section-head {
+      align-items: flex-start;
+    }
+    .section-head > span {
+      white-space: normal;
+      text-align: right;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .collection .btn,
+    .species-card,
+    .dots button::after {
+      transition: none;
     }
   }
 </style>

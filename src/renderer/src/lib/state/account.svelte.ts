@@ -28,6 +28,7 @@ export class AccountState {
   #epoch = 0
   #retry: (() => Promise<boolean>) | null = null
   #loading: Promise<void> | null = null
+  #needsRecovery = false
   get generation(): number {
     return this.#epoch
   }
@@ -46,7 +47,10 @@ export class AccountState {
       this.session = {
         ...this.session!,
         user: snapshot.user,
-        server: { ...this.session!.server, online: true }
+        server: {
+          ...this.session!.server,
+          online: this.session!.server.online && !this.#needsRecovery
+        }
       }
     }
   }
@@ -58,7 +62,12 @@ export class AccountState {
       this.snapshot = null
       this.#retry = null
       this.retryable = false
-    } else if (/offline|network|fetch|ECONN|timeout|unavailable/i.test(this.error)) {
+    } else if (
+      /offline|network|fetch|ECONN|timeout|unavailable|INVALID_RESPONSE|PENDING_RECOVERY/i.test(
+        this.error
+      )
+    ) {
+      this.#needsRecovery = true
       if (this.session)
         this.session = { ...this.session, server: { ...this.session.server, online: false } }
     }
@@ -77,6 +86,7 @@ export class AccountState {
     try {
       const session = await platform.account.session()
       if (!this.#current(epoch)) return
+      if (session.server.online) this.#needsRecovery = false
       const previous = this.session?.user?.id
       this.session = session
       if (previous && previous !== session.user?.id) {
@@ -105,6 +115,7 @@ export class AccountState {
   ): Promise<boolean> {
     if (this.busy) return false
     const epoch = ++this.#epoch
+    this.#needsRecovery = false
     this.busy = true
     this.error = ''
     this.#retry = null
@@ -120,6 +131,7 @@ export class AccountState {
       if (!this.#current(epoch)) return false
       const session = await platform.account.session()
       if (!this.#current(epoch)) return false
+      if (session.server.online) this.#needsRecovery = false
       this.session = { ...session, user: response.user }
       this.snapshot = null
       this.#apply(response.snapshot)
@@ -136,6 +148,7 @@ export class AccountState {
   async logout(): Promise<void> {
     if (this.busy) return
     this.#epoch++
+    this.#needsRecovery = false
     this.busy = true
     try {
       await platform.account.request('logout', {})
@@ -200,6 +213,23 @@ export class AccountState {
     return this.#retry ? this.#retry() : false
   }
   /** Foreground evidence is bounded again by the server; offline learning remains local. */
+  async reportCompanionAnswer(
+    payload: AccountPayloads['companionAnswer']
+  ): Promise<AccountResponses['companionAnswer'] | null> {
+    const id = this.session?.user?.id,
+      epoch = this.#epoch
+    if (!id || !this.session?.server.online) return null
+    try {
+      const result = await platform.account.request('companionAnswer', payload)
+      if (!this.#current(epoch, id)) return null
+      this.#apply(result)
+      return result
+    } catch (error) {
+      if (this.#current(epoch, id)) this.#failure(error)
+      return null
+    }
+  }
+
   async reportActivity(payload: Omit<AccountPayloads['activity'], 'requestId'>): Promise<void> {
     const id = this.session?.user?.id,
       epoch = this.#epoch

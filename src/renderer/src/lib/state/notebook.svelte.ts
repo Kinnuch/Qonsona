@@ -41,6 +41,7 @@ import {
 } from '$shared/review-question'
 import { serializedWrites } from './persistence'
 import { activity } from './activity.svelte'
+import { companion } from './companion.svelte'
 import { ui } from './ui.svelte'
 
 const SAVE_DELAY = 400
@@ -330,10 +331,12 @@ class NotebookState {
     this.session = { ...s, question: result, questionPrepared: true }
   }
 
-  grade(q: Grade): void {
+  grade(q: Grade, objective = false): void {
     const s = this.session
     const c = this.card
     if (!s || !c || !this.nb || s.answered !== null) return
+    if (objective && q === 5 && s.question.question && this.packId)
+      companion.correct(this.packId, companion.answerId(s.question.question, 0))
     const now = Date.now()
     const k = dayKey(now)
     const scope = s.scopes[c.key] ?? 'language'

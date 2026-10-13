@@ -133,6 +133,67 @@ describe('server-owned frontend account state', () => {
     expect(purchases).toHaveLength(2)
     expect(purchases[0][1]).toEqual(purchases[1][1])
   })
+  it.each(['INVALID_RESPONSE', 'PENDING_RECOVERY'])(
+    'blocks new mutations after uncertain %s until reconnect recovers the journal',
+    async (code) => {
+      const f = await state()
+      f.request.mockRejectedValueOnce(new Error(`${code}: uncertain server result`))
+      expect(
+        await f.account.mutate('draw', {
+          requestId: 'uncertain-draw',
+          source: 'learning',
+          count: 1
+        })
+      ).toBe(false)
+      expect(f.account.session?.server.online).toBe(false)
+      f.request.mockClear()
+      expect(
+        await f.account.mutate('purchase', { requestId: 'next-purchase', itemId: 'ticket' })
+      ).toBe(false)
+      expect(f.request).not.toHaveBeenCalled()
+      await f.account.reconnect()
+      expect(f.account.session?.server.online).toBe(true)
+      expect(await f.account.retry()).toBe(true)
+      expect(f.request).toHaveBeenCalledWith('draw', {
+        requestId: 'uncertain-draw',
+        source: 'learning',
+        count: 1
+      })
+    }
+  )
+  it.each(['SERVICE_UNAVAILABLE', 'INVALID_RESPONSE', 'PENDING_RECOVERY'])(
+    'does not let a delayed successful activity unlock %s recovery before explicit reconnect',
+    async (code) => {
+      const f = await state(),
+        lateActivity = deferred<unknown>()
+      f.request.mockImplementation(async (action) => {
+        if (action === 'activity') return lateActivity.promise as never
+        if (action === 'draw') throw new Error(`${code}: result is uncertain`)
+        return { snapshot: f.session.snapshot } as never
+      })
+      const report = f.account.reportActivity({ language: 'en', seconds: 15 })
+      expect(
+        await f.account.mutate('draw', { requestId: 'pending-draw', source: 'learning', count: 1 })
+      ).toBe(false)
+      lateActivity.resolve({ snapshot: snapshot(5, 240) })
+      await report
+      expect(f.account.snapshot?.revision).toBe(5)
+      expect(f.account.snapshot?.balances.points).toBe(240)
+      expect(f.account.session?.server.online).toBe(false)
+      f.request.mockClear()
+      expect(await f.account.mutate('purchase', { requestId: 'new-spend', itemId: 'ticket' })).toBe(
+        false
+      )
+      expect(f.request).not.toHaveBeenCalled()
+      f.session.snapshot = snapshot(6, 0)
+      await f.account.reconnect()
+      expect(f.account.session?.server.online).toBe(true)
+      expect(f.account.snapshot?.revision).toBe(6)
+      expect(
+        await f.account.mutate('purchase', { requestId: 'post-recovery', itemId: 'ticket' })
+      ).toBe(true)
+    }
+  )
   it('does not restore stale wallet data after logout and login to the same account', async () => {
     const f = await state(),
       old = deferred<unknown>()

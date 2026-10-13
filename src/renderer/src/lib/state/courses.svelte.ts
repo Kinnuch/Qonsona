@@ -8,6 +8,7 @@ import { langModule } from '$shared/lang/registry'
 import { platform } from '$lib/platform'
 import { serializedWrites } from './persistence'
 import { activity } from './activity.svelte'
+import { companion } from './companion.svelte'
 import { StudyRequestGate, type StudyRequest } from '$shared/study-request'
 import { lessonHasLearningContent, completionViewMatches } from '$shared/lesson-completion'
 import { t, pick, i18n } from '$lib/i18n/index.svelte'
@@ -499,6 +500,7 @@ class CoursesState {
     )
       return
     const right = isRight(c, q, given)
+    if (right) companion.correct(run.packId, companion.answerId(run.questions, run.i))
     this.quiz = {
       ...run,
       given,

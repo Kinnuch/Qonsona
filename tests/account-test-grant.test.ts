@@ -50,5 +50,11 @@ it('test build command requires a logged-in server-authorized session and the ex
   await f.handler!('kinnuch-other')
   expect(f.account.mutate).not.toHaveBeenCalled()
   await f.handler!(' KINNUCH ')
-  expect(f.account.mutate).toHaveBeenCalledExactlyOnceWith('testGrant', {})
+  expect(f.account.mutate).toHaveBeenCalledExactlyOnceWith('testGrant', {
+    requestId: expect.any(String)
+  })
+  const first = f.account.mutate.mock.calls[0][1].requestId
+  await f.handler!('kinnuch')
+  expect(f.account.mutate).toHaveBeenCalledTimes(2)
+  expect(f.account.mutate.mock.calls[1][1].requestId).not.toBe(first)
 })

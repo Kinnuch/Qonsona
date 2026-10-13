@@ -1,5 +1,7 @@
 /* eslint @typescript-eslint/explicit-function-return-type: "off" -- Plain JavaScript runs directly on Node24 without a TypeScript build. */
 import { randomBytes } from 'node:crypto'
+import { CATALOG, shopFor, characterFor, monthlyCharacter } from './catalog.mjs'
+export { CATALOG, SHOP } from './catalog.mjs'
 
 export class ApiError extends Error {
   constructor(code, status = 400) {
@@ -11,16 +13,6 @@ export class ApiError extends Error {
 export const fail = (code, status) => {
   throw new ApiError(code, status)
 }
-export const CATALOG = Array.from({ length: 12 }, (_, i) => ({
-  id: `companion-${i + 1}`,
-  tier: ['A', 'R', 'SR', 'SSR'][Math.floor(i / 3)],
-  sheet: Math.floor(i / 6),
-  cell: i % 6,
-  name: {
-    zh: ['晨光', '墨羽', '金砂', '银芽', '月影', '星团'][i % 6],
-    en: ['Dawn', 'Inkwing', 'Goldsand', 'Silverbud', 'Moonshade', 'Starcluster'][i % 6]
-  }
-}))
 export const RULES = {
   base: { A: 0.7, R: 0.244, SR: 0.05, SSR: 0.006 },
   highPity: 20,
@@ -36,18 +28,6 @@ export const RULES = {
   weeklySeconds: 600,
   weeklyPoints: 80
 }
-export const SHOP = [
-  { id: 'ticket', price: 240, currency: 'points', type: 'ticket' },
-  { id: 'makeup', price: 80, currency: 'points', type: 'makeup' },
-  ...CATALOG.filter((c) => ['A', 'R'].includes(c.tier)).map((c) => ({
-    id: `character:${c.id}`,
-    price: c.tier === 'A' ? 240 : 720,
-    currency: 'points',
-    type: 'character',
-    characterId: c.id
-  })),
-  { id: 'decoration:glow', price: 20, currency: 'echoes', type: 'decoration' }
-]
 export const secureRandom = () => randomBytes(4).readUInt32BE(0) / 4294967296
 export function probabilities(pity) {
   const draw = pity.sinceSSR + 1
@@ -121,7 +101,10 @@ export const newState = () => ({
   weeklyClaims: [],
   makeupMonths: {},
   lastActivityAt: null,
-  supportSpent: 0
+  supportSpent: 0,
+  companion: { currentId: null, progress: {} },
+  answerDays: {},
+  monthlyClaims: []
 })
 const TASK_KINDS = ['reading', 'practice', 'courses', 'review']
 export function getDay(state, day) {
@@ -240,7 +223,13 @@ export function activity(state, body, now) {
     weeklyBonus = 80
   }
   state.balances.points += timePoints + taskPoints + weeklyBonus
-  return { acceptedSeconds: seconds, earned: { timePoints, taskPoints, weeklyBonus }, day }
+  const monthlyReward = awardMonthly(state, day, now)
+  return {
+    acceptedSeconds: seconds,
+    earned: { timePoints, taskPoints, weeklyBonus },
+    day,
+    monthlyReward
+  }
 }
 export function acquire(state, character, source, now) {
   const old = state.characters[character.id]
@@ -271,9 +260,11 @@ export function draw(state, body, now, random = secureRandom) {
   return { results }
 }
 export function purchase(state, body, now) {
-  shape(body, ['requestId', 'itemId', 'quantity'], ['requestId', 'itemId'])
-  const item = SHOP.find((item) => item.id === body.itemId)
+  shape(body, ['requestId', 'itemId', 'quantity', 'expectedPrice'], ['requestId', 'itemId'])
+  const item = shopFor(dayAt(now)).find((item) => item.id === body.itemId)
   if (!item) fail('UNKNOWN_SHOP_ITEM')
+  if (body.expectedPrice !== undefined && integer(body.expectedPrice, 1, 100000) !== item.price)
+    fail('SHOP_PRICE_CHANGED', 409)
   const quantity = integer(body.quantity ?? 1, 1, 10),
     cost = quantity * item.price
   if (item.type === 'character' && (quantity !== 1 || state.characters[item.characterId]))
@@ -316,4 +307,86 @@ export function makeup(state, body, now) {
   state.makeupMonths[month] = (state.makeupMonths[month] || 0) + 1
   getDay(state, body.day).checkin = 'makeup'
   return { day: body.day }
+}
+
+export const COMPANION_MILESTONES = [100, 300, 700, 1500, 3000].map((xp, index) => ({
+  xp,
+  id: `keepsake-${index + 1}`,
+  name: { zh: `精灵收藏品 ${index + 1}`, en: `Spirit Keepsake ${index + 1}` }
+}))
+export function companionState(state) {
+  state.companion ??= { currentId: null, progress: {} }
+  state.answerDays ??= {}
+  return state.companion
+}
+export function selectCompanion(state, body) {
+  shape(body, ['requestId', 'characterId', 'expectedCurrentId'], ['requestId', 'characterId'])
+  const companion = companionState(state)
+  if (Object.hasOwn(body, 'expectedCurrentId')) {
+    const expected = body.expectedCurrentId === null ? null : text(body.expectedCurrentId, 1, 64)
+    if (expected !== companion.currentId) fail('COMPANION_CHANGED', 409)
+  }
+  const characterId = text(body.characterId, 1, 64)
+  if (!characterFor(characterId) || !state.characters[characterId]) fail('CHARACTER_NOT_OWNED', 403)
+  companion.currentId = characterId
+  companion.progress[characterId] ??= { characterId, xp: 0, gifts: [] }
+  return { characterId }
+}
+export function companionAnswer(state, body, now, seen, record) {
+  shape(
+    body,
+    ['requestId', 'language', 'answerId', 'correct', 'characterId'],
+    ['requestId', 'language', 'answerId', 'correct']
+  )
+  if (!validLanguage(body.language)) fail('INVALID_LANGUAGE')
+  const answerId = text(body.answerId, 1, 256)
+  if (body.correct !== true) fail('INVALID_ANSWER')
+  const companion = companionState(state),
+    characterId = companion.currentId
+  if (Object.hasOwn(body, 'characterId') && text(body.characterId, 1, 64) !== characterId)
+    fail('COMPANION_CHANGED', 409)
+  const previous = seen(body.language, answerId)
+  if (previous) return { accepted: false, xp: 0, gifts: [], characterId: previous.character_id }
+  if (!characterId || !state.characters[characterId]) fail('COMPANION_NOT_SELECTED', 409)
+  const day = dayAt(now)
+  if ((state.answerDays[day] || 0) >= 200) fail('DAILY_ANSWER_LIMIT', 429)
+  const progress = (companion.progress[characterId] ??= { characterId, xp: 0, gifts: [] })
+  progress.xp += 5
+  const gifts = COMPANION_MILESTONES.filter(
+    (milestone) => progress.xp >= milestone.xp && !progress.gifts.includes(milestone.id)
+  ).map((milestone) => milestone.id)
+  progress.gifts.push(...gifts)
+  state.answerDays[day] = (state.answerDays[day] || 0) + 1
+  record(body.language, answerId, characterId, 5)
+  return { accepted: true, xp: 5, gifts, characterId }
+}
+export function monthlyStatus(state, day) {
+  const month = day.slice(0, 7)
+  const [year, number] = month.split('-').map(Number)
+  const requiredDays = new Date(Date.UTC(year, number, 0)).getUTCDate()
+  const completedDays = Object.entries(state.days)
+    .filter(
+      ([date, d]) =>
+        date.startsWith(month + '-') &&
+        d.checkin === 'learning' &&
+        taskPlan(getDay(state, date)).every((task) => task.done)
+    )
+    .map(([date]) => date)
+    .sort()
+  const rewardId = `monthly-${month}`
+  return {
+    month,
+    requiredDays,
+    completedDays,
+    rewardId,
+    claimed: (state.monthlyClaims || []).includes(month) || !!state.characters[rewardId]
+  }
+}
+export function awardMonthly(state, day, now) {
+  const monthly = monthlyStatus(state, day)
+  if (monthly.claimed || monthly.completedDays.length !== monthly.requiredDays) return null
+  state.monthlyClaims ??= []
+  state.monthlyClaims.push(monthly.month)
+  acquire(state, monthlyCharacter(monthly.month), 'monthly', now)
+  return monthly.rewardId
 }

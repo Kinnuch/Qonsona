@@ -8,7 +8,8 @@ export const accountZh = {
   nickname: '昵称',
   publicCollection: '加入收藏排行榜',
   publicTime: '加入学习时长排行榜',
-  privacyHelp: '默认不公开。排行榜仅展示昵称、公开编号和所选统计，不展示用户名或付费金额。',
+  privacyHelp:
+    '新账号默认参与排行，可选择全球或好友范围，也可关闭参榜。榜单只显示昵称、公开编号、养成精灵和所选统计。',
   authMode: '账号操作',
   login: '登录',
   register: '注册',
@@ -30,7 +31,7 @@ export const accountEn = {
   publicCollection: 'Join collection rankings',
   publicTime: 'Join learning-time rankings',
   privacyHelp:
-    'Private by default. Rankings show only nickname, public ID and the chosen statistic, never username or spending.',
+    'New accounts join rankings by default. Choose global or friends-only visibility, or opt out. Rankings show nickname, public ID, current companion and the chosen statistic.',
   authMode: 'Account action',
   login: 'Sign in',
   register: 'Register',

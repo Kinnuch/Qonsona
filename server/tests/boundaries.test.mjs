@@ -79,7 +79,12 @@ test('invalid mutation fully rolls back clock, balance, receipt and idempotency;
     })
     const context = { token: user.token },
       id = user.user.id
-    const first = await service.handle('POST', '/v1/test/grant', {}, context)
+    const first = await service.handle(
+      'POST',
+      '/v1/test/grant',
+      { requestId: randomUUID() },
+      context
+    )
     const second = await service.handle('PATCH', '/v1/auth/me', { nickname: 'Updated' }, context)
     assert.ok(second.snapshot.revision > first.snapshot.revision)
     assert.equal(first.snapshot.serverTime, second.snapshot.serverTime)

@@ -18,6 +18,7 @@
   import Stats from './Stats.svelte'
   import Collection from './Collection.svelte'
   import Leaderboards from './Leaderboards.svelte'
+  import CompanionDock from '$lib/accounts/CompanionDock.svelte'
 
   const learn = $derived(visibleModules(packs.active))
   /** 有说明的模块（鼠标移到导航上显示） */
@@ -124,6 +125,7 @@
         {/each}
       </div>
     </div>
+    <CompanionDock />
   </nav>
 
   <main class="main" data-main-scroll>

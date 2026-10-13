@@ -235,6 +235,17 @@ try {
     'fresh account wallet starts empty',
     before.balances.points === 0 && before.balances.tickets.learning === 0
   )
+  check(
+    'new account joins global rankings by default',
+    before.user.publicCollection &&
+      before.user.publicTime &&
+      before.user.rankVisibility === 'global'
+  )
+  check(
+    'twenty ordinary companions and separate month reward',
+    before.catalog.filter((c) => !c.special).length === 20 &&
+      before.catalog.some((c) => c.special === 'monthly')
+  )
   for (const id of ['gallery', 'tasks', 'shop', 'draw', 'bag']) {
     await click(`[data-collection-tab=${id}]`)
     check(
@@ -257,7 +268,7 @@ try {
   )
   check(
     'dictionary test command grants 100 learning tickets',
-    await wait(`document.body.textContent.includes('Test tickets granted')`)
+    await wait(`document.body.textContent.includes('100 test tickets granted')`)
   )
   let grant = await snapshot()
   check('server grant exactly 100', grant.balances.tickets.learning === 100)
@@ -266,8 +277,8 @@ try {
   )
   await sleep(300)
   check(
-    'repeat test grant does not double tickets',
-    (await snapshot()).balances.tickets.learning === 100
+    'repeat dictionary command grants another 100 tickets',
+    (await snapshot()).balances.tickets.learning === 200
   )
   await click('[data-nav=collection]')
   await click('[data-collection-tab=draw]')
@@ -277,7 +288,7 @@ try {
     await wait('document.querySelector("[data-transaction-confirm]")')
   )
   await click('[data-transaction-cancel]')
-  check('cancel leaves tickets untouched', (await snapshot()).balances.tickets.learning === 100)
+  check('cancel leaves tickets untouched', (await snapshot()).balances.tickets.learning === 200)
   await click('[data-draw-ten]')
   await click('[data-transaction-confirm]')
   check(
@@ -285,11 +296,11 @@ try {
     await wait('document.querySelectorAll("[data-draw-result]").length===10')
   )
   const after = await snapshot()
-  check('ten draw debits exactly ten tickets', after.balances.tickets.learning === 90)
+  check('ten draw debits exactly ten tickets', after.balances.tickets.learning === 190)
   check(
     'display wallet equals server',
     await evaluate(
-      `return Number(document.querySelector('[data-learning-tickets]').textContent)===90`
+      `return Number(document.querySelector('[data-learning-tickets]').textContent)===190`
     )
   )
   await sleep(4300)
@@ -316,16 +327,224 @@ try {
     'legacy does not mint currency or current collection',
     legacy.legacy.length === 1 &&
       legacy.balances.points === after.balances.points &&
-      legacy.balances.tickets.learning === 90 &&
+      legacy.balances.tickets.learning === 190 &&
       legacy.characters.length === after.characters.length
   )
+  for (const [dot, type] of [
+    [1, 'discount'],
+    [2, 'popular'],
+    [0, 'new']
+  ]) {
+    await click(`[data-gallery-dot="${dot}"]`)
+    check(
+      'gallery manual slide ' + type,
+      await wait(`document.querySelector('[data-gallery-type="${type}"]')`)
+    )
+  }
+  check(
+    'month calendar has genuine required day count',
+    (legacy.monthly?.requiredDays ?? 0) >= 28 && !legacy.monthly?.claimed
+  )
+  await click('[data-collection-tab=shop]')
+  check(
+    'direct redemption starts with tier entries',
+    await wait(`document.querySelectorAll('[data-shop-tier]').length===2`)
+  )
+  await click('[data-shop-tier=A]')
+  check(
+    'tier shop cards include actual companion pictures',
+    await wait(
+      `Array.from(document.querySelectorAll('[data-shop-item^="character:"]')).every(e=>e.closest('.shop-product').querySelector('[data-companion-sprite]')) && document.querySelector('[data-shop-item^="character:"]')`
+    )
+  )
+  check(
+    'one authoritative A/R offer is half price',
+    legacy.shop.filter((item) => item.discount === 0.5 && item.price === item.originalPrice / 2)
+      .length === 1
+  )
+  await click('[data-collection-tab=gallery]')
+  const ownedId = legacy.characters[0].id
+  const ownedCharacter = legacy.catalog.find((c) => c.id === ownedId)
+  await click(`[data-species="${ownedCharacter.speciesId}"]`)
+  check(
+    'species opens individual entries',
+    await wait(`document.querySelector('[data-entry="${ownedId}"]')`)
+  )
+  await click(`[data-entry="${ownedId}"]`)
+  check(
+    'biography remains three blank author fields',
+    await evaluate(
+      `return document.querySelector('[data-companion-biography]').textContent.match(/Not written yet/g)?.length===3`
+    )
+  )
+  check(
+    'experience has five book markers',
+    await evaluate(`return document.querySelectorAll('[data-companion-milestone]').length===5`)
+  )
+  await click(`[data-companion-select="${ownedId}"]`)
+  check(
+    'owned companion appears in reserved sidebar space',
+    await wait(`document.querySelector('[data-companion-dock="${ownedId}"]')`)
+  )
+  check(
+    'default companion does not cover settings',
+    await evaluate(
+      `return document.querySelector('[data-nav=settings]').getBoundingClientRect().bottom <= document.querySelector('[data-companion-space]').getBoundingClientRect().top+1`
+    )
+  )
+  await click('[data-nav=practice]')
+  check(
+    'actual practice choices available',
+    await wait(`document.querySelector('[data-kind]:not(:disabled)')`)
+  )
+  await evaluate(
+    `const choices=Array.from(document.querySelectorAll('[data-kind]:not(:disabled)'));(choices.find(e=>/vocab|meaning/.test(e.dataset.kind))??choices[0]).click()`
+  )
+  check(
+    'real objective practice question',
+    await wait(`document.querySelector('[data-choice][data-correct]')`)
+  )
+  await click('[data-choice][data-correct]')
+  check(
+    'correct question displays English and Chinese encouragement',
+    await wait(
+      `document.querySelector('[data-companion-message=answer]')?.textContent.includes('Well done') && document.querySelector('[data-companion-message=answer]')?.textContent.includes('做得好')`
+    )
+  )
+  check(
+    'first objective correct answer adds five XP',
+    await wait(
+      `document.querySelector('[data-companion-message=answer]')?.textContent.includes('+5 XP')`
+    )
+  )
+  let growth = await snapshot()
+  check(
+    'cloud XP binds to selected companion',
+    growth.companion.currentId === ownedId &&
+      growth.companion.progress.find((p) => p.characterId === ownedId).xp === 5
+  )
+  await shot('real-question-encouragement')
+  await evaluate(
+    `document.querySelector('[data-companion-drag]').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}))`
+  )
+  check(
+    'companion position can be moved with keyboard',
+    await evaluate(
+      `return document.querySelector('[data-companion-dock]').classList.contains('floating')`
+    )
+  )
+  await click('[data-companion-options]')
+  await send('Emulation.setDeviceMetricsOverride', {
+    width: 800,
+    height: 600,
+    deviceScaleFactor: 1,
+    mobile: false
+  })
+  await sleep(200)
+  check(
+    'expanded floating companion remains inside viewport',
+    await evaluate(
+      `const r=document.querySelector('[data-companion-dock]').getBoundingClientRect();return r.x>=0&&r.y>=0&&r.right<=innerWidth&&r.bottom<=innerHeight`
+    )
+  )
+  await send('Emulation.clearDeviceMetricsOverride')
+  await click('[data-companion-options]')
+  await click('[data-nav=leaderboards]')
+  check(
+    'ranking displays current companion',
+    await wait(
+      `document.querySelector('[data-ranking-row="${session.user.publicId}"] [data-ranking-companion="${ownedId}"]')`
+    )
+  )
+  const buddyUsername = 'friend_' + Date.now().toString(36)
+  const buddyResponse = await fetch(apiBase + '/auth/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: buddyUsername,
+      password: 'QA-only-' + crypto.randomUUID(),
+      nickname: 'QA Friend'
+    })
+  })
+  const buddy = await buddyResponse.json()
+  if (!buddy.token) throw new Error('Buddy fixture registration ' + buddy.error?.code)
+  const buddyCall = async (path, body) => {
+    const r = await fetch(apiBase + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + buddy.token },
+      body: JSON.stringify(body)
+    })
+    const value = await r.json()
+    if (!r.ok) throw new Error(value.error?.code)
+    return value
+  }
+  await buddyCall('/test/grant', { requestId: crypto.randomUUID() })
+  await buddyCall('/draw', { requestId: crypto.randomUUID(), source: 'learning', count: 1 })
+  await buddyCall('/friends/request', {
+    requestId: crypto.randomUUID(),
+    publicId: session.user.publicId
+  })
+  await click('[data-community-tab=friends]')
+  check(
+    'UI receives invitation from ordinary QA friend',
+    await wait(`document.querySelector('[data-friend-incoming]')`)
+  )
+  await click('[data-friend-accept]')
+  check(
+    'UI accepts mutual friendship',
+    await wait(`document.querySelector('[data-friend-row="${buddy.user.publicId}"]')`)
+  )
+  await click('[data-community-tab=rankings]')
+  await click('[data-ranking-scope=friends]')
+  check(
+    'friends leaderboard contains accepted friend',
+    await wait(`document.querySelector('[data-ranking-row="${buddy.user.publicId}"]')`)
+  )
+  check(
+    'friends leaderboard excludes unrelated users',
+    await evaluate(
+      `return Array.from(document.querySelectorAll('[data-ranking-row]')).every(e=>${JSON.stringify([session.user.publicId, buddy.user.publicId])}.includes(e.dataset.rankingRow))`
+    )
+  )
+  await input('[data-ranking-visibility]', 'friends')
+  await sleep(300)
+  check(
+    'only-friends participation saves on server',
+    (await snapshot()).user.rankVisibility === 'friends'
+  )
+  await click('[data-ranking-scope=global]')
+  await sleep(300)
+  check(
+    'only-friends profile is absent from global board',
+    await evaluate(
+      `return !document.querySelector('[data-ranking-row="${session.user.publicId}"]')`
+    )
+  )
+  await input('[data-ranking-visibility]', 'global')
+  await click('[data-community-tab=friends]')
+  check(
+    'friend list reload completes before removal',
+    await wait(`document.querySelector('[data-friend-remove="${buddy.user.publicId}"]')`)
+  )
+  await click(`[data-friend-remove="${buddy.user.publicId}"]`)
+  check(
+    'friend removal asks for confirmation',
+    await wait(`document.querySelector('[role=dialog] .btn.primary')`)
+  )
+  await click('[role=dialog] .btn.primary')
+  check(
+    'UI removes mutual friendship',
+    await wait(`!document.querySelector('[data-friend-row="${buddy.user.publicId}"]')`)
+  )
+  await buddyCall('/auth/logout', {})
   await click('[data-nav=settings]')
   check(
     'account profile controls',
     await wait('document.querySelector("[data-account-public-collection]")')
   )
-  await click('[data-account-public-collection]')
-  await click('[data-account-public-time]')
+  await evaluate(
+    `for(const selector of ['[data-account-public-collection]','[data-account-public-time]']){const e=document.querySelector(selector);if(!e.checked)e.click()}`
+  )
   await input('[data-account-nickname]', 'QA Library')
   await click('[data-account-profile-save]')
   check(
@@ -366,7 +585,7 @@ try {
   await click('[data-nav=collection]')
   check(
     'restart wallet restored from real server',
-    await wait('document.querySelector("[data-learning-tickets]")?.textContent.trim()==="90"')
+    await wait('document.querySelector("[data-learning-tickets]")?.textContent.trim()==="190"')
   )
   await click('[data-nav=settings]')
   await click('[data-account-logout]')

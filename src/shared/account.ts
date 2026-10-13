@@ -7,6 +7,7 @@ export interface AccountUser {
   publicId: string
   publicCollection: boolean
   publicTime: boolean
+  rankVisibility?: 'global' | 'friends'
   createdAt: string | number
 }
 export interface AccountCharacter {
@@ -15,6 +16,18 @@ export interface AccountCharacter {
   sheet: number
   cell: number
   name: { zh: string; en: string }
+  speciesId?: string
+  biography?: { introduction: string; traits: string; story: string }
+  sprite?: {
+    x: number
+    y: number
+    width: number
+    height: number
+    sheetWidth: number
+    sheetHeight: number
+  }
+  special?: 'monthly'
+  month?: string
 }
 export interface AccountShopItem {
   id: string
@@ -24,6 +37,8 @@ export interface AccountShopItem {
   type: 'ticket' | 'makeup' | 'character' | 'decoration'
   characterId?: string
   tier?: AccountTier
+  originalPrice?: number
+  discount?: number
 }
 export interface AccountTask {
   id: string
@@ -77,6 +92,35 @@ export interface CollectionSnapshot {
   shop: AccountShopItem[]
   drawRules: Record<string, unknown>
   history?: AccountHistory[]
+  species?: {
+    id: string
+    name: { zh: string; en: string }
+    characterIds: string[]
+    hiddenCharacterId?: string
+  }[]
+  gallery?: {
+    type: 'new' | 'discount' | 'popular'
+    characterId: string
+    date: string
+    price?: number
+    originalPrice?: number
+    ownerCount?: number
+  }[]
+  companion?: {
+    currentId: string | null
+    progress: { characterId: string; xp: number; gifts: string[] }[]
+    todayAnswers: number
+    maxDailyAnswers: number
+    xpPerAnswer: number
+    milestones: { xp: number; id: string; name: { zh: string; en: string } }[]
+  }
+  monthly?: {
+    month: string
+    completedDays: string[]
+    requiredDays: number
+    rewardId: string
+    claimed: boolean
+  }
 }
 export interface AccountSession {
   user: AccountUser | null
@@ -100,7 +144,25 @@ export interface SupportOrder {
 export interface Leaderboard {
   kind: 'collection' | 'time'
   language?: string | null
-  rows: { rank: number; publicId: string; nickname: string; value: number }[]
+  scope?: 'global' | 'friends'
+  rows: {
+    rank: number
+    publicId: string
+    nickname: string
+    value: number
+    currentCompanion?: AccountCharacter | null
+  }[]
+}
+export interface AccountPublicProfile {
+  publicId: string
+  nickname: string
+  currentCompanion?: AccountCharacter | null
+}
+export interface AccountFriends {
+  friends: AccountPublicProfile[]
+  incoming: { id: string; profile: AccountPublicProfile; createdAt: number }[]
+  outgoing: { id: string; profile: AccountPublicProfile; createdAt: number }[]
+  ownPublicId: string
 }
 export interface AccountPayloads {
   configureTasks: {
@@ -115,7 +177,12 @@ export interface AccountPayloads {
   login: { username: string; password: string }
   logout: Record<string, never>
   me: Record<string, never>
-  updateProfile: { nickname?: string; publicCollection?: boolean; publicTime?: boolean }
+  updateProfile: {
+    nickname?: string
+    publicCollection?: boolean
+    publicTime?: boolean
+    rankVisibility?: 'global' | 'friends'
+  }
   collection: Record<string, never>
   activity: {
     requestId: string
@@ -123,13 +190,30 @@ export interface AccountPayloads {
     seconds: number
     completion?: { kind: 'reading' | 'practice' | 'courses' | 'review'; id: string }
   }
-  purchase: { requestId: string; itemId: string; quantity?: number }
+  purchase: { requestId: string; itemId: string; quantity?: number; expectedPrice?: number }
   draw: { requestId: string; source: 'learning' | 'support'; count: 1 | 10 }
   useItem: { requestId: string; itemId: 'makeup'; day: string }
-  leaderboards: { kind: 'collection' | 'time'; language?: string; limit?: number }
+  leaderboards: {
+    kind: 'collection' | 'time'
+    language?: string
+    limit?: number
+    scope?: 'global' | 'friends'
+  }
+  friends: Record<string, never>
+  requestFriend: { requestId: string; publicId: string }
+  respondFriend: { requestId: string; invitationId: string; accept: boolean }
+  removeFriend: { requestId: string; publicId: string }
+  selectCompanion: { requestId: string; characterId: string; expectedCurrentId?: string | null }
+  companionAnswer: {
+    requestId: string
+    language: string
+    answerId: string
+    correct: true
+    characterId?: string
+  }
   createSupportOrder: { requestId: string; tickets: number }
   supportOrders: Record<string, never>
-  testGrant: Record<string, never>
+  testGrant: { requestId: string }
 }
 export interface AccountResponses {
   configureTasks: { snapshot: CollectionSnapshot } | CollectionSnapshot
@@ -145,6 +229,18 @@ export interface AccountResponses {
   draw: { results: DrawResult[]; snapshot: CollectionSnapshot }
   useItem: { snapshot: CollectionSnapshot } | CollectionSnapshot
   leaderboards: Leaderboard
+  friends: AccountFriends
+  requestFriend: { friends: AccountFriends; snapshot: CollectionSnapshot }
+  respondFriend: { friends: AccountFriends; snapshot: CollectionSnapshot }
+  removeFriend: { friends: AccountFriends; snapshot: CollectionSnapshot }
+  selectCompanion: { snapshot: CollectionSnapshot } | CollectionSnapshot
+  companionAnswer: {
+    accepted: boolean
+    xp: number
+    gifts: string[]
+    characterId: string
+    snapshot: CollectionSnapshot
+  }
   createSupportOrder: { order: SupportOrder; snapshot: CollectionSnapshot }
   supportOrders: { orders: SupportOrder[] }
   testGrant: { snapshot: CollectionSnapshot } | CollectionSnapshot

@@ -15,8 +15,11 @@ import {
   purchase,
   makeup,
   validLanguage,
-  dayAt
+  dayAt,
+  selectCompanion,
+  companionAnswer
 } from './domain.mjs'
+import { characterFor } from './catalog.mjs'
 
 const derive = promisify(scrypt)
 const PARAMS = { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 }
@@ -161,18 +164,20 @@ export class Service {
     if (method === 'GET' && path === '/v1/auth/me')
       return { user: publicUser(this.store.user(id)), snapshot: this.store.snapshot(id, now) }
     if (method === 'PATCH' && path === '/v1/auth/me') {
-      shape(body, ['nickname', 'publicCollection', 'publicTime'])
+      shape(body, ['nickname', 'publicCollection', 'publicTime', 'rankVisibility'])
       const user = this.store.user(id)
       const nickname = body.nickname === undefined ? user.display_name : text(body.nickname, 1, 40)
       for (const key of ['publicCollection', 'publicTime'])
         if (body[key] !== undefined && typeof body[key] !== 'boolean') fail('INVALID_PRIVACY')
+      if (body.rankVisibility !== undefined && !['global', 'friends'].includes(body.rankVisibility))
+        fail('INVALID_PRIVACY')
       this.store.transaction(() => {
         const fresh = this.store.user(id),
           state = JSON.parse(fresh.state)
         state.revision = (state.revision || 0) + 1
         this.store.db
           .prepare(
-            'UPDATE users SET display_name=?,public_collection=?,public_time=?,state=? WHERE id=?'
+            'UPDATE users SET display_name=?,public_collection=?,public_time=?,rank_visibility=?,state=? WHERE id=?'
           )
           .run(
             nickname,
@@ -180,6 +185,7 @@ export class Service {
               ? fresh.public_collection
               : Number(body.publicCollection),
             body.publicTime === undefined ? fresh.public_time : Number(body.publicTime),
+            body.rankVisibility ?? fresh.rank_visibility,
             JSON.stringify(state),
             id
           )
@@ -187,7 +193,8 @@ export class Service {
       return { user: publicUser(this.store.user(id)), snapshot: this.store.snapshot(id, now) }
     }
     if (method === 'GET' && path === '/v1/collection') return this.store.snapshot(id, now)
-    if (method === 'GET' && path === '/v1/leaderboards') return this.leaderboards(query)
+    if (method === 'GET' && path === '/v1/leaderboards') return this.leaderboards(query, id)
+    if (method === 'GET' && path === '/v1/friends') return this.friends(id)
     if (method === 'GET' && path === '/v1/support/orders')
       return {
         orders: this.store.db
@@ -198,20 +205,12 @@ export class Service {
           .map(orderView)
       }
     if (method === 'POST' && path === '/v1/test/grant') {
-      shape(body, [])
-      return this.store.mutate(
-        id,
-        path,
-        { requestId: `test-grant:${this.testEpoch}` },
-        now,
-        (state) => {
-          this.store.db
-            .prepare('INSERT INTO test_grants VALUES(?,?,?)')
-            .run(id, this.testEpoch, now)
-          state.balances.tickets.learning += 100
-          return { granted: 100, epoch: this.testEpoch }
-        }
-      )
+      shape(body, ['requestId'], ['requestId'])
+      requestId(body.requestId)
+      return this.store.mutate(id, path, body, now, (state) => {
+        state.balances.tickets.learning += 100
+        return { granted: 100 }
+      })
     }
     const handlers = {
       '/v1/reward/activity': (state) => activity(state, body, now),
@@ -220,7 +219,27 @@ export class Service {
       '/v1/shop/purchase': (state) => purchase(state, body, now),
       '/v1/draw': (state) => draw(state, body, now, this.random),
       '/v1/inventory/use': (state) => makeup(state, body, now),
-      '/v1/support/orders': (state) => this.createOrder(id, body, state, now)
+      '/v1/support/orders': (state) => this.createOrder(id, body, state, now),
+      '/v1/companion/select': (state) => selectCompanion(state, body),
+      '/v1/companion/answer': (state) =>
+        companionAnswer(
+          state,
+          body,
+          now,
+          (language, answerId) =>
+            this.store.db
+              .prepare(
+                'SELECT * FROM companion_answers WHERE user_id=? AND language=? AND answer_id=?'
+              )
+              .get(id, language, answerId),
+          (language, answerId, characterId, xp) =>
+            this.store.db
+              .prepare('INSERT INTO companion_answers VALUES(?,?,?,?,?,?)')
+              .run(id, language, answerId, characterId, xp, now)
+        ),
+      '/v1/friends/request': (state) => this.requestFriend(id, body, state, now),
+      '/v1/friends/respond': (state) => this.respondFriend(id, body, state, now),
+      '/v1/friends/remove': (state) => this.removeFriend(id, body, state, now)
     }
     if (method === 'POST' && handlers[path]) {
       requestId(body?.requestId)
@@ -329,17 +348,157 @@ export class Service {
       }
     )
   }
-  leaderboards(query) {
+  publicProfile(user) {
+    const state = JSON.parse(user.state)
+    return {
+      publicId: user.public_id,
+      nickname: user.display_name,
+      currentCompanion: characterFor(state.companion?.currentId)
+    }
+  }
+  friends(id) {
+    const profiles = this.store.db
+      .prepare(
+        'SELECT users.* FROM friend_edges JOIN users ON users.id=friend_edges.friend_id WHERE friend_edges.user_id=? ORDER BY friend_edges.created_at,users.public_id'
+      )
+      .all(id)
+    const invitations = this.store.db
+      .prepare(
+        "SELECT * FROM friend_requests WHERE status='pending' AND (sender_id=? OR recipient_id=?) ORDER BY created_at DESC"
+      )
+      .all(id, id)
+    return {
+      friends: profiles.map((row) => this.publicProfile(row)),
+      incoming: invitations
+        .filter((entry) => entry.recipient_id === id)
+        .map((entry) => ({
+          id: entry.id,
+          profile: this.publicProfile(this.store.user(entry.sender_id)),
+          createdAt: entry.created_at
+        })),
+      outgoing: invitations
+        .filter((entry) => entry.sender_id === id)
+        .map((entry) => ({
+          id: entry.id,
+          profile: this.publicProfile(this.store.user(entry.recipient_id)),
+          createdAt: entry.created_at
+        })),
+      ownPublicId: this.store.user(id).public_id
+    }
+  }
+  friendByPublicId(publicId) {
+    if (typeof publicId !== 'string' || !/^[a-f0-9-]{36}$/.test(publicId)) fail('INVALID_PUBLIC_ID')
+    const user = this.store.db.prepare('SELECT * FROM users WHERE public_id=?').get(publicId)
+    if (!user) fail('FRIEND_NOT_FOUND', 404)
+    return user
+  }
+  bumpOtherUser(id) {
+    const user = this.store.user(id),
+      state = JSON.parse(user.state)
+    state.revision = (state.revision || 0) + 1
+    this.store.db.prepare('UPDATE users SET state=? WHERE id=?').run(JSON.stringify(state), id)
+  }
+  requestFriend(id, body, _state, now) {
+    shape(body, ['requestId', 'publicId'], ['requestId', 'publicId'])
+    const target = this.friendByPublicId(body.publicId)
+    if (target.id === id) fail('CANNOT_FRIEND_SELF')
+    if (
+      this.store.db
+        .prepare('SELECT 1 FROM friend_edges WHERE user_id=? AND friend_id=?')
+        .get(id, target.id)
+    )
+      fail('ALREADY_FRIENDS', 409)
+    if (
+      this.store.db
+        .prepare(
+          "SELECT 1 FROM friend_requests WHERE status='pending' AND ((sender_id=? AND recipient_id=?) OR (sender_id=? AND recipient_id=?))"
+        )
+        .get(id, target.id, target.id, id)
+    )
+      fail('FRIEND_REQUEST_PENDING', 409)
+    const pending = (account) =>
+      this.store.db
+        .prepare(
+          "SELECT COUNT(*) AS count FROM friend_requests WHERE status='pending' AND (sender_id=? OR recipient_id=?)"
+        )
+        .get(account, account).count
+    if (pending(id) >= 50 || pending(target.id) >= 50) fail('FRIEND_REQUEST_LIMIT', 409)
+    this.store.db
+      .prepare('INSERT INTO friend_requests VALUES(?,?,?,?,?)')
+      .run(randomUUID(), id, target.id, 'pending', now)
+    this.bumpOtherUser(target.id)
+    return { friends: this.friends(id) }
+  }
+  respondFriend(id, body, _state, now) {
+    shape(body, ['requestId', 'invitationId', 'accept'], ['requestId', 'invitationId', 'accept'])
+    if (typeof body.accept !== 'boolean') fail('INVALID_FRIEND_RESPONSE')
+    const invitationId = text(body.invitationId, 36, 36)
+    const invitation = this.store.db
+      .prepare('SELECT * FROM friend_requests WHERE id=?')
+      .get(invitationId)
+    if (!invitation || invitation.recipient_id !== id) fail('FRIEND_INVITATION_NOT_FOUND', 404)
+    if (invitation.status !== 'pending') fail('FRIEND_INVITATION_HANDLED', 409)
+    if (body.accept) {
+      for (const account of [id, invitation.sender_id])
+        if (
+          this.store.db
+            .prepare('SELECT COUNT(*) AS count FROM friend_edges WHERE user_id=?')
+            .get(account).count >= 200
+        )
+          fail('FRIEND_LIMIT', 409)
+      this.store.db
+        .prepare('INSERT INTO friend_edges VALUES(?,?,?)')
+        .run(id, invitation.sender_id, now)
+      this.store.db
+        .prepare('INSERT INTO friend_edges VALUES(?,?,?)')
+        .run(invitation.sender_id, id, now)
+    }
+    this.store.db
+      .prepare('UPDATE friend_requests SET status=? WHERE id=?')
+      .run(body.accept ? 'accepted' : 'rejected', invitationId)
+    this.bumpOtherUser(invitation.sender_id)
+    return { friends: this.friends(id) }
+  }
+  removeFriend(id, body) {
+    shape(body, ['requestId', 'publicId'], ['requestId', 'publicId'])
+    const target = this.friendByPublicId(body.publicId)
+    if (
+      !this.store.db
+        .prepare('SELECT 1 FROM friend_edges WHERE user_id=? AND friend_id=?')
+        .get(id, target.id)
+    )
+      fail('NOT_FRIENDS', 409)
+    this.store.db
+      .prepare(
+        'DELETE FROM friend_edges WHERE (user_id=? AND friend_id=?) OR (user_id=? AND friend_id=?)'
+      )
+      .run(id, target.id, target.id, id)
+    this.bumpOtherUser(target.id)
+    return { friends: this.friends(id) }
+  }
+  leaderboards(query, viewerId) {
     const kind = query.kind || 'collection',
-      language = query.language || null
+      language = query.language || null,
+      scope = query.scope || 'global'
     if (!['collection', 'time'].includes(kind)) fail('INVALID_LEADERBOARD')
+    if (!['global', 'friends'].includes(scope)) fail('INVALID_LEADERBOARD_SCOPE')
     if (language !== null && !validLanguage(language)) fail('INVALID_LANGUAGE')
     const limit = integer(query.limit === undefined ? 20 : Number(query.limit), 1, 100)
+    const included = new Set([
+      viewerId,
+      ...this.store.db
+        .prepare('SELECT friend_id FROM friend_edges WHERE user_id=?')
+        .all(viewerId)
+        .map((row) => row.friend_id)
+    ])
     const rows = this.store.db
       .prepare(
-        `SELECT public_id,display_name,state FROM users WHERE ${kind === 'collection' ? 'public_collection' : 'public_time'}=1`
+        `SELECT id,public_id,display_name,state,rank_visibility FROM users WHERE ${kind === 'collection' ? 'public_collection' : 'public_time'}=1`
       )
       .all()
+      .filter((row) =>
+        scope === 'global' ? row.rank_visibility === 'global' : included.has(row.id)
+      )
       .map((row) => {
         const state = JSON.parse(row.state)
         const value =
@@ -348,12 +507,17 @@ export class Service {
             : language
               ? state.languageSeconds[language] || 0
               : Object.values(state.languageSeconds).reduce((a, b) => a + b, 0)
-        return { publicId: row.public_id, nickname: row.display_name, value }
+        return {
+          publicId: row.public_id,
+          nickname: row.display_name,
+          value,
+          currentCompanion: characterFor(state.companion?.currentId)
+        }
       })
       .filter((row) => row.value > 0)
       .sort((a, b) => b.value - a.value || a.publicId.localeCompare(b.publicId))
       .slice(0, limit)
       .map((row, index) => ({ rank: index + 1, ...row }))
-    return { kind, language: kind === 'collection' ? null : language, rows }
+    return { kind, language: kind === 'collection' ? null : language, scope, rows }
   }
 }

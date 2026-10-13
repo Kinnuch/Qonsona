@@ -1,4 +1,39 @@
 const errors: Record<string, [string, string]> = {
+  PENDING_RECOVERY: [
+    '上一次操作结果尚未确认，请先重新连接恢复。',
+    'Reconnect to recover the previous operation before continuing.'
+  ],
+  COMPANION_CHANGED: [
+    '另一台设备已更换养成精灵，请刷新后再确认。',
+    'Another device changed your companion. Refresh before confirming.'
+  ],
+  CHARACTER_NOT_OWNED: ['请先获得这只语言精灵。', 'Collect this language companion first.'],
+  SHOP_PRICE_CHANGED: [
+    '价格已经更新，请刷新商店并重新确认。',
+    'The price changed. Refresh the shop and confirm again.'
+  ],
+  FRIEND_NOT_FOUND: ['没有找到该公开编号对应的用户。', 'No user has this public ID.'],
+  CANNOT_FRIEND_SELF: ['不能添加自己为好友。', 'You cannot add yourself as a friend.'],
+  ALREADY_FRIENDS: ['已经是好友。', 'You are already friends.'],
+  FRIEND_REQUEST_PENDING: ['好友邀请已发送，请等待对方处理。', 'An invitation is already pending.'],
+  FRIEND_INVITATION_NOT_FOUND: ['该邀请不存在或不属于你。', 'This invitation is unavailable.'],
+  FRIEND_INVITATION_HANDLED: ['这条邀请已处理。', 'This invitation has already been handled.'],
+  FRIEND_LIMIT: ['好友数量已达到上限。', 'The friend limit has been reached.'],
+  FRIEND_REQUEST_LIMIT: [
+    '待处理的邀请已达到上限。',
+    'The pending invitation limit has been reached.'
+  ],
+  NOT_FRIENDS: ['目前不是好友。', 'You are not currently friends.'],
+  COMPANION_NOT_OWNED: ['请先获得这只语言精灵。', 'Collect this language companion first.'],
+  COMPANION_NOT_SELECTED: [
+    '请先在图鉴选择一只养成精灵。',
+    'Select a companion in the catalog first.'
+  ],
+  DAILY_ANSWER_LIMIT: [
+    '今日养成经验已达上限，仍可继续学习。',
+    'Today’s companion XP limit is reached; learning can continue.'
+  ],
+  INVALID_PUBLIC_ID: ['请填写完整的好友公开编号。', 'Enter the full public ID.'],
   UNAUTHORIZED: ['登录已失效，请重新登录。', 'Your session expired. Please sign in again.'],
   SESSION_EXPIRED: ['登录已失效，请重新登录。', 'Your session expired. Please sign in again.'],
   INVALID_CREDENTIALS: ['用户名或密码不正确。', 'Username or password is incorrect.'],

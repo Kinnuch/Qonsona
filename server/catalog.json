@@ -1,0 +1,406 @@
+[
+  {
+    "id": "companion-1",
+    "tier": "A",
+    "sheet": 0,
+    "cell": 0,
+    "speciesId": "cat",
+    "name": {
+      "zh": "晨光",
+      "en": "Dawn"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-2",
+    "tier": "A",
+    "sheet": 0,
+    "cell": 1,
+    "speciesId": "cat",
+    "name": {
+      "zh": "墨羽",
+      "en": "Inkwing"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-3",
+    "tier": "A",
+    "sheet": 0,
+    "cell": 2,
+    "speciesId": "cat",
+    "name": {
+      "zh": "金砂",
+      "en": "Goldsand"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-4",
+    "tier": "R",
+    "sheet": 0,
+    "cell": 3,
+    "speciesId": "cat",
+    "name": {
+      "zh": "银芽",
+      "en": "Silverbud"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-5",
+    "tier": "R",
+    "sheet": 0,
+    "cell": 4,
+    "speciesId": "cat",
+    "name": {
+      "zh": "月影",
+      "en": "Moonshade"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-6",
+    "tier": "R",
+    "sheet": 0,
+    "cell": 5,
+    "speciesId": "cat",
+    "name": {
+      "zh": "星团",
+      "en": "Starcluster"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-7",
+    "tier": "SR",
+    "sheet": 1,
+    "cell": 0,
+    "speciesId": "cat",
+    "name": {
+      "zh": "晨光",
+      "en": "Dawn"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-8",
+    "tier": "SR",
+    "sheet": 1,
+    "cell": 1,
+    "speciesId": "cat",
+    "name": {
+      "zh": "墨羽",
+      "en": "Inkwing"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-9",
+    "tier": "SR",
+    "sheet": 1,
+    "cell": 2,
+    "speciesId": "cat",
+    "name": {
+      "zh": "金砂",
+      "en": "Goldsand"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-10",
+    "tier": "SSR",
+    "sheet": 1,
+    "cell": 3,
+    "speciesId": "cat",
+    "name": {
+      "zh": "银芽",
+      "en": "Silverbud"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-11",
+    "tier": "SSR",
+    "sheet": 1,
+    "cell": 4,
+    "speciesId": "cat",
+    "name": {
+      "zh": "月影",
+      "en": "Moonshade"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-12",
+    "tier": "SSR",
+    "sheet": 1,
+    "cell": 5,
+    "speciesId": "cat",
+    "name": {
+      "zh": "星团",
+      "en": "Starcluster"
+    },
+    "introducedAt": "2026-10-12",
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-13",
+    "tier": "A",
+    "sheet": 2,
+    "cell": 0,
+    "speciesId": "mist",
+    "name": {
+      "zh": "白色精灵01",
+      "en": "White Spirit 01"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 40,
+      "y": 14,
+      "width": 57,
+      "height": 60,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-14",
+    "tier": "R",
+    "sheet": 2,
+    "cell": 1,
+    "speciesId": "mist",
+    "name": {
+      "zh": "白色精灵02",
+      "en": "White Spirit 02"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 126,
+      "y": 19,
+      "width": 52,
+      "height": 53,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-15",
+    "tier": "SR",
+    "sheet": 2,
+    "cell": 2,
+    "speciesId": "mist",
+    "name": {
+      "zh": "白色精灵03",
+      "en": "White Spirit 03"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 214,
+      "y": 30,
+      "width": 46,
+      "height": 47,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-16",
+    "tier": "A",
+    "sheet": 2,
+    "cell": 3,
+    "speciesId": "pink",
+    "name": {
+      "zh": "粉色精灵01",
+      "en": "Pink Spirit 01"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 294,
+      "y": 52,
+      "width": 18,
+      "height": 18,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-17",
+    "tier": "R",
+    "sheet": 2,
+    "cell": 4,
+    "speciesId": "mist",
+    "name": {
+      "zh": "白色精灵04",
+      "en": "White Spirit 04"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 43,
+      "y": 101,
+      "width": 39,
+      "height": 42,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-18",
+    "tier": "SR",
+    "sheet": 2,
+    "cell": 5,
+    "speciesId": "mist",
+    "name": {
+      "zh": "白色精灵05",
+      "en": "White Spirit 05"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 117,
+      "y": 101,
+      "width": 35,
+      "height": 42,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-19",
+    "tier": "SSR",
+    "sheet": 2,
+    "cell": 6,
+    "speciesId": "mist",
+    "name": {
+      "zh": "白色精灵06",
+      "en": "White Spirit 06"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 189,
+      "y": 113,
+      "width": 34,
+      "height": 30,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  },
+  {
+    "id": "companion-20",
+    "tier": "SSR",
+    "sheet": 2,
+    "cell": 7,
+    "speciesId": "mist",
+    "name": {
+      "zh": "白色精灵07",
+      "en": "White Spirit 07"
+    },
+    "introducedAt": "2026-10-13",
+    "sprite": {
+      "x": 265,
+      "y": 114,
+      "width": 29,
+      "height": 28,
+      "sheetWidth": 393,
+      "sheetHeight": 160
+    },
+    "biography": {
+      "introduction": "",
+      "traits": "",
+      "story": ""
+    }
+  }
+]

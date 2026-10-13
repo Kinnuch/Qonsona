@@ -7,12 +7,14 @@ import {
   newState,
   dayAt,
   weekAt,
-  CATALOG,
-  SHOP,
   RULES,
   getDay,
-  taskPlan
+  taskPlan,
+  companionState,
+  COMPANION_MILESTONES,
+  monthlyStatus
 } from './domain.mjs'
+import { CATALOG, catalogFor, speciesFor, shopFor, discountedCharacter } from './catalog.mjs'
 
 export const hash = (value) => createHash('sha256').update(value).digest('hex')
 export function publicUser(row) {
@@ -23,6 +25,7 @@ export function publicUser(row) {
     publicId: row.public_id,
     publicCollection: !!row.public_collection,
     publicTime: !!row.public_time,
+    rankVisibility: row.rank_visibility || 'global',
     createdAt: row.created_at
   }
 }
@@ -41,6 +44,11 @@ export class Store {
       CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),tickets INTEGER NOT NULL,amount_fen INTEGER NOT NULL,status TEXT NOT NULL,created_at INTEGER NOT NULL,payment_reference TEXT UNIQUE,approved_at INTEGER,support_spent_at_approval INTEGER);
       CREATE TABLE IF NOT EXISTS test_grants(user_id TEXT NOT NULL,epoch TEXT NOT NULL,at INTEGER NOT NULL,PRIMARY KEY(user_id,epoch));
       CREATE TABLE IF NOT EXISTS rate_limits(key TEXT PRIMARY KEY,window INTEGER NOT NULL,count INTEGER NOT NULL);`)
+    this.db
+      .exec(`CREATE TABLE IF NOT EXISTS friend_requests(id TEXT PRIMARY KEY,sender_id TEXT NOT NULL REFERENCES users(id),recipient_id TEXT NOT NULL REFERENCES users(id),status TEXT NOT NULL,created_at INTEGER NOT NULL);
+      CREATE UNIQUE INDEX IF NOT EXISTS pending_friend_pair ON friend_requests(sender_id,recipient_id) WHERE status='pending';
+      CREATE TABLE IF NOT EXISTS friend_edges(user_id TEXT NOT NULL REFERENCES users(id),friend_id TEXT NOT NULL REFERENCES users(id),created_at INTEGER NOT NULL,PRIMARY KEY(user_id,friend_id));
+      CREATE TABLE IF NOT EXISTS companion_answers(user_id TEXT NOT NULL REFERENCES users(id),language TEXT NOT NULL,answer_id TEXT NOT NULL,character_id TEXT NOT NULL,xp INTEGER NOT NULL,at INTEGER NOT NULL,PRIMARY KEY(user_id,language,answer_id));`)
     const columns = this.db
       .prepare('PRAGMA table_info(orders)')
       .all()
@@ -49,6 +57,13 @@ export class Store {
       this.db.exec('ALTER TABLE orders ADD COLUMN testing INTEGER NOT NULL DEFAULT 0')
     if (!columns.includes('adult_verified'))
       this.db.exec('ALTER TABLE orders ADD COLUMN adult_verified INTEGER NOT NULL DEFAULT 0')
+    const userColumns = this.db
+      .prepare('PRAGMA table_info(users)')
+      .all()
+      .map((column) => column.name)
+    if (!userColumns.includes('rank_visibility'))
+      this.db.exec("ALTER TABLE users ADD COLUMN rank_visibility TEXT NOT NULL DEFAULT 'global'")
+    // Existing false flags may be an explicit opt-out: never overwrite them during migration.
   }
   close() {
     this.db.close()
@@ -73,6 +88,8 @@ export class Store {
     const state = JSON.parse(row.state),
       day = dayAt(now),
       today = getDay(state, day)
+    const companion = companionState(state)
+    const catalog = catalogFor(state, day)
     return {
       version: 1,
       revision: state.revision || 0,
@@ -102,8 +119,19 @@ export class Store {
         seconds: Object.values(state.languageSeconds).reduce((a, b) => a + b, 0),
         collectionCount: Object.keys(state.characters).length
       },
-      catalog: CATALOG,
-      shop: SHOP,
+      catalog,
+      species: speciesFor(catalog),
+      shop: shopFor(day),
+      gallery: this.gallery(day),
+      companion: {
+        currentId: companion.currentId,
+        progress: Object.values(companion.progress),
+        todayAnswers: state.answerDays[day] || 0,
+        maxDailyAnswers: 200,
+        xpPerAnswer: 5,
+        milestones: COMPANION_MILESTONES
+      },
+      monthly: monthlyStatus(state, day),
       drawRules: RULES,
       history: this.db
         .prepare(
@@ -112,6 +140,42 @@ export class Store {
         .all(id)
         .map((entry) => ({ ...entry, detail: JSON.parse(entry.detail) }))
     }
+  }
+  gallery(day) {
+    const available = CATALOG.filter((character) => character.introducedAt <= day)
+    const newest = available.length
+      ? available.reduce(
+          (date, character) => (character.introducedAt > date ? character.introducedAt : date),
+          ''
+        )
+      : ''
+    const recent = available.filter((character) => character.introducedAt === newest)
+    const selected = recent.length
+      ? recent[Number.parseInt(hash(`gallery:${day}`).slice(0, 8), 16) % recent.length]
+      : CATALOG[0]
+    const discount = discountedCharacter(day)
+    const price = shopFor(day).find((item) => item.characterId === discount.id)
+    const owners = Object.fromEntries(
+      CATALOG.filter((character) => character.tier === 'SSR').map((character) => [character.id, 0])
+    )
+    for (const row of this.db.prepare('SELECT state FROM users').all()) {
+      const state = JSON.parse(row.state)
+      for (const id of Object.keys(owners)) if (state.characters[id]) owners[id]++
+    }
+    const popular = Object.entries(owners).sort(
+      ([idA, a], [idB, b]) => b - a || idA.localeCompare(idB)
+    )[0]
+    return [
+      { type: 'new', characterId: selected.id, date: newest || day },
+      {
+        type: 'discount',
+        characterId: discount.id,
+        date: day,
+        price: price.price,
+        originalPrice: price.originalPrice
+      },
+      { type: 'popular', characterId: popular[0], date: day, ownerCount: popular[1] }
+    ]
   }
   mutate(id, route, body, now, callback) {
     const digest = hash(JSON.stringify([route, canonical(body)]))
@@ -156,7 +220,7 @@ export class Store {
     try {
       this.db
         .prepare(
-          'INSERT INTO users(id,username,display_name,public_id,password_hash,created_at,state) VALUES(?,?,?,?,?,?,?)'
+          'INSERT INTO users(id,username,display_name,public_id,password_hash,public_collection,public_time,created_at,state) VALUES(?,?,?,?,?,1,1,?,?)'
         )
         .run(id, username, displayName, randomUUID(), passwordHash, now, JSON.stringify(newState()))
     } catch (error) {

@@ -59,7 +59,12 @@ const register = (service, name = 'testuser', app = 'qonsona') =>
     { ip: name, app }
   )
 const call = (service, user, route, body = {}, method = 'POST') =>
-  service.handle(method, `/v1/${route}`, body, { token: user.token, ip: user.user.id })
+  service.handle(
+    method,
+    `/v1/${route}`,
+    route === 'test/grant' && !body.requestId ? mutation() : body,
+    { token: user.token, ip: user.user.id }
+  )
 const mutation = (extra = {}) => ({ requestId: randomUUID(), ...extra })
 const rejects = (promise, code) => assert.rejects(promise, (error) => error.code === code)
 
@@ -68,7 +73,7 @@ test('scrypt hashes and opaque tokens persist; account namespace shared between 
     first = await register(f.service, 'MixedCase', 'qonlang')
   assert.equal(first.user.username, 'mixedcase')
   assert.equal(typeof first.expiresAt, 'number')
-  assert.equal(first.user.publicCollection, false)
+  assert.equal(first.user.publicCollection, true)
   const row = f.service.store.user(first.user.id)
   assert.ok(row.password_hash.startsWith('scrypt-v1$'))
   assert.ok(!row.password_hash.includes('correct-password'))
@@ -142,15 +147,15 @@ test('authorization, unknown fields, privilege escalation and per-IP/account aut
   )
 })
 
-test('test grant is authenticated, once per epoch, learning-only and always disabled in production', async () => {
+test('test grant is authenticated, repeatable with different identifiers, learning-only and disabled in production', async () => {
   const f = setup(),
     u = await register(f.service)
   await rejects(f.service.handle('POST', '/v1/test/grant'), 'UNAUTHORIZED')
-  const grant = await call(f.service, u, 'test/grant')
+  const body = mutation()
+  const grant = await call(f.service, u, 'test/grant', body)
   assert.equal(grant.snapshot.balances.tickets.learning, 100)
   assert.equal(grant.snapshot.balances.tickets.support, 0)
-  assert.deepEqual(await call(f.service, u, 'test/grant'), grant)
-  f.service.testEpoch = 'test-2'
+  assert.deepEqual(await call(f.service, u, 'test/grant', body), grant)
   assert.equal((await call(f.service, u, 'test/grant')).snapshot.balances.tickets.learning, 200)
   const production = setup({
     env: { NODE_ENV: 'production', QON_TEST_GRANTS: '1', QON_TEST_EPOCH: 'prod' }
@@ -428,6 +433,8 @@ test('leaderboards opt-in, total versus exact language and no account or paid da
   f.advance(60000)
   await call(f.service, a, 'reward/activity', mutation({ language: 'fr', seconds: 60 }))
   const rank = (query) => f.service.handle('GET', '/v1/leaderboards', {}, { token: b.token, query })
+  assert.equal((await rank({ kind: 'collection' })).rows.length, 1)
+  await call(f.service, a, 'auth/me', { publicCollection: false, publicTime: false }, 'PATCH')
   assert.equal((await rank({ kind: 'collection' })).rows.length, 0)
   await call(f.service, a, 'auth/me', { publicCollection: true, publicTime: true }, 'PATCH')
   const total = await rank({ kind: 'time' })
@@ -435,7 +442,13 @@ test('leaderboards opt-in, total versus exact language and no account or paid da
   assert.equal((await rank({ kind: 'time', language: 'en' })).rows[0].value, 60)
   assert.equal((await rank({ kind: 'time', language: 'qonlang:en' })).rows.length, 0)
   await rejects(rank({ kind: 'time', language: 'English' }), 'INVALID_LANGUAGE')
-  assert.deepEqual(Object.keys(total.rows[0]).sort(), ['nickname', 'publicId', 'rank', 'value'])
+  assert.deepEqual(Object.keys(total.rows[0]).sort(), [
+    'currentCompanion',
+    'nickname',
+    'publicId',
+    'rank',
+    'value'
+  ])
   await call(f.service, a, 'auth/me', { publicTime: false }, 'PATCH')
   assert.equal((await rank({ kind: 'time' })).rows.length, 0)
 })

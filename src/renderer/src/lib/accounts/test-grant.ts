@@ -13,12 +13,12 @@ export const dictionaryTestGrant: ((query: string) => Promise<void>) | undefined
           !account.session.server.testcap
         )
           return
-        const ok = await account.mutate('testGrant', {})
+        const ok = await account.mutate('testGrant', { requestId: crypto.randomUUID() })
         ui.toast(
           ok
             ? i18n.locale === 'zh'
-              ? '测试寻访笺已领取（同一账号只发放一次）'
-              : 'Test tickets granted (once per account)'
+              ? '已领取 100 张测试寻访笺，可重复领取'
+              : '100 test tickets granted; repeatable in testing'
             : (account.error ? accountError(account.error, i18n.locale) : '') ||
                 (i18n.locale === 'zh' ? '测试领取不可用' : 'Test grant unavailable'),
           ok ? 'info' : 'error'

@@ -17,6 +17,7 @@ import {
 } from '$shared/rewards'
 import { recordLocalCompletion, recordLocalInterval } from '$lib/accounts/local-records'
 import { account } from './account.svelte'
+import { companion } from './companion.svelte'
 import { LANG_CODES } from '$shared/lang/types'
 
 const TICK = 15_000
@@ -81,7 +82,10 @@ class Activity {
           this.#wasActive,
           IDLE
         )
-        if (end !== null) recordLocalInterval(this.log.rewards, now - dt, end)
+        if (end !== null) {
+          recordLocalInterval(this.log.rewards, now - dt, end)
+          companion.recordLearning(now - dt, end)
+        }
         if (end !== null)
           void account.reportActivity({
             language: this.accountLanguage(this.#pack),
