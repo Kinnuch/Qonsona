@@ -638,7 +638,8 @@ export default {
       typeHint: '输入后按回车确认',
       check: '确认',
       word: '这个词怎么读？',
-      meaning: '标出的部分是什么意思？',
+      meaning: '标出的结构在这句话中有什么语法作用？',
+      sentenceMeaning: '结合整句话，选出这句话表达的意思',
       fill: '选出填进空里的一项',
       form: '选出它的{form}',
       phraseMeaning: '这句话是什么意思？',
@@ -712,7 +713,10 @@ export default {
       'meaning-word': { name: '由义选词', desc: '看意思，选出对应的词。' },
       context: { name: '词语填空', desc: '对照译文，选出填进句子空里的词。' },
       'grammar-fill': { name: '语法填空', desc: '对照译文，选出填进空里的语法形式。' },
-      'grammar-meaning': { name: '语法意思', desc: '选出句中标出的语法是什么意思。' },
+      'grammar-meaning': {
+        name: '语法语境理解',
+        desc: '理解例句的表达；材料不足时辨析结构的语法作用。'
+      },
       conjugate: { name: '变形', desc: '选出这个词的指定变形。' },
       sentence: { name: '句子理解', desc: '读一句话，选出它的意思。' },
       'listen-sentence': { name: '听句子', desc: '听一句话，选出它的意思。' },

@@ -4,7 +4,7 @@ import { ui } from './ui.svelte'
 import { LANG_CODES } from '$shared/lang/types'
 import {
   BreakReminder,
-  encouragement,
+  EncouragementCycle,
   type DockPosition,
   type Encouragement
 } from '$lib/accounts/companion-events'
@@ -30,12 +30,14 @@ export class CompanionState {
   #instances = new WeakMap<object, string>()
   #break = new BreakReminder()
   #speechEpoch = 0
+  #encouragements = new EncouragementCycle()
 
   connectUser(id: string): void {
     if (id === this.#user) return
     this.#user = id
     this.#answers.clear()
     this.#break.reset()
+    this.#encouragements.reset()
     this.#speechEpoch++
     this.message = null
     let preferences = defaults()
@@ -82,7 +84,7 @@ export class CompanionState {
     this.#answers.add(answerId)
     // Bound memory; recent server IDs remain independently deduplicated on the server.
     if (this.#answers.size > 4000) this.#answers.delete(this.#answers.values().next().value!)
-    const phrase = encouragement(language)
+    const phrase = this.#encouragements.next(language)
     const message: CompanionMessage = {
       ...phrase,
       id: Date.now() + Math.random(),

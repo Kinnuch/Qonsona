@@ -4,6 +4,7 @@ import { transform } from 'esbuild'
 import { compileModule } from 'svelte/compiler'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import * as events from '../src/renderer/src/lib/accounts/companion-events'
+import { spriteSize } from '../src/renderer/src/lib/accounts/companion-sprite'
 import { LANG_CODES } from '../src/shared/lang/types'
 import type { CompanionState } from '../src/renderer/src/lib/state/companion.svelte'
 const require = createRequire(import.meta.url)
@@ -126,8 +127,12 @@ describe('companion evidence and account boundaries', () => {
     f.state.connectUser('alice')
     f.state.configure({ bubbles: false })
     f.state.correct('ar', 'question-a')
-    expect(f.state.message?.text).toBe(events.ENCOURAGEMENTS.ar.text)
-    expect(f.state.message?.zh).toBe(events.ENCOURAGEMENTS.ar.zh)
+    expect(events.ENCOURAGEMENT_POOLS.ar).toContainEqual(
+      expect.objectContaining({
+        text: f.state.message?.text,
+        zh: f.state.message?.zh
+      })
+    )
     expect(f.audio.say).not.toHaveBeenCalled()
   })
   it('canonicalizes imported language IDs without inventing their encouragement or voice', async () => {
@@ -136,7 +141,8 @@ describe('companion evidence and account boundaries', () => {
     expect(f.account.reportCompanionAnswer).toHaveBeenCalledWith(
       expect.objectContaining({ language: 'qonlang:author-pack-id' })
     )
-    expect(f.state.message).toMatchObject({ text: '', lang: null, zh: '回答正确，继续加油！' })
+    expect(f.state.message).toMatchObject({ text: '', lang: null })
+    expect(f.state.message?.zh).toBeTruthy()
     f.state.correct('qonlang:already-scoped', 'question-custom-two')
     expect(f.account.reportCompanionAnswer).toHaveBeenLastCalledWith(
       expect.objectContaining({ language: 'qonlang:already-scoped' })
@@ -150,8 +156,8 @@ describe('companion evidence and account boundaries', () => {
     await Promise.resolve()
     await Promise.resolve()
     expect(f.audio.say.mock.calls).toEqual([
-      [{ text: events.ENCOURAGEMENTS.fr.text, lang: 'fr-FR' }, { synthOnly: true }],
-      [{ text: events.ENCOURAGEMENTS.fr.zh, lang: 'zh-CN' }, { synthOnly: true }]
+      [{ text: f.state.message?.text, lang: 'fr-FR' }, { synthOnly: true }],
+      [{ text: f.state.message?.zh, lang: 'zh-CN' }, { synthOnly: true }]
     ])
   })
   it('does not interrupt listening questions, including when a new question starts during encouragement', async () => {
@@ -184,7 +190,7 @@ describe('companion evidence and account boundaries', () => {
     await Promise.resolve()
     expect(f.state.message?.source).toMatch(/^https:\/\/eldamo.org\//)
     expect(f.audio.say.mock.calls).toEqual([
-      [{ text: events.ENCOURAGEMENTS.qya.zh, lang: 'zh-CN' }, { synthOnly: true }]
+      [{ text: f.state.message?.zh, lang: 'zh-CN' }, { synthOnly: true }]
     ])
     expect(events.ENCOURAGEMENTS.sjn.text).toBe('Ma!')
     expect(events.ENCOURAGEMENTS.sjn.lang).toBeNull()
@@ -208,6 +214,57 @@ describe('companion evidence and account boundaries', () => {
     await Promise.resolve()
     expect(f.audio.say).toHaveBeenCalledTimes(1)
     expect(f.audio.playing).toBe('next-question')
+  })
+})
+
+describe('varied encouragement and original sprite sizes', () => {
+  it.each(Object.keys(events.ENCOURAGEMENT_POOLS))(
+    'uses every %s phrase without adjacent repeats, even across cycle boundaries',
+    (language) => {
+      const cycle = new events.EncouragementCycle(() => 0.4)
+      const size = events.ENCOURAGEMENT_POOLS[language].length
+      const phrases = Array.from({ length: size * 3 }, () => cycle.next(language))
+      for (let i = 1; i < phrases.length; i++) expect(phrases[i].text).not.toBe(phrases[i - 1].text)
+      for (let i = 0; i < 3; i++)
+        expect(new Set(phrases.slice(i * size, (i + 1) * size).map((p) => p.text)).size).toBe(size)
+    }
+  )
+  it('keeps imported languages Chinese-only, varies their responses and resets per learner', () => {
+    const cycle = new events.EncouragementCycle(() => 0.4)
+    const first = cycle.next('unknown')
+    expect(first).toMatchObject({ text: '', lang: null })
+    expect(cycle.next('unknown').zh).not.toBe(first.zh)
+    cycle.reset()
+    expect(cycle.next('unknown')).toEqual(first)
+  })
+  it('varies real objective answers without producing more XP from repeated/revealed answers', async () => {
+    const f = await fixture()
+    const messages = []
+    for (let i = 0; i < 6; i++) {
+      f.state.correct('en', 'question-' + i)
+      messages.push(f.state.message?.text)
+      f.state.correct('en', 'question-' + i)
+    }
+    expect(new Set(messages).size).toBe(6)
+    expect(f.account.reportCompanionAnswer).toHaveBeenCalledTimes(6)
+  })
+  it('keeps small artwork at source size in large frames and only shrinks oversized artwork', () => {
+    expect(spriteSize({ width: 18, height: 18 }, { width: 240, height: 280 })).toEqual({
+      width: 18,
+      height: 18
+    })
+    expect(spriteSize({ width: 42, height: 39 }, { width: 126, height: 126 })).toEqual({
+      width: 42,
+      height: 39
+    })
+    expect(spriteSize({ width: 400, height: 200 }, { width: 100, height: 100 })).toEqual({
+      width: 100,
+      height: 50
+    })
+    expect(spriteSize({ width: 100, height: 400 }, { width: 100, height: 100 })).toEqual({
+      width: 25,
+      height: 100
+    })
   })
 })
 

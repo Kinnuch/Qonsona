@@ -11,7 +11,6 @@
     Sparkles,
     Ticket,
     CalendarDays,
-    Frame,
     Check
   } from '@lucide/svelte'
   import { fly } from 'svelte/transition'
@@ -24,6 +23,9 @@
   import AccountPanel from '$lib/accounts/AccountPanel.svelte'
   import CompanionSprite from '$lib/accounts/CompanionSprite.svelte'
   import CompanionBiography from '$lib/accounts/CompanionBiography.svelte'
+  import ShopProducts from '$lib/accounts/ShopProducts.svelte'
+  import DiscoveryCorridor from '$lib/accounts/DiscoveryCorridor.svelte'
+  import CompanionHome from '$lib/accounts/CompanionHome.svelte'
   import { accountError } from '$lib/accounts/errors'
   import { ledgerName, orderStatus } from '$lib/accounts/presentation'
   import LegacyCollection from './LegacyCollection.svelte'
@@ -67,6 +69,11 @@
     action: () => Promise<boolean>
   } | null>(null)
   let confirmationScope = 0
+  let serverClock = 0,
+    clockAnchor = 0,
+    clockObserved: string | number | undefined,
+    poolRefreshing = false,
+    lastPoolRefreshAttempt = 0
   function focusDialog(node: HTMLDivElement): { destroy: () => void } {
     const previous = document.activeElement as HTMLElement | null
     node.focus()
@@ -125,6 +132,36 @@
   )
   const probabilities = $derived(s ? nextProbabilities(s) : null)
   $effect(() => {
+    if (s && s.serverTime !== clockObserved) {
+      clockObserved = s.serverTime
+      serverClock = typeof s.serverTime === 'number' ? s.serverTime : Date.parse(s.serverTime)
+      clockAnchor = performance.now()
+    }
+  })
+  async function refreshPoolIfDue(): Promise<void> {
+    if (
+      !s?.drawPool ||
+      !account.session?.server.online ||
+      account.busy ||
+      poolRefreshing ||
+      !Number.isFinite(serverClock)
+    )
+      return
+    const now = performance.now()
+    if (
+      serverClock + now - clockAnchor < s.drawPool.endAt ||
+      (lastPoolRefreshAttempt > 0 && now - lastPoolRefreshAttempt < 10000)
+    )
+      return
+    poolRefreshing = true
+    lastPoolRefreshAttempt = now
+    try {
+      await account.refresh()
+    } finally {
+      poolRefreshing = false
+    }
+  }
+  $effect(() => {
     if (s && editingDay !== s.day) {
       editingDay = s.day
       firstTask = (s.today.taskPlan?.[1]?.kind as CompletionKind) ?? 'reading'
@@ -133,6 +170,7 @@
   })
   const tabs = $derived([
     { id: 'gallery', name: tr('馆藏', 'Gallery') },
+    { id: 'home', name: tr('家园', 'Home') },
     { id: 'tasks', name: tr('任务', 'Tasks') },
     { id: 'shop', name: tr('商店', 'Shop') },
     { id: 'draw', name: tr('寻访', 'Discovery') },
@@ -155,10 +193,16 @@
     const interval = window.setInterval(() => {
       if (!hoverPause && !focusPause && !reducedMotion && !document.hidden)
         changeSlide((slide + 1) % 3)
+      if (!document.hidden) void refreshPoolIfDue()
     }, 5000)
+    const refreshOnFocus = (): void => {
+      void refreshPoolIfDue()
+    }
+    window.addEventListener('focus', refreshOnFocus)
     return () => {
       window.clearInterval(interval)
       media.removeEventListener('change', updateMotion)
+      window.removeEventListener('focus', refreshOnFocus)
     }
   })
   function changeSlide(next: number): void {
@@ -240,7 +284,8 @@
   function askDraw(count: 1 | 10): void {
     confirmationScope = account.generation
     const ticketSource = source,
-      requestId = crypto.randomUUID()
+      requestId = crypto.randomUUID(),
+      expectedPoolId = s?.drawPool?.id
     const label =
       source === 'learning'
         ? tr('学习寻访笺', 'learning tickets')
@@ -251,7 +296,8 @@
         `消耗 ${count} 张${label}。两种寻访笺共享保底；结果由服务器生成。`,
         `Use ${count} ${label}. Both sources share guarantees; the server generates outcomes.`
       ),
-      action: () => account.mutate('draw', { requestId, source: ticketSource, count })
+      action: () =>
+        account.mutate('draw', { requestId, source: ticketSource, count, expectedPoolId })
     }
   }
   async function execute(): Promise<void> {
@@ -408,6 +454,8 @@
           onclick={() => {
             tab = t.id
             confirm = null
+            shopTier = ''
+            if (t.id === 'draw') void refreshPoolIfDue()
           }}>{t.name}</button
         >{/each}
     </nav>
@@ -733,6 +781,8 @@
         </div>
         <LegacyCollection />
       </details>
+    {:else if tab === 'home'}
+      <CompanionHome snapshot={s} {online} />
     {:else if tab === 'tasks'}
       <section class="card">
         <h2>{tr('今日学习', 'Today’s learning')}</h2>
@@ -839,149 +889,152 @@
         </p>
       </section>
     {:else if tab === 'shop'}
-      <div class="section-head">
-        <div>
-          <p class="eyebrow">THE LITTLE EMPORIUM</p>
-          <h2>{tr('灵墨商店', 'Ink shop')}</h2>
+      {#if shopTier}
+        <nav class="shop-breadcrumb" aria-label={tr('商店位置', 'Shop location')}>
+          <button class="btn ghost" data-shop-back onclick={() => (shopTier = '')}
+            ><ArrowLeft size={15} />{tr('返回灵墨商店', 'Back to Ink shop')}</button
+          >
+          <span aria-hidden="true">/</span><span
+            >{tier(shopTier)} · {tr('语言精灵', 'Language companions')}</span
+          >
+        </nav>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">CHOOSE YOUR COMPANION</p>
+            <h2>{tr(`${tier(shopTier)}语言精灵`, `${tier(shopTier)} companions`)}</h2>
+          </div>
+          <span>{tr('挑选一位新的伙伴', 'Choose a new companion')}</span>
         </div>
-        <span>{tr('用学习，珍藏相遇', 'Treasures earned through learning')}</span>
-      </div>
-      <div class="grid shop-tiers">
-        {#each ['A', 'R'] as quality (quality)}
-          {@const available = s.catalog.filter(
-            (c) => c.tier === quality && c.special !== 'monthly'
-          )}
-          <button
-            class="card shop-tier"
-            class:on={shopTier === quality}
-            data-shop-tier={quality}
-            onclick={() => (shopTier = shopTier === quality ? '' : quality)}
-          >
-            <div class="shop-tier-art">
-              {#each available.slice(0, 3) as c (c.id)}<CompanionSprite
-                  character={c}
-                  width={64}
-                />{/each}
-            </div>
-            <p class="eyebrow">{tier(quality)}</p>
-            <h3>{tr(`兑换${tier(quality)}语言精灵`, `Redeem ${tier(quality)} companions`)}</h3>
-            <span class="shop-tier-link"
-              >{tr('挑选一位新的伙伴', 'Choose a new companion')}<ArrowUpRight size={16} /></span
-            >
-          </button>
-        {/each}
-      </div>
-      {#if shopTier}<div class="section-head shop-section">
-          <h3>{tier(shopTier)} · {tr('语言精灵', 'Language companions')}</h3>
-          <button class="btn ghost" onclick={() => (shopTier = '')}
-            >{tr('收起', 'Collapse')}<X size={14} /></button
-          >
-        </div>{/if}
-      <div class="grid">
-        {#each s.shop.filter((item) => item.type !== 'character' || item.tier === shopTier) as item (item.id)}{@const balance =
-            item.currency === 'points' ? s.balances.points : s.balances.echoes}{@const already =
-            (item.type === 'character' && s.characters.some((c) => c.id === item.characterId)) ||
-            (item.type === 'decoration' && s.inventory.decorations?.includes(item.id))}
-          {@const character = s.catalog.find((c) => c.id === item.characterId)}
-          <section class="card shop-product" class:discounted={!!item.discount}>
-            <div class="product-art">
-              {#if character}<CompanionSprite
-                  {character}
-                  width={106}
-                />{:else if item.type === 'ticket'}<Ticket
-                  size={46}
-                  strokeWidth={1.2}
-                />{:else if item.type === 'makeup'}<CalendarDays
-                  size={46}
-                  strokeWidth={1.2}
-                />{:else}<Frame size={46} strokeWidth={1.2} />{/if}
-              {#if item.discount}<span class="discount-badge product-discount">−50%</span>{/if}
-            </div>
-            <p class="eyebrow">
-              {item.currency === 'echoes'
-                ? tr('装饰专用', 'Decoration only')
-                : tr('学习所得', 'Earned through learning')}
-            </p>
-            <h3>{shopName(item)}</h3>
-            <p class="big">
-              {#if item.originalPrice && item.originalPrice !== item.price}<del
-                  >{item.originalPrice}</del
-                >{/if}
-              {item.price}
-              <small>{item.currency === 'points' ? tr('灵墨', 'Ink') : tr('余韵', 'Echoes')}</small>
-            </p>
-            <p class="muted">
-              {item.type === 'ticket'
-                ? tr('用于一次寻访。', 'One discovery.')
-                : item.type === 'makeup'
-                  ? tr(
-                      '补记过去七天未签到的一天，不补奖励。',
-                      'Make up one missed check-in in the last seven days, without rewards.'
-                    )
-                  : item.type === 'decoration'
-                    ? tr(
-                        '装饰馆藏，不兑换积分或寻访笺。',
-                        'Decorates your gallery; cannot become points or tickets.'
-                      )
-                    : tr('直接珍藏这一位语言精灵。', 'Collect this language companion directly.')}
-            </p>
+        <ShopProducts
+          items={s.shop.filter((item) => item.type === 'character' && item.tier === shopTier)}
+          snapshot={s}
+          {online}
+          redeem={askPurchase}
+        />
+      {:else}
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">THE LITTLE EMPORIUM</p>
+            <h2>{tr('灵墨商店', 'Ink shop')}</h2>
+          </div>
+          <span>{tr('用学习，珍藏相遇', 'Treasures earned through learning')}</span>
+        </div>
+        <div class="grid shop-tiers">
+          {#each ['A', 'R'] as quality (quality)}
+            {@const available = s.catalog.filter(
+              (c) => c.tier === quality && c.special !== 'monthly'
+            )}
             <button
-              class="btn primary"
-              data-shop-item={item.id}
-              disabled={!online || !!already || balance < item.price}
-              onclick={() => askPurchase(item)}
-              >{already
-                ? tr('已拥有', 'Owned')
-                : balance < item.price
-                  ? tr('余额不足', 'Insufficient balance')
-                  : tr('兑换', 'Redeem')}</button
+              class="card shop-tier"
+              data-shop-tier={quality}
+              onclick={() => (shopTier = quality)}
             >
-          </section>{/each}
-      </div>
-      <section class="card support">
-        <h3>{tr('支持开发 · 测试订单', 'Support development · test orders')}</h3>
-        <p>
-          {tr(
-            '测试订单，不进行真实付款。示例单价人民币 6 元，每月上限 60 元；创建订单不会自动到账。人工核验与正式收款须由运营者另行开放。',
-            'Test orders: do not make real payments. Nominal price CNY 6 each, monthly cap CNY 60. Creating an order does not credit tickets. Manual verification and real payments require a separate operator rollout.'
-          )}
-        </p>
-        <label
-          >{tr('张数', 'Tickets')}
-          <input
-            class="input"
-            type="number"
-            min="1"
-            max="10"
-            step="1"
-            bind:value={supportTickets}
-          /></label
-        ><button
-          class="btn"
-          disabled={!online ||
-            !Number.isInteger(supportTickets) ||
-            supportTickets < 1 ||
-            supportTickets > 10}
-          data-support-create
-          onclick={askSupport}>{tr('创建测试订单', 'Create test order')}</button
-        ><button class="btn ghost" disabled={!online || orderLoading} onclick={loadOrders}
-          >{tr('查看订单', 'View orders')}</button
-        >{#if account.lastOrder}<p data-support-order>
-            {account.lastOrder.id} · {account.lastOrder.amountFen / 100} CNY · {orderStatus(
-              account.lastOrder.status,
-              i18n.locale
+              <div class="shop-tier-art">
+                {#each available.slice(0, 3) as c (c.id)}<CompanionSprite
+                    character={c}
+                    width={64}
+                  />{/each}
+              </div>
+              <p class="eyebrow">{tier(quality)}</p>
+              <h3>{tr(`兑换${tier(quality)}语言精灵`, `Redeem ${tier(quality)} companions`)}</h3>
+              <span class="shop-tier-link"
+                >{tr('进入挑选', 'Choose a companion')}<ArrowUpRight size={16} /></span
+              >
+            </button>
+          {/each}
+        </div>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">FOR THE JOURNEY</p>
+            <h3>{tr('学习补给', 'Study supplies')}</h3>
+          </div>
+        </div>
+        <ShopProducts
+          items={s.shop.filter((item) => item.type !== 'character' && item.currency === 'points')}
+          snapshot={s}
+          {online}
+          redeem={askPurchase}
+        />
+        <section class="echo-shop" data-echo-shop>
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">THE ECHO CORNER</p>
+              <h3>{tr('余韵小铺', 'Echo corner')}</h3>
+            </div>
+            <span>{s.balances.echoes} {tr('余韵', 'Echoes')}</span>
+          </div>
+          <p class="muted">
+            {tr(
+              '家具兑换区暂时留空，等待正式素材。每1000余韵可兑换一张学习寻访笺。',
+              'Furniture exchange is reserved for future artwork. Exchange 1,000 Echoes for one learning discovery ticket.'
             )}
-          </p>{/if}{#if orderError}<p role="alert">
-            {accountError(orderError, i18n.locale)}
-          </p>{/if}{#each orders as order (order.id)}<p>
-            {order.id} · {order.tickets}
-            {tr('张', 'tickets')} · {order.amountFen / 100} CNY · {orderStatus(
-              order.status,
-              i18n.locale
+          </p>
+          <ShopProducts
+            items={s.shop.filter((item) => item.currency === 'echoes' && item.type === 'ticket')}
+            snapshot={s}
+            {online}
+            redeem={askPurchase}
+          />
+          <div class="furniture-empty" data-furniture-shop>
+            <BookOpen size={22} strokeWidth={1.2} /><span
+              >{tr('家具区 · 尚未上架', 'Furniture · not available yet')}</span
+            >
+          </div>
+        </section>
+        <section class="card support">
+          <h3>{tr('支持开发 · 测试订单', 'Support development · test orders')}</h3>
+          <p>
+            {tr(
+              '测试订单，不进行真实付款。示例单价人民币 6 元，每月上限 60 元；创建订单不会自动到账。人工核验与正式收款须由运营者另行开放。',
+              'Test orders: do not make real payments. Nominal price CNY 6 each, monthly cap CNY 60. Creating an order does not credit tickets. Manual verification and real payments require a separate operator rollout.'
             )}
-          </p>{/each}
-      </section>
+          </p>
+          <label
+            >{tr('张数', 'Tickets')}
+            <input
+              class="input"
+              type="number"
+              min="1"
+              max="10"
+              step="1"
+              bind:value={supportTickets}
+            /></label
+          ><button
+            class="btn"
+            disabled={!online ||
+              !Number.isInteger(supportTickets) ||
+              supportTickets < 1 ||
+              supportTickets > 10}
+            data-support-create
+            onclick={askSupport}>{tr('创建测试订单', 'Create test order')}</button
+          ><button class="btn ghost" disabled={!online || orderLoading} onclick={loadOrders}
+            >{tr('查看订单', 'View orders')}</button
+          >{#if account.lastOrder}<p data-support-order>
+              {account.lastOrder.id} · {account.lastOrder.amountFen / 100} CNY · {orderStatus(
+                account.lastOrder.status,
+                i18n.locale
+              )}
+            </p>{/if}{#if orderError}<p role="alert">
+              {accountError(orderError, i18n.locale)}
+            </p>{/if}{#each orders as order (order.id)}<p>
+              {order.id} · {order.tickets}
+              {tr('张', 'tickets')} · {order.amountFen / 100} CNY · {orderStatus(
+                order.status,
+                i18n.locale
+              )}
+            </p>{/each}
+        </section>
+      {/if}
     {:else if tab === 'draw'}
+      {#if s.drawPool}<DiscoveryCorridor catalog={s.catalog} pool={s.drawPool} />{:else}<p
+          class="notice"
+          role="status"
+        >
+          {tr(
+            '本期奖池尚不可用，请刷新账号连接。',
+            'The current pool is unavailable. Please refresh your connection.'
+          )}
+        </p>{/if}
       <section class="card discovery">
         <p class="eyebrow">{tr('寻访伙伴', 'Discover companions')}</p>
         <h2>{tr('每一次相遇都有记录', 'Every encounter is recorded')}</h2>
@@ -1005,12 +1058,12 @@
           <button
             class="btn primary"
             data-draw-one
-            disabled={!online || s.balances.tickets[source] < 1}
+            disabled={!online || !s.drawPool || s.balances.tickets[source] < 1}
             onclick={() => askDraw(1)}>{tr('寻访一次 · 1 张', 'Discover once · 1 ticket')}</button
           ><button
             class="btn"
             data-draw-ten
-            disabled={!online || s.balances.tickets[source] < 10}
+            disabled={!online || !s.drawPool || s.balances.tickets[source] < 10}
             onclick={() => askDraw(10)}
             >{tr('寻访十次 · 10 张', 'Discover ten · 10 tickets')}</button
           ><button class="btn ghost" onclick={() => (rulesOpen = !rulesOpen)}
@@ -1046,8 +1099,8 @@
               </span>{/each}
             <p>
               {tr(
-                '重复相遇分别获得 1 / 3 / 8 / 20 余韵，只用于装饰。',
-                'Duplicates grant 1 / 3 / 8 / 20 echoes, for decorations only.'
+                '重复相遇分别获得 1 / 3 / 8 / 20 余韵，留作未来家具兑换；每1000余韵也可兑换一张学习寻访笺。',
+                'Duplicates grant 1 / 3 / 8 / 20 Echoes, reserved for future furniture. Every 1,000 Echoes can also be exchanged for a learning ticket.'
               )}
             </p>
           </div>{/if}
@@ -1613,10 +1666,6 @@
     position: relative;
     overflow: hidden;
   }
-  .shop-tier.on {
-    border-color: var(--gallery-ink);
-    background: var(--gallery-paper);
-  }
   .shop-tier-art {
     display: flex;
     align-items: center;
@@ -1638,41 +1687,33 @@
     font-size: 12px;
     color: var(--gallery-ink);
   }
-  .shop-product {
+  .shop-breadcrumb {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--text-3);
   }
-  .shop-product h3 {
-    font-size: 16px;
-    margin: 6px 0;
+  .shop-breadcrumb .btn {
+    padding-left: 0;
   }
-  .shop-product .big {
-    font-size: 26px;
-    margin: 12px 0;
+  .echo-shop {
+    margin-top: 35px;
+    padding-top: 8px;
+    border-top: 1px solid var(--gallery-border);
   }
-  .shop-product .btn {
-    margin-top: auto;
-    width: 100%;
-  }
-  .shop-product .muted {
-    margin: 0 0 18px;
-  }
-  .product-art {
-    position: relative;
-    width: 100%;
-    display: grid;
-    place-items: center;
-    min-height: 124px;
-    margin-bottom: 12px;
-    background: var(--gallery-mat);
-    border-radius: 11px;
-    color: var(--gallery-mat-ink);
-  }
-  .product-discount {
-    position: absolute;
-    top: 9px;
-    right: 9px;
+  .furniture-empty {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    align-items: center;
+    min-height: 92px;
+    border: 1px dashed var(--gallery-border);
+    border-radius: 12px;
+    color: var(--text-3);
+    font-size: 12px;
+    margin-top: 16px;
   }
   .close {
     position: absolute;

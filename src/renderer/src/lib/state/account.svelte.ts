@@ -212,6 +212,10 @@ export class AccountState {
   async retry(): Promise<boolean> {
     return this.#retry ? this.#retry() : false
   }
+  /** A full room layout is saved against its server revision to protect another device's edits. */
+  async saveHome(payload: AccountPayloads['updateHome']): Promise<boolean> {
+    return this.mutate('updateHome', payload)
+  }
   /** Foreground evidence is bounded again by the server; offline learning remains local. */
   async reportCompanionAnswer(
     payload: AccountPayloads['companionAnswer']

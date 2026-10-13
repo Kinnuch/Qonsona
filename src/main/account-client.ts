@@ -22,7 +22,8 @@ const DURABLE = new Set<AccountAction>([
   'companionAnswer',
   'requestFriend',
   'respondFriend',
-  'removeFriend'
+  'removeFriend',
+  'updateHome'
 ])
 const ROUTES: Record<AccountAction, [string, string]> = {
   register: ['POST', '/auth/register'],
@@ -46,6 +47,7 @@ const ROUTES: Record<AccountAction, [string, string]> = {
   removeFriend: ['POST', '/friends/remove'],
   selectCompanion: ['POST', '/companion/select'],
   companionAnswer: ['POST', '/companion/answer'],
+  updateHome: ['POST', '/home/update'],
   testGrant: ['POST', '/test/grant']
 }
 
@@ -83,6 +85,71 @@ function validSnapshot(value: unknown, userId: string): value is CollectionSnaps
   if (!value || typeof value !== 'object') return false
   const s = value as CollectionSnapshot
   const natural = (v: unknown): boolean => Number.isSafeInteger(v) && Number(v) >= 0
+  const ids = (v: unknown): v is string[] =>
+    Array.isArray(v) &&
+    v.every((id) => typeof id === 'string' && id.length > 0) &&
+    new Set(v).size === v.length
+  const pool = s.drawPool
+  const home = s.home
+  if (
+    pool !== undefined &&
+    (!pool ||
+      typeof pool !== 'object' ||
+      typeof pool.id !== 'string' ||
+      !pool.id ||
+      !natural(pool.startAt) ||
+      !natural(pool.endAt) ||
+      pool.endAt <= pool.startAt ||
+      !ids(pool.ssrIds) ||
+      !pool.ssrIds.length ||
+      !ids(pool.characterIds) ||
+      !pool.ssrIds.every((id) => pool.characterIds.includes(id)) ||
+      !Array.isArray(s.catalog) ||
+      !pool.characterIds.every((id) =>
+        s.catalog.some((character) => character.id === id && !character.special)
+      ) ||
+      !pool.ssrIds.every((id) =>
+        s.catalog.some((character) => character.id === id && character.tier === 'SSR')
+      ))
+  )
+    return false
+  if (
+    home !== undefined &&
+    (!home ||
+      typeof home !== 'object' ||
+      !natural(home.revision) ||
+      typeof home.skinId !== 'string' ||
+      !Array.isArray(home.furniture) ||
+      !Array.isArray(home.placements) ||
+      home.placements.length > 30 ||
+      home.placements.some(
+        (p) =>
+          !p ||
+          typeof p.characterId !== 'string' ||
+          !p.characterId ||
+          !Number.isFinite(p.x) ||
+          !Number.isFinite(p.y) ||
+          p.x < 0 ||
+          p.x > 1 ||
+          p.y < 0 ||
+          p.y > 1
+      ) ||
+      new Set(home.placements.map((p) => p.characterId)).size !== home.placements.length)
+  )
+    return false
+  if (
+    s.homeSkins !== undefined &&
+    (!Array.isArray(s.homeSkins) ||
+      s.homeSkins.some(
+        (skin) =>
+          !skin ||
+          typeof skin.id !== 'string' ||
+          typeof skin.owned !== 'boolean' ||
+          typeof skin.name?.zh !== 'string' ||
+          typeof skin.name?.en !== 'string'
+      ))
+  )
+    return false
   return (
     s.version === 1 &&
     s.user?.id === userId &&
@@ -282,6 +349,13 @@ export class AccountClient {
         )
       )
         throw new Error('INVALID_RESPONSE: Invalid draw results')
+      const pool = (snapshotValue as CollectionSnapshot).drawPool
+      if (
+        pool &&
+        (data.poolId !== pool.id ||
+          results.some((result) => !pool.characterIds.includes(String(result.id))))
+      )
+        throw new Error('INVALID_RESPONSE: Invalid draw pool results')
     }
     if (action === 'createSupportOrder') {
       const order = data.order as Record<string, unknown> | undefined

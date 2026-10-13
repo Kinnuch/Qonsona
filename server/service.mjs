@@ -17,7 +17,8 @@ import {
   validLanguage,
   dayAt,
   selectCompanion,
-  companionAnswer
+  companionAnswer,
+  updateHome
 } from './domain.mjs'
 import { characterFor } from './catalog.mjs'
 
@@ -217,7 +218,8 @@ export class Service {
       '/v1/tasks/configure': (state) => configureTasks(state, body, now),
       '/v1/collection/legacy': (state) => importLegacy(state, body, now),
       '/v1/shop/purchase': (state) => purchase(state, body, now),
-      '/v1/draw': (state) => draw(state, body, now, this.random),
+      '/v1/draw': (state) => draw(state, body, now, this.random, this.store.drawPool(now)),
+      '/v1/home/update': (state) => updateHome(state, body),
       '/v1/inventory/use': (state) => makeup(state, body, now),
       '/v1/support/orders': (state) => this.createOrder(id, body, state, now),
       '/v1/companion/select': (state) => selectCompanion(state, body),

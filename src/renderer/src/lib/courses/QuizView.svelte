@@ -94,7 +94,9 @@
       case 'meaning':
         return cur.choices.map((k) => ({
           value: k,
-          label: meanings(course.grammar[k]?.meaning ?? {}).main,
+          label: cur.sentenceChoices
+            ? txt(cur.sentenceChoices[k])
+            : meanings(course.grammar[k]?.meaning ?? {}).main,
           font: ''
         }))
       case 'fill':
@@ -323,7 +325,9 @@
               {lang}
             />{/if}
         </p>
-        <p class="muted">{t('courses.quiz.meaning')}</p>
+        <p class="muted">
+          {t(q.sentenceChoices ? 'courses.quiz.sentenceMeaning' : 'courses.quiz.meaning')}
+        </p>
       {:else if q.type === 'fill'}
         {@const ex = course.grammar[q.key].examples[q.ex]}
         <p class="sentence">

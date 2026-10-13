@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { AccountCharacter } from '$shared/account'
+  import { spriteSize } from './companion-sprite'
   import dawn from '../../assets/collection/companions-dawn.png'
   import journey from '../../assets/collection/companions-journey.png'
   import twilight from '../../assets/collection/companions-twilight.png'
@@ -10,6 +11,7 @@
     cell = 0,
     rect,
     width = 126,
+    height = 126,
     locked = false
   }: {
     character?: AccountCharacter
@@ -17,6 +19,7 @@
     cell?: number
     rect?: [number, number, number, number]
     width?: number
+    height?: number
     locked?: boolean
   } = $props()
   const sheets = [dawn, journey, twilight]
@@ -39,6 +42,7 @@
   )
   const sourceWidth = $derived(character?.sprite?.sheetWidth ?? dimensions[source]?.[0] ?? 126)
   const sourceHeight = $derived(character?.sprite?.sheetHeight ?? dimensions[source]?.[1] ?? 78)
+  const size = $derived(spriteSize({ width: crop[2], height: crop[3] }, { width, height }))
 </script>
 
 <span
@@ -46,7 +50,9 @@
   class:locked
   data-companion-sprite={character?.id}
   aria-hidden="true"
-  style:width={`${width}px`}
+  data-source-width={crop[2]}
+  data-source-height={crop[3]}
+  style:width={`${size.width}px`}
   style:aspect-ratio={`${crop[2]} / ${crop[3]}`}
 >
   <img

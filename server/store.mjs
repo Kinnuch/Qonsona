@@ -1,6 +1,6 @@
 /* eslint @typescript-eslint/explicit-function-return-type: "off" -- Plain JavaScript runs directly on Node24 without a TypeScript build. */
 import { DatabaseSync } from 'node:sqlite'
-import { createHash, randomUUID } from 'node:crypto'
+import { createHash, randomBytes, randomUUID } from 'node:crypto'
 import {
   ApiError,
   fail,
@@ -12,9 +12,12 @@ import {
   taskPlan,
   companionState,
   COMPANION_MILESTONES,
-  monthlyStatus
+  monthlyStatus,
+  homeState,
+  HOME_SKINS
 } from './domain.mjs'
 import { CATALOG, catalogFor, speciesFor, shopFor, discountedCharacter } from './catalog.mjs'
+import { poolSlot, cycleOrder, poolForSlot } from './draw-pools.mjs'
 
 export const hash = (value) => createHash('sha256').update(value).digest('hex')
 export function publicUser(row) {
@@ -44,6 +47,13 @@ export class Store {
       CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),tickets INTEGER NOT NULL,amount_fen INTEGER NOT NULL,status TEXT NOT NULL,created_at INTEGER NOT NULL,payment_reference TEXT UNIQUE,approved_at INTEGER,support_spent_at_approval INTEGER);
       CREATE TABLE IF NOT EXISTS test_grants(user_id TEXT NOT NULL,epoch TEXT NOT NULL,at INTEGER NOT NULL,PRIMARY KEY(user_id,epoch));
       CREATE TABLE IF NOT EXISTS rate_limits(key TEXT PRIMARY KEY,window INTEGER NOT NULL,count INTEGER NOT NULL);`)
+    this.db
+      .exec(`CREATE TABLE IF NOT EXISTS service_settings(key TEXT PRIMARY KEY,value TEXT NOT NULL);
+      CREATE TABLE IF NOT EXISTS draw_pool_cycles(start_slot INTEGER PRIMARY KEY,ssr_order TEXT NOT NULL);
+      CREATE TABLE IF NOT EXISTS draw_pools(id TEXT PRIMARY KEY,start_slot INTEGER NOT NULL UNIQUE,pool TEXT NOT NULL);`)
+    this.db
+      .prepare('INSERT OR IGNORE INTO service_settings VALUES(?,?)')
+      .run('draw-pool-seed-v1', randomBytes(32).toString('hex'))
     this.db
       .exec(`CREATE TABLE IF NOT EXISTS friend_requests(id TEXT PRIMARY KEY,sender_id TEXT NOT NULL REFERENCES users(id),recipient_id TEXT NOT NULL REFERENCES users(id),status TEXT NOT NULL,created_at INTEGER NOT NULL);
       CREATE UNIQUE INDEX IF NOT EXISTS pending_friend_pair ON friend_requests(sender_id,recipient_id) WHERE status='pending';
@@ -82,6 +92,38 @@ export class Store {
   user(id) {
     return this.db.prepare('SELECT * FROM users WHERE id=?').get(id)
   }
+  drawPool(now) {
+    const slot = poolSlot(now)
+    const existing = this.db.prepare('SELECT pool FROM draw_pools WHERE start_slot=?').get(slot)
+    if (existing) return JSON.parse(existing.pool)
+    const seed = this.db
+      .prepare('SELECT value FROM service_settings WHERE key=?')
+      .get('draw-pool-seed-v1').value
+    this.db
+      .prepare('INSERT OR IGNORE INTO draw_pool_cycles VALUES(?,?)')
+      .run(0, JSON.stringify(cycleOrder(seed, 0)))
+    let cycle = this.db
+      .prepare(
+        'SELECT * FROM draw_pool_cycles WHERE start_slot<=? ORDER BY start_slot DESC LIMIT 1'
+      )
+      .get(slot)
+    let order = JSON.parse(cycle.ssr_order)
+    while (slot >= cycle.start_slot + order.length) {
+      const start = cycle.start_slot + order.length
+      this.db
+        .prepare('INSERT OR IGNORE INTO draw_pool_cycles VALUES(?,?)')
+        .run(start, JSON.stringify(cycleOrder(seed, start, order.at(-1))))
+      cycle = this.db.prepare('SELECT * FROM draw_pool_cycles WHERE start_slot=?').get(start)
+      order = JSON.parse(cycle.ssr_order)
+    }
+    const pool = poolForSlot(slot, order[slot - cycle.start_slot])
+    this.db
+      .prepare('INSERT OR IGNORE INTO draw_pools VALUES(?,?,?)')
+      .run(pool.id, slot, JSON.stringify(pool))
+    return JSON.parse(
+      this.db.prepare('SELECT pool FROM draw_pools WHERE start_slot=?').get(slot).pool
+    )
+  }
   snapshot(id, now) {
     const row = this.user(id)
     if (!row) fail('ACCOUNT_NOT_FOUND', 404)
@@ -89,6 +131,7 @@ export class Store {
       day = dayAt(now),
       today = getDay(state, day)
     const companion = companionState(state)
+    const home = homeState(state)
     const catalog = catalogFor(state, day)
     return {
       version: 1,
@@ -133,6 +176,12 @@ export class Store {
       },
       monthly: monthlyStatus(state, day),
       drawRules: RULES,
+      drawPool: this.drawPool(now),
+      home,
+      homeSkins: HOME_SKINS.map((skin) => ({
+        ...skin,
+        owned: state.inventory.homeSkins.includes(skin.id)
+      })),
       history: this.db
         .prepare(
           'SELECT id,kind,at,detail FROM ledger WHERE user_id=? ORDER BY at DESC,rowid DESC LIMIT 50'

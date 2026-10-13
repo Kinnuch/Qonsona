@@ -159,6 +159,110 @@ async function fixture(packaged = false, testMode = true) {
 }
 
 describe('account main-process gateway', () => {
+  it.each([
+    { homeSkins: false },
+    { homeSkins: 0 },
+    { homeSkins: null },
+    { home: false },
+    { home: null },
+    { drawPool: false },
+    { drawPool: null },
+    {
+      drawPool: {
+        id: 'pool',
+        startAt: 1,
+        endAt: 100,
+        ssrIds: ['missing'],
+        characterIds: ['missing']
+      }
+    },
+    {
+      drawPool: {
+        id: 'pool',
+        startAt: 1,
+        endAt: 100,
+        ssrIds: ['missing'],
+        characterIds: ['missing', 'missing']
+      }
+    },
+    {
+      home: {
+        revision: 0,
+        skinId: 'room-placeholder',
+        furniture: [],
+        placements: [{ characterId: 'a', x: 1.1, y: 0 }]
+      }
+    }
+  ])(
+    'rejects malformed optional gallery data before it reaches the renderer (%j)',
+    async (fields) => {
+      const f = await fixture()
+      await f.client.request('login', { username: 'learner', password: 'long-test-password' })
+      f.malformedMe(JSON.stringify({ user, snapshot: { ...snapshot, ...fields } }))
+      await expect(f.client.request('me', {})).rejects.toThrow('INVALID_RESPONSE')
+    }
+  )
+  it('recovers a lost home save with the same payload after restart before allowing another mutation', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-test-password' })
+    const original = f.fetcher.getMockImplementation()!
+    let lost = true
+    f.fetcher.mockImplementation(async (input, init) => {
+      const value = await original(input, init)
+      if (!String(input).endsWith('/home/update')) return value
+      if (lost) {
+        lost = false
+        throw new Error('lost saved home response')
+      }
+      return new Response(JSON.stringify({ snapshot }))
+    })
+    const payload = {
+      requestId: 'home-save-lost',
+      expectedRevision: 0,
+      skinId: 'room-placeholder',
+      placements: []
+    }
+    await expect(f.client.request('updateHome', payload)).rejects.toThrow('SERVICE_UNAVAILABLE')
+    await expect(
+      f.client.request('draw', {
+        requestId: 'new-draw-before-home-replay',
+        count: 1,
+        source: 'learning'
+      })
+    ).rejects.toThrow('PENDING_RECOVERY')
+    expect((await new AccountClient(f.options).session()).server.online).toBe(true)
+    const saved = f.calls.filter((c) => c.path.endsWith('/home/update'))
+    expect(saved).toHaveLength(2)
+    expect(saved[0].body).toBe(JSON.stringify(payload))
+    expect(saved[1].body).toBe(saved[0].body)
+    expect(
+      JSON.parse(await fs.readFile(join(f.options.directory, 'account-pending.json'), 'utf8'))
+    ).toEqual({})
+  })
+  it('clears a definitive conflicting home revision without replaying it on reconnect', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-test-password' })
+    const original = f.fetcher.getMockImplementation()!
+    f.fetcher.mockImplementation(async (input, init) => {
+      const value = await original(input, init)
+      return String(input).endsWith('/home/update')
+        ? new Response(JSON.stringify({ error: { code: 'HOME_CHANGED' } }), { status: 409 })
+        : value
+    })
+    await expect(
+      f.client.request('updateHome', {
+        requestId: 'home-save-stale',
+        expectedRevision: 0,
+        skinId: 'room-placeholder',
+        placements: []
+      })
+    ).rejects.toThrow('HOME_CHANGED')
+    expect(
+      JSON.parse(await fs.readFile(join(f.options.directory, 'account-pending.json'), 'utf8'))
+    ).toEqual({})
+    await f.client.session()
+    expect(f.calls.filter((c) => c.path.endsWith('/home/update'))).toHaveLength(1)
+  })
   it('blocks a new state-dependent transaction until the unknown request is recovered', async () => {
     const f = await fixture()
     await f.client.request('login', { username: 'learner', password: 'long-test-password' })

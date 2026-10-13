@@ -282,6 +282,30 @@ try {
   )
   await click('[data-nav=collection]')
   await click('[data-collection-tab=draw]')
+  check(
+    'weekly corridor lists the authoritative full current pool',
+    await wait('document.querySelector("[data-discovery-corridor]")')
+  )
+  const activePool = (await snapshot()).drawPool
+  check(
+    'only the current SSR is spotlighted; monthly companions are excluded',
+    await evaluate(`return Array.from(document.querySelectorAll('[data-pool-character]')).map(e=>e.dataset.poolCharacter).sort().join()===${JSON.stringify(activePool.characterIds.slice().sort().join())} &&
+      Array.from(document.querySelectorAll('[data-pool-featured="true"]')).map(e=>e.dataset.poolCharacter).join()===${JSON.stringify(activePool.ssrIds.join())} &&
+      !document.querySelector('[data-pool-character^="monthly-"]')`)
+  )
+  check(
+    'seven-day gallery has visible period dates and accessible horizontal browsing',
+    await evaluate(`return document.querySelector('[data-pool-dates]').textContent.trim().length>0 &&
+      document.querySelector('.hallway').scrollWidth>document.querySelector('.hallway').clientWidth &&
+      document.querySelector('[data-corridor-left]') && document.querySelector('[data-corridor-right]')`)
+  )
+  check(
+    'gallery spirits are never enlarged beyond their original source dimensions',
+    await evaluate(`return Array.from(document.querySelectorAll('[data-companion-sprite]')).every(e=>{
+      const r=e.getBoundingClientRect();return r.width<=Number(e.dataset.sourceWidth)+1 && r.height<=Number(e.dataset.sourceHeight)+1
+    })`)
+  )
+  await shot('weekly-corridor')
   await click('[data-draw-ten]')
   check(
     'draw opens spending confirmation',
@@ -354,7 +378,7 @@ try {
   check(
     'tier shop cards include actual companion pictures',
     await wait(
-      `Array.from(document.querySelectorAll('[data-shop-item^="character:"]')).every(e=>e.closest('.shop-product').querySelector('[data-companion-sprite]')) && document.querySelector('[data-shop-item^="character:"]')`
+      `Array.from(document.querySelectorAll('[data-shop-item^="character:"]')).every(e=>e.closest('[data-shop-product]').querySelector('[data-companion-sprite]')) && document.querySelector('[data-shop-item^="character:"]') && document.querySelector('[data-shop-back]') && !document.querySelector('[data-shop-item="ticket"]') && !document.querySelector('[data-shop-item="echo-ticket"]') && !document.querySelector('[data-support-create]')`
     )
   )
   check(
@@ -362,6 +386,55 @@ try {
     legacy.shop.filter((item) => item.discount === 0.5 && item.price === item.originalPrice / 2)
       .length === 1
   )
+  check(
+    'tier page contains only that tier, with no supplies or echo exchanges',
+    await evaluate(`return !document.querySelector('[data-shop-tier]') &&
+      !document.querySelector('[data-shop-item="ticket"]') && !document.querySelector('[data-shop-item="echo-ticket"]') &&
+      Array.from(document.querySelectorAll('[data-shop-item]')).every(e=>e.dataset.shopItem.startsWith('character:'))`)
+  )
+  await click('[data-shop-back]')
+  check(
+    'echo furniture stays empty and ticket exchange is 1000 echoes',
+    await wait(
+      `document.querySelector('[data-shop-item="echo-ticket"]') && !document.querySelector('[data-shop-item="decoration:glow"]') && document.body.textContent.includes('1000')`
+    )
+  )
+  await click('[data-collection-tab=home]')
+  check(
+    'pixel home is a separate collection section',
+    await wait('document.querySelector("[data-home-room]")')
+  )
+  const residents = legacy.characters.slice(0, 2).map((c) => c.id)
+  for (const id of residents) await click(`[data-home-invite="${id}"]`)
+  check(
+    'collected companions can be invited together',
+    await wait(`document.querySelectorAll('[data-home-resident]').length===${residents.length}`)
+  )
+  await evaluate(
+    `document.querySelector('[data-home-resident]').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}))`
+  )
+  await click('[data-home-save]')
+  check(
+    'home placement saves through the actual account service',
+    await wait(
+      `document.querySelector('[data-home-save]').disabled && !document.querySelector('[data-home-remove]')?.disabled`
+    )
+  )
+  const savedHome = (await snapshot()).home
+  check(
+    'saved positions bind to owned companions with a fresh home revision',
+    savedHome.revision === 1 &&
+      savedHome.placements.length === residents.length &&
+      savedHome.placements[0].x > 0.15 &&
+      savedHome.placements.every((p) => p.x >= 0 && p.x <= 1 && p.y >= 0 && p.y <= 1)
+  )
+  await click('[data-collection-tab=tasks]')
+  await click('[data-collection-tab=home]')
+  check(
+    'home positions survive leaving and re-entering the page',
+    await wait(`document.querySelectorAll('[data-home-resident]').length===${residents.length}`)
+  )
+  await shot('pixel-home')
   await click('[data-collection-tab=gallery]')
   const ownedId = legacy.characters[0].id
   const ownedCharacter = legacy.catalog.find((c) => c.id === ownedId)
@@ -408,7 +481,7 @@ try {
   check(
     'correct question displays English and Chinese encouragement',
     await wait(
-      `document.querySelector('[data-companion-message=answer]')?.textContent.includes('Well done') && document.querySelector('[data-companion-message=answer]')?.textContent.includes('做得好')`
+      `document.querySelector('[data-companion-message=answer] p[lang="en-US"]')?.textContent.trim().length>0 && document.querySelector('[data-companion-message=answer] p[lang="zh-CN"]')?.textContent.trim().length>0`
     )
   )
   check(
@@ -422,6 +495,43 @@ try {
     'cloud XP binds to selected companion',
     growth.companion.currentId === ownedId &&
       growth.companion.progress.find((p) => p.characterId === ownedId).xp === 5
+  )
+  const messages = [
+    await evaluate(
+      `return document.querySelector('[data-companion-message=answer] p[lang="en-US"]').textContent.trim()`
+    )
+  ]
+  for (let i = 0; i < 5; i++) {
+    await click('[data-practice-next]')
+    check(
+      'next genuine vocabulary question ' + (i + 2),
+      await wait('document.querySelector("[data-choice][data-correct]:not(:disabled)")')
+    )
+    await click('[data-choice][data-correct]')
+    check(
+      'next correct answer receives XP ' + (i + 2),
+      await wait(
+        `document.querySelector('[data-companion-message=answer]')?.textContent.includes('+5 XP')`
+      )
+    )
+    messages.push(
+      await evaluate(
+        `return document.querySelector('[data-companion-message=answer] p[lang="en-US"]').textContent.trim()`
+      )
+    )
+  }
+  check(
+    'six real correct answers produce six distinct English encouragements',
+    new Set(messages).size === 6
+  )
+  const sentence = await evaluate(
+    `return await window.qstudy.invoke('lang:practice','en','grammar-meaning','A1',100,1,'zh')`
+  )
+  const windowQuestion = sentence.find((q) => q.prompt?.text === 'Please open the window.')
+  check(
+    'screenshot regression uses the real sentence translation, not a grammar rule',
+    windowQuestion?.ask?.zh === '结合整句话，选出这句话表达的意思' &&
+      windowQuestion.choices[windowQuestion.answer].text.zh === '请打开窗户。'
   )
   await shot('real-question-encouragement')
   await evaluate(

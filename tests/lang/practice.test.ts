@@ -551,16 +551,26 @@ describe('通用题型', () => {
     }
   })
 
-  it('语法的意思：同一组的语法点不互相当干扰项', () => {
+  it('语法语境理解：答案为整句译文，同一组不互相当干扰项', () => {
     const qs = practice('grammar-meaning')
     wellFormed(qs, 'grammar-meaning')
     const ilya = GRAMMAR.find((g) => g.id === 'ilya')!
     const faut = GRAMMAR.find((g) => g.id === 'faut')!
     for (const q of qs) {
       const g = GRAMMAR.find((x) => x.examples[0].text === q.prompt.text)!
-      expect(right(q)).toEqual(g.meaning)
-      if (g === ilya) expect(q.choices.map((c) => c.text)).not.toContainEqual(faut.meaning)
-      if (g === faut) expect(q.choices.map((c) => c.text)).not.toContainEqual(ilya.meaning)
+      expect(right(q)).toEqual({ zh: g.examples[0].zh, en: g.examples[0].en })
+      expect(q.ask).toMatchObject({ zh: '结合整句话，选出这句话表达的意思' })
+      expect(q.choices.map((choice) => choice.text)).not.toContainEqual(g.meaning)
+      if (g === ilya)
+        expect(q.choices.map((c) => c.text)).not.toContainEqual({
+          zh: faut.examples[0].zh,
+          en: faut.examples[0].en
+        })
+      if (g === faut)
+        expect(q.choices.map((c) => c.text)).not.toContainEqual({
+          zh: ilya.examples[0].zh,
+          en: ilya.examples[0].en
+        })
     }
   })
 
@@ -575,6 +585,26 @@ describe('通用题型', () => {
       FAKE.spec.features.speech = speech
     }
     expect(practice('kanji-reading')).toEqual([])
+  })
+
+  it('例句没有译文时，后备题明确问语法作用，不把规则伪装成词义或句译', () => {
+    const original = FAKE.grammar
+    FAKE.grammar = GRAMMAR.map((point) => ({
+      ...point,
+      examples: point.examples.map(({ text, hl }) => ({ text, ...(hl ? { hl } : {}) }))
+    }))
+    try {
+      const questions = practice('grammar-meaning', 5)
+      expect(questions).toHaveLength(5)
+      for (const question of questions) {
+        expect(question.ask).toMatchObject({
+          zh: '标出的结构在这句话中有什么语法作用？'
+        })
+        expect(question.explain.lines).toContainEqual(question.choices[question.answer].text)
+      }
+    } finally {
+      FAKE.grammar = original
+    }
   })
 })
 

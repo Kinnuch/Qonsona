@@ -52,6 +52,9 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 学习时间与每日任意/指定板块任务获得灵墨；商店兑换初识/相知语言精灵、寻访笺与续页笺，高档语言精灵通过寻访获得。
 传颂基础概率 0.6%，20 次珍遇保底、90 次传颂保底，学习/支持券共用保底。旧版已解锁伙伴保留为纪念。
 新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成精灵。当前只有模拟支持订单，真实收款关闭。
+收藏测试另有每七天轮换的寻访画廊：每期一只聚光传颂，轮完再重新随机，保底跨期延续；
+精灵商店使用独立档位挑选页，家园提供可摆放并云端保存多只已收藏精灵的像素室内占位。
+家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；精灵保持原始像素大小，答对题目的鼓励会轮换。
 公网域名正在 ICP 备案，独立客户端通过加密 SSH 通道连接服务器测试。规则与入口见[收集说明](docs/collection.md)。
 
 _Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
@@ -61,6 +64,9 @@ See the [speech guide](docs/speech.md) for model licences and limits. Reading ta
 with explicit limits for excerpts and insufficient material. The unreleased collection test uses shared Qonlang/Qonsona accounts,
 server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6% base SSR, hard pity 90).
 Leaderboard participation is optional. Support orders are simulated; real payments remain disabled.
+Weekly discovery galleries feature one Legend per seven-day period, with no repeats until the full cycle ends and shared pity retained.
+Tier shops have separate selection pages. The placeholder pixel home saves owned companion placements to the account.
+Furniture and paid room skins are not yet offered; 1000 echoes exchange for one learning ticket. Artwork stays at source size and encouragement varies.
 Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunnel to the actual server._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；

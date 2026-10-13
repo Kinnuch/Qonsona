@@ -26,6 +26,7 @@ import { GRAMMAR, GRAMMAR_BY_ID, type GrammarPoint } from './grammar'
 import { GRAMMAR_NOTES } from './grammar-course'
 import type { JaAnalysis } from './reader'
 import { CONTENT_POS } from '../articles'
+import { GRAMMAR_FUNCTION_ASK, GRAMMAR_SENTENCE_ASK } from '../question-semantics'
 
 /** 出题用的一个词：词典里的词条，带几句用到它原样写法的例句 */
 export interface ExamWord {
@@ -441,7 +442,9 @@ function grammarMaker(type: 'fill' | 'meaning'): Maker {
       const choices: Choice[] =
         q.type === 'fill'
           ? q.choices.map(ja)
-          : q.choices.map((key) => ({ text: c.grammar[key].meaning }))
+          : q.choices.map((key) => ({
+              text: q.sentenceChoices?.[key] ?? c.grammar[key].meaning
+            }))
       const answer = q.type === 'fill' ? q.choices.indexOf(exampleSpan(e)) : q.choices.indexOf(k)
       out.push(
         question(kind, out.length, {
@@ -451,7 +454,9 @@ function grammarMaker(type: 'fill' | 'meaning'): Maker {
                   zh: '看着译文，选出填进空里的一项',
                   en: 'Using the translation, choose what fills the blank'
                 }
-              : { zh: '下划线的部分是什么意思？', en: 'What does the underlined part mean?' },
+              : q.type === 'meaning' && q.sentenceChoices
+                ? GRAMMAR_SENTENCE_ASK
+                : GRAMMAR_FUNCTION_ASK,
           prompt: {
             text: e.ja,
             lang: 'ja',
@@ -841,7 +846,7 @@ export function jaArticlePractice(d: ArticlePracticeData, seed: number, n = 10):
     const { s, at } = sentenceOf(h.sentence)
     grammarQs.push(
       question('grammar-meaning', grammarQs.length, {
-        ask: { zh: '选出下划线部分的意思', en: 'Choose the meaning of the underlined part' },
+        ask: GRAMMAR_FUNCTION_ASK,
         prompt: { text: s, lang: 'ja', mark: [h.start - at, h.end - at], ruby: true },
         ...arrange(
           { text: meaningOfPoint(g) },

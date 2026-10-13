@@ -1,6 +1,8 @@
 /* eslint @typescript-eslint/explicit-function-return-type: "off" -- Plain JavaScript runs directly on Node24 without a TypeScript build. */
 import { randomBytes } from 'node:crypto'
 import { CATALOG, shopFor, characterFor, monthlyCharacter } from './catalog.mjs'
+import { testPool } from './draw-pools.mjs'
+import homeSkins from './home-skins.json' with { type: 'json' }
 export { CATALOG, SHOP } from './catalog.mjs'
 
 export class ApiError extends Error {
@@ -106,6 +108,49 @@ export const newState = () => ({
   answerDays: {},
   monthlyClaims: []
 })
+export const HOME_SKINS = homeSkins
+export function homeState(state) {
+  state.inventory.homeSkins ??= ['room-placeholder']
+  state.home ??= { revision: 0, skinId: 'room-placeholder', placements: [], furniture: [] }
+  return state.home
+}
+export function updateHome(state, body) {
+  shape(
+    body,
+    ['requestId', 'expectedRevision', 'skinId', 'placements'],
+    ['requestId', 'expectedRevision', 'skinId', 'placements']
+  )
+  const home = homeState(state)
+  const expected = integer(body.expectedRevision, 0, Number.MAX_SAFE_INTEGER)
+  if (expected !== home.revision) fail('HOME_CHANGED', 409)
+  const skinId = text(body.skinId, 1, 64)
+  if (!HOME_SKINS.some((skin) => skin.id === skinId) || !state.inventory.homeSkins.includes(skinId))
+    fail('INVALID_HOME_SKIN', 403)
+  if (!Array.isArray(body.placements) || body.placements.length > 30)
+    fail('INVALID_HOME_PLACEMENTS')
+  const ids = new Set()
+  const placements = body.placements.map((placement) => {
+    shape(placement, ['characterId', 'x', 'y'], ['characterId', 'x', 'y'])
+    const characterId = text(placement.characterId, 1, 64)
+    if (!characterFor(characterId) || !state.characters[characterId])
+      fail('CHARACTER_NOT_OWNED', 403)
+    if (ids.has(characterId)) fail('DUPLICATE_HOME_CHARACTER')
+    ids.add(characterId)
+    for (const position of [placement.x, placement.y])
+      if (
+        typeof position !== 'number' ||
+        !Number.isFinite(position) ||
+        position < 0 ||
+        position > 1
+      )
+        fail('INVALID_HOME_POSITION')
+    return { characterId, x: placement.x, y: placement.y }
+  })
+  home.skinId = skinId
+  home.placements = placements
+  home.revision++
+  return { homeRevision: home.revision }
+}
 const TASK_KINDS = ['reading', 'practice', 'courses', 'review']
 export function getDay(state, day) {
   const d = (state.days[day] ??= {
@@ -239,8 +284,10 @@ export function acquire(state, character, source, now) {
   state.balances.echoes += echoes
   return { id: character.id, tier: character.tier, duplicate: !!old, echoes }
 }
-export function draw(state, body, now, random = secureRandom) {
-  shape(body, ['requestId', 'source', 'count'], ['requestId', 'source', 'count'])
+export function draw(state, body, now, random = secureRandom, pool = testPool(now)) {
+  shape(body, ['requestId', 'source', 'count', 'expectedPoolId'], ['requestId', 'source', 'count'])
+  if (body.expectedPoolId !== undefined && text(body.expectedPoolId, 1, 128) !== pool.id)
+    fail('DRAW_POOL_CHANGED', 409)
   if (!['learning', 'support'].includes(body.source)) fail('INVALID_TICKET_SOURCE')
   if (![1, 10].includes(body.count)) fail('INVALID_DRAW_COUNT')
   if (state.balances.tickets[body.source] < body.count) fail('INSUFFICIENT_TICKETS', 409)
@@ -249,7 +296,8 @@ export function draw(state, body, now, random = secureRandom) {
   const results = []
   for (let i = 0; i < body.count; i++) {
     const tier = chooseTier(state.pity, random)
-    const candidates = CATALOG.filter((c) => c.tier === tier)
+    const candidates = CATALOG.filter((c) => c.tier === tier && pool.characterIds.includes(c.id))
+    if (!candidates.length) throw new Error('The active pool must include every regular tier')
     const choice = random()
     if (!(choice >= 0 && choice < 1)) throw new Error('Invalid secure random source')
     const character = candidates[Math.floor(choice * candidates.length)]
@@ -257,7 +305,7 @@ export function draw(state, body, now, random = secureRandom) {
     state.pity.sinceHigh = ['SR', 'SSR'].includes(tier) ? 0 : state.pity.sinceHigh + 1
     results.push(acquire(state, character, body.source, now))
   }
-  return { results }
+  return { results, poolId: pool.id }
 }
 export function purchase(state, body, now) {
   shape(body, ['requestId', 'itemId', 'quantity', 'expectedPrice'], ['requestId', 'itemId'])

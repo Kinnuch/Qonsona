@@ -9,6 +9,12 @@ import { findGrammar } from '../../shared/lang/grammar'
 import { genderLabel, tagsLabel } from '../../shared/lang/tags'
 import { rng, shuffled, type Text } from '../../shared/course'
 import {
+  GRAMMAR_FUNCTION_ASK,
+  GRAMMAR_SENTENCE_ASK,
+  sameMeaning,
+  sentenceTranslation
+} from '../../shared/question-semantics'
+import {
   PRACTICE_SECTION,
   type Choice,
   type ExamPaper,
@@ -527,6 +533,32 @@ function grammarQuestions(c: Ctx, n: number, fill: boolean): ExamQuestion[] {
         })
       )
     } else {
+      const translation = sentenceTranslation(ex)
+      if (translation) {
+        const alternatives: Choice[] = []
+        for (const example of others.flatMap((point) => point.examples)) {
+          const text = sentenceTranslation(example)
+          if (
+            !text ||
+            sameMeaning(text, translation) ||
+            alternatives.some((choice) => sameMeaning(choice.text, text))
+          )
+            continue
+          alternatives.push({ text })
+          if (alternatives.length === 3) break
+        }
+        if (alternatives.length === 3) {
+          out.push(
+            question(kind, out.length, {
+              ask: GRAMMAR_SENTENCE_ASK,
+              prompt: { text: ex.text, lang, mark: [ex.s, ex.e] },
+              ...arrange({ text: translation }, alternatives, c.rand),
+              explain: { lines: [translation, g.name, g.meaning] }
+            })
+          )
+          continue
+        }
+      }
       const wrong: Choice[] = []
       for (const o of others) {
         if (sameText(o.meaning, g.meaning) || wrong.some((w) => sameText(w.text, o.meaning)))
@@ -537,10 +569,10 @@ function grammarQuestions(c: Ctx, n: number, fill: boolean): ExamQuestion[] {
       if (wrong.length < 3) continue
       out.push(
         question(kind, out.length, {
-          ask: { zh: '标出的这一处是什么意思', en: 'What does the marked part mean?' },
+          ask: GRAMMAR_FUNCTION_ASK,
           prompt: { text: ex.text, lang, mark: [ex.s, ex.e] },
           ...arrange({ text: g.meaning as Text }, wrong, c.rand),
-          explain: { lines: [g.name as Text, tr] }
+          explain: { lines: [g.name as Text, g.meaning as Text, tr] }
         })
       )
     }

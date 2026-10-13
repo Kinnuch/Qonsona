@@ -22,7 +22,7 @@ export type PracticeKind =
   | 'context'
   /** 语法填空 */
   | 'grammar-fill'
-  /** 标出的语法点是什么意思 */
+  /** 学过的语法在真实例句中的表达；无译文时明确辨析语法作用。 */
   | 'grammar-meaning'
   /** 选出正确的变形 */
   | 'conjugate'

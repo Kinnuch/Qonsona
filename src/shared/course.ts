@@ -12,6 +12,8 @@
  * 日语的课在 src/shared/ja/*-course.ts，千语集语言的在 lib/courses/qonlang.ts。
  */
 
+import { sameMeaning, sentenceTranslation } from './question-semantics'
+
 /** 界面上的文字：写好的一句，或者按界面语言挑（{ zh, en }） */
 export type Text = string | Record<string, string>
 
@@ -196,8 +198,14 @@ export type Question =
   | { type: 'type'; key: string }
   /** 拼读：看一个词，选它的读法 */
   | { type: 'word'; word: SpellWord; choices: SpellWord[] }
-  /** 语法：例句里标出的这一处是什么意思 */
-  | { type: 'meaning'; key: string; ex: number; choices: string[] }
+  /** 语法语境：选例句的真实译文；没有译文时，明确作为结构用法辨析。 */
+  | {
+      type: 'meaning'
+      key: string
+      ex: number
+      choices: string[]
+      sentenceChoices?: Record<string, Text>
+    }
   /** 语法：看着译文，选填进空里的那一段 */
   | { type: 'fill'; key: string; ex: number; choices: string[] }
   /** 变形：给原形和要变的形，选出正确的形式（选项是写出来的形式） */
@@ -459,6 +467,35 @@ function meaningChoices(
   return shuffled([key, ...picked], rand)
 }
 
+/** Use full, supplied example translations rather than treating a rule as a highlighted word's gloss. */
+function grammarSentenceChoices(
+  course: Course,
+  key: string,
+  ex: number,
+  near: readonly string[],
+  pool: readonly string[],
+  rand: () => number
+): { choices: string[]; sentenceChoices: Record<string, Text> } | null {
+  const g = course.grammar[key]
+  const right = sentenceTranslation(g.examples[ex])
+  if (!right) return null
+  const sentenceChoices: Record<string, Text> = { [key]: right }
+  for (const k of [...shuffled(near, rand), ...shuffled(pool, rand)]) {
+    if (Object.keys(sentenceChoices).length >= 4) break
+    const other = course.grammar[k]
+    if (!other || k in sentenceChoices || sameGroup(g, other)) continue
+    const translation = shuffled(other.examples, rand)
+      .map(sentenceTranslation)
+      .find(
+        (text): text is Text =>
+          !!text && !Object.values(sentenceChoices).some((chosen) => sameMeaning(text, chosen))
+      )
+    if (translation) sentenceChoices[k] = translation
+  }
+  const choices = shuffled(Object.keys(sentenceChoices), rand)
+  return choices.length >= 2 ? { choices, sentenceChoices } : null
+}
+
 function fillChoices(
   course: Course,
   key: string,
@@ -490,6 +527,10 @@ export function grammarQuestion(
   pool: readonly string[],
   rand: () => number
 ): Question | null {
+  if (type === 'meaning') {
+    const sentence = grammarSentenceChoices(course, key, ex, near, pool, rand)
+    if (sentence) return { type, key, ex, ...sentence }
+  }
   const choices =
     type === 'meaning'
       ? meaningChoices(course, key, near, pool, rand)

@@ -13,6 +13,7 @@ import { companion } from './companion.svelte'
 import { StudyRequestGate, type StudyRequest } from '$shared/study-request'
 import { t, pick } from '$lib/i18n/index.svelte'
 import { shuffled, rng } from '$shared/course'
+import { mixedPracticeKinds } from '$shared/question-semantics'
 import {
   countDay,
   emptyPracticeLog,
@@ -79,8 +80,6 @@ export interface ExamRun {
   /** 这一节几点结束（毫秒时间戳） */
   deadline: number
 }
-
-const LISTEN_KINDS: PracticeKind[] = ['listen-sentence', 'listen-word']
 
 export interface ArticleRef {
   id: string
@@ -276,10 +275,8 @@ class PracticeState {
       const seed = Date.now() >>> 0
       let questions: ExamQuestion[]
       if (kind === 'mixed') {
-        // 每种题都出一些（放不了声音时不出听力题），打乱后取 n 道
-        const kinds = this.kinds.filter(
-          (k) => this.canListen || !LISTEN_KINDS.includes(k as PracticeKind)
-        )
+        // 综合练习侧重实际理解和表达；规则辨析留在用户明确选择的专门练习里。
+        const kinds = mixedPracticeKinds(this.kinds, this.canListen)
         const each = Math.ceil(n / Math.max(kinds.length, 1))
         const parts = await Promise.all(kinds.map((k, i) => this.#questions(k, each, seed + i)))
         questions = shuffled(parts.flat(), rng(seed)).slice(0, n)

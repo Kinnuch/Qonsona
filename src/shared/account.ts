@@ -60,6 +60,19 @@ export interface AccountHistory {
   source?: string
   results?: DrawResult[]
 }
+export interface AccountDrawPool {
+  id: string
+  startAt: number
+  endAt: number
+  ssrIds: string[]
+  characterIds: string[]
+}
+export interface AccountHome {
+  revision: number
+  skinId: string
+  placements: { characterId: string; x: number; y: number }[]
+  furniture: []
+}
 export interface CollectionSnapshot {
   version: 1
   revision: number
@@ -70,7 +83,7 @@ export interface CollectionSnapshot {
   balances: { points: number; tickets: { learning: number; support: number }; echoes: number }
   pity: { sinceSSR: number; sinceHigh: number }
   characters: { id: string; count: number; firstAt: string | number; source: string }[]
-  inventory: { makeup: number; decorations?: string[] }
+  inventory: { makeup: number; decorations?: string[]; homeSkins?: string[] }
   checkins: { day: string; kind: 'learning' | 'makeup' }[]
   today: {
     taskPlan: {
@@ -91,6 +104,9 @@ export interface CollectionSnapshot {
   catalog: AccountCharacter[]
   shop: AccountShopItem[]
   drawRules: Record<string, unknown>
+  drawPool?: AccountDrawPool
+  home?: AccountHome
+  homeSkins?: { id: string; name: { zh: string; en: string }; owned: boolean }[]
   history?: AccountHistory[]
   species?: {
     id: string
@@ -191,7 +207,18 @@ export interface AccountPayloads {
     completion?: { kind: 'reading' | 'practice' | 'courses' | 'review'; id: string }
   }
   purchase: { requestId: string; itemId: string; quantity?: number; expectedPrice?: number }
-  draw: { requestId: string; source: 'learning' | 'support'; count: 1 | 10 }
+  draw: {
+    requestId: string
+    source: 'learning' | 'support'
+    count: 1 | 10
+    expectedPoolId?: string
+  }
+  updateHome: {
+    requestId: string
+    expectedRevision: number
+    skinId: string
+    placements: AccountHome['placements']
+  }
   useItem: { requestId: string; itemId: 'makeup'; day: string }
   leaderboards: {
     kind: 'collection' | 'time'
@@ -226,7 +253,8 @@ export interface AccountResponses {
   collection: CollectionSnapshot
   activity: { snapshot: CollectionSnapshot } | CollectionSnapshot
   purchase: { snapshot: CollectionSnapshot } | CollectionSnapshot
-  draw: { results: DrawResult[]; snapshot: CollectionSnapshot }
+  draw: { results: DrawResult[]; poolId: string; snapshot: CollectionSnapshot }
+  updateHome: { snapshot: CollectionSnapshot } | CollectionSnapshot
   useItem: { snapshot: CollectionSnapshot } | CollectionSnapshot
   leaderboards: Leaderboard
   friends: AccountFriends

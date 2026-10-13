@@ -20,6 +20,7 @@ import {
 import { jaGrammarCourse, type GrammarExampleData } from '$shared/ja/grammar-course'
 import { JapaneseDict } from '../src/main/dict'
 import { JaAnalyzer } from '../src/main/ja-analyze'
+import { GRAMMAR_SENTENCE_ASK, sentenceTranslation } from '$shared/question-semantics'
 
 const q = (answer: number): ExamQuestion => ({
   id: 'x',
@@ -183,6 +184,21 @@ run('按级出题', () => {
         const qs = jaPractice(d, kind, 10, 3)
         expect(qs.length, `N${level} ${kind}`).toBe(10)
         qs.forEach(valid)
+      }
+    }
+  })
+
+  it('日语语法语境题的答案是教材例句译文，而不是语法说明', () => {
+    const examples = Object.values(grammar.grammar).flatMap((point) => point.examples)
+    const translations = examples.map(sentenceTranslation).filter(Boolean)
+    for (const level of [5, 4, 3, 2, 1]) {
+      const questions = jaPractice(data(level), 'grammar-meaning', 10, 7)
+      expect(questions).toHaveLength(10)
+      for (const question of questions) {
+        const original = examples.find((example) => example.ja === question.prompt.text)!
+        expect(question.ask).toEqual(GRAMMAR_SENTENCE_ASK)
+        expect(question.choices[question.answer].text).toEqual(sentenceTranslation(original))
+        for (const choice of question.choices) expect(translations).toContainEqual(choice.text)
       }
     }
   })

@@ -105,6 +105,21 @@ describe('构形与例句', () => {
     expect(kinds).toEqual(expect.arrayContaining(['conjugate', 'sentence']))
   })
 
+  it('自建语言的句意选项只使用作者提供的句子译文，不使用语法说明', () => {
+    const project = load('Aelith.laim.json')
+    const x = input(project, 'ae')
+    const sentences = project.sentences.filter((sentence) => sentence.languageId === x.lang.id)
+    const translations = sentences.map((sentence) => pick(sentence.translation)).filter(Boolean)
+    const questions = qonPractice(x, 'sentence', 20, 8)
+    expect(questions.length).toBeGreaterThan(0)
+    for (const question of questions) {
+      const original = sentences.find((sentence) => sentence.text === question.prompt.text)!
+      expect(question.choices[question.answer].text).toBe(pick(original.translation))
+      for (const choice of question.choices) expect(translations).toContain(choice.text)
+      expect(question.ask).toMatchObject({ zh: '选出这句话的意思' })
+    }
+  })
+
   it('有屈折形的语言出变形题：选项都是这个词的形', () => {
     for (const [file, abbr] of [
       ['Aelith.laim.json', 'ae'],

@@ -1,4 +1,14 @@
 const errors: Record<string, [string, string]> = {
+  DRAW_POOL_CHANGED: [
+    '奖池已经换期，请刷新后重新确认寻访。',
+    'The pool changed. Refresh and confirm your discovery again.'
+  ],
+  HOME_CHANGED: [
+    '另一台设备已修改家园，请刷新后再保存。',
+    'Another device changed your home. Refresh before saving.'
+  ],
+  INVALID_HOME_SKIN: ['请选择已有的家园风格。', 'Choose an available home style.'],
+  INVALID_HOME_POSITION: ['请将精灵放在家园范围内。', 'Place companions inside the home.'],
   PENDING_RECOVERY: [
     '上一次操作结果尚未确认，请先重新连接恢复。',
     'Reconnect to recover the previous operation before continuing.'

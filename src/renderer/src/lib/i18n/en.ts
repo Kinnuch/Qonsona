@@ -659,7 +659,8 @@ export default {
       typeHint: 'Press Enter to check',
       check: 'Check',
       word: 'How is this word read?',
-      meaning: 'What does the highlighted part mean?',
+      meaning: 'What grammatical function does the marked structure have in this sentence?',
+      sentenceMeaning: 'Read the whole sentence and choose what it means',
       fill: 'Choose what fills the blank',
       form: 'Choose its {form}',
       phraseMeaning: 'What does this phrase mean?',
@@ -750,7 +751,10 @@ export default {
         name: 'Fill in the grammar',
         desc: 'Using the translation, choose the form for the blank.'
       },
-      'grammar-meaning': { name: 'Grammar meaning', desc: 'Choose what the marked grammar means.' },
+      'grammar-meaning': {
+        name: 'Grammar in context',
+        desc: 'Understand a supplied example; identify grammatical function when translations are unavailable.'
+      },
       conjugate: { name: 'Forms', desc: 'Choose the requested form of a word.' },
       sentence: { name: 'Sentences', desc: 'Read a sentence and choose what it means.' },
       'listen-sentence': {

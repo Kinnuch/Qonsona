@@ -65,7 +65,13 @@ export const SHOP = [
     tier: character.tier,
     name: character.name
   })),
-  { id: 'decoration:glow', price: 20, currency: 'echoes', type: 'decoration' }
+  {
+    id: 'echo-ticket',
+    price: 1000,
+    currency: 'echoes',
+    type: 'ticket',
+    name: { zh: '寻访笺', en: 'Learning Ticket' }
+  }
 ]
 export function shopFor(day) {
   const discounted = discountedCharacter(day).id
