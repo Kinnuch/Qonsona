@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.2 · unreleased
+
+- Fix Windows in-app updates starting the installer before saving has finished. Complete learning-data saves first, then use a hidden helper outside the installation directory to wait for the old process to exit before launching the installer. Save failures, cancellation and handoff failures preserve the original window and do not launch duplicate installers.
+- Check the registered old installation and file access before uninstalling it. Silent updates initiated by older versions wait within a bounded period for the registered application to exit naturally, then inspect again. If files remain busy or another same-name application copy is running, exit normally and retry; cancellation preserves the installation and learning data. Do not force-stop applications by name. PowerShell inspection does not load user profiles.
+
 ## 0.4.1 · 2026-10-14
 
 - Require the exact latest formal GitHub Release for Qonsona registration, login and online features, checked by both client and server. Unverified or mismatched versions retain local learning with update-check and download entries; the installed version alone never authorizes online access.

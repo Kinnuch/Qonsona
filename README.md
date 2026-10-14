@@ -116,6 +116,19 @@ _Linux x64 installers are available as AppImage and Debian packages. Make the Ap
 `%APPDATA%\qonlang-study` 里的学习数据拷过来，原来的目录不动，确认没问题后可以自己删掉；
 旧的 Qonlang Study 可以在「设置 → 应用」里卸载。
 
+### Windows 升级失败排查
+
+如果安装器显示「Failed to uninstall old application files…: 2」，表示旧卸载器未能安全移走安装文件。
+请正常退出所有 Qonsona 窗口，等待学习数据保存完成后，再运行安装器。学习数据保存在上述独立数据目录，重新安装无需删除它。
+
+0.4.2 的更新交接与安装前占用检查修复尚未发布：应用内更新会先保存并等待旧进程退出；旧版发起的静默更新也会有界等待原程序自然退出，再重新检查。手动安装发现占用时提供重试或取消，保留原安装。
+验收使用独立应用身份、安装目录及数据目录，不覆盖已有 Qonsona。
+
+_If a Windows upgrade reports “Failed to uninstall old application files…: 2”, the old uninstaller could not safely move the installed files.
+Exit all Qonsona windows normally, wait for saving to finish, then run the installer again. Reinstallation does not require deleting the separate learning-data directory.
+The 0.4.2 handoff and preflight fixes are not yet released: in-app updates save and wait for the old process to exit. Silent updates initiated by older versions also wait within a bounded period for the registered application to exit naturally, then inspect again. Manual installations offer Retry or Cancel when files are busy.
+Validation uses a separate application identity, installation and data directory._
+
 ## 跨电脑转移与复习计划
 
 生词本页可导出当前语言或选中的词本；设置页可导出所有个人学习数据。把 JSON 文件复制到另一台电脑，

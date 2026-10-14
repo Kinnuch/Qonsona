@@ -53,6 +53,8 @@ win:
   target:
     - nsis
 nsis:
+  # Before invoking the installed old uninstaller, inspect its directory without terminating apps.
+  include: build/installer.nsh
   artifactName: Qonsona-${version}-setup.${ext}
   shortcutName: Qonsona
   uninstallDisplayName: Qonsona

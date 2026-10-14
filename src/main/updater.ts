@@ -3,7 +3,6 @@
  * 做法照千语集（Qonlang 的 src/main/index.ts 里那一段），规则见各函数的说明。
  */
 import { app, ipcMain, net, shell, type BrowserWindow } from 'electron'
-import { spawn } from 'child_process'
 import { createHash } from 'crypto'
 import { createReadStream, createWriteStream, existsSync, readdirSync, promises as fs } from 'fs'
 import { basename, dirname, join } from 'path'
@@ -21,6 +20,8 @@ import {
   type ReleaseAsset
 } from './update'
 import type { Installer, UpdateCheck, UpdateInfo } from '../shared/update'
+import { prepareWindowsInstaller } from './update-handoff'
+import type { SavedUpdateQuit } from './update-shutdown'
 
 const USER_AGENT = 'Qonsona'
 
@@ -380,45 +381,71 @@ async function downloadUpdate(
   }
 }
 
-/** 起一个脱离本进程的子进程，等它真的起来（或出错）再返回：起来了给 true，否则给错误信息 */
-function spawnDetached(command: string, args: string[]): Promise<true | string> {
-  return new Promise((resolve) => {
-    const child = spawn(command, args, { detached: true, stdio: 'ignore' })
-    child.once('error', (e) => resolve(String(e)))
-    child.once('spawn', () => {
-      child.unref()
-      resolve(true)
-    })
-  })
-}
+type InstallResult = { ok: boolean; manual?: boolean; error?: string }
+let installation: { file: string; promise: Promise<InstallResult> } | null = null
 
 /**
  * 装下好的包再重开。
  * Windows：装过的用 NSIS 静默模式（/S）沿用上次的安装目录，--force-run 装完自动拉起；免安装版弹安装向导。
  * 其他系统：打开安装包所在目录，界面上告诉用户自己装（manual）。
  */
-async function installUpdate(
-  file: string
-): Promise<{ ok: boolean; manual?: boolean; error?: string }> {
-  if (process.platform === 'win32') {
-    // 安装包不见了或者起不来：报回界面，不退出（不接住 error 会弹主进程崩溃框）
-    if (!existsSync(file)) return { ok: false, error: `installer not found: ${file}` }
-    const args = isInstalled() ? ['--updated', '/S', '--force-run'] : ['--updated']
-    const started = await spawnDetached(file, args)
-    if (started !== true) return { ok: false, error: started }
-    app.quit()
-    return { ok: true }
+function installUpdate(
+  file: string,
+  prepareQuit: () => Promise<SavedUpdateQuit>,
+  win: () => BrowserWindow | null,
+  log: string
+): Promise<InstallResult> {
+  if (process.platform !== 'win32') {
+    shell.showItemInFolder(file)
+    return Promise.resolve({ ok: true, manual: true })
   }
-  shell.showItemInFolder(file)
-  return { ok: true, manual: true }
+  if (installation)
+    return installation.file === file
+      ? installation.promise
+      : Promise.resolve({ ok: false, error: 'An update is already being prepared.' })
+  const promise = (async (): Promise<InstallResult> => {
+    let permit: SavedUpdateQuit | null = null
+    let helper: Awaited<ReturnType<typeof prepareWindowsInstaller>> | null = null
+    try {
+      if (typeof file !== 'string' || !existsSync(file))
+        throw new Error('The downloaded installer is unavailable. Download it again.')
+      permit = await prepareQuit()
+      helper = await prepareWindowsInstaller(file, isInstalled(), log, (error) => {
+        permit?.abort(error)
+        installation = null
+        const window = win()
+        if (window && !window.isDestroyed())
+          window.webContents.send('update:install-failed', error.message)
+      })
+      await helper.commit()
+      permit.quit()
+      return { ok: true }
+    } catch (error) {
+      helper?.cancel()
+      const failure = error instanceof Error ? error : new Error(String(error))
+      permit?.abort(failure)
+      return { ok: false, error: failure.message }
+    }
+  })()
+  installation = { file, promise }
+  void promise.then((result) => {
+    if (!result.ok && installation?.promise === promise) installation = null
+  })
+  return promise
 }
 
 /** 注册更新相关的 IPC；win 给当前主窗口（推下载进度用） */
-export function registerUpdater(win: () => BrowserWindow | null, userData: () => string): void {
+export function registerUpdater(
+  win: () => BrowserWindow | null,
+  userData: () => string,
+  prepareQuit: () => Promise<SavedUpdateQuit>
+): void {
   const logFile = (): string => join(userData(), 'update.log')
   ipcMain.handle('app:checkUpdate', () => checkUpdate())
   ipcMain.handle('app:downloadUpdate', (_e, url: string, name: string, version?: string) =>
     downloadUpdate(url, name, version, win, logFile())
   )
-  ipcMain.handle('app:installUpdate', (_e, file: string) => installUpdate(file))
+  ipcMain.handle('app:installUpdate', (_e, file: string) =>
+    installUpdate(file, prepareQuit, win, join(userData(), 'update-handoff.log'))
+  )
 }

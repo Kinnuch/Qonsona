@@ -17,6 +17,7 @@ import { Speech, type SpeakRequest } from './speech'
 import { JapaneseDict } from './dict'
 import { JaAnalyzer, type WordLookup } from './ja-analyze'
 import { registerUpdater } from './updater'
+import { UpdateShutdown } from './update-shutdown'
 import grammarExamples from '../../data/ja/grammar-examples.json'
 import { JaExams } from './exam'
 import { HandwritingIndex } from './handwriting'
@@ -227,6 +228,17 @@ const readyToClose = new WeakSet<BrowserWindow>()
 const waitingToClose = new WeakSet<BrowserWindow>()
 const finishingClose = new WeakSet<BrowserWindow>()
 let quitRequested = false
+const updateShutdown = new UpdateShutdown<BrowserWindow>({
+  requestSave: (window, token) => window.webContents.send('app:flush-before-close', token),
+  cancelSave: (window, token) => {
+    if (!window.isDestroyed() && !window.webContents.isDestroyed())
+      window.webContents.send('app:close-canceled', token)
+  },
+  drainWrites: () => pendingWrites.drain({ retryFailed: true }),
+  allowClose: (window) => readyToClose.add(window),
+  disallowClose: (window) => readyToClose.delete(window),
+  quit: () => app.quit()
+})
 
 // A prevented BrowserWindow.close cancels the original app.quit. Preserve that intent
 // so a successful renderer/main save handshake also completes Cmd+Q on macOS.
@@ -259,8 +271,15 @@ function createWindow(): void {
 
   mainWindow = win
   win.on('closed', () => {
+    updateShutdown.cancel(win, new Error('The window closed before the update was ready.'))
     if (mainWindow === win) mainWindow = null
   })
+  win.webContents.on('render-process-gone', () =>
+    updateShutdown.cancel(
+      win,
+      new Error('The window stopped responding. The update was not started.')
+    )
+  )
 
   win.on('ready-to-show', () => {
     if (ws.maximized) win.maximize()
@@ -268,7 +287,13 @@ function createWindow(): void {
   })
 
   win.on('close', (event) => {
-    if (!readyToClose.has(win) && !win.webContents.isDestroyed() && !win.webContents.isLoading()) {
+    if (updateShutdown.pending(win)) {
+      event.preventDefault()
+    } else if (
+      !readyToClose.has(win) &&
+      !win.webContents.isDestroyed() &&
+      !win.webContents.isLoading()
+    ) {
       event.preventDefault()
       if (!waitingToClose.has(win)) {
         waitingToClose.add(win)
@@ -300,13 +325,39 @@ function createWindow(): void {
 // ───────────────────────── IPC ─────────────────────────
 
 // 软件内更新：检查、下载（装过的 Windows 版先试增量）、安装
-registerUpdater(() => mainWindow, userData)
+registerUpdater(
+  () => mainWindow,
+  userData,
+  () => {
+    const window = mainWindow
+    if (
+      !window ||
+      window.isDestroyed() ||
+      window.webContents.isDestroyed() ||
+      window.webContents.isLoading()
+    )
+      return Promise.reject(
+        new Error('The window is not ready to save. Wait for it to load before updating.')
+      )
+    if (waitingToClose.has(window) || finishingClose.has(window))
+      return Promise.reject(
+        new Error('The application is already saving before closing. Retry after saving.')
+      )
+    return updateShutdown.prepare(window)
+  }
+)
 // 框架里各语言（英、法、韩、西、阿、俄、盖尔）的词典与录音
 registerLangIpc()
 registerDictionaryDaily(() => ja())
 registerArticleQuizIpc()
-ipcMain.handle('app:close-ready', async (event, saved = true) => {
+ipcMain.handle('app:close-ready', async (event, saved = true, token?: unknown) => {
   const win = BrowserWindow.fromWebContents(event.sender)
+  if (win && typeof token === 'string') {
+    await updateShutdown.saved(win, token, saved === true)
+    return
+  }
+  // Old untokened replies cannot authorize an update that started after their close request.
+  if (win && updateShutdown.pending(win)) return
   if (!win || !waitingToClose.has(win)) return
   if (!saved) {
     waitingToClose.delete(win)

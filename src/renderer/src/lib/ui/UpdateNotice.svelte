@@ -7,8 +7,6 @@
   import { Download, X } from '@lucide/svelte'
   import { platform } from '$lib/platform'
   import { updates } from '$lib/state/updates.svelte'
-  import { notebook } from '$lib/state/notebook.svelte'
-  import { courses } from '$lib/state/courses.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { t } from '$lib/i18n/index.svelte'
   import { notesForLocale } from '$shared/update'
@@ -30,6 +28,10 @@
     platform.onUpdateProgress((p) => {
       received = p.received
       total = p.total
+    })
+    platform.onUpdateInstallFailure((message) => {
+      phase = 'failed'
+      error = message
     })
     // 等界面先跑起来，别跟启动抢
     const timer = setTimeout(check, 4000)
@@ -70,9 +72,7 @@
       error = r.error ?? ''
       return
     }
-    // 安装会关掉软件：先把还没存的生词本、课程进度存掉
-    notebook.flush()
-    courses.flush()
+    // 主进程通过完整保存握手等待录音、各学习板块与文章写入，再交接安装。
     phase = 'installing'
     const done = await platform.installUpdate(r.path)
     if (!done.ok) {

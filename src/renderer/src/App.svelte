@@ -69,15 +69,25 @@
     const flush = (): void => {
       void flushAll().catch((error) => ui.toast(String(error), 'error'))
     }
-    platform.lifecycle.onCloseRequest(() => {
+    let closingToken: string | undefined
+    platform.lifecycle.onCloseCanceled((token) => {
+      if (closingToken !== token) return
+      ui.closing = false
+      closingToken = undefined
+    })
+    platform.lifecycle.onCloseRequest((token) => {
       if (ui.closing) return
+      closingToken = token
       ui.closing = true
       void flushAll()
-        .then(() => platform.lifecycle.closeReady())
+        .then(() => platform.lifecycle.closeReady(true, token))
         .catch((error) => {
+          // A late failure from a canceled update must not unlock a later close request.
+          if (closingToken !== token) return
           ui.closing = false
+          closingToken = undefined
           ui.toast(String(error), 'error', 8000)
-          void platform.lifecycle.closeReady(false)
+          void platform.lifecycle.closeReady(false, token)
         })
     })
     window.addEventListener('beforeunload', flush)

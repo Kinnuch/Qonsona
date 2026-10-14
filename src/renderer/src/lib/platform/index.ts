@@ -138,8 +138,15 @@ export const platform = {
       invoke<DictionaryDaily>('dictionary:daily', packId, date)
   },
   lifecycle: {
-    onCloseRequest: (cb: () => void): void => window.qstudy?.on('app:flush-before-close', cb),
-    closeReady: (saved = true) => invoke<void>('app:close-ready', saved)
+    onCloseRequest: (cb: (token?: string) => void): void =>
+      window.qstudy?.on('app:flush-before-close', (token) =>
+        cb(typeof token === 'string' ? token : undefined)
+      ),
+    onCloseCanceled: (cb: (token: string) => void): void =>
+      window.qstudy?.on('app:close-canceled', (token) => {
+        if (typeof token === 'string') cb(token)
+      }),
+    closeReady: (saved = true, token?: string) => invoke<void>('app:close-ready', saved, token)
   },
   transfer: {
     export: (scope: TransferScope, packId?: string, listId?: string) =>
@@ -169,6 +176,10 @@ export const platform = {
     invoke<{ ok: boolean; manual?: boolean; error?: string }>('app:installUpdate', path),
   onUpdateProgress: (cb: (p: { received: number; total: number }) => void): void =>
     window.qstudy?.on('update:progress', (p) => cb(p as { received: number; total: number })),
+  onUpdateInstallFailure: (cb: (error: string) => void): void =>
+    window.qstudy?.on('update:install-failed', (error) => {
+      if (typeof error === 'string') cb(error)
+    }),
   openDataDir: () => invoke<void>('app:openDataDir'),
   getPrefs: () => invoke<Prefs>('prefs:get'),
   setPrefs: (patch: Partial<Prefs>) => invoke<Prefs>('prefs:set', patch),
