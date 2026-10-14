@@ -1,0 +1,33 @@
+name: Copy immutable dictionary data
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_asset:
+        description: Previously verified immutable build-data asset
+        required: true
+        type: string
+        default: qonsona-data-0.4.0.zip
+
+permissions:
+  contents: write
+
+concurrency:
+  group: qonsona-build-data-copy
+  cancel-in-progress: false
+
+jobs:
+  copy-data:
+    if: github.repository == 'Kinnuch/Qonsona'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify and copy the immutable dictionary asset
+        run: node scripts/release/copy-data.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_ASSET: ${{ inputs.source_asset }}
