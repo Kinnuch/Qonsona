@@ -12,6 +12,7 @@ export function registerAccountIpc(): void {
     safeStorage.isEncryptionAvailable() &&
     (process.platform !== 'linux' || safeStorage.getSelectedStorageBackend() !== 'basic_text')
   const client = new AccountClient({
+    version: app.getVersion(),
     packaged: app.isPackaged,
     testMode: process.env.QON_TEST_MODE === '1',
     base: process.env.QON_ACCOUNT_API_BASE,

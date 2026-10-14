@@ -56,6 +56,7 @@ export function createApi({
         token,
         ip,
         app: req.headers['x-qon-app'] || 'qonsona',
+        clientVersion: req.headers['x-qon-version'],
         query: Object.fromEntries(url.searchParams)
       })
       respond(200, result)
@@ -65,7 +66,10 @@ export function createApi({
       respond(known ? error.status : 500, {
         error: {
           code: known ? error.code : 'INTERNAL_ERROR',
-          message: known ? error.code : 'Internal server error'
+          message: known ? error.code : 'Internal server error',
+          ...(known && error.code === 'CLIENT_UPDATE_REQUIRED'
+            ? { currentVersion: error.currentVersion, releaseUrl: error.releaseUrl }
+            : {})
         }
       })
     }

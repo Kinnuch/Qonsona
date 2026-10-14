@@ -76,6 +76,21 @@ Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunn
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。
 
+## 账号版本检查（0.4.1 开发中）
+
+开发中的账号版本要求由客户端和服务器共同核验 GitHub 最新正式版，只有版本完全一致时才允许 Qonsona 注册、登录及在线收藏。
+无法连接服务、暂时无法核验版本和需要更新分别提示；公开预检不携带密码或登录令牌，核验失败保留旧会话与未知交易，只暂停在线功能。
+本地学习与文件转移照常可用，旧 Qonlang 的基本账号功能保持兼容。「设置 → 关于」另加入原样沿用千语集的开发者信息和致谢。
+
+**0.4.1 尚未发布。**已发布的 0.4.0 不携带新版本头，部署时须先发布支持版本头的新客户端，再启用公网版本门禁。
+目前公网注册仍待备案与 HTTPS；本轮代码和隔离验收不表示公网服务已经恢复。细节见[账号版本说明](docs/collection.md#开发中的账号版本要求041-未发布)。
+
+_The unreleased 0.4.1 account checks require the exact latest formal GitHub Release, verified by both client and server.
+Connection failure, unverifiable policy and required updates have distinct messages. Public preflight carries no password or login token;
+failed checks retain existing sessions and unresolved transactions while pausing online features. Local learning, file transfers and existing Qonlang basic account operations remain available.
+Settings → About also adds Qonlang's original developer information and credits. Published 0.4.0 clients lack the new version header:
+publish a header-aware client before enabling the live gate. Public registration remains unavailable pending ICP filing and HTTPS._
+
 ## 下载与安装
 
 到 [Releases](https://github.com/Kinnuch/Qonsona/releases/latest) 下载最新版本：

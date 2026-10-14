@@ -888,6 +888,16 @@ export default {
     dataDir: '数据目录',
     openDataDir: '打开数据目录',
     about: '关于',
+    people: '开发者与致谢',
+    developer: '开发者',
+    credits: '致谢',
+    creditRoles: {
+      logoDesign: 'logo 设计',
+      pixelArt: '像素画创作',
+      sponsors: '赞助',
+      testing: '测试和意见反馈',
+      other: '其他支持'
+    },
     version: '版本 {v}',
     speech: '朗读',
     textVoiceMode: '原文语音',

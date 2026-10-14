@@ -5,7 +5,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { randomUUID } from 'node:crypto'
-import { Service } from '../service.mjs'
+import { Service } from './client-fixture.mjs'
 import { activity, newState, dayAt } from '../domain.mjs'
 
 test('last ticket cannot be double spent across separate SQLite connections; request outcome survives process replacement', async () => {

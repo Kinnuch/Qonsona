@@ -56,7 +56,35 @@ export class AccountState {
   }
   #failure(error: unknown): void {
     this.error = String(error instanceof Error ? error.message : error)
-    if (/UNAUTHORIZED|SESSION_EXPIRED|AUTH_REQUIRED/.test(this.error)) {
+    if (/CLIENT_UPDATE_REQUIRED|CLIENT_POLICY_UNAVAILABLE/.test(this.error)) {
+      const latestVersion = /CLIENT_UPDATE_REQUIRED:\s*(\d+\.\d+\.\d+)(?![\w.-])/.exec(
+        this.error
+      )?.[1]
+      this.#needsRecovery = true
+      this.retryable = false
+      if (this.session)
+        this.session = {
+          ...this.session,
+          server: {
+            ...this.session.server,
+            online: false,
+            testcap: false,
+            error: this.error.split(':')[0]
+          },
+          version: {
+            status: this.error.includes('CLIENT_UPDATE_REQUIRED')
+              ? 'update-required'
+              : 'unavailable',
+            installedVersion: this.session.version?.installedVersion ?? '',
+            ...(latestVersion
+              ? {
+                  latestVersion,
+                  releaseUrl: `https://github.com/Kinnuch/Qonsona/releases/tag/v${latestVersion}`
+                }
+              : {})
+          }
+        }
+    } else if (/UNAUTHORIZED|SESSION_EXPIRED|AUTH_REQUIRED/.test(this.error)) {
       this.#epoch++
       this.session = this.session ? { ...this.session, user: null } : null
       this.snapshot = null
@@ -99,7 +127,7 @@ export class AccountState {
         const snapshot = await platform.account.request('collection', {})
         if (this.#current(epoch, session.user.id)) this.#apply(snapshot)
       }
-      if (this.#current(epoch)) this.error = ''
+      if (this.#current(epoch)) this.error = session.server.error ?? ''
     } catch (error) {
       if (this.#current(epoch)) this.#failure(error)
     } finally {
@@ -201,7 +229,8 @@ export class AccountState {
     } catch (error) {
       if (this.#current(epoch, id)) {
         this.#failure(error)
-        this.retryable = !!this.#retry
+        this.retryable =
+          !!this.#retry && !/CLIENT_UPDATE_REQUIRED|CLIENT_POLICY_UNAVAILABLE/.test(this.error)
       }
       return false
     } finally {

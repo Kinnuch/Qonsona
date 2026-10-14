@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import AccountPanel from '$lib/accounts/AccountPanel.svelte'
+  import AboutCredits from '$lib/about/AboutCredits.svelte'
   import { FolderOpen, Volume2, Download, Upload } from '@lucide/svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { audio } from '$lib/state/audio.svelte'
@@ -496,6 +497,7 @@
         date: engineDate
       })}
     </p>
+    <AboutCredits />
   </section>
 
   {#if sources.length || langSources.length}

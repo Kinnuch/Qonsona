@@ -2,7 +2,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import { randomUUID } from 'node:crypto'
-import { Service } from '../service.mjs'
+import { Service } from './client-fixture.mjs'
 
 test('production support orders/credit are explicitly disabled by default, independent of test flags', async () => {
   const service = new Service({

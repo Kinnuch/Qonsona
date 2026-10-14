@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import { Service } from '../service.mjs'
+import { Service } from './client-fixture.mjs'
 
 const register = (service, username) =>
   service.handle(

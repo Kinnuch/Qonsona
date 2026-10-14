@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { UserRound, LogOut, ShieldCheck, RefreshCw } from '@lucide/svelte'
+  import { UserRound, LogOut, ShieldCheck, RefreshCw, Download } from '@lucide/svelte'
   import { account } from '$lib/state/account.svelte'
   import { t, i18n } from '$lib/i18n/index.svelte'
   import { accountError } from './errors'
+  import { updates } from '$lib/state/updates.svelte'
   let mode = $state<'login' | 'register'>('login')
   let username = $state(''),
     password = $state(''),
@@ -13,6 +14,10 @@
   let rankVisibility = $state<'global' | 'friends'>('global')
   let editingId = ''
   const user = $derived(account.session?.user)
+  const version = $derived(account.session?.version)
+  const canAuthenticate = $derived(
+    version?.status === 'current' && !!account.session?.server.online && !account.loading
+  )
   $effect(() => {
     if (!user) editingId = ''
     if (user?.id && user.id !== editingId) {
@@ -28,6 +33,7 @@
   })
   async function authenticate(event: SubmitEvent): Promise<void> {
     event.preventDefault()
+    if (!canAuthenticate) return
     try {
       await account.authenticate(mode, {
         username: username.trim(),
@@ -41,6 +47,54 @@
 </script>
 
 <section class="account-panel" data-account-panel>
+  <div
+    class="version-status"
+    class:blocked={version?.status !== 'current'}
+    data-account-version-status={account.loading ? 'checking' : (version?.status ?? 'unavailable')}
+    aria-live="polite"
+  >
+    {#if account.loading}
+      <strong>{t('account.versionChecking')}</strong>
+    {:else if version?.status === 'current'}
+      <span
+        ><ShieldCheck size={14} />{t('account.versionCurrent', {
+          v: version.installedVersion
+        })}</span
+      >
+    {:else}
+      <strong
+        >{t(
+          version?.status === 'update-required'
+            ? 'account.versionRequired'
+            : 'account.versionUnavailable'
+        )}</strong
+      >
+      <p>
+        {version?.latestVersion && version.installedVersion
+          ? t('account.versionHelp', {
+              installed: version.installedVersion,
+              latest: version.latestVersion
+            })
+          : t('account.versionUnknownHelp')}
+      </p>
+      <div class="version-actions">
+        <button
+          class="btn"
+          data-account-check-update
+          disabled={updates.checking}
+          onclick={() => updates.check(true)}
+          ><RefreshCw size={14} />{t('settings.checkNow')}</button
+        >
+        <a
+          class="btn"
+          data-account-download-update
+          href="https://github.com/Kinnuch/Qonsona/releases/latest"
+          target="_blank"
+          rel="noreferrer"><Download size={14} />{t('account.downloadLatest')}</a
+        >
+      </div>
+    {/if}
+  </div>
   {#if user}
     <header>
       <UserRound size={20} />
@@ -168,12 +222,16 @@
         /></label
       >
       <p class="muted">{t('account.credentialsHelp')}</p>
-      <button class="btn primary" data-account-submit disabled={account.busy}
+      <button class="btn primary" data-account-submit disabled={account.busy || !canAuthenticate}
         >{account.busy ? t('common.loading') : t(`account.${mode}`)}</button
       >
     </form>
   {/if}
-  {#if account.error}<p class="error" role="alert" data-account-error>
+  {#if account.error && !/CLIENT_UPDATE_REQUIRED|CLIENT_POLICY_UNAVAILABLE/.test(account.error)}<p
+      class="error"
+      role="alert"
+      data-account-error
+    >
       {accountError(account.error, i18n.locale)}
     </p>{/if}
   <button
@@ -185,6 +243,34 @@
 </section>
 
 <style>
+  .version-status {
+    margin-bottom: 22px;
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.65;
+  }
+  .version-status > span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .version-status.blocked {
+    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-sunken);
+  }
+  .version-status p {
+    margin: 6px 0 12px;
+  }
+  .version-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+  .version-actions a {
+    text-decoration: none;
+  }
   .account-panel {
     max-width: 520px;
     background: linear-gradient(

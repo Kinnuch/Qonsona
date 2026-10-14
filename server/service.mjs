@@ -21,6 +21,7 @@ import {
   updateHome
 } from './domain.mjs'
 import { characterFor } from './catalog.mjs'
+import { ClientPolicy } from './client-policy.mjs'
 
 const derive = promisify(scrypt)
 const PARAMS = { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 }
@@ -59,11 +60,12 @@ function orderView(row) {
   }
 }
 export class Service {
-  constructor({ path = ':memory:', now = Date.now, random, env = process.env } = {}) {
+  constructor({ path = ':memory:', now = Date.now, random, env = process.env, policyFetch } = {}) {
     this.store = new Store(path)
     this.now = now
     this.random = random
     this.env = { ...env }
+    this.clientPolicy = new ClientPolicy({ now, env, fetch: policyFetch })
     this.testEnabled = env.NODE_ENV !== 'production' && env.QON_TEST_GRANTS === '1'
     this.paymentsEnabled = env.QON_PAYMENTS_ENABLED === '1'
     this.simulatedPayments = !this.paymentsEnabled && env.NODE_ENV !== 'production'
@@ -119,7 +121,12 @@ export class Service {
       b = Buffer.from(hash(key))
     if (!timingSafeEqual(a, b)) fail('ADMIN_UNAUTHORIZED', 401)
   }
-  async handle(method, path, body = {}, { token, ip = 'local', app = 'qonsona', query = {} } = {}) {
+  async handle(
+    method,
+    path,
+    body = {},
+    { token, ip = 'local', app = 'qonsona', clientVersion, query = {} } = {}
+  ) {
     const now = this.now()
     this.store.rate(`ip:${hash(ip)}`, now, 120)
     if (method === 'POST' || method === 'PATCH') shape(body, Object.keys(body || {}))
@@ -130,8 +137,13 @@ export class Service {
         testing: { grantsEnabled: this.testEnabled },
         payments: { enabled: this.paymentsEnabled, simulation: this.simulatedPayments }
       }
+    if (method === 'GET' && path === '/v1/client-policy') {
+      if (Object.keys(query).some((key) => key !== 'app')) fail('INVALID_FIELDS')
+      return this.clientPolicy.get(query.app ?? app)
+    }
     if (path.startsWith('/v1/admin/')) return this.adminRoute(method, path, body, token, now)
     if (method === 'POST' && path === '/v1/auth/register') {
+      await this.clientPolicy.require(app, clientVersion)
       shape(body, ['username', 'password', 'nickname'], ['username', 'password'])
       const name = username(body.username),
         secret = password(body.password),
@@ -142,6 +154,7 @@ export class Service {
       return this.session(user, app, now)
     }
     if (method === 'POST' && path === '/v1/auth/login') {
+      await this.clientPolicy.require(app, clientVersion)
       shape(body, ['username', 'password'], ['username', 'password'])
       const name = username(body.username),
         secret = password(body.password)
@@ -156,12 +169,15 @@ export class Service {
     if (path === '/v1/test/grant' && !this.testEnabled) fail('NOT_FOUND', 404)
     const session = this.authenticate(token, now),
       id = session.user_id
+    if (session.app !== app) fail('CLIENT_APP_MISMATCH', 403)
     this.store.rate(`account:${id}`, now, 90)
     if (method === 'POST' && path === '/v1/auth/logout') {
       shape(body, [])
       this.store.db.prepare('DELETE FROM sessions WHERE token_hash=?').run(hash(token))
       return { ok: true }
     }
+    if (app === 'qonlang' && !['/v1/auth/me'].includes(path)) fail('CLIENT_ROUTE_UNAVAILABLE', 403)
+    await this.clientPolicy.require(app, clientVersion)
     if (method === 'GET' && path === '/v1/auth/me')
       return { user: publicUser(this.store.user(id)), snapshot: this.store.snapshot(id, now) }
     if (method === 'PATCH' && path === '/v1/auth/me') {

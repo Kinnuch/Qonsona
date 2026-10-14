@@ -5,7 +5,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { randomUUID } from 'node:crypto'
-import { Service } from '../service.mjs'
+import { Service } from './client-fixture.mjs'
 import { activity, taskPlan, newState, dayAt } from '../domain.mjs'
 
 const fixtures = []
@@ -149,7 +149,7 @@ test('legacy memorials merge earliest across sessions and stay separate from eco
     'POST',
     '/v1/auth/login',
     { username: 'testuser', password: 'correct-password-123' },
-    { ip: 'second', app: 'qonlang' }
+    { ip: 'second', app: 'qonsona' }
   )
   const later = await call(
     f.service,

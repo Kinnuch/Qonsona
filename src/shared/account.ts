@@ -138,9 +138,16 @@ export interface CollectionSnapshot {
     claimed: boolean
   }
 }
+export interface AccountVersionState {
+  status: 'current' | 'update-required' | 'unavailable'
+  installedVersion: string
+  latestVersion?: string
+  releaseUrl?: string
+}
 export interface AccountSession {
   user: AccountUser | null
-  server: { baseUrl: string; online: boolean; testcap: boolean }
+  server: { baseUrl: string; online: boolean; testcap: boolean; error?: string }
+  version?: AccountVersionState
   snapshot?: CollectionSnapshot
 }
 export interface DrawResult {

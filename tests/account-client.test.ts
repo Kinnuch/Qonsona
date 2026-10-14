@@ -44,7 +44,7 @@ const snapshot: CollectionSnapshot = {
   shop: [],
   drawRules: {}
 }
-async function fixture(packaged = false, testMode = true) {
+async function fixture(packaged = false, testMode = true, version = '0.4.0') {
   const directory = await fs.mkdtemp(join(tmpdir(), 'qon-account-gateway-'))
   dirs.push(directory)
   let identity: Parameters<ConstructorParameters<typeof AccountClient>[0]['writeIdentity']>[0] =
@@ -53,6 +53,7 @@ async function fixture(packaged = false, testMode = true) {
     path: string
     method: string
     authorization?: string | null
+    version?: string | null
     body?: string | null
     redirect?: string
   }[] = []
@@ -62,12 +63,18 @@ async function fixture(packaged = false, testMode = true) {
   let malformed: string | undefined
   let statusOverride: number | undefined
   let meOverride: string | undefined
+  let latestVersion = '0.4.0',
+    elapsed = 0,
+    policyOverride: Record<string, unknown> | undefined
+  let policyServerTime = 1
+  let policyResponseStatus = 200
   const fetcher = vi.fn(async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const path = new URL(String(input)).pathname
     calls.push({
       path,
       method: init?.method ?? 'GET',
       authorization: new Headers(init?.headers).get('Authorization'),
+      version: new Headers(init?.headers).get('X-Qon-Version'),
       body: init?.body as string | null,
       redirect: init?.redirect
     })
@@ -77,25 +84,36 @@ async function fixture(packaged = false, testMode = true) {
       meOverride = undefined
       return new Response(body)
     }
-    const result = path.endsWith('/health')
-      ? { status: 'ok', testing: { grantsEnabled: true } }
-      : path.endsWith('/auth/login')
-        ? { token: 'private-session-token', expiresAt: 123456, user, snapshot }
-        : path.endsWith('/auth/me')
-          ? { user, snapshot }
-          : path.endsWith('/collection')
-            ? snapshot
-            : path.endsWith('/draw')
-              ? {
-                  results: Array.from({ length: JSON.parse(String(init?.body)).count }, () => ({
-                    id: 'companion-1',
-                    tier: 'A',
-                    duplicate: true,
-                    echoes: 1
-                  })),
-                  snapshot
-                }
-              : { ok: true }
+    const result = path.endsWith('/client-policy')
+      ? (policyOverride ?? {
+          app: 'qonsona',
+          mode: 'exact-latest',
+          source: 'github-latest',
+          currentVersion: latestVersion,
+          checkedAt: 1,
+          serverTime: policyServerTime,
+          validUntil: 120001,
+          releaseUrl: `https://github.com/Kinnuch/Qonsona/releases/tag/v${latestVersion}`
+        })
+      : path.endsWith('/health')
+        ? { status: 'ok', testing: { grantsEnabled: true } }
+        : path.endsWith('/auth/login')
+          ? { token: 'private-session-token', expiresAt: 123456, user, snapshot }
+          : path.endsWith('/auth/me')
+            ? { user, snapshot }
+            : path.endsWith('/collection')
+              ? snapshot
+              : path.endsWith('/draw')
+                ? {
+                    results: Array.from({ length: JSON.parse(String(init?.body)).count }, () => ({
+                      id: 'companion-1',
+                      tier: 'A',
+                      duplicate: true,
+                      echoes: 1
+                    })),
+                    snapshot
+                  }
+                : { ok: true }
     if (path.endsWith('/draw')) {
       draws++
       if (drawLost) {
@@ -123,9 +141,13 @@ async function fixture(packaged = false, testMode = true) {
         return new Response(body, { status })
       }
     }
-    return new Response(JSON.stringify(result), { status: 200 })
+    return new Response(JSON.stringify(result), {
+      status: path.endsWith('/client-policy') ? policyResponseStatus : 200
+    })
   })
   const options = {
+    version,
+    clock: () => elapsed,
     directory,
     packaged,
     testMode,
@@ -141,6 +163,19 @@ async function fixture(packaged = false, testMode = true) {
     options,
     calls,
     fetcher,
+    latest: (version: string) => {
+      latestVersion = version
+    },
+    invalidPolicy: (value: Record<string, unknown>, status = 200) => {
+      policyOverride = value
+      policyResponseStatus = status
+    },
+    advance: (milliseconds: number) => {
+      elapsed += milliseconds
+    },
+    agePolicy: (serverTime: number) => {
+      policyServerTime = serverTime
+    },
     loseDraw: (failure: 'network' | 'status' | 'body' | 'unauthorized' = 'network') => {
       drawLost = failure
     },
@@ -476,4 +511,165 @@ describe('account main-process gateway', () => {
       expect(draws[1].body).toBe(draws[0].body)
     }
   )
+})
+
+describe('latest-version account admission', () => {
+  it('keeps identity and unknown transactions when an older server returns 401 for the public policy endpoint', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-password' })
+    const payload = {
+      requestId: 'preserve-old-server',
+      source: 'learning' as const,
+      count: 1 as const
+    }
+    f.loseDraw()
+    await expect(f.client.request('draw', payload)).rejects.toThrow('SERVICE_UNAVAILABLE')
+    f.invalidPolicy({ error: { code: 'UNAUTHORIZED', message: 'UNAUTHORIZED' } }, 401)
+    const before = f.calls.length
+    const session = await f.client.session()
+    expect(session.user?.id).toBe(user.id)
+    expect(session.version?.status).toBe('unavailable')
+    expect(session.server.online).toBe(false)
+    expect((await f.options.readIdentity())?.user.id).toBe(user.id)
+    expect(
+      f.calls
+        .slice(before)
+        .every((call) => call.path.endsWith('/client-policy') && !call.authorization && !call.body)
+    ).toBe(true)
+    expect(
+      JSON.parse(await fs.readFile(join(f.options.directory, 'account-pending.json'), 'utf8'))[
+        payload.requestId
+      ].payload
+    ).toEqual(payload)
+  })
+  it('rechecks immediately before authentication even when a current policy was already cached', async () => {
+    const f = await fixture()
+    expect((await f.client.session()).version?.status).toBe('current')
+    f.latest('0.4.1')
+    await expect(
+      f.client.request('login', { username: 'learner', password: 'not-submitted' })
+    ).rejects.toThrow('CLIENT_UPDATE_REQUIRED: 0.4.1')
+    expect(f.calls.some((call) => call.path.endsWith('/auth/login'))).toBe(false)
+  })
+  it.each(['0.3.0', '0.4.1', '0.4.0-beta.1', '0.4.0-local'])(
+    'keeps %s offline without sending registration or login credentials',
+    async (version) => {
+      const f = await fixture(true, false, version)
+      const session = await f.client.session()
+      expect(session.version).toMatchObject({
+        status: 'update-required',
+        installedVersion: version,
+        latestVersion: '0.4.0'
+      })
+      expect(session.server.online).toBe(false)
+      for (const action of ['login', 'register'] as const)
+        await expect(
+          f.client.request(action, { username: 'learner', password: 'never-upload-this-password' })
+        ).rejects.toThrow('CLIENT_UPDATE_REQUIRED')
+      expect(
+        f.calls.every(
+          (call) => call.path.endsWith('/client-policy') && !call.authorization && !call.body
+        )
+      ).toBe(true)
+    }
+  )
+  it('verifies the stable version first and sends the actual main-process version header', async () => {
+    const f = await fixture(true, false)
+    await f.client.request('login', { username: 'learner', password: 'long-enough-password' })
+    expect(f.calls[0]).toMatchObject({
+      path: '/qon-api/v1/client-policy',
+      version: '0.4.0',
+      authorization: null
+    })
+    expect(f.calls.find((call) => call.path.endsWith('/auth/login'))).toMatchObject({
+      version: '0.4.0',
+      authorization: null
+    })
+    const session = await f.client.session()
+    expect(session.version?.status).toBe('current')
+    expect(session.server.online).toBe(true)
+  })
+  it.each([
+    { ok: true },
+    { app: 'qonsona', mode: 'exact-latest', source: 'test-override', currentVersion: '0.4.0' }
+  ])('does not admit clients with unavailable or unverified policy data', async (value) => {
+    const f = await fixture()
+    f.invalidPolicy(value)
+    await expect(
+      f.client.request('login', { username: 'learner', password: 'long-password' })
+    ).rejects.toThrow('CLIENT_POLICY_UNAVAILABLE')
+    expect(f.calls).toHaveLength(1)
+    expect((await f.client.session()).server.online).toBe(false)
+  })
+  it('does not renew the full cache lifetime when the server returns an aged policy', async () => {
+    const f = await fixture()
+    f.agePolicy(110001)
+    await f.client.request('login', { username: 'learner', password: 'long-password' })
+    f.latest('0.4.1')
+    f.advance(10001)
+    f.agePolicy(1)
+    await expect(
+      f.client.request('activity', { requestId: 'version-expired', language: 'en', seconds: 10 })
+    ).rejects.toThrow('CLIENT_UPDATE_REQUIRED')
+    expect(f.calls.filter((call) => call.path.endsWith('/client-policy'))).toHaveLength(2)
+    expect(f.calls.some((call) => call.path.endsWith('/reward/activity'))).toBe(false)
+  })
+  it('keeps unknown transactions while outdated and recovers the same ID after updating', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-password' })
+    const payload = {
+      requestId: 'pending-before-update',
+      source: 'learning' as const,
+      count: 1 as const
+    }
+    f.loseDraw()
+    await expect(f.client.request('draw', payload)).rejects.toThrow('SERVICE_UNAVAILABLE')
+    f.latest('0.4.1')
+    expect((await f.client.session()).version?.status).toBe('update-required')
+    expect(f.draws()).toBe(1)
+    const journal = join(f.options.directory, 'account-pending.json')
+    expect(JSON.parse(await fs.readFile(journal, 'utf8'))[payload.requestId].payload).toEqual(
+      payload
+    )
+    const updated = new AccountClient({ ...f.options, version: '0.4.1' })
+    expect((await updated.session()).server.online).toBe(true)
+    expect(f.draws()).toBe(2)
+    expect(JSON.parse(await fs.readFile(journal, 'utf8'))).toEqual({})
+    const draws = f.calls.filter((call) => call.path.endsWith('/draw'))
+    expect(draws[1].body).toBe(draws[0].body)
+    expect(draws[1].version).toBe('0.4.1')
+  })
+  it('preserves a journal entry after a release changes between preflight and mutation', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-password' })
+    const payload = {
+      requestId: 'version-race-draw',
+      source: 'learning' as const,
+      count: 1 as const
+    }
+    f.malformedDraw(
+      JSON.stringify({
+        error: {
+          code: 'CLIENT_UPDATE_REQUIRED',
+          currentVersion: '0.4.1',
+          releaseUrl: 'https://github.com/Kinnuch/Qonsona/releases/tag/v0.4.1'
+        }
+      }),
+      426
+    )
+    await expect(f.client.request('draw', payload)).rejects.toThrow('CLIENT_UPDATE_REQUIRED')
+    expect(
+      JSON.parse(await fs.readFile(join(f.options.directory, 'account-pending.json'), 'utf8'))[
+        payload.requestId
+      ].payload
+    ).toEqual(payload)
+  })
+  it('can sign out locally when version verification or connectivity is unavailable', async () => {
+    const f = await fixture()
+    await f.client.request('login', { username: 'learner', password: 'long-password' })
+    f.setOffline()
+    expect((await f.client.session()).server.online).toBe(false)
+    expect(await f.client.request('logout', {})).toEqual({ ok: true })
+    expect((await f.client.session()).user).toBeNull()
+  })
 })

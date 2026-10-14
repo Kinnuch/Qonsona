@@ -2,6 +2,44 @@
 
 All routes use `/v1`. JSON UTF-8, body <=32KiB, errors `{error:{code,message}}` with stable English `code`; successful data are returned directly (no `data` wrapper). Authentication uses `Authorization: Bearer <opaque token>` held by the desktop main process. Production clients must use the configured HTTPS origin; never forward a bearer to another origin or allow invalid certificates. Server listens on loopback behind TLS nginx in production. No browser CORS/API credentials are shipped.
 
+## Current Qonsona client requirement
+
+`GET /client-policy?app=qonsona` requires no login or version header and returns:
+
+```json
+{
+  "app": "qonsona",
+  "mode": "exact-latest",
+  "currentVersion": "0.4.0",
+  "source": "github-latest",
+  "checkedAt": 1791936000000,
+  "serverTime": 1791936010000,
+  "validUntil": 1791936120000,
+  "releaseUrl": "https://github.com/Kinnuch/Qonsona/releases/tag/v0.4.0"
+}
+```
+
+The version above illustrates the format; the server fetches the actual latest formal GitHub Release at the fixed `https://api.github.com/repos/Kinnuch/Qonsona/releases/latest`. It does not use the server package version or a client-submitted target version. Drafts, prereleases, noncanonical semantic versions, missing publication dates and release URLs outside this exact repository/tag are rejected. Lookup uses no credentials, rejects redirects, limits response size to512000bytes and times out after4seconds. Concurrent requests share one lookup. Successful metadata remains valid for120seconds; `checkedAt` and `validUntil` are fixed for that lookup, while each returned `serverTime` is the current server time. Clients calculate the remaining lifetime from `validUntil-serverTime`, using elapsed time rather than their local wall clock. Once expired, any lookup failure returns `CLIENT_POLICY_UNAVAILABLE503`; an old success is never used indefinitely. Failure retries back off from10seconds to at most120seconds.
+
+Send `X-Qon-App:qonsona` and `X-Qon-Version:<actual app version>` on registration, login and every authenticated online route, including snapshot/profile reads, rankings, friends, learning, shop, draws, upbringing and home. The version must equal `currentVersion` exactly; a missing header, old version, future version, prerelease version or version prefixed with `v` returns HTTP426:
+
+```json
+{
+  "error": {
+    "code": "CLIENT_UPDATE_REQUIRED",
+    "message": "CLIENT_UPDATE_REQUIRED",
+    "currentVersion": "0.4.0",
+    "releaseUrl": "https://github.com/Kinnuch/Qonsona/releases/tag/v0.4.0"
+  }
+}
+```
+
+These failures do not remove sessions, collections, wallet balances, XP, home layouts or prior mutation receipts. Clients must keep unresolved journals and refrain from sending/replaying online mutations until a fresh policy authorizes the actual client version. `/health`, `/client-policy`, the separate administrator namespace and authenticated `POST /auth/logout` remain available without a current-version match. Logout still revokes only its own valid token. Session product must match `X-Qon-App`; changing the header on an existing token returns `CLIENT_APP_MISMATCH403`.
+
+Qonlang is a separate product and currently retains its existing five basic account operations: registration, login, `GET /auth/me`, `PATCH /auth/me`, and logout. These legacy routes do not require a version header. `GET /client-policy?app=qonlang` describes `mode:'legacy-auth-only'`, `currentVersion:null`, `source:'legacy-account-compatibility'` and the Qonlang release URL; it must not be treated as authorization for Qonsona. A Qonlang session cannot call collection, economy, rankings, friends, upbringing or home routes (`CLIENT_ROUTE_UNAVAILABLE403`), and cannot become a Qonsona session by changing its app header. Shared usernames/accounts and existing assets are retained. This is a compatibility boundary for the current Qonlang account client, not an assertion that its release number equals Qonsona's.
+
+An explicit `QON_TEST_CLIENT_VERSION` override exists only when `NODE_ENV !== production`, uses `source:'test-override'` and never pretends to be GitHub verification. Production ignores it. Formal desktop clients accept only the actual `github-latest` source. Unit tests inject their own fetch and current-version contexts; they never call GitHub. Versions are protocol compatibility claims, not signed attestation of a client binary.
+
 ## Identity and snapshot
 
 `POST /auth/register {username,password,nickname?}` and `/auth/login {username,password}` return `{token,expiresAt,user,snapshot}`. User: `{id,username,nickname,publicId,publicCollection,publicTime,rankVisibility,createdAt}`. Username is case-insensitive ASCII `[a-z0-9_]{3,32}`, password 10–128 chars. Username is private; rankings and friend profiles show nickname and random publicId. `POST /auth/logout {}` revokes this session. `GET /auth/me` returns `{user,snapshot}`. `PATCH /auth/me {nickname?,publicCollection?,publicTime?,rankVisibility?}` changes only supplied fields. New accounts default both participation flags true and visibility `global`. Visibility `friends` restricts participation to the accepted-friends board. Either board can be disabled with its participation flag. Migration preserves every existing false participation flag, because old false values may be explicit opt-outs.
@@ -50,7 +88,7 @@ Admin routes use a separate `Authorization: Bearer <QON_ADMIN_KEY>`, never shipp
 
 All economic mutations transact SQLite ledger+balances+idempotency response atomically. Unknown properties rejected. No client balance, probability, pity or paid history upload endpoint. Legacy memorial migration below accepts only bounded personal decorations.
 
-`GET /health` (no authentication): `{status:'ok',testing:{grantsEnabled:boolean},payments:{enabled:boolean,simulation:boolean}}`. GrantsEnabled is alwaysfalse in production. Support orders have a6000fen/month cap (pending plus approved count, rejected/refunded do not). Snapshot.history is the latest50 server ledger records, private to owner. `revision:number` strictly increases on each committed mutation/profile edit, even in the same millisecond; clients reject lower revisions. Idempotent replay returns the original response/revision. Completion-only seconds0does not advance the heartbeat clock, except first initialization. All timestamp fields are Unix milliseconds, not seconds or ISO strings. `today.tasks` is a number of unique completed events. Shop types are ticket/makeup/character/decoration. `drawRules` exact fields are exported in server/domain.mjs RULES. Nickname1–40trim; usernames ASCII case-insensitive; session expiry30days. Optional `X-Qon-App:qonlang|qonsona` selects session product only. Mutations return `{snapshot,...route-specific-result}`.
+`GET /health` (no authentication): `{status:'ok',testing:{grantsEnabled:boolean},payments:{enabled:boolean,simulation:boolean}}`. GrantsEnabled is alwaysfalse in production. Support orders have a6000fen/month cap (pending plus approved count, rejected/refunded do not). Snapshot.history is the latest50 server ledger records, private to owner. `revision:number` strictly increases on each committed mutation/profile edit, even in the same millisecond; clients reject lower revisions. Idempotent replay returns the original response/revision after the version requirement is satisfied. Completion-only seconds0does not advance the heartbeat clock, except first initialization. All timestamp fields are Unix milliseconds, not seconds or ISO strings. `today.tasks` is a number of unique completed events. Shop types are ticket/makeup/character/decoration. `drawRules` exact fields are exported in server/domain.mjs RULES. Nickname1–40trim; usernames ASCII case-insensitive; session expiry30days. `X-Qon-App:qonlang|qonsona` selects and binds the session product (defaults toqonsona if omitted); Qonsona additionally requires `X-Qon-Version`. Mutations return `{snapshot,...route-specific-result}`.
 
 ## Daily designated plan and old memorials
 

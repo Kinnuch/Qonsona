@@ -6,7 +6,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import { DatabaseSync } from 'node:sqlite'
-import { Service } from '../service.mjs'
+import { Service } from './client-fixture.mjs'
 import { Store } from '../store.mjs'
 import {
   CATALOG,

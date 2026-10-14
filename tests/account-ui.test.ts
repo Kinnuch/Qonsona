@@ -65,6 +65,7 @@ async function state() {
   const session: AccountSession = {
     user: snapshot().user,
     server: { baseUrl: 'http://localhost/v1', online: true, testcap: true },
+    version: { status: 'current', installedVersion: '0.4.0', latestVersion: '0.4.0' },
     snapshot: snapshot()
   }
   const request = vi.fn(async (action: string) =>
@@ -93,6 +94,37 @@ async function state() {
   return { account, platform, request, session }
 }
 describe('server-owned frontend account state', () => {
+  it('shows the new version immediately and prevents a late success from reopening online features', async () => {
+    const f = await state(),
+      late = deferred<unknown>()
+    f.request.mockImplementation(async (action) =>
+      action === 'activity'
+        ? (late.promise as never)
+        : Promise.reject(new Error('CLIENT_UPDATE_REQUIRED: 0.4.1'))
+    )
+    const activity = f.account.reportActivity({ language: 'en', seconds: 10 })
+    expect(
+      await f.account.mutate('purchase', { requestId: 'needs-client-update', itemId: 'ticket' })
+    ).toBe(false)
+    expect(f.account.session?.version).toMatchObject({
+      status: 'update-required',
+      installedVersion: '0.4.0',
+      latestVersion: '0.4.1'
+    })
+    expect(f.account.retryable).toBe(false)
+    late.resolve({ snapshot: snapshot(20, 120) })
+    await activity
+    expect(f.account.session?.server.online).toBe(false)
+    const before = f.request.mock.calls.length
+    expect(
+      await f.account.mutate('draw', {
+        requestId: 'blocked-new-draw',
+        source: 'learning',
+        count: 1
+      })
+    ).toBe(false)
+    expect(f.request.mock.calls.length).toBe(before)
+  })
   it('login keeps the newest snapshot after main replays pending transactions', async () => {
     const f = await state()
     await f.account.logout()

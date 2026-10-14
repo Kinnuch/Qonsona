@@ -1,4 +1,16 @@
 const errors: Record<string, [string, string]> = {
+  CLIENT_UPDATE_REQUIRED: [
+    '请更新到最新正式版本后再登录或注册。当前可继续离线学习。',
+    'Update to the latest stable version before signing in or registering. Offline learning remains available.'
+  ],
+  CLIENT_POLICY_UNAVAILABLE: [
+    '暂时无法验证最新版本，账号功能暂不可用。请重新连接；离线学习可以继续。',
+    'The latest version cannot be verified. Reconnect to use your account; offline learning remains available.'
+  ],
+  CLIENT_APP_MISMATCH: [
+    '账号会话与应用不匹配，请退出后重新登录。',
+    'This session belongs to another app. Sign out and sign in again.'
+  ],
   DRAW_POOL_CHANGED: [
     '奖池已经换期，请刷新后重新确认寻访。',
     'The pool changed. Refresh and confirm your discovery again.'

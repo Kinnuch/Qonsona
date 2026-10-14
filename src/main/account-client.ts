@@ -5,6 +5,7 @@ import type {
   AccountPayloads,
   AccountResponses,
   AccountSession,
+  AccountVersionState,
   AccountUser,
   CollectionSnapshot
 } from '../shared/account'
@@ -63,6 +64,8 @@ interface Pending {
   payload: unknown
 }
 interface Options {
+  version: string
+  clock?: () => number
   base?: string
   packaged: boolean
   testMode: boolean
@@ -75,7 +78,7 @@ interface Options {
 function uncertain(error: unknown): boolean {
   return (
     error instanceof Error &&
-    /SERVICE_UNAVAILABLE|INVALID_RESPONSE|UNAUTHORIZED|SESSION_EXPIRED|RATE_LIMITED|AUTH_BUSY/.test(
+    /SERVICE_UNAVAILABLE|CLIENT_POLICY_UNAVAILABLE|CLIENT_UPDATE_REQUIRED|INVALID_RESPONSE|UNAUTHORIZED|SESSION_EXPIRED|RATE_LIMITED|AUTH_BUSY/.test(
       error.message
     )
   )
@@ -193,8 +196,63 @@ export class AccountClient {
   #queue: Promise<unknown> = Promise.resolve()
   #pending: Record<string, Pending> = {}
   #snapshot: CollectionSnapshot | undefined
+  #version: AccountVersionState
+  #policyUntil = 0
+  #serverError = ''
   constructor(private readonly options: Options) {
     this.base = accountBase(options.packaged, options.base)
+    this.#version = { status: 'unavailable', installedVersion: options.version }
+    if (!/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(options.version))
+      throw new Error('INVALID_CLIENT_VERSION')
+  }
+  async #requireLatest(force = false): Promise<void> {
+    const clock = this.options.clock ?? (() => performance.now())
+    if (!force && clock() < this.#policyUntil) {
+      if (this.#version.status === 'current') return
+      if (this.#version.status === 'update-required')
+        throw new Error(`CLIENT_UPDATE_REQUIRED: ${this.#version.latestVersion ?? ''}`)
+    }
+    try {
+      const data = await this.#http('GET', '/client-policy?app=qonsona')
+      const version = data.currentVersion
+      if (
+        data.app !== 'qonsona' ||
+        data.mode !== 'exact-latest' ||
+        data.source !== 'github-latest' ||
+        typeof version !== 'string' ||
+        !/^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(version) ||
+        data.releaseUrl !== `https://github.com/Kinnuch/Qonsona/releases/tag/v${version}` ||
+        !Number.isSafeInteger(data.serverTime) ||
+        !Number.isSafeInteger(data.checkedAt) ||
+        !Number.isSafeInteger(data.validUntil) ||
+        Number(data.validUntil) <= Number(data.checkedAt) ||
+        Number(data.serverTime) < Number(data.checkedAt) ||
+        Number(data.serverTime) >= Number(data.validUntil) ||
+        Number(data.validUntil) - Number(data.checkedAt) > 120000
+      )
+        throw new Error('CLIENT_POLICY_UNAVAILABLE: Invalid version policy')
+      const current = version === this.options.version
+      this.#version = {
+        status: current ? 'current' : 'update-required',
+        installedVersion: this.options.version,
+        latestVersion: version,
+        releaseUrl: String(data.releaseUrl)
+      }
+      // 使用经过时间，系统日期被调整也不能延长已验证策略的有效期。
+      this.#policyUntil =
+        clock() + Math.min(120000, Number(data.validUntil) - Number(data.serverTime))
+      this.#serverError = current ? '' : 'CLIENT_UPDATE_REQUIRED'
+    } catch (error) {
+      this.#policyUntil = 0
+      this.#version = { status: 'unavailable', installedVersion: this.options.version }
+      this.#serverError =
+        error instanceof Error && error.message.startsWith('SERVICE_UNAVAILABLE')
+          ? 'SERVICE_UNAVAILABLE'
+          : 'CLIENT_POLICY_UNAVAILABLE'
+      throw new Error(this.#serverError)
+    }
+    if (this.#version.status !== 'current')
+      throw new Error(`CLIENT_UPDATE_REQUIRED: ${this.#version.latestVersion ?? ''}`)
   }
   async #load(): Promise<void> {
     if (this.#loaded) return
@@ -222,8 +280,17 @@ export class AccountClient {
     await this.options.writeIdentity(identity)
   }
   async #http(method: string, path: string, payload?: unknown): Promise<Record<string, unknown>> {
-    const headers: Record<string, string> = { Accept: 'application/json', 'X-Qon-App': 'qonsona' }
-    if (this.#identity) headers.Authorization = `Bearer ${this.#identity.token}`
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+      'X-Qon-App': 'qonsona',
+      'X-Qon-Version': this.options.version
+    }
+    const publicRequest =
+      path === '/health' ||
+      path.startsWith('/client-policy') ||
+      path === '/auth/login' ||
+      path === '/auth/register'
+    if (this.#identity && !publicRequest) headers.Authorization = `Bearer ${this.#identity.token}`
     if (method !== 'GET') headers['Content-Type'] = 'application/json'
     let response: Response
     try {
@@ -237,7 +304,8 @@ export class AccountClient {
     } catch {
       throw new Error('SERVICE_UNAVAILABLE: Account service is unavailable')
     }
-    if (response.status === 401) await this.#identityChanged(null)
+    if (response.status === 401 && !publicRequest && headers.Authorization)
+      await this.#identityChanged(null)
     const reader = response.body?.getReader()
     const chunks: Uint8Array[] = []
     let size = 0
@@ -267,7 +335,26 @@ export class AccountClient {
     if (!data || typeof data !== 'object' || Array.isArray(data))
       throw new Error('INVALID_RESPONSE: Account response must be an object')
     if (!response.ok) {
-      const error = data.error as { code?: string; message?: string } | undefined
+      const error = data.error as
+        | { code?: string; message?: string; currentVersion?: string; releaseUrl?: string }
+        | undefined
+      if (response.status === 503 && error?.code === 'CLIENT_POLICY_UNAVAILABLE')
+        throw new Error('CLIENT_POLICY_UNAVAILABLE')
+      if (response.status === 426 && error?.code === 'CLIENT_UPDATE_REQUIRED') {
+        this.#policyUntil = 0
+        const version = error.currentVersion
+        const valid =
+          typeof version === 'string' &&
+          /^\d+\.\d+\.\d+$/.test(version) &&
+          error.releaseUrl === `https://github.com/Kinnuch/Qonsona/releases/tag/v${version}`
+        this.#version = {
+          status: 'update-required',
+          installedVersion: this.options.version,
+          ...(valid ? { latestVersion: version, releaseUrl: error.releaseUrl } : {})
+        }
+        this.#serverError = 'CLIENT_UPDATE_REQUIRED'
+        throw new Error(`CLIENT_UPDATE_REQUIRED: ${valid ? version : ''}`)
+      }
       if (response.status === 401 && !path.startsWith('/auth/login'))
         throw new Error('UNAUTHORIZED: Please sign in again')
       if (response.status === 429) {
@@ -406,6 +493,7 @@ export class AccountClient {
         await this.#identityChanged(null)
         return { ok: true } as AccountResponses[A]
       }
+      await this.#requireLatest(action === 'login' || action === 'register')
       const economic = DURABLE.has(action)
       const id = (payload as { requestId?: unknown }).requestId
       if (economic) {
@@ -456,6 +544,7 @@ export class AccountClient {
       let online = false,
         testcap = false
       try {
+        await this.#requireLatest(true)
         const health = await this.#http('GET', '/health')
         online = true
         const testing = health.testing as { grantsEnabled?: boolean } | undefined
@@ -483,10 +572,18 @@ export class AccountClient {
         }
       } catch (error) {
         if (!(error instanceof Error) || !error.message.startsWith('UNAUTHORIZED')) online = false
+        this.#serverError =
+          error instanceof Error ? error.message.split(':')[0] : 'SERVICE_UNAVAILABLE'
       }
       return {
         user: this.#identity?.user ?? null,
-        server: { baseUrl: this.base, online, testcap },
+        server: {
+          baseUrl: this.base,
+          online,
+          testcap,
+          ...(this.#serverError ? { error: this.#serverError } : {})
+        },
+        version: { ...this.#version },
         ...(this.#snapshot ? { snapshot: this.#snapshot } : {})
       }
     })

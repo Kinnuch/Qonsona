@@ -939,6 +939,16 @@ export default {
     dataDir: 'Data folder',
     openDataDir: 'Open data folder',
     about: 'About',
+    people: 'Developer and credits',
+    developer: 'Developer',
+    credits: 'Credits',
+    creditRoles: {
+      logoDesign: 'Logo design',
+      pixelArt: 'Pixel art',
+      sponsors: 'Sponsors',
+      testing: 'Testing & feedback',
+      other: 'Other support'
+    },
     version: 'Version {v}',
     speech: 'Reading aloud',
     textVoiceMode: 'Text voice',
