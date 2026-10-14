@@ -10,16 +10,18 @@ All routes use `/v1`. JSON UTF-8, body <=32KiB, errors `{error:{code,message}}` 
 {
   "app": "qonsona",
   "mode": "exact-latest",
-  "currentVersion": "0.4.0",
+  "currentVersion": "0.4.1",
   "source": "github-latest",
   "checkedAt": 1791936000000,
   "serverTime": 1791936010000,
   "validUntil": 1791936120000,
-  "releaseUrl": "https://github.com/Kinnuch/Qonsona/releases/tag/v0.4.0"
+  "releaseUrl": "https://github.com/Kinnuch/Qonsona/releases/tag/v0.4.1"
 }
 ```
 
 The version above illustrates the format; the server fetches the actual latest formal GitHub Release at the fixed `https://api.github.com/repos/Kinnuch/Qonsona/releases/latest`. It does not use the server package version or a client-submitted target version. Drafts, prereleases, noncanonical semantic versions, missing publication dates and release URLs outside this exact repository/tag are rejected. Lookup uses no credentials, rejects redirects, limits response size to512000bytes and times out after4seconds. Concurrent requests share one lookup. Successful metadata remains valid for120seconds; `checkedAt` and `validUntil` are fixed for that lookup, while each returned `serverTime` is the current server time. Clients calculate the remaining lifetime from `validUntil-serverTime`, using elapsed time rather than their local wall clock. Once expired, any lookup failure returns `CLIENT_POLICY_UNAVAILABLE503`; an old success is never used indefinitely. Failure retries back off from10seconds to at most120seconds.
+
+Version0.4.1 clients send the required header. Published0.4.0 clients do not and must update before using the gated service. Complete the header-aware client release before enabling the corresponding live policy, then validate the deployed endpoint; this contract does not claim that rollout is complete. The policy tracks the latest formal release rather than a fixed0.4.1 value. Public registration remains unavailable while kinnuch.cn ICP filing and HTTPS are pending.
 
 Send `X-Qon-App:qonsona` and `X-Qon-Version:<actual app version>` on registration, login and every authenticated online route, including snapshot/profile reads, rankings, friends, learning, shop, draws, upbringing and home. The version must equal `currentVersion` exactly; a missing header, old version, future version, prerelease version or version prefixed with `v` returns HTTP426:
 
@@ -28,8 +30,8 @@ Send `X-Qon-App:qonsona` and `X-Qon-Version:<actual app version>` on registratio
   "error": {
     "code": "CLIENT_UPDATE_REQUIRED",
     "message": "CLIENT_UPDATE_REQUIRED",
-    "currentVersion": "0.4.0",
-    "releaseUrl": "https://github.com/Kinnuch/Qonsona/releases/tag/v0.4.0"
+    "currentVersion": "0.4.1",
+    "releaseUrl": "https://github.com/Kinnuch/Qonsona/releases/tag/v0.4.1"
   }
 }
 ```

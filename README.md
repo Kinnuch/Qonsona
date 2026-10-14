@@ -76,20 +76,21 @@ Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunn
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。
 
-## 账号版本检查（0.4.1 开发中）
+## 账号版本检查（0.4.1）
 
-开发中的账号版本要求由客户端和服务器共同核验 GitHub 最新正式版，只有版本完全一致时才允许 Qonsona 注册、登录及在线收藏。
+0.4.1 的账号版本要求由客户端和服务器共同核验 GitHub 最新正式版，只有版本完全一致时才允许 Qonsona 注册、登录及在线收藏。
 无法连接服务、暂时无法核验版本和需要更新分别提示；公开预检不携带密码或登录令牌，核验失败保留旧会话与未知交易，只暂停在线功能。
 本地学习与文件转移照常可用，旧 Qonlang 的基本账号功能保持兼容。「设置 → 关于」另加入原样沿用千语集的开发者信息和致谢。
 
-**0.4.1 尚未发布。**已发布的 0.4.0 不携带新版本头，部署时须先发布支持版本头的新客户端，再启用公网版本门禁。
-目前公网注册仍待备案与 HTTPS；本轮代码和隔离验收不表示公网服务已经恢复。细节见[账号版本说明](docs/collection.md#开发中的账号版本要求041-未发布)。
+0.4.1 已支持账号版本头，0.4.0 需更新；服务器要求始终跟随最新正式版，并非永久固定为 0.4.1。
+部署时须先完成新客户端发布再启用对应服务器策略。目前公网注册仍待备案与 HTTPS，安装新版不表示公网服务已经恢复。细节见[账号版本说明](docs/collection.md#账号版本要求041)。
 
-_The unreleased 0.4.1 account checks require the exact latest formal GitHub Release, verified by both client and server.
+_The 0.4.1 account checks require the exact latest formal GitHub Release, verified by both client and server.
 Connection failure, unverifiable policy and required updates have distinct messages. Public preflight carries no password or login token;
 failed checks retain existing sessions and unresolved transactions while pausing online features. Local learning, file transfers and existing Qonlang basic account operations remain available.
-Settings → About also adds Qonlang's original developer information and credits. Published 0.4.0 clients lack the new version header:
-publish a header-aware client before enabling the live gate. Public registration remains unavailable pending ICP filing and HTTPS._
+Settings → About also adds Qonlang's original developer information and credits. Version 0.4.1 sends the required header; 0.4.0 clients need an update.
+The requirement follows the latest formal release rather than remaining pinned to 0.4.1. Complete the client release before enabling the corresponding server policy.
+Public registration remains unavailable pending ICP filing and HTTPS; installing this version does not restore the public endpoint._
 
 ## 下载与安装
 
@@ -168,7 +169,7 @@ NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文�
 
 程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
 
-`data/release-data.json` 使用 0.4.0 的版本化数据包 `qonsona-data-0.4.0.zip`，包含十一库及逐文件大小与 SHA-256 校验。
+`data/release-data.json` 使用 0.4.1 的版本化数据包 `qonsona-data-0.4.1.zip`，包含十一库及逐文件大小与 SHA-256 校验。
 开发时可下载清单指定的完整数据包；需要重建精灵语词库时，再执行 Eldamo 管线。
 
 ```sh

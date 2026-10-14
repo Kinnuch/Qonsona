@@ -1,11 +1,11 @@
 # Changelog
 
-## 0.4.1 · unreleased
+## 0.4.1 · 2026-10-14
 
 - Require the exact latest formal GitHub Release for Qonsona registration, login and online features, checked by both client and server. Unverified or mismatched versions retain local learning with update-check and download entries; the installed version alone never authorizes online access.
 - Distinguish an unreachable account service from an unavailable latest-version policy. Public version preflight sends neither passwords nor login tokens, and preflight failures do not erase existing sessions. Retain unresolved transactions and original request IDs until a fresh version check permits recovery, preventing duplicate spending or stale-state replacement.
 - Add Developer and Credits to Settings → About, preserving Qonlang's original developer information, roles, names, links and artwork. Provide Chinese and English labels, keep pixel art at source dimensions, and retain existing version, update and engine information.
-- This update is developed and verified in isolation, without a release or changes to the user's installation. Published 0.4.0 clients lack the new version header: publish a header-aware client before enabling the live gate. Existing Qonlang basic account operations remain compatible. Public registration is still unavailable pending ICP filing and HTTPS for kinnuch.cn; local learning remains available.
+- Version 0.4.1 sends the account-version header; 0.4.0 clients need an update to a header-aware client. The server dynamically requires the latest formal GitHub Release, preserving existing accounts and assets and compatibility with Qonlang's basic account operations. Public registration is still unavailable pending ICP filing and HTTPS for kinnuch.cn; local learning remains available.
 
 ## 0.4.0 · 2026-10-13
 
