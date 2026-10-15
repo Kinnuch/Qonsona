@@ -1,4 +1,8 @@
 const errors: Record<string, [string, string]> = {
+  STARTER_SYNC_PENDING: [
+    '本机首次伙伴等待同步。请重新连接恢复，账号和本机伙伴均已保留。',
+    'Your first companion is awaiting sync. Reconnect to recover; your account and local companion are preserved.'
+  ],
   CLIENT_UPDATE_REQUIRED: [
     '请更新到最新正式版本后再登录或注册。当前可继续离线学习。',
     'Update to the latest stable version before signing in or registering. Offline learning remains available.'

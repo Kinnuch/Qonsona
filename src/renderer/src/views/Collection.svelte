@@ -15,12 +15,14 @@
   } from '@lucide/svelte'
   import { fly } from 'svelte/transition'
   import { account } from '$lib/state/account.svelte'
+  import { guestCollection } from '$lib/state/guest-collection.svelte'
   import { activity } from '$lib/state/activity.svelte'
   import { ui } from '$lib/state/ui.svelte'
   import { packs } from '$lib/state/packs.svelte'
   import { moduleVisible } from '$lib/packs/modules'
   import { i18n } from '$lib/i18n/index.svelte'
   import AccountPanel from '$lib/accounts/AccountPanel.svelte'
+  import CollectionLoginDialog from '$lib/accounts/CollectionLoginDialog.svelte'
   import CompanionSprite from '$lib/accounts/CompanionSprite.svelte'
   import CompanionBiography from '$lib/accounts/CompanionBiography.svelte'
   import ShopProducts from '$lib/accounts/ShopProducts.svelte'
@@ -58,17 +60,21 @@
   let orders = $state.raw<SupportOrder[]>([]),
     orderError = $state(''),
     orderLoading = $state(false)
+  let ordersOwner = ''
   let supportTickets = $state(1),
     rulesOpen = $state(false)
   let firstTask = $state<CompletionKind>('reading'),
     secondTask = $state<CompletionKind>('review')
   let editingDay = ''
+  let loginReason = $state<'browse' | 'purchase' | 'draw' | 'support' | null>(null)
   let confirm = $state<{
     title: string
     description: string
     action: () => Promise<boolean>
+    local?: boolean
   } | null>(null)
   let confirmationScope = 0
+  let confirmationGuestScope = 0
   let serverClock = 0,
     clockAnchor = 0,
     clockObserved: string | number | undefined,
@@ -101,12 +107,43 @@
       }
     }
   }
-  const s = $derived(account.snapshot)
-  const online = $derived(!!account.session?.server.online && !account.busy)
+  const guest = $derived(!account.session?.user)
+  $effect(() => {
+    const owner = `${account.generation}:${account.session?.user?.id ?? ''}`
+    if (owner !== ordersOwner) {
+      ordersOwner = owner
+      orders = []
+      orderError = ''
+      orderLoading = false
+      confirm = null
+    }
+  })
+  const s = $derived(guest ? guestCollection.snapshot : account.snapshot)
+  const online = $derived(
+    !guest && !!account.session?.server.online && !account.busy && !account.loading
+  )
+  const guestReady = $derived(
+    guest &&
+      account.loaded &&
+      !account.loading &&
+      !account.busy &&
+      guestCollection.loaded &&
+      !guestCollection.loading &&
+      !guestCollection.busy
+  )
   const chosen = $derived(s?.catalog.find((c) => c.id === selected) ?? s?.catalog[0])
   const owned = $derived(s?.characters.find((c) => c.id === chosen?.id))
-  const featured = $derived(s?.gallery?.find((g) => g.type === slideTypes[slide]))
-  const featuredCharacter = $derived(s?.catalog.find((c) => c.id === featured?.characterId))
+  const featured = $derived(
+    !guest ? s?.gallery?.find((g) => g.type === slideTypes[slide]) : undefined
+  )
+  const featuredCharacter = $derived(
+    guest
+      ? (s?.catalog.find((c) => c.id === guestCollection.starter?.characterId) ??
+          s?.catalog.filter((c) => c.tier === (slide === 2 ? 'SSR' : 'A') && !c.special)[
+            slide === 1 ? 1 : 0
+          ])
+      : s?.catalog.find((c) => c.id === featured?.characterId)
+  )
   const groups = $derived(
     s?.species ??
       (s
@@ -124,13 +161,25 @@
     s?.catalog.filter((c) => currentGroup?.characterIds.includes(c.id)) ?? []
   )
   const heroTitle = $derived(
-    slide === 0
-      ? tr('今日新增的馆藏', 'Today’s new acquisitions')
-      : slide === 1
-        ? tr('今日半价的相遇', 'Today’s half-price encounter')
-        : tr('人气传颂馆藏', 'Popular legendary companion')
+    guest
+      ? [
+          tr('初识伙伴 · 免费相遇', 'Your first companion · a free encounter'),
+          tr('五大系列 · 伙伴图鉴', 'Five series · the companion catalog'),
+          tr('珍贵相遇 · 图鉴预览', 'Rare encounters · catalog preview')
+        ][slide]
+      : slide === 0
+        ? tr('今日新增的馆藏', 'Today’s new acquisitions')
+        : slide === 1
+          ? tr('今日半价的相遇', 'Today’s half-price encounter')
+          : tr('人气传颂馆藏', 'Popular legendary companion')
   )
-  const probabilities = $derived(s ? nextProbabilities(s) : null)
+  const probabilities = $derived(!guest && s ? nextProbabilities(s) : null)
+  $effect(() => {
+    if (account.loaded && guest) void guestCollection.ensure()
+  })
+  $effect(() => {
+    if (!guest) loginReason = null
+  })
   $effect(() => {
     if (s && s.serverTime !== clockObserved) {
       clockObserved = s.serverTime
@@ -184,6 +233,7 @@
   ]
   onMount(() => {
     void account.ensure()
+    void guestCollection.ensure()
     const media = window.matchMedia('(prefers-reduced-motion: reduce)')
     const updateMotion = (): void => {
       reducedMotion = media.matches
@@ -211,7 +261,10 @@
   }
   function openFeatured(): void {
     if (!featuredCharacter) return
-    if (slideTypes[slide] === 'discount') {
+    if (guest && slide === 0 && !guestCollection.starter) {
+      tab = 'shop'
+      shopTier = 'A'
+    } else if (!guest && slideTypes[slide] === 'discount') {
       tab = 'shop'
       shopTier = featuredCharacter.tier
     } else {
@@ -262,6 +315,26 @@
           : tr('微光装裱', 'Glow decoration')
   }
   function askPurchase(item: AccountShopItem): void {
+    if (guest) {
+      if (item.type !== 'character' || item.tier !== 'A' || guestCollection.starter) {
+        requireLogin('purchase')
+        return
+      }
+      if (!guestReady || !item.characterId) return
+      confirmationScope = account.generation
+      confirmationGuestScope = guestCollection.generation
+      const characterId = item.characterId
+      confirm = {
+        title: tr('迎接第一位语言伙伴', 'Welcome your first companion'),
+        description: tr(
+          `免费领取${s?.catalog.find((c) => c.id === characterId)?.name.zh ?? ''}，不消耗灵墨。本机只能免费领取一位初识伙伴；选择后保存在本机，登录后可同步一次，每个账号限一位。`,
+          `Claim ${s?.catalog.find((c) => c.id === characterId)?.name.en ?? 'this companion'} for free, without spending Ink. Choose one Acquaintance companion per device. Your choice stays on this device and can be synced after sign-in, once per account.`
+        ),
+        local: true,
+        action: () => guestCollection.claim(characterId)
+      }
+      return
+    }
     confirmationScope = account.generation
     const balance = item.currency === 'points' ? s!.balances.points : s!.balances.echoes
     const currency = item.currency === 'points' ? tr('灵墨', 'Ink') : tr('余韵', 'Echoes')
@@ -282,6 +355,10 @@
     }
   }
   function askDraw(count: 1 | 10): void {
+    if (guest) {
+      requireLogin('draw')
+      return
+    }
     confirmationScope = account.generation
     const ticketSource = source,
       requestId = crypto.randomUUID(),
@@ -303,7 +380,19 @@
   async function execute(): Promise<void> {
     const c = confirm
     confirm = null
-    if (c && confirmationScope === account.generation) await c.action()
+    if (!c || confirmationScope !== account.generation) return
+    if (c.local) {
+      if (!guestReady || confirmationGuestScope !== guestCollection.generation) return
+    } else if (!online) return
+    await c.action()
+  }
+  function requireLogin(reason: 'browse' | 'purchase' | 'draw' | 'support'): void {
+    confirm = null
+    loginReason = reason
+  }
+  async function refreshCollection(): Promise<void> {
+    if (guest) await guestCollection.refresh()
+    await account.reconnect()
   }
   async function loadOrders(): Promise<void> {
     if (!online || orderLoading) return
@@ -319,10 +408,15 @@
       if (user === account.session?.user?.id && generation === account.generation)
         orderError = String(error)
     } finally {
-      orderLoading = false
+      if (user === account.session?.user?.id && generation === account.generation)
+        orderLoading = false
     }
   }
   function askSupport(): void {
+    if (guest) {
+      requireLogin('support')
+      return
+    }
     confirmationScope = account.generation
     const tickets = supportTickets,
       requestId = crypto.randomUUID()
@@ -400,31 +494,70 @@
     <button
       class="btn ghost"
       data-collection-refresh
-      disabled={account.loading || account.busy}
-      onclick={() => account.reconnect()}><RefreshCw size={15} />{tr('刷新', 'Refresh')}</button
+      disabled={account.loading || account.busy || guestCollection.loading || guestCollection.busy}
+      onclick={refreshCollection}><RefreshCw size={15} />{tr('刷新', 'Refresh')}</button
     >
   </header>
-  {#if !account.session?.user}<AccountPanel />
-  {:else if !s}<p role="status">
-      {account.loading
+  {#if !s}<p role="status">
+      {account.loading || guestCollection.loading
         ? tr('正在读取馆藏…', 'Loading collection…')
         : tr('馆藏尚不可用，请重新连接。', 'Collection unavailable. Please reconnect.')}
     </p>
-    <AccountPanel />
+    {#if !guest}<AccountPanel />{/if}
   {:else}
-    <div class="wallet" data-wallet>
-      <span><Feather size={16} />{tr('灵墨', 'Ink')} <b data-points>{s.balances.points}</b></span>
-      <span
-        ><Ticket size={16} />{tr('学习笺', 'Learning tickets')}
-        <b data-learning-tickets>{s.balances.tickets.learning}</b></span
-      >
-      <span
-        >{tr('支持寻访笺', 'Support tickets')}
-        <b data-support-tickets>{s.balances.tickets.support}</b></span
-      >
-      <span>{tr('余韵', 'Echoes')} <b>{s.balances.echoes}</b></span>
-    </div>
-    {#if !account.session.server.online}<div class="notice" role="status">
+    {#if guest}<section class="guest-welcome" data-guest-collection>
+        <div>
+          <p class="eyebrow">{tr('先相遇，再一起成长', 'A first encounter, a new journey')}</p>
+          <h2>
+            {guestCollection.starter
+              ? tr('第一位伙伴，已经在这里等你。', 'Your first companion is waiting here.')
+              : tr(
+                  '挑一位初识伙伴，免费开启旅程。',
+                  'Choose a free companion to begin your journey.'
+                )}
+          </h2>
+          <p>
+            {tr(
+              '未登录也可浏览收藏馆。本机可任选一位初识伙伴免费领取；登录后可同步一次，每个账号限一位，并解锁灵墨、寻访及更多兑换。',
+              'Browse the gallery without signing in. Claim one Acquaintance companion for free on this device; sync it after sign-in, once per account, and unlock Ink, discovery and further redemptions.'
+            )}
+          </p>
+        </div>
+        <div class="actions">
+          {#if !guestCollection.starter}<button
+              class="btn primary"
+              data-guest-choose-starter
+              onclick={() => {
+                tab = 'shop'
+                shopTier = 'A'
+              }}>{tr('挑选免费伙伴', 'Choose a free companion')}<ArrowUpRight size={15} /></button
+            >{/if}
+          <button class="btn" data-collection-login onclick={() => requireLogin('browse')}
+            >{tr('登录 / 注册', 'Sign in / Register')}</button
+          >
+        </div>
+      </section>
+      {#if guestCollection.error}<p class="notice" role="alert" data-guest-collection-error>
+          {tr(
+            '本机馆藏暂未读取成功，请刷新后重试。',
+            'The local collection could not be loaded. Refresh and try again.'
+          )}
+        </p>{/if}
+    {:else}
+      <div class="wallet" data-wallet>
+        <span><Feather size={16} />{tr('灵墨', 'Ink')} <b data-points>{s.balances.points}</b></span>
+        <span
+          ><Ticket size={16} />{tr('学习笺', 'Learning tickets')}
+          <b data-learning-tickets>{s.balances.tickets.learning}</b></span
+        >
+        <span
+          >{tr('支持寻访笺', 'Support tickets')}
+          <b data-support-tickets>{s.balances.tickets.support}</b></span
+        >
+        <span>{tr('余韵', 'Echoes')} <b>{s.balances.echoes}</b></span>
+      </div>
+    {/if}
+    {#if !guest && !account.session?.server.online}<div class="notice" role="status">
         {tr(
           '离线只读：本地学习可继续，暂不能消费、寻访或修改余额。重新连接后再试。',
           'Offline, read-only: local learning continues. Spending, discovery and balance changes require reconnection.'
@@ -432,7 +565,7 @@
           >{tr('重新连接', 'Reconnect')}</button
         >
       </div>{/if}
-    {#if account.error}<div class="notice" role="alert">
+    {#if !guest && account.error}<div class="notice" role="alert">
         {accountError(account.error, i18n.locale)}{#if account.retryable}<button
             class="btn"
             disabled={!online}
@@ -521,22 +654,30 @@
                         ? tr('月度纪念', 'Monthly memorial')
                         : tier(featuredCharacter.tier)}</span
                     >
-                    {#if slide === 1}<span class="discount-badge">−50%</span>{/if}
+                    {#if !guest && slide === 1}<span class="discount-badge">−50%</span>{/if}
                   </p>
-                  {#if slide === 1 && featured?.price !== undefined}<p class="hero-price">
+                  {#if !guest && slide === 1 && featured?.price !== undefined}<p class="hero-price">
                       <del>{featured.originalPrice}</del> <strong>{featured.price}</strong>
                       {tr('灵墨', 'Ink')}
                     </p>{/if}
-                  {#if slide === 2}<p class="muted">
+                  {#if !guest && slide === 2}<p class="muted">
                       {tr(
                         `${featured?.ownerCount ?? 0} 位学习者珍藏`,
                         `Collected by ${featured?.ownerCount ?? 0} learners`
                       )}
                     </p>{/if}
+                  {#if guest}<p class="muted">
+                      {tr(
+                        '本地图鉴预览；每日折扣与本期寻访奖池在登录后显示。',
+                        'Local catalog preview. Sign in for daily discounts and the current discovery pool.'
+                      )}
+                    </p>{/if}
                   <button class="btn primary" data-gallery-featured onclick={openFeatured}
-                    >{slide === 1
-                      ? tr('前往兑换', 'Visit shop')
-                      : tr('查看语言伙伴', 'View companion')}<ArrowUpRight size={15} /></button
+                    >{guest && slide === 0 && !guestCollection.starter
+                      ? tr('挑选免费伙伴', 'Choose a free companion')
+                      : !guest && slide === 1
+                        ? tr('前往兑换', 'Visit shop')
+                        : tr('查看语言伙伴', 'View companion')}<ArrowUpRight size={15} /></button
                   >
                 {:else}<p class="muted hero-empty">
                     {slide === 0
@@ -567,11 +708,17 @@
                 data-hero-dot={index}
                 data-gallery-dot={index}
                 class:active={slide === index}
-                aria-label={[
-                  tr('今日新增', 'Today’s new acquisitions'),
-                  tr('今日半价', 'Today’s discount'),
-                  tr('人气传颂', 'Popular legend')
-                ][index]}
+                aria-label={(guest
+                  ? [
+                      tr('初识伙伴', 'First companion'),
+                      tr('伙伴图鉴', 'Companion catalog'),
+                      tr('珍贵相遇', 'Rare encounters')
+                    ]
+                  : [
+                      tr('今日新增', 'Today’s new acquisitions'),
+                      tr('今日半价', 'Today’s discount'),
+                      tr('人气传颂', 'Popular legend')
+                    ])[index]}
                 aria-current={slide === index ? 'true' : undefined}
                 onkeydown={(event) => {
                   if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
@@ -702,7 +849,7 @@
               <button
                 class="btn primary"
                 data-companion-select={chosen.id}
-                disabled={!online || !owned || s.companion?.currentId === chosen.id}
+                disabled={guest || !online || !owned || s.companion?.currentId === chosen.id}
                 onclick={() =>
                   account.mutate('selectCompanion', {
                     requestId: crypto.randomUUID(),
@@ -717,6 +864,20 @@
                     ? tr('选择为养成伙伴', 'Choose as your companion')
                     : tr('珍藏后可选择养成', 'Collect to choose this companion')}{/if}
               </button>
+              {#if guest && !owned && chosen.tier === 'A' && !chosen.special}
+                {@const starterItem = s.shop.find(
+                  (item) => item.type === 'character' && item.characterId === chosen.id
+                )}
+                {#if starterItem}<button
+                    class="btn"
+                    data-guest-detail-claim
+                    disabled={guestCollection.busy || account.loading || account.busy}
+                    onclick={() => askPurchase(starterItem)}
+                    >{guestCollection.starter
+                      ? tr('登录兑换更多', 'Sign in for more companions')
+                      : tr('免费迎接这位伙伴', 'Welcome this companion for free')}</button
+                  >{/if}
+              {/if}
             </div>
           </div>
           <CompanionBiography character={chosen} companion={s.companion} />
@@ -782,8 +943,19 @@
         <LegacyCollection />
       </details>
     {:else if tab === 'home'}
-      <CompanionHome snapshot={s} {online} />
+      <CompanionHome snapshot={s} {online} {guest} />
     {:else if tab === 'tasks'}
+      {#if guest}<div class="notice" data-guest-tasks>
+          <span
+            >{tr(
+              '登录后，联网完成学习与每日任务即可获得灵墨。未登录时学习记录仍保存在本机，当前预览不计入账号任务。',
+              'Sign in and learn online to earn Ink from study and daily tasks. Guest study records stay on this device; this preview does not complete account tasks.'
+            )}</span
+          >
+          <button class="btn" onclick={() => requireLogin('browse')}
+            >{tr('登录开启任务', 'Sign in for tasks')}</button
+          >
+        </div>{/if}
       <section class="card">
         <h2>{tr('今日学习', 'Today’s learning')}</h2>
         <p>
@@ -909,6 +1081,9 @@
           items={s.shop.filter((item) => item.type === 'character' && item.tier === shopTier)}
           snapshot={s}
           {online}
+          {guest}
+          starterAvailable={!guestCollection.starter}
+          busy={guest && (!guestReady || guestCollection.busy)}
           redeem={askPurchase}
         />
       {:else}
@@ -937,6 +1112,10 @@
               </div>
               <p class="eyebrow">{tier(quality)}</p>
               <h3>{tr(`兑换${tier(quality)}语言伙伴`, `Redeem ${tier(quality)} companions`)}</h3>
+              {#if guest && quality === 'A' && !guestCollection.starter}<small
+                  class="free-starter-label"
+                  >{tr('本机任选一只 · 免费一次', 'Choose one on this device · free once')}</small
+                >{/if}
               <span class="shop-tier-link"
                 >{tr('进入挑选', 'Choose a companion')}<ArrowUpRight size={16} /></span
               >
@@ -953,6 +1132,8 @@
           items={s.shop.filter((item) => item.type !== 'character' && item.currency === 'points')}
           snapshot={s}
           {online}
+          {guest}
+          busy={guest && (!account.loaded || account.loading || account.busy)}
           redeem={askPurchase}
         />
         <section class="echo-shop" data-echo-shop>
@@ -973,6 +1154,8 @@
             items={s.shop.filter((item) => item.currency === 'echoes' && item.type === 'ticket')}
             snapshot={s}
             {online}
+            {guest}
+            busy={guest && (!account.loaded || account.loading || account.busy)}
             redeem={askPurchase}
           />
           <div class="furniture-empty" data-furniture-shop>
@@ -1001,22 +1184,26 @@
             /></label
           ><button
             class="btn"
-            disabled={!online ||
+            disabled={(!guest && !online) ||
+              account.busy ||
               !Number.isInteger(supportTickets) ||
               supportTickets < 1 ||
               supportTickets > 10}
             data-support-create
             onclick={askSupport}>{tr('创建测试订单', 'Create test order')}</button
-          ><button class="btn ghost" disabled={!online || orderLoading} onclick={loadOrders}
+          ><button
+            class="btn ghost"
+            disabled={(!guest && !online) || orderLoading}
+            onclick={() => (guest ? requireLogin('support') : loadOrders())}
             >{tr('查看订单', 'View orders')}</button
-          >{#if account.lastOrder}<p data-support-order>
+          >{#if !guest && account.lastOrder}<p data-support-order>
               {account.lastOrder.id} · {account.lastOrder.amountFen / 100} CNY · {orderStatus(
                 account.lastOrder.status,
                 i18n.locale
               )}
-            </p>{/if}{#if orderError}<p role="alert">
+            </p>{/if}{#if !guest && orderError}<p role="alert">
               {accountError(orderError, i18n.locale)}
-            </p>{/if}{#each orders as order (order.id)}<p>
+            </p>{/if}{#each guest ? [] : orders as order (order.id)}<p>
               {order.id} · {order.tickets}
               {tr('张', 'tickets')} · {order.amountFen / 100} CNY · {orderStatus(
                 order.status,
@@ -1031,8 +1218,10 @@
           role="status"
         >
           {tr(
-            '本期奖池尚不可用，请刷新账号连接。',
-            'The current pool is unavailable. Please refresh your connection.'
+            guest ? '登录后查看本期寻访长廊与奖池。' : '本期奖池尚不可用，请刷新账号连接。',
+            guest
+              ? 'Sign in to see the current discovery corridor and pool.'
+              : 'The current pool is unavailable. Please refresh your connection.'
           )}
         </p>{/if}
       <section class="card discovery">
@@ -1058,35 +1247,43 @@
           <button
             class="btn primary"
             data-draw-one
-            disabled={!online || !s.drawPool || s.balances.tickets[source] < 1}
+            disabled={account.busy ||
+              (!guest && (!online || !s.drawPool || s.balances.tickets[source] < 1))}
             onclick={() => askDraw(1)}>{tr('寻访一次 · 1 张', 'Discover once · 1 ticket')}</button
           ><button
             class="btn"
             data-draw-ten
-            disabled={!online || !s.drawPool || s.balances.tickets[source] < 10}
+            disabled={account.busy ||
+              (!guest && (!online || !s.drawPool || s.balances.tickets[source] < 10))}
             onclick={() => askDraw(10)}
             >{tr('寻访十次 · 10 张', 'Discover ten · 10 tickets')}</button
           ><button class="btn ghost" onclick={() => (rulesOpen = !rulesOpen)}
             >{tr('查看概率与保底', 'Odds and guarantees')}</button
           >
         </div>
-        <p data-pity>
-          {tr('距上次传颂', 'Since last Legend')}: {s.pity.sinceSSR} · {tr(
-            '距上次高阶',
-            'Since last high tier'
-          )}: {s.pity.sinceHigh}
-        </p>
-        <p>
-          {tr('下一抽传颂概率', 'Next Legend chance')}: {((probabilities?.SSR ?? 0) * 100).toFixed(
-            1
-          )}% · {tr('至多', 'At most')}
-          {Math.max(1, Number(s.drawRules.hardSSR) - s.pity.sinceSSR)}
-          {tr('抽遇传颂', 'draws to Legend')} · {Math.max(
-            1,
-            Number(s.drawRules.highPity) - s.pity.sinceHigh
-          )}
-          {tr('抽遇珍遇或传颂', 'draws to Rare encounter or Legend')}
-        </p>
+        {#if !guest}<p data-pity>
+            {tr('距上次传颂', 'Since last Legend')}: {s.pity.sinceSSR} · {tr(
+              '距上次高阶',
+              'Since last high tier'
+            )}: {s.pity.sinceHigh}
+          </p>
+          <p>
+            {tr('下一抽传颂概率', 'Next Legend chance')}: {(
+              (probabilities?.SSR ?? 0) * 100
+            ).toFixed(1)}% · {tr('至多', 'At most')}
+            {Math.max(1, Number(s.drawRules.hardSSR) - s.pity.sinceSSR)}
+            {tr('抽遇传颂', 'draws to Legend')} · {Math.max(
+              1,
+              Number(s.drawRules.highPity) - s.pity.sinceHigh
+            )}
+            {tr('抽遇珍遇或传颂', 'draws to Rare encounter or Legend')}
+          </p>
+        {:else}<p class="muted" data-guest-draw-help>
+            {tr(
+              '寻访记录与保底保存在账号中，登录后显示。',
+              'Discovery history and guarantees are saved to your account and shown after sign-in.'
+            )}
+          </p>{/if}
         {#if rulesOpen}<div class="notice" data-draw-rules>
             <p>
               {tr(
@@ -1105,7 +1302,7 @@
             </p>
           </div>{/if}
       </section>
-      {#if account.lastDraw.length}<section aria-live="polite" data-draw-results>
+      {#if !guest && account.lastDraw.length}<section aria-live="polite" data-draw-results>
           <h3>{tr('本次相遇', 'Your encounters')}</h3>
           <div class="grid">
             {#each account.lastDraw as result, i (i)}{@const c = s.catalog.find(
@@ -1123,6 +1320,23 @@
               </div>{/each}
           </div>
         </section>{/if}
+    {:else if guest}<section class="card" data-guest-inventory>
+        <h2>{tr('本机珍藏', 'Saved on this device')}</h2>
+        <p>
+          {guestCollection.starter
+            ? tr(
+                '第一位伙伴已保存在本机。登录后可同步首次伙伴，并查看账号背包与签到记录。',
+                'Your first companion is saved on this device. Sign in to sync your first companion and see account inventory and check-ins.'
+              )
+            : tr(
+                '你还没有领取第一位伙伴。前往商店，可任选一位初识伙伴免费领取。',
+                'Your first companion is waiting. Visit the shop to choose one Acquaintance companion for free.'
+              )}
+        </p>
+        <button class="btn" onclick={() => requireLogin('browse')}
+          >{tr('登录查看账号背包', 'Sign in for account inventory')}</button
+        >
+      </section>
     {:else}
       <section class="card">
         <h2>{tr('背包', 'Inventory')}</h2>
@@ -1186,21 +1400,77 @@
       <p>{confirm.description}</p>
       <p class="muted">
         {tr(
-          '以服务器核验结果为准。若连接中断，可重试原请求。',
-          'Subject to server validation. If the connection fails, retry the original request.'
+          confirm.local
+            ? '本次选择只保存到本机，不创建账号，也不会扣除灵墨。'
+            : '以服务器核验结果为准。若连接中断，可重试原请求。',
+          confirm.local
+            ? 'This choice is saved on this device. It does not create an account or spend Ink.'
+            : 'Subject to server validation. If the connection fails, retry the original request.'
         )}
       </p>
       <div class="actions">
         <button class="btn" data-transaction-cancel onclick={() => (confirm = null)}
           >{tr('取消', 'Cancel')}</button
-        ><button class="btn primary" data-transaction-confirm disabled={!online} onclick={execute}
-          >{tr('确认', 'Confirm')}</button
+        ><button
+          class="btn primary"
+          data-transaction-confirm
+          disabled={confirm.local ? !guestReady : !online}
+          onclick={execute}>{tr('确认', 'Confirm')}</button
         >
       </div>
     </div>
   </div>{/if}
+{#if loginReason}<CollectionLoginDialog
+    reason={loginReason}
+    close={() => (loginReason = null)}
+  />{/if}
 
 <style>
+  .guest-welcome {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 26px;
+    margin: 0 0 25px;
+    border: 1px solid var(--gallery-border);
+    border-radius: 18px;
+    background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--gallery-sage) 17%, transparent),
+      var(--gallery-paper)
+    );
+  }
+  .guest-welcome h2 {
+    font-size: 21px;
+    margin: 8px 0;
+  }
+  .guest-welcome p:not(.eyebrow) {
+    max-width: 650px;
+    margin: 7px 0 0;
+    line-height: 1.7;
+    font-size: 13px;
+    color: var(--text-2);
+  }
+  .guest-welcome .actions {
+    flex-shrink: 0;
+    flex-direction: column;
+  }
+  .free-starter-label {
+    color: var(--gallery-ink);
+    margin: 0 0 14px;
+    font-size: 12px;
+  }
+  @media (max-width: 800px) {
+    .guest-welcome {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 20px;
+    }
+    .guest-welcome .actions {
+      flex-direction: row;
+    }
+  }
   .glow .portrait {
     box-shadow:
       0 0 0 2px color-mix(in srgb, var(--accent) 30%, transparent),

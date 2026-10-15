@@ -21,6 +21,7 @@ async function fixture() {
     snapshot: { companion: { currentId: 'companion-1' } },
     reportCompanionAnswer: vi.fn(async () => ({ accepted: true, xp: 5, gifts: [] }))
   }
+  const guestCollection = { snapshot: { companion: { currentId: 'companion-2' } } }
   const audio = {
     canSay: vi.fn(() => true),
     say: vi.fn(async () => {}),
@@ -41,6 +42,7 @@ async function fixture() {
   new Function('require', 'module', 'exports', js.code)(
     (id: string) => {
       if (id === './account.svelte') return { account }
+      if (id === './guest-collection.svelte') return { guestCollection }
       if (id === './audio.svelte') return { audio }
       if (id === './ui.svelte') return { ui }
       if (id === '$lib/accounts/companion-events') return events
@@ -50,10 +52,25 @@ async function fixture() {
     module,
     module.exports
   )
-  return { state: new module.exports.CompanionState(), account, audio, ui, values }
+  return { state: new module.exports.CompanionState(), account, guestCollection, audio, ui, values }
 }
 
 describe('companion evidence and account boundaries', () => {
+  it('encourages a guest without sending answers or minting cloud XP', async () => {
+    const f = await fixture()
+    f.account.session = { user: null } as never
+    f.state.correct('en', 'guest-answer')
+    expect(f.state.message?.zh).toBeTruthy()
+    expect(f.state.message?.xp).toBe(0)
+    expect(f.account.reportCompanionAnswer).not.toHaveBeenCalled()
+    f.state.configure({ position: { x: 12, y: 20 } })
+    expect(f.values.has('qonsona:companion:local:guest')).toBe(true)
+    f.account.session = { user: { id: 'alice' } }
+    f.state.correct('en', 'logged-in-answer')
+    await Promise.resolve()
+    expect(f.account.reportCompanionAnswer).toHaveBeenCalledTimes(1)
+    expect(f.state.preferences.position).toBeNull()
+  })
   it('keeps the first objective correct answer distinct from undo/reveal repeats and new questions', async () => {
     const f = await fixture(),
       questions = [{}, {}]

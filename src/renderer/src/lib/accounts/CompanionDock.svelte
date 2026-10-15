@@ -2,6 +2,7 @@
   import { onMount, untrack } from 'svelte'
   import { BookOpen, Grip, Home, MessageCircle, Volume2, X } from '@lucide/svelte'
   import { account } from '$lib/state/account.svelte'
+  import { guestCollection } from '$lib/state/guest-collection.svelte'
   import { companion } from '$lib/state/companion.svelte'
   import { audio } from '$lib/state/audio.svelte'
   import { ui } from '$lib/state/ui.svelte'
@@ -12,17 +13,16 @@
   let options = $state(false)
   let dock = $state<HTMLDivElement>()
   let drag: { id: number; dx: number; dy: number } | null = null
-  const character = $derived(
-    account.snapshot?.catalog.find((c) => c.id === account.snapshot?.companion?.currentId)
-  )
+  const snapshot = $derived(account.session?.user ? account.snapshot : guestCollection.snapshot)
+  const character = $derived(snapshot?.catalog.find((c) => c.id === snapshot?.companion?.currentId))
   const progress = $derived(
-    account.snapshot?.companion?.progress.find((p) => p.characterId === character?.id)
+    snapshot?.companion?.progress.find((p) => p.characterId === character?.id)
   )
   const moved = $derived(companion.preferences.position)
   const message = $derived(companion.message)
   const tr = (zh: string, en: string): string => (i18n.locale === 'zh' ? zh : en)
   $effect(() => {
-    const id = account.session?.user?.id ?? ''
+    const id = account.session?.user?.id ?? (character ? 'local:guest' : '')
     untrack(() => companion.connectUser(id))
   })
   function clamp(): void {
@@ -88,7 +88,7 @@
 </script>
 
 <svelte:window onresize={clamp} />
-{#if account.session?.user && character}
+{#if character}
   <div class="dock-space" data-companion-space>
     <div
       bind:this={dock}
@@ -140,7 +140,11 @@
         ><CompanionSprite {character} width={82} /></button
       >
       <div class="caption">
-        <strong>{pick(character.name)}</strong><span>{progress?.xp ?? 0} XP</span>
+        <strong>{pick(character.name)}</strong><span
+          >{account.session?.user
+            ? `${progress?.xp ?? 0} XP`
+            : tr('本机伙伴', 'Local companion')}</span
+        >
       </div>
       {#if options}
         <div class="options" data-companion-settings>

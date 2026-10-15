@@ -47,6 +47,13 @@
 </script>
 
 <section class="account-panel" data-account-panel>
+  {#if account.session?.starterSync === 'pending'}
+    <p class="muted" role="status" data-starter-sync-pending>
+      {i18n.locale === 'zh'
+        ? '本机首次伙伴仍保留，暂未同步到账号。请点击「重新连接」重试；账号只能同步一只首次伙伴。'
+        : 'Your first companion remains on this device and is awaiting account sync. Choose Reconnect to retry; each account can sync one first companion.'}
+    </p>
+  {/if}
   <div
     class="version-status"
     class:blocked={version?.status !== 'current'}

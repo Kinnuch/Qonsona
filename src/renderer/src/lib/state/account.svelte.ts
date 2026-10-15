@@ -88,6 +88,8 @@ export class AccountState {
       this.#epoch++
       this.session = this.session ? { ...this.session, user: null } : null
       this.snapshot = null
+      this.lastDraw = []
+      this.lastOrder = null
       this.#retry = null
       this.retryable = false
     } else if (
@@ -109,7 +111,7 @@ export class AccountState {
     await this.#loading
   }
   async reconnect(): Promise<void> {
-    const epoch = this.#epoch
+    let epoch = this.#epoch
     this.loading = true
     try {
       const session = await platform.account.session()
@@ -117,8 +119,11 @@ export class AccountState {
       if (session.server.online) this.#needsRecovery = false
       const previous = this.session?.user?.id
       this.session = session
-      if (previous && previous !== session.user?.id) {
+      if (previous !== session.user?.id) {
+        epoch = ++this.#epoch
         this.snapshot = null
+        this.lastDraw = []
+        this.lastOrder = null
         this.#retry = null
         this.retryable = false
       }
@@ -148,6 +153,8 @@ export class AccountState {
     this.error = ''
     this.#retry = null
     this.retryable = false
+    this.lastDraw = []
+    this.lastOrder = null
     try {
       const response =
         mode === 'register'
@@ -160,11 +167,15 @@ export class AccountState {
       const session = await platform.account.session()
       if (!this.#current(epoch)) return false
       if (session.server.online) this.#needsRecovery = false
-      this.session = { ...session, user: response.user }
+      this.session = session
       this.snapshot = null
-      this.#apply(response.snapshot)
+      if (session.user?.id === response.user.id) this.#apply(response.snapshot)
       this.#apply(session.snapshot)
       this.loaded = true
+      if (session.user?.id !== response.user.id) {
+        this.error = 'UNAUTHORIZED'
+        return false
+      }
       return true
     } catch (error) {
       if (this.#current(epoch)) this.#failure(error)

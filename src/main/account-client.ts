@@ -12,6 +12,7 @@ import type {
 
 export const ACCOUNT_API = 'https://kinnuch.cn/qon-api/v1'
 const DURABLE = new Set<AccountAction>([
+  'claimStarter',
   'purchase',
   'draw',
   'useItem',
@@ -27,6 +28,7 @@ const DURABLE = new Set<AccountAction>([
   'updateHome'
 ])
 const ROUTES: Record<AccountAction, [string, string]> = {
+  claimStarter: ['POST', '/collection/starter'],
   register: ['POST', '/auth/register'],
   login: ['POST', '/auth/login'],
   logout: ['POST', '/auth/logout'],
@@ -94,6 +96,29 @@ function validSnapshot(value: unknown, userId: string): value is CollectionSnaps
     new Set(v).size === v.length
   const pool = s.drawPool
   const home = s.home
+  const starter = s.starter
+  if (
+    starter !== undefined &&
+    (!starter ||
+      typeof starter !== 'object' ||
+      typeof starter.characterId !== 'string' ||
+      !starter.characterId ||
+      !natural(starter.claimedAt) ||
+      starter.source !== 'guest-starter' ||
+      !Array.isArray(s.catalog) ||
+      !s.catalog.some(
+        (character) =>
+          character?.id === starter.characterId && character.tier === 'A' && !character.special
+      ) ||
+      !Array.isArray(s.characters) ||
+      !s.characters.some(
+        (character) =>
+          character?.id === starter.characterId &&
+          Number.isSafeInteger(character.count) &&
+          character.count > 0
+      ))
+  )
+    return false
   if (
     pool !== undefined &&
     (!pool ||
@@ -420,6 +445,12 @@ export class AccountClient {
       (snapshotValue !== undefined && (!expectedId || !validSnapshot(snapshotValue, expectedId)))
     )
       throw new Error('INVALID_RESPONSE: Invalid account snapshot')
+    if (
+      action === 'claimStarter' &&
+      (typeof data.characterId !== 'string' ||
+        data.characterId !== (snapshotValue as CollectionSnapshot).starter?.characterId)
+    )
+      throw new Error('INVALID_RESPONSE: Invalid starter result')
     if (action === 'draw') {
       const results = data.results as Record<string, unknown>[] | undefined
       if (

@@ -16,6 +16,7 @@
   import UpdateNotice from '$lib/ui/UpdateNotice.svelte'
   import Toasts from '$lib/ui/Toasts.svelte'
   import { account } from '$lib/state/account.svelte'
+  import { guestCollection } from '$lib/state/guest-collection.svelte'
 
   let ready = $state(false)
 
@@ -25,6 +26,7 @@
     // 学习界面可点击之前加载统计，完成事件才能进入关窗保存屏障。
     await activity.start()
     void account.ensure()
+    void guestCollection.ensure()
     ready = true
     void audio.loadVoices()
     // 这次启动时用备份恢复过：说一声

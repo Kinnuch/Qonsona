@@ -48,7 +48,9 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 缺少对齐译文时不猜句意，材料不足时少出或不出题。答案、完成状态及历史随文章指纹保存和转移。
 新闻节选只代表读完软件保存的标题与导语，不表示读过来源全文。
 
-0.4.0 的收藏系统使用 Qonsona / Qonlang 共享账号，服务器同步灵墨、语言伙伴、道具和寻访保底。
+0.4.2 未发布版允许未登录浏览收藏，并从初识档任选一只免费伙伴，领取记录保存在本机、重启后保留。
+兑换更多伙伴、寻访或购买点券时会弹出登录界面；登录成功后首只伙伴只同步一次，取消登录不会消费。
+收藏的在线功能使用 Qonsona / Qonlang 共享账号，服务器同步灵墨、语言伙伴、道具和寻访保底。
 学习时间与每日任意/指定板块任务获得灵墨；商店兑换初识/相知语言伙伴、寻访笺与续页笺，高档语言伙伴通过寻访获得。
 传颂基础概率 0.6%，20 次珍遇保底、90 次传颂保底，学习/支持券共用保底。旧版已解锁伙伴保留为纪念。
 新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成伙伴。当前只有模拟支持订单，真实收款关闭。
@@ -63,7 +65,9 @@ _Download the verified Supertonic 3 pack in Settings → Speech for local neural
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
 Personal/author recordings remain first choice; IPA uses the separate phonetic approximation with explicit unsupported-symbol errors.
 See the [speech guide](docs/speech.md) for model licences and limits. Reading tasks use actual source evidence and aligned translations,
-with explicit limits for excerpts and insufficient material. Version 0.4.0 collection uses shared Qonlang/Qonsona accounts,
+with explicit limits for excerpts and insufficient material. Unreleased 0.4.2 allows visitors to browse the collection and choose one free Acquaintance companion, saved locally across restarts.
+Further redemptions, draws and support-ticket purchases open a login dialog. The starter syncs once after successful login; dismissing login spends nothing.
+Online collection uses shared Qonlang/Qonsona accounts,
 server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6% base SSR, hard pity 90).
 Leaderboard participation is optional. Support orders are simulated; real payments remain disabled.
 Weekly discovery galleries feature one Legend per seven-day period, with no repeats until the full cycle ends and shared pity retained.

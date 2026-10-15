@@ -8,11 +8,17 @@
     items,
     snapshot,
     online,
+    guest = false,
+    starterAvailable = false,
+    busy = false,
     redeem
   }: {
     items: AccountShopItem[]
-    snapshot: CollectionSnapshot
+    snapshot: Omit<CollectionSnapshot, 'user'>
     online: boolean
+    guest?: boolean
+    starterAvailable?: boolean
+    busy?: boolean
     redeem: (item: AccountShopItem) => void
   } = $props()
   const tr = (zh: string, en: string): string => (i18n.locale === 'zh' ? zh : en)
@@ -35,45 +41,66 @@
     {@const already =
       item.type === 'character' && snapshot.characters.some((c) => c.id === item.characterId)}
     {@const character = snapshot.catalog.find((c) => c.id === item.characterId)}
+    {@const freeStarter =
+      guest &&
+      starterAvailable &&
+      item.type === 'character' &&
+      character?.tier === 'A' &&
+      !character.special}
     <section class="product" data-shop-product={item.id}>
       <div class="art">
         {#if character}<CompanionSprite {character} width={106} />
         {:else if item.type === 'ticket'}<Ticket size={40} strokeWidth={1.2} />
         {:else}<CalendarDays size={40} strokeWidth={1.2} />{/if}
-        {#if item.discount}<span class="discount">−50%</span>{/if}
+        {#if !guest && item.discount}<span class="discount">−50%</span>{/if}
       </div>
       <h3>{itemName(item)}</h3>
       <p class="price">
-        {#if item.originalPrice && item.originalPrice !== item.price}<del>{item.originalPrice}</del
-          >{/if}
-        <strong>{item.price}</strong><small
-          >{item.currency === 'points' ? tr('灵墨', 'Ink') : tr('余韵', 'Echoes')}</small
-        >
+        {#if freeStarter}<strong>{tr('免费', 'Free')}</strong><small
+            >{tr('本机任选一只 · 限一次', 'Choose one on this device · once')}</small
+          >
+        {:else}
+          {#if !guest && item.originalPrice && item.originalPrice !== item.price}<del
+              >{item.originalPrice}</del
+            >{/if}
+          <strong>{item.price}</strong><small
+            >{item.currency === 'points' ? tr('灵墨', 'Ink') : tr('余韵', 'Echoes')}</small
+          >
+        {/if}
       </p>
       <p class="description">
-        {item.type === 'character'
-          ? tr('直接珍藏这一位语言伙伴。', 'Collect this language companion directly.')
-          : item.type === 'ticket'
-            ? tr(
-                '兑换一张学习寻访笺，用于一次寻访。',
-                'Redeem one learning ticket for one discovery.'
-              )
-            : tr(
-                '补记过去七天未签到的一天，不补学习奖励或月度任务进度。',
-                'Make up one missed check-in in the last seven days; no study rewards or monthly task progress.'
-              )}
+        {freeStarter
+          ? tr(
+              '迎接第一位初识伙伴，无需登录、不消耗灵墨，保存在本机。',
+              'Welcome your first Acquaintance companion without signing in or spending Ink. Saved on this device.'
+            )
+          : item.type === 'character'
+            ? tr('直接珍藏这一位语言伙伴。', 'Collect this language companion directly.')
+            : item.type === 'ticket'
+              ? tr(
+                  '兑换一张学习寻访笺，用于一次寻访。',
+                  'Redeem one learning ticket for one discovery.'
+                )
+              : tr(
+                  '补记过去七天未签到的一天，不补学习奖励或月度任务进度。',
+                  'Make up one missed check-in in the last seven days; no study rewards or monthly task progress.'
+                )}
       </p>
       <button
         class="redeem"
         data-shop-item={item.id}
-        disabled={!online || already || balance < item.price}
+        disabled={busy || (!guest && (!online || already || balance < item.price))}
         onclick={() => redeem(item)}
       >
-        {already
-          ? tr('已拥有', 'Owned')
-          : balance < item.price
-            ? tr('余额不足', 'Insufficient balance')
-            : tr('兑换', 'Redeem')}
+        {freeStarter
+          ? tr('免费领取', 'Claim for free')
+          : guest
+            ? tr('登录后兑换', 'Sign in to redeem')
+            : already
+              ? tr('已拥有', 'Owned')
+              : balance < item.price
+                ? tr('余额不足', 'Insufficient balance')
+                : tr('兑换', 'Redeem')}
       </button>
     </section>
   {/each}

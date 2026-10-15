@@ -1,4 +1,5 @@
 import { account } from './account.svelte'
+import { guestCollection } from './guest-collection.svelte'
 import { audio } from './audio.svelte'
 import { ui } from './ui.svelte'
 import { LANG_CODES } from '$shared/lang/types'
@@ -78,9 +79,12 @@ export class CompanionState {
   /** Call only after objective grading. A revealed answer or subjective flashcard has no call site. */
   correct(language: string, answerId: string): void {
     const user = account.session?.user?.id
-    const characterId = account.snapshot?.companion?.currentId
-    this.connectUser(user ?? '')
-    if (!user || !characterId || !answerId || this.#answers.has(answerId)) return
+    const characterId = user
+      ? account.snapshot?.companion?.currentId
+      : guestCollection.snapshot?.companion?.currentId
+    const owner = user ?? (characterId ? 'local:guest' : '')
+    this.connectUser(owner)
+    if (!owner || !characterId || !answerId || this.#answers.has(answerId)) return
     this.#answers.add(answerId)
     // Bound memory; recent server IDs remain independently deduplicated on the server.
     if (this.#answers.size > 4000) this.#answers.delete(this.#answers.values().next().value!)
@@ -93,23 +97,24 @@ export class CompanionState {
       gifts: []
     }
     this.message = message
-    void account
-      .reportCompanionAnswer({
-        requestId: crypto.randomUUID(),
-        language:
-          language === 'ja' ||
-          (LANG_CODES as string[]).includes(language) ||
-          language.startsWith('qonlang:')
-            ? language
-            : `qonlang:${language}`,
-        answerId,
-        characterId,
-        correct: true
-      })
-      .then((result) => {
-        if (this.#user !== user || !result || this.message?.id !== message.id) return
-        this.message = { ...message, xp: result.accepted ? result.xp : 0, gifts: result.gifts }
-      })
+    if (user)
+      void account
+        .reportCompanionAnswer({
+          requestId: crypto.randomUUID(),
+          language:
+            language === 'ja' ||
+            (LANG_CODES as string[]).includes(language) ||
+            language.startsWith('qonlang:')
+              ? language
+              : `qonlang:${language}`,
+          answerId,
+          characterId,
+          correct: true
+        })
+        .then((result) => {
+          if (this.#user !== user || !result || this.message?.id !== message.id) return
+          this.message = { ...message, xp: result.accepted ? result.xp : 0, gifts: result.gifts }
+        })
     if (this.preferences.speech && !audio.playing && !audio.pending) void this.#speak(phrase)
   }
   async #speak(phrase: Encouragement): Promise<void> {
@@ -128,9 +133,12 @@ export class CompanionState {
       await audio.say({ text: phrase.zh, lang: 'zh-CN' }, { synthOnly: true })
   }
   recordLearning(start: number, end: number): void {
-    this.connectUser(account.session?.user?.id ?? '')
-    if (!this.#user || !account.snapshot?.companion?.currentId || !this.#break.record(start, end))
-      return
+    const user = account.session?.user?.id
+    const characterId = user
+      ? account.snapshot?.companion?.currentId
+      : guestCollection.snapshot?.companion?.currentId
+    this.connectUser(user ?? (characterId ? 'local:guest' : ''))
+    if (!this.#user || !characterId || !this.#break.record(start, end)) return
     this.message = {
       id: Date.now(),
       kind: 'rest',

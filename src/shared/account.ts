@@ -76,6 +76,7 @@ export interface AccountHome {
 export interface CollectionSnapshot {
   version: 1
   revision: number
+  starter?: { characterId: string; claimedAt: number; source: 'guest-starter' }
   legacy: { id: string; day: string; at: number; minutes: number }[]
   serverTime: string | number
   day: string
@@ -145,6 +146,7 @@ export interface AccountVersionState {
   releaseUrl?: string
 }
 export interface AccountSession {
+  starterSync?: 'pending'
   user: AccountUser | null
   server: { baseUrl: string; online: boolean; testcap: boolean; error?: string }
   version?: AccountVersionState
@@ -188,6 +190,7 @@ export interface AccountFriends {
   ownPublicId: string
 }
 export interface AccountPayloads {
+  claimStarter: { requestId: string; characterId: string }
   configureTasks: {
     requestId: string
     kinds: [
@@ -250,6 +253,7 @@ export interface AccountPayloads {
   testGrant: { requestId: string }
 }
 export interface AccountResponses {
+  claimStarter: { characterId: string; snapshot: CollectionSnapshot }
   configureTasks: { snapshot: CollectionSnapshot } | CollectionSnapshot
   importLegacy: { snapshot: CollectionSnapshot } | CollectionSnapshot
   register: { user: AccountUser; snapshot: CollectionSnapshot }

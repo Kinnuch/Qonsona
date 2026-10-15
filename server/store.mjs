@@ -136,6 +136,7 @@ export class Store {
     return {
       version: 1,
       revision: state.revision || 0,
+      ...(state.starter ? { starter: state.starter } : {}),
       serverTime: now,
       day,
       user: publicUser(row),

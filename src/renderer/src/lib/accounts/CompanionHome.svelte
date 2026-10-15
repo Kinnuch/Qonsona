@@ -5,14 +5,22 @@
   import CompanionSprite from './CompanionSprite.svelte'
   import type { CollectionSnapshot } from '$shared/account'
 
-  let { snapshot, online }: { snapshot: CollectionSnapshot; online: boolean } = $props()
+  let {
+    snapshot,
+    online,
+    guest = false
+  }: {
+    snapshot: Omit<CollectionSnapshot, 'user'> & { user?: CollectionSnapshot['user'] }
+    online: boolean
+    guest?: boolean
+  } = $props()
   type Placement = { characterId: string; x: number; y: number }
   let placements = $state<Placement[]>([])
   let revision = $state(0)
   let skinId = $state('room-placeholder')
   let dirty = $state(false)
   let conflict = $state(false)
-  let loadedUser = $state('')
+  let loadedUser = $state<string | null | undefined>(undefined)
   let room = $state<HTMLDivElement>()
   let roomWidth = $state(640)
   let roomHeight = $state(400)
@@ -24,6 +32,17 @@
   const available = $derived(
     snapshot.catalog.filter((c) => snapshot.characters.some((owned) => owned.id === c.id))
   )
+  const home = $derived(
+    guest
+      ? {
+          revision: 0,
+          skinId: 'room-placeholder',
+          placements: snapshot.characters
+            .slice(0, 1)
+            .map((c) => ({ characterId: c.id, x: 0.45, y: 0.72 }))
+        }
+      : snapshot.home
+  )
   const skins = $derived(snapshot.homeSkins ?? [])
   const currentName = $derived(snapshot.catalog.find((c) => c.id === activeId)?.name[i18n.locale])
   const tileWidth = 104
@@ -32,13 +51,13 @@
   const rangeX = $derived(Math.max(1, roomWidth - tileWidth - padding * 2))
   const rangeY = $derived(Math.max(1, roomHeight - tileHeight - padding * 2))
   $effect(() => {
-    const home = snapshot.home
     if (!home) return
-    if (loadedUser !== snapshot.user.id || !dirty) {
+    const user = snapshot.user?.id ?? null
+    if (loadedUser !== user || !dirty) {
       placements = home.placements.map((p) => ({ ...p }))
       revision = home.revision
       skinId = home.skinId
-      loadedUser = snapshot.user.id
+      loadedUser = user
       conflict = false
     } else if (home.revision !== revision) conflict = true
   })
@@ -127,7 +146,7 @@
     saved = false
   }
   async function save(): Promise<void> {
-    if (!online || !dirty || conflict) return
+    if (guest || !snapshot.user || !online || !dirty || conflict) return
     const user = snapshot.user.id
     const version = editVersion
     const ok = await account.saveHome({
@@ -136,7 +155,7 @@
       skinId,
       placements: placements.map((p) => ({ ...p }))
     })
-    if (ok && snapshot.user.id === user && version === editVersion) {
+    if (ok && snapshot.user?.id === user && version === editVersion) {
       dirty = false
       saved = true
       conflict = false
@@ -154,11 +173,15 @@
   </header>
   <p class="intro">
     {tr(
-      '把已经收藏的语言伙伴邀请进来，拖动调整位置，再保存到账号。此处先提供室内占位，后续可换上你绘制的皮肤和家具。',
-      'Invite collected companions, drag them into place, then save to your account. This room is a placeholder for future hand-drawn skins and furniture.'
+      guest
+        ? '第一位本机伙伴可以在这里陪伴你。当前为家园预览，登录后可布置并保存到账号；后续可换上你绘制的皮肤和家具。'
+        : '把已经收藏的语言伙伴邀请进来，拖动调整位置，再保存到账号。此处先提供室内占位，后续可换上你绘制的皮肤和家具。',
+      guest
+        ? 'Your first local companion can keep you company here. This is a home preview; sign in to decorate and save a layout to your account. Future skins and furniture will use hand-drawn artwork.'
+        : 'Invite collected companions, drag them into place, then save to your account. This room is a placeholder for future hand-drawn skins and furniture.'
     )}
   </p>
-  {#if !snapshot.home}<p role="status">
+  {#if !home}<p role="status">
       {tr(
         '家园暂不可用，请刷新账号连接。',
         'Home unavailable. Please refresh your account connection.'
@@ -236,16 +259,18 @@
         </div>
         <div class="room-toolbar">
           <span class="status" role="status"
-            >{conflict
-              ? tr(
-                  '另一台设备更新了家园，请重新载入后再布置。',
-                  'Another device updated your home. Reload before decorating.'
-                )
-              : dirty
-                ? tr('布置尚未保存', 'Layout not saved')
-                : saved
-                  ? tr('已保存到账号', 'Saved to your account')
-                  : tr('账号同步家园', 'Account-synced home')}</span
+            >{guest
+              ? tr('本机伙伴 · 家园预览', 'Local companion · home preview')
+              : conflict
+                ? tr(
+                    '另一台设备更新了家园，请重新载入后再布置。',
+                    'Another device updated your home. Reload before decorating.'
+                  )
+                : dirty
+                  ? tr('布置尚未保存', 'Layout not saved')
+                  : saved
+                    ? tr('已保存到账号', 'Saved to your account')
+                    : tr('账号同步家园', 'Account-synced home')}</span
           >
           <button class="btn" data-home-reset disabled={account.busy || !dirty} onclick={reload}
             ><RotateCcw size={14} />{tr(

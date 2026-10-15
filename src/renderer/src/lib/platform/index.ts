@@ -1,6 +1,7 @@
 import type { TransferScope, TransferPreview, TransferResult } from '$shared/transfer'
 import type { DictionaryDaily } from '$shared/dictionary-daily'
 import type { NeuralStatus } from '$shared/neural-speech'
+import type { GuestCollectionState } from '$shared/guest-collection'
 import type {
   AccountAction,
   AccountPayloads,
@@ -122,6 +123,11 @@ function invoke<T>(channel: string, ...args: unknown[]): Promise<T> {
 }
 
 export const platform = {
+  guestCollection: {
+    session: () => invoke<GuestCollectionState>('guest-collection:session'),
+    claim: (characterId: string) =>
+      invoke<GuestCollectionState>('guest-collection:claim', characterId)
+  },
   account: {
     session: () => invoke<AccountSession>('account:session'),
     request: <A extends AccountAction>(action: A, payload: AccountPayloads[A]) =>

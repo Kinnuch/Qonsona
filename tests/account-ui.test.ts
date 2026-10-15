@@ -94,6 +94,41 @@ async function state() {
   return { account, platform, request, session }
 }
 describe('server-owned frontend account state', () => {
+  it('invalidates earlier confirmations and private results when reconnect changes account', async () => {
+    const f = await state()
+    const previousGeneration = f.account.generation
+    f.account.lastDraw = [{ id: 'companion-1', tier: 'A', duplicate: false, echoes: 0 }]
+    f.account.lastOrder = {
+      id: 'private-order',
+      tickets: 1,
+      amountFen: 600,
+      currency: 'CNY',
+      status: 'pending',
+      createdAt: 1
+    }
+    f.session.user = { ...f.session.user!, id: 'account-b' }
+    f.session.snapshot = { ...snapshot(4), user: f.session.user }
+    await f.account.reconnect()
+    expect(f.account.generation).toBeGreaterThan(previousGeneration)
+    expect(f.account.snapshot?.user.id).toBe('account-b')
+    expect(f.account.lastDraw).toEqual([])
+    expect(f.account.lastOrder).toBeNull()
+  })
+  it('does not restore the authentication response user after the authoritative session revokes it', async () => {
+    const f = await state()
+    const user = snapshot().user
+    f.request.mockResolvedValueOnce({ user, snapshot: snapshot() } as never)
+    f.platform.account.session.mockResolvedValueOnce({
+      ...f.session,
+      user: null,
+      snapshot: undefined
+    })
+    expect(
+      await f.account.authenticate('login', { username: 'private', password: 'synthetic-password' })
+    ).toBe(false)
+    expect(f.account.session?.user).toBeNull()
+    expect(f.account.snapshot).toBeNull()
+  })
   it('shows the new version immediately and prevents a late success from reopening online features', async () => {
     const f = await state(),
       late = deferred<unknown>()

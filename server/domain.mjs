@@ -96,6 +96,7 @@ export const newState = () => ({
   balances: { points: 0, tickets: { learning: 0, support: 0 }, echoes: 0 },
   pity: { sinceSSR: 0, sinceHigh: 0 },
   characters: {},
+  starter: null,
   legacy: {},
   inventory: { makeup: 0, decorations: [] },
   days: {},
@@ -283,6 +284,24 @@ export function acquire(state, character, source, now) {
   else state.characters[character.id] = { id: character.id, count: 1, firstAt: now, source }
   state.balances.echoes += echoes
   return { id: character.id, tier: character.tier, duplicate: !!old, echoes }
+}
+/** 本机首位伙伴只同步一个服务端允许的初识伙伴；访客余额与经验不参与同步。 */
+export function claimStarter(state, body, now) {
+  shape(body, ['requestId', 'characterId'], ['requestId', 'characterId'])
+  const characterId = text(body.characterId, 1, 64)
+  const character = CATALOG.find(
+    (entry) => entry.id === characterId && entry.tier === 'A' && !entry.special
+  )
+  if (!character) fail('INVALID_STARTER_CHARACTER')
+  if (state.starter) return { characterId: state.starter.characterId }
+  if (!state.characters[characterId]) acquire(state, character, 'guest-starter', now)
+  state.starter = { characterId, claimedAt: now, source: 'guest-starter' }
+  const companion = companionState(state)
+  if (!companion.currentId) {
+    companion.currentId = characterId
+    companion.progress[characterId] ??= { characterId, xp: 0, gifts: [] }
+  }
+  return { characterId }
 }
 export function draw(state, body, now, random = secureRandom, pool = testPool(now)) {
   shape(body, ['requestId', 'source', 'count', 'expectedPoolId'], ['requestId', 'source', 'count'])
