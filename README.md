@@ -48,7 +48,7 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 缺少对齐译文时不猜句意，材料不足时少出或不出题。答案、完成状态及历史随文章指纹保存和转移。
 新闻节选只代表读完软件保存的标题与导语，不表示读过来源全文。
 
-0.4.2 未发布版允许未登录浏览收藏，并从初识档任选一只免费伙伴，领取记录保存在本机、重启后保留。
+0.4.2 允许未登录浏览收藏，并从初识档任选一只免费伙伴，领取记录保存在本机、重启后保留。
 兑换更多伙伴、寻访或购买点券时会弹出登录界面；登录成功后首只伙伴只同步一次，取消登录不会消费。
 收藏的在线功能使用 Qonsona / Qonlang 共享账号，服务器同步灵墨、语言伙伴、道具和寻访保底。
 学习时间与每日任意/指定板块任务获得灵墨；商店兑换初识/相知语言伙伴、寻访笺与续页笺，高档语言伙伴通过寻访获得。
@@ -65,7 +65,7 @@ _Download the verified Supertonic 3 pack in Settings → Speech for local neural
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
 Personal/author recordings remain first choice; IPA uses the separate phonetic approximation with explicit unsupported-symbol errors.
 See the [speech guide](docs/speech.md) for model licences and limits. Reading tasks use actual source evidence and aligned translations,
-with explicit limits for excerpts and insufficient material. Unreleased 0.4.2 allows visitors to browse the collection and choose one free Acquaintance companion, saved locally across restarts.
+with explicit limits for excerpts and insufficient material. Version 0.4.2 allows visitors to browse the collection and choose one free Acquaintance companion, saved locally across restarts.
 Further redemptions, draws and support-ticket purchases open a login dialog. The starter syncs once after successful login; dismissing login spends nothing.
 Online collection uses shared Qonlang/Qonsona accounts,
 server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6% base SSR, hard pity 90).
@@ -125,12 +125,12 @@ _Linux x64 installers are available as AppImage and Debian packages. Make the Ap
 如果安装器显示「Failed to uninstall old application files…: 2」，表示旧卸载器未能安全移走安装文件。
 请正常退出所有 Qonsona 窗口，等待学习数据保存完成后，再运行安装器。学习数据保存在上述独立数据目录，重新安装无需删除它。
 
-0.4.2 的更新交接与安装前占用检查修复尚未发布：应用内更新会先保存并等待旧进程退出；旧版发起的静默更新也会有界等待原程序自然退出，再重新检查。手动安装发现占用时提供重试或取消，保留原安装。
+0.4.2 已加入更新交接与安装前占用检查修复：应用内更新会先保存并等待旧进程退出；旧版发起的静默更新也会有界等待原程序自然退出，再重新检查。手动安装发现占用时提供重试或取消，保留原安装。
 验收使用独立应用身份、安装目录及数据目录，不覆盖已有 Qonsona。
 
 _If a Windows upgrade reports “Failed to uninstall old application files…: 2”, the old uninstaller could not safely move the installed files.
 Exit all Qonsona windows normally, wait for saving to finish, then run the installer again. Reinstallation does not require deleting the separate learning-data directory.
-The 0.4.2 handoff and preflight fixes are not yet released: in-app updates save and wait for the old process to exit. Silent updates initiated by older versions also wait within a bounded period for the registered application to exit naturally, then inspect again. Manual installations offer Retry or Cancel when files are busy.
+Version 0.4.2 includes the handoff and preflight fixes: in-app updates save and wait for the old process to exit. Silent updates initiated by older versions also wait within a bounded period for the registered application to exit naturally, then inspect again. Manual installations offer Retry or Cancel when files are busy.
 Validation uses a separate application identity, installation and data directory._
 
 ## 跨电脑转移与复习计划
@@ -186,7 +186,7 @@ NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文�
 
 程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
 
-`data/release-data.json` 使用 0.4.1 的版本化数据包 `qonsona-data-0.4.1.zip`，包含十一库及逐文件大小与 SHA-256 校验。
+`data/release-data.json` 使用 0.4.2 的版本化数据包 `qonsona-data-0.4.2.zip`，包含十一库及逐文件大小与 SHA-256 校验。
 开发时可下载清单指定的完整数据包；需要重建精灵语词库时，再执行 Eldamo 管线。
 
 ```sh

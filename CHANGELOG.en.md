@@ -1,11 +1,12 @@
 # Changelog
 
-## 0.4.2 · unreleased
+## 0.4.2 · 2026-10-15
 
 - Browse the collection gallery, five companion series and shop without signing in, and choose one free Acquaintance companion to keep locally across restarts. Redeeming more companions, drawing or purchasing support tickets opens a login dialog with a reason; dismissing it spends nothing.
 - Sync the local starter once after account verification, without spending ink or duplicating an already owned companion. Recover uncertain results with the original request ID. Signing out or changing accounts clears private orders, draw results and stale spending confirmations. Visitor companions can offer encouragement; cloud rewards and XP still require login.
 - Fix Windows in-app updates starting the installer before saving has finished. Complete learning-data saves first, then use a hidden helper outside the installation directory to wait for the old process to exit before launching the installer. Save failures, cancellation and handoff failures preserve the original window and do not launch duplicate installers.
 - Check the registered old installation and file access before uninstalling it. Silent updates initiated by older versions wait within a bounded period for the registered application to exit naturally, then inspect again. If files remain busy or another same-name application copy is running, exit normally and retry; cancellation preserves the installation and learning data. Do not force-stop applications by name. PowerShell inspection does not load user profiles.
+- Public registration and online collection still await ICP filing and HTTPS for kinnuch.cn. Visitor browsing, the first local companion and local learning remain available; this release does not restore the public account endpoint.
 
 ## 0.4.1 · 2026-10-14
 

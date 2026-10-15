@@ -1,10 +1,10 @@
-# 收藏、灵墨与寻访（0.4.2 未发布）
+# 收藏、灵墨与寻访（0.4.2）
 
-0.4.2 未发布版允许未登录浏览收藏，免费领取一只初识档语言伙伴。在线收藏与排行榜使用 Qonsona / Qonlang 共享账号。账号、灵墨、语言伙伴、道具、寻访结果与保底保存在服务器；服务开放后，不同电脑分别登录同一账号即可查看。公网账号入口目前仍等待 ICP 备案和 HTTPS，正式安装包暂不能使用联网收藏功能，本地学习不受影响。Qonlang 本地工程仍可离线使用，工程正文和录音不上传。离线也可退出本机账号。
+0.4.2版允许未登录浏览收藏，免费领取一只初识档语言伙伴。在线收藏与排行榜使用 Qonsona / Qonlang 共享账号。账号、灵墨、语言伙伴、道具、寻访结果与保底保存在服务器；服务开放后，不同电脑分别登录同一账号即可查看。公网账号入口目前仍等待 ICP 备案和 HTTPS，正式安装包暂不能使用联网收藏功能，本地学习不受影响。Qonlang 本地工程仍可离线使用，工程正文和录音不上传。离线也可退出本机账号。
 
 收藏分为「画廊、家园、每日任务、商店、寻访、行囊」。四档语言伙伴称为初识 A、相知 R、珍遇 SR、传颂 SSR。常规目录使用用户提供的三张素材：二十只语言伙伴，每档五只；蓝色小伙伴作为月度专属素材，独立于寻访和商店。
 
-## 访客浏览与首只伙伴（0.4.2 未发布）
+## 访客浏览与首只伙伴（0.4.2）
 
 未登录时可以查看画廊、伙伴系列、图鉴、商店和其他收藏页签。在「商店 → 初识」任选一只常规初识伙伴，确认后免费领取；本机只提供一次，不扣灵墨。领取后伙伴可在左下角陪伴学习并提供鼓励，记录重启后保留。本机记录损坏或无法保存时会提示重试，不重置免费名额。
 
@@ -12,13 +12,13 @@
 
 成功登录且版本核验通过后，客户端将本机首只伙伴同步到该账号一次。账号已经领取过首只时保留原账号的选择；账号已经拥有同一只时不重复增加数量，不发重复余韵。网络重试使用原请求编号；同步未完成时提示重连并暂停在线消费。本机领取记录与账号关联后，不再自动送给另一个账号。退出登录仍可查看本机首只伙伴。
 
-_Unreleased 0.4.2 lets visitors browse the gallery, companion series, catalog, shop and collection tabs. Choose one regular Acquaintance companion in Shop → Acquaintance and confirm to claim it free, once per local profile. The companion and claim persist across restarts. A corrupt or unwritable record reports an error instead of reopening the free allowance._
+_Version 0.4.2 lets visitors browse the gallery, companion series, catalog, shop and collection tabs. Choose one regular Acquaintance companion in Shop → Acquaintance and confirm to claim it free, once per local profile. The companion and claim persist across restarts. A corrupt or unwritable record reports an error instead of reopening the free allowance._
 
 _Further redemptions, draws and support-ticket purchases explain the login requirement and open login / registration. Escape, the close button and the backdrop dismiss it. Neither cancellation nor successful login executes a purchase automatically. Visitor companions can provide encouragement and a home preview; cloud currency, tickets, XP and leaderboard time require an account._
 
 _After verified login, the local starter syncs once to that account. An existing account starter is retained; an already owned matching companion is not duplicated and earns no echoes. Retries use the original request ID. Pending synchronization pauses online spending until reconnection. Once bound, the local claim is not automatically granted to another account; signing out retains the local starter view._
 
-_Roll out the authenticated starter endpoint before distributing this client. These changes have only been tested against an isolated local service; public registration still awaits ICP filing and HTTPS._
+_Roll out the authenticated starter endpoint before distributing this client. Desktop UI testing uses an isolated local service; public registration still awaits ICP filing and HTTPS._
 
 ## 账号版本要求（0.4.1）
 
