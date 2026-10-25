@@ -85,7 +85,9 @@ export class Store {
       provider_status: 'TEXT',
       verified_paid_claim_at: 'INTEGER',
       auto_close_attempts: 'INTEGER NOT NULL DEFAULT 0',
-      auto_close_next_at: 'INTEGER NOT NULL DEFAULT 0'
+      auto_close_next_at: 'INTEGER NOT NULL DEFAULT 0',
+      app: "TEXT NOT NULL DEFAULT 'qonsona'",
+      purpose: "TEXT NOT NULL DEFAULT 'support-tickets'"
     }))
       if (!columns.includes(name)) this.db.exec(`ALTER TABLE orders ADD COLUMN ${name} ${type}`)
     // Only the schema transition can infer old credits. Reopening a current
@@ -294,6 +296,34 @@ export class Store {
         .prepare('INSERT INTO ledger VALUES(?,?,?,?,?,?)')
         .run(randomUUID(), id, route, body.requestId, now, JSON.stringify(result))
       const response = { ...result, snapshot: this.snapshot(id, now) }
+      this.db
+        .prepare('INSERT INTO requests VALUES(?,?,?,?,?)')
+        .run(id, body.requestId, digest, JSON.stringify(response), now)
+      return response
+    })
+  }
+  /** 纯支持只登记付款与幂等收据，不改收藏状态、余额或 revision。 */
+  mutatePayment(id, route, body, now, callback) {
+    const digest = hash(JSON.stringify([route, canonical(body)]))
+    return this.transaction(() => {
+      if (
+        this.db
+          .prepare('SELECT 1 FROM retired_test_requests WHERE user_id=? AND request_id=?')
+          .get(id, body.requestId)
+      )
+        fail('RETIRED_TEST_REQUEST', 409)
+      const existing = this.db
+        .prepare('SELECT * FROM requests WHERE user_id=? AND request_id=?')
+        .get(id, body.requestId)
+      if (existing) {
+        if (existing.body_hash !== digest) fail('IDEMPOTENCY_CONFLICT', 409)
+        return JSON.parse(existing.response)
+      }
+      if (!this.user(id)) fail('ACCOUNT_NOT_FOUND', 404)
+      const response = callback() || {}
+      this.db
+        .prepare('INSERT INTO ledger VALUES(?,?,?,?,?,?)')
+        .run(randomUUID(), id, route, body.requestId, now, JSON.stringify(response))
       this.db
         .prepare('INSERT INTO requests VALUES(?,?,?,?,?)')
         .run(id, body.requestId, digest, JSON.stringify(response), now)

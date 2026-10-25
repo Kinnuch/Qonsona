@@ -213,8 +213,48 @@ export class Service {
       this.store.db.prepare('DELETE FROM sessions WHERE token_hash=?').run(hash(token))
       return { ok: true }
     }
-    if (app === 'qonlang' && !['/v1/auth/me'].includes(path)) fail('CLIENT_ROUTE_UNAVAILABLE', 403)
+    const qonlangSupport =
+      path === '/v1/qonlang/support' ||
+      path === '/v1/qonlang/support/orders' ||
+      /^\/v1\/qonlang\/support\/orders\/[a-f0-9-]{36}\/(refresh|close)$/.test(path)
+    if (app === 'qonlang' && !['/v1/auth/me'].includes(path) && !qonlangSupport)
+      fail('CLIENT_ROUTE_UNAVAILABLE', 403)
+    if (qonlangSupport && app !== 'qonlang') fail('CLIENT_ROUTE_UNAVAILABLE', 403)
     await this.clientPolicy.require(app, clientVersion)
+    if (qonlangSupport) {
+      if (method === 'GET' && path === '/v1/qonlang/support')
+        return {
+          enabled: this.paymentsEnabled,
+          provider: this.paymentsEnabled ? 'yungouos' : null,
+          currency: 'CNY',
+          minAmountFen: 1,
+          maxAmountFen: 60000
+        }
+      if (path === '/v1/qonlang/support/orders') {
+        if (method === 'GET')
+          return {
+            orders: this.store.db
+              .prepare(
+                "SELECT * FROM orders WHERE user_id=? AND app='qonlang' AND purpose='development-support' ORDER BY created_at DESC,rowid DESC LIMIT 100"
+              )
+              .all(id)
+              .map(orderView)
+          }
+        if (method === 'POST') {
+          if (this.paymentsEnabled && paymentProtocol !== 'qonlang-support-v1')
+            fail('PAYMENT_CLIENT_UPDATE_REQUIRED', 409)
+          return this.supportPayments.createQonlang(id, body, now)
+        }
+      }
+      const match = /^\/v1\/qonlang\/support\/orders\/([a-f0-9-]{36})\/(refresh|close)$/.exec(path)
+      if (method === 'POST' && match) {
+        this.supportPayments.owned(match[1], id, 'qonlang')
+        if (match[2] === 'close') return this.supportPayments.close(match[1], id, body)
+        shape(body, [])
+        return this.supportPayments.check(match[1], id)
+      }
+      fail('NOT_FOUND', 404)
+    }
     if (method === 'GET' && path === '/v1/auth/me')
       return { user: publicUser(this.store.user(id)), snapshot: this.store.snapshot(id, now) }
     if (method === 'PATCH' && path === '/v1/auth/me') {
@@ -253,7 +293,7 @@ export class Service {
       return {
         orders: this.store.db
           .prepare(
-            'SELECT * FROM orders WHERE user_id=? ORDER BY created_at DESC,rowid DESC LIMIT 100'
+            "SELECT * FROM orders WHERE user_id=? AND app='qonsona' AND purpose='support-tickets' ORDER BY created_at DESC,rowid DESC LIMIT 100"
           )
           .all(id)
           .map(orderView)
@@ -261,10 +301,14 @@ export class Service {
     const checkOrder = /^\/v1\/support\/orders\/([a-f0-9-]{36})\/check$/.exec(path)
     if (method === 'POST' && checkOrder) {
       shape(body, [])
+      this.supportPayments.owned(checkOrder[1], id)
       return this.supportPayments.check(checkOrder[1], id)
     }
     const closeOrder = /^\/v1\/support\/orders\/([a-f0-9-]{36})\/close$/.exec(path)
-    if (method === 'POST' && closeOrder) return this.supportPayments.close(closeOrder[1], id, body)
+    if (method === 'POST' && closeOrder) {
+      this.supportPayments.owned(closeOrder[1], id)
+      return this.supportPayments.close(closeOrder[1], id, body)
+    }
     if (method === 'POST' && path === '/v1/support/orders' && !this.simulatedPayments) {
       if (this.paymentsEnabled && paymentProtocol !== 'yungouos-wechat-v2')
         fail('PAYMENT_CLIENT_UPDATE_REQUIRED', 409)
@@ -291,7 +335,9 @@ export class Service {
         if (
           body.source === 'support' &&
           this.store.db
-            .prepare("SELECT 1 FROM orders WHERE user_id=? AND payment_state='refund_review'")
+            .prepare(
+              "SELECT 1 FROM orders WHERE user_id=? AND app='qonsona' AND purpose='support-tickets' AND payment_state='refund_review'"
+            )
             .get(id)
         )
           fail('PAYMENT_REVIEW_REQUIRED', 409)
@@ -336,7 +382,7 @@ export class Service {
       from = Date.parse(`${month}-01T00:00:00+08:00`)
     const used = this.store.db
       .prepare(
-        "SELECT COALESCE(SUM(amount_fen),0) AS total FROM orders WHERE user_id=? AND created_at>=? AND status IN ('pending','approved')"
+        "SELECT COALESCE(SUM(amount_fen),0) AS total FROM orders WHERE user_id=? AND app='qonsona' AND purpose='support-tickets' AND created_at>=? AND status IN ('pending','approved')"
       )
       .get(id, from).total
     if (used + amount > 6000) fail('SUPPORT_MONTH_LIMIT', 409)

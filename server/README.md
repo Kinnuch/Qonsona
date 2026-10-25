@@ -22,6 +22,18 @@ Draws use cryptographic randomness. Free/support ticket balances stay separate, 
 
 ## YunGouOS WeChat payments
 
+### Qonlang pure support
+
+Qonlang 1.0.0-beta.3 uses the same private YunGouOS merchant configuration through the [dedicated support contract](contract.md#qonlang-optional-development-support-100-beta3). An authenticated user chooses any integer amount from 1 to 60000 fen; the UI displays yuan and the main process converts exactly. These payments provide development support only: no Qonsona ticket, XP, currency, collection item or first-purchase change. They do not write economic state or its revision. Both products keep one shared receipt authority and merchant query leases; all account routes remain product-bound, and Qonlang beta authentication keeps `legacy-auth-only` compatibility.
+
+The additive schema migration defaults all old orders to `app=qonsona,purpose=support-tickets`. New Qonlang rows are `app=qonlang,purpose=development-support,tickets=0,credited_tickets=0`. Never reset production identity/assets, reprice historical orders, copy the testing database over production, or restore a stale database after money can arrive. Back up SQLite consistently before migration and compare every original table/column plus identity/state/receipt aggregates. Deploy the full matching `server/` source, including tests, against the existing protected production database and merchant env; no new payment key or nginx route is needed because the current `/qon-api/` proxy and notification endpoint serve both products.
+
+For production upgrades, adapt the reviewed `release-0.4.4-payments-20261025/qa/production-044-*` in-place preflight/manifest/backup workflow with new expected source and database hashes. Do not re-run the historical initial test-to-production cutover. Preserve callback access, current Qonsona version policy, all outstanding orders and merchant-wide lease timing. The worker runs for both products after startup. Local tests inject synthetic providers; they do not prove real checkout acceptance or callback delivery. A real payment is performed only deliberately by the human payer.
+
+Official protocol references: [Native checkout](https://open.pay.yungouos.com/#/api/api/pay/wxpay/nativePay), [order query](https://open.pay.yungouos.com/#/api/api/system/order/getPayOrderInfo), [payment notification](https://open.pay.yungouos.com/#/callback/notify), [unpaid-order closure](https://open.pay.yungouos.com/#/api/api/pay/wxpay/closeOrder), and [refund observation](https://open.pay.yungouos.com/#/api/api/pay/wxpay/getRefundResult). The adapter retains explicit `auto=0` and fixed HTTPS endpoints; the client receives no merchant secret.
+
+### Qonsona support tickets
+
 **0.4.4 — 2026-10-25.** Ordinary authenticated, current-version Qonsona users can create live orders when the payment switch and merchant configuration are valid. There is no administrator-only allowance or manual eligibility list. Payment is not recorded as age verification; `adult_verified` remains0 for provider orders.
 
 The authoritative [support catalog](support-catalog.mjs) defines these immutable invoice entitlements. The old CNY60/month application cap is removed; the single-order maximum is CNY600. Independent channel limits still apply: the merchant dashboard currently shows CNY10/day, so catalog availability does not guarantee a higher-value channel payment will be accepted.

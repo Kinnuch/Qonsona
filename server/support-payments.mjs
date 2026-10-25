@@ -1,13 +1,47 @@
 /* eslint @typescript-eslint/explicit-function-return-type: "off" -- Plain Node payment coordinator. */
 import { randomUUID } from 'node:crypto'
-import { ApiError, fail, shape, requestId } from './domain.mjs'
+import { ApiError, fail, integer, shape, requestId } from './domain.mjs'
 import { isYunGouOSQrCode } from './yungouos.mjs'
 import { supportSelection } from './support-catalog.mjs'
 
 const PAYMENT_WINDOW_MS = 10 * 60000
 const MAINTENANCE_INTERVAL_MS = 30000
+const DONATION_ROUTE = '/v1/qonlang/support/orders'
+export const isQonlangSupport = (row) =>
+  row?.app === 'qonlang' && row.purpose === 'development-support'
 
 export function orderView(row) {
+  if (isQonlangSupport(row)) {
+    const status =
+      row.payment_state === 'refund_review'
+        ? 'refund_review'
+        : row.status === 'approved'
+          ? 'paid'
+          : row.status === 'rejected'
+            ? 'closed'
+            : row.status
+    return {
+      id: row.id,
+      amountFen: row.amount_fen,
+      currency: 'CNY',
+      status,
+      createdAt: row.created_at,
+      ...(row.approved_at ? { paidAt: row.approved_at } : {}),
+      ...(row.provider
+        ? {
+            payment: {
+              provider: row.provider,
+              method: 'wechat',
+              state: row.payment_state || 'creating',
+              ...(row.qr_code_url && row.status === 'pending' && row.payment_state === 'pending'
+                ? { qrCodeUrl: row.qr_code_url }
+                : {}),
+              ...(row.expires_at ? { expiresAt: row.expires_at } : {})
+            }
+          }
+        : {})
+    }
+  }
   return {
     id: row.id,
     tickets: row.tickets,
@@ -62,7 +96,7 @@ export class SupportPayments {
   firstPurchase(userId) {
     const paid = !!this.store.db
       .prepare(
-        'SELECT 1 FROM payment_receipts r JOIN orders o ON o.id=r.order_id WHERE o.user_id=? LIMIT 1'
+        "SELECT 1 FROM payment_receipts r JOIN orders o ON o.id=r.order_id WHERE o.user_id=? AND o.app='qonsona' AND o.purpose='support-tickets' LIMIT 1"
       )
       .get(userId)
     const reservation = this.store.db
@@ -135,7 +169,54 @@ export class SupportPayments {
   }
   result(id) {
     const row = this.get(id)
+    if (isQonlangSupport(row)) return { order: orderView(row) }
     return { order: orderView(row), snapshot: this.store.snapshot(row.user_id, this.service.now()) }
+  }
+  owned(id, owner, app = 'qonsona') {
+    const row = this.get(id)
+    const purpose = app === 'qonlang' ? 'development-support' : 'support-tickets'
+    if (!row || row.user_id !== owner || row.app !== app || row.purpose !== purpose)
+      fail('ORDER_NOT_FOUND', 404)
+    return row
+  }
+  async createQonlang(id, body, now) {
+    if (!this.enabled) fail('PAYMENTS_DISABLED', 403)
+    shape(body, ['requestId', 'amountFen'], ['requestId', 'amountFen'])
+    requestId(body.requestId)
+    const amountFen = integer(body.amountFen, 1, 60000)
+    const reserved = this.store.mutatePayment(id, DONATION_ROUTE, body, now, () => {
+      if (
+        this.store.db
+          .prepare(
+            "SELECT 1 FROM orders WHERE user_id=? AND app='qonlang' AND purpose='development-support' AND testing=0 AND status='pending' LIMIT 1"
+          )
+          .get(id)
+      )
+        fail('SUPPORT_ORDER_PENDING', 409)
+      const orderId = randomUUID()
+      this.store.db
+        .prepare(
+          "INSERT INTO orders(id,user_id,tickets,amount_fen,status,created_at,testing,provider,out_trade_no,merchant_id,payment_state,expires_at,app,purpose) VALUES(?,?,0,?,'pending',?,0,'yungouos',?,?,'creating',?,'qonlang','development-support')"
+        )
+        .run(
+          orderId,
+          id,
+          amountFen,
+          now,
+          `QL${orderId.replaceAll('-', '')}`,
+          this.provider.mchid,
+          now + PAYMENT_WINDOW_MS
+        )
+      return { order: orderView(this.get(orderId)) }
+    })
+    const row = this.owned(reserved.order.id, id, 'qonlang')
+    if (row.testing || row.provider !== 'yungouos') fail('ORDER_MODE_MISMATCH', 409)
+    if (row.status !== 'pending' || row.qr_code_url || row.provider_attempts > 0)
+      return this.result(row.id)
+    if (this.creating.has(row.id)) return this.creating.get(row.id)
+    const work = this.createReserved(row).finally(() => this.creating.delete(row.id))
+    this.creating.set(row.id, work)
+    return work
   }
   async remote(callback) {
     try {
@@ -174,7 +255,7 @@ export class SupportPayments {
       if (
         this.store.db
           .prepare(
-            "SELECT 1 FROM orders WHERE user_id=? AND testing=0 AND status='pending' LIMIT 1"
+            "SELECT 1 FROM orders WHERE user_id=? AND app='qonsona' AND purpose='support-tickets' AND testing=0 AND status='pending' LIMIT 1"
           )
           .get(id)
       )
@@ -234,7 +315,9 @@ export class SupportPayments {
         this.provider.create({
           outTradeNo: row.out_trade_no,
           amountFen: row.amount_fen,
-          description: `Qonsona 支持开发 · 寻访笺 ${row.tickets} 张`,
+          description: isQonlangSupport(row)
+            ? 'Qonlang 千语集 · 支持开发'
+            : `Qonsona 支持开发 · 寻访笺 ${row.tickets} 张`,
           expiresAt: row.expires_at
         })
       )
@@ -351,11 +434,13 @@ export class SupportPayments {
       this.store.db
         .prepare('DELETE FROM first_support_reservations WHERE user_id=? AND order_id=?')
         .run(row.user_id, id)
-      const state = JSON.parse(this.store.user(row.user_id).state)
-      state.revision = (state.revision || 0) + 1
-      this.store.db
-        .prepare('UPDATE users SET state=? WHERE id=?')
-        .run(JSON.stringify(state), row.user_id)
+      if (!isQonlangSupport(row)) {
+        const state = JSON.parse(this.store.user(row.user_id).state)
+        state.revision = (state.revision || 0) + 1
+        this.store.db
+          .prepare('UPDATE users SET state=? WHERE id=?')
+          .run(JSON.stringify(state), row.user_id)
+      }
       this.store.db.prepare('INSERT INTO ledger VALUES(?,?,?,?,?,?)').run(
         randomUUID(),
         row.user_id,
@@ -404,6 +489,7 @@ export class SupportPayments {
       const row = this.get(id)
       this.validate(row, remote)
       if (row.testing || row.provider !== 'yungouos') fail('ORDER_MODE_MISMATCH', 409)
+      if (isQonlangSupport(row)) return this.settleQonlang(row, remote, now)
       const user = this.store.user(row.user_id),
         state = JSON.parse(user.state)
       let changed = false
@@ -536,6 +622,66 @@ export class SupportPayments {
       }
     })
   }
+  settleQonlang(row, remote, now) {
+    let changed = false
+    if (remote.status === 'paid' || remote.status === 'refunded') {
+      if (remote.status === 'paid' && row.status === 'refunded') fail('PAYMENT_REFUNDED', 409)
+      if (remote.status === 'paid' && row.status === 'approved') return
+      if (remote.status === 'refunded' && row.status === 'refunded') return
+      const receipt = this.store.db
+        .prepare('SELECT order_id FROM payment_receipts WHERE provider=? AND transaction_id=?')
+        .get('yungouos', remote.transactionId)
+      const referenced = this.store.db
+        .prepare('SELECT id FROM orders WHERE payment_reference=?')
+        .get(remote.transactionId)
+      if ((receipt && receipt.order_id !== row.id) || (referenced && referenced.id !== row.id))
+        fail('PAYMENT_ALREADY_USED', 409)
+      if (!receipt)
+        this.store.db
+          .prepare('INSERT INTO payment_receipts VALUES(?,?,?,?,?)')
+          .run('yungouos', remote.transactionId, row.id, row.amount_fen, now)
+      if (remote.status === 'paid') {
+        this.store.db
+          .prepare(
+            "UPDATE orders SET status='approved',payment_state='paid',payment_reference=?,approved_at=?,credited_tickets=0 WHERE id=?"
+          )
+          .run(remote.transactionId, now, row.id)
+      } else {
+        const partial =
+          remote.refundAmountFen !== undefined && remote.refundAmountFen !== row.amount_fen
+        this.store.db
+          .prepare(
+            'UPDATE orders SET status=?,payment_state=?,payment_reference=COALESCE(payment_reference,?),refunded_at=?,credited_tickets=0 WHERE id=?'
+          )
+          .run(
+            partial ? 'approved' : 'refunded',
+            partial ? 'refund_review' : 'refunded',
+            remote.transactionId,
+            now,
+            row.id
+          )
+      }
+      changed = true
+    } else if (remote.status === 'closed' && row.status === 'pending') {
+      this.store.db
+        .prepare("UPDATE orders SET status='rejected',payment_state='closed' WHERE id=?")
+        .run(row.id)
+      changed = true
+    }
+    if (changed)
+      this.store.db.prepare('INSERT INTO ledger VALUES(?,?,?,?,?,?)').run(
+        randomUUID(),
+        row.user_id,
+        `/v1/qonlang/support/${remote.status}`,
+        `payment:${row.id}:${remote.status}`,
+        now,
+        JSON.stringify({
+          orderId: row.id,
+          amountFen: row.amount_fen,
+          state: this.get(row.id).payment_state
+        })
+      )
+  }
   async notification(body) {
     if (!this.enabled) fail('PAYMENTS_DISABLED', 403)
     const claimed = await this.remote(() => this.provider.verifyNotification(body))
@@ -572,11 +718,11 @@ export class SupportPayments {
         `query-priority:yungouos:${this.provider.mchid}:${row.id}`,
         this.service.now() + 2 * 60000
       )
-    const result = await this.check(row.id, null, { notify: true, expected: claimed })
+    await this.check(row.id, null, { notify: true, expected: claimed })
     const fresh = this.get(row.id)
     if (
       claimed.status === 'paid' &&
-      (result.order.status !== 'approved' || fresh.payment_reference !== claimed.transactionId)
+      (fresh.status !== 'approved' || fresh.payment_reference !== claimed.transactionId)
     )
       fail('PAYMENT_NOT_CONFIRMED', 409)
     this.store.db
@@ -614,8 +760,12 @@ export class SupportPayments {
       fail('PAYMENTS_DISABLED', 403)
     shape(body, ['requestId'], ['requestId'])
     requestId(body.requestId)
-    const route = `/v1/support/orders/${id}/close`
-    this.store.mutate(owner, route, body, this.service.now(), () => {
+    const initial = this.get(id)
+    const route = `${isQonlangSupport(initial) ? DONATION_ROUTE : '/v1/support/orders'}/${id}/close`
+    const mutate = isQonlangSupport(initial)
+      ? this.store.mutatePayment.bind(this.store)
+      : this.store.mutate.bind(this.store)
+    mutate(owner, route, body, this.service.now(), () => {
       const row = this.get(id)
       if (!row || row.user_id !== owner) fail('ORDER_NOT_FOUND', 404)
       if (row.testing || row.provider !== 'yungouos') fail('ORDER_MODE_MISMATCH', 409)
@@ -657,11 +807,13 @@ export class SupportPayments {
         this.store.db
           .prepare('DELETE FROM first_support_reservations WHERE user_id=? AND order_id=?')
           .run(row.user_id, row.id)
-        const state = JSON.parse(this.store.user(row.user_id).state)
-        state.revision = (state.revision || 0) + 1
-        this.store.db
-          .prepare('UPDATE users SET state=? WHERE id=?')
-          .run(JSON.stringify(state), row.user_id)
+        if (!isQonlangSupport(row)) {
+          const state = JSON.parse(this.store.user(row.user_id).state)
+          state.revision = (state.revision || 0) + 1
+          this.store.db
+            .prepare('UPDATE users SET state=? WHERE id=?')
+            .run(JSON.stringify(state), row.user_id)
+        }
         this.store.db
           .prepare('INSERT INTO ledger VALUES(?,?,?,?,?,?)')
           .run(

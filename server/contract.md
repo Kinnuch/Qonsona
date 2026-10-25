@@ -2,6 +2,24 @@
 
 All routes use `/v1`. JSON UTF-8, body <=32KiB, errors `{error:{code,message}}` with stable English `code`; successful data are returned directly (no `data` wrapper). The provider notification below is the form/text exception. Authentication uses `Authorization: Bearer <opaque token>` held by the desktop main process. Production uses the fixed HTTPS origin with valid certificates, no credential-bearing redirects, and a loopback service behind TLS nginx. No browser CORS/API credentials are shipped. This is the0.4.4 contract (2026-10-25); actual payment availability also depends on private configuration and channel limits.
 
+## Qonlang optional development support (1.0.0-beta.3)
+
+Qonlang keeps its `legacy-auth-only` account policy, so beta clients use their own `X-Qon-App: qonlang` sessions without the Qonsona formal-release gate. Signing in and supporting development remain optional and never authorize access to Qonsona collection/economy routes. The new routes require a valid session bound to Qonlang; changing an app header cannot transfer a session. No project or language content is accepted.
+
+- `GET /qonlang/support` returns `{enabled,provider,currency:"CNY",minAmountFen:1,maxAmountFen:60000}`; `provider` is `"yungouos"` when enabled and `null` otherwise. This is an authenticated capability read, not order creation.
+- `GET /qonlang/support/orders` returns `{orders:[...]}`, at most 100 of the current user's Qonlang support orders.
+- `POST /qonlang/support/orders {requestId,amountFen}` requires the compatibility header `X-Qon-Payment-Protocol: qonlang-support-v1`. `requestId` is a UUID and `amountFen` is an integer from 1 through 60000. Unknown fields, client ticket/bonus claims and fractional fen reject before reservation. Returns `{order}`.
+- `POST /qonlang/support/orders/:id/refresh {}` queries the original order and returns `{order}`. No request UUID is needed for this read/reconciliation operation.
+- `POST /qonlang/support/orders/:id/close {requestId}` persists an idempotent closure intent, verifies the channel status, and closes only a confirmed unpaid order. Returns `{order}`; a timeout remains unresolved, and the original UUID must be retained for retry.
+
+An order contains `{id,amountFen,currency:"CNY",status,createdAt,paidAt?,payment?}`. Status is `pending|paid|closed|refund_review|refunded`. Payment contains `{provider:"yungouos",method:"wechat",state,qrCodeUrl?,expiresAt?}`, with state `creating|pending|paid|closed|refund_review|refunded`. Only a pending order in pending payment state exposes the validated original WeChat QR payload, with its checkout deadline. The client generates the QR locally. Neither `tickets` nor a collection `snapshot` is returned.
+
+The server fixes the product/purpose and issues a `QL` merchant order number. A create UUID is retained before network I/O; retries with changed amounts fail `IDEMPOTENCY_CONFLICT409`, and a different UUID while an order is pending fails `SUPPORT_ORDER_PENDING409`. An ambiguous provider create returns the persisted pending/creating order without a QR; no second charge is issued. Refresh the original order to recover. There is one pending order per account/product. Fixed money values and receipts are never repriced during later releases.
+
+These are **pure development-support payments**: no tickets, currency, XP, collection item or first-purchase entitlement is granted or consumed. Creation, payment, closure and refund observation do not write the user's economic state or its revision. A partial refund enters review for this payment only and does not freeze Qonsona support-ticket spending. Shared `orders` columns `app` and `purpose` default old rows to `qonsona`/`support-tickets`; Qonlang uses `qonlang`/`development-support`, zero tickets and zero credited tickets. Qonsona order lists, first-purchase checks, pending-order limits and refund-review spending guards exclude Qonlang support.
+
+Both products share the same immutable merchant receipt authority and unique transaction identifiers, `payment_leases`, provider adapter, signed notification route, active merchant/order/amount/transaction verification and ten-minute persistent unpaid-order worker. Callback handling is independent of login/version status and acknowledges exact `SUCCESS` only after settlement or an authenticated settled replay. A genuine late payment can settle the original closed order once. No automatic refund or client-claimed payment is accepted. The existing private refund-observation route may reconcile a known channel refund number; it does not initiate money transfer.
+
 ## Current Qonsona client requirement
 
 `GET /client-policy?app=qonsona` requires no login or version header and returns:
