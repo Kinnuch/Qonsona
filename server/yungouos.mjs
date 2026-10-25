@@ -232,6 +232,8 @@ export class YunGouOSProvider {
         ...fields,
         sign: signature(fields, this.#key),
         type: '1',
+        // 明确选择不分账；按官方 SDK，此可选字段不参与上述四字段签名。
+        auto: '0',
         notify_url: this.#notifyUrl
       },
       'POST'

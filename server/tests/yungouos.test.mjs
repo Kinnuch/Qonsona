@@ -142,12 +142,13 @@ test('creates using the official fixed endpoint, required-field MD5 vector and l
     body: 'Qonsona 支持开发',
     sign: '39B13573C74630DC4D796EF3B6356E61',
     type: '1',
+    auto: '0',
     notify_url: config.notifyUrl
   })
   assert.equal(calls[0].options.body.includes(key), false)
 })
 
-test('personal native checkout omits every optional business and profit-sharing field and keeps its display deadline local', async () => {
+test('personal native checkout explicitly disables profit-sharing without its configuration fields and keeps its display deadline local', async () => {
   const requests = []
   const provider = new YunGouOSProvider({
     ...config,
@@ -167,10 +168,12 @@ test('personal native checkout omits every optional business and profit-sharing 
   assert.equal(result.status, 'pending')
   assert.equal(requests[0].get('total_fee'), '0.01')
   assert.equal(requests[0].get('type'), '1')
+  assert.equal(requests[0].get('auto'), '0')
   assert.equal(requests[0].get('notify_url'), config.notifyUrl)
-  for (const name of ['biz_params', 'end_time', 'time_expire', 'auto', 'auto_node', 'config_no'])
+  for (const name of ['biz_params', 'end_time', 'time_expire', 'auto_node', 'config_no'])
     assert.equal(requests[0].has(name), false)
   assert.deepEqual([...requests[0].keys()].sort(), [
+    'auto',
     'body',
     'mch_id',
     'notify_url',

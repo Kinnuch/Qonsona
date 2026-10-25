@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Explicitly use non-sharing mode for WeChat checkout, without configuring profit-sharing recipients.
 - Add YunGouOS WeChat Native support payments for ordinary signed-in accounts when the server is fully configured and enabled, with explicit order creation and locally rendered QR codes. Defaults are CNY6/ticket and CNY60/account per calendar month in pending plus approved orders. The merchant dashboard's current CNY10/day limit remains separate rather than hardcoded into the app.
 - Verify callbacks, actively query the provider, match merchant/order/amount/unique transaction and atomically credit support tickets. Unknown QR creation retains the same uncredited order for checking or explicit closure. Unknown closure never starts another charge, and confirmed payment takes precedence over an in-flight close.
 - Require the new payment protocol before live creation so older simulated-order UI cannot accidentally create payable orders. The production cutover plan preserves identities/password hashes, archives the test database and starts cloud assets empty without migrating sessions. Retired request tombstones prevent stale client journals from replaying test assets; local learning files remain intact.
