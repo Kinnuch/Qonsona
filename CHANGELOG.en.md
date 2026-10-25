@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.5 · 2026-10-25
+
+- Fix transparent collection transaction confirmations. Support purchases, companion redemptions and discovery confirmations use an independent opaque theme surface, border and shadow so underlying cards and text cannot show through. Keep light and dark themes readable across narrow windows and long descriptions, preserving cancellation, confirmation and transaction validation.
+
 ## 0.4.4 · 2026-10-25
 
 - Support development now opens a dedicated plan page. The first successful support offer grants 10 support tickets for CNY0.01 once per account; CNY6 grants 10, CNY60 grants 110 including 10 extra, and CNY600 grants 1100 including 100 extra. Custom amounts range from CNY0.60 to CNY600 in CNY0.60 increments, without bonus tickets. Existing orders retain their original amounts and ticket counts.

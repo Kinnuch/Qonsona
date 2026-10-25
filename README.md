@@ -60,7 +60,7 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；伙伴保持原始像素大小，答对题目的鼓励会轮换。
 语言伙伴分为灵动猫、逐风狗、鸣诗鸟、听雨蛙、星辉龙五个系列，图鉴先选系列再展开每只伙伴。
 个体编号、已有收藏与养成记录保持不变；作者介绍保留空白框架。系列与介绍配置见[收藏说明](docs/collection.md#画廊伙伴系列与作者介绍)。
-2026-10-25：0.4.4 加入独立支持开发套餐页与微信扫码支付，是否可付以服务器配置、渠道限额和界面状态为准；最新版客户端可通过公网注册、登录及使用收藏。生产服务不提供测试赠券，管理员接口不对公网开放。本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
+2026-10-25：0.4.5 修复收藏交易确认弹窗的透明背景，明暗主题下均清晰显示。0.4.4 加入独立支持开发套餐页与微信扫码支付，是否可付以服务器配置、渠道限额和界面状态为准；最新版客户端可通过公网注册、登录及使用收藏。生产服务不提供测试赠券，管理员接口不对公网开放。本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
 
 _Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
@@ -77,7 +77,7 @@ Version 0.4.3 places Support development beside learning tickets and makeup slip
 Furniture and paid room skins are not yet offered; 1000 echoes exchange for one learning ticket. Artwork stays at source size and encouragement varies.
 Language Companions are grouped into Playful Cats, Roaming Dogs, Songbirds, Rain Frogs and Starlight Dragons.
 Existing companion IDs, collections and upbringing records are retained; biography fields remain blank for the author.
-Version 0.4.4 (2026-10-25) adds a separate support-package page and WeChat scanning; availability follows the server configuration, channel limits and UI. Public HTTPS registration, login and collection require the latest client. Production grants and public administrator routes remain disabled._
+Version 0.4.5 (2026-10-25) fixes transparent collection transaction confirmations in light and dark themes. Version 0.4.4 adds a separate support-package page and WeChat scanning; availability follows the server configuration, channel limits and UI. Public HTTPS registration, login and collection require the latest client. Production grants and public administrator routes remain disabled._
 
 ## 微信支持支付（0.4.4，2026-10-25）
 
@@ -216,7 +216,7 @@ _Payment QR codes use qrcode-generator 2.0.4, Copyright (c) 2009 Kazuhiko Arase,
 
 程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
 
-`data/release-data.json` 使用 0.4.4 的版本化数据包 `qonsona-data-0.4.4.zip`，包含十一库及逐文件大小与 SHA-256 校验。
+`data/release-data.json` 使用 0.4.5 的版本化数据包 `qonsona-data-0.4.5.zip`，包含十一库及逐文件大小与 SHA-256 校验。
 开发时可下载清单指定的完整数据包；需要重建精灵语词库时，再执行 Eldamo 管线。
 
 ```sh

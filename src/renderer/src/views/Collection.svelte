@@ -98,6 +98,12 @@
     const previous = document.activeElement as HTMLElement | null
     node.focus()
     const key = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        event.stopPropagation()
+        confirm = null
+        return
+      }
       if (event.key !== 'Tab') return
       const buttons = Array.from(node.querySelectorAll<HTMLButtonElement>('button:not(:disabled)'))
       const first = buttons[0],
@@ -1470,7 +1476,7 @@
 </div>
 {#if confirm}<div class="backdrop">
     <div
-      class="confirmation card"
+      class="confirmation"
       use:focusDialog
       role="dialog"
       aria-modal="true"
@@ -2154,16 +2160,48 @@
     position: fixed;
     inset: 0;
     background: #0006;
-    z-index: 100;
+    z-index: 1300;
+    isolation: isolate;
     display: grid;
     place-items: center;
     padding: 20px;
+    overflow: auto;
+    overscroll-behavior: contain;
   }
   .confirmation {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
     width: min(100%, 520px);
-    box-shadow: var(--shadow);
-    max-height: 90dvh;
-    overflow: auto;
+    min-width: 0;
+    max-height: calc(100dvh - 40px);
+    padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    color: var(--text);
+    background: var(--bg-elev);
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    overflow-wrap: anywhere;
+    outline: none;
+  }
+  .confirmation h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+  .confirmation p {
+    margin: 0;
+    line-height: 1.7;
+  }
+  .confirmation .muted {
+    color: var(--text-2);
+  }
+  .confirmation .actions {
+    margin: 4px 0 0;
+    align-items: center;
+    justify-content: flex-end;
   }
   .muted {
     color: var(--text-3);
