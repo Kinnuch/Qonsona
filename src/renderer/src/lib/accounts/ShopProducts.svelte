@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CalendarDays, Ticket } from '@lucide/svelte'
+  import { CalendarDays, Coffee, Ticket } from '@lucide/svelte'
   import { i18n } from '$lib/i18n/index.svelte'
   import CompanionSprite from './CompanionSprite.svelte'
   import type { AccountCharacter, AccountShopItem, CollectionSnapshot } from '$shared/account'
@@ -11,7 +11,10 @@
     guest = false,
     starterAvailable = false,
     busy = false,
-    redeem
+    redeem,
+    support,
+    supportEntry = false,
+    supportOpen = false
   }: {
     items: AccountShopItem[]
     snapshot: Omit<CollectionSnapshot, 'user'>
@@ -20,6 +23,9 @@
     starterAvailable?: boolean
     busy?: boolean
     redeem: (item: AccountShopItem) => void
+    support?: () => void
+    supportEntry?: boolean
+    supportOpen?: boolean
   } = $props()
   const tr = (zh: string, en: string): string => (i18n.locale === 'zh' ? zh : en)
   const name = (c: AccountCharacter): string => c.name[i18n.locale]
@@ -34,7 +40,7 @@
   }
 </script>
 
-<div class="products" data-shop-products>
+<div class="products" class:supplies={supportEntry} data-shop-products>
   {#each items as item (item.id)}
     {@const balance =
       item.currency === 'points' ? snapshot.balances.points : snapshot.balances.echoes}
@@ -47,6 +53,11 @@
       item.type === 'character' &&
       character?.tier === 'A' &&
       !character.special}
+    {@const showSupport =
+      !!support &&
+      item.currency === 'points' &&
+      (item.type === 'ticket' || item.type === 'makeup') &&
+      balance < item.price}
     <section class="product" data-shop-product={item.id}>
       <div class="art">
         {#if character}<CompanionSprite {character} width={106} />
@@ -86,24 +97,60 @@
                   'Make up one missed check-in in the last seven days; no study rewards or monthly task progress.'
                 )}
       </p>
-      <button
-        class="redeem"
-        data-shop-item={item.id}
-        disabled={busy || (!guest && (!online || already || balance < item.price))}
-        onclick={() => redeem(item)}
-      >
-        {freeStarter
-          ? tr('免费领取', 'Claim for free')
-          : guest
-            ? tr('登录后兑换', 'Sign in to redeem')
-            : already
-              ? tr('已拥有', 'Owned')
-              : balance < item.price
-                ? tr('余额不足', 'Insufficient balance')
-                : tr('兑换', 'Redeem')}
-      </button>
+      <div class="product-actions">
+        <button
+          class="redeem"
+          data-shop-item={item.id}
+          disabled={busy || (!guest && (!online || already || balance < item.price))}
+          onclick={() => redeem(item)}
+        >
+          {freeStarter
+            ? tr('免费领取', 'Claim for free')
+            : guest
+              ? tr('登录后兑换', 'Sign in to redeem')
+              : already
+                ? tr('已拥有', 'Owned')
+                : balance < item.price
+                  ? tr('余额不足', 'Insufficient balance')
+                  : tr('兑换', 'Redeem')}
+        </button>
+        {#if showSupport}<button
+            class="support-link"
+            data-shop-support-shortfall={item.id}
+            disabled={busy}
+            aria-controls={!guest ? 'collection-support-panel' : undefined}
+            aria-expanded={!guest ? supportOpen : undefined}
+            onclick={support}>{tr('购买支持开发', 'Purchase to support development')}</button
+          ><small class="support-note"
+            >{tr(
+              '获取支持寻访笺，不增加灵墨或续页笺。',
+              'Grants support tickets, not Ink or makeup slips.'
+            )}</small
+          >{/if}
+      </div>
     </section>
   {/each}
+  {#if supportEntry && support}<section class="product support-product" data-shop-support-card>
+      <div class="art"><Coffee size={40} strokeWidth={1.2} /></div>
+      <h3>{tr('支持开发', 'Support development')}</h3>
+      <p class="support-kind">{tr('支持寻访笺', 'Support discovery tickets')}</p>
+      <p class="description">
+        {tr(
+          '支持开发可获取支持寻访笺，不增加灵墨或续页笺。当前仅提供测试订单，请勿付款。',
+          'Support development to receive support tickets, not Ink or makeup slips. Test orders only; do not make a payment.'
+        )}
+      </p>
+      <div class="product-actions">
+        <button
+          class="redeem"
+          data-shop-support-entry
+          disabled={busy}
+          aria-controls={!guest ? 'collection-support-panel' : undefined}
+          aria-expanded={!guest ? supportOpen : undefined}
+          onclick={support}>{tr('购买支持开发', 'Purchase to support development')}</button
+        >
+      </div>
+    </section>{/if}
 </div>
 
 <style>
@@ -111,6 +158,9 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 15px;
+  }
+  .products.supplies {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .product {
     display: flex;
@@ -159,6 +209,21 @@
     line-height: 1.6;
     margin: 0 0 20px;
   }
+  .support-kind {
+    margin: 18px 0 14px;
+    font-size: 20px;
+    line-height: 1.4;
+    color: var(--text);
+  }
+  .product-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: auto;
+  }
+  .support-note {
+    line-height: 1.5;
+  }
   .discount {
     position: absolute;
     top: 10px;
@@ -170,7 +235,6 @@
     border-radius: 6px;
   }
   .redeem {
-    margin-top: auto;
     width: 100%;
     padding: 10px 15px;
     border: 1px solid var(--gallery-sage, #bccba4);
@@ -189,13 +253,35 @@
     outline: 2px solid var(--gallery-gold, #bbaa7c);
     outline-offset: 3px;
   }
+  .support-link {
+    padding: 9px 12px;
+    border: 1px solid var(--gallery-border, var(--border));
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .support-link:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--gallery-sage, #bccba4) 12%, transparent);
+  }
+  .support-link:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
+  .support-link:focus-visible {
+    outline: 2px solid var(--gallery-gold, #bbaa7c);
+    outline-offset: 3px;
+  }
   @media (max-width: 1050px) {
     .products {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
   @media (max-width: 736px) {
-    .products {
+    .products,
+    .products.supplies {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .product {
@@ -203,7 +289,8 @@
     }
   }
   @media (max-width: 420px) {
-    .products {
+    .products,
+    .products.supplies {
       grid-template-columns: 1fr;
     }
   }

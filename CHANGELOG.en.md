@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.3 · unreleased
+
+- Place Support development alongside learning tickets and makeup slips in Study supplies. Open its details and order area there, before Echo exchange.
+- Add a Support development purchase entry when Ink is insufficient for learning tickets or makeup slips. Preserve redemption balances and login requirements; opening the entry never creates an order. Explain that support tickets do not replenish Ink or makeup slips, and retain the test notice while real payments remain unavailable.
+
 ## 0.4.2 · 2026-10-15
 
 - Browse the collection gallery, five companion series and shop without signing in, and choose one free Acquaintance companion to keep locally across restarts. Redeeming more companions, drawing or purchasing support tickets opens a login dialog with a reason; dismissing it spends nothing.

@@ -56,10 +56,11 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成伙伴。当前只有模拟支持订单，真实收款关闭。
 收藏另有每七天轮换的寻访画廊：每期一只聚光传颂，轮完再重新随机，保底跨期延续；
 伙伴商店使用独立档位挑选页，家园提供可摆放并云端保存多只已收藏伙伴的像素室内占位。
+0.4.3 开发版将支持开发入口与学习寻访笺、续页笺并列；这两项灵墨不足时也提供入口，点击只展开说明，不自动下单。支持寻访笺不增加灵墨或续页笺，正式收款仍未开放。
 家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；伙伴保持原始像素大小，答对题目的鼓励会轮换。
 语言伙伴分为灵动猫、逐风狗、鸣诗鸟、听雨蛙、星辉龙五个系列，图鉴先选系列再展开每只伙伴。
 个体编号、已有收藏与养成记录保持不变；作者介绍保留空白框架。系列与介绍配置见[收藏说明](docs/collection.md#画廊伙伴系列与作者介绍)。
-公网账号入口仍等待 ICP 备案及 HTTPS，不表示安装后已能公网登录。独立测试通过加密 SSH 通道连接服务器验证，本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
+2026-10-25：备案和 HTTPS 已就绪，最新版客户端可通过公网注册、登录及使用收藏；当前沿用测试账号数据库，真实付款与公网赠券、管理员接口未开放。本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
 
 _Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
@@ -72,10 +73,11 @@ server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6%
 Leaderboard participation is optional. Support orders are simulated; real payments remain disabled.
 Weekly discovery galleries feature one Legend per seven-day period, with no repeats until the full cycle ends and shared pity retained.
 Tier shops have separate selection pages. The placeholder pixel home saves owned companion placements to the account.
+The 0.4.3 development branch places Support development beside learning tickets and makeup slips, with additional entries when Ink is insufficient. These open details without creating an order; support tickets do not add Ink or makeup slips, and real payments remain disabled.
 Furniture and paid room skins are not yet offered; 1000 echoes exchange for one learning ticket. Artwork stays at source size and encouragement varies.
 Language Companions are grouped into Playful Cats, Roaming Dogs, Songbirds, Rain Frogs and Starlight Dragons.
 Existing companion IDs, collections and upbringing records are retained; biography fields remain blank for the author.
-Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunnel to the actual server._
+As of 2026-10-25, public HTTPS registration, login and collection are available to the latest client. The existing test account database remains in use; real payments, public test grants and administrator routes remain disabled._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。
@@ -87,14 +89,14 @@ Public HTTPS is awaiting ICP filing; isolated testing uses an encrypted SSH tunn
 本地学习与文件转移照常可用，旧 Qonlang 的基本账号功能保持兼容。「设置 → 关于」另加入原样沿用千语集的开发者信息和致谢。
 
 0.4.1 已支持账号版本头，0.4.0 需更新；服务器要求始终跟随最新正式版，并非永久固定为 0.4.1。
-部署时须先完成新客户端发布再启用对应服务器策略。目前公网注册仍待备案与 HTTPS，安装新版不表示公网服务已经恢复。细节见[账号版本说明](docs/collection.md#账号版本要求041)。
+部署时须先完成新客户端发布再启用对应服务器策略。公网账号入口已于 2026-10-25 接通，仍须使用核验通过的最新正式版；真实收款未开放。细节见[账号版本说明](docs/collection.md#账号版本要求041)。
 
 _The 0.4.1 account checks require the exact latest formal GitHub Release, verified by both client and server.
 Connection failure, unverifiable policy and required updates have distinct messages. Public preflight carries no password or login token;
 failed checks retain existing sessions and unresolved transactions while pausing online features. Local learning, file transfers and existing Qonlang basic account operations remain available.
 Settings → About also adds Qonlang's original developer information and credits. Version 0.4.1 sends the required header; 0.4.0 clients need an update.
 The requirement follows the latest formal release rather than remaining pinned to 0.4.1. Complete the client release before enabling the corresponding server policy.
-Public registration remains unavailable pending ICP filing and HTTPS; installing this version does not restore the public endpoint._
+The public account endpoint became available on 2026-10-25 and still requires the verified latest formal client; real payments remain disabled._
 
 ## 下载与安装
 

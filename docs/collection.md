@@ -1,6 +1,6 @@
 # 收藏、灵墨与寻访（0.4.2）
 
-0.4.2版允许未登录浏览收藏，免费领取一只初识档语言伙伴。在线收藏与排行榜使用 Qonsona / Qonlang 共享账号。账号、灵墨、语言伙伴、道具、寻访结果与保底保存在服务器；服务开放后，不同电脑分别登录同一账号即可查看。公网账号入口目前仍等待 ICP 备案和 HTTPS，正式安装包暂不能使用联网收藏功能，本地学习不受影响。Qonlang 本地工程仍可离线使用，工程正文和录音不上传。离线也可退出本机账号。
+0.4.2版允许未登录浏览收藏，免费领取一只初识档语言伙伴。在线收藏与排行榜使用 Qonsona / Qonlang 共享账号。账号、灵墨、语言伙伴、道具、寻访结果与保底保存在服务器，不同电脑分别登录同一账号即可查看。2026-10-25 起，备案与 HTTPS 已就绪，公网账号和普通收藏接口已接通；当前沿用测试账号数据库，真实付款、赠券及管理员接口未对公网开放。Qonlang 本地工程仍可离线使用，工程正文和录音不上传。离线也可退出本机账号。
 
 收藏分为「画廊、家园、每日任务、商店、寻访、行囊」。四档语言伙伴称为初识 A、相知 R、珍遇 SR、传颂 SSR。常规目录使用用户提供的三张素材：二十只语言伙伴，每档五只；蓝色小伙伴作为月度专属素材，独立于寻访和商店。
 
@@ -18,7 +18,7 @@ _Further redemptions, draws and support-ticket purchases explain the login requi
 
 _After verified login, the local starter syncs once to that account. An existing account starter is retained; an already owned matching companion is not duplicated and earns no echoes. Retries use the original request ID. Pending synchronization pauses online spending until reconnection. Once bound, the local claim is not automatically granted to another account; signing out retains the local starter view._
 
-_Roll out the authenticated starter endpoint before distributing this client. Desktop UI testing uses an isolated local service; public registration still awaits ICP filing and HTTPS._
+_As of 2026-10-25, ICP filing and HTTPS are ready, and the latest client can use public registration, login and ordinary collection routes. The existing test account database remains in use; real payments, test-grant and administrator routes remain unavailable publicly. Desktop UI development checks use an isolated local service._
 
 ## 账号版本要求（0.4.1）
 
@@ -26,9 +26,13 @@ Qonsona 在线账号的版本要求由客户端与服务器共同核验 GitHub �
 
 「无法连接账号服务」表示未能建立服务连接；「暂时无法核验最新版本」表示最新版策略不可用，两者分别说明。公开版本预检不发送密码或登录令牌，预检异常不会误删已保存的会话。未知交易保留原请求编号，版本重新核验通过后再恢复，期间不自动重发消费；已有收藏、钱包、经验及家园不因版本检查被清空。旧 Qonlang 的注册、登录、个人资料和退出等基本账号操作保持兼容，不能借其会话绕过 Qonsona 收藏要求。
 
-**部署顺序：先完成新客户端发布，再启用对应服务器策略。** 0.4.0 未发送新版本头，需更新到支持该协议的客户端。服务器部署完成并核验策略后，才按最新正式版开放相应在线操作；此说明不表示服务器部署或公网入口已完成。kinnuch.cn 目前仍待 ICP 备案与 HTTPS，公网注册并未恢复；本地学习和文件转移不受影响。服务规则见[账号协议](../server/contract.md)，部署说明见[服务说明](../server/README.md)。
+**部署顺序：先完成新客户端发布，再启用对应服务器策略。** 0.4.0 未发送新版本头，需更新到支持该协议的客户端。当前服务器动态核验 GitHub 最新正式版，kinnuch.cn 的公网 HTTPS 账号入口已于 2026-10-25 接通；本地学习和文件转移不受版本核验影响。服务规则见[账号协议](../server/contract.md)，部署说明见[服务说明](../server/README.md)。
 
 ## 灵墨与每日任务
+
+0.4.3 未发布版将「支持开发」与学习寻访笺、续页笺并列放在「学习补给」商品栏；灵墨不足的这两项商品还会额外显示「购买支持开发」。点击后，在补给栏下方、余韵兑换之前展开支持说明及订单区，不自动下单；未登录时先弹出登录界面。支持开发对应支持寻访笺，不增加灵墨，也不能代替续页笺。真实付款未开放时，页面继续明确显示测试订单及请勿付款提示。
+
+_Unreleased 0.4.3 places Support development alongside learning discovery tickets and makeup slips in Study supplies. These two Ink-priced products also show a support purchase entry when the balance is insufficient. Opening it displays details and orders below supplies, before Echo exchange, without creating an order; visitors are asked to sign in. Support provides support discovery tickets, not Ink or makeup slips. Test-order and do-not-pay notices remain while real payments are unavailable._
 
 有效学习要求窗口可见且在前台，处于阅读、练习、课程、生词本、词典或视听模块，最近两分钟有操作。只播放媒体、首页及收藏浏览不计。客户端每十五秒结算；服务器按账号合并设备的最近在线时间，重叠时间不累加，首次心跳只初始化。
 

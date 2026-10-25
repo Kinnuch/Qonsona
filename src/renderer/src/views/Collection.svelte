@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import { onMount, tick } from 'svelte'
   import {
     RefreshCw,
     X,
@@ -62,7 +62,9 @@
     orderLoading = $state(false)
   let ordersOwner = ''
   let supportTickets = $state(1),
-    rulesOpen = $state(false)
+    rulesOpen = $state(false),
+    supportOpen = $state(false)
+  let supportHeading = $state<HTMLHeadingElement>()
   let firstTask = $state<CompletionKind>('reading'),
     secondTask = $state<CompletionKind>('review')
   let editingDay = ''
@@ -116,6 +118,7 @@
       orderError = ''
       orderLoading = false
       confirm = null
+      supportOpen = false
     }
   })
   const s = $derived(guest ? guestCollection.snapshot : account.snapshot)
@@ -432,6 +435,17 @@
         return ok
       }
     }
+  }
+  async function openSupport(): Promise<void> {
+    if (account.busy || account.loading) return
+    if (guest) {
+      requireLogin('support')
+      return
+    }
+    supportOpen = true
+    await tick()
+    supportHeading?.focus({ preventScroll: true })
+    supportHeading?.scrollIntoView({ block: 'start', behavior: 'instant' })
   }
   function askMakeup(): void {
     confirmationScope = account.generation
@@ -1133,9 +1147,72 @@
           snapshot={s}
           {online}
           {guest}
-          busy={guest && (!account.loaded || account.loading || account.busy)}
+          busy={account.busy || account.loading || (guest && !account.loaded)}
           redeem={askPurchase}
+          support={() => void openSupport()}
+          supportEntry
+          {supportOpen}
         />
+        {#if supportOpen}<section
+            class="card support"
+            id="collection-support-panel"
+            data-support-panel
+            aria-labelledby="collection-support-heading"
+          >
+            <h3 id="collection-support-heading" tabindex="-1" bind:this={supportHeading}>
+              {tr('支持开发 · 测试订单', 'Support development · test orders')}
+            </h3>
+            <p class="muted">
+              {tr(
+                '支持订单只提供支持寻访笺，不增加灵墨、学习寻访笺或续页笺；学习补给仍需通过学习积累灵墨兑换。',
+                'Support orders provide support tickets only, not Ink, learning tickets or makeup slips. Earn Ink by studying to redeem study supplies.'
+              )}
+            </p>
+            <p>
+              {tr(
+                '测试订单，不进行真实付款。示例单价人民币 6 元，每月上限 60 元；创建订单不会自动到账。人工核验与正式收款须由运营者另行开放。',
+                'Test orders: do not make real payments. Nominal price CNY 6 each, monthly cap CNY 60. Creating an order does not credit tickets. Manual verification and real payments require a separate operator rollout.'
+              )}
+            </p>
+            <label
+              >{tr('张数', 'Tickets')}
+              <input
+                class="input"
+                type="number"
+                min="1"
+                max="10"
+                step="1"
+                bind:value={supportTickets}
+              /></label
+            ><button
+              class="btn"
+              disabled={(!guest && !online) ||
+                account.busy ||
+                !Number.isInteger(supportTickets) ||
+                supportTickets < 1 ||
+                supportTickets > 10}
+              data-support-create
+              onclick={askSupport}>{tr('创建测试订单', 'Create test order')}</button
+            ><button
+              class="btn ghost"
+              disabled={(!guest && !online) || orderLoading}
+              onclick={() => (guest ? requireLogin('support') : loadOrders())}
+              >{tr('查看订单', 'View orders')}</button
+            >{#if !guest && account.lastOrder}<p data-support-order>
+                {account.lastOrder.id} · {account.lastOrder.amountFen / 100} CNY · {orderStatus(
+                  account.lastOrder.status,
+                  i18n.locale
+                )}
+              </p>{/if}{#if !guest && orderError}<p role="alert">
+                {accountError(orderError, i18n.locale)}
+              </p>{/if}{#each guest ? [] : orders as order (order.id)}<p>
+                {order.id} · {order.tickets}
+                {tr('张', 'tickets')} · {order.amountFen / 100} CNY · {orderStatus(
+                  order.status,
+                  i18n.locale
+                )}
+              </p>{/each}
+          </section>{/if}
         <section class="echo-shop" data-echo-shop>
           <div class="section-head">
             <div>
@@ -1163,53 +1240,6 @@
               >{tr('家具区 · 尚未上架', 'Furniture · not available yet')}</span
             >
           </div>
-        </section>
-        <section class="card support">
-          <h3>{tr('支持开发 · 测试订单', 'Support development · test orders')}</h3>
-          <p>
-            {tr(
-              '测试订单，不进行真实付款。示例单价人民币 6 元，每月上限 60 元；创建订单不会自动到账。人工核验与正式收款须由运营者另行开放。',
-              'Test orders: do not make real payments. Nominal price CNY 6 each, monthly cap CNY 60. Creating an order does not credit tickets. Manual verification and real payments require a separate operator rollout.'
-            )}
-          </p>
-          <label
-            >{tr('张数', 'Tickets')}
-            <input
-              class="input"
-              type="number"
-              min="1"
-              max="10"
-              step="1"
-              bind:value={supportTickets}
-            /></label
-          ><button
-            class="btn"
-            disabled={(!guest && !online) ||
-              account.busy ||
-              !Number.isInteger(supportTickets) ||
-              supportTickets < 1 ||
-              supportTickets > 10}
-            data-support-create
-            onclick={askSupport}>{tr('创建测试订单', 'Create test order')}</button
-          ><button
-            class="btn ghost"
-            disabled={(!guest && !online) || orderLoading}
-            onclick={() => (guest ? requireLogin('support') : loadOrders())}
-            >{tr('查看订单', 'View orders')}</button
-          >{#if !guest && account.lastOrder}<p data-support-order>
-              {account.lastOrder.id} · {account.lastOrder.amountFen / 100} CNY · {orderStatus(
-                account.lastOrder.status,
-                i18n.locale
-              )}
-            </p>{/if}{#if !guest && orderError}<p role="alert">
-              {accountError(orderError, i18n.locale)}
-            </p>{/if}{#each guest ? [] : orders as order (order.id)}<p>
-              {order.id} · {order.tickets}
-              {tr('张', 'tickets')} · {order.amountFen / 100} CNY · {orderStatus(
-                order.status,
-                i18n.locale
-              )}
-            </p>{/each}
         </section>
       {/if}
     {:else if tab === 'draw'}
