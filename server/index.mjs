@@ -12,6 +12,7 @@ export function createApi({
   production = false
 } = {}) {
   const server = createServer(async (req, res) => {
+    let paymentNotification = false
     res.setHeader('Content-Type', 'application/json; charset=utf-8')
     res.setHeader('Cache-Control', 'no-store')
     res.setHeader('X-Content-Type-Options', 'nosniff')
@@ -24,6 +25,7 @@ export function createApi({
       if (production && !(loopback && trustProxy && req.headers['x-forwarded-proto'] === 'https'))
         throw new ApiError('HTTPS_REQUIRED', 403)
       const url = new URL(req.url, 'http://localhost')
+      paymentNotification = url.pathname === '/v1/payments/yungouos/notify'
       if (!url.pathname.startsWith('/v1/')) throw new ApiError('NOT_FOUND', 404)
       if (!['GET', 'POST', 'PATCH'].includes(req.method))
         throw new ApiError('METHOD_NOT_ALLOWED', 405)
@@ -31,8 +33,13 @@ export function createApi({
       const declared = Number(req.headers['content-length'] || 0)
       if (!Number.isFinite(declared) || declared > 32768) throw new ApiError('BODY_TOO_LARGE', 413)
       if (req.method !== 'GET') {
-        if (!/^application\/json(?:\s*;|$)/i.test(req.headers['content-type'] || ''))
-          throw new ApiError('JSON_REQUIRED', 415)
+        const media = req.headers['content-type'] || ''
+        if (
+          paymentNotification
+            ? !/^application\/x-www-form-urlencoded(?:\s*;|$)/i.test(media)
+            : !/^application\/json(?:\s*;|$)/i.test(media)
+        )
+          throw new ApiError(paymentNotification ? 'FORM_REQUIRED' : 'JSON_REQUIRED', 415)
         let size = 0
         const chunks = []
         for await (const chunk of req) {
@@ -41,9 +48,17 @@ export function createApi({
           chunks.push(chunk)
         }
         try {
-          body = JSON.parse(Buffer.concat(chunks).toString('utf8') || '{}')
+          const raw = new TextDecoder('utf-8', { fatal: true }).decode(Buffer.concat(chunks))
+          if (paymentNotification) {
+            const form = new URLSearchParams(raw)
+            body = Object.create(null)
+            for (const [key, value] of form) {
+              if (Object.hasOwn(body, key)) throw new ApiError('DUPLICATE_FORM_FIELD')
+              body[key] = value
+            }
+          } else body = JSON.parse(raw || '{}')
         } catch {
-          throw new ApiError('INVALID_JSON')
+          throw new ApiError(paymentNotification ? 'INVALID_FORM' : 'INVALID_JSON')
         }
       }
       const authorization = req.headers.authorization || ''
@@ -57,12 +72,23 @@ export function createApi({
         ip,
         app: req.headers['x-qon-app'] || 'qonsona',
         clientVersion: req.headers['x-qon-version'],
+        paymentProtocol: req.headers['x-qon-payment-protocol'],
         query: Object.fromEntries(url.searchParams)
       })
-      respond(200, result)
+      if (paymentNotification) {
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+        res.writeHead(200)
+        res.end('SUCCESS')
+      } else respond(200, result)
     } catch (error) {
       const known = error instanceof ApiError
       if (!known) console.error('API internal failure', error.name)
+      if (paymentNotification) {
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+        res.writeHead(known ? error.status : 500)
+        res.end('FAIL')
+        return
+      }
       respond(known ? error.status : 500, {
         error: {
           code: known ? error.code : 'INTERNAL_ERROR',

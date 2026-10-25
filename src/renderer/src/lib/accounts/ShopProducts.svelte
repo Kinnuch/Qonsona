@@ -29,6 +29,7 @@
   } = $props()
   const tr = (zh: string, en: string): string => (i18n.locale === 'zh' ? zh : en)
   const name = (c: AccountCharacter): string => c.name[i18n.locale]
+  const payments = $derived(snapshot.payments)
   function itemName(item: AccountShopItem): string {
     const character = snapshot.catalog.find((c) => c.id === item.characterId)
     if (character) return name(character)
@@ -136,9 +137,16 @@
       <p class="support-kind">{tr('支持寻访笺', 'Support discovery tickets')}</p>
       <p class="description">
         {tr(
-          '支持开发可获取支持寻访笺，不增加灵墨或续页笺。当前仅提供测试订单，请勿付款。',
-          'Support development to receive support tickets, not Ink or makeup slips. Test orders only; do not make a payment.'
+          '支持开发可获取支持寻访笺，不增加灵墨或续页笺。',
+          'Support development to receive support tickets, not Ink or makeup slips.'
         )}
+        {payments?.enabled && payments.mode === 'live'
+          ? payments.eligible
+            ? tr('微信扫码，到账后发放。', 'Scan with WeChat; tickets follow verified payment.')
+            : tr('当前账号付款暂不可用。', 'Checkout is currently unavailable for this account.')
+          : payments?.enabled && payments.mode === 'simulation'
+            ? tr('测试订单，请勿付款。', 'Test orders; do not make a payment.')
+            : tr('在线付款暂未开放。', 'Online checkout is not available yet.')}
       </p>
       <div class="product-actions">
         <button

@@ -28,6 +28,7 @@
   import ShopProducts from '$lib/accounts/ShopProducts.svelte'
   import DiscoveryCorridor from '$lib/accounts/DiscoveryCorridor.svelte'
   import CompanionHome from '$lib/accounts/CompanionHome.svelte'
+  import SupportPaymentDialog from '$lib/accounts/SupportPaymentDialog.svelte'
   import { accountError } from '$lib/accounts/errors'
   import { ledgerName, orderStatus } from '$lib/accounts/presentation'
   import LegacyCollection from './LegacyCollection.svelte'
@@ -65,6 +66,11 @@
     rulesOpen = $state(false),
     supportOpen = $state(false)
   let supportHeading = $state<HTMLHeadingElement>()
+  let activePayment = $state.raw<{
+    order: SupportOrder
+    ownerId: string
+    generation: number
+  } | null>(null)
   let firstTask = $state<CompletionKind>('reading'),
     secondTask = $state<CompletionKind>('review')
   let editingDay = ''
@@ -119,11 +125,33 @@
       orderLoading = false
       confirm = null
       supportOpen = false
+      activePayment = null
     }
   })
   const s = $derived(guest ? guestCollection.snapshot : account.snapshot)
   const online = $derived(
     !guest && !!account.session?.server.online && !account.busy && !account.loading
+  )
+  const payments = $derived(s?.payments)
+  const livePayments = $derived(
+    payments?.enabled && payments.mode === 'live' && payments.provider === 'yungouos'
+  )
+  const supportAvailable = $derived(
+    !!payments?.enabled && (payments.mode === 'simulation' || (livePayments && payments.eligible))
+  )
+  const supportUnitFen = $derived(payments?.unitAmountFen ?? 600)
+  const supportMonthFen = $derived(payments?.monthLimitFen ?? 6000)
+  const visibleOrders = $derived(
+    guest
+      ? []
+      : Array.from(
+          new Map(
+            [...orders, ...(account.lastOrder ? [account.lastOrder] : [])].map((order) => [
+              order.id,
+              order
+            ])
+          ).values()
+        ).sort((a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)))
   )
   const guestReady = $derived(
     guest &&
@@ -182,6 +210,9 @@
   })
   $effect(() => {
     if (!guest) loginReason = null
+  })
+  $effect(() => {
+    if (tab !== 'shop') activePayment = null
   })
   $effect(() => {
     if (s && s.serverTime !== clockObserved) {
@@ -420,21 +451,62 @@
       requireLogin('support')
       return
     }
+    if (
+      !online ||
+      !supportAvailable ||
+      !Number.isInteger(supportTickets) ||
+      supportTickets < 1 ||
+      supportTickets > 10
+    )
+      return
     confirmationScope = account.generation
     const tickets = supportTickets,
-      requestId = crypto.randomUUID()
+      requestId = crypto.randomUUID(),
+      ownerId = account.session!.user!.id,
+      generation = account.generation,
+      amount = ((tickets * supportUnitFen) / 100).toFixed(2)
     confirm = {
-      title: tr('创建测试支持订单', 'Create test support order'),
-      description: tr(
-        `${tickets} 张支持寻访笺，示例金额人民币 ${(tickets * 6).toFixed(2)} 元。测试订单，不进行真实付款；创建不会自动到账。`,
-        `${tickets} support tickets, nominal CNY ${(tickets * 6).toFixed(2)}. Test order: do not make a real payment. Creation does not credit tickets.`
-      ),
+      title: livePayments
+        ? tr('确认微信支持订单', 'Confirm WeChat support order')
+        : tr('创建测试支持订单', 'Create test support order'),
+      description: livePayments
+        ? tr(
+            `${tickets} 张支持寻访笺，共人民币 ${amount} 元。确认后显示本订单的微信付款二维码；付款经服务器核验后才会到账。`,
+            `${tickets} support tickets for CNY ${amount}. Confirmation opens this order’s WeChat payment QR code. Tickets are credited after the server verifies payment.`
+          )
+        : tr(
+            `${tickets} 张支持寻访笺，示例金额人民币 ${amount} 元。测试订单，不进行真实付款；创建不会自动到账。`,
+            `${tickets} support tickets, nominal CNY ${amount}. Test order: do not make a real payment. Creation does not credit tickets.`
+          ),
       action: async () => {
         const ok = await account.mutate('createSupportOrder', { requestId, tickets })
-        if (ok) await loadOrders()
+        if (
+          ok &&
+          account.lastOrder &&
+          account.session?.user?.id === ownerId &&
+          account.generation === generation
+        ) {
+          showPayment(account.lastOrder)
+          void loadOrders()
+        }
         return ok
       }
     }
+  }
+  function showPayment(order: SupportOrder): void {
+    const ownerId = account.session?.user?.id
+    if (!ownerId || !online) return
+    activePayment = { order, ownerId, generation: account.generation }
+  }
+  function updatePayment(order: SupportOrder): void {
+    if (
+      !activePayment ||
+      activePayment.order.id !== order.id ||
+      activePayment.ownerId !== account.session?.user?.id ||
+      activePayment.generation !== account.generation
+    )
+      return
+    orders = [...orders.filter((entry) => entry.id !== order.id), order]
   }
   async function openSupport(): Promise<void> {
     if (account.busy || account.loading) return
@@ -1160,7 +1232,7 @@
             aria-labelledby="collection-support-heading"
           >
             <h3 id="collection-support-heading" tabindex="-1" bind:this={supportHeading}>
-              {tr('支持开发 · 测试订单', 'Support development · test orders')}
+              {tr('支持开发', 'Support development')}
             </h3>
             <p class="muted">
               {tr(
@@ -1168,50 +1240,96 @@
                 'Support orders provide support tickets only, not Ink, learning tickets or makeup slips. Earn Ink by studying to redeem study supplies.'
               )}
             </p>
-            <p>
-              {tr(
-                '测试订单，不进行真实付款。示例单价人民币 6 元，每月上限 60 元；创建订单不会自动到账。人工核验与正式收款须由运营者另行开放。',
-                'Test orders: do not make real payments. Nominal price CNY 6 each, monthly cap CNY 60. Creating an order does not credit tickets. Manual verification and real payments require a separate operator rollout.'
-              )}
+            <p class="support-price">
+              <strong>¥{(supportUnitFen / 100).toFixed(2)}</strong>
+              <span>{tr('每张支持寻访笺', 'per support ticket')}</span>
+              <small
+                >{tr(
+                  `每月最多 ¥${(supportMonthFen / 100).toFixed(2)}`,
+                  `Monthly cap ¥${(supportMonthFen / 100).toFixed(2)}`
+                )}</small
+              >
             </p>
-            <label
-              >{tr('张数', 'Tickets')}
-              <input
-                class="input"
-                type="number"
-                min="1"
-                max="10"
-                step="1"
-                bind:value={supportTickets}
-              /></label
-            ><button
-              class="btn"
-              disabled={(!guest && !online) ||
-                account.busy ||
-                !Number.isInteger(supportTickets) ||
-                supportTickets < 1 ||
-                supportTickets > 10}
-              data-support-create
-              onclick={askSupport}>{tr('创建测试订单', 'Create test order')}</button
-            ><button
-              class="btn ghost"
-              disabled={(!guest && !online) || orderLoading}
-              onclick={() => (guest ? requireLogin('support') : loadOrders())}
-              >{tr('查看订单', 'View orders')}</button
-            >{#if !guest && account.lastOrder}<p data-support-order>
-                {account.lastOrder.id} · {account.lastOrder.amountFen / 100} CNY · {orderStatus(
-                  account.lastOrder.status,
-                  i18n.locale
-                )}
-              </p>{/if}{#if !guest && orderError}<p role="alert">
+            <p class="support-availability" data-support-payment-availability>
+              {livePayments
+                ? payments?.eligible
+                  ? tr(
+                      '微信扫码支付。服务器确认到账后发放支持寻访笺；创建订单不会立即发放。',
+                      'Pay by scanning with WeChat. The server credits support tickets after confirming payment; creating an order does not credit tickets.'
+                    )
+                  : tr(
+                      '当前账号的付款入口暂不可用，请重新连接后查看。',
+                      'Checkout is currently unavailable for this account. Reconnect to check again.'
+                    )
+                : payments?.enabled && payments.mode === 'simulation'
+                  ? tr(
+                      '当前仅提供测试订单，请勿真实付款；创建订单不会自动到账。',
+                      'Test orders only. Do not make real payments; creating an order does not credit tickets.'
+                    )
+                  : tr(
+                      '在线支持订单暂未开放，请勿付款。已有订单可以重新连接后查看。',
+                      'Online support orders are not available. Do not make a payment; reconnect to view existing orders.'
+                    )}
+            </p>
+            <div class="support-checkout">
+              <label
+                >{tr('张数', 'Tickets')}
+                <input
+                  class="input"
+                  data-support-quantity
+                  type="number"
+                  min="1"
+                  max="10"
+                  step="1"
+                  bind:value={supportTickets}
+                /></label
+              ><button
+                class="btn primary"
+                disabled={(!guest && (!online || !supportAvailable)) ||
+                  account.busy ||
+                  !Number.isInteger(supportTickets) ||
+                  supportTickets < 1 ||
+                  supportTickets > 10}
+                data-support-create
+                onclick={askSupport}
+                >{payments?.enabled && payments.mode === 'simulation'
+                  ? tr('创建测试订单', 'Create test order')
+                  : tr('微信扫码支持', 'Pay with WeChat')}</button
+              ><button
+                class="btn ghost"
+                disabled={(!guest && !online) || orderLoading}
+                data-support-orders
+                onclick={() => (guest ? requireLogin('support') : loadOrders())}
+                >{orderLoading ? tr('正在读取', 'Loading') : tr('查看订单', 'View orders')}</button
+              >
+            </div>
+            {#if !guest && orderError}<p role="alert">
                 {accountError(orderError, i18n.locale)}
-              </p>{/if}{#each guest ? [] : orders as order (order.id)}<p>
-                {order.id} · {order.tickets}
-                {tr('张', 'tickets')} · {order.amountFen / 100} CNY · {orderStatus(
-                  order.status,
-                  i18n.locale
-                )}
-              </p>{/each}
+              </p>{/if}
+            {#if visibleOrders.length}<div class="support-orders" data-support-orders-list>
+                <h4>{tr('订单记录', 'Order history')}</h4>
+                {#each visibleOrders as order (order.id)}<div
+                    class="support-order"
+                    data-support-order={order.id}
+                  >
+                    <div>
+                      <strong
+                        >{order.tickets}
+                        {tr('张支持寻访笺', 'support tickets')} · ¥{(order.amountFen / 100).toFixed(
+                          2
+                        )}</strong
+                      >
+                      <span>{orderStatus(order.status, i18n.locale)}</span>
+                      <small>{order.id}</small>
+                    </div>
+                    <button
+                      class="btn ghost"
+                      data-support-order-view={order.id}
+                      disabled={!online}
+                      onclick={() => showPayment(order)}>{tr('查看', 'View')}</button
+                    >
+                  </div>{/each}
+              </div>{/if}
           </section>{/if}
         <section class="echo-shop" data-echo-shop>
           <div class="section-head">
@@ -1454,6 +1572,17 @@
     reason={loginReason}
     close={() => (loginReason = null)}
   />{/if}
+{#if activePayment}
+  {#key `${activePayment.generation}:${activePayment.ownerId}:${activePayment.order.id}`}
+    <SupportPaymentDialog
+      initialOrder={activePayment.order}
+      ownerId={activePayment.ownerId}
+      ownerGeneration={activePayment.generation}
+      close={() => (activePayment = null)}
+      updated={updatePayment}
+    />
+  {/key}
+{/if}
 
 <style>
   .guest-welcome {
@@ -2067,6 +2196,83 @@
   }
   .support {
     margin-top: 25px;
+  }
+  .support-price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin: 24px 0 12px;
+  }
+  .support-price strong {
+    font-size: 29px;
+    font-variant-numeric: tabular-nums;
+  }
+  .support-price span {
+    font-size: 13px;
+  }
+  .support-price small {
+    color: var(--text-3);
+    font-size: 12px;
+  }
+  .support-availability {
+    max-width: 800px;
+    color: var(--text-2);
+    line-height: 1.8;
+    font-size: 13px;
+  }
+  .support-checkout {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 17px;
+  }
+  .support-checkout label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .support-checkout input {
+    width: 75px;
+    margin: 0;
+  }
+  .support-orders {
+    margin-top: 25px;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+  .support-orders h4 {
+    margin: 0 0 12px;
+  }
+  .support-order {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .support-order > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 14px;
+    min-width: 0;
+  }
+  .support-order strong {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .support-order span {
+    font-size: 12px;
+    color: var(--text-2);
+  }
+  .support-order small {
+    flex-basis: 100%;
+    color: var(--text-3);
+    font-size: 11px;
+    overflow-wrap: anywhere;
   }
   .stamps {
     display: flex;

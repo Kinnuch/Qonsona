@@ -217,6 +217,23 @@ export class AccountState {
       if (this.#current(epoch, id)) this.#failure(error)
     }
   }
+  async refreshSupportOrder(orderId: string): Promise<SupportOrder | null> {
+    const id = this.session?.user?.id,
+      epoch = this.#epoch
+    if (!id || !this.session?.server.online) return null
+    try {
+      const response = await platform.account.request('querySupportOrder', { orderId })
+      if (!this.#current(epoch, id)) return null
+      if (this.snapshot && response.snapshot.revision < this.snapshot.revision) return null
+      this.#apply(response)
+      if (this.lastOrder?.id === orderId) this.lastOrder = response.order
+      this.error = ''
+      return response.order
+    } catch (error) {
+      if (this.#current(epoch, id)) this.#failure(error)
+      return null
+    }
+  }
   async mutate<A extends AccountAction>(action: A, payload: AccountPayloads[A]): Promise<boolean> {
     const id = this.session?.user?.id,
       epoch = this.#epoch
@@ -232,7 +249,7 @@ export class AccountState {
       if (action === 'updateProfile')
         this.session = { ...this.session!, user: (response as { user: AccountUser }).user }
       if (action === 'draw') this.lastDraw = (response as AccountResponses['draw']).results
-      if (action === 'createSupportOrder')
+      if (action === 'createSupportOrder' || action === 'closeSupportOrder')
         this.lastOrder = (response as AccountResponses['createSupportOrder']).order
       this.#retry = null
       this.retryable = false

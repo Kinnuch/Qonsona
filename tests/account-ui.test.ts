@@ -94,6 +94,108 @@ async function state() {
   return { account, platform, request, session }
 }
 describe('server-owned frontend account state', () => {
+  it('keeps the account online when payment verification is busy and retries the same close', async () => {
+    const f = await state()
+    const payload = { requestId: 'same-close-request', orderId: 'payment-order' }
+    const order = {
+      id: payload.orderId,
+      tickets: 1,
+      amountFen: 600,
+      currency: 'CNY' as const,
+      status: 'rejected' as const,
+      createdAt: 1
+    }
+    f.request.mockRejectedValueOnce(new Error('PAYMENT_CHECK_BUSY'))
+    expect(await f.account.mutate('closeSupportOrder', payload)).toBe(false)
+    expect(f.account.session?.server.online).toBe(true)
+    expect(f.account.retryable).toBe(true)
+    f.request.mockResolvedValueOnce({ order, snapshot: snapshot(2) } as never)
+    expect(await f.account.retry()).toBe(true)
+    expect(f.account.lastOrder?.status).toBe('rejected')
+    expect(
+      f.request.mock.calls
+        .filter(([action]) => action === 'closeSupportOrder')
+        .map(([, body]) => body)
+    ).toEqual([payload, payload])
+  })
+  it('refreshes a paid order without blocking other account controls', async () => {
+    const f = await state(),
+      late = deferred<unknown>()
+    const order = {
+      id: 'payment-order',
+      tickets: 1,
+      amountFen: 600,
+      currency: 'CNY' as const,
+      status: 'approved' as const,
+      createdAt: 1
+    }
+    f.account.lastOrder = { ...order, status: 'pending' }
+    f.request.mockImplementation(async (action) =>
+      action === 'querySupportOrder' ? (late.promise as never) : ({ snapshot: snapshot() } as never)
+    )
+    const refresh = f.account.refreshSupportOrder(order.id)
+    expect(f.account.busy).toBe(false)
+    const paid = snapshot(2)
+    paid.balances.tickets.support = 1
+    late.resolve({ order, snapshot: paid })
+    expect(await refresh).toEqual(order)
+    expect(f.account.lastOrder?.status).toBe('approved')
+    expect(f.account.snapshot?.balances.tickets.support).toBe(1)
+  })
+  it('ignores an older pending payment reply after a newer paid snapshot', async () => {
+    const f = await state(),
+      late = deferred<unknown>()
+    const order = {
+      id: 'payment-order',
+      tickets: 1,
+      amountFen: 600,
+      currency: 'CNY' as const,
+      status: 'approved' as const,
+      createdAt: 1
+    }
+    f.account.lastOrder = order
+    f.request.mockImplementation(async (action) =>
+      action === 'querySupportOrder'
+        ? (late.promise as never)
+        : ({ snapshot: snapshot(3) } as never)
+    )
+    const refresh = f.account.refreshSupportOrder(order.id)
+    await f.account.refresh()
+    late.resolve({ order: { ...order, status: 'pending' }, snapshot: snapshot(2) })
+    expect(await refresh).toBeNull()
+    expect(f.account.snapshot?.revision).toBe(3)
+    expect(f.account.lastOrder?.status).toBe('approved')
+  })
+  it('discards a private payment reply after logout and another account reconnects', async () => {
+    const f = await state(),
+      late = deferred<unknown>()
+    f.request.mockImplementation(async (action) =>
+      action === 'querySupportOrder'
+        ? (late.promise as never)
+        : action === 'collection'
+          ? (f.session.snapshot as never)
+          : ({ snapshot: f.session.snapshot } as never)
+    )
+    const refresh = f.account.refreshSupportOrder('private-payment-order')
+    await f.account.logout()
+    f.session.user = { ...snapshot().user, id: 'new-account' }
+    f.session.snapshot = { ...snapshot(4), user: f.session.user }
+    await f.account.reconnect()
+    late.resolve({ order: { id: 'private-payment-order' }, snapshot: snapshot(9, 999) })
+    expect(await refresh).toBeNull()
+    expect(f.account.snapshot?.user.id).toBe('new-account')
+    expect(f.account.lastOrder).toBeNull()
+  })
+  it('clears private payment state on expired authentication and does not poll while offline', async () => {
+    const f = await state()
+    f.request.mockRejectedValueOnce(new Error('UNAUTHORIZED'))
+    expect(await f.account.refreshSupportOrder('expired-order')).toBeNull()
+    expect(f.account.session?.user).toBeNull()
+    expect(f.account.snapshot).toBeNull()
+    const calls = f.request.mock.calls.length
+    expect(await f.account.refreshSupportOrder('expired-order')).toBeNull()
+    expect(f.request.mock.calls.length).toBe(calls)
+  })
   it('invalidates earlier confirmations and private results when reconnect changes account', async () => {
     const f = await state()
     const previousGeneration = f.account.generation
@@ -293,7 +395,7 @@ describe('collection display rules, never client-side outcome selection', () => 
     expect(ledgerName('/v1/shop/purchase', 'zh')).toBe('商店兑换')
     expect(ledgerName('/v1/collection/legacy', 'en')).toBe('Earlier memorials synced')
     expect(ledgerName('/private/unrecognized', 'en')).toBe('Account record')
-    expect(orderStatus('pending', 'zh')).toBe('待人工核验')
+    expect(orderStatus('pending', 'zh')).toBe('待确认')
     expect(orderStatus('internal-secret', 'en')).toBe('Processing')
   })
   it('records local learning without minting new old companions and retains earlier memorials', () => {

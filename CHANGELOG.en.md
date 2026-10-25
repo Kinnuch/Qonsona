@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Add YunGouOS WeChat Native support payments for ordinary signed-in accounts when the server is fully configured and enabled, with explicit order creation and locally rendered QR codes. Defaults are CNY6/ticket and CNY60/account per calendar month in pending plus approved orders. The merchant dashboard's current CNY10/day limit remains separate rather than hardcoded into the app.
+- Verify callbacks, actively query the provider, match merchant/order/amount/unique transaction and atomically credit support tickets. Unknown QR creation retains the same uncredited order for checking or explicit closure. Unknown closure never starts another charge, and confirmed payment takes precedence over an in-flight close.
+- Require the new payment protocol before live creation so older simulated-order UI cannot accidentally create payable orders. The production cutover plan preserves identities/password hashes, archives the test database and starts cloud assets empty without migrating sessions. Retired request tombstones prevent stale client journals from replaying test assets; local learning files remain intact.
+- Retain private administrator read-only refund verification and ledger handling: reverse full unused credit, and place partial or consumed refunds under manual review with further support spending frozen. Do not initiate money refunds or claim automatic discovery of every dashboard refund. Production test grants remain disabled. Integration code and isolated checks do not establish real-payment acceptance; this work is not yet released.
+
 ## 0.4.3 · 2026-10-25
 
 - Place Support development alongside learning tickets and makeup slips in Study supplies. Open its details and order area there, before Echo exchange.

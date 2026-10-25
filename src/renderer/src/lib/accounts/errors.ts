@@ -86,6 +86,50 @@ const errors: Record<string, [string, string]> = {
     '支持订单暂未开放，请勿付款。',
     'Support orders are unavailable. Do not make a payment.'
   ],
+  PAYMENT_STATUS_UNKNOWN: [
+    '暂时无法确认付款结果，请稍后核对同一订单，不要重复付款。',
+    'The payment result is not confirmed. Check the same order again shortly; do not pay twice.'
+  ],
+  PAYMENT_PROVIDER_UNAVAILABLE: [
+    '暂时无法连接微信收款服务。已有订单请稍后重新核对，不要重复付款。',
+    'WeChat checkout is temporarily unavailable. Check existing orders again shortly; do not pay twice.'
+  ],
+  PAYMENT_PROVIDER_NOT_CONFIGURED: [
+    '微信收款入口暂不可用，请勿付款。已有订单可稍后核对。',
+    'WeChat checkout is unavailable. Do not make a payment; check existing orders again shortly.'
+  ],
+  PAYMENT_PROVIDER_TIMEOUT: [
+    '收款服务响应超时，付款结果尚未确认。请稍后核对同一订单，不要重复付款。',
+    'The payment service timed out and the result is unconfirmed. Check the same order again shortly; do not pay twice.'
+  ],
+  PAYMENT_CHECK_BUSY: [
+    '这笔订单正在核对，请稍后查看同一订单。',
+    'This order is being checked. View the same order again shortly.'
+  ],
+  PAYMENT_NOT_CONFIRMED: [
+    '服务器尚未确认付款到账，请稍后核对同一订单。',
+    'The server has not confirmed payment yet. Check the same order again shortly.'
+  ],
+  PAYMENT_REVIEW_REQUIRED: [
+    '这笔付款需要进一步核对，请保留订单编号并联系运营者。',
+    'This payment needs further review. Keep the order ID and contact the operator.'
+  ],
+  PAYMENT_REFUNDED: [
+    '这笔订单已有退款或待核对的退款记录，请查看同一订单并联系运营者。',
+    'This order has a refund or pending refund review. View the same order and contact the operator.'
+  ],
+  ORDER_NOT_FOUND: [
+    '没有找到此订单，请刷新订单记录。',
+    'This order was not found. Refresh your order history.'
+  ],
+  ORDER_MODE_MISMATCH: [
+    '此订单不支持当前付款操作，请查看订单记录。',
+    'This order does not support this payment action. View your order history.'
+  ],
+  IDEMPOTENCY_CONFLICT: [
+    '上一次请求的信息尚待核对，请重新连接恢复，不要重复付款。',
+    'The previous request needs verification. Reconnect to recover it; do not pay twice.'
+  ],
   TASK_PLAN_LOCKED: [
     '今日学习已经开始，不能再修改任务计划。',
     'Today’s learning has started; the task plan is locked.'
@@ -111,6 +155,22 @@ const errors: Record<string, [string, string]> = {
     'Please check the submitted information and try again.'
   ]
 }
+for (const code of [
+  'PAYMENT_PROVIDER_INVALID_RESPONSE',
+  'PAYMENT_PROVIDER_AMOUNT_MISMATCH',
+  'PAYMENT_PROVIDER_INVALID_ORDER',
+  'PAYMENT_PROVIDER_INVALID_SIGNATURE',
+  'PAYMENT_PROVIDER_INVALID_AMOUNT',
+  'PAYMENT_ORDER_MISMATCH',
+  'PAYMENT_AMOUNT_MISMATCH',
+  'PAYMENT_REFERENCE_MISMATCH',
+  'PAYMENT_REFERENCE_INVALID',
+  'PAYMENT_ALREADY_USED'
+])
+  errors[code] = [
+    '付款资料暂未通过核验，尚未发放寻访笺。请保留订单编号并联系运营者，不要重复付款。',
+    'Payment details have not passed verification and tickets have not been issued. Keep the order ID and contact the operator; do not pay twice.'
+  ]
 /** Raw errors stay in state for recovery logic; transport/IPC internals never become user copy. */
 export function accountError(raw: string, locale: string): string {
   const code = Object.keys(errors).find((key) => raw.includes(key))

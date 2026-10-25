@@ -50,7 +50,8 @@
     "@lucide/svelte": "^1.42.0",
     "electron-updater": "^6.8.9",
     "kuromoji": "^0.1.2",
-    "onnxruntime-node": "1.21.0"
+    "onnxruntime-node": "1.21.0",
+    "qrcode-generator": "^2.0.4"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",

@@ -17,6 +17,7 @@ const DURABLE = new Set<AccountAction>([
   'draw',
   'useItem',
   'createSupportOrder',
+  'closeSupportOrder',
   'configureTasks',
   'importLegacy',
   'testGrant',
@@ -41,6 +42,8 @@ const ROUTES: Record<AccountAction, [string, string]> = {
   useItem: ['POST', '/inventory/use'],
   leaderboards: ['GET', '/leaderboards'],
   createSupportOrder: ['POST', '/support/orders'],
+  querySupportOrder: ['POST', '/support/orders'],
+  closeSupportOrder: ['POST', '/support/orders'],
   supportOrders: ['GET', '/support/orders'],
   configureTasks: ['POST', '/tasks/configure'],
   importLegacy: ['POST', '/collection/legacy'],
@@ -86,6 +89,64 @@ function uncertain(error: unknown): boolean {
   )
 }
 
+function validPaymentCapabilities(value: unknown): boolean {
+  if (!value || typeof value !== 'object') return false
+  const p = value as Record<string, unknown>
+  return (
+    typeof p.enabled === 'boolean' &&
+    typeof p.eligible === 'boolean' &&
+    ['live', 'simulation', 'disabled'].includes(String(p.mode)) &&
+    (p.provider === null || p.provider === 'yungouos') &&
+    p.currency === 'CNY' &&
+    Number.isSafeInteger(p.unitAmountFen) &&
+    Number(p.unitAmountFen) > 0 &&
+    Number(p.unitAmountFen) <= 6000 &&
+    Number.isSafeInteger(p.monthLimitFen) &&
+    Number(p.monthLimitFen) > 0 &&
+    Number(p.monthLimitFen) <= 6000 &&
+    (p.enabled
+      ? p.mode === 'live' && p.provider === 'yungouos'
+      : p.mode !== 'live' && p.provider === null)
+  )
+}
+function validSupportOrder(value: unknown): boolean {
+  if (!value || typeof value !== 'object') return false
+  const o = value as Record<string, unknown>
+  if (
+    typeof o.id !== 'string' ||
+    !/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(o.id) ||
+    !Number.isSafeInteger(o.tickets) ||
+    Number(o.tickets) < 1 ||
+    Number(o.tickets) > 100 ||
+    !Number.isSafeInteger(o.amountFen) ||
+    Number(o.amountFen) < 1 ||
+    Number(o.amountFen) > 6000 ||
+    o.currency !== 'CNY' ||
+    !['pending', 'approved', 'rejected', 'refunded'].includes(String(o.status)) ||
+    !(Number.isSafeInteger(o.createdAt) && Number(o.createdAt) > 0) ||
+    (o.testing !== undefined && typeof o.testing !== 'boolean')
+  )
+    return false
+  if (o.payment === undefined) return true
+  if (!o.payment || typeof o.payment !== 'object' || o.testing === true) return false
+  const p = o.payment as Record<string, unknown>
+  return (
+    p.provider === 'yungouos' &&
+    p.method === 'wechat' &&
+    ['creating', 'pending', 'paid', 'closed', 'refund_review', 'refunded'].includes(
+      String(p.state)
+    ) &&
+    (p.expiresAt === undefined ||
+      (Number.isSafeInteger(p.expiresAt) && Number(p.expiresAt) > Number(o.createdAt))) &&
+    (p.qrCodeUrl === undefined ||
+      (o.status === 'pending' &&
+        p.state === 'pending' &&
+        typeof p.qrCodeUrl === 'string' &&
+        /^weixin:\/\/wxpay\/bizpayurl\?pr=[A-Za-z0-9_-]{1,256}$/.test(p.qrCodeUrl))) &&
+    (p.state !== 'paid' || o.status === 'approved') &&
+    (p.state !== 'refunded' || o.status === 'refunded')
+  )
+}
 function validSnapshot(value: unknown, userId: string): value is CollectionSnapshot {
   if (!value || typeof value !== 'object') return false
   const s = value as CollectionSnapshot
@@ -97,6 +158,7 @@ function validSnapshot(value: unknown, userId: string): value is CollectionSnaps
   const pool = s.drawPool
   const home = s.home
   const starter = s.starter
+  if (s.payments !== undefined && !validPaymentCapabilities(s.payments)) return false
   if (
     starter !== undefined &&
     (!starter ||
@@ -308,7 +370,8 @@ export class AccountClient {
     const headers: Record<string, string> = {
       Accept: 'application/json',
       'X-Qon-App': 'qonsona',
-      'X-Qon-Version': this.options.version
+      'X-Qon-Version': this.options.version,
+      'X-Qon-Payment-Protocol': 'yungouos-wechat-v1'
     }
     const publicRequest =
       path === '/health' ||
@@ -365,6 +428,8 @@ export class AccountClient {
         | undefined
       if (response.status === 503 && error?.code === 'CLIENT_POLICY_UNAVAILABLE')
         throw new Error('CLIENT_POLICY_UNAVAILABLE')
+      if (response.status === 503 && error?.code === 'PAYMENT_CHECK_BUSY')
+        throw new Error('PAYMENT_CHECK_BUSY')
       if (response.status === 426 && error?.code === 'CLIENT_UPDATE_REQUIRED') {
         this.#policyUntil = 0
         const version = error.currentVersion
@@ -411,6 +476,17 @@ export class AccountClient {
     if (action !== 'login' && action !== 'register' && !this.#identity)
       throw new Error('UNAUTHORIZED: Please sign in')
     let path = route[1]
+    let requestPayload = payload
+    if (action === 'querySupportOrder' || action === 'closeSupportOrder') {
+      const input = payload as { orderId?: unknown; requestId?: unknown }
+      if (
+        typeof input.orderId !== 'string' ||
+        !/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(input.orderId)
+      )
+        throw new Error('INVALID_ORDER_ID')
+      path += '/' + input.orderId + (action === 'querySupportOrder' ? '/check' : '/close')
+      requestPayload = action === 'querySupportOrder' ? {} : { requestId: input.requestId }
+    }
     if (action === 'leaderboards') {
       const value = payload as AccountPayloads['leaderboards']
       const query = new URLSearchParams({ kind: value.kind, limit: String(value.limit ?? 20) })
@@ -418,7 +494,7 @@ export class AccountClient {
       if (value.scope) query.set('scope', value.scope)
       path += '?' + query.toString()
     }
-    const data = await this.#http(route[0], path, payload)
+    const data = await this.#http(route[0], path, requestPayload)
     const loggingIn = action === 'register' || action === 'login'
     const responseUser = data.user as AccountUser | undefined
     const expectedId = loggingIn ? responseUser?.id : this.#identity?.user.id
@@ -439,6 +515,7 @@ export class AccountClient {
         action === 'updateProfile' ||
         action === 'collection' ||
         action === 'activity' ||
+        action === 'querySupportOrder' ||
         action === 'testGrant' ||
         DURABLE.has(action)) &&
         !snapshotValue) ||
@@ -475,11 +552,31 @@ export class AccountClient {
       )
         throw new Error('INVALID_RESPONSE: Invalid draw pool results')
     }
-    if (action === 'createSupportOrder') {
-      const order = data.order as Record<string, unknown> | undefined
-      if (!order || typeof order.id !== 'string' || !Number.isSafeInteger(order.amountFen))
-        throw new Error('INVALID_RESPONSE: Invalid support order')
+    if (
+      action === 'createSupportOrder' ||
+      action === 'querySupportOrder' ||
+      action === 'closeSupportOrder'
+    ) {
+      if (!validSupportOrder(data.order)) throw new Error('INVALID_RESPONSE: Invalid support order')
+      if (
+        action !== 'createSupportOrder' &&
+        (data.order as { id: string }).id !== (payload as { orderId: string }).orderId
+      )
+        throw new Error('INVALID_RESPONSE: Payment order mismatch')
+      if (
+        action === 'createSupportOrder' &&
+        (data.order as { tickets: number }).tickets !==
+          (payload as AccountPayloads['createSupportOrder']).tickets
+      )
+        throw new Error('INVALID_RESPONSE: Payment quantity mismatch')
     }
+    if (
+      action === 'supportOrders' &&
+      (!Array.isArray(data.orders) ||
+        data.orders.length > 100 ||
+        data.orders.some((order) => !validSupportOrder(order)))
+    )
+      throw new Error('INVALID_RESPONSE: Invalid support orders')
     if (action === 'register' || action === 'login') {
       if (typeof data.token !== 'string' || !data.user) throw new Error('INVALID_RESPONSE')
       await this.#identityChanged({

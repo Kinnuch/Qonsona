@@ -43,6 +43,7 @@ export class Store {
       CREATE TABLE IF NOT EXISTS sessions(token_hash TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),app TEXT NOT NULL,expires_at INTEGER NOT NULL,created_at INTEGER NOT NULL);
       CREATE INDEX IF NOT EXISTS session_user ON sessions(user_id);
       CREATE TABLE IF NOT EXISTS requests(user_id TEXT NOT NULL,request_id TEXT NOT NULL,body_hash TEXT NOT NULL,response TEXT NOT NULL,created_at INTEGER NOT NULL,PRIMARY KEY(user_id,request_id));
+      CREATE TABLE IF NOT EXISTS retired_test_requests(user_id TEXT NOT NULL,request_id TEXT NOT NULL,PRIMARY KEY(user_id,request_id));
       CREATE TABLE IF NOT EXISTS ledger(id TEXT PRIMARY KEY,user_id TEXT NOT NULL,kind TEXT NOT NULL,request_id TEXT NOT NULL,at INTEGER NOT NULL,detail TEXT NOT NULL);
       CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),tickets INTEGER NOT NULL,amount_fen INTEGER NOT NULL,status TEXT NOT NULL,created_at INTEGER NOT NULL,payment_reference TEXT UNIQUE,approved_at INTEGER,support_spent_at_approval INTEGER);
       CREATE TABLE IF NOT EXISTS test_grants(user_id TEXT NOT NULL,epoch TEXT NOT NULL,at INTEGER NOT NULL,PRIMARY KEY(user_id,epoch));
@@ -67,6 +68,22 @@ export class Store {
       this.db.exec('ALTER TABLE orders ADD COLUMN testing INTEGER NOT NULL DEFAULT 0')
     if (!columns.includes('adult_verified'))
       this.db.exec('ALTER TABLE orders ADD COLUMN adult_verified INTEGER NOT NULL DEFAULT 0')
+    for (const [name, type] of Object.entries({
+      provider: 'TEXT',
+      out_trade_no: 'TEXT',
+      merchant_id: 'TEXT',
+      qr_code_url: 'TEXT',
+      expires_at: 'INTEGER',
+      payment_state: 'TEXT',
+      provider_checked_at: 'INTEGER',
+      provider_attempts: 'INTEGER NOT NULL DEFAULT 0',
+      refunded_at: 'INTEGER'
+    }))
+      if (!columns.includes(name)) this.db.exec(`ALTER TABLE orders ADD COLUMN ${name} ${type}`)
+    this.db.exec(`
+      CREATE UNIQUE INDEX IF NOT EXISTS provider_order_number ON orders(provider,out_trade_no) WHERE out_trade_no IS NOT NULL;
+      CREATE TABLE IF NOT EXISTS payment_receipts(provider TEXT NOT NULL,transaction_id TEXT NOT NULL,order_id TEXT NOT NULL UNIQUE REFERENCES orders(id),amount_fen INTEGER NOT NULL,received_at INTEGER NOT NULL,PRIMARY KEY(provider,transaction_id));
+      CREATE TABLE IF NOT EXISTS payment_leases(key TEXT PRIMARY KEY,until_at INTEGER NOT NULL);`)
     const userColumns = this.db
       .prepare('PRAGMA table_info(users)')
       .all()
@@ -140,6 +157,7 @@ export class Store {
       serverTime: now,
       day,
       user: publicUser(row),
+      ...(this.paymentCapabilities ? { payments: this.paymentCapabilities(id) } : {}),
       balances: state.balances,
       pity: state.pity,
       characters: Object.values(state.characters),
@@ -230,6 +248,12 @@ export class Store {
   mutate(id, route, body, now, callback) {
     const digest = hash(JSON.stringify([route, canonical(body)]))
     return this.transaction(() => {
+      if (
+        this.db
+          .prepare('SELECT 1 FROM retired_test_requests WHERE user_id=? AND request_id=?')
+          .get(id, body.requestId)
+      )
+        fail('RETIRED_TEST_REQUEST', 409)
       const existing = this.db
         .prepare('SELECT * FROM requests WHERE user_id=? AND request_id=?')
         .get(id, body.requestId)

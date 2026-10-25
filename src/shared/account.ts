@@ -76,6 +76,7 @@ export interface AccountHome {
 export interface CollectionSnapshot {
   version: 1
   revision: number
+  payments?: AccountPaymentCapabilities
   starter?: { characterId: string; claimedAt: number; source: 'guest-starter' }
   legacy: { id: string; day: string; at: number; minutes: number }[]
   serverTime: string | number
@@ -158,6 +159,15 @@ export interface DrawResult {
   duplicate: boolean
   echoes: number
 }
+export interface AccountPaymentCapabilities {
+  enabled: boolean
+  provider: 'yungouos' | null
+  mode: 'live' | 'simulation' | 'disabled'
+  currency: 'CNY'
+  unitAmountFen: number
+  monthLimitFen: number
+  eligible: boolean
+}
 export interface SupportOrder {
   id: string
   tickets: number
@@ -165,6 +175,15 @@ export interface SupportOrder {
   currency: string
   status: string
   createdAt: string | number
+  testing?: boolean
+  approvedAt?: number | null
+  payment?: {
+    provider: 'yungouos'
+    method: 'wechat'
+    state: 'creating' | 'pending' | 'paid' | 'closed' | 'refund_review' | 'refunded'
+    qrCodeUrl?: string
+    expiresAt?: number
+  }
 }
 export interface Leaderboard {
   kind: 'collection' | 'time'
@@ -249,6 +268,8 @@ export interface AccountPayloads {
     characterId?: string
   }
   createSupportOrder: { requestId: string; tickets: number }
+  querySupportOrder: { orderId: string }
+  closeSupportOrder: { orderId: string; requestId: string }
   supportOrders: Record<string, never>
   testGrant: { requestId: string }
 }
@@ -281,6 +302,8 @@ export interface AccountResponses {
     snapshot: CollectionSnapshot
   }
   createSupportOrder: { order: SupportOrder; snapshot: CollectionSnapshot }
+  querySupportOrder: { order: SupportOrder; snapshot: CollectionSnapshot }
+  closeSupportOrder: { order: SupportOrder; snapshot: CollectionSnapshot }
   supportOrders: { orders: SupportOrder[] }
   testGrant: { snapshot: CollectionSnapshot } | CollectionSnapshot
 }

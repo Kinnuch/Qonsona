@@ -53,14 +53,14 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 收藏的在线功能使用 Qonsona / Qonlang 共享账号，服务器同步灵墨、语言伙伴、道具和寻访保底。
 学习时间与每日任意/指定板块任务获得灵墨；商店兑换初识/相知语言伙伴、寻访笺与续页笺，高档语言伙伴通过寻访获得。
 传颂基础概率 0.6%，20 次珍遇保底、90 次传颂保底，学习/支持券共用保底。旧版已解锁伙伴保留为纪念。
-新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成伙伴。当前只有模拟支持订单，真实收款关闭。
+新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成伙伴。支持开发使用与学习券分开的支持寻访笺；支付状态由服务器提供。
 收藏另有每七天轮换的寻访画廊：每期一只聚光传颂，轮完再重新随机，保底跨期延续；
 伙伴商店使用独立档位挑选页，家园提供可摆放并云端保存多只已收藏伙伴的像素室内占位。
-0.4.3 将支持开发入口与学习寻访笺、续页笺并列；这两项灵墨不足时也提供入口，点击只展开说明，不自动下单。支持寻访笺不增加灵墨或续页笺，正式收款仍未开放。
+0.4.3 将支持开发入口与学习寻访笺、续页笺并列；这两项灵墨不足时也提供入口，点击只展开说明，不自动下单。支持寻访笺不增加灵墨或续页笺。
 家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；伙伴保持原始像素大小，答对题目的鼓励会轮换。
 语言伙伴分为灵动猫、逐风狗、鸣诗鸟、听雨蛙、星辉龙五个系列，图鉴先选系列再展开每只伙伴。
 个体编号、已有收藏与养成记录保持不变；作者介绍保留空白框架。系列与介绍配置见[收藏说明](docs/collection.md#画廊伙伴系列与作者介绍)。
-2026-10-25：备案和 HTTPS 已就绪，最新版客户端可通过公网注册、登录及使用收藏；当前沿用测试账号数据库，真实付款与公网赠券、管理员接口未开放。本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
+2026-10-25：备案和 HTTPS 已就绪，最新版客户端可通过公网注册、登录及使用收藏。本分支新增的微信扫码支付尚未发布，是否可付以服务器实际配置和界面状态为准；生产服务不提供测试赠券，管理员接口不对公网开放。本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
 
 _Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
@@ -70,14 +70,26 @@ with explicit limits for excerpts and insufficient material. Version 0.4.2 allow
 Further redemptions, draws and support-ticket purchases open a login dialog. The starter syncs once after successful login; dismissing login spends nothing.
 Online collection uses shared Qonlang/Qonsona accounts,
 server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6% base SSR, hard pity 90).
-Leaderboard participation is optional. Support orders are simulated; real payments remain disabled.
+Leaderboard participation is optional. Support discovery tickets remain separate from learning tickets; the server supplies payment availability.
 Weekly discovery galleries feature one Legend per seven-day period, with no repeats until the full cycle ends and shared pity retained.
 Tier shops have separate selection pages. The placeholder pixel home saves owned companion placements to the account.
-Version 0.4.3 places Support development beside learning tickets and makeup slips, with additional entries when Ink is insufficient. These open details without creating an order; support tickets do not add Ink or makeup slips, and real payments remain disabled.
+Version 0.4.3 places Support development beside learning tickets and makeup slips, with additional entries when Ink is insufficient. These open details without creating an order; support tickets do not add Ink or makeup slips.
 Furniture and paid room skins are not yet offered; 1000 echoes exchange for one learning ticket. Artwork stays at source size and encouragement varies.
 Language Companions are grouped into Playful Cats, Roaming Dogs, Songbirds, Rain Frogs and Starlight Dragons.
 Existing companion IDs, collections and upbringing records are retained; biography fields remain blank for the author.
-As of 2026-10-25, public HTTPS registration, login and collection are available to the latest client. The existing test account database remains in use; real payments, public test grants and administrator routes remain disabled._
+As of 2026-10-25, public HTTPS registration, login and collection are available to the latest client. The WeChat payment integration on this branch is unreleased; actual availability follows the server configuration and UI. Production grants and public administrator routes remain disabled._
+
+## 微信支持支付（未发布）
+
+本分支接入 YunGouOS 微信 Native 支付。正式配置完整并启用后，普通已登录账号均可在「支持开发」明确创建订单，使用微信扫码付款；二维码由客户端在本机生成，不上传给第三方制图网站。默认每张支持寻访笺 6 元，账号每月未关闭与已付款订单合计最多 60 元。当前商户后台另配置每日 10 元限额，以实际支付提示为准；此商户限制未硬编码进软件，也不会提高账号的月限额。
+
+二维码、付款截图或客户端提示均不能发券。服务器验证支付回调签名，再主动查单核对商户、订单、金额与唯一交易流水，才在同一事务中确认付款并发券。支付创建结果未知时，保留同一订单并显示查询或明确关闭入口；关闭界面不会自动关单，未确认关闭也不会自动新建订单。旧版没有扫码支付协议，需更新后才能创建真实订单。
+
+正式切换方案保留账号身份和密码哈希，备份旧测试库，云端学习奖励、钱包、收藏和保底从零开始；旧会话不迁移，需要重新登录。旧测试请求只保留失效标记，不能重放旧余额或变成真实订单。本机学习数据不因此删除。接入代码与隔离测试完成不代表真实付款已经验收；部署、密钥、回调和退款记录说明见[服务文档](server/README.md#yungouos-wechat-payments-unreleased)。
+
+_This unreleased branch adds YunGouOS WeChat Native payments for ordinary signed-in accounts when the server is fully configured and enabled. QR codes are generated locally. The default is CNY 6 per support ticket and CNY 60 per account/calendar month in pending plus approved orders. The current merchant dashboard separately limits payments to CNY 10/day; that provider setting is not hardcoded into the app._
+
+_Only a verified callback followed by authoritative order, merchant, amount and transaction checks can credit tickets atomically. An uncertain create retains the same order for checking or explicit closure; dismissing the UI neither closes it nor starts another charge. Older clients need the new payment protocol. The production cutover plan retains account identity/password hashes, archives the test database and resets cloud assets, rewards and pity. Sessions are not migrated, so sign in again; retired test request IDs cannot replay old balances or become payable orders. Local learning data is retained. Isolated checks do not establish completion of a real payment; see the [service guide](server/README.md#yungouos-wechat-payments-unreleased)._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。
@@ -89,14 +101,14 @@ As of 2026-10-25, public HTTPS registration, login and collection are available 
 本地学习与文件转移照常可用，旧 Qonlang 的基本账号功能保持兼容。「设置 → 关于」另加入原样沿用千语集的开发者信息和致谢。
 
 0.4.1 已支持账号版本头，0.4.0 需更新；服务器要求始终跟随最新正式版，并非永久固定为 0.4.1。
-部署时须先完成新客户端发布再启用对应服务器策略。公网账号入口已于 2026-10-25 接通，仍须使用核验通过的最新正式版；真实收款未开放。细节见[账号版本说明](docs/collection.md#账号版本要求041)。
+部署时须先完成新客户端发布再启用对应服务器策略。公网账号入口已于 2026-10-25 接通，仍须使用核验通过的最新正式版；真实收款还要求支付配置和新的支付协议。细节见[账号版本说明](docs/collection.md#账号版本要求041)。
 
 _The 0.4.1 account checks require the exact latest formal GitHub Release, verified by both client and server.
 Connection failure, unverifiable policy and required updates have distinct messages. Public preflight carries no password or login token;
 failed checks retain existing sessions and unresolved transactions while pausing online features. Local learning, file transfers and existing Qonlang basic account operations remain available.
 Settings → About also adds Qonlang's original developer information and credits. Version 0.4.1 sends the required header; 0.4.0 clients need an update.
 The requirement follows the latest formal release rather than remaining pinned to 0.4.1. Complete the client release before enabling the corresponding server policy.
-The public account endpoint became available on 2026-10-25 and still requires the verified latest formal client; real payments remain disabled._
+The public account endpoint became available on 2026-10-25 and still requires the verified latest formal client. Real payments additionally require server configuration and the new payment protocol._
 
 ## 下载与安装
 
@@ -179,6 +191,10 @@ NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文�
 离线语音的独立引擎是 [eSpeak-NG / Echogarden Emscripten 编译](https://github.com/echogarden-project/espeak-ng-emscripten)，
 `resources/speech/espeak/` 引擎按 GPL-3.0，`resources/speech/runner.mjs` 也按 GPL-3.0；
 引擎原始 `COPYING` 与 `README.md` 原样保留，独立语音进程与引擎的许可证随安装包提供。
+
+支付二维码在本机使用 [qrcode-generator 2.0.4](https://github.com/kazuhikoarase/qrcode-generator) 生成，作者 Kazuhiko Arase，Copyright (c) 2009，按 [MIT 许可](resources/licenses/qrcode-generator-MIT.txt)。该库仅编码经过检查的微信原生付款链接，不处理商户密钥，也不向制图网站传输订单。YunGouOS 支付适配器使用 Node 标准库，未引入其 SDK 或把支付密钥打入客户端。
+
+_Payment QR codes use qrcode-generator 2.0.4, Copyright (c) 2009 Kazuhiko Arase, MIT. It renders validated native WeChat links locally, without merchant keys or a remote QR-image service. The YunGouOS adapter uses Node standard libraries rather than embedding its SDK or payment secrets in the client._
 
 ## 开发
 

@@ -23,6 +23,8 @@ import {
 } from './domain.mjs'
 import { characterFor } from './catalog.mjs'
 import { ClientPolicy } from './client-policy.mjs'
+import { YunGouOSProvider } from './yungouos.mjs'
+import { SupportPayments, orderView } from './support-payments.mjs'
 
 const derive = promisify(scrypt)
 const PARAMS = { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 }
@@ -48,28 +50,39 @@ async function passwordMatches(value, encoded) {
     : Buffer.alloc(64)
   return timingSafeEqual(result, expected) && !!digest
 }
-function orderView(row) {
-  return {
-    id: row.id,
-    tickets: row.tickets,
-    amountFen: row.amount_fen,
-    currency: 'CNY',
-    status: row.status,
-    testing: !!row.testing,
-    createdAt: row.created_at,
-    approvedAt: row.approved_at || null
-  }
-}
 export class Service {
-  constructor({ path = ':memory:', now = Date.now, random, env = process.env, policyFetch } = {}) {
+  constructor({
+    path = ':memory:',
+    now = Date.now,
+    random,
+    env = process.env,
+    policyFetch,
+    paymentProvider,
+    paymentFetch
+  } = {}) {
     this.store = new Store(path)
     this.now = now
     this.random = random
     this.env = { ...env }
     this.clientPolicy = new ClientPolicy({ now, env, fetch: policyFetch })
     this.testEnabled = env.NODE_ENV !== 'production' && env.QON_TEST_GRANTS === '1'
-    this.paymentsEnabled = env.QON_PAYMENTS_ENABLED === '1'
-    this.simulatedPayments = !this.paymentsEnabled && env.NODE_ENV !== 'production'
+    const requestedPayments = env.QON_PAYMENTS_ENABLED === '1'
+    if (requestedPayments && !this.testEnabled && paymentProvider === undefined) {
+      try {
+        paymentProvider = new YunGouOSProvider({
+          mchId: env.QON_YUNGOUOS_MCH_ID || '',
+          payKey: env.QON_YUNGOUOS_PAY_KEY || '',
+          notifyUrl: env.QON_YUNGOUOS_NOTIFY_URL || '',
+          now,
+          ...(paymentFetch ? { fetchImpl: paymentFetch } : {})
+        })
+      } catch {
+        paymentProvider = null
+      }
+    }
+    this.paymentsEnabled = requestedPayments && !this.testEnabled && !!paymentProvider?.enabled
+    this.simulatedPayments = !requestedPayments && env.NODE_ENV !== 'production'
+    this.supportPayments = new SupportPayments(this, paymentProvider)
     this.testEpoch = env.QON_TEST_EPOCH || 'local-test-v1'
     this.supportPrice = Number(env.QON_SUPPORT_TICKET_FEN || 600)
     if (
@@ -78,6 +91,15 @@ export class Service {
       this.supportPrice > 6000
     )
       throw new Error('Invalid QON_SUPPORT_TICKET_FEN')
+    this.store.paymentCapabilities = (id) => ({
+      enabled: this.paymentsEnabled,
+      provider: this.paymentsEnabled ? 'yungouos' : null,
+      mode: this.paymentsEnabled ? 'live' : this.simulatedPayments ? 'simulation' : 'disabled',
+      currency: 'CNY',
+      unitAmountFen: this.supportPrice,
+      monthLimitFen: 6000,
+      eligible: !!this.store.user(id)
+    })
     this.passwordJobs = 0
   }
   close() {
@@ -126,11 +148,14 @@ export class Service {
     method,
     path,
     body = {},
-    { token, ip = 'local', app = 'qonsona', clientVersion, query = {} } = {}
+    { token, ip = 'local', app = 'qonsona', clientVersion, paymentProtocol, query = {} } = {}
   ) {
     const now = this.now()
     this.store.rate(`ip:${hash(ip)}`, now, 120)
     if (method === 'POST' || method === 'PATCH') shape(body, Object.keys(body || {}))
+    // Provider retries must work after an application release or account-session expiry.
+    if (method === 'POST' && path === '/v1/payments/yungouos/notify')
+      return this.supportPayments.notification(body)
     if (!['qonlang', 'qonsona'].includes(app)) fail('INVALID_APP')
     if (method === 'GET' && path === '/v1/health')
       return {
@@ -222,6 +247,18 @@ export class Service {
           .all(id)
           .map(orderView)
       }
+    const checkOrder = /^\/v1\/support\/orders\/([a-f0-9-]{36})\/check$/.exec(path)
+    if (method === 'POST' && checkOrder) {
+      shape(body, [])
+      return this.supportPayments.check(checkOrder[1], id)
+    }
+    const closeOrder = /^\/v1\/support\/orders\/([a-f0-9-]{36})\/close$/.exec(path)
+    if (method === 'POST' && closeOrder) return this.supportPayments.close(closeOrder[1], id, body)
+    if (method === 'POST' && path === '/v1/support/orders' && !this.simulatedPayments) {
+      if (this.paymentsEnabled && paymentProtocol !== 'yungouos-wechat-v1')
+        fail('PAYMENT_CLIENT_UPDATE_REQUIRED', 409)
+      return this.supportPayments.create(id, body, now)
+    }
     if (method === 'POST' && path === '/v1/test/grant') {
       shape(body, ['requestId'], ['requestId'])
       requestId(body.requestId)
@@ -236,7 +273,19 @@ export class Service {
       '/v1/collection/legacy': (state) => importLegacy(state, body, now),
       '/v1/collection/starter': (state) => claimStarter(state, body, now),
       '/v1/shop/purchase': (state) => purchase(state, body, now),
-      '/v1/draw': (state) => draw(state, body, now, this.random, this.store.drawPool(now)),
+      '/v1/draw': (state) => {
+        // The refund freeze and the ticket deduction share BEGIN IMMEDIATE.
+        // A preflight read cannot protect against another connection committing
+        // a refund review before this transaction starts.
+        if (
+          body.source === 'support' &&
+          this.store.db
+            .prepare("SELECT 1 FROM orders WHERE user_id=? AND payment_state='refund_review'")
+            .get(id)
+        )
+          fail('PAYMENT_REVIEW_REQUIRED', 409)
+        return draw(state, body, now, this.random, this.store.drawPool(now))
+      },
       '/v1/home/update': (state) => updateHome(state, body),
       '/v1/inventory/use': (state) => makeup(state, body, now),
       '/v1/support/orders': (state) => this.createOrder(id, body, state, now),
@@ -296,9 +345,16 @@ export class Service {
       .run(order.id, id, tickets, amount, 'pending', now, order.testing)
     return { order: orderView(order) }
   }
-  adminRoute(method, path, body, token, now) {
+  async adminRoute(method, path, body, token, now) {
     this.admin(token)
     this.store.rate('admin:mutation', now, 60)
+    const refundCheck = /^\/v1\/admin\/support\/orders\/([a-f0-9-]{36})\/check-refund$/.exec(path)
+    if (method === 'POST' && refundCheck) {
+      shape(body, ['requestId', 'refundNo'], ['requestId', 'refundNo'])
+      requestId(body.requestId)
+      const refundNo = text(body.refundNo, 6, 128)
+      return this.supportPayments.observeRefund(refundCheck[1], refundNo)
+    }
     if (method === 'GET' && path === '/v1/admin/support/orders')
       return {
         orders: this.store.db
@@ -333,6 +389,8 @@ export class Service {
       (state) => {
         const current = this.store.db.prepare('SELECT * FROM orders WHERE id=?').get(orderId)
         if (action === 'approve') {
+          // Provider-backed orders can only be credited from authenticated provider evidence.
+          if (current.provider) fail('PAYMENT_PROVIDER_VERIFICATION_REQUIRED', 409)
           if (current.status !== 'pending') fail('ORDER_NOT_PENDING', 409)
           if (body.amountFen !== current.amount_fen) fail('PAYMENT_AMOUNT_MISMATCH', 409)
           const reference = text(body.paymentReference, 6, 128)
@@ -350,6 +408,7 @@ export class Service {
             .run(reference, now, state.supportSpent, orderId)
           state.balances.tickets.support += current.tickets
         } else if (action === 'reject') {
+          if (current.provider) fail('PAYMENT_PROVIDER_VERIFICATION_REQUIRED', 409)
           if (current.status !== 'pending') fail('ORDER_NOT_PENDING', 409)
           this.store.db.prepare("UPDATE orders SET status='rejected' WHERE id=?").run(orderId)
         } else {
@@ -360,7 +419,11 @@ export class Service {
           )
             fail('REFUND_REQUIRES_MANUAL_REVIEW', 409)
           state.balances.tickets.support -= current.tickets
-          this.store.db.prepare("UPDATE orders SET status='refunded' WHERE id=?").run(orderId)
+          this.store.db
+            .prepare(
+              "UPDATE orders SET status='refunded',payment_state=CASE WHEN provider IS NULL THEN payment_state ELSE 'refunded' END,refunded_at=? WHERE id=?"
+            )
+            .run(now, orderId)
         }
         return {
           order: orderView(this.store.db.prepare('SELECT * FROM orders WHERE id=?').get(orderId))

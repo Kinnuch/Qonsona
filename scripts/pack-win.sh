@@ -26,6 +26,7 @@ cp -r node_modules/electron/dist/. "$OUT/"
 cp -r out dist/app-stage/out
 # 词典数据库（resources/data）放在 asar 外面：SQLite 读不了 asar 里的文件
 cp resources/icon.png dist/app-stage/resources/
+cp -r resources/licenses dist/app-stage/resources/
 mkdir -p "$OUT/resources/speech"
 cp -r resources/speech/. "$OUT/resources/speech/"
 if [ -d resources/data ]; then

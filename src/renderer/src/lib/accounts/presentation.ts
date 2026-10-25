@@ -19,10 +19,11 @@ export function ledgerName(kind: string, locale: string): string {
 }
 export function orderStatus(status: string, locale: string): string {
   const labels: Record<string, [string, string]> = {
-    pending: ['待人工核验', 'Pending manual verification'],
-    approved: ['已核验', 'Verified'],
+    pending: ['待确认', 'Awaiting confirmation'],
+    approved: ['已到账', 'Credited'],
     rejected: ['未通过核验', 'Not verified'],
-    cancelled: ['已取消', 'Cancelled']
+    cancelled: ['已取消', 'Cancelled'],
+    refunded: ['已退款', 'Refunded']
   }
   return labels[status]?.[locale === 'zh' ? 0 : 1] ?? (locale === 'zh' ? '处理中' : 'Processing')
 }

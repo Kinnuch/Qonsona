@@ -81,7 +81,7 @@ test('test-only support orders visibly simulated, require synthetic QA reference
   }
 })
 
-test('production explicitly enabled support still needs independent adult verification; old test orders cannot become real credit', async () => {
+test('a production payment flag without a configured provider cannot create a payable order', async () => {
   const service = new Service({
     env: { NODE_ENV: 'production', QON_PAYMENTS_ENABLED: '1', QON_ADMIN_KEY: 'a'.repeat(48) }
   })
@@ -90,32 +90,17 @@ test('production explicitly enabled support still needs independent adult verifi
       username: 'enableduser',
       password: 'password-12345'
     })
-    const order = (
-      await service.handle(
+    await assert.rejects(
+      service.handle(
         'POST',
         '/v1/support/orders',
         { requestId: randomUUID(), tickets: 1 },
         { token: user.token }
-      )
-    ).order
-    assert.equal(order.testing, false)
-    const body = {
-      requestId: randomUUID(),
-      amountFen: 600,
-      paymentReference: 'verified-reference',
-      adultVerified: false
-    }
-    const path = `/v1/admin/support/orders/${order.id}/approve`,
-      admin = { token: 'a'.repeat(48) }
-    await assert.rejects(
-      service.handle('POST', path, body, admin),
-      (e) => e.code === 'ADULT_VERIFICATION_REQUIRED'
+      ),
+      (e) => e.code === 'PAYMENTS_DISABLED'
     )
-    service.store.db.prepare('UPDATE orders SET testing=1 WHERE id=?').run(order.id)
-    await assert.rejects(
-      service.handle('POST', path, { ...body, adultVerified: true }, admin),
-      (e) => e.code === 'ORDER_MODE_MISMATCH'
-    )
+    assert.equal(service.store.db.prepare('SELECT COUNT(*) AS n FROM orders').get().n, 0)
+    assert.equal((await service.handle('GET', '/v1/health')).payments.enabled, false)
   } finally {
     service.close()
   }
