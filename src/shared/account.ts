@@ -165,8 +165,27 @@ export interface AccountPaymentCapabilities {
   mode: 'live' | 'simulation' | 'disabled'
   currency: 'CNY'
   unitAmountFen: number
-  monthLimitFen: number
+  monthLimitFen: number | null
   eligible: boolean
+  orderMaxFen?: number
+  plans?: SupportPlan[]
+  firstPurchase?: { eligible: boolean; pendingOrderId?: string; claimed: boolean }
+  custom?: {
+    minAmountFen: number
+    maxAmountFen: number
+    stepAmountFen: number
+    ticketAmountFen: number
+  }
+}
+export type SupportPlanId = 'first-support' | 'support-6' | 'support-60' | 'support-600' | 'custom'
+export interface SupportPlan {
+  id: Exclude<SupportPlanId, 'custom'>
+  name: { zh: string; en: string }
+  amountFen: number
+  baseTickets: number
+  bonusTickets: number
+  tickets: number
+  firstPurchaseOnly: boolean
 }
 export interface SupportOrder {
   id: string
@@ -177,6 +196,9 @@ export interface SupportOrder {
   createdAt: string | number
   testing?: boolean
   approvedAt?: number | null
+  planId?: SupportPlanId
+  baseTickets?: number
+  bonusTickets?: number
   payment?: {
     provider: 'yungouos'
     method: 'wechat'
@@ -267,7 +289,10 @@ export interface AccountPayloads {
     correct: true
     characterId?: string
   }
-  createSupportOrder: { requestId: string; tickets: number }
+  createSupportOrder:
+    | { requestId: string; planId: SupportPlanId; amountFen?: number }
+    /** Retained for old pending journals and isolated simulated-payment fixtures only. */
+    | { requestId: string; tickets: number }
   querySupportOrder: { orderId: string }
   closeSupportOrder: { orderId: string; requestId: string }
   supportOrders: Record<string, never>

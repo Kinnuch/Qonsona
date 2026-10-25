@@ -60,7 +60,7 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；伙伴保持原始像素大小，答对题目的鼓励会轮换。
 语言伙伴分为灵动猫、逐风狗、鸣诗鸟、听雨蛙、星辉龙五个系列，图鉴先选系列再展开每只伙伴。
 个体编号、已有收藏与养成记录保持不变；作者介绍保留空白框架。系列与介绍配置见[收藏说明](docs/collection.md#画廊伙伴系列与作者介绍)。
-2026-10-25：备案和 HTTPS 已就绪，最新版客户端可通过公网注册、登录及使用收藏。本分支新增的微信扫码支付尚未发布，是否可付以服务器实际配置和界面状态为准；生产服务不提供测试赠券，管理员接口不对公网开放。本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
+2026-10-25：0.4.4 加入独立支持开发套餐页与微信扫码支付，是否可付以服务器配置、渠道限额和界面状态为准；最新版客户端可通过公网注册、登录及使用收藏。生产服务不提供测试赠券，管理员接口不对公网开放。本地学习可以正常使用。规则与入口见[收集说明](docs/collection.md)。
 
 _Download the verified Supertonic 3 pack in Settings → Speech for local neural text synthesis without an API key or GPU.
 It supports 31 languages, including seven built-in natural languages, but not Gaelic, Quenya, Sindarin or general IPA.
@@ -77,19 +77,31 @@ Version 0.4.3 places Support development beside learning tickets and makeup slip
 Furniture and paid room skins are not yet offered; 1000 echoes exchange for one learning ticket. Artwork stays at source size and encouragement varies.
 Language Companions are grouped into Playful Cats, Roaming Dogs, Songbirds, Rain Frogs and Starlight Dragons.
 Existing companion IDs, collections and upbringing records are retained; biography fields remain blank for the author.
-As of 2026-10-25, public HTTPS registration, login and collection are available to the latest client. The WeChat payment integration on this branch is unreleased; actual availability follows the server configuration and UI. Production grants and public administrator routes remain disabled._
+Version 0.4.4 (2026-10-25) adds a separate support-package page and WeChat scanning; availability follows the server configuration, channel limits and UI. Public HTTPS registration, login and collection require the latest client. Production grants and public administrator routes remain disabled._
 
-## 微信支持支付（未发布）
+## 微信支持支付（0.4.4，2026-10-25）
 
-本分支接入 YunGouOS 微信 Native 支付。正式配置完整并启用后，普通已登录账号均可在「支持开发」明确创建订单，使用微信扫码付款；二维码由客户端在本机生成，不上传给第三方制图网站。默认每张支持寻访笺 6 元，账号每月未关闭与已付款订单合计最多 60 元。当前商户后台另配置每日 10 元限额，以实际支付提示为准；此商户限制未硬编码进软件，也不会提高账号的月限额。
+0.4.4 接入 YunGouOS 微信 Native 支付，明确使用不分账模式。登录后从商店进入独立「支持开发」页面，选择套餐并确认后才创建订单；二维码在本机生成。支持寻访笺与学习寻访笺分开，不增加灵墨或续页笺。
 
-二维码、付款截图或客户端提示均不能发券。服务器验证支付回调签名，再主动查单核对商户、订单、金额与唯一交易流水，才在同一事务中确认付款并发券。支付创建结果未知时，保留同一订单并显示查询或明确关闭入口；关闭界面不会自动关单，未确认关闭也不会自动新建订单。旧版没有扫码支付协议，需更新后才能创建真实订单。
+| 套餐               |                        金额 |                支持寻访笺 |
+| ------------------ | --------------------------: | ------------------------: |
+| 每账号首次支付优惠 |                       ¥0.01 |                        10 |
+| 一份支持           |                          ¥6 |                        10 |
+| 长久相伴           |                         ¥60 |            100 + 10 = 110 |
+| 一路同行           |                        ¥600 |         1000 + 100 = 1100 |
+| 自定义             | ¥0.60–¥600，按 ¥0.60 整数倍 | 每 ¥0.60 一张，无额外赠送 |
 
-正式切换方案保留账号身份和密码哈希，备份旧测试库，云端学习奖励、钱包、收藏和保底从零开始；旧会话不迁移，需要重新登录。旧测试请求只保留失效标记，不能重放旧余额或变成真实订单。本机学习数据不因此删除。接入代码与隔离测试完成不代表真实付款已经验收；部署、密钥、回调和退款记录说明见[服务文档](server/README.md#yungouos-wechat-payments-unreleased)。
+首付优惠按账号在下单时锁定，结果未知时保留原订单；渠道明确确认未付款并关闭后可再尝试，成功付款后永久限一次，退款不恢复。任何历史已付款记录均会影响首付资格；此前 0.01 元测试订单仍保留原有一张券，不追补或改价。应用取消原每月 60 元上限，单笔最多 600 元；渠道商户限额仍独立生效，当前后台显示每日 10 元，以实际支付提示为准。
 
-_This unreleased branch adds YunGouOS WeChat Native payments for ordinary signed-in accounts when the server is fully configured and enabled. QR codes are generated locally. The default is CNY 6 per support ticket and CNY 60 per account/calendar month in pending plus approved orders. The current merchant dashboard separately limits payments to CNY 10/day; that provider setting is not hardcoded into the app._
+未付订单在十分钟到期后由后台主动查单并关闭，跨重启继续；渠道异常时显示核对中，倒计时结束或关闭页面不能证明已关单。付款结果未知时请恢复同一订单查询，已真实付款或迟到付款仍按原订单核实处理。若异常重复优惠付款需要人工核验，会保留真实付款记录，不再重复发优惠券。部署、退款与历史测试库隔离见[服务文档](server/README.md#yungouos-wechat-payments)。
 
-_Only a verified callback followed by authoritative order, merchant, amount and transaction checks can credit tickets atomically. An uncertain create retains the same order for checking or explicit closure; dismissing the UI neither closes it nor starts another charge. Older clients need the new payment protocol. The production cutover plan retains account identity/password hashes, archives the test database and resets cloud assets, rewards and pity. Sessions are not migrated, so sign in again; retired test request IDs cannot replay old balances or become payable orders. Local learning data is retained. Isolated checks do not establish completion of a real payment; see the [service guide](server/README.md#yungouos-wechat-payments-unreleased)._
+_Version 0.4.4 adds a separate support page with non-profit-sharing WeChat Native checkout: first payment CNY 0.01/10 support tickets; CNY 6/10; CNY 60/110; CNY 600/1100; custom CNY 0.60–600 in exact CNY 0.60 steps, one ticket per step and no bonus. First-payment eligibility is reserved when ordering, restored only after confirmed unpaid closure, and consumed permanently by payment, including later refunds. Historical payments exclude the offer; old one-fen/one-ticket orders retain their original entitlement. The old CNY 60 monthly application cap is removed; each order is at most CNY 600, subject to independent channel limits (currently CNY 10/day in the merchant dashboard). At ten minutes a persistent server worker checks and closes unpaid invoices; outages remain unresolved, and genuine late payments are reconciled. Uncertain creation retains the same order. See the [service guide](server/README.md#yungouos-wechat-payments)._
+
+### 支付安全边界 / Payment security
+
+公网支付账号接口使用 HTTPS，金额与券数由服务器套餐目录决定。服务器验证渠道签名并主动查单，核对原订单、商户、金额及唯一交易流水后，事务化记录到账和发券；截图、二维码和客户端提示不能直接发券。客户端使用隔离、沙盒化渲染器与受限主进程 IPC，登录令牌由主进程管理，系统加密不可用时不明文落盘。商户密钥只保存在服务器受权限保护的环境配置中，不打包进客户端；该配置是访问控制保护的文件，并非静态加密。安全依赖服务器、系统和支付渠道，不能保证绝对安全。
+
+_Public account/payment transport uses HTTPS. The server owns pricing and verifies the channel signature plus authoritative order/merchant/amount/unique transaction evidence before atomic credit. Client screenshots or success messages do not issue tickets. The isolated sandboxed renderer has restricted main-process IPC; tokens remain main-owned and are not persisted as plaintext when OS encryption is unavailable. Merchant keys stay only in permission-protected server configuration, outside client bundles; that file is not encrypted at rest. Server, OS and provider security remain dependencies, so absolute security is not claimed._
 
 名字：Qon- 跟千语集 Qonlang 同一个前缀；拉丁语 _consona_ 是「同声、和谐」，跟巴别塔的语言变乱反着来；
 道本语的 _sona_ 是「知道」（_kama sona_，学）。
@@ -204,7 +216,7 @@ _Payment QR codes use qrcode-generator 2.0.4, Copyright (c) 2009 Kazuhiko Arase,
 
 程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
 
-`data/release-data.json` 使用 0.4.3 的版本化数据包 `qonsona-data-0.4.3.zip`，包含十一库及逐文件大小与 SHA-256 校验。
+`data/release-data.json` 使用 0.4.4 的版本化数据包 `qonsona-data-0.4.4.zip`，包含十一库及逐文件大小与 SHA-256 校验。
 开发时可下载清单指定的完整数据包；需要重建精灵语词库时，再执行 Eldamo 管线。
 
 ```sh

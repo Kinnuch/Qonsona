@@ -77,13 +77,36 @@ export class Store {
       payment_state: 'TEXT',
       provider_checked_at: 'INTEGER',
       provider_attempts: 'INTEGER NOT NULL DEFAULT 0',
-      refunded_at: 'INTEGER'
+      refunded_at: 'INTEGER',
+      plan_id: 'TEXT',
+      base_tickets: 'INTEGER',
+      bonus_tickets: 'INTEGER',
+      credited_tickets: 'INTEGER NOT NULL DEFAULT 0',
+      provider_status: 'TEXT',
+      verified_paid_claim_at: 'INTEGER',
+      auto_close_attempts: 'INTEGER NOT NULL DEFAULT 0',
+      auto_close_next_at: 'INTEGER NOT NULL DEFAULT 0'
     }))
       if (!columns.includes(name)) this.db.exec(`ALTER TABLE orders ADD COLUMN ${name} ${type}`)
+    // Only the schema transition can infer old credits. Reopening a current
+    // database must preserve an explicitly uncredited duplicate-promotion row.
+    if (!columns.includes('credited_tickets'))
+      this.db.exec(
+        "UPDATE orders SET credited_tickets=CASE WHEN status='approved' THEN tickets ELSE 0 END"
+      )
     this.db.exec(`
       CREATE UNIQUE INDEX IF NOT EXISTS provider_order_number ON orders(provider,out_trade_no) WHERE out_trade_no IS NOT NULL;
       CREATE TABLE IF NOT EXISTS payment_receipts(provider TEXT NOT NULL,transaction_id TEXT NOT NULL,order_id TEXT NOT NULL UNIQUE REFERENCES orders(id),amount_fen INTEGER NOT NULL,received_at INTEGER NOT NULL,PRIMARY KEY(provider,transaction_id));
       CREATE TABLE IF NOT EXISTS payment_leases(key TEXT PRIMARY KEY,until_at INTEGER NOT NULL);`)
+    this.db.exec(`CREATE TABLE IF NOT EXISTS first_support_reservations(
+      user_id TEXT PRIMARY KEY REFERENCES users(id),
+      order_id TEXT NOT NULL UNIQUE REFERENCES orders(id),
+      created_at INTEGER NOT NULL);
+      CREATE TABLE IF NOT EXISTS first_support_claims(
+      user_id TEXT PRIMARY KEY REFERENCES users(id),
+      order_id TEXT NOT NULL UNIQUE REFERENCES orders(id),
+      created_at INTEGER NOT NULL);
+      CREATE INDEX IF NOT EXISTS unpaid_payment_deadlines ON orders(provider,status,auto_close_next_at,expires_at);`)
     const userColumns = this.db
       .prepare('PRAGMA table_info(users)')
       .all()

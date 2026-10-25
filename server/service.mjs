@@ -25,6 +25,12 @@ import { characterFor } from './catalog.mjs'
 import { ClientPolicy } from './client-policy.mjs'
 import { YunGouOSProvider } from './yungouos.mjs'
 import { SupportPayments, orderView } from './support-payments.mjs'
+import {
+  SUPPORT_CUSTOM,
+  SUPPORT_PLANS,
+  SUPPORT_ORDER_MAX_FEN,
+  SUPPORT_TICKET_FEN
+} from './support-catalog.mjs'
 
 const derive = promisify(scrypt)
 const PARAMS = { N: 32768, r: 8, p: 1, maxmem: 64 * 1024 * 1024 }
@@ -96,13 +102,18 @@ export class Service {
       provider: this.paymentsEnabled ? 'yungouos' : null,
       mode: this.paymentsEnabled ? 'live' : this.simulatedPayments ? 'simulation' : 'disabled',
       currency: 'CNY',
-      unitAmountFen: this.supportPrice,
-      monthLimitFen: 6000,
-      eligible: !!this.store.user(id)
+      unitAmountFen: SUPPORT_TICKET_FEN,
+      orderMaxFen: SUPPORT_ORDER_MAX_FEN,
+      monthLimitFen: null,
+      eligible: !!this.store.user(id),
+      plans: SUPPORT_PLANS,
+      firstPurchase: this.supportPayments.firstPurchase(id),
+      custom: SUPPORT_CUSTOM
     })
     this.passwordJobs = 0
   }
   close() {
+    this.supportPayments.stopMaintenance()
     this.store.close()
   }
   async withPassword(callback) {
@@ -255,7 +266,7 @@ export class Service {
     const closeOrder = /^\/v1\/support\/orders\/([a-f0-9-]{36})\/close$/.exec(path)
     if (method === 'POST' && closeOrder) return this.supportPayments.close(closeOrder[1], id, body)
     if (method === 'POST' && path === '/v1/support/orders' && !this.simulatedPayments) {
-      if (this.paymentsEnabled && paymentProtocol !== 'yungouos-wechat-v1')
+      if (this.paymentsEnabled && paymentProtocol !== 'yungouos-wechat-v2')
         fail('PAYMENT_CLIENT_UPDATE_REQUIRED', 409)
       return this.supportPayments.create(id, body, now)
     }
@@ -388,6 +399,8 @@ export class Service {
       now,
       (state) => {
         const current = this.store.db.prepare('SELECT * FROM orders WHERE id=?').get(orderId)
+        if (current.provider || (action === 'approve' && this.env.NODE_ENV === 'production'))
+          fail('PAYMENT_PROVIDER_VERIFICATION_REQUIRED', 409)
         if (action === 'approve') {
           // Provider-backed orders can only be credited from authenticated provider evidence.
           if (current.provider) fail('PAYMENT_PROVIDER_VERIFICATION_REQUIRED', 409)

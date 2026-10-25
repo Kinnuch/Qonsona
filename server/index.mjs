@@ -115,15 +115,17 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     port = Number(process.env.QON_PORT || 8787)
   if (production && host !== '127.0.0.1')
     throw new Error('Production API must bind to loopback behind HTTPS nginx')
-  server.listen(port, host, () =>
+  server.listen(port, host, () => {
     console.log(
       `Qon accounts API listening ${host}:${port}; test grants ${service.testEnabled ? 'enabled' : 'disabled'}`
     )
-  )
+    service.supportPayments.startMaintenance()
+  })
   let closing = false
   const stop = () => {
     if (closing) return
     closing = true
+    service.supportPayments.stopMaintenance()
     server.close(() => {
       service.close()
       process.exit(0)

@@ -1,6 +1,6 @@
-# 收藏、灵墨与寻访（0.4.3，含未发布支付说明）
+# 收藏、灵墨与寻访（0.4.4，2026-10-25）
 
-0.4.2版允许未登录浏览收藏，免费领取一只初识档语言伙伴。在线收藏与排行榜使用 Qonsona / Qonlang 共享账号。账号、灵墨、语言伙伴、道具、寻访结果与保底保存在服务器，不同电脑分别登录同一账号即可查看。2026-10-25 起，备案与 HTTPS 已就绪，公网账号和普通收藏接口已接通。本分支的微信支持支付尚未发布，实际是否可付以服务器配置和界面状态为准；生产测试赠券与公网管理员接口关闭。Qonlang 本地工程仍可离线使用，工程正文和录音不上传。离线也可退出本机账号。
+0.4.2版允许未登录浏览收藏，免费领取一只初识档语言伙伴。在线收藏与排行榜使用 Qonsona / Qonlang 共享账号。账号、灵墨、语言伙伴、道具、寻访结果与保底保存在服务器，不同电脑分别登录同一账号即可查看。0.4.4（2026-10-25）加入独立支持开发套餐页和微信扫码付款；实际可付状态取决于服务器配置及渠道限额。公网账号和普通收藏接口已接通，生产测试赠券与公网管理员接口关闭。Qonlang 本地工程仍可离线使用，工程正文和录音不上传。离线也可退出本机账号。
 
 收藏分为「画廊、家园、每日任务、商店、寻访、行囊」。四档语言伙伴称为初识 A、相知 R、珍遇 SR、传颂 SSR。常规目录使用用户提供的三张素材：二十只语言伙伴，每档五只；蓝色小伙伴作为月度专属素材，独立于寻访和商店。
 
@@ -18,7 +18,7 @@ _Further redemptions, draws and support-ticket purchases explain the login requi
 
 _After verified login, the local starter syncs once to that account. An existing account starter is retained; an already owned matching companion is not duplicated and earns no echoes. Retries use the original request ID. Pending synchronization pauses online spending until reconnection. Once bound, the local claim is not automatically granted to another account; signing out retains the local starter view._
 
-_As of 2026-10-25, ICP filing and HTTPS are ready, and the latest client can use public registration, login and ordinary collection routes. This branch's WeChat support payments are unreleased; actual availability follows server configuration and UI state. Production grants and public administrator routes are disabled. Desktop UI checks use isolated profiles and services._
+_Version 0.4.4 (2026-10-25) adds a separate support-package page and WeChat checkout. Public HTTPS registration, login and collection require the latest client; payment availability follows server configuration and channel limits. Production grants and public administrator routes are disabled. Desktop UI checks use isolated profiles and services._
 
 ## 账号版本要求（0.4.1）
 
@@ -30,9 +30,9 @@ Qonsona 在线账号的版本要求由客户端与服务器共同核验 GitHub �
 
 ## 灵墨与每日任务
 
-0.4.3 将「支持开发」与学习寻访笺、续页笺并列放在「学习补给」商品栏；灵墨不足的这两项商品还会额外显示「购买支持开发」。点击后，在补给栏下方、余韵兑换之前展开支持说明及订单区，不自动下单；未登录时先弹出登录界面。支持开发对应支持寻访笺，不增加灵墨，也不能代替续页笺。模拟模式明确显示测试订单及请勿付款提示，禁用模式不能下单；真实扫码需要新的支付协议与完整服务器配置。
+「支持开发」与学习寻访笺、续页笺并列放在「学习补给」商品栏；灵墨不足的这两项商品还会额外显示「购买支持开发」。0.4.4 点击后进入独立套餐与订单页面，可返回商店；进入页面不自动下单，未登录时先弹出登录界面。支持开发对应支持寻访笺，不增加灵墨，也不能代替续页笺。模拟模式明确显示测试订单及请勿付款提示，禁用模式不能下单。
 
-_Version 0.4.3 places Support development alongside learning discovery tickets and makeup slips in Study supplies. These two Ink-priced products also show a support purchase entry when the balance is insufficient. Opening it displays details and orders below supplies, before Echo exchange, without creating an order; visitors are asked to sign in. Support provides support discovery tickets, not Ink or makeup slips. Simulation explicitly prohibits real payment; disabled mode cannot create orders. Live scanning requires the new protocol and complete server configuration._
+_Support development appears beside learning tickets and makeup slips, with another entry when their Ink balance is insufficient. In 0.4.4 it opens a separate package/order page, with a return to Shop and no automatic order. Visitors are asked to sign in. Support grants support tickets, not Ink or makeup slips; simulation prohibits real payment and disabled mode cannot create orders._
 
 有效学习要求窗口可见且在前台，处于阅读、练习、课程、生词本、词典或视听模块，最近两分钟有操作。只播放媒体、首页及收藏浏览不计。客户端每十五秒结算；服务器按账号合并设备的最近在线时间，重叠时间不累加，首次心跳只初始化。
 
@@ -73,23 +73,29 @@ _Version 0.4.3 places Support development alongside learning discovery tickets a
 
 支持收藏数量、总时长及各语言时长。收藏数只计不同的新语言伙伴；时长只计登录后服务器接受的在线有效时间，与统计页本地历史可能不同。新账号默认参加收藏与时长榜，可分别关闭，也可把可见范围设为仅好友；已关闭的原账号保留其选择。公开只显示昵称、随机公开编号和榜单数值，不显示登录用户名、付款金额或私有内容。
 
-## 支持券、微信支付与测试入口（支付接入未发布）
+## 支持券、微信支付与测试入口（0.4.4）
 
-正式模式启用后，所有正常登录且通过版本检查的账号均可创建支持订单，不需要 Administrator 身份或人工名单。默认每张支持寻访笺 6 元，账号每个上海自然月内待付款与已确认订单合计最多 60 元。商户后台当前另有每日 10 元限额，由实际支付提示约束，不是软件硬编码的每日额度；账号月限额不会因此提高。支持券与学习券分开，不增加灵墨或续页笺。
+正式模式启用后，所有正常登录且通过版本检查的账号均可购买，无需管理员身份或人工名单。选择套餐并确认金额后才创建微信订单，二维码由客户端在本机生成。支持券与学习券分开，不增加灵墨或续页笺。
 
-请在「支持开发」选择数量并明确确认，客户端显示本机生成的微信二维码。扫码完成后，只有服务器验证 YunGouOS 回调签名并主动查单，核对商户、订单、金额与支付流水，才会自动确认到账并发券。截图、二维码已显示、点击「检查到账」或客户端的成功提示都不直接发券。同一订单、回调、交易流水和网络重试不能重复发券。旧版 0.4.3 的测试订单界面缺少新支付协议，不能创建真实订单，需要更新。
+| 套餐               |                          金额 |                支持寻访笺 |
+| ------------------ | ----------------------------: | ------------------------: |
+| 每账号首次支付优惠 |                         ¥0.01 |                        10 |
+| 一份支持           |                            ¥6 |                        10 |
+| 长久相伴           |                           ¥60 |            100 + 10 = 110 |
+| 一路同行           |                          ¥600 |         1000 + 100 = 1100 |
+| 自定义             | ¥0.60–¥600，须为 ¥0.60 整数倍 | 每 ¥0.60 一张，无额外赠送 |
 
-如果二维码创建结果未知，订单仍保留，但不会显示猜测的二维码或发券。可以在订单记录中「检查到账」；确需重新付款时，请明确关闭原订单。服务器先查单，已经付款则确认到账，尚未付款才请求供应商关闭；关闭结果未知时保留原订单，不能据本机倒计时或收起页面认定已关闭。只有上游确认关闭后，才可重新创建订单。不要连续新建订单代替查询。
+首付资格在下单时锁定，同账号不能同时创建第二张首付优惠订单。创建或关闭结果未知时请查询原订单；渠道明确确认未付款并关闭后，可再次尝试首付。成功付款后永久限一次，退款也不重置；任何历史已付款记录会排除新优惠。此前 0.01 元测试订单仍按原一张券保存，不追补、不改价。应用取消旧每月 60 元上限，单笔最高 600 元；渠道商户限额仍独立生效，当前后台显示每日 10 元，以实际付款提示为准。
 
-软件不会自动向微信发起退款，也不会自动获知商户后台的全部退款。运营人员可通过受保护的管理员入口，凭退款单号只读查询并核验：全额退款且支持券未消费时扣回原券；部分退款或支持券已经消费时保留馆藏、转为人工处理，并暂停继续消费支持券。普通支付查单不能代替退款核验。相关部署、密钥和接口见[服务说明](../server/README.md#yungouos-wechat-payments-unreleased)与[支付协议](../server/contract.md#support-payments-administration-and-isolated-tests)。本分支的隔离验收不代表真实付款已经完成验收，支付开关默认关闭。
+只有服务器验证渠道签名并主动查单，核对原订单、商户、金额和唯一支付流水后才发券；截图、二维码或客户端提示不能发券。订单结果未知时保留同一订单和查询入口，不猜测二维码或付款结果。未付订单十分钟到期后，服务器主动核对并关闭，重启后继续处理；渠道故障时保持核对中，倒计时结束、收起页面不等于已关单。已付及迟到付款均保留原价和权益核实处理，已关订单也可主动「检查到账」。不要连续新建订单代替查询。
 
-正式切换方案会先备份旧测试库，保留账号身份、密码哈希与个人资料，云端钱包、学习奖励、伙伴、经验、家园、打卡与保底从零开始；本机学习文件不删除。旧会话不迁移，请使用原账号密码重新登录。旧测试请求只迁移失效标记，不能重放旧余额、赠券或变成真实订单；不复制含旧资产的响应。方案的执行状态与实际收款状态分别核验。
+异常重复优惠付款会保留付款记录并转人工核验，优惠券只发一次；此状态可能暂停支持券消费。软件不自动发起微信退款，也不自动获知后台所有退款。运营人员须凭渠道退款单号核验：全额退款扣回原来实际发放且未消费的券；部分退款或已消费时转人工处理，保留馆藏并暂停继续消费支持券。普通支付查单不能代替退款核验。服务端定价、账号鉴权和回调核验使用 HTTPS；私密配置权限等边界见[服务说明](../server/README.md#yungouos-wechat-payments)与[支付协议](../server/contract.md#support-payments-administration-and-isolated-tests)。
 
-_When live mode is configured, ordinary authenticated, current-version users can purchase support tickets without an Administrator role or manual whitelist. Defaults are CNY6/ticket and CNY60/account per Shanghai calendar month, counting pending and approved orders. The merchant dashboard's current CNY10/day limit is separate and not hardcoded into the app. Support tickets do not replenish Ink or makeup slips._
+旧测试库与正式资产隔离：身份和密码哈希可以保留，测试钱包、伙伴和保底不迁入正式资产；旧请求只保留失效标记，不能重放旧余额或创建真实订单。本机学习文件不删除。此规则不表示每次更新都会重置正式资产；正式订单与余额在版本升级中保留。
 
-_The client renders a native WeChat QR locally after explicit order confirmation. Credit requires a signed provider callback and an authoritative check of merchant, order, amount and transaction. Screenshots, local success messages and pressing Check payment cannot grant tickets. Unknown QR creation retains the same uncredited order. Check that order, or explicitly close it before making a replacement: paid orders settle, pending orders close only after provider confirmation, and unknown closure retains the reservation. Dismissing the page or reaching a local countdown is not closure. Older0.4.3 clients need the new payment protocol._
+_The separate support page offers first payment CNY 0.01/10 tickets, CNY 6/10, CNY 60/110, CNY 600/1100, or custom CNY 0.60–600 in exact CNY 0.60 steps without bonuses. Eligibility is reserved on ordering, available again after confirmed unpaid closure, and permanently consumed by payment even after refund. Any historical payment excludes the offer; old one-fen/one-ticket records are not upgraded. The former CNY 60 monthly application cap is removed; each order is at most CNY 600, subject to the channel's independent limit (currently CNY 10/day). Support tickets do not replenish Ink or makeup slips._
 
-_No automated money refund or blanket dashboard-refund detection is implemented. An operator can explicitly query a refund record using its number through the private admin route. Full unused credit is reversed; partial or consumed refunds require manual review and freeze further support spending while retaining the collection. Production cutover retains identities/password hashes and profiles, archives the test database, resets cloud assets and does not migrate sessions. Sign in again with existing credentials. Retired request IDs block stale test replays; local learning files remain intact. This unreleased branch and isolated checks do not establish that a real payment has passed acceptance._
+_The server verifies channel signatures and queries the original merchant/order/amount/transaction before credit. At ten minutes a persistent worker verifies and closes unpaid invoices; outages remain unresolved, and late genuine payment can still be checked. Unknown creation keeps the original order; a hidden QR or dismissed page is not confirmed closure. Abnormal duplicate promotional payments retain financial records for review without issuing another discount entitlement. Money refunds are not automatic: verified full unused refunds reverse only tickets actually credited; partial or consumed refunds require review and freeze further support spending. Test assets are excluded from production; local learning files and existing formal assets survive updates. See the [service guide](../server/README.md#yungouos-wechat-payments)._
 
 0.4.0 正式安装包移除 `kinnuch` 赠券入口，生产服务也拒绝赠券。专用隔离测试版须同时开启构建、主进程和服务端测试开关；登录后词典搜索 `kinnuch` 并回车，每次领取 100 学习寻访笺，可不限次数重复领取，同一请求编号的网络重试不累加。测试余额不迁入正式服务。
 

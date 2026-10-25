@@ -29,8 +29,15 @@
   import DiscoveryCorridor from '$lib/accounts/DiscoveryCorridor.svelte'
   import CompanionHome from '$lib/accounts/CompanionHome.svelte'
   import SupportPaymentDialog from '$lib/accounts/SupportPaymentDialog.svelte'
+  import SupportPurchasePage from '$lib/accounts/SupportPurchasePage.svelte'
+  import {
+    supportYuan,
+    mergeSupportOrders,
+    unresolvedSupportOrder,
+    type SupportChoice
+  } from '$lib/accounts/support-plans'
   import { accountError } from '$lib/accounts/errors'
-  import { ledgerName, orderStatus } from '$lib/accounts/presentation'
+  import { ledgerName } from '$lib/accounts/presentation'
   import LegacyCollection from './LegacyCollection.svelte'
   import { makeupDates, nextProbabilities } from '$lib/accounts/collection'
   import { platform } from '$lib/platform'
@@ -60,12 +67,11 @@
     makeupDay = $state('')
   let orders = $state.raw<SupportOrder[]>([]),
     orderError = $state(''),
-    orderLoading = $state(false)
+    orderLoading = $state(false),
+    ordersLoaded = $state(false)
   let ordersOwner = ''
-  let supportTickets = $state(1),
-    rulesOpen = $state(false),
-    supportOpen = $state(false)
-  let supportHeading = $state<HTMLHeadingElement>()
+  let lastOrderRefreshAt = 0
+  let rulesOpen = $state(false)
   let activePayment = $state.raw<{
     order: SupportOrder
     ownerId: string
@@ -123,8 +129,9 @@
       orders = []
       orderError = ''
       orderLoading = false
+      ordersLoaded = false
       confirm = null
-      supportOpen = false
+      if (tab === 'support') tab = 'shop'
       activePayment = null
     }
   })
@@ -133,26 +140,7 @@
     !guest && !!account.session?.server.online && !account.busy && !account.loading
   )
   const payments = $derived(s?.payments)
-  const livePayments = $derived(
-    payments?.enabled && payments.mode === 'live' && payments.provider === 'yungouos'
-  )
-  const supportAvailable = $derived(
-    !!payments?.enabled && (payments.mode === 'simulation' || (livePayments && payments.eligible))
-  )
-  const supportUnitFen = $derived(payments?.unitAmountFen ?? 600)
-  const supportMonthFen = $derived(payments?.monthLimitFen ?? 6000)
-  const visibleOrders = $derived(
-    guest
-      ? []
-      : Array.from(
-          new Map(
-            [...orders, ...(account.lastOrder ? [account.lastOrder] : [])].map((order) => [
-              order.id,
-              order
-            ])
-          ).values()
-        ).sort((a, b) => Number(new Date(b.createdAt)) - Number(new Date(a.createdAt)))
-  )
+  const visibleOrders = $derived(guest ? [] : mergeSupportOrders(orders, account.lastOrder))
   const guestReady = $derived(
     guest &&
       account.loaded &&
@@ -212,7 +200,7 @@
     if (!guest) loginReason = null
   })
   $effect(() => {
-    if (tab !== 'shop') activePayment = null
+    if (tab !== 'support') activePayment = null
   })
   $effect(() => {
     if (s && s.serverTime !== clockObserved) {
@@ -278,6 +266,14 @@
       if (!hoverPause && !focusPause && !reducedMotion && !document.hidden)
         changeSlide((slide + 1) % 3)
       if (!document.hidden) void refreshPoolIfDue()
+      if (
+        !document.hidden &&
+        tab === 'support' &&
+        !activePayment &&
+        online &&
+        performance.now() - lastOrderRefreshAt >= 15000
+      )
+        void loadOrders()
     }, 5000)
     const refreshOnFocus = (): void => {
       void refreshPoolIfDue()
@@ -433,11 +429,16 @@
     const user = account.session?.user?.id,
       generation = account.generation
     orderLoading = true
+    lastOrderRefreshAt = performance.now()
     orderError = ''
     try {
       const result = await platform.account.request('supportOrders', {})
-      if (user === account.session?.user?.id && generation === account.generation)
+      if (user === account.session?.user?.id && generation === account.generation) {
         orders = result.orders
+        ordersLoaded = true
+      }
+      if (user === account.session?.user?.id && generation === account.generation)
+        await account.refresh()
     } catch (error) {
       if (user === account.session?.user?.id && generation === account.generation)
         orderError = String(error)
@@ -446,40 +447,58 @@
         orderLoading = false
     }
   }
-  function askSupport(): void {
+  function askSupport(choice: SupportChoice): void {
     if (guest) {
       requireLogin('support')
       return
     }
+    const capability = payments
     if (
       !online ||
-      !supportAvailable ||
-      !Number.isInteger(supportTickets) ||
-      supportTickets < 1 ||
-      supportTickets > 10
+      !ordersLoaded ||
+      orderError ||
+      !capability?.enabled ||
+      capability.mode !== 'live' ||
+      !capability.eligible ||
+      unresolvedSupportOrder(visibleOrders) ||
+      capability.firstPurchase?.pendingOrderId
     )
       return
+    if (choice.planId === 'custom') {
+      if (
+        !capability.custom ||
+        choice.amountFen < capability.custom.minAmountFen ||
+        choice.amountFen > capability.custom.maxAmountFen ||
+        choice.amountFen % capability.custom.stepAmountFen !== 0
+      )
+        return
+    } else {
+      const plan = capability.plans?.find((entry) => entry.id === choice.planId)
+      if (
+        !plan ||
+        plan.amountFen !== choice.amountFen ||
+        plan.tickets !== choice.tickets ||
+        (plan.firstPurchaseOnly && capability.firstPurchase?.eligible !== true)
+      )
+        return
+    }
     confirmationScope = account.generation
-    const tickets = supportTickets,
-      requestId = crypto.randomUUID(),
+    const requestId = crypto.randomUUID(),
       ownerId = account.session!.user!.id,
       generation = account.generation,
-      amount = ((tickets * supportUnitFen) / 100).toFixed(2)
+      amount = supportYuan(choice.amountFen)
     confirm = {
-      title: livePayments
-        ? tr('确认微信支持订单', 'Confirm WeChat support order')
-        : tr('创建测试支持订单', 'Create test support order'),
-      description: livePayments
-        ? tr(
-            `${tickets} 张支持寻访笺，共人民币 ${amount} 元。确认后显示本订单的微信付款二维码；付款经服务器核验后才会到账。`,
-            `${tickets} support tickets for CNY ${amount}. Confirmation opens this order’s WeChat payment QR code. Tickets are credited after the server verifies payment.`
-          )
-        : tr(
-            `${tickets} 张支持寻访笺，示例金额人民币 ${amount} 元。测试订单，不进行真实付款；创建不会自动到账。`,
-            `${tickets} support tickets, nominal CNY ${amount}. Test order: do not make a real payment. Creation does not credit tickets.`
-          ),
+      title: tr('确认微信支持订单', 'Confirm WeChat support order'),
+      description: tr(
+        `人民币 ${amount} 元，合计 ${choice.tickets} 张支持寻访笺（购买 ${choice.baseTickets} 张，赠送 ${choice.bonusTickets} 张）。确认后打开本订单的付款码，付款经服务器核验后发放。十分钟后服务器会核对并关闭未付款订单；结果不明时请继续查看同一订单。`,
+        `CNY ${amount} for ${choice.tickets} support tickets (${choice.baseTickets} purchased + ${choice.bonusTickets} bonus). Confirmation opens this order’s QR code; tickets follow server-verified payment. After ten minutes the server checks and closes unpaid orders. Keep checking the same order if its result is uncertain.`
+      ),
       action: async () => {
-        const ok = await account.mutate('createSupportOrder', { requestId, tickets })
+        const ok = await account.mutate('createSupportOrder', {
+          requestId,
+          planId: choice.planId,
+          ...(choice.planId === 'custom' ? { amountFen: choice.amountFen } : {})
+        })
         if (
           ok &&
           account.lastOrder &&
@@ -514,10 +533,14 @@
       requireLogin('support')
       return
     }
-    supportOpen = true
+    tab = 'support'
+    shopTier = ''
+    ordersLoaded = false
     await tick()
-    supportHeading?.focus({ preventScroll: true })
-    supportHeading?.scrollIntoView({ block: 'start', behavior: 'instant' })
+    document
+      .querySelector('[data-support-purchase-page]')
+      ?.scrollIntoView({ block: 'start', behavior: 'instant' })
+    await loadOrders()
   }
   function askMakeup(): void {
     confirmationScope = account.generation
@@ -667,7 +690,7 @@
     <nav class="tabs" aria-label={tr('收藏页签', 'Collection sections')}>
       {#each tabs as t (t.id)}<button
           class="btn"
-          class:on={tab === t.id}
+          class:on={tab === t.id || (tab === 'support' && t.id === 'shop')}
           data-collection-tab={t.id}
           aria-current={tab === t.id ? 'page' : undefined}
           onclick={() => {
@@ -1146,6 +1169,23 @@
             : tr('达标后自动发放', 'Awarded automatically when qualified')}
         </p>
       </section>
+    {:else if tab === 'support'}
+      <SupportPurchasePage
+        {payments}
+        {online}
+        busy={account.busy || account.loading}
+        orders={visibleOrders}
+        {ordersLoaded}
+        {orderLoading}
+        {orderError}
+        back={() => {
+          tab = 'shop'
+          activePayment = null
+        }}
+        purchase={askSupport}
+        viewOrder={showPayment}
+        refreshOrders={() => void loadOrders()}
+      />
     {:else if tab === 'shop'}
       {#if shopTier}
         <nav class="shop-breadcrumb" aria-label={tr('商店位置', 'Shop location')}>
@@ -1223,114 +1263,7 @@
           redeem={askPurchase}
           support={() => void openSupport()}
           supportEntry
-          {supportOpen}
         />
-        {#if supportOpen}<section
-            class="card support"
-            id="collection-support-panel"
-            data-support-panel
-            aria-labelledby="collection-support-heading"
-          >
-            <h3 id="collection-support-heading" tabindex="-1" bind:this={supportHeading}>
-              {tr('支持开发', 'Support development')}
-            </h3>
-            <p class="muted">
-              {tr(
-                '支持订单只提供支持寻访笺，不增加灵墨、学习寻访笺或续页笺；学习补给仍需通过学习积累灵墨兑换。',
-                'Support orders provide support tickets only, not Ink, learning tickets or makeup slips. Earn Ink by studying to redeem study supplies.'
-              )}
-            </p>
-            <p class="support-price">
-              <strong>¥{(supportUnitFen / 100).toFixed(2)}</strong>
-              <span>{tr('每张支持寻访笺', 'per support ticket')}</span>
-              <small
-                >{tr(
-                  `每月最多 ¥${(supportMonthFen / 100).toFixed(2)}`,
-                  `Monthly cap ¥${(supportMonthFen / 100).toFixed(2)}`
-                )}</small
-              >
-            </p>
-            <p class="support-availability" data-support-payment-availability>
-              {livePayments
-                ? payments?.eligible
-                  ? tr(
-                      '微信扫码支付。服务器确认到账后发放支持寻访笺；创建订单不会立即发放。',
-                      'Pay by scanning with WeChat. The server credits support tickets after confirming payment; creating an order does not credit tickets.'
-                    )
-                  : tr(
-                      '当前账号的付款入口暂不可用，请重新连接后查看。',
-                      'Checkout is currently unavailable for this account. Reconnect to check again.'
-                    )
-                : payments?.enabled && payments.mode === 'simulation'
-                  ? tr(
-                      '当前仅提供测试订单，请勿真实付款；创建订单不会自动到账。',
-                      'Test orders only. Do not make real payments; creating an order does not credit tickets.'
-                    )
-                  : tr(
-                      '在线支持订单暂未开放，请勿付款。已有订单可以重新连接后查看。',
-                      'Online support orders are not available. Do not make a payment; reconnect to view existing orders.'
-                    )}
-            </p>
-            <div class="support-checkout">
-              <label
-                >{tr('张数', 'Tickets')}
-                <input
-                  class="input"
-                  data-support-quantity
-                  type="number"
-                  min="1"
-                  max="10"
-                  step="1"
-                  bind:value={supportTickets}
-                /></label
-              ><button
-                class="btn primary"
-                disabled={(!guest && (!online || !supportAvailable)) ||
-                  account.busy ||
-                  !Number.isInteger(supportTickets) ||
-                  supportTickets < 1 ||
-                  supportTickets > 10}
-                data-support-create
-                onclick={askSupport}
-                >{payments?.enabled && payments.mode === 'simulation'
-                  ? tr('创建测试订单', 'Create test order')
-                  : tr('微信扫码支持', 'Pay with WeChat')}</button
-              ><button
-                class="btn ghost"
-                disabled={(!guest && !online) || orderLoading}
-                data-support-orders
-                onclick={() => (guest ? requireLogin('support') : loadOrders())}
-                >{orderLoading ? tr('正在读取', 'Loading') : tr('查看订单', 'View orders')}</button
-              >
-            </div>
-            {#if !guest && orderError}<p role="alert">
-                {accountError(orderError, i18n.locale)}
-              </p>{/if}
-            {#if visibleOrders.length}<div class="support-orders" data-support-orders-list>
-                <h4>{tr('订单记录', 'Order history')}</h4>
-                {#each visibleOrders as order (order.id)}<div
-                    class="support-order"
-                    data-support-order={order.id}
-                  >
-                    <div>
-                      <strong
-                        >{order.tickets}
-                        {tr('张支持寻访笺', 'support tickets')} · ¥{(order.amountFen / 100).toFixed(
-                          2
-                        )}</strong
-                      >
-                      <span>{orderStatus(order.status, i18n.locale)}</span>
-                      <small>{order.id}</small>
-                    </div>
-                    <button
-                      class="btn ghost"
-                      data-support-order-view={order.id}
-                      disabled={!online}
-                      onclick={() => showPayment(order)}>{tr('查看', 'View')}</button
-                    >
-                  </div>{/each}
-              </div>{/if}
-          </section>{/if}
         <section class="echo-shop" data-echo-shop>
           <div class="section-head">
             <div>
@@ -2193,86 +2126,6 @@
   .input {
     max-width: 100%;
     margin: 8px 10px 8px 0;
-  }
-  .support {
-    margin-top: 25px;
-  }
-  .support-price {
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: 8px 12px;
-    margin: 24px 0 12px;
-  }
-  .support-price strong {
-    font-size: 29px;
-    font-variant-numeric: tabular-nums;
-  }
-  .support-price span {
-    font-size: 13px;
-  }
-  .support-price small {
-    color: var(--text-3);
-    font-size: 12px;
-  }
-  .support-availability {
-    max-width: 800px;
-    color: var(--text-2);
-    line-height: 1.8;
-    font-size: 13px;
-  }
-  .support-checkout {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 17px;
-  }
-  .support-checkout label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-  }
-  .support-checkout input {
-    width: 75px;
-    margin: 0;
-  }
-  .support-orders {
-    margin-top: 25px;
-    border-top: 1px solid var(--border);
-    padding-top: 16px;
-  }
-  .support-orders h4 {
-    margin: 0 0 12px;
-  }
-  .support-order {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 14px;
-    padding: 13px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .support-order > div {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 14px;
-    min-width: 0;
-  }
-  .support-order strong {
-    font-size: 13px;
-    font-weight: 500;
-  }
-  .support-order span {
-    font-size: 12px;
-    color: var(--text-2);
-  }
-  .support-order small {
-    flex-basis: 100%;
-    color: var(--text-3);
-    font-size: 11px;
-    overflow-wrap: anywhere;
   }
   .stamps {
     display: flex;

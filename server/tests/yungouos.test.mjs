@@ -52,6 +52,45 @@ const notify = {
 const rejection = (code) => (error) =>
   error instanceof YunGouOSError && error.code === code && error.message === code
 
+test('only exact fixed-endpoint query absence becomes a typed missing-channel-order fact', async () => {
+  const response = (body, status = 200) =>
+    new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } })
+  const absent = new YunGouOSProvider({
+    ...config,
+    fetchImpl: async () => response({ code: 1, msg: '支付订单不存在', data: null })
+  })
+  await assert.rejects(
+    absent.query({ outTradeNo: order, amountFen: 600 }),
+    rejection('PAYMENT_PROVIDER_ORDER_NOT_FOUND')
+  )
+  await assert.rejects(
+    absent.create({ outTradeNo: order, amountFen: 600, description: 'Local only' }),
+    rejection('PAYMENT_PROVIDER_INVALID_RESPONSE')
+  )
+  await assert.rejects(
+    absent.closeOrder({ outTradeNo: order }),
+    rejection('PAYMENT_PROVIDER_INVALID_RESPONSE')
+  )
+  for (const [body, status] of [
+    [{ code: 1, msg: '支付订单不存在' }, 404],
+    [{ code: '1', msg: '支付订单不存在' }, 200],
+    [{ code: 1, msg: '支付订单不存在。' }, 200],
+    [{ code: 1, msg: '支付订单不存在 ', data: null }, 200],
+    [{ code: 1, message: '支付订单不存在' }, 200],
+    [{ code: 1, msg: '没有分账权限' }, 200],
+    [{ code: 1, msg: '支付订单不存在', data: { payStatus: 1 } }, 200]
+  ]) {
+    const provider = new YunGouOSProvider({
+      ...config,
+      fetchImpl: async () => response(body, status)
+    })
+    await assert.rejects(
+      provider.query({ outTradeNo: order, amountFen: 600 }),
+      rejection('PAYMENT_PROVIDER_INVALID_RESPONSE')
+    )
+  }
+})
+
 test('converts integer fen exactly, rejecting rounding, exponents and amounts outside official limits', () => {
   assert.equal(fenToYuan(1), '0.01')
   assert.equal(fenToYuan(100), '1.00')

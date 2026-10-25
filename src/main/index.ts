@@ -10,6 +10,7 @@ import {
   session
 } from 'electron'
 import { join, basename, extname } from 'path'
+import { pathToFileURL } from 'node:url'
 import { promises as fs, existsSync, readFileSync, writeFileSync, mkdirSync } from 'fs'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -34,6 +35,7 @@ import { registerArticleQuizIpc } from './article-quiz'
 import { articleMutationKey, pendingWrites } from './pending-writes'
 import { applyPendingTransfer, registerTransferIpc, setTransferResult } from './transfer'
 import { registerAccountIpc } from './account'
+import { guardIpcHandlers, rendererEntryUrl, secureRendererContents } from './renderer-security'
 import { AUDIO_EXT as MEDIA_AUDIO, SUBTITLE_EXT, VIDEO_EXT, type MediaPatch } from '../shared/media'
 import { analysisLevel, cleanAozora, type ArticleInput, type NhkStatus } from '../shared/articles'
 import type { JaAnalysis } from '../shared/ja/reader'
@@ -224,6 +226,11 @@ function readWindowState(): WindowState {
 
 /** 主窗口（下载更新时往它推进度） */
 let mainWindow: BrowserWindow | null = null
+const rendererEntry = rendererEntryUrl(
+  pathToFileURL(join(__dirname, '../renderer/index.html')).href,
+  is.dev ? process.env['ELECTRON_RENDERER_URL'] : undefined
+)
+guardIpcHandlers(ipcMain, () => mainWindow?.webContents ?? null, rendererEntry)
 const readyToClose = new WeakSet<BrowserWindow>()
 const waitingToClose = new WeakSet<BrowserWindow>()
 const finishingClose = new WeakSet<BrowserWindow>()
@@ -265,7 +272,10 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: true,
+      contextIsolation: true,
+      nodeIntegration: false,
+      webviewTag: false
     }
   })
 
@@ -310,13 +320,10 @@ function createWindow(): void {
     }
   })
 
-  win.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
-  })
+  secureRendererContents(win.webContents, rendererEntry, (url) => shell.openExternal(url))
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    win.loadURL(process.env['ELECTRON_RENDERER_URL'])
+    win.loadURL(rendererEntry)
   } else {
     win.loadFile(join(__dirname, '../renderer/index.html'))
   }

@@ -197,6 +197,14 @@ export class YunGouOSProvider {
         })(),
         timeout
       ])
+      if (
+        kind === 'query' &&
+        record(response) &&
+        response.code === 1 &&
+        response.msg === '支付订单不存在' &&
+        (response.data === undefined || response.data === null || response.data === '')
+      )
+        fail('PAYMENT_PROVIDER_ORDER_NOT_FOUND')
       if (!record(response) || response.code !== 0 || !Object.hasOwn(response, 'data')) fail()
       return response.data
     } catch (error) {

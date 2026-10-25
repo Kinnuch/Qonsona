@@ -52,6 +52,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: node node_modules/electron/install.js
       - name: Linux runtime dependencies
         if: runner.os == 'Linux'
         run: |
@@ -138,3 +139,5 @@ jobs:
           fail_on_unmatched_files: true
           body_path: release-notes.md
           prerelease: ${{ contains(github.ref_name, '-') }}
+          # Keep exact-latest account policy unchanged until every platform is verified.
+          draft: true

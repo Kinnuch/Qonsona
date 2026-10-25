@@ -1,12 +1,12 @@
 # Changelog
 
-## Unreleased
+## 0.4.4 · 2026-10-25
 
-- Explicitly use non-sharing mode for WeChat checkout, without configuring profit-sharing recipients.
-- Add YunGouOS WeChat Native support payments for ordinary signed-in accounts when the server is fully configured and enabled, with explicit order creation and locally rendered QR codes. Defaults are CNY6/ticket and CNY60/account per calendar month in pending plus approved orders. The merchant dashboard's current CNY10/day limit remains separate rather than hardcoded into the app.
-- Verify callbacks, actively query the provider, match merchant/order/amount/unique transaction and atomically credit support tickets. Unknown QR creation retains the same uncredited order for checking or explicit closure. Unknown closure never starts another charge, and confirmed payment takes precedence over an in-flight close.
-- Require the new payment protocol before live creation so older simulated-order UI cannot accidentally create payable orders. The production cutover plan preserves identities/password hashes, archives the test database and starts cloud assets empty without migrating sessions. Retired request tombstones prevent stale client journals from replaying test assets; local learning files remain intact.
-- Retain private administrator read-only refund verification and ledger handling: reverse full unused credit, and place partial or consumed refunds under manual review with further support spending frozen. Do not initiate money refunds or claim automatic discovery of every dashboard refund. Production test grants remain disabled. Integration code and isolated checks do not establish real-payment acceptance; this work is not yet released.
+- Support development now opens a dedicated plan page. The first successful support offer grants 10 support tickets for CNY0.01 once per account; CNY6 grants 10, CNY60 grants 110 including 10 extra, and CNY600 grants 1100 including 100 extra. Custom amounts range from CNY0.60 to CNY600 in CNY0.60 increments, without bonus tickets. Existing orders retain their original amounts and ticket counts.
+- Add non-sharing YunGouOS WeChat Native checkout with locally generated QR codes. The server verifies plans, prices, first-support eligibility and credit using signatures, authoritative queries, unique receipts and transactions. Retired test requests cannot restore test assets. Ordinary authenticated accounts can pay without an Administrator allowlist.
+- After 10 unpaid minutes, the server checks and closes the order automatically, resuming after restarts. Uncertain payment or closure retains the same order rather than claiming closure; verified payment is credited. Confirmed unpaid first-support closure restores selection, while successful use and refunds never reset redeemed eligibility.
+- Fix a malicious learning-pack link path across the application boundary: escape Markdown attributes, enable renderer sandboxing, restrict navigation and external links, verify the main frame and allowlist IPC. Upgrade Electron to 43.8.1 and update dependencies with security fixes, addressing published TLS and remote-page access risks.
+- Provider refunds require verified evidence; legacy administrator operations cannot manufacture payment or refund outcomes. Exceptional duplicate promotional payments retain their receipts for refund review without granting another offer or deducting tickets that were never credited.
 
 ## 0.4.3 · 2026-10-25
 

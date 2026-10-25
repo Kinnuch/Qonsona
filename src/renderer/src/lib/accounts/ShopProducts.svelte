@@ -13,8 +13,7 @@
     busy = false,
     redeem,
     support,
-    supportEntry = false,
-    supportOpen = false
+    supportEntry = false
   }: {
     items: AccountShopItem[]
     snapshot: Omit<CollectionSnapshot, 'user'>
@@ -25,7 +24,6 @@
     redeem: (item: AccountShopItem) => void
     support?: () => void
     supportEntry?: boolean
-    supportOpen?: boolean
   } = $props()
   const tr = (zh: string, en: string): string => (i18n.locale === 'zh' ? zh : en)
   const name = (c: AccountCharacter): string => c.name[i18n.locale]
@@ -119,8 +117,6 @@
             class="support-link"
             data-shop-support-shortfall={item.id}
             disabled={busy}
-            aria-controls={!guest ? 'collection-support-panel' : undefined}
-            aria-expanded={!guest ? supportOpen : undefined}
             onclick={support}>{tr('购买支持开发', 'Purchase to support development')}</button
           ><small class="support-note"
             >{tr(
@@ -149,13 +145,8 @@
             : tr('在线付款暂未开放。', 'Online checkout is not available yet.')}
       </p>
       <div class="product-actions">
-        <button
-          class="redeem"
-          data-shop-support-entry
-          disabled={busy}
-          aria-controls={!guest ? 'collection-support-panel' : undefined}
-          aria-expanded={!guest ? supportOpen : undefined}
-          onclick={support}>{tr('购买支持开发', 'Purchase to support development')}</button
+        <button class="redeem" data-shop-support-entry disabled={busy} onclick={support}
+          >{tr('选择支持方案', 'Choose a support plan')}</button
         >
       </div>
     </section>{/if}

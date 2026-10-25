@@ -1,4 +1,16 @@
 const errors: Record<string, [string, string]> = {
+  SUPPORT_ORDER_PENDING: [
+    '还有未完成的支持订单，请先查看或关闭原订单。',
+    'You have an unfinished support order. View or close the existing order first.'
+  ],
+  FIRST_SUPPORT_UNAVAILABLE: [
+    '首次支持优惠已使用或正在核对，请查看订单记录。',
+    'The first-support offer has been used or is awaiting verification. View your orders.'
+  ],
+  PAYMENT_PROVIDER_ORDER_NOT_FOUND: [
+    '收款渠道暂未找到此订单，请保留原订单等待核对，不要重复付款。',
+    'The payment provider has not found this order yet. Keep the original order for verification; do not pay twice.'
+  ],
   STARTER_SYNC_PENDING: [
     '本机首次伙伴等待同步。请重新连接恢复，账号和本机伙伴均已保留。',
     'Your first companion is awaiting sync. Reconnect to recover; your account and local companion are preserved.'
@@ -85,6 +97,34 @@ const errors: Record<string, [string, string]> = {
   PAYMENTS_DISABLED: [
     '支持订单暂未开放，请勿付款。',
     'Support orders are unavailable. Do not make a payment.'
+  ],
+  FIRST_SUPPORT_ALREADY_USED: [
+    '首次支持特惠已使用，请选择其他方案。',
+    'The first-support offer has been used. Choose another plan.'
+  ],
+  FIRST_SUPPORT_PENDING: [
+    '首次支持订单尚待核对，请先继续查看原订单。',
+    'Your first-support order is awaiting verification. Continue with the existing order.'
+  ],
+  INVALID_SUPPORT_PLAN: [
+    '支持方案已更新，请刷新后重新选择。',
+    'Support plans changed. Refresh and choose again.'
+  ],
+  INVALID_SUPPORT_AMOUNT: [
+    '自定义金额须为0.60至600元，且是0.60元的整数倍。',
+    'Choose a custom amount from CNY0.60 to CNY600, in multiples of CNY0.60.'
+  ],
+  PAYMENT_CLIENT_UPDATE_REQUIRED: [
+    '请更新应用后再选择支持方案；已有订单可以继续核对。',
+    'Update the app to choose support plans. Existing orders can still be checked.'
+  ],
+  PAYMENT_PROVIDER_VERIFICATION_REQUIRED: [
+    '此订单须由收款渠道核验后处理，请联系运营者。',
+    'This order requires provider verification. Contact the operator.'
+  ],
+  RETIRED_TEST_REQUEST: [
+    '旧测试操作已失效，请刷新查看正式账号数据。',
+    'This old test operation has expired. Refresh to view your production account.'
   ],
   PAYMENT_STATUS_UNKNOWN: [
     '暂时无法确认付款结果，请稍后核对同一订单，不要重复付款。',

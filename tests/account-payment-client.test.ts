@@ -3,13 +3,20 @@ import { promises as fs } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { AccountClient } from '../src/main/account-client'
-import type { AccountUser, CollectionSnapshot, SupportOrder } from '../src/shared/account'
+import type {
+  AccountUser,
+  CollectionSnapshot,
+  SupportOrder,
+  SupportPlan,
+  SupportPlanId
+} from '../src/shared/account'
 
 const directories: string[] = []
 afterEach(async () => {
   for (const directory of directories.splice(0))
     await fs.rm(directory, { recursive: true, force: true })
 })
+
 const user: AccountUser = {
   id: 'payment-client-user',
   username: 'payment_client',
@@ -185,7 +192,7 @@ describe('payment gateway contract and recovery', () => {
       }
     ])
     for (const request of payments) {
-      expect(request.headers.get('X-Qon-Payment-Protocol')).toBe('yungouos-wechat-v1')
+      expect(request.headers.get('X-Qon-Payment-Protocol')).toBe('yungouos-wechat-v2')
       expect(request.headers.get('X-Qon-Version')).toBe('0.4.3')
       expect(request.headers.get('Authorization')).toBe(`Bearer ${privateToken}`)
       expect(request.headers.get('Content-Type')).toBe('application/json')
@@ -472,5 +479,310 @@ describe('payment gateway contract and recovery', () => {
       /\/(?:client-policy|health|auth\/login)$/.test(request.path)
     )
     expect(publicRequests.every((request) => !request.headers.has('Authorization'))).toBe(true)
+  })
+})
+
+// Independent product fixtures: prices and quantities are the agreed v2 contract,
+// not imported from the server implementation being validated by the gateway.
+const catalogPlans: SupportPlan[] = [
+  {
+    id: 'first-support',
+    name: { zh: '初次支持', en: 'First Support' },
+    amountFen: 1,
+    baseTickets: 10,
+    bonusTickets: 0,
+    tickets: 10,
+    firstPurchaseOnly: true
+  },
+  {
+    id: 'support-6',
+    name: { zh: '一份支持', en: 'A Little Support' },
+    amountFen: 600,
+    baseTickets: 10,
+    bonusTickets: 0,
+    tickets: 10,
+    firstPurchaseOnly: false
+  },
+  {
+    id: 'support-60',
+    name: { zh: '长久相伴', en: 'Lasting Support' },
+    amountFen: 6000,
+    baseTickets: 100,
+    bonusTickets: 10,
+    tickets: 110,
+    firstPurchaseOnly: false
+  },
+  {
+    id: 'support-600',
+    name: { zh: '一路同行', en: 'Along the Journey' },
+    amountFen: 60000,
+    baseTickets: 1000,
+    bonusTickets: 100,
+    tickets: 1100,
+    firstPurchaseOnly: false
+  }
+]
+function catalogSnapshot(): CollectionSnapshot {
+  return {
+    ...structuredClone(snapshot),
+    payments: {
+      enabled: true,
+      provider: 'yungouos',
+      mode: 'live',
+      currency: 'CNY',
+      unitAmountFen: 60,
+      orderMaxFen: 60000,
+      monthLimitFen: null,
+      eligible: true,
+      plans: structuredClone(catalogPlans),
+      firstPurchase: { eligible: true, claimed: false },
+      custom: { minAmountFen: 60, maxAmountFen: 60000, stepAmountFen: 60, ticketAmountFen: 60 }
+    }
+  }
+}
+function quotedOrder(planId: Exclude<SupportPlanId, 'custom'>): SupportOrder {
+  const plan = catalogPlans.find((entry) => entry.id === planId)!
+  return {
+    ...structuredClone(order),
+    planId,
+    amountFen: plan.amountFen,
+    tickets: plan.tickets,
+    baseTickets: plan.baseTickets,
+    bonusTickets: plan.bonusTickets,
+    payment: { ...order.payment!, expiresAt: 601000 }
+  }
+}
+
+describe('v2 payment catalog and exact quotation binding', () => {
+  it.each(catalogPlans)(
+    'accepts exact server plan $id for $amountFen fen and $tickets tickets',
+    async (plan) => {
+      const f = await fixture()
+      f.setSnapshot(catalogSnapshot())
+      f.setOrder(quotedOrder(plan.id))
+      await f.client.request('login', credentials)
+      const payload = { requestId: `v2-exact-${plan.id}`, planId: plan.id }
+      const result = await f.client.request('createSupportOrder', payload)
+      expect(result.order).toMatchObject({
+        planId: plan.id,
+        amountFen: plan.amountFen,
+        tickets: plan.tickets,
+        baseTickets: plan.baseTickets,
+        bonusTickets: plan.bonusTickets
+      })
+      const create = f.requests.find((request) => request.path === '/v1/support/orders')!
+      expect(create.body).toEqual(payload)
+      expect(create.headers.get('X-Qon-Payment-Protocol')).toBe('yungouos-wechat-v2')
+      expect(await f.pending()).toEqual({})
+    }
+  )
+
+  it.each([60, 600, 60000])(
+    'accepts a custom %i-fen order only with exact integer quantity and zero bonus',
+    async (amountFen) => {
+      const f = await fixture()
+      f.setSnapshot(catalogSnapshot())
+      const tickets = amountFen / 60
+      f.setOrder({
+        ...structuredClone(order),
+        planId: 'custom',
+        amountFen,
+        tickets,
+        baseTickets: tickets,
+        bonusTickets: 0
+      })
+      await f.client.request('login', credentials)
+      const payload = { requestId: `v2-custom-${amountFen}`, planId: 'custom' as const, amountFen }
+      const result = await f.client.request('createSupportOrder', payload)
+      expect(result.order).toMatchObject({
+        planId: 'custom',
+        amountFen,
+        tickets,
+        baseTickets: tickets,
+        bonusTickets: 0
+      })
+      expect(f.requests.find((request) => request.path === '/v1/support/orders')!.body).toEqual(
+        payload
+      )
+      expect(await f.pending()).toEqual({})
+    }
+  )
+
+  it.each([
+    ['another valid plan', { planId: 'support-6' }],
+    ['amount', { amountFen: 60000 }],
+    ['total tickets', { tickets: 111 }],
+    ['base quantity with a valid subtotal', { baseTickets: 101, tickets: 111 }],
+    ['bonus quantity with a valid subtotal', { bonusTickets: 11, tickets: 111 }],
+    ['changed base/bonus split preserving total', { baseTickets: 99, bonusTickets: 11 }]
+  ] as const)(
+    'retains the uncertain journal if a response changes the requested %s',
+    async (_label, override) => {
+      const f = await fixture()
+      f.setSnapshot(catalogSnapshot())
+      await f.client.request('login', credentials)
+      f.setOrder({ ...quotedOrder('support-60'), ...override } as SupportOrder)
+      const payload = { requestId: 'v2-mismatched-package-quote', planId: 'support-60' as const }
+      await expect(f.client.request('createSupportOrder', payload)).rejects.toThrow(
+        'INVALID_RESPONSE'
+      )
+      expect((await f.pending())[payload.requestId]).toMatchObject({
+        action: 'createSupportOrder',
+        payload
+      })
+      expect(f.requests.filter((request) => request.path === '/v1/support/orders')).toHaveLength(1)
+    }
+  )
+
+  it.each([
+    [
+      'a package identifier with the same amount',
+      { planId: 'support-6', baseTickets: 10, bonusTickets: 0, tickets: 10, amountFen: 600 }
+    ],
+    [
+      'a fabricated bonus preserving total',
+      { planId: 'custom', baseTickets: 9, bonusTickets: 1, tickets: 10, amountFen: 600 }
+    ],
+    [
+      'a different valid custom amount',
+      { planId: 'custom', baseTickets: 20, bonusTickets: 0, tickets: 20, amountFen: 1200 }
+    ]
+  ] as const)(
+    'rejects a custom response containing %s and retains only its original request',
+    async (_label, values) => {
+      const f = await fixture()
+      f.setSnapshot(catalogSnapshot())
+      await f.client.request('login', credentials)
+      f.setOrder({ ...structuredClone(order), ...values } as SupportOrder)
+      const payload = {
+        requestId: 'v2-custom-quote-mismatch',
+        planId: 'custom' as const,
+        amountFen: 600
+      }
+      await expect(f.client.request('createSupportOrder', payload)).rejects.toThrow(
+        'Payment quote mismatch'
+      )
+      expect((await f.pending())[payload.requestId].payload).toEqual(payload)
+    }
+  )
+
+  const malformedCatalogs: [string, (value: CollectionSnapshot) => void][] = [
+    [
+      'duplicate plan identifiers',
+      (value) => {
+        value.payments!.plans![3] = structuredClone(value.payments!.plans![2])
+      }
+    ],
+    [
+      'incorrect plan subtotal',
+      (value) => {
+        value.payments!.plans![2].tickets = 111
+      }
+    ],
+    [
+      'negative bonus',
+      (value) => {
+        value.payments!.plans![2].bonusTickets = -1
+      }
+    ],
+    [
+      'missing plan',
+      (value) => {
+        value.payments!.plans!.pop()
+      }
+    ],
+    [
+      'claimed and eligible first purchase',
+      (value) => {
+        value.payments!.firstPurchase!.claimed = true
+      }
+    ],
+    [
+      'pending and eligible first purchase',
+      (value) => {
+        value.payments!.firstPurchase!.pendingOrderId = orderId
+      }
+    ],
+    [
+      'invalid pending identifier',
+      (value) => {
+        value.payments!.firstPurchase = {
+          eligible: false,
+          claimed: false,
+          pendingOrderId: '../orders'
+        }
+      }
+    ],
+    [
+      'incorrect custom step',
+      (value) => {
+        value.payments!.custom!.stepAmountFen = 61
+      }
+    ],
+    [
+      'incorrect custom ticket price',
+      (value) => {
+        value.payments!.custom!.ticketAmountFen = 1
+      }
+    ],
+    [
+      'custom limit above maximum',
+      (value) => {
+        value.payments!.custom!.maxAmountFen = 60060
+      }
+    ],
+    [
+      'missing custom rules',
+      (value) => {
+        delete value.payments!.custom
+      }
+    ],
+    [
+      'legacy monthly cap attached to the v2 catalog',
+      (value) => {
+        value.payments!.monthLimitFen = 6000
+      }
+    ]
+  ]
+  it.each(malformedCatalogs)(
+    'rejects malformed catalog: %s without accepting a payment snapshot or writing a query journal',
+    async (_label, mutate) => {
+      const f = await fixture()
+      f.setSnapshot(catalogSnapshot())
+      await f.client.request('login', credentials)
+      const malformed = catalogSnapshot()
+      mutate(malformed)
+      f.setSnapshot(malformed)
+      f.setOrder(quotedOrder('support-6'))
+      await expect(f.client.request('querySupportOrder', { orderId })).rejects.toThrow(
+        'Invalid account snapshot'
+      )
+      await expect(f.pending()).rejects.toMatchObject({ code: 'ENOENT' })
+    }
+  )
+
+  it('reads the original one-fen one-ticket paid order without applying current first-purchase pricing', async () => {
+    const f = await fixture()
+    const current = catalogSnapshot()
+    current.payments!.firstPurchase = { eligible: false, claimed: true }
+    current.balances.tickets.support = 1
+    f.setSnapshot(current)
+    const historical: SupportOrder = {
+      ...structuredClone(order),
+      amountFen: 1,
+      tickets: 1,
+      status: 'approved',
+      approvedAt: 2000,
+      payment: { provider: 'yungouos', method: 'wechat', state: 'paid' }
+    }
+    f.setOrder(historical)
+    await f.client.request('login', credentials)
+    const result = await f.client.request('querySupportOrder', { orderId })
+    expect(result.order).toEqual(historical)
+    expect(result.order.planId).toBeUndefined()
+    expect(result.order.baseTickets).toBeUndefined()
+    expect(result.snapshot.balances.tickets.support).toBe(1)
+    expect(result.snapshot.payments!.firstPurchase!.eligible).toBe(false)
+    await expect(f.pending()).rejects.toMatchObject({ code: 'ENOENT' })
   })
 })

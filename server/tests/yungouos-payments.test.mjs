@@ -69,10 +69,10 @@ async function fixture(t, { path = ':memory:', env = {}, provider = new Provider
     username: `u_${randomUUID().replaceAll('-', '')}`.slice(0, 32),
     password: 'local-test-password-1234'
   })
-  const context = { token: user.token, paymentProtocol: 'yungouos-wechat-v1' }
+  const context = { token: user.token, paymentProtocol: 'yungouos-wechat-v2' }
   const call = (method, path, body = {}) => service.handle(method, path, body, context)
   const create = (tickets = 1, requestId = randomUUID()) =>
-    call('POST', '/v1/support/orders', { requestId, tickets })
+    call('POST', '/v1/support/orders', { requestId, planId: 'custom', amountFen: tickets * 60 })
   const row = (order) => service.store.db.prepare('SELECT * FROM orders WHERE id=?').get(order.id)
   const pay = (order, extra = {}) => {
     const record = row(order),
@@ -124,7 +124,7 @@ test('ordinary signed-in users can create live orders without fabricated adult v
     code('INVALID_FIELDS')
   )
   const created = await f.create()
-  assert.equal(created.order.amountFen, 600)
+  assert.equal(created.order.amountFen, 60)
   assert.equal(created.order.testing, false)
   assert.equal(created.snapshot.payments.eligible, true)
   assert.equal(created.snapshot.balances.tickets.support, 0)
@@ -224,11 +224,11 @@ test('HTTP lost native QR is recoverable as the same zero-credit reservation, en
         'Content-Type': 'application/json',
         Authorization: `Bearer ${f.user.token}`,
         'X-Qon-Version': CLIENT_VERSION,
-        'X-Qon-Payment-Protocol': 'yungouos-wechat-v1'
+        'X-Qon-Payment-Protocol': 'yungouos-wechat-v2'
       },
       body: JSON.stringify(body)
     })
-  const body = { requestId: randomUUID(), tickets: 10 }
+  const body = { requestId: randomUUID(), planId: 'custom', amountFen: 600 }
   const first = await post('/v1/support/orders', body)
   assert.equal(first.status, 200)
   const reserved = await first.json()
@@ -249,7 +249,11 @@ test('HTTP lost native QR is recoverable as the same zero-credit reservation, en
   assert.equal(closed.order.status, 'rejected')
   assert.equal(closed.order.payment.state, 'closed')
   assert.equal(f.provider.closes.length, 1)
-  const nextResponse = await post('/v1/support/orders', { requestId: randomUUID(), tickets: 1 })
+  const nextResponse = await post('/v1/support/orders', {
+    requestId: randomUUID(),
+    planId: 'custom',
+    amountFen: 60
+  })
   assert.equal(nextResponse.status, 200)
   const next = await nextResponse.json()
   assert.notEqual(next.order.id, reserved.order.id)
@@ -293,7 +297,7 @@ test('HTTP legacy payment clients cannot create live orders, while the explicit 
   await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve))
   t.after(() => new Promise((resolve) => server.close(resolve)))
   const origin = `http://127.0.0.1:${server.address().port}`
-  const body = { requestId: randomUUID(), tickets: 1 }
+  const body = { requestId: randomUUID(), planId: 'custom', amountFen: 60 }
   const post = (protocol) =>
     fetch(`${origin}/v1/support/orders`, {
       method: 'POST',
@@ -305,7 +309,7 @@ test('HTTP legacy payment clients cannot create live orders, while the explicit 
       },
       body: JSON.stringify(body)
     })
-  for (const protocol of [undefined, 'old-static-qr', 'yungouos-wechat-v2']) {
+  for (const protocol of [undefined, 'old-static-qr', 'yungouos-wechat-v1']) {
     const denied = await post(protocol)
     assert.equal(denied.status, 409)
     assert.equal((await denied.json()).error.code, 'PAYMENT_CLIENT_UPDATE_REQUIRED')
@@ -314,7 +318,7 @@ test('HTTP legacy payment clients cannot create live orders, while the explicit 
   assert.equal(f.provider.creates.length, 0)
   const health = await fetch(`${origin}/v1/health`)
   assert.equal(health.status, 200)
-  const created = await post('yungouos-wechat-v1')
+  const created = await post('yungouos-wechat-v2')
   assert.equal(created.status, 200)
   assert.equal((await created.json()).order.payment.state, 'pending')
   assert.equal(f.provider.creates.length, 1)
@@ -441,10 +445,10 @@ test('concurrent notification and refresh, including separate SQLite connections
 
 test('one real transaction cannot fund two different orders', async (t) => {
   const f = await fixture(t)
-  const a = (await f.create()).order,
-    b = (await f.create()).order
+  const a = (await f.create()).order
   f.pay(a, { transactionId: 'TX_shared_transaction' })
   await f.call('POST', `/v1/support/orders/${a.id}/check`)
+  const b = (await f.create()).order
   f.advance()
   f.pay(b, { transactionId: 'TX_shared_transaction' })
   await assert.rejects(
@@ -457,12 +461,19 @@ test('one real transaction cannot fund two different orders', async (t) => {
   )
 })
 
-test('month cap includes reservations and the server sets the 600-fen price', async (t) => {
+test('server computes custom price and no longer imposes the obsolete 60-yuan monthly cap', async (t) => {
   const f = await fixture(t)
   const order = (await f.create(10)).order
-  assert.equal(order.amountFen, 6000)
-  await assert.rejects(f.create(), code('SUPPORT_MONTH_LIMIT'))
-  assert.equal(f.provider.creates.length, 1)
+  assert.equal(order.amountFen, 600)
+  f.pay(order)
+  await f.call('POST', `/v1/support/orders/${order.id}/check`)
+  const high = await f.call('POST', '/v1/support/orders', {
+    requestId: randomUUID(),
+    planId: 'support-600'
+  })
+  assert.equal(high.order.amountFen, 60000)
+  assert.equal(high.order.tickets, 1100)
+  assert.equal(f.provider.creates.length, 2)
   await assert.rejects(
     f.call('POST', '/v1/support/orders', { requestId: randomUUID(), tickets: 1, amountFen: 1 }),
     code('INVALID_FIELDS')
@@ -495,7 +506,7 @@ test('explicit close verifies ownership and active unpaid status, then releases 
   assert.equal(f.provider.closes.length, 1)
   await f.call('POST', path, body)
   assert.equal(f.provider.closes.length, 1)
-  assert.equal((await f.create(1)).order.amountFen, 600)
+  assert.equal((await f.create(1)).order.amountFen, 60)
 })
 
 test('a paid order is credited instead of being closed or refunded', async (t) => {
@@ -510,7 +521,7 @@ test('a paid order is credited instead of being closed or refunded', async (t) =
   assert.equal(f.provider.closes.length, 0)
 })
 
-test('close timeout cannot release the monthly reservation or authorize a replacement charge', async (t) => {
+test('close timeout keeps the original pending order and grants no tickets', async (t) => {
   const f = await fixture(t),
     { order } = await f.create(10)
   f.provider.onClose = () => {
@@ -521,7 +532,11 @@ test('close timeout cannot release the monthly reservation or authorize a replac
     code('PAYMENT_PROVIDER_TIMEOUT')
   )
   assert.equal(f.row(order).status, 'pending')
-  await assert.rejects(f.create(), code('SUPPORT_MONTH_LIMIT'))
+  assert.equal(
+    f.service.store.snapshot(f.user.user.id, f.service.now()).balances.tickets.support,
+    0
+  )
+  assert.equal(f.provider.creates.length, 1)
 })
 
 test('a payment reconciled during in-flight close is never overwritten by a close response', async (t) => {
@@ -590,7 +605,7 @@ test('refund observation never initiates money transfer and reverses only unused
   f.provider.refund = {
     ...paid,
     status: 'refunded',
-    refundAmountFen: 1200,
+    refundAmountFen: 120,
     refundNo: 'RF_verified_full'
   }
   const result = await f.service.handle(
@@ -601,7 +616,8 @@ test('refund observation never initiates money transfer and reverses only unused
   )
   assert.equal(result.order.status, 'refunded')
   assert.equal(result.snapshot.balances.tickets.support, 0)
-  await assert.rejects(f.notify(order), code('PAYMENT_NOT_CONFIRMED'))
+  assert.deepEqual(await f.notify(order), { ok: true })
+  assert.equal(result.snapshot.balances.tickets.support, 0)
   assert.equal(f.provider.refundMoney, undefined)
 })
 
@@ -611,7 +627,7 @@ test('consumed or partial refund enters manual review and blocks additional supp
     paid = f.pay(order)
   await f.call('POST', `/v1/support/orders/${order.id}/check`)
   await f.call('POST', '/v1/draw', { requestId: randomUUID(), source: 'support', count: 1 })
-  f.provider.refund = { ...paid, status: 'refunded', refundAmountFen: 1200, refundNo: 'RF_spent' }
+  f.provider.refund = { ...paid, status: 'refunded', refundAmountFen: 120, refundNo: 'RF_spent' }
   const result = await f.service.handle(
     'POST',
     `/v1/admin/support/orders/${order.id}/check-refund`,

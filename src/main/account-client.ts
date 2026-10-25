@@ -92,7 +92,12 @@ function uncertain(error: unknown): boolean {
 function validPaymentCapabilities(value: unknown): boolean {
   if (!value || typeof value !== 'object') return false
   const p = value as Record<string, unknown>
-  return (
+  const catalog =
+    p.plans !== undefined ||
+    p.firstPurchase !== undefined ||
+    p.custom !== undefined ||
+    p.orderMaxFen !== undefined
+  const baseValid =
     typeof p.enabled === 'boolean' &&
     typeof p.eligible === 'boolean' &&
     ['live', 'simulation', 'disabled'].includes(String(p.mode)) &&
@@ -101,12 +106,67 @@ function validPaymentCapabilities(value: unknown): boolean {
     Number.isSafeInteger(p.unitAmountFen) &&
     Number(p.unitAmountFen) > 0 &&
     Number(p.unitAmountFen) <= 6000 &&
-    Number.isSafeInteger(p.monthLimitFen) &&
-    Number(p.monthLimitFen) > 0 &&
-    Number(p.monthLimitFen) <= 6000 &&
+    (catalog
+      ? p.monthLimitFen === null
+      : Number.isSafeInteger(p.monthLimitFen) &&
+        Number(p.monthLimitFen) > 0 &&
+        Number(p.monthLimitFen) <= 6000) &&
     (p.enabled
       ? p.mode === 'live' && p.provider === 'yungouos'
       : p.mode !== 'live' && p.provider === null)
+  if (!baseValid || !catalog) return baseValid
+  if (
+    p.unitAmountFen !== 60 ||
+    p.orderMaxFen !== 60000 ||
+    !Array.isArray(p.plans) ||
+    p.plans.length !== 4
+  )
+    return false
+  const ids = new Set<string>()
+  for (const item of p.plans) {
+    if (!item || typeof item !== 'object') return false
+    const plan = item as Record<string, unknown>,
+      name = plan.name as Record<string, unknown> | undefined
+    if (
+      typeof plan.id !== 'string' ||
+      !['first-support', 'support-6', 'support-60', 'support-600'].includes(plan.id) ||
+      ids.has(plan.id) ||
+      !name ||
+      typeof name.zh !== 'string' ||
+      typeof name.en !== 'string' ||
+      name.zh.length > 120 ||
+      name.en.length > 120 ||
+      !Number.isSafeInteger(plan.amountFen) ||
+      Number(plan.amountFen) < 1 ||
+      Number(plan.amountFen) > 60000 ||
+      !Number.isSafeInteger(plan.baseTickets) ||
+      Number(plan.baseTickets) < 1 ||
+      !Number.isSafeInteger(plan.bonusTickets) ||
+      Number(plan.bonusTickets) < 0 ||
+      !Number.isSafeInteger(plan.tickets) ||
+      Number(plan.tickets) !== Number(plan.baseTickets) + Number(plan.bonusTickets) ||
+      Number(plan.tickets) > 1100 ||
+      plan.firstPurchaseOnly !== (plan.id === 'first-support')
+    )
+      return false
+    ids.add(plan.id)
+  }
+  const first = p.firstPurchase as Record<string, unknown> | undefined,
+    custom = p.custom as Record<string, unknown> | undefined
+  return (
+    !!first &&
+    typeof first.eligible === 'boolean' &&
+    typeof first.claimed === 'boolean' &&
+    !(first.eligible && first.claimed) &&
+    (first.pendingOrderId === undefined ||
+      (typeof first.pendingOrderId === 'string' &&
+        /^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(first.pendingOrderId))) &&
+    !(first.eligible && first.pendingOrderId) &&
+    !!custom &&
+    custom.minAmountFen === 60 &&
+    custom.maxAmountFen === 60000 &&
+    custom.stepAmountFen === 60 &&
+    custom.ticketAmountFen === 60
   )
 }
 function validSupportOrder(value: unknown): boolean {
@@ -117,16 +177,29 @@ function validSupportOrder(value: unknown): boolean {
     !/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(o.id) ||
     !Number.isSafeInteger(o.tickets) ||
     Number(o.tickets) < 1 ||
-    Number(o.tickets) > 100 ||
+    Number(o.tickets) > 1100 ||
     !Number.isSafeInteger(o.amountFen) ||
     Number(o.amountFen) < 1 ||
-    Number(o.amountFen) > 6000 ||
+    Number(o.amountFen) > 60000 ||
     o.currency !== 'CNY' ||
     !['pending', 'approved', 'rejected', 'refunded'].includes(String(o.status)) ||
     !(Number.isSafeInteger(o.createdAt) && Number(o.createdAt) > 0) ||
     (o.testing !== undefined && typeof o.testing !== 'boolean')
   )
     return false
+  if (o.planId !== undefined || o.baseTickets !== undefined || o.bonusTickets !== undefined) {
+    if (
+      !['first-support', 'support-6', 'support-60', 'support-600', 'custom'].includes(
+        String(o.planId)
+      ) ||
+      !Number.isSafeInteger(o.baseTickets) ||
+      Number(o.baseTickets) < 1 ||
+      !Number.isSafeInteger(o.bonusTickets) ||
+      Number(o.bonusTickets) < 0 ||
+      Number(o.baseTickets) + Number(o.bonusTickets) !== Number(o.tickets)
+    )
+      return false
+  }
   if (o.payment === undefined) return true
   if (!o.payment || typeof o.payment !== 'object' || o.testing === true) return false
   const p = o.payment as Record<string, unknown>
@@ -371,7 +444,7 @@ export class AccountClient {
       Accept: 'application/json',
       'X-Qon-App': 'qonsona',
       'X-Qon-Version': this.options.version,
-      'X-Qon-Payment-Protocol': 'yungouos-wechat-v1'
+      'X-Qon-Payment-Protocol': 'yungouos-wechat-v2'
     }
     const publicRequest =
       path === '/health' ||
@@ -563,12 +636,42 @@ export class AccountClient {
         (data.order as { id: string }).id !== (payload as { orderId: string }).orderId
       )
         throw new Error('INVALID_RESPONSE: Payment order mismatch')
-      if (
-        action === 'createSupportOrder' &&
-        (data.order as { tickets: number }).tickets !==
-          (payload as AccountPayloads['createSupportOrder']).tickets
-      )
-        throw new Error('INVALID_RESPONSE: Payment quantity mismatch')
+      if (action === 'createSupportOrder') {
+        const requested = payload as AccountPayloads['createSupportOrder']
+        const order = data.order as {
+          planId?: string
+          amountFen: number
+          tickets: number
+          baseTickets?: number
+          bonusTickets?: number
+        }
+        if ('planId' in requested) {
+          const capabilities =
+            this.#snapshot?.payments ?? (snapshotValue as CollectionSnapshot).payments
+          const offer = capabilities?.plans?.find((item) => item.id === requested.planId)
+          const custom = capabilities?.custom
+          const amount = requested.planId === 'custom' ? requested.amountFen : offer?.amountFen
+          const tickets =
+            requested.planId === 'custom' && custom && Number.isSafeInteger(amount)
+              ? Number(amount) / custom.ticketAmountFen
+              : offer?.tickets
+          if (
+            order.planId !== requested.planId ||
+            amount === undefined ||
+            tickets === undefined ||
+            !Number.isSafeInteger(tickets) ||
+            tickets < 1 ||
+            order.amountFen !== amount ||
+            order.tickets !== tickets ||
+            (requested.planId === 'custom'
+              ? order.bonusTickets !== 0 || order.baseTickets !== tickets
+              : order.baseTickets !== offer?.baseTickets ||
+                order.bonusTickets !== offer?.bonusTickets)
+          )
+            throw new Error('INVALID_RESPONSE: Payment quote mismatch')
+        } else if (order.tickets !== requested.tickets)
+          throw new Error('INVALID_RESPONSE: Payment quantity mismatch')
+      }
     }
     if (
       action === 'supportOrders' &&

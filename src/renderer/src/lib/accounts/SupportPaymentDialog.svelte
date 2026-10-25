@@ -7,6 +7,7 @@
   import { accountError } from './errors'
   import { orderStatus } from './presentation'
   import { paymentQr } from './payment-qr'
+  import { supportYuan } from './support-plans'
 
   let {
     initialOrder,
@@ -33,6 +34,17 @@
   let disposed = false
   let inFlight = false
   let nextCheck = 0
+  let serverAnchor = 0
+  let monotonicAnchor = 0
+  $effect(() => {
+    const serverTime = account.snapshot?.serverTime
+    const value = typeof serverTime === 'number' ? serverTime : Date.parse(serverTime ?? '')
+    if (Number.isFinite(value)) {
+      serverAnchor = value
+      monotonicAnchor = performance.now()
+      now = value
+    }
+  })
   const ownerCurrent = (): boolean =>
     !disposed && ownerId === account.session?.user?.id && ownerGeneration === account.generation
   const online = $derived(
@@ -47,11 +59,23 @@
       account.snapshot.payments.mode === 'live' &&
       account.snapshot.payments.eligible
   )
-  const credited = $derived(order.status === 'approved')
+  const credited = $derived(
+    order.status === 'approved' &&
+      payment?.state !== 'refund_review' &&
+      payment?.state !== 'refunded'
+  )
   const terminal = $derived(
     order.status !== 'pending' || payment?.state === 'closed' || payment?.state === 'refund_review'
   )
   const expired = $derived(!!payment?.expiresAt && now >= payment.expiresAt)
+  const remainingSeconds = $derived(
+    payment?.expiresAt ? Math.max(0, Math.ceil((payment.expiresAt - now) / 1000)) : null
+  )
+  const remainingText = $derived(
+    remainingSeconds === null
+      ? ''
+      : `${String(Math.floor(remainingSeconds / 60)).padStart(2, '0')}:${String(remainingSeconds % 60).padStart(2, '0')}`
+  )
   const qr = $derived(payment?.qrCodeUrl ? paymentQr(payment.qrCodeUrl) : null)
   const showQr = $derived(
     online &&
@@ -73,13 +97,13 @@
             ? tr('付款入口已关闭', 'Payment is closed')
             : payment?.state === 'paid'
               ? tr('付款已确认，正在核对到账', 'Payment confirmed · checking credit')
-              : payment?.state === 'creating'
-                ? tr('正在确认微信付款入口', 'Confirming WeChat checkout')
-                : order.status === 'pending' && expired
-                  ? tr(
-                      '扫码展示已结束，等待核对订单',
-                      'Checkout display ended · awaiting verification'
-                    )
+              : order.status === 'pending' && expired
+                ? tr(
+                    '付款码已隐藏，正在核对关单结果',
+                    'Checkout hidden · verifying payment and closure'
+                  )
+                : payment?.state === 'creating'
+                  ? tr('正在确认微信付款入口', 'Confirming WeChat checkout')
                   : payment?.state === 'pending'
                     ? tr('等待微信付款', 'Awaiting WeChat payment')
                     : orderStatus(order.status, i18n.locale)
@@ -154,7 +178,7 @@
     nextCheck = performance.now() + 15000
     const timer = window.setInterval(() => {
       if (document.hidden || !ownerCurrent()) return
-      now = Date.now()
+      now = serverAnchor ? serverAnchor + performance.now() - monotonicAnchor : Date.now()
       secondsUntilCheck = Math.max(0, Math.ceil((nextCheck - performance.now()) / 1000))
       if (!terminal && secondsUntilCheck === 0) void checkOrder()
     }, 1000)
@@ -237,9 +261,18 @@
       </div>
       <div class="amount">
         <span>{tr('订单金额', 'Order total')}</span>
-        <strong data-support-payment-amount>¥{(order.amountFen / 100).toFixed(2)}</strong>
+        <strong data-support-payment-amount>¥{supportYuan(order.amountFen)}</strong>
       </div>
     </div>
+    {#if order.baseTickets !== undefined && order.bonusTickets !== undefined}<p
+        class="ticket-breakdown"
+        data-support-payment-breakdown
+      >
+        {tr(
+          `购买 ${order.baseTickets} 张 + 赠送 ${order.bonusTickets} 张，合计 ${order.tickets} 张`,
+          `${order.baseTickets} purchased + ${order.bonusTickets} bonus · ${order.tickets} tickets total`
+        )}
+      </p>{/if}
     <div class="checkout-state" class:success={credited} role="status" data-support-payment-status>
       {#if credited}<Check size={18} />{:else}<Clock3 size={18} />{/if}
       <strong>{statusText}</strong>
@@ -260,7 +293,8 @@
         <Smartphone size={16} />{tr('打开微信 · 扫一扫', 'Open WeChat · Scan')}
       </p>
       {#if payment?.expiresAt}<p class="expires">
-          {tr('扫码入口展示至', 'Checkout shown until')}
+          <span data-support-payment-countdown>{remainingText}</span> ·
+          {tr('扫码展示截止', 'Checkout display ends')}
           {new Date(payment.expiresAt).toLocaleTimeString(i18n.locale === 'zh' ? 'zh-CN' : 'en', {
             hour: '2-digit',
             minute: '2-digit'
@@ -317,8 +351,8 @@
     {:else if expired && order.status === 'pending'}
       <p class="notice">
         {tr(
-          '本次扫码入口已到展示时限，请先核对本订单；如果已经付款，服务器确认后才会发放寻访笺。',
-          'This checkout has reached its display limit. Check this order first; if you already paid, tickets are issued after server confirmation.'
+          '十分钟扫码展示已结束。服务器正在核对付款并关闭未付款订单，结果未确认前请不要重复下单或付款。如果已经付款，服务器确认后会发放寻访笺。',
+          'The ten-minute checkout display has ended. The server checks payment and closes unpaid orders. Until that result is confirmed, do not create or pay a duplicate order. Completed payments are credited after verification.'
         )}
       </p>
     {:else if payment?.state === 'refund_review'}
@@ -342,25 +376,30 @@
             '本订单已确认退款，请以付款渠道的退款记录为准。',
             'This order is confirmed refunded. Refer to your payment provider’s refund record.'
           )
-        : payment?.state === 'closed'
+        : payment?.state === 'refund_review'
           ? tr(
-              '本订单付款入口已关闭，请勿继续使用旧二维码。需要再次支持时，可回到商店自行创建新订单。',
-              'Checkout for this order is closed. Do not use its old QR code. To support again, return to the shop and create a new order.'
+              '这笔订单需要进一步核对，请保留订单编号并联系运营者。本状态不能作为已经确认到账或退款的凭据。',
+              'This order requires further review. Keep the order ID and contact the operator. This state is not evidence of confirmed credit or refund.'
             )
-          : credited
+          : payment?.state === 'closed'
             ? tr(
-                '本次支持只增加支持寻访笺。感谢你陪伴 Qonsona 继续成长。',
-                'This order credits support tickets only. Thank you for helping Qonsona grow.'
+                '本订单付款入口已关闭，请勿继续使用旧二维码。需要再次支持时，可回到商店自行创建新订单。',
+                'Checkout for this order is closed. Do not use its old QR code. To support again, return to the shop and create a new order.'
               )
-            : payment
+            : credited
               ? tr(
-                  '付款完成后由服务器核验，确认后才会到账。收起界面不会取消订单；可从订单记录继续查看。',
-                  'The server verifies payment before crediting tickets. Hiding this view does not cancel the order; reopen it from your order history.'
+                  '本次支持只增加支持寻访笺。感谢你陪伴 Qonsona 继续成长。',
+                  'This order credits support tickets only. Thank you for helping Qonsona grow.'
                 )
-              : tr(
-                  '此订单没有在线付款入口，请勿向其他二维码付款。',
-                  'This order has no online checkout. Do not pay another QR code.'
-                )}
+              : payment
+                ? tr(
+                    '付款完成后由服务器核验，确认后才会到账。收起界面不会取消订单；可从订单记录继续查看。',
+                    'The server verifies payment before crediting tickets. Hiding this view does not cancel the order; reopen it from your order history.'
+                  )
+                : tr(
+                    '此订单没有在线付款入口，请勿向其他二维码付款。',
+                    'This order has no online checkout. Do not pay another QR code.'
+                  )}
     </p>
     <dl class="order-meta">
       <dt>{tr('订单编号', 'Order ID')}</dt>
@@ -485,6 +524,13 @@
     color: var(--text-2);
     font-size: 12px;
     font-weight: normal;
+  }
+  .ticket-breakdown {
+    margin: -6px 0 13px;
+    text-align: center;
+    color: var(--text-3);
+    font-size: 11px;
+    line-height: 1.7;
   }
   .amount {
     text-align: right;
