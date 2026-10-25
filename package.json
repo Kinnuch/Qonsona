@@ -1,6 +1,6 @@
 {
   "name": "qonsona",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Qonsona — learn Japanese, English, French, Korean, Spanish, Arabic, Russian, Scottish Gaelic, Quenya, Sindarin and your Qonlang languages.",
   "homepage": "https://github.com/Kinnuch/Qonsona",
   "main": "./out/main/index.js",

@@ -56,7 +56,7 @@ macOS 安装包核对原生运行库和架构，未做本机听音验收。
 新账号默认参与排行，可选择全球/好友或退出，榜单包含当前养成伙伴。当前只有模拟支持订单，真实收款关闭。
 收藏另有每七天轮换的寻访画廊：每期一只聚光传颂，轮完再重新随机，保底跨期延续；
 伙伴商店使用独立档位挑选页，家园提供可摆放并云端保存多只已收藏伙伴的像素室内占位。
-0.4.3 开发版将支持开发入口与学习寻访笺、续页笺并列；这两项灵墨不足时也提供入口，点击只展开说明，不自动下单。支持寻访笺不增加灵墨或续页笺，正式收款仍未开放。
+0.4.3 将支持开发入口与学习寻访笺、续页笺并列；这两项灵墨不足时也提供入口，点击只展开说明，不自动下单。支持寻访笺不增加灵墨或续页笺，正式收款仍未开放。
 家具与皮肤售卖暂留空，1000 余韵可兑换一张学习寻访笺；伙伴保持原始像素大小，答对题目的鼓励会轮换。
 语言伙伴分为灵动猫、逐风狗、鸣诗鸟、听雨蛙、星辉龙五个系列，图鉴先选系列再展开每只伙伴。
 个体编号、已有收藏与养成记录保持不变；作者介绍保留空白框架。系列与介绍配置见[收藏说明](docs/collection.md#画廊伙伴系列与作者介绍)。
@@ -73,7 +73,7 @@ server-owned rewards, designated daily tasks, a shop and shared-pity draws (0.6%
 Leaderboard participation is optional. Support orders are simulated; real payments remain disabled.
 Weekly discovery galleries feature one Legend per seven-day period, with no repeats until the full cycle ends and shared pity retained.
 Tier shops have separate selection pages. The placeholder pixel home saves owned companion placements to the account.
-The 0.4.3 development branch places Support development beside learning tickets and makeup slips, with additional entries when Ink is insufficient. These open details without creating an order; support tickets do not add Ink or makeup slips, and real payments remain disabled.
+Version 0.4.3 places Support development beside learning tickets and makeup slips, with additional entries when Ink is insufficient. These open details without creating an order; support tickets do not add Ink or makeup slips, and real payments remain disabled.
 Furniture and paid room skins are not yet offered; 1000 echoes exchange for one learning ticket. Artwork stays at source size and encouragement varies.
 Language Companions are grouped into Playful Cats, Roaming Dogs, Songbirds, Rain Frogs and Starlight Dragons.
 Existing companion IDs, collections and upbringing records are retained; biography fields remain blank for the author.
@@ -188,7 +188,7 @@ NHK 新闻只取公开的标题与导语，附原文链接；NHK Easy 与全文�
 
 程序本体不写死任何一门语言，模块显示与否只看「学习包」的能力。Electron + Svelte 5 + TypeScript（electron-vite）。
 
-`data/release-data.json` 使用 0.4.2 的版本化数据包 `qonsona-data-0.4.2.zip`，包含十一库及逐文件大小与 SHA-256 校验。
+`data/release-data.json` 使用 0.4.3 的版本化数据包 `qonsona-data-0.4.3.zip`，包含十一库及逐文件大小与 SHA-256 校验。
 开发时可下载清单指定的完整数据包；需要重建精灵语词库时，再执行 Eldamo 管线。
 
 ```sh

@@ -1,9 +1,10 @@
 # Changelog
 
-## 0.4.3 · unreleased
+## 0.4.3 · 2026-10-25
 
 - Place Support development alongside learning tickets and makeup slips in Study supplies. Open its details and order area there, before Echo exchange.
 - Add a Support development purchase entry when Ink is insufficient for learning tickets or makeup slips. Preserve redemption balances and login requirements; opening the entry never creates an order. Explain that support tickets do not replenish Ink or makeup slips, and retain the test notice while real payments remain unavailable.
+- The public HTTPS account endpoint is now available for registration, login and ordinary collection features with the verified latest formal client. Real payments, test grants and administrator routes remain unavailable publicly.
 
 ## 0.4.2 · 2026-10-15
 

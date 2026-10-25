@@ -1,4 +1,4 @@
-# 收藏、灵墨与寻访（0.4.2）
+# 收藏、灵墨与寻访（0.4.3）
 
 0.4.2版允许未登录浏览收藏，免费领取一只初识档语言伙伴。在线收藏与排行榜使用 Qonsona / Qonlang 共享账号。账号、灵墨、语言伙伴、道具、寻访结果与保底保存在服务器，不同电脑分别登录同一账号即可查看。2026-10-25 起，备案与 HTTPS 已就绪，公网账号和普通收藏接口已接通；当前沿用测试账号数据库，真实付款、赠券及管理员接口未对公网开放。Qonlang 本地工程仍可离线使用，工程正文和录音不上传。离线也可退出本机账号。
 
@@ -30,9 +30,9 @@ Qonsona 在线账号的版本要求由客户端与服务器共同核验 GitHub �
 
 ## 灵墨与每日任务
 
-0.4.3 未发布版将「支持开发」与学习寻访笺、续页笺并列放在「学习补给」商品栏；灵墨不足的这两项商品还会额外显示「购买支持开发」。点击后，在补给栏下方、余韵兑换之前展开支持说明及订单区，不自动下单；未登录时先弹出登录界面。支持开发对应支持寻访笺，不增加灵墨，也不能代替续页笺。真实付款未开放时，页面继续明确显示测试订单及请勿付款提示。
+0.4.3 将「支持开发」与学习寻访笺、续页笺并列放在「学习补给」商品栏；灵墨不足的这两项商品还会额外显示「购买支持开发」。点击后，在补给栏下方、余韵兑换之前展开支持说明及订单区，不自动下单；未登录时先弹出登录界面。支持开发对应支持寻访笺，不增加灵墨，也不能代替续页笺。真实付款未开放时，页面继续明确显示测试订单及请勿付款提示。
 
-_Unreleased 0.4.3 places Support development alongside learning discovery tickets and makeup slips in Study supplies. These two Ink-priced products also show a support purchase entry when the balance is insufficient. Opening it displays details and orders below supplies, before Echo exchange, without creating an order; visitors are asked to sign in. Support provides support discovery tickets, not Ink or makeup slips. Test-order and do-not-pay notices remain while real payments are unavailable._
+_Version 0.4.3 places Support development alongside learning discovery tickets and makeup slips in Study supplies. These two Ink-priced products also show a support purchase entry when the balance is insufficient. Opening it displays details and orders below supplies, before Echo exchange, without creating an order; visitors are asked to sign in. Support provides support discovery tickets, not Ink or makeup slips. Test-order and do-not-pay notices remain while real payments are unavailable._
 
 有效学习要求窗口可见且在前台，处于阅读、练习、课程、生词本、词典或视听模块，最近两分钟有操作。只播放媒体、首页及收藏浏览不计。客户端每十五秒结算；服务器按账号合并设备的最近在线时间，重叠时间不累加，首次心跳只初始化。
 
